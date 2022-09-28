@@ -20,6 +20,12 @@
 						<i class="fa fa-user"></i>
 						<span>Usuarios</span>
 					</a>
+				</li>
+				<li>
+					<a href="empresas">
+						<i class="fa fa-building"></i>
+						<span>Empresas</span>
+					</a>
 				</li>';
 
 		}
