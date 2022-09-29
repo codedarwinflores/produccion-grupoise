@@ -170,7 +170,7 @@ class ControladorProveedores{
 
 		if(isset($_POST["editarNombre"])){
 
-			if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarNombre"])){
+
 
 
 				$tabla = "proveedores";
@@ -214,26 +214,7 @@ class ControladorProveedores{
 				}
 
 
-			}else{
-
-				echo'<script>
-
-					swal({
-						  type: "error",
-						  title: "¡El Proveedor no puede ir vacío o llevar caracteres especiales!",
-						  showConfirmButton: true,
-						  confirmButtonText: "Cerrar"
-						  }).then(function(result) {
-							if (result.value) {
-
-							window.location = "proveedores";
-
-							}
-						})
-
-			  	</script>';
-
-			}
+			
 
 		}
 

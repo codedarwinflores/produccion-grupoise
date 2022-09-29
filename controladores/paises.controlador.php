@@ -155,7 +155,6 @@ class ControladorPaises{
 
 		if(isset($_POST["editarNombre"])){
 
-			if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarNombre"])){
 
 
 				$tabla = "paises";
@@ -190,27 +189,7 @@ class ControladorPaises{
 				}
 
 
-			}else{
-
-				echo'<script>
-
-					swal({
-						  type: "error",
-						  title: "¡El País no puede ir vacío o llevar caracteres especiales!",
-						  showConfirmButton: true,
-						  confirmButtonText: "Cerrar"
-						  }).then(function(result) {
-							if (result.value) {
-
-							window.location = "paises";
-
-							}
-						})
-
-			  	</script>';
-
-			}
-
+			
 		}
 
 	}

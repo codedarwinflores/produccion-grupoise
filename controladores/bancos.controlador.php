@@ -155,8 +155,6 @@ class ControladorBancos{
 
 		if(isset($_POST["editarNombre"])){
 
-			if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarNombre"])){
-
 
 				$tabla = "bancos";
 
@@ -190,27 +188,7 @@ class ControladorBancos{
 				}
 
 
-			}else{
-
-				echo'<script>
-
-					swal({
-						  type: "error",
-						  title: "¡El Banco no puede ir vacío o llevar caracteres especiales!",
-						  showConfirmButton: true,
-						  confirmButtonText: "Cerrar"
-						  }).then(function(result) {
-							if (result.value) {
-
-							window.location = "bancos";
-
-							}
-						})
-
-			  	</script>';
-
-			}
-
+			
 		}
 
 	}
