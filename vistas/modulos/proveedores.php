@@ -156,7 +156,7 @@ MODAL AGREGAR PROVEEDORES
                 
                   <span class="input-group-addon"><i class="fa fa-qrcode"></i></span> 
 
-                  <input type="text" class="form-control input-lg" name="nuevoCodigo" placeholder="Ingresar Codigo" required>
+                  <input type="text" class="form-control input-lg" name="nuevoCodigo" placeholder="Ingresar Código" required>
 
                 </div>
 
@@ -164,7 +164,7 @@ MODAL AGREGAR PROVEEDORES
             </div>
 
             <!-- ENTRADA PARA EL NOMBRE -->
-            <div class="col-md-6">
+            <div class="col-md-12">
              <div class="form-group">
               
               <div class="input-group">
@@ -179,34 +179,20 @@ MODAL AGREGAR PROVEEDORES
             </div>
 
             <!-- ENTRADA PARA EL DIRECCION -->
-            <div class="col-md-6">
+            <div class="col-md-12">
              <div class="form-group">
               
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="fa fa-address-card-o"></i></span> 
 
-                <input type="text" class="form-control input-lg" name="nuevoDireccion" placeholder="Ingresar Direccion" id="nuevoDireccion" required>
+                <input type="text" class="form-control input-lg" name="nuevoDireccion" placeholder="Ingresar Dirección" id="nuevoDireccion" required>
 
               </div>
 
              </div>
             </div>
 
-            <!-- ENTRADA PARA EL TELEFONO -->
-            <div class="col-md-6">
-             <div class="form-group">
-              
-              <div class="input-group">
-              
-                <span class="input-group-addon"><i class="fa fa-phone"></i></span> 
-
-                <input type="text" class="form-control input-lg" name="nuevoTelefono" placeholder="Ingresar Telefono" id="nuevoTelefono" required>
-
-              </div>
-
-             </div>
-            </div>
 
             
             <!-- ENTRADA PARA EL EXTENSION -->
@@ -217,33 +203,32 @@ MODAL AGREGAR PROVEEDORES
               
                 <span class="input-group-addon"><i class="fa fa-tag"></i></span> 
 
-                <input type="text" class="form-control input-lg" name="nuevoExtension" placeholder="Ingresar Extension" id="nuevoExtension" required>
+                <input type="text" class="form-control input-lg" name="nuevoExtension" placeholder="Ingresar Extensión" id="nuevoExtension" required>
 
               </div>
 
              </div>
             </div>
 
-
             
-            <!-- ENTRADA PARA EL NUMERO DE REGISTRO -->
+            <!-- ENTRADA PARA EL TELEFONO -->
             <div class="col-md-6">
              <div class="form-group">
               
               <div class="input-group">
               
-                <span class="input-group-addon"><i class="fa fa-address-book-o"></i></span> 
+                <span class="input-group-addon"><i class="fa fa-phone"></i></span> 
 
-                <input type="text" class="form-control input-lg" name="nuevoNumero_de_registro" placeholder="Ingresar Numero de Registro" id="nuevoNumero_de_registro" required>
+                <input type="text" class="form-control input-lg" name="nuevoTelefono" placeholder="Ingresar Télefono" id="nuevoTelefono" required>
 
               </div>
 
              </div>
             </div>
 
-            
+
             <!-- ENTRADA PARA EL ENCARGADO -->
-            <div class="col-md-6">
+            <div class="col-md-12">
              <div class="form-group">
               
               <div class="input-group">
@@ -256,22 +241,7 @@ MODAL AGREGAR PROVEEDORES
 
              </div>
             </div>
-
             
-            <!-- ENTRADA PARA EL COMENTARIOS -->
-            <div class="col-md-6">
-             <div class="form-group">
-              
-              <div class="input-group">
-              
-                <span class="input-group-addon"><i class="fa fa-life-ring"></i></span> 
-
-                <input type="text" class="form-control input-lg" name="nuevoComentario" placeholder="Ingresar Comentarios" id="nuevoComentario" required>
-
-              </div>
-
-             </div>
-            </div>
 
             
             <!-- ENTRADA PARA EL NACIONALIDAD -->
@@ -289,6 +259,61 @@ MODAL AGREGAR PROVEEDORES
              </div>
             </div>
 
+
+            <!-- ENTRADA PARA EL NUMERO DE REGISTRO -->
+            <div class="col-md-6">
+             <div class="form-group">
+              
+              <div class="input-group">
+              
+                <span class="input-group-addon"><i class="fa fa-address-book-o"></i></span> 
+
+                <input type="text" class="form-control input-lg" name="nuevoNumero_de_registro" placeholder="Ingresar Número de Registro" id="nuevoNumero_de_registro" required>
+
+              </div>
+
+             </div>
+            </div>
+
+            
+
+            
+            <!-- ENTRADA PARA EL COMENTARIOS -->
+            <div class="col-md-12">
+             <div class="form-group">
+              
+              <div class="input-group">
+              
+                <span class="input-group-addon"><i class="fa fa-life-ring"></i></span> 
+
+                <input type="text" class="form-control input-lg" name="nuevoComentario" placeholder="Ingresar Comentarios" id="nuevoComentario" required>
+
+              </div>
+
+             </div>
+            </div>
+
+            
+
+            <!-- ENTRADA PARA EL CONTRIBUYENTE -->
+            <div class="col-md-6">
+             <div class="form-group">
+              
+              <div class="input-group">
+              
+                <span class="input-group-addon"><i class="fa fa-money"></i></span> 
+
+                <select name="nuevoContribuyente" id="nuevoContribuyente" class="form-control input-lg" required>
+                  <option value="">Seleccionar Opción</option>
+                  <option value="Contribuyente">Contribuyente</option>
+                  <option value="Exento">Exento</option>
+                </select>
+
+              </div>
+
+             </div>
+            </div>
+
             
             <!-- ENTRADA PARA EL CODIGO CONTABLE -->
             <div class="col-md-6">
@@ -298,7 +323,7 @@ MODAL AGREGAR PROVEEDORES
               
                 <span class="input-group-addon"><i class="fa fa-qrcode"></i></span> 
 
-                <input type="text" class="form-control input-lg" name="nuevoCodigo_contable" placeholder="Ingresar Codigo Contable" id="nuevoCodigo_contable" required>
+                <input type="text" class="form-control input-lg" name="nuevoCodigo_contable" placeholder="Ingresar Código Contable" id="nuevoCodigo_contable" required>
 
               </div>
 
@@ -306,20 +331,6 @@ MODAL AGREGAR PROVEEDORES
             </div>
 
             
-            <!-- ENTRADA PARA EL CONTRIBUYENTE -->
-            <div class="col-md-6">
-             <div class="form-group">
-              
-              <div class="input-group">
-              
-                <span class="input-group-addon"><i class="fa fa-money"></i></span> 
-
-                <input type="text" class="form-control input-lg" name="nuevoContribuyente" placeholder="Ingresar Contribuyente" id="nuevoContribuyente" required>
-
-              </div>
-
-             </div>
-            </div>
 
           </div>
 
@@ -403,7 +414,7 @@ MODAL EDITAR PROVEEDORES
                 
                   <span class="input-group-addon"><i class="fa fa-qrcode"></i></span> 
 
-                  <input type="text" class="form-control input-lg" name="editarCodigo" id="editarCodigo" placeholder="Ingresar Codigo" required>
+                  <input type="text" class="form-control input-lg" name="editarCodigo" id="editarCodigo" placeholder="Ingresar Código" required>
 
                 </div>
 
@@ -411,7 +422,7 @@ MODAL EDITAR PROVEEDORES
             </div>
 
             <!-- ENTRADA PARA EL NOMBRE -->
-            <div class="col-md-6">
+            <div class="col-md-12">
              <div class="form-group">
               
               <div class="input-group">
@@ -426,14 +437,31 @@ MODAL EDITAR PROVEEDORES
             </div>
 
             <!-- ENTRADA PARA EL DIRECCION -->
-            <div class="col-md-6">
+            <div class="col-md-12">
              <div class="form-group">
               
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="fa fa-address-card-o"></i></span> 
 
-                <input type="text" class="form-control input-lg" name="editarDireccion" placeholder="Ingresar Direccion" id="editarDireccion" required>
+                <input type="text" class="form-control input-lg" name="editarDireccion" placeholder="Ingresar Dirección" id="editarDireccion" required>
+
+              </div>
+
+             </div>
+            </div>
+
+
+            
+            <!-- ENTRADA PARA EL EXTENSION -->
+            <div class="col-md-6">
+             <div class="form-group">
+              
+              <div class="input-group">
+              
+                <span class="input-group-addon"><i class="fa fa-tag"></i></span> 
+
+                <input type="text" class="form-control input-lg" name="editarExtension" placeholder="Ingresar Extensión" id="editarExtension" required>
 
               </div>
 
@@ -448,40 +476,7 @@ MODAL EDITAR PROVEEDORES
               
                 <span class="input-group-addon"><i class="fa fa-phone"></i></span> 
 
-                <input type="text" class="form-control input-lg" name="editarTelefono" placeholder="Ingresar Telefono" id="editarTelefono" required>
-
-              </div>
-
-             </div>
-            </div>
-
-            
-            <!-- ENTRADA PARA EL EXTENSION -->
-            <div class="col-md-6">
-             <div class="form-group">
-              
-              <div class="input-group">
-              
-                <span class="input-group-addon"><i class="fa fa-tag"></i></span> 
-
-                <input type="text" class="form-control input-lg" name="editarExtension" placeholder="Ingresar Extension" id="editarExtension" required>
-
-              </div>
-
-             </div>
-            </div>
-
-
-            
-            <!-- ENTRADA PARA EL NUMERO DE REGISTRO -->
-            <div class="col-md-6">
-             <div class="form-group">
-              
-              <div class="input-group">
-              
-                <span class="input-group-addon"><i class="fa fa-address-book-o"></i></span> 
-
-                <input type="text" class="form-control input-lg" name="editarNumero_de_registro" placeholder="Ingresar Numero de Registro" id="editarNumero_de_registro" required>
+                <input type="text" class="form-control input-lg" name="editarTelefono" placeholder="Ingresar Télefono" id="editarTelefono" required>
 
               </div>
 
@@ -490,7 +485,7 @@ MODAL EDITAR PROVEEDORES
 
             
             <!-- ENTRADA PARA EL ENCARGADO -->
-            <div class="col-md-6">
+            <div class="col-md-12">
              <div class="form-group">
               
               <div class="input-group">
@@ -504,21 +499,6 @@ MODAL EDITAR PROVEEDORES
              </div>
             </div>
 
-            
-            <!-- ENTRADA PARA EL COMENTARIOS -->
-            <div class="col-md-6">
-             <div class="form-group">
-              
-              <div class="input-group">
-              
-                <span class="input-group-addon"><i class="fa fa-life-ring"></i></span> 
-
-                <input type="text" class="form-control input-lg" name="editarComentarios" placeholder="Ingresar Comentarios" id="editarComentarios" required>
-
-              </div>
-
-             </div>
-            </div>
 
             
             <!-- ENTRADA PARA EL NACIONALIDAD -->
@@ -537,6 +517,63 @@ MODAL EDITAR PROVEEDORES
             </div>
 
             
+            <!-- ENTRADA PARA EL NUMERO DE REGISTRO -->
+            <div class="col-md-6">
+             <div class="form-group">
+              
+              <div class="input-group">
+              
+                <span class="input-group-addon"><i class="fa fa-address-book-o"></i></span> 
+
+                <input type="text" class="form-control input-lg" name="editarNumero_de_registro" placeholder="Ingresar Número de Registro" id="editarNumero_de_registro" required>
+
+              </div>
+
+             </div>
+            </div>
+
+            
+
+            
+            <!-- ENTRADA PARA EL COMENTARIOS -->
+            <div class="col-md-12">
+             <div class="form-group">
+              
+              <div class="input-group">
+              
+                <span class="input-group-addon"><i class="fa fa-life-ring"></i></span> 
+
+                <input type="text" class="form-control input-lg" name="editarComentarios" placeholder="Ingresar Comentarios" id="editarComentarios" required>
+
+              </div>
+
+             </div>
+            </div>
+
+            
+
+             <!-- ENTRADA PARA EL CONTRIBUYENTE -->
+             <div class="col-md-6">
+             <div class="form-group">
+              
+              <div class="input-group">
+              
+                <span class="input-group-addon"><i class="fa fa-money"></i></span> 
+
+                <!-- <input type="text"> -->
+
+                <select  class="form-control input-lg" name="editarContribuyente" placeholder="Ingresar Contribuyente" id="editarContribuyente" required>
+                  <option value="">Seleccionar Opcion</option>
+                  <option value="Contribuyente">Contribuyente</option>
+                  <option value="Exento">Exento</option>
+                </select>
+
+              </div>
+
+             </div>
+            </div>
+
+            
             <!-- ENTRADA PARA EL CODIGO CONTABLE -->
             <div class="col-md-6">
              <div class="form-group">
@@ -545,7 +582,7 @@ MODAL EDITAR PROVEEDORES
               
                 <span class="input-group-addon"><i class="fa fa-qrcode"></i></span> 
 
-                <input type="text" class="form-control input-lg" name="editarCodigo_contable" placeholder="Ingresar Codigo Contable" id="editarCodigo_contable" required>
+                <input type="text" class="form-control input-lg" name="editarCodigo_contable" placeholder="Ingresar Código Contable" id="editarCodigo_contable" required>
 
               </div>
 
@@ -553,20 +590,7 @@ MODAL EDITAR PROVEEDORES
             </div>
 
             
-            <!-- ENTRADA PARA EL CONTRIBUYENTE -->
-            <div class="col-md-6">
-             <div class="form-group">
-              
-              <div class="input-group">
-              
-                <span class="input-group-addon"><i class="fa fa-money"></i></span> 
-
-                <input type="text" class="form-control input-lg" name="editarContribuyente" placeholder="Ingresar Contribuyente" id="editarContribuyente" required>
-
-              </div>
-
-             </div>
-            </div>
+           
 
           </div>
 
