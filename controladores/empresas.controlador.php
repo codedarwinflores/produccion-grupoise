@@ -89,8 +89,6 @@ class ControladorEmpresas{
 
 		if(isset($_POST["nuevoNombre"])){
 
-			if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevoCodigo_empresa"]) &&
-			   preg_match('/^[a-zA-Z0-9]+$/', $_POST["nuevoNombre"])){
 
 			   	/*=============================================
 				VALIDAR IMAGEN
@@ -196,32 +194,7 @@ class ControladorEmpresas{
 				}	
 
 
-			}else{
-
-				echo '<script>
-
-					swal({
-
-						type: "error",
-						title: "¡La Empresa no puede ir vacío o llevar caracteres especiales!",
-						showConfirmButton: true,
-						confirmButtonText: "Cerrar"
-
-					}).then(function(result){
-
-						if(result.value){
-						
-							window.location = "empresas";
-
-						}
-
-					});
-				
-
-				</script>';
-
-			}
-
+			
 
 		}
 
