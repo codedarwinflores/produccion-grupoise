@@ -13,5 +13,15 @@ require_once "modelos/empresas.modelo.php";
 require_once "controladores/proveedores.controlador.php";
 require_once "modelos/proveedores.modelo.php";
 
+
+/* **bancos*** */
+require_once "controladores/bancos.controlador.php";
+require_once "modelos/bancos.modelo.php";
+
+
+/* **paises*** */
+require_once "controladores/paises.controlador.php";
+require_once "modelos/paises.modelo.php";
+
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();

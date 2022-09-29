@@ -32,6 +32,18 @@
 						<i class="fa fa-users"></i>
 						<span>Proveedores</span>
 					</a>
+				</li>
+				<li>
+					<a href="bancos">
+						<i class="fa fa-university"></i>
+						<span>Bancos</span>
+					</a>
+				</li>
+				<li>
+					<a href="paises">
+						<i class="fa fa-globe"></i>
+						<span>Paises</span>
+					</a>
 				</li>';
 
 		}
