@@ -1,12 +1,12 @@
 <?php
 
-class ControladorPaises{
+class ControladorAfp{
 
 	/*=============================================
 	INGRESO 
 	=============================================*/
 
-	static public function ctrIngresoPaises(){
+	static public function ctrIngresoAfp(){
 
 		if(isset($_POST["ingUsuario"])){
 
@@ -85,19 +85,22 @@ class ControladorPaises{
 	INGRESAR REGISTRO 
 	=============================================*/
 
-	static public function ctrCrearPaises(){
+	static public function ctrCrearAfp(){
 
 		if(isset($_POST["nuevoNombre"])){
 
 
 
-				$tabla = "paises";
+				$tabla = "afp";
 
 
 				$datos = array("codigo" => $_POST["nuevoCodigo"],
-					           "nombre" => $_POST["nuevoNombre"]);
+					           "nombre" => $_POST["nuevoNombre"],
+							   "codigo_superintendencia" => $_POST["nuevoCodigo_superintendencia"],
+							   "porcentaje" => $_POST["nuevoPorcentaje"],
+							   "cuota_patronal" => $_POST["nuevoCuota_patronal"]);
 
-				$respuesta = ModeloPaises::mdlIngresarPaises($tabla, $datos);
+				$respuesta = ModeloAfp::mdlIngresar($tabla, $datos);
 			
 				if($respuesta == "ok"){
 
@@ -106,7 +109,7 @@ class ControladorPaises{
 					swal({
 
 						type: "success",
-						title: "¡El País ha sido guardado correctamente!",
+						title: "¡La AFP ha sido guardado correctamente!",
 						showConfirmButton: true,
 						confirmButtonText: "Cerrar"
 
@@ -114,7 +117,7 @@ class ControladorPaises{
 
 						if(result.value){
 						
-							window.location = "paises";
+							window.location = "afp";
 
 						}
 
@@ -138,11 +141,11 @@ class ControladorPaises{
 	MOSTRAR REGISTROS
 	=============================================*/
 
-	static public function ctrMostrarPaises($item, $valor){
+	static public function ctrMostrarAfp($item, $valor){
 
-		$tabla = "paises";
+		$tabla = "afp";
 
-		$respuesta = ModeloPaises::mdlMostrarPaises($tabla, $item, $valor);
+		$respuesta = ModeloAfp::mdlMostrar($tabla, $item, $valor);
 
 		return $respuesta;
 	}
@@ -151,21 +154,23 @@ class ControladorPaises{
 	EDITAR REGISTRO
 	=============================================*/
 
-	static public function ctrEditarPaises(){
+	static public function ctrEditarAfp(){
 
 		if(isset($_POST["editarNombre"])){
 
 
 
-				$tabla = "paises";
+				$tabla = "afp";
 
 				
 
 				$datos = array("id" => $_POST["id"],
 							   "codigo" => $_POST["editarCodigo"],
-							   "nombre" => $_POST["editarNombre"]);
+							   "nombre" => $_POST["editarNombre"],"codigo_superintendencia" => $_POST["editarCodigo_superintendencia"],
+							   "porcentaje" => $_POST["editarPorcentaje"],
+							   "cuota_patronal" => $_POST["editarCuota_patronal"]);
 
-				$respuesta = ModeloPaises::mdlEditarPaises($tabla, $datos);
+				$respuesta = ModeloAfp::mdlEditar($tabla, $datos);
 
 				if($respuesta == "ok"){
 
@@ -173,13 +178,13 @@ class ControladorPaises{
 
 					swal({
 						  type: "success",
-						  title: "El País ha sido editado correctamente",
+						  title: "La AFP ha sido editado correctamente",
 						  showConfirmButton: true,
 						  confirmButtonText: "Cerrar"
 						  }).then(function(result) {
 									if (result.value) {
 
-									window.location = "paises";
+									window.location = "afp";
 
 									}
 								})
@@ -198,15 +203,15 @@ class ControladorPaises{
 	BORRAR REGISTROS
 	=============================================*/
 
-	static public function ctrBorrarPaises(){
+	static public function ctrBorrarAfp(){
 
-		if(isset($_GET["idPaises"])){
+		if(isset($_GET["idAfp"])){
 
-			$tabla ="paises";
-			$datos = $_GET["idPaises"];
+			$tabla ="afp";
+			$datos = $_GET["idAfp"];
 
 
-			$respuesta = ModeloPaises::mdlBorrarPaises($tabla, $datos);
+			$respuesta = ModeloAfp::mdlBorrar($tabla, $datos);
 
 			if($respuesta == "ok"){
 
@@ -214,14 +219,14 @@ class ControladorPaises{
 
 				swal({
 					  type: "success",
-					  title: "El País ha sido borrado correctamente",
+					  title: "El AFP ha sido borrado correctamente",
 					  showConfirmButton: true,
 					  confirmButtonText: "Cerrar",
 					  closeOnConfirm: false
 					  }).then(function(result) {
 								if (result.value) {
 
-								window.location = "paises";
+								window.location = "afp";
 
 								}
 							})

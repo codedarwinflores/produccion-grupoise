@@ -23,5 +23,15 @@ require_once "modelos/bancos.modelo.php";
 require_once "controladores/paises.controlador.php";
 require_once "modelos/paises.modelo.php";
 
+
+/* **AFP*** */
+require_once "controladores/afp.controlador.php";
+require_once "modelos/afp.modelo.php";
+
+/* **AFP*** */
+require_once "controladores/departamentos.controlador.php";
+require_once "modelos/departamentos.modelo.php";
+
+
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();

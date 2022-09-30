@@ -141,7 +141,9 @@ CUERPO DOCUMENTO
          $_GET["ruta"] == "empresas" ||
          $_GET["ruta"] == "proveedores" ||
          $_GET["ruta"] == "bancos" ||
-         $_GET["ruta"] == "paises" ||        
+         $_GET["ruta"] == "paises" ||
+         $_GET["ruta"] == "afp" ||
+         $_GET["ruta"] == "departamentos" ||        
          $_GET["ruta"] == "salir"){
 
         include "modulos/".$_GET["ruta"].".php";
@@ -181,6 +183,8 @@ CUERPO DOCUMENTO
 <script src="vistas/js/proveedores.js"></script>
 <script src="vistas/js/bancos.js"></script>
 <script src="vistas/js/paises.js"></script>
+<script src="vistas/js/afp.js"></script>
+<script src="vistas/js/departamentos.js"></script>
 
 
 </body>

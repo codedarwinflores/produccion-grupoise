@@ -44,6 +44,18 @@
 						<i class="fa fa-globe"></i>
 						<span>Paises</span>
 					</a>
+				</li>
+				<li>
+					<a href="departamentos">
+						<i class="fa fa-tachometer"></i>
+						<span>Departamentos Empresa</span>
+					</a>
+				</li>
+				<li>
+					<a href="afp">
+						<i class="fa fa-usd"></i>
+						<span>AFP</span>
+					</a>
 				</li>';
 
 		}

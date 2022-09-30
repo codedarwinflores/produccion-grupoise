@@ -1,12 +1,12 @@
 <?php
 
-class ControladorPaises{
+class ControladorDepartamentos{
 
 	/*=============================================
 	INGRESO 
 	=============================================*/
 
-	static public function ctrIngresoPaises(){
+	static public function ctrIngresoDepartamentos(){
 
 		if(isset($_POST["ingUsuario"])){
 
@@ -85,19 +85,19 @@ class ControladorPaises{
 	INGRESAR REGISTRO 
 	=============================================*/
 
-	static public function ctrCrearPaises(){
+	static public function ctrCrearDepartamentos(){
 
 		if(isset($_POST["nuevoNombre"])){
 
 
 
-				$tabla = "paises";
+				$tabla = "departamentos_empresa";
 
 
 				$datos = array("codigo" => $_POST["nuevoCodigo"],
 					           "nombre" => $_POST["nuevoNombre"]);
 
-				$respuesta = ModeloPaises::mdlIngresarPaises($tabla, $datos);
+				$respuesta = ModeloDepartamentos::mdlIngresarDepartamentos($tabla, $datos);
 			
 				if($respuesta == "ok"){
 
@@ -106,7 +106,7 @@ class ControladorPaises{
 					swal({
 
 						type: "success",
-						title: "¡El País ha sido guardado correctamente!",
+						title: "¡El Departamento ha sido guardado correctamente!",
 						showConfirmButton: true,
 						confirmButtonText: "Cerrar"
 
@@ -114,7 +114,7 @@ class ControladorPaises{
 
 						if(result.value){
 						
-							window.location = "paises";
+							window.location = "departamentos";
 
 						}
 
@@ -138,11 +138,11 @@ class ControladorPaises{
 	MOSTRAR REGISTROS
 	=============================================*/
 
-	static public function ctrMostrarPaises($item, $valor){
+	static public function ctrMostrarDepartamentos($item, $valor){
 
-		$tabla = "paises";
+		$tabla = "departamentos_empresa";
 
-		$respuesta = ModeloPaises::mdlMostrarPaises($tabla, $item, $valor);
+		$respuesta = ModeloDepartamentos::mdlMostrarDepartamentos($tabla, $item, $valor);
 
 		return $respuesta;
 	}
@@ -151,13 +151,13 @@ class ControladorPaises{
 	EDITAR REGISTRO
 	=============================================*/
 
-	static public function ctrEditarPaises(){
+	static public function ctrEditarDepartamentos(){
 
 		if(isset($_POST["editarNombre"])){
 
 
 
-				$tabla = "paises";
+				$tabla = "departamentos_empresa";
 
 				
 
@@ -165,7 +165,7 @@ class ControladorPaises{
 							   "codigo" => $_POST["editarCodigo"],
 							   "nombre" => $_POST["editarNombre"]);
 
-				$respuesta = ModeloPaises::mdlEditarPaises($tabla, $datos);
+				$respuesta = ModeloDepartamentos::mdlEditarDepartamentos($tabla, $datos);
 
 				if($respuesta == "ok"){
 
@@ -173,13 +173,13 @@ class ControladorPaises{
 
 					swal({
 						  type: "success",
-						  title: "El País ha sido editado correctamente",
+						  title: "El departamento ha sido editado correctamente",
 						  showConfirmButton: true,
 						  confirmButtonText: "Cerrar"
 						  }).then(function(result) {
 									if (result.value) {
 
-									window.location = "paises";
+									window.location = "departamentos";
 
 									}
 								})
@@ -198,15 +198,15 @@ class ControladorPaises{
 	BORRAR REGISTROS
 	=============================================*/
 
-	static public function ctrBorrarPaises(){
+	static public function ctrBorrarDepartamentos(){
 
-		if(isset($_GET["idPaises"])){
+		if(isset($_GET["idDepartamentos"])){
 
-			$tabla ="paises";
-			$datos = $_GET["idPaises"];
+			$tabla ="departamentos_empresa";
+			$datos = $_GET["idDepartamentos"];
 
 
-			$respuesta = ModeloPaises::mdlBorrarPaises($tabla, $datos);
+			$respuesta = ModeloDepartamentos::mdlBorrarDepartamentos($tabla, $datos);
 
 			if($respuesta == "ok"){
 
@@ -214,14 +214,14 @@ class ControladorPaises{
 
 				swal({
 					  type: "success",
-					  title: "El País ha sido borrado correctamente",
+					  title: "El departamentos ha sido borrado correctamente",
 					  showConfirmButton: true,
 					  confirmButtonText: "Cerrar",
 					  closeOnConfirm: false
 					  }).then(function(result) {
 								if (result.value) {
 
-								window.location = "paises";
+								window.location = "departamentos";
 
 								}
 							})
