@@ -33,5 +33,17 @@ require_once "controladores/departamentos.controlador.php";
 require_once "modelos/departamentos.modelo.php";
 
 
+/* **SERVICIOS*** */
+require_once "controladores/servicios.controlador.php";
+require_once "modelos/servicios.modelo.php";
+
+
+
+/* **CARGOS*** */
+require_once "controladores/cargos.controlador.php";
+require_once "modelos/cargos.modelo.php";
+
+
+
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();

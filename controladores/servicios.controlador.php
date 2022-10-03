@@ -1,12 +1,27 @@
 <?php
+$Nombremodulo_mensaje="Servicio";
+$nombremodelo="servicios";
+$namecolumnas="";
+$namecampos="";
+$nombretabla="servicios_prestados";
+$tabla = "servicios_prestados";
+class ControladorServicios{
 
-class ControladorBancos{
+	/* CAPTURAR NOMBRE COLUMNAS*/
+
+	function getContent() {
+		global $nombretabla;
+		$query = "SHOW COLUMNS FROM $nombretabla";
+		$sql = Conexion::conectar()->prepare($query);
+		$sql->execute();			
+		return $sql->fetchAll();
+	}
 
 	/*=============================================
 	INGRESO 
 	=============================================*/
 
-	static public function ctrIngresoBancos(){
+	static public function ctrIngreso(){
 
 		if(isset($_POST["ingUsuario"])){
 
@@ -85,19 +100,29 @@ class ControladorBancos{
 	INGRESAR REGISTRO 
 	=============================================*/
 
-	static public function ctrCrearBancos(){
+	static public function ctrCrear(){
 
-		if(isset($_POST["nuevoNombre"])){
-
-
-
-				$tabla = "bancos";
+		if(isset($_POST["nuevonombre"])){
 
 
-				$datos = array("codigo" => $_POST["nuevoCodigo"],
-					           "nombre" => $_POST["nuevoNombre"]);
 
-				$respuesta = ModeloBancos::mdlIngresarBancos($tabla, $datos);
+				global $tabla;
+				global $namecolumnas;
+				global $namecampos;
+				global $Nombremodulo_mensaje;
+				global $nombremodelo;
+				
+				$data = getContent();
+				$datos="";
+				$array=[];
+				foreach($data as $row) {
+					$datos0 = array("".$row['Field']."" => $_POST["nuevo".$row['Field'].""],);
+				/* $namecolumnas .= "".$row['Field'].""." =>". $_POST["nuevo".$row['Field'].""].","; */
+				$array+=["".$row['Field']."" => $_POST["nuevo".$row['Field'].""],];
+				}
+			
+				$datos=$array;
+				$respuesta = ModeloServicios::mdlIngresar($tabla, $datos);
 			
 				if($respuesta == "ok"){
 
@@ -106,7 +131,7 @@ class ControladorBancos{
 					swal({
 
 						type: "success",
-						title: "¡El Banco ha sido guardado correctamente!",
+						title: "¡El '.$Nombremodulo_mensaje.' ha sido guardado correctamente!",
 						showConfirmButton: true,
 						confirmButtonText: "Cerrar"
 
@@ -114,7 +139,7 @@ class ControladorBancos{
 
 						if(result.value){
 						
-							window.location = "bancos";
+							window.location = "'.$nombremodelo.'";
 
 						}
 
@@ -138,11 +163,11 @@ class ControladorBancos{
 	MOSTRAR REGISTROS
 	=============================================*/
 
-	static public function ctrMostrarBancos($item, $valor){
+	static public function ctrMostrar($item, $valor){
 
-		$tabla = "bancos";
+		global $tabla;
 
-		$respuesta = ModeloBancos::mdlMostrarBancos($tabla, $item, $valor);
+		$respuesta = ModeloServicios::mdlMostrar($tabla, $item, $valor);
 
 		return $respuesta;
 	}
@@ -151,20 +176,33 @@ class ControladorBancos{
 	EDITAR REGISTRO
 	=============================================*/
 
-	static public function ctrEditarBancos(){
+	static public function ctrEditar(){
 
-		if(isset($_POST["editarNombre"])){
+		if(isset($_POST["editarnombre"])){
 
 
-				$tabla = "bancos";
+			global $tabla;
+			global $namecolumnas;
+			global $namecampos;
+			global $Nombremodulo_mensaje;
+			global $nombremodelo;
 
+			$data = getContent();
+			$datos="";
+			$array=[];
+			foreach($data as $row) {
+				$datos0 = array("".$row['Field']."" => $_POST["editar".$row['Field'].""],);
+			/* $namecolumnas .= "".$row['Field'].""." =>". $_POST["nuevo".$row['Field'].""].","; */
+			$array+=["".$row['Field']."" => $_POST["editar".$row['Field'].""],];
+			}
+			$datos=$array;
 				
 
-				$datos = array("id" => $_POST["id"],
+				/* $datos = array("id" => $_POST["id"],
 							   "codigo" => $_POST["editarCodigo"],
-							   "nombre" => $_POST["editarNombre"]);
+							   "nombre" => $_POST["editarNombre"]); */
 
-				$respuesta = ModeloBancos::mdlEditarBancos($tabla, $datos);
+				$respuesta = ModeloServicios::mdlEditar($tabla, $datos);
 
 				if($respuesta == "ok"){
 
@@ -172,13 +210,13 @@ class ControladorBancos{
 
 					swal({
 						  type: "success",
-						  title: "El Banco ha sido editado correctamente",
+						  title: "El '.$Nombremodulo_mensaje.' ha sido editado correctamente",
 						  showConfirmButton: true,
 						  confirmButtonText: "Cerrar"
 						  }).then(function(result) {
 									if (result.value) {
 
-									window.location = "bancos";
+									window.location = "'.$nombremodelo.'";
 
 									}
 								})
@@ -197,15 +235,19 @@ class ControladorBancos{
 	BORRAR REGISTROS
 	=============================================*/
 
-	static public function ctrBorrarBancos(){
+	static public function ctrBorrar(){
 
-		if(isset($_GET["idBancos"])){
+		if(isset($_GET["idServicios"])){
 
-			$tabla ="bancos";
-			$datos = $_GET["idBancos"];
+			global $tabla;
+				global $namecolumnas;
+				global $namecampos;
+				global $Nombremodulo_mensaje;
+				global $nombremodelo;
+			$datos = $_GET["idServicios"];
 
 
-			$respuesta = ModeloBancos::mdlBorrarBancos($tabla, $datos);
+			$respuesta = ModeloServicios::mdlBorrar($tabla, $datos);
 
 			if($respuesta == "ok"){
 
@@ -213,14 +255,14 @@ class ControladorBancos{
 
 				swal({
 					  type: "success",
-					  title: "El Banco ha sido borrado correctamente",
+					  title: "El '.$Nombremodulo_mensaje.' ha sido borrado correctamente",
 					  showConfirmButton: true,
 					  confirmButtonText: "Cerrar",
 					  closeOnConfirm: false
 					  }).then(function(result) {
 								if (result.value) {
 
-								window.location = "bancos";
+								window.location = "'.$nombremodelo.'";
 
 								}
 							})

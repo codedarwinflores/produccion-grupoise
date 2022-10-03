@@ -102,6 +102,12 @@ session_start();
   <!-- ChartJS http://www.chartjs.org/-->
   <script src="vistas/bower_components/Chart.js/Chart.js"></script>
 
+  <style>
+   .id{
+    display: none;
+   }
+  </style>
+
 
 
 </head>
@@ -143,7 +149,9 @@ CUERPO DOCUMENTO
          $_GET["ruta"] == "bancos" ||
          $_GET["ruta"] == "paises" ||
          $_GET["ruta"] == "afp" ||
-         $_GET["ruta"] == "departamentos" ||        
+         $_GET["ruta"] == "departamentos" ||
+         $_GET["ruta"] == "servicios" ||
+         $_GET["ruta"] == "cargos" ||        
          $_GET["ruta"] == "salir"){
 
         include "modulos/".$_GET["ruta"].".php";
@@ -177,6 +185,7 @@ CUERPO DOCUMENTO
   ?>
 
 
+
 <script src="vistas/js/plantilla.js"></script>
 <script src="vistas/js/usuarios.js"></script>
 <script src="vistas/js/empresas.js"></script>
@@ -185,6 +194,9 @@ CUERPO DOCUMENTO
 <script src="vistas/js/paises.js"></script>
 <script src="vistas/js/afp.js"></script>
 <script src="vistas/js/departamentos.js"></script>
+<script src="vistas/js/servicios.js"></script>
+<script src="vistas/js/cargos.js"></script>
+
 
 
 </body>

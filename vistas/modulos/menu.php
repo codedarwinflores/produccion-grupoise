@@ -56,6 +56,18 @@
 						<i class="fa fa-usd"></i>
 						<span>AFP</span>
 					</a>
+				</li>
+				<li>
+					<a href="servicios">
+						<i class="fa fa-cube"></i>
+						<span>Servicios</span>
+					</a>
+				</li>
+				<li>
+					<a href="cargos">
+						<i class="fa fa-cube"></i>
+						<span>cargos</span>
+					</a>
 				</li>';
 
 		}
