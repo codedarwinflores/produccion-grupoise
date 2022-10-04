@@ -233,7 +233,7 @@ MODAL EDITAR
               
                 <span class="input-group-addon"><i class="fa fa-qrcode"></i></span> 
 
-                <input type="text" class="form-control input-lg" id="editarCodigo" name="editarCodigo" value="" required>
+                <input type="text" class="form-control input-lg" id="editarCodigo" name="editarCodigo" value="" placeholder="Ingresar Codigo" required>
 
               </div>
 
@@ -247,7 +247,7 @@ MODAL EDITAR
               
                 <span class="input-group-addon"><i class="fa fa-building"></i></span> 
 
-                <input type="text" class="form-control input-lg" id="editarNombre" name="editarNombre" value="" required>
+                <input type="text" class="form-control input-lg" id="editarNombre" name="editarNombre" value="" placeholder="Ingresar Nombre" required>
 
               </div>
 
