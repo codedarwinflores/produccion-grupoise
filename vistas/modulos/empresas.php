@@ -40,7 +40,7 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
          <tr>
            
            <th style="width:10px">#</th>
-           <th>Codigo Empresa</th>
+           <th>Código Empresa</th>
            <th>Nombre</th>
            <th>Logo</th>
            <th>Acciones</th>
@@ -146,7 +146,7 @@ MODAL AGREGAR EMPRESAS
               
                 <span class="input-group-addon"><i class="fa fa-qrcode"></i></span> 
 
-                <input type="text" class="form-control input-lg" name="nuevoCodigo_empresa" placeholder="Ingresar Codigo Empresa" required>
+                <input type="text" class="form-control input-lg" name="nuevoCodigo_empresa" placeholder="Ingresar Código Empresa" required>
 
               </div>
 
@@ -257,7 +257,7 @@ MODAL EDITAR EMPRESAS
               
                 <span class="input-group-addon"><i class="fa fa-qrcode"></i></span> 
 
-                <input type="text" class="form-control input-lg" id="editarCodigo_empresa" name="editarCodigo_empresa" value="" required>
+                <input type="text" class="form-control input-lg" id="editarCodigo_empresa" name="editarCodigo_empresa" placeholder="Ingresar Código Empresa" value="" required>
 
               </div>
 
@@ -271,7 +271,7 @@ MODAL EDITAR EMPRESAS
               
                 <span class="input-group-addon"><i class="fa fa-building"></i></span> 
 
-                <input type="text" class="form-control input-lg" id="editarNombre" name="editarNombre" value="" required>
+                <input type="text" class="form-control input-lg" id="editarNombre" name="editarNombre" value="" placeholder="Ingresar Nombre" required>
 
               </div>
 

@@ -12,7 +12,7 @@ $(document).ready(function(){
 
 	
 	$(".icono_periodo_pago").addClass("fa fa-retweet");
-	$(".input_periodo_pago").attr("placeholder", texto+" Periodo de Pago");
+	$(".input_periodo_pago").attr("placeholder", texto+" Período de Pago");
 	$(".input_periodo_pago").attr("name","");
 	$(".input_periodo_pago").attr("readonly","readonly");
 	$('.input_periodo_pago').click(function(){

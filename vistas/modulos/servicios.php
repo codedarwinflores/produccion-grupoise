@@ -53,7 +53,7 @@ function getContent() {
            
            <th style="width:10px">#</th>
            
-           <th>Codigo</th>
+           <th>Código</th>
            <th>Nombre</th>
            <th>Acciones</th>
 

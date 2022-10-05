@@ -54,12 +54,12 @@ function getContent() {
             
             <th style="width:10px">#</th>
             
-            <th>Descripcion</th>
+            <th>Descripción</th>
             <th>Nivel</th>
-            <th>Codigo Contable</th>
+            <th>Código Contable</th>
             <th>Personal Asignado</th>
             <th>Pago Feriados</th>
-            <th>Calculo</th>
+            <th>Cálculo</th>
             <th>Acciones</th>
  
           </tr> 

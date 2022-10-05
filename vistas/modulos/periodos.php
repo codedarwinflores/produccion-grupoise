@@ -54,7 +54,7 @@ function getContent() {
             
             <th style="width:10px">#</th>
             
-            <th>Nombre Periodo de Pago</th>
+            <th>Nombre Período de Pago</th>
             <th>Acciones</th>
  
           </tr> 

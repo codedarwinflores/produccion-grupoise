@@ -40,7 +40,7 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
          <tr>
            
            <th style="width:10px">#</th>
-           <th>Codigo</th>
+           <th>Código</th>
            <th>Nombre</th>
            <th>Código superintendencia</th>
            <th>Porcentaje</th>

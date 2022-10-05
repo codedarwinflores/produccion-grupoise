@@ -40,16 +40,16 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
          <tr>
            
            <th style="width:10px">#</th>
-           <th>Codigo</th>
+           <th>Código</th>
            <th>Nombre</th>
-           <th>Direccion</th>
-           <th>Telefono</th>
-           <th>Extension</th>
+           <th>Dirección</th>
+           <th>Teléfono</th>
+           <th>Extensión</th>
            <th>Nª Registro</th>
            <th>Encargado</th>
            <th>Comentarios</th>
            <th>Nacionalidad</th>
-           <th>Codigo Contable</th>
+           <th>Código Contable</th>
            <th>Contribuyente</th>
            <th>Acciones</th>
 
@@ -219,7 +219,7 @@ MODAL AGREGAR PROVEEDORES
               
                 <span class="input-group-addon"><i class="fa fa-phone"></i></span> 
 
-                <input type="text" class="form-control input-lg" name="nuevoTelefono" placeholder="Ingresar Télefono" id="nuevoTelefono" required>
+                <input type="text" class="form-control input-lg" name="nuevoTelefono" placeholder="Ingresar Teléfono" id="nuevoTelefono" required>
 
               </div>
 
@@ -476,7 +476,7 @@ MODAL EDITAR PROVEEDORES
               
                 <span class="input-group-addon"><i class="fa fa-phone"></i></span> 
 
-                <input type="text" class="form-control input-lg" name="editarTelefono" placeholder="Ingresar Télefono" id="editarTelefono" required>
+                <input type="text" class="form-control input-lg" name="editarTelefono" placeholder="Ingresar Teléfono" id="editarTelefono" required>
 
               </div>
 

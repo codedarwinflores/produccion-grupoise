@@ -54,9 +54,9 @@ function getContent() {
             
             <th style="width:10px">#</th>
             
-            <th>Codigo</th>
+            <th>Código</th>
             <th>Nombre Rango</th>
-            <th>Periodo Pago</th>
+            <th>Período Pago</th>
             <th>Salario Desde</th>
             <th>Salario Hasta</th>
             <th>Base 1</th>
