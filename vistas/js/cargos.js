@@ -1,6 +1,6 @@
 /* COLOCACION DE ICONOS */
+$(document).ready(function(){
 
-window.onload = function () {
 	var  texto= "Ingresar";
 	$(".icono_descripcion").addClass("fa fa-sticky-note-o");
 	$(".input_descripcion").attr("placeholder", texto+" Descripción");
@@ -25,7 +25,7 @@ window.onload = function () {
 	$(".input_calculo").attr("placeholder", texto+" Calculo");
 	$(".input_calculo").get(0).type = 'number';
 
- }
+ })
 
 /*=============================================
 EDITAR 

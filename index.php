@@ -45,5 +45,16 @@ require_once "modelos/cargos.modelo.php";
 
 
 
+/* **PERIODOS*** */
+require_once "controladores/periodos_pagos.controlador.php";
+require_once "modelos/periodos_pagos.modelo.php";
+
+
+/* **ISR*** */
+require_once "controladores/isr.controlador.php";
+require_once "modelos/isr.modelo.php";
+
+
+
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();

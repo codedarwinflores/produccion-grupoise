@@ -2,27 +2,31 @@
 $(document).ready(function(){
 
 	var  texto= "Ingresar";
-	$(".icono_codigo").addClass("fa fa-qrcode");
-	$(".input_codigo").attr("placeholder", texto+" Código");
+	$(".icono_nombre_periodo").addClass("fa fa-sticky-note-o");
+	$(".input_nombre_periodo").attr("placeholder", texto+" Periodo de Pago");
 
-	$(".icono_nombre").addClass("fa fa-tags");
-	$(".input_nombre").attr("placeholder", texto+" Nombre");
+/* 	$(".icono_personal_asignado").addClass("fa fa-user");
+	$(".input_personal_asignado").attr("placeholder", texto+" Personal Asignado");
+	$(".input_personal_asignado").get(0).type = 'number';
+ */
+
  })
 
 /*=============================================
 EDITAR 
 =============================================*/
-$(".tablas").on("click", ".btnEditarServicios", function(){
+$(".tablas").on("click", ".btnEditarperiodos_pagos", function(){
 
 	
-	var idServicios = $(this).attr("idServicios");
+	var idperiodos_pagos = $(this).attr("idperiodos_pagos");
 	
+
 	var datos = new FormData();
-	datos.append("idServicios", idServicios);
+	datos.append("idperiodos_pagos", idperiodos_pagos);
 
 	$.ajax({
 
-		url:"ajax/servicios.ajax.php",
+		url:"ajax/periodos_pagos.ajax.php",
 		method: "POST",
 		data: datos,
 		cache: false,
@@ -32,8 +36,7 @@ $(".tablas").on("click", ".btnEditarServicios", function(){
 		success: function(respuesta){
 			
 			$("#editarid").val(respuesta["id"]);
-			$("#editarcodigo").val(respuesta["codigo"]);
-			$("#editarnombre").val(respuesta["nombre"]);
+			$("#editarnombre_periodo").val(respuesta["nombre_periodo"]);
 
 
 
@@ -57,7 +60,7 @@ $("#nuevonombre").change(function(){
 	datos.append("validarnombre", usuario);
 
 	 $.ajax({
-	    url:"ajax/servicios.ajax.php",
+	    url:"ajax/periodos_pagos.ajax.php",
 	    method:"POST",
 	    data: datos,
 	    cache: false,
@@ -82,9 +85,9 @@ $("#nuevonombre").change(function(){
 /*=============================================
 ELIMINAR 
 =============================================*/
-$(".tablas").on("click", ".btnEliminarServicios", function(){
+$(".tablas").on("click", ".btnEliminarperiodos_pagos", function(){
 
-  var idServicios = $(this).attr("idServicios");
+  var idperiodos_pagos = $(this).attr("idperiodos_pagos");
   var Codigo = $(this).attr("Codigo");
 
   swal({
@@ -100,7 +103,7 @@ $(".tablas").on("click", ".btnEliminarServicios", function(){
 
     if(result.value){
 
-      window.location = "index.php?ruta=servicios&idServicios="+idServicios+"&Codigo="+Codigo;
+      window.location = "index.php?ruta=periodos&idperiodos_pagos="+idperiodos_pagos+"&Codigo="+Codigo;
 
     }
 

@@ -109,6 +109,9 @@ session_start();
   </style>
 
 
+<!-- Theme style -->
+<link rel="stylesheet" href="vistas/dist/css/mystyle.css">
+  
 
 </head>
 
@@ -151,7 +154,9 @@ CUERPO DOCUMENTO
          $_GET["ruta"] == "afp" ||
          $_GET["ruta"] == "departamentos" ||
          $_GET["ruta"] == "servicios" ||
-         $_GET["ruta"] == "cargos" ||        
+         $_GET["ruta"] == "cargos" ||
+         $_GET["ruta"] == "periodos" ||
+         $_GET["ruta"] == "isr" ||        
          $_GET["ruta"] == "salir"){
 
         include "modulos/".$_GET["ruta"].".php";
@@ -196,6 +201,8 @@ CUERPO DOCUMENTO
 <script src="vistas/js/departamentos.js"></script>
 <script src="vistas/js/servicios.js"></script>
 <script src="vistas/js/cargos.js"></script>
+<script src="vistas/js/periodos_pagos.js"></script>
+<script src="vistas/js/isr.js"></script>
 
 
 

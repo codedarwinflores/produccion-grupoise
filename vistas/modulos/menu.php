@@ -65,8 +65,20 @@
 				</li>
 				<li>
 					<a href="cargos">
-						<i class="fa fa-cube"></i>
+						<i class="fa fa-address-card"></i>
 						<span>cargos</span>
+					</a>
+				</li>
+				<li>
+					<a href="periodos">
+						<i class="fa fa-calendar"></i>
+						<span>Periodos Pagos</span>
+					</a>
+				</li>
+				<li>
+					<a href="isr">
+						<i class="fa fa-money"></i>
+						<span>ISR</span>
 					</a>
 				</li>';
 
