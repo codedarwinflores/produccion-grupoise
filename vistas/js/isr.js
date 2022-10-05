@@ -3,6 +3,9 @@ $(document).ready(function(){
 
 	var  texto= "Ingresar";
 
+	$(".input_id").removeAttr("required");;
+
+
 	$(".icono_codigo").addClass("fa fa-qr");
 	$(".input_codigo").attr("placeholder", texto+" Código");
 
@@ -14,7 +17,12 @@ $(document).ready(function(){
 	$(".icono_periodo_pago").addClass("fa fa-retweet");
 	$(".input_periodo_pago").attr("placeholder", texto+" Período de Pago");
 	$(".input_periodo_pago").attr("name","");
-	$(".input_periodo_pago").attr("readonly","readonly");
+	/* $(".input_periodo_pago").attr("readonly","readonly"); */
+
+	$(".input_periodo_pago").keydown(function(e){
+        e.preventDefault();
+    });
+	
 	$('.input_periodo_pago').click(function(){
 		$(".myDropdown").css("display", "block");
 	});
@@ -32,22 +40,32 @@ $(document).ready(function(){
 	
 	$(".icono_salario_desde").addClass("fa fa-sort-amount-asc");
 	$(".input_salario_desde").attr("placeholder", texto+" Salario Desde");
+	$(".input_salario_desde").get(0).type = 'number';
+
 
 	
 	$(".icono_salario_hasta").addClass("fa fa-sort-amount-desc");
 	$(".input_salario_hasta").attr("placeholder", texto+" Salario Hasta");
+	$(".input_salario_hasta").get(0).type = 'number';
+
 
 	
 	$(".icono_base_1").addClass("fa fa-database");
 	$(".input_base_1").attr("placeholder", texto+" Base 1");
+	$(".input_base_1").get(0).type = 'number';
+
 
 	
 	$(".icono_tasa_sobre_excedente").addClass("fa fa-cubes");
 	$(".input_tasa_sobre_excedente").attr("placeholder", texto+" Tasa sobre excedente");
+	$(".input_tasa_sobre_excedente").get(0).type = 'number';
+
 
 	
 	$(".icono_base_2").addClass("fa fa-database");
 	$(".input_base_2").attr("placeholder", texto+" Base 2");
+	$(".input_base_2").get(0).type = 'number';
+
 
 
 	
@@ -107,14 +125,22 @@ $(".tablas").on("click", ".btnEditarisr", function(){
 			$("#editarcodigo").val(respuesta["codigo"]);
 			$("#editarnombre_rango").val(respuesta["nombre_rango"]);
 			$("#editarperiodo_pago").val(respuesta["nombre_periodo"]);
-			
 			$("#editar_campoperiodo_pago").val(respuesta["idpago"]);
-			
 			$("#editarsalario_desde").val(respuesta["salario_desde"]);
 			$("#editarsalario_hasta").val(respuesta["salario_hasta"]);
 			$("#editarbase_1").val(respuesta["base_1"]);
 			$("#editartasa_sobre_excedente").val(respuesta["tasa_sobre_excedente"]);
 			$("#editarbase_2").val(respuesta["base_2"]);
+
+			$("#editarsalario_desde").get(0).type = 'number';
+			$("#editarsalario_hasta").get(0).type = 'number';
+			$("#editarbase_1").get(0).type = 'number';
+			$("#editartasa_sobre_excedente").get(0).type = 'number';
+			$("#editarbase_2").get(0).type = 'number';
+			
+			
+
+
 
 
 

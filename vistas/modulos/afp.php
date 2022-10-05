@@ -197,7 +197,7 @@ MODAL AGREGAR
               
               <div class="input-group">
               
-                <span class="input-group-addon"><i class="fa fa-percent"></i></span> 
+                <span class="input-group-addon"><i class="fa fa-book"></i></span> 
 
                 <input type="number" class="form-control input-lg" name="nuevoCuota_patronal" placeholder="Ingresar Cuota Patronal" id="nuevoCuota_patronal" required>
 
@@ -258,7 +258,7 @@ MODAL EDITAR
 
           <button type="button" class="close" data-dismiss="modal">&times;</button>
 
-          <h4 class="modal-title">Editar País</h4>
+          <h4 class="modal-title">Editar AFP</h4>
 
         </div>
 
@@ -336,7 +336,7 @@ MODAL EDITAR
               
               <div class="input-group">
               
-                <span class="input-group-addon"><i class="fa fa-percent"></i></span> 
+                <span class="input-group-addon"><i class="fa fa-book"></i></span> 
 
                 <input type="number" class="form-control input-lg" name="editarCuota_patronal" placeholder="Ingresar Cuota Patronal" id="editarCuota_patronal" required>
 
