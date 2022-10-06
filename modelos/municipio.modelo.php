@@ -30,7 +30,7 @@ class Modelocat_municipios{
 
 		if($item != null){
 
-			$stmt = Conexion::conectar()->prepare("SELECT * FROM cat_municipios");
+			$stmt = Conexion::conectar()->prepare("SELECT * FROM cat_municipios WHERE idDpto=:$item");
 
 			$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
 

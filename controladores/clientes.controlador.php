@@ -1,6 +1,6 @@
 <?php
 /* cambiar _clientes por el nombre de la table correspondiente */
-$Nombremodulo_mensaje_clientes="Clientes";
+$Nombremodulo_mensaje_clientes="Cliente";
 $nombremodelo_clientes="clientes";
 $namecolumnas_clientes="";
 $namecampos_clientes="";

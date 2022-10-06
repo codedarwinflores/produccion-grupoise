@@ -164,6 +164,36 @@ $(document).ready(function(){
 		$(".id_departamento").val(iddepartamento);
 
 		$(".myDropdown_departamento").css("display", "none");
+
+		/* LLENAR MUNICIPIO */
+		var datos = new FormData();
+	datos.append("idmunicipios", iddepartamento);
+
+	$.ajax({
+
+		url:"ajax/municipio.ajax.php",
+		method: "POST",
+		data: datos,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType: "json",
+		success: function(respuesta){
+			
+			$("#municipio").html(respuesta);
+			$("#municipio2").html(respuesta);
+			pasar_muni();
+			
+
+
+
+		}
+
+	});
+
+
+
+
 		
 	});
 
@@ -179,18 +209,8 @@ $(document).ready(function(){
 	$('.input_id_municipio').click(function(){
 		$(".myDropdown_municipio").css("display", "block");
 	});
-
-	$('.select_municipio').click(function(){
-		var nombremunicipio = $(this).attr("nombremunicipio");
-		var idmunicipio = $(this).attr("idmunicipio");
-
-		$(".input_id_municipio").val(nombremunicipio);
-		$(".id_municipio").val(idmunicipio);
-
-		$(".myDropdown_municipio").css("display", "none");
-		
-	});
-
+	pasar_muni();
+	
 	
 	$(".icono_limite_credito").addClass("fa  fa-times-circle-o");
 	$(".input_limite_credito").attr("placeholder", texto+" Límite Crédito");
@@ -218,6 +238,20 @@ $(document).ready(function(){
  */
 
  })
+
+ function pasar_muni(){
+	$('.select_municipio').click(function(){
+
+		var nombremunicipio = $(this).attr("nombremunicipio");
+		var idmunicipio = $(this).attr("idmunicipio");
+
+		$(".input_id_municipio").val(nombremunicipio);
+		$(".id_municipio").val(idmunicipio);
+
+		$(".myDropdown_municipio").css("display", "none");
+		
+	});
+	}
 
  document.addEventListener("mouseup", function(event) {
 
@@ -329,6 +363,7 @@ $(document).ready(function(){
 
 
 });
+
 
 /*=============================================
 EDITAR 

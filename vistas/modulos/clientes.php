@@ -160,7 +160,7 @@ MODAL AGREGAR
 
 <div id="modalAgregarclientes" class="modal fade" role="dialog">
   
-  <div class="modal-dialog" style="width:90%">
+  <div class="modal-dialog" >
 
     <div class="modal-content">
 
@@ -199,13 +199,13 @@ MODAL AGREGAR
      
               /*  $datos = array("".$row['Field']."" => $_POST["nuevo".$row['Field'].""]); */
            ?>
-            <div class="form-group col-md-4 <?php echo $row['Field'];?>">
+            <div class="form-group <?php echo $row['Field'];?>">
               
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="icono_<?php echo $row['Field'];?>"></i></span> 
 
-                <input type="text" class="form-control input-lg  input_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value="" required>
+                <input type="text" class="form-control input-lg  input_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value="" required autocomplete="off">
 
               </div>
 
@@ -277,12 +277,7 @@ MODAL AGREGAR
           <!-- ***MUNICIPIO -->
           <!-- *** -->
           <div id="municipio" class="dropdown-content myDropdown_municipio drop_municipio">
-          <?php
-              $datos_mostrar_municipio = Controladorcat_municipios::ctrMostrar($item, $valor);
-              foreach ($datos_mostrar_municipio as $key => $value){
-                echo ' <span class="select_municipio"  idmunicipio="'.$value["id"].'" nombremunicipio="'.$value["Nombre_m"].'">'.$value["Nombre_m"].'</span>';
-              }
-          ?>
+          
           </div>   
           <!-- *** -->
           <!-- *** -->
@@ -326,7 +321,7 @@ MODAL EDITAR
 
 <div id="modalEditarclientes" class="modal fade" role="dialog">
   
-  <div class="modal-dialog" style="width:90%">
+  <div class="modal-dialog" >
 
     <div class="modal-content">
 
@@ -372,13 +367,13 @@ MODAL EDITAR
      
               /*  $datos = array("".$row['Field']."" => $_POST["nuevo".$row['Field'].""]); */
            ?>
-            <div class="form-group col-md-4 <?php echo $row['Field'];?>">
+            <div class="form-group  <?php echo $row['Field'];?>">
               
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="icono_<?php echo $row['Field'];?>"></i></span> 
 
-                <input type="text" class="form-control input-lg  input_<?php echo $row['Field'];?>" id="editar<?php echo $row['Field'];?>" name="editar<?php echo $row['Field'];?>" placeholder="" value="" required>
+                <input type="text" class="form-control input-lg  input_<?php echo $row['Field'];?>" id="editar<?php echo $row['Field'];?>" name="editar<?php echo $row['Field'];?>" placeholder="" value="" required autocomplete="off">
 
               </div>
 
@@ -450,12 +445,7 @@ MODAL EDITAR
           <!-- ***MUNICIPIO -->
           <!-- *** -->
           <div id="municipio2" class="dropdown-content myDropdown_municipio drop_municipio">
-          <?php
-              $datos_mostrar_municipio = Controladorcat_municipios::ctrMostrar($item, $valor);
-              foreach ($datos_mostrar_municipio as $key => $value){
-                echo ' <span class="select_municipio"  idmunicipio="'.$value["id"].'" nombremunicipio="'.$value["Nombre_m"].'">'.$value["Nombre_m"].'</span>';
-              }
-          ?>
+          
           </div>   
           <!-- *** -->
           <!-- *** -->
