@@ -9,84 +9,103 @@
 		if($_SESSION["perfil"] == "Administrador"){
 
 			echo '
-				<li class="active">			
-					<a href="inicio">
-						<i class="fa fa-home"></i>
-						<span>Inicio</span>
-					</a>
-				</li>
-				<li>
-					<a href="usuarios">
-						<i class="fa fa-user"></i>
-						<span>Usuarios</span>
-					</a>
-				</li>
-				<li>
-					<a href="empresas">
-						<i class="fa fa-building"></i>
-						<span>Empresas</span>
-					</a>
-				</li>
-				<li>
-					<a href="proveedores">
-						<i class="fa fa-users"></i>
-						<span>Proveedores</span>
-					</a>
-				</li>
-				<li>
-					<a href="bancos">
-						<i class="fa fa-university"></i>
-						<span>Bancos</span>
-					</a>
-				</li>
-				<li>
-					<a href="paises">
-						<i class="fa fa-globe"></i>
-						<span>Paises</span>
-					</a>
-				</li>
-				<li>
-					<a href="departamentos">
-						<i class="fa fa-tachometer"></i>
-						<span>Departamentos Empresa</span>
-					</a>
-				</li>
-				<li>
-					<a href="afp">
-						<i class="fa fa-usd"></i>
-						<span>AFP</span>
-					</a>
-				</li>
-				<li>
-					<a href="servicios">
-						<i class="fa fa-cube"></i>
-						<span>Servicios</span>
-					</a>
-				</li>
-				<li>
-					<a href="cargos">
-						<i class="fa fa-address-card"></i>
-						<span>cargos</span>
-					</a>
-				</li>
-				<li>
-					<a href="periodos">
-						<i class="fa fa-calendar"></i>
-						<span>Periodos Pagos</span>
-					</a>
-				</li>
-				<li>
-					<a href="isr">
-						<i class="fa fa-money"></i>
-						<span>ISR</span>
-					</a>
-				</li>
-				<li>
-					<a href="clientes">
-						<i class="fa fa-users"></i>
-						<span>Clientes</span>
-					</a>
-				</li>';
+			<li class="treeview">
+
+				<a href="#">
+
+					<i class="fa fa-sitemap"></i>
+					
+					<span>Administrar</span>
+					
+					<span class="pull-right-container">
+					
+						<i class="fa fa-angle-left pull-right"></i>
+
+					</span>
+
+				</a>
+
+				<ul class="treeview-menu">
+					<li class="active">			
+						<a href="inicio">
+							<i class="fa fa-home"></i>
+							<span>Inicio</span>
+						</a>
+					</li>
+					<li>
+						<a href="usuarios">
+							<i class="fa fa-user"></i>
+							<span>Usuarios</span>
+						</a>
+					</li>
+					<li>
+						<a href="empresas">
+							<i class="fa fa-building"></i>
+							<span>Empresas</span>
+						</a>
+					</li>
+					<li>
+						<a href="departamentos">
+							<i class="fa fa-tachometer"></i>
+							<span>Departamentos </span>
+						</a>
+					</li>
+					<li>
+						<a href="cargos">
+							<i class="fa fa-address-card"></i>
+							<span>Cargos</span>
+						</a>
+					</li>
+					<li>
+						<a href="afp">
+							<i class="fa fa-usd"></i>
+							<span>AFP</span>
+						</a>
+					</li>
+					<li>
+						<a href="isr">
+							<i class="fa fa-money"></i>
+							<span>ISR</span>
+						</a>
+					</li>
+					<li>
+						<a href="periodos">
+							<i class="fa fa-calendar"></i>
+							<span>Per&iacute;odos de Pagos</span>
+						</a>
+					</li>
+					<li>
+						<a href="paises">
+							<i class="fa fa-globe"></i>
+							<span>Pa&iacute;ses</span>
+						</a>
+					</li>
+					<li>
+						<a href="bancos">
+							<i class="fa fa-university"></i>
+							<span>Bancos</span>
+						</a>
+					</li>
+					<li>
+						<a href="servicios">
+							<i class="fa fa-cube"></i>
+							<span>Servicios</span>
+						</a>
+					</li>
+					<li>
+						<a href="proveedores">
+							<i class="fa fa-users"></i>
+							<span>Proveedores</span>
+						</a>
+					</li>		
+					<li>
+						<a href="clientes">
+							<i class="fa fa-users"></i>
+							<span>Clientes</span>
+						</a>
+					</li>
+				</ul>
+			</li>';
 
 		}
 
