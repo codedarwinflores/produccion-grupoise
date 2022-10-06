@@ -164,7 +164,7 @@ MODAL AGREGAR
               
                 <span class="input-group-addon"><i class="icono_<?php echo $row['Field'];?>"></i></span> 
 
-                <input type="text" class="form-control input-lg input_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value="">
+                <input type="text" class="form-control input-lg input_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value="" autocomplete="off">
 
               </div>
 
@@ -174,8 +174,33 @@ MODAL AGREGAR
              }
           ?>
              
+             
+          <!-- ***PERSONAL ASIGNADO -->
+          <div id="personal" class="dropdown-content myDropdown_personal drop_personal">
+            <span class="select_personal" personal="Si"> Si</span>
+            <span class="select_personal" personal="No"> No</span>    
+          </div>   
+          <!-- *** -->
+
+          
+             
+          <!-- ***PAGO FERIADO -->
+          <div id="pagoferiado" class="dropdown-content myDropdown_pagoferiado drop_pagoferiado">
+            <span class="select_pagoferiado" pagoferiado="Si"> Si</span>
+            <span class="select_pagoferiado" pagoferiado="No"> No</span>    
+          </div>   
+          <!-- *** -->
+
+                    <!-- ***PAGO FERIADO -->
+          <div id="sueldo" class="dropdown-content myDropdown_sueldo drop_sueldo">
+            <span class="select_sueldo" sueldo="Sueldo"> Sueldo </span>
+            <span class="select_sueldo" sueldo="Sueldo+Tfijo"> Sueldo+Tfijo</span>    
+          </div>   
+          <!-- *** -->
 
 
+
+          
 
 
           </div>
@@ -259,8 +284,8 @@ MODAL EDITAR
               
                 <span class="input-group-addon"><i class="icono_<?php echo $row['Field'];?>"></i></span> 
 
-                <input type="text" class="form-control input-lg input_<?php echo $row['Field'];?>" name="editar<?php echo $row['Field'];?>" id="editar<?php echo $row['Field'];?>" placeholder="" value="">
-
+                <input type="text" class="form-control input-lg input_<?php echo $row['Field'];?>" name="editar<?php echo $row['Field'];?>" id="editar<?php echo $row['Field'];?>" placeholder="" value="" autocomplete="off">
+ 
               </div>
 
             </div>
@@ -269,6 +294,30 @@ MODAL EDITAR
              }
           ?>
              
+
+                          
+          <!-- ***PERSONAL ASIGNADO -->
+          <div id="personal2" class="dropdown-content myDropdown_personal drop_personal">
+            <span class="select_personal" personal="Si"> Si</span>
+            <span class="select_personal" personal="No"> No</span>    
+          </div>   
+          <!-- *** -->
+
+          
+             
+          <!-- ***PAGO FERIADO -->
+          <div id="pagoferiado2" class="dropdown-content myDropdown_pagoferiado drop_pagoferiado">
+            <span class="select_pagoferiado" pagoferiado="Si"> Si</span>
+            <span class="select_pagoferiado" pagoferiado="No"> No</span>    
+          </div>   
+          <!-- *** -->
+
+                    <!-- ***PAGO FERIADO -->
+          <div id="sueldo2" class="dropdown-content myDropdown_sueldo drop_sueldo">
+            <span class="select_sueldo" sueldo="Sueldo"> Sueldo </span>
+            <span class="select_sueldo" sueldo="Sueldo+Tfijo"> Sueldo+Tfijo</span>    
+          </div>   
+          <!-- *** -->
 
 
 

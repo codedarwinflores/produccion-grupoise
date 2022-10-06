@@ -111,7 +111,13 @@ session_start();
 
 <!-- Theme style -->
 <link rel="stylesheet" href="vistas/dist/css/mystyle.css">
+
+
+<link rel="stylesheet" href="vistas/calendario/css/ion.calendar.css">
+
   
+
+
 
 </head>
 
@@ -156,7 +162,8 @@ CUERPO DOCUMENTO
          $_GET["ruta"] == "servicios" ||
          $_GET["ruta"] == "cargos" ||
          $_GET["ruta"] == "periodos" ||
-         $_GET["ruta"] == "isr" ||        
+         $_GET["ruta"] == "isr" ||
+         $_GET["ruta"] == "clientes" ||        
          $_GET["ruta"] == "salir"){
 
         include "modulos/".$_GET["ruta"].".php";
@@ -203,8 +210,18 @@ CUERPO DOCUMENTO
 <script src="vistas/js/cargos.js"></script>
 <script src="vistas/js/periodos_pagos.js"></script>
 <script src="vistas/js/isr.js"></script>
+<script src="vistas/js/clientes.js"></script>
+
+<script src="vistas/calendario/js/ion.calendar.js"></script>
+
+<script>
+$(function(){
+    
 
 
+       $(".calendario").ionDatePicker();
+});
+</script>
 
 </body>
 </html>

@@ -7,6 +7,15 @@ $(document).ready(function(){
 
 	$(".icono_nivel").addClass("fa fa-tasks");
 	$(".input_nivel").attr("placeholder", texto+" Nivel");
+	jQuery("#input_nivel").on('input', function (evt) {
+		// Allow only numbers.
+		jQuery(this).val(jQuery(this).val().replace(/[^0-9]/g, ''));
+	});
+	jQuery(".input_nivel").on('input', function (evt) {
+		// Allow only numbers.
+		jQuery(this).val(jQuery(this).val().replace(/[^0-9]/g, ''));
+	});
+
 
 	
 	$(".icono_codigo_contable").addClass("fa fa-money");
@@ -14,18 +23,119 @@ $(document).ready(function(){
 
 	$(".icono_personal_asignado").addClass("fa fa-user");
 	$(".input_personal_asignado").attr("placeholder", texto+" Personal Asignado");
-	$(".input_personal_asignado").get(0).type = 'number';
+
+	$(".input_personal_asignado").keydown(function(e){
+        e.preventDefault();
+    });
+
+	$('.input_personal_asignado').click(function(){
+		$(".myDropdown_personal").css("display", "block");
+	});
+
+	$('.select_personal').click(function(){
+		var personal = $(this).attr("personal");
+		$(".input_personal_asignado").val(personal);
+		$(".myDropdown_personal").css("display", "none");
+		
+	});
+
+
+
 
 	$(".icono_pago_feriados").addClass("fa fa-calendar");
 	$(".input_pago_feriados").attr("placeholder", texto+" Pago Feriado");
-	$(".input_pago_feriados").get(0).type = 'number';
+	
+	$(".input_pago_feriados").keydown(function(e){
+        e.preventDefault();
+    });
+
+	$('.input_pago_feriados').click(function(){
+		$(".myDropdown_pagoferiado").css("display", "block");
+	});
+
+	$('.select_pagoferiado').click(function(){
+		var pagoferiado = $(this).attr("pagoferiado");
+		$(".input_pago_feriados").val(pagoferiado);
+		$(".myDropdown_pagoferiado").css("display", "none");
+		
+	});
 
 	
 	$(".icono_calculo").addClass("fa fa-pie-chart");
-	$(".input_calculo").attr("placeholder", texto+" Calculo");
-	$(".input_calculo").get(0).type = 'number';
+	$(".input_calculo").attr("placeholder", texto+" Cálculo");
+	
+	
+	$(".input_calculo").keydown(function(e){
+        e.preventDefault();
+    });
+
+	$('.input_calculo').click(function(){
+		$(".myDropdown_sueldo").css("display", "block");
+	});
+
+	$('.select_sueldo').click(function(){
+		var sueldo = $(this).attr("sueldo");
+		$(".input_calculo").val(sueldo);
+		$(".myDropdown_sueldo").css("display", "none");
+		
+	});
 
  })
+
+ 
+ document.addEventListener("mouseup", function(event) {
+
+    var obj = document.getElementById("personal");
+    if (!obj.contains(event.target)) {
+		$(".myDropdown_personal").css("display", "none");
+    }
+    else {
+       
+    }
+
+	var obj = document.getElementById("pagoferiado");
+    if (!obj.contains(event.target)) {
+		$(".myDropdown_pagoferiado").css("display", "none");
+    }
+    else {
+       
+    }
+
+	var obj = document.getElementById("sueldo");
+    if (!obj.contains(event.target)) {
+		$(".myDropdown_sueldo").css("display", "none");
+    }
+    else {
+       
+    }
+
+	/* ***********EDITAR */
+
+	
+    var obj = document.getElementById("personal2");
+    if (!obj.contains(event.target)) {
+		$(".myDropdown_personal").css("display", "none");
+    }
+    else {
+       
+    }
+
+	var obj = document.getElementById("pagoferiado2");
+    if (!obj.contains(event.target)) {
+		$(".myDropdown_pagoferiado").css("display", "none");
+    }
+    else {
+       
+    }
+
+	var obj = document.getElementById("sueldo2");
+    if (!obj.contains(event.target)) {
+		$(".myDropdown_sueldo").css("display", "none");
+    }
+    else {
+       
+    }
+})
 
 /*=============================================
 EDITAR 

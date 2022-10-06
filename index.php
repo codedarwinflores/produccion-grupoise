@@ -55,6 +55,21 @@ require_once "controladores/isr.controlador.php";
 require_once "modelos/isr.modelo.php";
 
 
+/* **DEPARTAMENTO*** */
+require_once "controladores/departamento.controlador.php";
+require_once "modelos/departamento.modelo.php";
+
+
+/* **ISR*** */
+require_once "controladores/municipio.controlador.php";
+require_once "modelos/municipio.modelo.php";
+
+/* **CLIENTES*** */
+require_once "controladores/clientes.controlador.php";
+require_once "modelos/clientes.modelo.php";
+
+
+
 
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();
