@@ -212,6 +212,8 @@ CUERPO DOCUMENTO
 <script src="vistas/js/isr.js"></script>
 <script src="vistas/js/clientes.js"></script>
 
+<script src="vistas/calendario/js/moment-with-locales.min.js"></script>
+
 <script src="vistas/calendario/js/ion.calendar.js"></script>
 
 <script>
@@ -219,8 +221,21 @@ $(function(){
     
 
 
-       $(".calendario").ionDatePicker();
-});
+       $(".calendario").ionDatePicker({
+        lang: "es"
+       });
+
+       
+      });
+
+
+      $(document).ready(function(){
+ 
+
+
+
+      });
+        
 </script>
 
 </body>

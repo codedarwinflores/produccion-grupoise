@@ -2,6 +2,10 @@
 $(document).ready(function(){
 
 	var  texto= "Ingresar";
+
+	$(".input_id").removeAttr("required");;
+
+	
 	$(".icono_descripcion").addClass("fa fa-sticky-note-o");
 	$(".input_descripcion").attr("placeholder", texto+" Descripción");
 

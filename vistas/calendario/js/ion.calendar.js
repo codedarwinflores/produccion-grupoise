@@ -427,6 +427,12 @@
 
                 settings.onClick = function(date){
                     $input.prop("value", date);
+                    /* MI CODIGO */
+                    var dateNEW = date;
+                    var newDate = dateNEW.split("-").reverse().join("-");
+                    $(".fecha_apertura").val(newDate);
+                    $(".editarfecha_apertura2").val(newDate);
+          
                     selectedDate = date;
                     closePopups();
                 };

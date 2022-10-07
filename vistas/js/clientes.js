@@ -10,6 +10,13 @@ $(document).ready(function(){
 	$(".icono_fecha_apertura").addClass("fa fa-calendar");
 	$(".input_fecha_apertura").addClass("calendario");
 	$(".input_fecha_apertura").attr("placeholder", texto+" Fecha Apertura");
+	$(".input_fecha_apertura").attr("name", "");
+
+	
+
+	
+
+
 
 	
 	$(".icono_codigo").addClass("fa  fa-qrcode");
@@ -22,10 +29,14 @@ $(document).ready(function(){
 	
 	$(".icono_nit").addClass("fa fa-address-card");
 	$(".input_nit").attr("placeholder", texto+" NIT");
+	$(".input_nit").get(0).type = 'number';
+	$("#editarnit").get(0).type = 'number';
 
 	
 	$(".icono_nrc").addClass("fa  fa-id-card");
 	$(".input_nrc").attr("placeholder", texto+" NRC");
+	$(".input_nrc").get(0).type = 'number';
+	$("#editarnrc").get(0).type = 'number';
 
 	
 	$(".icono_nombre_registro").addClass("fa fa-id-card");
@@ -37,7 +48,7 @@ $(document).ready(function(){
 
 	
 	$(".icono_contribuyente").addClass("fa fa-id-card");
-	$(".input_contribuyente").attr("placeholder", texto+" Contribuyente");
+	$(".input_contribuyente").attr("placeholder","¿Es contribuyente?");
 
 	$(".input_contribuyente").keydown(function(e){
         e.preventDefault();
@@ -97,6 +108,9 @@ $(document).ready(function(){
 	
 	$(".icono_correo_electronico").addClass("fa fa-envelope");
 	$(".input_correo_electronico").attr("placeholder", texto+" Email");
+	$(".input_correo_electronico").get(0).type = 'email';
+	$("#editarcorreo_electronico").get(0).type = 'email';
+
 
 	
 	$(".icono_direccion").addClass("fa  fa-map-marker");
@@ -105,14 +119,21 @@ $(document).ready(function(){
 	
 	$(".icono_telefono_1").addClass("fa fa-phone");
 	$(".input_telefono_1").attr("placeholder", texto+" Telefono 1");
+	$(".input_telefono_1").get(0).type = 'number';
+	$("#editartelefono_1").get(0).type = 'number';
+	
 
 	
 	$(".icono_telefono_2").addClass("fa fa-phone");
 	$(".input_telefono_2").attr("placeholder", texto+" Telefono 2");
+	$(".input_telefono_2").get(0).type = 'number';
+	$("#editartelefono_2").get(0).type = 'number';
 
 	
 	$(".icono_fax").addClass("fa fa-fax");
 	$(".input_fax").attr("placeholder", texto+" FAX");
+	$(".input_fax").get(0).type = 'number';
+	$("#editarfax").get(0).type = 'number';
 
 	
 	$(".icono_contacto").addClass("fa fa-mobile");
@@ -214,6 +235,8 @@ $(document).ready(function(){
 	
 	$(".icono_limite_credito").addClass("fa  fa-times-circle-o");
 	$(".input_limite_credito").attr("placeholder", texto+" Límite Crédito");
+	$(".input_limite_credito").get(0).type = 'number';
+	$("#editarlimite_credito").get(0).type = 'number';
 
 	
 	$(".icono_plazo").addClass("fa  fa-times-circle-o");
@@ -388,7 +411,22 @@ $(".tablas").on("click", ".btnEditarclientes", function(){
 		success: function(respuesta){
 			
 			$("#editarid").val(respuesta["clienteid"]);
-			$("#editarfecha_apertura").val(respuesta["fecha_apertura"]);
+
+			var dateNEW = respuesta["fecha_apertura"];
+			var date = new Date(dateNEW);
+
+			// Get year, month, and day part from the date
+			var year = date.toLocaleString("default", { year: "numeric" });
+			var month = date.toLocaleString("default", { month: "2-digit" });
+			var day = date.toLocaleString("default", { day: "2-digit" });
+
+			// Generate yyyy-mm-dd date string
+			var formattedDate = day + "-" + month + "-" + year;
+
+			$(".editarfecha_apertura2").val(respuesta["fecha_apertura"]);
+			$("#editarfecha_apertura").val(formattedDate);
+
+
 			$("#editarcodigo").val(respuesta["clientecodigo"]);
 			$("#editarnombre").val(respuesta["clientenombre"]);
 			$("#editarnit").val(respuesta["nit"]);
