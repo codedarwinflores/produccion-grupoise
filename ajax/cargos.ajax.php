@@ -1,7 +1,7 @@
 <?php
 
-require_once "../controladores/Cargos.controlador.php";
-require_once "../modelos/Cargos.modelo.php";
+require_once "../controladores/cargos.controlador.php";
+require_once "../modelos/cargos.modelo.php";
 
 class AjaxCargos{
 
