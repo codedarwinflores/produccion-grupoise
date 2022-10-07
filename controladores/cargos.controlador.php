@@ -1,6 +1,6 @@
 <?php
 /* cambiar _cargos por el nombre de la table correspondiente */
-$Nombremodulo_mensaje_cargos="Cargos";
+$Nombremodulo_mensaje_cargos="Cargo";
 $nombremodelo_cargos="cargos";
 $namecolumnas_cargos="";
 $namecampos_cargos="";

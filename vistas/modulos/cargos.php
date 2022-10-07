@@ -12,7 +12,7 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
 
 }
 
-$Nombre_del_Modulo="Cargos";
+$Nombre_del_Modulo="Cargo";
 
 /* CAPTURAR NOMBRE COLUMNAS*/
 
