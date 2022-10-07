@@ -45,7 +45,7 @@ function getContent() {
 
       <div class="box-body">
         
-      <input type="text" value="" class="calendario" data-lang="en" data-years="2015-2035" data-format="YYYY-MM-DD" style="display: none;">
+      <input type="text" value="" class="calendario" data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY" style="display: none;">
 
 
       <table class="table table-bordered table-striped dt-responsive tablas" width="100%">
@@ -96,9 +96,12 @@ function getContent() {
  
         foreach ($bancos as $key => $value){
           
+          $originalDate = $value["fecha_apertura"];
+          $newDate = date("d-m-Y", strtotime($originalDate));
+
            echo ' <tr>
                    <td>'.($key+1).'</td>
-                   <td>'.$value["fecha_apertura"].'</td>
+                   <td>'.$newDate.'</td>
                    <td>'.$value["clientecodigo"].'</td>
                    <td>'.$value["clientenombre"].'</td>
                    <td>'.$value["nit"].'</td>
@@ -192,6 +195,10 @@ MODAL AGREGAR
             <input type="text" name="nuevoid_departamento" id="campo_departamento" class="id_departamento" style="display: none;">
             <input type="text" name="nuevoid_municipio" id="campo_municipio" class="id_municipio" style="display: none;">
 
+            
+            <input type="text" name="nuevofecha_apertura" id="fecha_apertura" class="fecha_apertura" style="display: none;">
+
+            
 
           <?php 
              $data = getContent();
@@ -205,7 +212,7 @@ MODAL AGREGAR
               
                 <span class="input-group-addon"><i class="icono_<?php echo $row['Field'];?>"></i></span> 
 
-                <input type="text" class="form-control input-lg  input_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value="" required autocomplete="off">
+                <input type="text" class="form-control input-lg  input_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value=""  autocomplete="off">
 
               </div>
 
@@ -359,6 +366,10 @@ MODAL EDITAR
             <input type="text" name="editarid_pais" id="idpais" class="id_pais" style="display: none;">
             <input type="text" name="editarid_departamento" id="iddepartamento" class="id_departamento" style="display: none;">
             <input type="text" name="editarid_municipio" id="idmunicipio" class="id_municipio" style="display: none;">
+
+            
+            <input type="text" name="editarfecha_apertura" id="fecha_apertura" class="editarfecha_apertura2" style="display: none;">
+
 
 
           <?php 

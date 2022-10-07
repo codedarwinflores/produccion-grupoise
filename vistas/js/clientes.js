@@ -10,6 +10,13 @@ $(document).ready(function(){
 	$(".icono_fecha_apertura").addClass("fa fa-calendar");
 	$(".input_fecha_apertura").addClass("calendario");
 	$(".input_fecha_apertura").attr("placeholder", texto+" Fecha Apertura");
+	$(".input_fecha_apertura").attr("name", "");
+
+	
+
+	
+
+
 
 	
 	$(".icono_codigo").addClass("fa  fa-qrcode");
@@ -37,7 +44,7 @@ $(document).ready(function(){
 
 	
 	$(".icono_contribuyente").addClass("fa fa-id-card");
-	$(".input_contribuyente").attr("placeholder", texto+" Contribuyente");
+	$(".input_contribuyente").attr("placeholder","¿Es contribuyente?");
 
 	$(".input_contribuyente").keydown(function(e){
         e.preventDefault();
@@ -388,7 +395,22 @@ $(".tablas").on("click", ".btnEditarclientes", function(){
 		success: function(respuesta){
 			
 			$("#editarid").val(respuesta["clienteid"]);
-			$("#editarfecha_apertura").val(respuesta["fecha_apertura"]);
+
+			var dateNEW = respuesta["fecha_apertura"];
+			var date = new Date(dateNEW);
+
+			// Get year, month, and day part from the date
+			var year = date.toLocaleString("default", { year: "numeric" });
+			var month = date.toLocaleString("default", { month: "2-digit" });
+			var day = date.toLocaleString("default", { day: "2-digit" });
+
+			// Generate yyyy-mm-dd date string
+			var formattedDate = day + "-" + month + "-" + year;
+
+			$(".editarfecha_apertura2").val(respuesta["fecha_apertura"]);
+			$("#editarfecha_apertura").val(formattedDate);
+
+
 			$("#editarcodigo").val(respuesta["clientecodigo"]);
 			$("#editarnombre").val(respuesta["clientenombre"]);
 			$("#editarnit").val(respuesta["nit"]);
