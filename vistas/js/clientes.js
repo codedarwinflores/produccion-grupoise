@@ -108,6 +108,9 @@ $(document).ready(function(){
 	
 	$(".icono_correo_electronico").addClass("fa fa-envelope");
 	$(".input_correo_electronico").attr("placeholder", texto+" Email");
+	$(".input_correo_electronico").get(0).type = 'email';
+	$("#editarcorreo_electronico").get(0).type = 'email';
+
 
 	
 	$(".icono_direccion").addClass("fa  fa-map-marker");
