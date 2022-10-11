@@ -104,6 +104,24 @@
 							<span>Clientes</span>
 						</a>
 					</li>
+					<li>
+						<a href="seminarios">
+							<i class="fa fa-trophy"></i>
+							<span>Seminarios</span>
+						</a>
+					</li>
+					<li>
+						<a href="planillas">
+							<i class="fa fa-file-powerpoint-o"></i>
+							<span>Planillas</span>
+						</a>
+					</li>
+					<li>
+						<a href="sim">
+							<i class="fa fa-print"></i>
+							<span>Tarjeta SIM</span>
+						</a>
+					</li>
 				</ul>
 			</li>';
 

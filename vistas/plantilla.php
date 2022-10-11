@@ -163,7 +163,10 @@ CUERPO DOCUMENTO
          $_GET["ruta"] == "cargos" ||
          $_GET["ruta"] == "periodos" ||
          $_GET["ruta"] == "isr" ||
-         $_GET["ruta"] == "clientes" ||        
+         $_GET["ruta"] == "clientes" ||
+         $_GET["ruta"] == "seminarios" ||
+         $_GET["ruta"] == "planillas" ||        
+         $_GET["ruta"] == "sim" ||        
          $_GET["ruta"] == "salir"){
 
         include "modulos/".$_GET["ruta"].".php";
@@ -215,6 +218,11 @@ CUERPO DOCUMENTO
 <script src="vistas/calendario/js/moment-with-locales.min.js"></script>
 
 <script src="vistas/calendario/js/ion.calendar.js"></script>
+
+<script src="vistas/js/seminarios.js"></script>
+<script src="vistas/js/plantillas.js"></script>
+<script src="vistas/js/sim.js"></script>
+
 
 <script>
 $(function(){

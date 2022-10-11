@@ -69,6 +69,20 @@ require_once "controladores/clientes.controlador.php";
 require_once "modelos/clientes.modelo.php";
 
 
+/* **SEMINARIOS*** */
+require_once "controladores/seminarios.controlador.php";
+require_once "modelos/seminarios.modelo.php";
+
+
+/* **PLANTILLAS*** */
+require_once "controladores/plantillas.controlador.php";
+require_once "modelos/plantillas.modelo.php";
+
+
+/* **SIM*** */
+require_once "controladores/sim.controlador.php";
+require_once "modelos/sim.modelo.php";
+
 
 
 $plantilla = new ControladorPlantilla();
