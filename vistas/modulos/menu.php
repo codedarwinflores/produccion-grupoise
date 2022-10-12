@@ -122,6 +122,81 @@
 							<span>Tarjeta SIM</span>
 						</a>
 					</li>
+					<li>
+						<a href="familia">
+							<i class="fa fa-users"></i>
+							<span>Familia</span>
+						</a>
+					</li>
+					<li>
+						<a href="tipoarmas">
+							<i class="fa fa-sitemap"></i>
+							<span>Tipo de Armas</span>
+						</a>
+					</li>
+					<li>
+						<a href="armas">
+							<i class="fa fa-binoculars"></i>
+							<span>Armas</span>
+						</a>
+					</li>
+					<li>
+						<a href="tipovehiculo">
+							<i class="fa fa-sitemap"></i>
+							<span>Tipo Vehiculo</span>
+						</a>
+					</li>
+					<li>
+						<a href="tipobicicleta">
+							<i class="fa fa-sitemap"></i>
+							<span>Tipo Bicicleta</span>
+						</a>
+					</li>
+					<li>
+						<a href="bicicleta">
+							<i class="fa fa-bicycle"></i>
+							<span>Bicicleta</span>
+						</a>
+					</li>
+					<li>
+						<a href="tiporadio">
+							<i class="fa fa-sitemap"></i>
+							<span>Tipo Radio</span>
+						</a>
+					</li>
+					<li>
+						<a href="radio">
+							<i class="fa fa-tty"></i>
+							<span>Radio</span>
+						</a>
+					</li>
+					<li>
+						<a href="equipos">
+							<i class="fa fa-sitemap"></i>
+							<span>Otros Equipos</span>
+						</a>
+					</li>
+					<li>
+						<a href="transaccionesequipo">
+							<i class="fa fa-retweet"></i>
+							<span>Transacciones Equipo</span>
+						</a>
+					</li>
+					<li>
+						<a href="uniforme">
+							<i class="fa fa-street-view"></i>
+							<span>Uniforme</span>
+						</a>
+					</li>
+					<li>
+						<a href="transaccionespersonal">
+							<i class="fa fa-retweet"></i>
+							<span>Transacciones Personal</span>
+						</a>
+					</li>
+
+
+					
 				</ul>
 			</li>';
 

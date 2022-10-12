@@ -84,6 +84,63 @@ require_once "controladores/sim.controlador.php";
 require_once "modelos/sim.modelo.php";
 
 
+/* **EQUIPOS*** */
+require_once "controladores/equipos.controlador.php";
+require_once "modelos/equipos.modelo.php";
+
+/* **FAMILIA*** */
+require_once "controladores/familia.controlador.php";
+require_once "modelos/familia.modelo.php";
+
+
+/* **TIPO DE ARMA*** */
+require_once "controladores/tipoarmas.controlador.php";
+require_once "modelos/tipoarmas.modelo.php";
+
+
+/* **ARMA*** */
+require_once "controladores/armas.controlador.php";
+require_once "modelos/armas.modelo.php";
+
+/* **TIPO VEHICULO*** */
+require_once "controladores/tipovehiculo.controlador.php";
+require_once "modelos/tipovehiculo.modelo.php";
+
+
+/* **TIPO BICICLETA*** */
+require_once "controladores/tipobicicleta.controlador.php";
+require_once "modelos/tipobicicleta.modelo.php";
+
+
+
+/* ** BICICLETA*** */
+require_once "controladores/bicicleta.controlador.php";
+require_once "modelos/bicicleta.modelo.php";
+
+/* ** TIPO RADIO*** */
+require_once "controladores/tiporadio.controlador.php";
+require_once "modelos/tiporadio.modelo.php";
+
+
+/* **  RADIO*** */
+require_once "controladores/radio.controlador.php";
+require_once "modelos/radio.modelo.php";
+
+
+
+/* **  transaccionesequipo *** */
+require_once "controladores/transaccionesequipo.controlador.php";
+require_once "modelos/transaccionesequipo.modelo.php";
+
+
+/* **  uniforme *** */
+require_once "controladores/uniforme.controlador.php";
+require_once "modelos/uniforme.modelo.php";
+
+/* **  transaccionespersonal *** */
+require_once "controladores/transaccionespersonal.controlador.php";
+require_once "modelos/transaccionespersonal.modelo.php";
+
 
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();

@@ -432,10 +432,55 @@
                     var newDate = dateNEW.split("-").reverse().join("-");
                     $(".fecha_apertura").val(newDate);
                     $(".editarfecha_apertura2").val(newDate);
-          
+                    
+
+                    /* armas */
+                    var fechaingreso=$input.attr('fecha');
+                    formatofecha_ingreso(fechaingreso);
+
+                    
+                    formatofecha_editar(fechaingreso);
+
+                    
+
                     selectedDate = date;
                     closePopups();
                 };
+
+                function formatofecha_ingreso(x){
+
+
+                    if(x=="fechaingreso"){
+
+                    var dateNEW = $('.'+x).val();
+                    var newDate = dateNEW.split("-").reverse().join("-");
+                    $(".fecha_ingreso").val(newDate);
+
+                    }
+                    else{
+                        
+                    var dateNEW = $('.'+x).val();
+                    var newDate = dateNEW.split("-").reverse().join("-");
+                    $(".fecha_vencimiento").val(newDate);
+                    }
+                }
+
+                function formatofecha_editar(x){
+
+
+                    if(x=="fechaingreso"){
+
+                    var dateNEW = $('#editarfecha_ingreso').val();
+                    var newDate = dateNEW.split("-").reverse().join("-");
+                    $(".editar_fecha_ingreso").val(newDate);
+                    }
+                    else{
+                        
+                    var dateNEW = $('#editarfecha_vencimiento').val();
+                    var newDate = dateNEW.split("-").reverse().join("-");
+                    $(".editar_fecha_vencimiento").val(newDate);
+                    }
+                }
 
                 var preparePopup = function(){
                     html = '<div class="ic__datepicker" id="ic__datepicker-' + self.pluginCount + '"></div>';

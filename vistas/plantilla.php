@@ -167,6 +167,18 @@ CUERPO DOCUMENTO
          $_GET["ruta"] == "seminarios" ||
          $_GET["ruta"] == "planillas" ||        
          $_GET["ruta"] == "sim" ||        
+         $_GET["ruta"] == "equipos" ||        
+         $_GET["ruta"] == "familia" ||        
+         $_GET["ruta"] == "tipoarmas" ||        
+         $_GET["ruta"] == "armas" ||        
+         $_GET["ruta"] == "tipovehiculo" ||        
+         $_GET["ruta"] == "tipobicicleta" ||        
+         $_GET["ruta"] == "bicicleta" ||        
+         $_GET["ruta"] == "tiporadio" ||        
+         $_GET["ruta"] == "radio" ||        
+         $_GET["ruta"] == "transaccionesequipo" ||        
+         $_GET["ruta"] == "uniforme" ||        
+         $_GET["ruta"] == "transaccionespersonal" ||        
          $_GET["ruta"] == "salir"){
 
         include "modulos/".$_GET["ruta"].".php";
@@ -222,6 +234,18 @@ CUERPO DOCUMENTO
 <script src="vistas/js/seminarios.js"></script>
 <script src="vistas/js/plantillas.js"></script>
 <script src="vistas/js/sim.js"></script>
+<script src="vistas/js/equipos.js"></script>
+<script src="vistas/js/familia.js"></script>
+<script src="vistas/js/tipoarmas.js"></script>
+<script src="vistas/js/armas.js"></script>
+<script src="vistas/js/tipovehiculo.js"></script>
+<script src="vistas/js/tipobicicleta.js"></script>
+<script src="vistas/js/bicicleta.js"></script>
+<script src="vistas/js/tiporadio.js"></script>
+<script src="vistas/js/radio.js"></script>
+<script src="vistas/js/transaccionesequipo.js"></script>
+<script src="vistas/js/uniforme.js"></script>
+<script src="vistas/js/transaccionespersonal.js"></script>
 
 
 <script>
