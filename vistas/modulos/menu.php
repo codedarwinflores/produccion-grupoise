@@ -194,6 +194,12 @@
 							<span>Transacciones Personal</span>
 						</a>
 					</li>
+					<li>
+						<a href="ubicacionc">
+							<i class="fa fa-retweet"></i>
+							<span>Ubicacion Cliente</span>
+						</a>
+					</li>
 
 
 					

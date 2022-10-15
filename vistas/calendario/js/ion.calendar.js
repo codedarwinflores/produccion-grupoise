@@ -436,9 +436,8 @@
 
                     /* armas */
                     var fechaingreso=$input.attr('fecha');
-                    formatofecha_ingreso(fechaingreso);
 
-                    
+                    formatofecha_ingreso(fechaingreso);
                     formatofecha_editar(fechaingreso);
 
                     
@@ -449,6 +448,7 @@
 
                 function formatofecha_ingreso(x){
 
+                    closePopups();
 
                     if(x=="fechaingreso"){
 
@@ -457,11 +457,30 @@
                     $(".fecha_ingreso").val(newDate);
 
                     }
-                    else{
+                    else if(x=="fechavence"){
                         
                     var dateNEW = $('.'+x).val();
                     var newDate = dateNEW.split("-").reverse().join("-");
                     $(".fecha_vencimiento").val(newDate);
+                    }
+
+                    else if(x=="fechainicio"){
+
+                        var dateNEW = $('.ubicacioninput_fecha_inicio').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        
+
+                        $(".ubicacionfechainicio").val(newDate);
+                    }
+                    else if(x=="fechafin"){
+                        var dateNEW = $('.ubicacioninput_fecha_fin').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".ubicacionfechafin").val(newDate);
+                    }
+                    else if(x=="fechaultimo"){
+                        var dateNEW = $('.ubicacioninput_fecha_ultimo_inventario').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".ubicacionfechaultimo").val(newDate);
                     }
                 }
 
@@ -474,12 +493,33 @@
                     var newDate = dateNEW.split("-").reverse().join("-");
                     $(".editar_fecha_ingreso").val(newDate);
                     }
-                    else{
+                    else if(x=="fechavence"){
                         
                     var dateNEW = $('#editarfecha_vencimiento').val();
                     var newDate = dateNEW.split("-").reverse().join("-");
                     $(".editar_fecha_vencimiento").val(newDate);
                     }
+                    
+                    else if(x=="fechainicio"){
+
+                        var dateNEW = $('#editarfecha_inicio').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        
+
+                        $(".ubicacionfechainicio").val(newDate);
+                    }
+                    else if(x=="fechafin"){
+                        var dateNEW = $('#editarfecha_fin').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".ubicacionfechafin").val(newDate);
+                    }
+                    else if(x=="fechaultimo"){
+                        var dateNEW = $('#editarfecha_ultimo_inventario').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".ubicacionfechaultimo").val(newDate);
+                    }
+
+                    
                 }
 
                 var preparePopup = function(){

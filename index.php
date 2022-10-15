@@ -141,6 +141,9 @@ require_once "modelos/uniforme.modelo.php";
 require_once "controladores/transaccionespersonal.controlador.php";
 require_once "modelos/transaccionespersonal.modelo.php";
 
+/* **  ubicacionc *** */
+require_once "controladores/ubicacionc.controlador.php";
+require_once "modelos/ubicacionc.modelo.php";
 
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();
