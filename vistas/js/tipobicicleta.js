@@ -3,11 +3,11 @@ $(document).ready(function(){
 
 	var  texto= "Ingresar";
 
-	$(".input_id").removeAttr("required");
+	$(".binput_id").removeAttr("required");
 
-	
+	/* 
 	$("#beditarcodigo").get(0).type = 'number';
-	$(".binput_codigo").get(0).type = 'number';
+	$(".binput_codigo").get(0).type = 'number'; */
 
 	$(".binput_codigo").attr("placeholder", texto+" Código");
 	$(".binput_nombre").attr("placeholder", texto+" Nombre");
@@ -42,7 +42,7 @@ $(".tablas").on("click", ".btnEditartipobicicleta", function(){
 		success: function(respuesta){
 			
 
-			$("#editarid").val(respuesta["id"]);
+			$("#beditarid").val(respuesta["id"]);
 			$("#beditarcodigo").val(respuesta["codigo"]);
 			$("#beditarnombre").val(respuesta["nombre"]);
 

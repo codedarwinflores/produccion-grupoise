@@ -6,18 +6,18 @@ $(document).ready(function(){
 	$(".input_id").removeAttr("required");
 
 	
-	$(".grupo_id_familia").empty();
-	$('.grupo_id_familia').append($('.s_familia_b'));
-	$(".grupo_id_tipo_bicicleta").empty();
-	$('.grupo_id_tipo_bicicleta').append($('.s_tipo'));
+	$(".bicicleta_grupo_id_familia").empty();
+	$('.bicicleta_grupo_id_familia').append($('.s_familia_b'));
+	$(".bicicleta_grupo_id_tipo_bicicleta").empty();
+	$('.bicicleta_grupo_id_tipo_bicicleta').append($('.s_tipo'));
 
 	/* EDITAR */
 
 	
-	$(".grupoeditar_id_familia").empty();
-	$('.grupoeditar_id_familia').append($('.s_familia_b_editar'));
-	$(".grupoeditar_id_tipo_bicicleta").empty();
-	$('.grupoeditar_id_tipo_bicicleta').append($('.s_tipo_editar'));
+	$(".bicicleta_grupoeditar_id_familia").empty();
+	$('.bicicleta_grupoeditar_id_familia').append($('.s_familia_b_editar'));
+	$(".bicicleta_grupoeditar_id_tipo_bicicleta").empty();
+	$('.bicicleta_grupoeditar_id_tipo_bicicleta').append($('.s_tipo_editar'));
 	
 	$(".icono_operador").addClass("fa fa-server");
 	$(".input_operador").attr("placeholder", texto+" Operador");

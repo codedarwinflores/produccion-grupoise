@@ -154,7 +154,7 @@ MODAL AGREGAR
      
               /*  $datos = array("".$row['Field']."" => $_POST["nuevo".$row['Field'].""]); */
            ?>
-            <div class="form-group grupo_<?php echo $row['Field'];?> <?php echo $row['Field'];?>">
+            <div class="form-group bicicleta_grupo_<?php echo $row['Field'];?> <?php echo $row['Field'];?>">
               
               <div class="input-group">
               
@@ -174,7 +174,7 @@ MODAL AGREGAR
 
 
              <div class="input-group s_familia_b">
-                <span class="input-group-addon"><i class="icono_id_empresa"></i></span>
+                <span class="input-group-addon"><i class="fa fa-users"></i></span>
                 <select name="nuevoid_familia" id="" class="form-control input-lg" required>
                   <option value="">Seleccione Familia</option>
                 <?php
@@ -190,7 +190,7 @@ MODAL AGREGAR
 
           
             <div class="input-group s_tipo">
-                <span class="input-group-addon"><i class="icono_id_empresa"></i></span>
+                <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
                 <select name="nuevoid_tipo_bicicleta" id="" class="form-control input-lg" required>
                   <option value="">Seleccione Tipo Bicicleta</option>
                 <?php
@@ -281,7 +281,7 @@ MODAL EDITAR
              $data = getContent();
              foreach($data as $row) {
            ?>
-            <div class="form-group grupoeditar_<?php echo $row['Field'];?> <?php echo $row['Field'];?>">
+            <div class="form-group bicicleta_grupoeditar_<?php echo $row['Field'];?> <?php echo $row['Field'];?>">
               
               <div class="input-group">
               
@@ -299,7 +299,7 @@ MODAL EDITAR
              
 
              <div class="input-group s_familia_b_editar">
-                <span class="input-group-addon"><i class="icono_id_empresa"></i></span>
+                <span class="input-group-addon"><i class="fa fa-users"></i></span>
                 <select name="editarid_familia" id="editarid_familia" class="form-control input-lg" required>
                   <option value="">Seleccione Familia</option>
                 <?php
@@ -315,7 +315,7 @@ MODAL EDITAR
 
           
             <div class="input-group s_tipo_editar">
-                <span class="input-group-addon"><i class="icono_id_empresa"></i></span>
+                <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
                 <select name="editarid_tipo_bicicleta" id="editarid_tipo_bicicleta" class="form-control input-lg" required>
                   <option value="">Seleccione Tipo Bicicleta</option>
                 <?php

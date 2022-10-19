@@ -3,7 +3,9 @@ $(document).ready(function(){
 
 	var  texto= "Ingresar";
 
-	$(".input_id").removeAttr("required");;
+	$(".input_id").removeAttr("required");
+
+	$('.input_id_familia').attr("onkeydown","return false");
 
 	
 	$(".icono_id_familia").addClass("fa fa-server");
@@ -12,15 +14,17 @@ $(document).ready(function(){
 
 
 	$('.input_id_familia').click(function(){
+		
 		$(".s_familia").css("display", "block");
 	});
+
 	$('.select_familia').click(function(){
 		var id = $(this).attr("idfamilia");
 		var nombrefamilia = $(this).attr("nombrefamilia");
 		$(".input_id_familia_1").val(id);
 		$(".input_id_familia").val(nombrefamilia);
 		
-		$(".select_familia").css("display", "none");
+		$(".s_familia").css("display", "none");
 		
 	});
 

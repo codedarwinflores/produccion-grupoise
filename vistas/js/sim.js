@@ -3,7 +3,14 @@ $(document).ready(function(){
 
 	var  texto= "Ingresar";
 
-	$(".input_id").removeAttr("required");;
+	$(".input_id").removeAttr("required");
+
+	$(".gruposim_operador").empty();
+	$('.gruposim_operador').append($('#nuevooperador'));
+
+	$(".egruposim_operador").empty();
+	$('.egruposim_operador').append($('#editaroperadordiv'));
+
 
 	
 	$(".icono_operador").addClass("fa fa-server");

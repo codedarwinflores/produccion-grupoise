@@ -12,9 +12,9 @@ $(document).ready(function(){
 	
 	$(".icono_operador").addClass("fa fa-server");
 	$(".personalinput_nombre").attr("placeholder", texto+" Nombre");
-	$(".personalinput_nombre").get(0).type = 'number';
+/* 	$(".personalinput_nombre").get(0).type = 'number';
 	$(".epersonalinput_nombre").get(0).type = 'number';
-
+ */
 
 
 

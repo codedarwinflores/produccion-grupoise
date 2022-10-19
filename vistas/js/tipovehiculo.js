@@ -3,12 +3,15 @@ $(document).ready(function(){
 
 	var  texto= "Ingresar";
 
-	$(".input_id").removeAttr("required");;
+	$(".tipovehiculo_input_id").removeAttr("required");;
 
 	
 	$(".icono_operador").addClass("fa fa-server");
-	$("#editarnombre_tipo").get(0).type = 'number';
-	$(".input_nombre_tipo").get(0).type = 'number';
+	/* $("#editarnombre_tipo").get(0).type = 'number';
+	$(".tipovehiculo_input_nombre_tipo").get(0).type = 'number'; */
+	$(".tipovehiculo_input_codigo").attr("placeholder", texto+' Código');
+	$(".tipovehiculo_input_nombre_tipo").attr("placeholder", texto+' Tipo de Vehiculo');
+
 
 
 

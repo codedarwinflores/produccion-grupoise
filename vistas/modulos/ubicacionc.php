@@ -58,7 +58,8 @@ function getContent() {
             <th>Código Cliente</th>
             <th>ID Coordinador de Zona</th>
             <th>Nombre Ubicación</th>
-            <th>Latitude</th>
+            <th>Latitud</th>
+            <th>Longitud</th>
             <th>Dirección</th>
             <th>Persona Contacto</th>
             <th>Teléfono Contacto</th>
@@ -202,7 +203,7 @@ MODAL AGREGAR
               
                 <span class="input-group-addon"><i class="icono_<?php echo $row['Field'];?>"></i></span> 
 
-                <input type="text" class="form-control input-lg ubicacioninput_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value="" autocomplete="off" required>
+                <input type="text" class="form-control input-lg nuevoubicacioninput_<?php echo $row['Field'];?>  ubicacioninput_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value="" autocomplete="off" required>
 
               </div>
 
@@ -213,9 +214,9 @@ MODAL AGREGAR
           ?>
              
 
-             <input type="text" name="nuevofecha_inicio" class="ubicacionfechainicio" placeholder="fecha_inicio" style="display: none;">
-             <input type="text" name="nuevofecha_fin" class="ubicacionfechafin" placeholder="fecha_fin" style="display: none;">
-             <input type="text" name="nuevofecha_ultimo_inventario" class="ubicacionfechaultimo" placeholder="fecha_ultimo" style="display: none;">
+             <input type="text" name="nuevofecha_inicio" class="nuevoubicacionfechainicio" placeholder="fecha_inicio" style="display: none;">
+             <input type="text" name="nuevofecha_fin" class="nuevoubicacionfechafin" placeholder="fecha_fin" style="display: none;">
+             <input type="text" name="nuevofecha_ultimo_inventario" class="nuevoubicacionfechaultimo" placeholder="fecha_ultimo" style="display: none;">
 
              <div class="input-group ubicacionc_s_cliente">
                 <span class="input-group-addon"><i class="fa fa-users"></i></span>

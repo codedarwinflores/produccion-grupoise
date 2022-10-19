@@ -5,6 +5,8 @@ $(document).ready(function(){
 
 	$(".ubicacioninput_id").removeAttr("required");
 
+	$(".eubicacioncgrupo_id_cliente").css("visibility","hidden");
+
 	/* if($(".ubicacioninput_email_contacto").val().indexOf('@', 0) == -1 || $(".ubicacioninput_email_contacto").val().indexOf('.', 0) == -1) {
 		alert('El correo electrónico introducido no es correcto.');
 		return false;
@@ -21,10 +23,10 @@ $(document).ready(function(){
    $(".ubicacioninput_nombre_ubicacion").attr("placeholder", texto+" Nombre Ubicacion");
 
    $(".icono_latitude").addClass("fa fa-map");
-   $(".ubicacioninput_latitude").attr("placeholder", texto+" Latitude");
+   $(".ubicacioninput_latitude").attr("placeholder", texto+" Latitud ");
 
    $(".icono_longitude").addClass("fa fa-map-o");
-   $(".ubicacioninput_longitude").attr("placeholder", texto+" Longitude");
+   $(".ubicacioninput_longitude").attr("placeholder", texto+" Longitud");
 
    $(".icono_direccion").addClass("fa fa-map-marker");
    $(".ubicacioninput_direccion").attr("placeholder", texto+" Dirección");
@@ -121,6 +123,19 @@ $(document).ready(function(){
 
 
 	
+	
+	/* QUITAR NAME A INPUT */
+	$(".nuevoubicacioninput_fecha_inicio").attr("name","");
+	$(".nuevoubicacioninput_fecha_fin").attr("name", "");
+	$(".nuevoubicacioninput_fecha_ultimo_inventario").attr("name", "");
+
+	
+	/* AÑADIR CALENDARIO INPUT */
+	$(".nuevoubicacioninput_fecha_inicio").addClass("calendario");
+	$(".nuevoubicacioninput_fecha_fin").addClass("calendario");
+	$(".nuevoubicacioninput_fecha_ultimo_inventario").addClass("calendario");
+
+	
 	/* QUITAR NAME A INPUT */
 	$(".ubicacioninput_fecha_inicio").attr("name","");
 	$(".ubicacioninput_fecha_fin").attr("name", "");
@@ -134,9 +149,15 @@ $(document).ready(function(){
 	
 	
 	/* AÑADIR ATRIBUTO FECHA A INPUT */
-	$(".ubicacioninput_fecha_inicio").attr("fecha","fechainicio");
-	$(".ubicacioninput_fecha_fin").attr("fecha", "fechafin");
-	$(".ubicacioninput_fecha_ultimo_inventario").attr("fecha", "fechaultimo");
+	$(".nuevoubicacioninput_fecha_inicio").attr("fecha","nuevofechainicio");
+	$(".nuevoubicacioninput_fecha_fin").attr("fecha", "nuevofechafin");
+	$(".nuevoubicacioninput_fecha_ultimo_inventario").attr("fecha", "nuevofechaultimo");
+
+	
+	/* AÑADIR ATRIBUTO FECHA A INPUT EDITAR */
+	$("#editarfecha_inicio").attr("fecha","fechainicio");
+	$("#editarfecha_fin").attr("fecha", "fechafin");
+	$("#editarfecha_ultimo_inventario").attr("fecha", "fechaultimo");
 
 	
 	$(document).on('change', '.ubicacioncid_cliente', function(event) {

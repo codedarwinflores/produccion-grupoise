@@ -3,11 +3,12 @@ $(document).ready(function(){
 
 	var  texto= "Ingresar";
 
-	$(".input_id").removeAttr("required");;
+	$(".tipoarma_input_id").removeAttr("required");;
 
 	
 	$(".icono_nombre_tipo").addClass("fa fa-server");
-	$(".input_nombre_tipo").attr("placeholder", texto+" Nombre del Tipo");
+	$(".tipoarma_input_nombre_tipo").attr("placeholder", texto+"  Tipo de Arma");
+	$(".tipoarma_input_codigo").attr("placeholder", texto+"  Código");
 
 
 
@@ -38,9 +39,9 @@ $(".tablas").on("click", ".btnEditartipoarmas", function(){
 		dataType: "json",
 		success: function(respuesta){
 			
-			$("#editarid").val(respuesta["id"]);
-			$("#editarcodigo").val(respuesta["codigo"]);
-			$("#editarnombre_tipo").val(respuesta["nombre_tipo"]);
+			$("#tipoarma_editarid").val(respuesta["id"]);
+			$("#tipoarma_editarcodigo").val(respuesta["codigo"]);
+			$("#tipoarma_editarnombre_tipo").val(respuesta["nombre_tipo"]);
 
 
 

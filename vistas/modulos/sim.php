@@ -154,7 +154,7 @@ MODAL AGREGAR
      
               /*  $datos = array("".$row['Field']."" => $_POST["nuevo".$row['Field'].""]); */
            ?>
-            <div class="form-group <?php echo $row['Field'];?>">
+            <div class="form-group <?php echo $row['Field'];?>  gruposim_<?php echo $row['Field'];?>">
               
               <div class="input-group">
               
@@ -171,7 +171,16 @@ MODAL AGREGAR
           ?>
              
 
-
+             <div class="input-group" id="nuevooperador">
+              <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+              <select name="nuevooperador" id="" class="form-control input-lg" required>
+                <option value="">Seleccione Operador</option>
+                <option value="Tigo">Tigo</option>
+                <option value="Digicel">Digicel</option>
+                <option value="Claro">Claro</option>
+                <option value="Movistar">Movistar</option>
+              </select>
+             </div>
 
           
 
@@ -251,7 +260,7 @@ MODAL EDITAR
              $data = getContent();
              foreach($data as $row) {
            ?>
-            <div class="form-group <?php echo $row['Field'];?>">
+            <div class="form-group <?php echo $row['Field'];?> egruposim_<?php echo $row['Field'];?>">
               
               <div class="input-group">
               
@@ -266,7 +275,17 @@ MODAL EDITAR
           <?php
              }
           ?>
-             
+             <div class="input-group" id="editaroperadordiv">
+              <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+              <select name="editaroperador" id="editaroperador" class="form-control input-lg" required>
+                <option value="">Seleccione Operador</option>
+                <option value="Tigo">Tigo</option>
+                <option value="Digicel">Digicel</option>
+                <option value="Claro">Claro</option>
+                <option value="Movistar">Movistar</option>
+              </select>
+             </div>
+
 
 
 

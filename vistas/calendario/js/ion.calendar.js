@@ -464,23 +464,24 @@
                     $(".fecha_vencimiento").val(newDate);
                     }
 
-                    else if(x=="fechainicio"){
+                    else if(x=="nuevofechainicio"){
 
-                        var dateNEW = $('.ubicacioninput_fecha_inicio').val();
+                        var dateNEW = $('.nuevoubicacioninput_fecha_inicio').val();
                         var newDate = dateNEW.split("-").reverse().join("-");
                         
 
-                        $(".ubicacionfechainicio").val(newDate);
+                        $(".nuevoubicacionfechainicio").val(newDate);
                     }
-                    else if(x=="fechafin"){
-                        var dateNEW = $('.ubicacioninput_fecha_fin').val();
+                    else if(x=="nuevofechafin"){
+                        var dateNEW = $('.nuevoubicacioninput_fecha_fin').val();
                         var newDate = dateNEW.split("-").reverse().join("-");
-                        $(".ubicacionfechafin").val(newDate);
+                        $(".nuevoubicacionfechafin").val(newDate);
                     }
-                    else if(x=="fechaultimo"){
-                        var dateNEW = $('.ubicacioninput_fecha_ultimo_inventario').val();
+                    else if(x=="nuevofechaultimo"){
+                        
+                        var dateNEW = $('.nuevoubicacioninput_fecha_ultimo_inventario').val();
                         var newDate = dateNEW.split("-").reverse().join("-");
-                        $(".ubicacionfechaultimo").val(newDate);
+                        $(".nuevoubicacionfechaultimo").val(newDate);
                     }
                 }
 
