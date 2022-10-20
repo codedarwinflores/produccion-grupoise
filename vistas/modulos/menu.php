@@ -147,6 +147,12 @@
 						</a>
 					</li>
 					<li>
+						<a href="vehiculo">
+							<i class="fa fa-car"></i>
+							<span>Vehiculo</span>
+						</a>
+					</li>
+					<li>
 						<a href="tipobicicleta">
 							<i class="fa fa-sitemap"></i>
 							<span>Tipo Bicicleta</span>

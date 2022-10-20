@@ -55,6 +55,7 @@ function getContent() {
             
             <th style="width:10px">#</th>
             <th>ID Cliente</th>
+            <th>Nombre Cliente</th>
             <th>Código Cliente</th>
             <th>ID Coordinador de Zona</th>
             <th>Nombre Ubicación</th>
@@ -99,12 +100,13 @@ function getContent() {
            echo ' <tr>
                    <td>'.($key+1).'</td>
                    <td>'.$value["id_cliente"].'</td>
+                   <td>'.$value["nombrecliente"].'</td>
                    <td>'.$value["codigo_cliente"].'</td>
                    <td>'.$value["id_coordinador_zona"].'</td>
                    <td>'.$value["nombre_ubicacion"].'</td>
                    <td>'.$value["latitude"].'</td>
                    <td>'.$value["longitude"].'</td>
-                   <td>'.$value["direccion"].'</td>
+                   <td>'.$value["direccionubicacionc"].'</td>
                    <td>'.$value["persona_contacto"].'</td>
                    <td>'.$value["telefono_contacto"].'</td>
                    <td>'.$value["email_contacto"].'</td>

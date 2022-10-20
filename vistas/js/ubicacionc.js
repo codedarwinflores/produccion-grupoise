@@ -5,7 +5,12 @@ $(document).ready(function(){
 
 	$(".ubicacioninput_id").removeAttr("required");
 
-	$(".eubicacioncgrupo_id_cliente").css("visibility","hidden");
+	/* $(".eubicacioncgrupo_id_cliente").css("visibility","hidden"); */
+
+	$(".ubicacioninput_codigo_cliente").attr("readonly","readonly");
+	$(".ubicacioninput_fecha_inicio").attr("readonly","readonly");
+	$(".ubicacioninput_fecha_fin").attr("readonly","readonly");
+	$(".ubicacioninput_fecha_ultimo_inventario").attr("readonly","readonly");
 
 	/* if($(".ubicacioninput_email_contacto").val().indexOf('@', 0) == -1 || $(".ubicacioninput_email_contacto").val().indexOf('.', 0) == -1) {
 		alert('El correo electrónico introducido no es correcto.');
@@ -167,6 +172,12 @@ $(document).ready(function(){
 		$(".ubicacioninput_codigo_cliente").val(cliente);
 	})
 
+	$(document).on('change', '#editarid_cliente', function(event) {
+	
+		cliente=$("#editarid_cliente option:selected").attr("codigo");
+		
+		$("#editarcodigo_cliente").val(cliente);
+	})
 	
 	/* LLENAR MUNICIPIO DEPENDE DEL DEPARTAMENTO */
 
@@ -312,7 +323,7 @@ $(".tablas").on("click", ".btnEditarubicacionc", function(){
 			$("#editarnombre_ubicacion").val(respuesta["nombre_ubicacion"]);
 			$("#editarlatitude").val(respuesta["latitude"]);
 			$("#editarlongitude").val(respuesta["longitude"]);
-			$("#editardireccion").val(respuesta["direccion"]);
+			$("#editardireccion").val(respuesta["direccionubicacionc"]);
 			$("#editarpersona_contacto").val(respuesta["persona_contacto"]);
 			$("#editartelefono_contacto").val(respuesta["telefono_contacto"]);
 			$("#editaremail_contacto").val(respuesta["email_contacto"]);
@@ -325,7 +336,7 @@ $(".tablas").on("click", ".btnEditarubicacionc", function(){
 			$("#editarrubro").val(respuesta["rubro"]);
 			$("#editarhoras_permitidas").val(respuesta["horas_permitidas"]);
 			$("#editarid_departamento").val(respuesta["iddepartamento"]);
-			$("#editarid_municipio").val(respuesta["id_municipio"]);
+			$("#editarid_municipio").val(respuesta["idmunicipioubicacionc"]);
 
 			$("#editarobservaciones_generales").val(respuesta["observaciones_generales"]);
 			$("#editarhombres_autorizados").val(respuesta["hombres_autorizados"]);
