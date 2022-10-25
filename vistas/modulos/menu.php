@@ -206,6 +206,19 @@
 							<span>Ubicacion Cliente</span>
 						</a>
 					</li>
+					<li>
+						<a href="portacionarma">
+							<i class="fa fa-retweet"></i>
+							<span>Portación de Arma</span>
+						</a>
+					</li>
+					<li>
+						<a href="jefeoperacion">
+							<i class="fa fa-retweet"></i>
+							<span>Jefe de Operaciones</span>
+						</a>
+					</li>
+
 
 
 					

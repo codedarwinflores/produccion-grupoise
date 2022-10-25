@@ -483,6 +483,13 @@
                         var newDate = dateNEW.split("-").reverse().join("-");
                         $(".nuevoubicacionfechaultimo").val(newDate);
                     }
+
+                    else if(x=="fecharegistro"){
+                        
+                        var dateNEW = $('.input_fecharegistro').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".fecharegistro").val(newDate);
+                    }
                 }
 
                 function formatofecha_editar(x){
@@ -520,6 +527,12 @@
                         $(".ubicacionfechaultimo").val(newDate);
                     }
 
+                    else if(x=="efecharegistro"){
+                        
+                        var dateNEW = $('.einput_efecharegistro').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".efecharegistro").val(newDate);
+                    }
                     
                 }
 

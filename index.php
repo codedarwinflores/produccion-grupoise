@@ -145,8 +145,20 @@ require_once "modelos/transaccionespersonal.modelo.php";
 require_once "controladores/ubicacionc.controlador.php";
 require_once "modelos/ubicacionc.modelo.php";
 
-/* **  ubicacionc *** */
+/* ** vehiculo *** */
 require_once "controladores/vehiculo.controlador.php";
 require_once "modelos/vehiculo.modelo.php";
+
+
+/* **  portacion arma *** */
+require_once "controladores/portacionarma.controlador.php";
+require_once "modelos/portacionarma.modelo.php";
+
+
+/* **  jefe de operacion *** */
+require_once "controladores/jefeoperacion.controlador.php";
+require_once "modelos/jefeoperacion.modelo.php";
+
+
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();
