@@ -16,6 +16,10 @@ $(document).ready(function(){
 	$(".icono_operador").addClass("fa fa-server");
 	$(".input_operador").attr("placeholder", texto+" Operador");
 
+	$(".input_fecharegistro").attr("readonly","readonly");
+	$("#editarfecha_registro2").attr("readonly","readonly");
+
+
 
 	
 

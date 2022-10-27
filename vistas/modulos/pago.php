@@ -317,7 +317,7 @@ MODAL AGREGAR
             <div class="form-group   " bis_skin_checked="1">
               <div class="input-group">
                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                  <input type="text" value="" class="calendario nuevofecha_pedido form-control input-lg" data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_pedido" placeholder="Ingresar Fecha" required>
+                  <input type="text" value="" class="calendario nuevofecha_pedido form-control input-lg" data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_pedido" placeholder="Ingresar Fecha" required readonly>
                   <input type="text" class="oficial_nuevofecha_pedido" name="nuevofecha" style="display: none;">
               </div>
             </div>
@@ -403,7 +403,7 @@ MODAL EDITAR
             <!-- ENTRADA PARA CAMPOS  -->
 
 
-            <input type="text" name="editarid" id="editarid">
+            <input type="text" name="editarid" id="editarid" style="display: none;">
           <input type="text" name="editarid_pedido" id="editarid_pedido"  style="display: none;">
           <input type="text" name="editarsaldo_anterior" id="editarsaldo_anterior" style="display: none;">
           <input type="text" name="editarsaldo_actual" id="editarsaldo_actual" class="esaldo_actual" style="display: none;">
@@ -412,7 +412,7 @@ MODAL EDITAR
             <div class="form-group   " bis_skin_checked="1">
               <div class="input-group">
                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                  <input type="text" value="" class="calendario editarfecha_pedido form-control input-lg" data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_pedido" placeholder="Ingresar Fecha" required id="editarfecha2">
+                  <input type="text" value="" class="calendario editarfecha_pedido form-control input-lg" data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_pedido" placeholder="Ingresar Fecha" required id="editarfecha2" readonly>
                   <input type="text" class="oficial_editarfecha_pedido" name="editarfecha" id="editarfecha" style="display: none;">
               </div>
             </div>

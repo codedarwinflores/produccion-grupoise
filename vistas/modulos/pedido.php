@@ -153,7 +153,7 @@ MODAL AGREGAR
             
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                <input type="text" value="" class="calendario nuevofecha_pedido form-control input-lg" data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_pedido" placeholder="Ingresar Fecha">
+                <input type="text" value="" class="calendario nuevofecha_pedido form-control input-lg" data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_pedido" placeholder="Ingresar Fecha" readonly>
                 <input type="text" class="oficial_nuevofecha_pedido" name="nuevofecha_pedido" style="display: none;">
             </div>
          
@@ -272,7 +272,7 @@ MODAL EDITAR
             
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                <input type="text" value="" class="calendario editarfecha_pedido form-control input-lg" data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_pedido" placeholder="Ingresar Fecha" id="mascarafecha">
+                <input type="text" value="" class="calendario editarfecha_pedido form-control input-lg" data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_pedido" placeholder="Ingresar Fecha" id="mascarafecha" readonly>
                 <input type="text" class="oficial_editarfecha_pedido" name="editarfecha_pedido" style="display: none;" id="editarfecha_pedido">
             </div>
 
