@@ -436,7 +436,7 @@
 
                     /* armas */
                     var fechaingreso=$input.attr('fecha');
-
+            
                     formatofecha_ingreso(fechaingreso);
                     formatofecha_editar(fechaingreso);
 
@@ -490,6 +490,12 @@
                         var newDate = dateNEW.split("-").reverse().join("-");
                         $(".fecharegistro").val(newDate);
                     }
+                    else if(x=="nuevofecha_pedido"){
+                        
+                        var dateNEW = $('.nuevofecha_pedido').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".oficial_nuevofecha_pedido").val(newDate);
+                    }
                 }
 
                 function formatofecha_editar(x){
@@ -532,6 +538,19 @@
                         var dateNEW = $('.einput_efecharegistro').val();
                         var newDate = dateNEW.split("-").reverse().join("-");
                         $(".efecharegistro").val(newDate);
+                    }
+
+                    else if(x=="editarfecha_pedido"){
+                        
+                        var dateNEW = $('.editarfecha_pedido').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".oficial_editarfecha_pedido").val(newDate);
+                    }
+                    else if(x=="editarfecha_pago"){
+                        
+                        var dateNEW = $('.editarfecha_pago').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".oficial_editarfecha_pago").val(newDate);
                     }
                     
                 }

@@ -160,5 +160,15 @@ require_once "controladores/jefeoperacion.controlador.php";
 require_once "modelos/jefeoperacion.modelo.php";
 
 
+/* **  pedidos *** */
+require_once "controladores/pedido.controlador.php";
+require_once "modelos/pedido.modelo.php";
+
+
+/* **  pago *** */
+require_once "controladores/pago.controlador.php";
+require_once "modelos/pago.modelo.php";
+
+
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();
