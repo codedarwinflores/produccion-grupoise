@@ -250,7 +250,22 @@
 				</ul>
 				
 			</li>
+			<li>
+					<a href="empleados">
+
+					<i class="fa fa fa-drivers-license-o"></i>
+					
+					<span>Empleados</span>
+					
+					
+
+					</a>
+				</li>
+			</li>
 			';
+
+
+				
 
 		}
 

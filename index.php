@@ -170,5 +170,14 @@ require_once "controladores/pago.controlador.php";
 require_once "modelos/pago.modelo.php";
 
 
+
+/* **  empleados *** */
+require_once "controladores/empleados.controlador.php";
+require_once "modelos/empleados.modelo.php";
+
+
+
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();
+
+?>

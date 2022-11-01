@@ -178,13 +178,15 @@ CUERPO DOCUMENTO
          $_GET["ruta"] == "radio" ||        
          $_GET["ruta"] == "transaccionesequipo" ||        
          $_GET["ruta"] == "uniforme" ||        
-         $_GET["ruta"] == "transaccionespersonal" ||        
-         $_GET["ruta"] == "ubicacionc" ||        
+         $_GET["ruta"] == "transaccionespersonal" || 
+         $_GET["ruta"] == "ubicacionc" ||
          $_GET["ruta"] == "vehiculo" ||        
          $_GET["ruta"] == "portacionarma" ||        
          $_GET["ruta"] == "jefeoperacion" ||        
          $_GET["ruta"] == "pedido" ||        
          $_GET["ruta"] == "pago" ||        
+         $_GET["ruta"] == "ubicacionc" || 
+         $_GET["ruta"] == "empleados" ||        
          $_GET["ruta"] == "salir"){
 
         include "modulos/".$_GET["ruta"].".php";
@@ -258,6 +260,7 @@ CUERPO DOCUMENTO
 <script src="vistas/js/jefeoperacion.js"></script>
 <script src="vistas/js/pedido.js"></script>
 <script src="vistas/js/pago.js"></script>
+<script src="vistas/js/empleados.js"></script>
 
 
 <script>
