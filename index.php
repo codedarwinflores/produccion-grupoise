@@ -170,5 +170,14 @@ require_once "controladores/pago.controlador.php";
 require_once "modelos/pago.modelo.php";
 
 
+/* **  patrulla *** */
+require_once "controladores/patrulla.controlador.php";
+require_once "modelos/patrulla.modelo.php";
+
+
+/* **  administrarpatrulla *** */
+require_once "controladores/administrarpatrulla.controlador.php";
+require_once "modelos/administrarpatrulla.modelo.php";
+
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();
