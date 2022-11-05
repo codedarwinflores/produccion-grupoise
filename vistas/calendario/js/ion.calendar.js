@@ -496,6 +496,54 @@
                         var newDate = dateNEW.split("-").reverse().join("-");
                         $(".oficial_nuevofecha_pedido").val(newDate);
                     }
+                    else if(x=="nuevofecha_expedicion"){
+                        
+                        var dateNEW = $('.nuevofecha_expedicion').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".oficial_nuevofecha_expedicion").val(newDate);
+                    }
+                    else if(x=="nuevofecha_vencimiento"){
+                        
+                        var dateNEW = $('.nuevofecha_vencimiento').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".oficial_nuevofecha_vencimiento").val(newDate);
+                    }
+                    else if(x=="nuevofecha_nacimiento"){
+                        
+                        var dateNEW = $('.nuevofecha_nacimiento').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".oficial_nuevofecha_nacimiento").val(newDate);
+                    }
+                    else if(x=="nuevofecha_inism"){
+                        
+                        var dateNEW = $('.nuevofecha_inism').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".oficial_nuevofecha_inism").val(newDate);
+                    }
+                    else if(x=="nuevofecha_finsm"){
+                        
+                        var dateNEW = $('.nuevofecha_finsm').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".oficial_nuevofecha_finsm").val(newDate);
+                    }
+                    else if(x=="nuevofecha_susp"){
+                        
+                        var dateNEW = $('.nuevofecha_susp').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".oficial_nuevofecha_susp").val(newDate);
+                    }
+                    else if(x=="nuevofecha_venceAP"){
+                        
+                        var dateNEW = $('.nuevofecha_venceAP').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".oficial_nuevofecha_venceAP").val(newDate);
+                    }
+                    else if(x=="nuevofecha_venceSPNC"){
+                        
+                        var dateNEW = $('.nuevofecha_venceSPNC').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".oficial_nuevofecha_venceSPNC").val(newDate);
+                    }
                 }
 
                 function formatofecha_editar(x){
@@ -551,6 +599,54 @@
                         var dateNEW = $('.editarfecha_pago').val();
                         var newDate = dateNEW.split("-").reverse().join("-");
                         $(".oficial_editarfecha_pago").val(newDate);
+                    }
+                    else if(x=="editarfecha_expedicion"){
+                        
+                        var dateNEW = $('.editarfecha_expedicion').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".oficial_editarfecha_expedicion").val(newDate);
+                    }
+                    else if(x=="editarfecha_vencimiento"){
+                        
+                        var dateNEW = $('.editarfecha_vencimiento').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".oficial_editarfecha_vencimiento").val(newDate);
+                    }
+                    else if(x=="editarfecha_nacimiento"){
+                        
+                        var dateNEW = $('.editaeditarfecha_nacimiento').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".oficial_editarfecha_vencimiento").val(newDate);
+                    }
+                    else if(x=="editarfecha_inism"){
+                        
+                        var dateNEW = $('.editaeditarfecha_inism').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".oficial_editarfecha_inism").val(newDate);
+                    }
+                    else if(x=="editarfecha_finsm"){
+                        
+                        var dateNEW = $('.editaeditarfecha_finsm').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".oficial_editarfecha_finsm").val(newDate);
+                    }
+                    else if(x=="editarfecha_susp"){
+                        
+                        var dateNEW = $('.editaeditarfecha_susp').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".oficial_editarfecha_susp").val(newDate);
+                    }
+                    else if(x=="editarfecha_venceAP"){
+                        
+                        var dateNEW = $('.editarfecha_venceAP').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".oficial_editarfecha_venceAP").val(newDate);
+                    }
+                    else if(x=="editarfecha_venceSPNC"){
+                        
+                        var dateNEW = $('.editarfecha_venceSPNC').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".oficial_editarfecha_venceSPNC").val(newDate);
                     }
                     
                 }

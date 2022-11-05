@@ -425,7 +425,7 @@ MODAL AGREGAR EMPLEADO
               </div>
 
             </div>
-             <!-- ENTRADA PARA EL lugar expedicion documento   -->            
+          <!-- ENTRADA PARA EL lugar expedicion documento   -->            
           <div class="form-group">
             Lugar expedici&oacute;n Documento:              
               <div class="input-group">              
@@ -433,20 +433,32 @@ MODAL AGREGAR EMPLEADO
                 <input type="text" class="form-control input-lg" name="nuevoLugarExpedicionDoc" placeholder="Lugar expedicion del documento" required>
               </div>
           </div>
+          <!-- ENTRADA PARA FECHA DE  expedicion documento   --> 
+          <div class="form-group">
+          Fecha Expedici&oacute;n Documento:
+            <div class="input-group">           
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                <input type="text" value="" class="calendario nuevofecha_expedicion form-control input-lg" data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_expedicion" placeholder="Ingresar Fecha" readonly>
+                <input type="text" class="oficial_nuevofecha_expedicion" name="nuevofecha_expedicion" style="display: none;">
+            </div>
+          </div>
+          <!-- ENTRADA PARA FECHA DE  vencimiento documento   --> 
+          <div class="form-group">
+          Fecha Vencimiento Documento:
+            <div class="input-group">           
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                <input type="text" value="" class="calendario nuevofecha_vencimiento form-control input-lg" data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_vencimiento" placeholder="Ingresar Fecha" readonly>
+                <input type="text" class="oficial_nuevofecha_vencimiento" name="nuevofecha_vencimiento" style="display: none;">
+            </div>
+          </div>
 
           <!-- ENTRADA PARA SUBIR FOTO DOCUMENTO -->
-
-          <div class="form-group">
-              
+          <div class="form-group">              
               <div class="panel">SUBIR FOTO DOCUMENTO IDENTIDAD</div>
-
               <input type="file" class="nuevaFotoDoc" name="nuevaFotoDoc">
-
               <p class="help-block">Peso máximo de la foto 2MB</p>
-
               <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarDoc" width="100px">
-
-            </div>
+          </div>
 
           <!-- ENTRADA PARA licencia de conducir  -->            
           <div class="form-group"> 
@@ -523,6 +535,15 @@ MODAL AGREGAR EMPLEADO
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
                 <input type="text" class="form-control input-lg" name="nuevoLugarNacimiento" placeholder="Ingresar Lugar de Nacimiento" >
               </div>
+          </div>
+           <!-- ENTRADA PARA FECHA DE  NACIMIENTO  --> 
+           <div class="form-group">
+          Fecha Nacimiento:
+            <div class="input-group">           
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                <input type="text" value="" class="calendario nuevofecha_nacimiento form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_nacimiento" placeholder="Ingresar Fecha" readonly>
+                <input type="text" class="oficial_nuevofecha_nacimiento" name="nuevofecha_nacimiento" style="display: none;">
+            </div>
           </div>
           <!-- ENTRADA PARA RELIGION -->            
           <div class="form-group"> 
@@ -664,6 +685,24 @@ MODAL AGREGAR EMPLEADO
                 </select>
               </div>
             </div>
+            <!-- ENTRADA PARA FECHA INICIO SERV MIL  --> 
+           <div class="form-group">
+          Fecha Inicio Servicio Militar:
+            <div class="input-group">           
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                <input type="text" value="" class="calendario nuevofecha_inism form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_inism" placeholder="Ingresar Fecha" readonly>
+                <input type="text" class="oficial_nuevofecha_inism" name="nuevofecha_inism" style="display: none;">
+            </div>
+          </div>
+          <!-- ENTRADA PARA FIN SERV MIML  --> 
+          <div class="form-group">
+          Fecha Fin Servicio Militar:
+            <div class="input-group">           
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                <input type="text" value="" class="calendario nuevofecha_finsm form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_finsm" placeholder="Ingresar Fecha" readonly>
+                <input type="text" class="oficial_nuevofecha_finsm" name="nuevofecha_finsm" style="display: none;">
+            </div>
+          </div>
           <!-- ENTRADA PARA LUGAR SEV MIL -->            
           <div class="form-group"> 
           Lugar Servicio Militar:             
@@ -717,6 +756,16 @@ MODAL AGREGAR EMPLEADO
                 </select>
               </div>
             </div>
+
+            <!-- ENTRADA PARA SUBIR FOTO  DE DIPLOMA ANSP-->
+            <div class="form-group">              
+              <div class="panel">SUBIR FOTO PARA DIPLOMA ANSP</div>
+              <input type="file" class="nuevaFotoANSP" name="nuevaFotoANSP">
+              <p class="help-block">Peso máximo de la foto 2MB</p>
+              <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarANSP" width="100px">
+            </div>
+
+
 
            <!-- ENTRADA PARA TRABAJO ANTERIOR-->            
            <div class="form-group">      
@@ -780,7 +829,15 @@ MODAL AGREGAR EMPLEADO
                 <input type="text" class="form-control input-lg" name="nuevoMotivoSuspension" placeholder="Ingresar Motivo de Suspensi&oacute;n" >
               </div>
           </div>
-
+          <!-- ENTRADA PARA FECHA SUSPENSION --> 
+          <div class="form-group">
+          Fecha Suspensi&oacute;n:
+            <div class="input-group">           
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                <input type="text" value="" class="calendario nuevofecha_susp form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_susp" placeholder="Ingresar Fecha" readonly>
+                <input type="text" class="oficial_nuevofecha_susp" name="nuevofecha_susp" style="display: none;">
+            </div>
+          </div>
           
           <!-- ENTRADA PARA EXPERIENCIA LABORAL-->            
           <div class="form-group">  
@@ -880,6 +937,75 @@ MODAL AGREGAR EMPLEADO
                 </select>
               </div>
             </div>
+            <!-- ENTRADA PARA SUBIR FOTO  DE LA SOLICITUD-->
+            <div class="form-group">              
+              <div class="panel">SUBIR FOTO DE LA SOLICITUD</div>
+              <input type="file" class="nuevaFotoSOLICITUD" name="nuevaFotoSOLICITUD">
+              <p class="help-block">Peso máximo de la foto 2MB</p>
+              <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarSOLICITUD" width="100px">
+            </div>
+            <!-- ENTRADA PARA SUBIR FOTO  PARTINA NACIMIENTO-->
+            <div class="form-group">              
+              <div class="panel">SUBIR FOTO DE LA PARTIDA DE NACIMIENTO</div>
+              <input type="file" class="nuevaFotoPARTIDA" name="nuevaFotoPARTIDA">
+              <p class="help-block">Peso máximo de la foto 2MB</p>
+              <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarPARTIDA" width="100px">
+            </div>
+            <!-- ENTRADA PARA SUBIR FOTO  ANTECEDENTES PENALES-->
+            <div class="form-group">              
+              <div class="panel">SUBIR FOTO DE ANTECEDENTES PENALES</div>
+              <input type="file" class="nuevaFotoANTECEDENTES" name="nuevaFotoANTECEDENTES">
+              <p class="help-block">Peso máximo de la foto 2MB</p>
+              <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarANTECEDENTES" width="100px">
+            </div>
+            <!-- ENTRADA PARA FECHA VENCIMIENTO AP--> 
+          <div class="form-group">
+          Fecha Vencimiento Antecedentes Penales:
+            <div class="input-group">           
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                <input type="text" value="" class="calendario nuevofecha_venceAP form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_venceAP" placeholder="Ingresar Fecha" readonly>
+                <input type="text" class="oficial_nuevofecha_venceAP" name="nuevofecha_venceAP" style="display: none;">
+            </div>
+          </div>
+             <!-- ENTRADA PARA SUBIR FOTO  SOLVENCIA PNC-->
+             <div class="form-group">              
+              <div class="panel">SUBIR FOTO DE SOLVENCIA PNC</div>
+              <input type="file" class="nuevaFotoSOLVENCIAPNC" name="nuevaFotoSOLVENCIAPNC">
+              <p class="help-block">Peso máximo de la foto 2MB</p>
+              <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarSOLVENCIAPNC" width="100px">
+            </div>
+             <!-- ENTRADA PARA FECHA VENCIMIENTO SOLV PNC--> 
+          <div class="form-group">
+          Fecha Vencimiento Solvencia PNC:
+            <div class="input-group">           
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                <input type="text" value="" class="calendario nuevofecha_venceSPNC form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_venceSPNC" placeholder="Ingresar Fecha" readonly>
+                <input type="text" class="oficial_nuevofecha_venceSPNC" name="nuevofecha_venceSPNC" style="display: none;">
+            </div>
+          </div>
+            <!-- ENTRADA PARA CONSTANCIA PSICOLOGICA -->
+            <div class="form-group">              
+              <div class="panel">SUBIR FOTO DE CONSTANCIA PSICOLOGICA</div>
+              <input type="file" class="nuevaFotoPSYCO" name="nuevaFotoPSYCO">
+              <p class="help-block">Peso máximo de la foto 2MB</p>
+              <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarPSYCO" width="100px">
+            </div>
+
+             <!-- ENTRADA PARA EXAMEN POLIGRAFICO -->
+             <div class="form-group">              
+              <div class="panel">SUBIR FOTO DE EXAMEN POLIGRAFICO</div>
+              <input type="file" class="nuevaFotoPOLI" name="nuevaFotoPOLI">
+              <p class="help-block">Peso máximo de la foto 2MB</p>
+              <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarPOLI" width="100px">
+            </div>
+
+            <!-- ENTRADA PARA IMAGEN HUELLAS DIGITALES -->
+            <div class="form-group">              
+              <div class="panel">SUBIR FOTO DE IMAGEN HUELLAS DIGITALES</div>
+              <input type="file" class="nuevaFotoHUELLAS" name="nuevaFotoHUELLAS">
+              <p class="help-block">Peso máximo de la foto 2MB</p>
+              <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarHUELLAS" width="100px">
+            </div>
 
 
             <!-- ENTRADA PARA SELECCIONAR SI ES CONFIABLE -->
@@ -914,7 +1040,7 @@ MODAL AGREGAR EMPLEADO
               
                 <span class="input-group-addon"><i class="fa fa-users"></i></span> 
 
-                <select class="form-control input-lg" name="nuevoEstado">
+                <select class="form-control input-lg" name="nuevoEstado" required>
                   
                   <option value="">Seleccionar estado</option>
 
@@ -1201,7 +1327,7 @@ MODAL EDITAR EMPLEADO
             N&uacute;mero de Tel&eacute;fono:             
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="editarNumeroTelefono" name="editarNumeroDocumento" value="" placeholder="Ingresar N&uacute;mero de Tel&eacute;fono">
+                <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="editarNumeroTelefono" name="editarNumeroTelefono" value="" placeholder="Ingresar N&uacute;mero de Tel&eacute;fono">
               </div>
             </div>
 
@@ -1210,7 +1336,7 @@ MODAL EDITAR EMPLEADO
             N&uacute;mero de ISSS:             
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="editarNumeroIsss" name="editarNumeroDocumento" value="" placeholder="Ingresar N&uacute;mero de ISSS">
+                <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="editarNumeroIsss" name="editarNumeroIsss" value="" placeholder="Ingresar N&uacute;mero de ISSS">
               </div>
             </div>
 
@@ -1270,7 +1396,24 @@ MODAL EDITAR EMPLEADO
                 <input type="text"  class="form-control input-lg" id="editarLugarExpedicionDoc" name="editarLugarExpedicionDoc" value="" placeholder="Ingresar Lugar Expedici&oacute;n Documento">
               </div>
             </div>
-
+            <!-- ENTRADA PARA FECHA EXPEDICION DOCUMENTO -->  
+            <div class="form-group"> 
+              Fecha Expedici&oacute;n Documento:
+              <div class="input-group">                  
+                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                  <input type="text" value="" class="calendario editarfecha_expedicion form-control input-lg" data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_expedicion" placeholder="Ingresar Fecha" id="mascarafecha" readonly>
+                  <input type="text" class="oficial_editarfecha_expedicion" name="editarfecha_expedicion" style="display: none;" id="editarfecha_expedicion">
+              </div>
+            </div>
+            <!-- ENTRADA PARA FECHA VENCIMIENTO DOCUMENTO -->  
+            <div class="form-group"> 
+              Fecha Vencimiento  Documento:
+              <div class="input-group">                  
+                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                  <input type="text" value="" class="calendario editarfecha_vencimiento form-control input-lg" data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_vencimiento" placeholder="Ingresar Fecha" id="mascarafechav" readonly>
+                  <input type="text" class="oficial_editarfecha_vencimiento" name="editarfecha_vencimiento" style="display: none;" id="editarfecha_vencimiento">
+              </div>
+            </div>
             <!-- ENTRADA PARA LICENCIA DE CONDUCIR-->            
             <div class="form-group"> 
             N&uacute;mero de Licencia de Conducir:             
@@ -1347,6 +1490,16 @@ MODAL EDITAR EMPLEADO
                 <input type="text"  class="form-control input-lg" id="editarLugarNac" name="editarLugarNac" value="" placeholder="Ingresar Lugar de Nacimiento">
               </div>
             </div>
+          <!-- ENTRADA PARA FECHA NACIEMIENT -->  
+          <div class="form-group"> 
+              Fecha Nacimiento:
+              <div class="input-group">                  
+                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                  <input type="text" value="" class="calendario editarfecha_nacimiento form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_nacimiento" placeholder="Ingresar Fecha" id="mascarafechanac" readonly>
+                  <input type="text" class="oficial_editarfecha_nacimiento" name="editarfecha_nacimiento" style="display: none;" id="editarfecha_nacimiento">
+              </div>
+            </div>
+
             <!-- ENTRADA PARA RELIGION -->            
            <div class="form-group">    
            Religi&oacute;n:          
@@ -1492,6 +1645,24 @@ MODAL EDITAR EMPLEADO
                 </select>
               </div>
             </div>
+            <!-- ENTRADA PARA FECHA INI SER MIL-->  
+          <div class="form-group"> 
+              Fecha Inicio Servicio Militar:
+              <div class="input-group">                  
+                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                  <input type="text" value="" class="calendario editarfecha_inism form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_inism" placeholder="Ingresar Fecha" id="mascarafechainism" readonly>
+                  <input type="text" class="oficial_editarfecha_inism" name="editarfecha_inism" style="display: none;" id="editarfecha_inism">
+              </div>
+            </div>
+             <!-- ENTRADA PARA FECHA FIN SER MIL-->  
+          <div class="form-group"> 
+              Fecha Fin Servicio Militar:
+              <div class="input-group">                  
+                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                  <input type="text" value="" class="calendario editarfecha_finsm form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_finsm" placeholder="Ingresar Fecha" id="mascarafechafinsm" readonly>
+                  <input type="text" class="oficial_editarfecha_finsm" name="editarfecha_finsm" style="display: none;" id="editarfecha_finsm">
+              </div>
+            </div>
              <!-- ENTRADA PARA LUGAR SERVICIO MILITAR-->            
            <div class="form-group"> 
            Lugar de Servicio Militar:             
@@ -1539,6 +1710,14 @@ MODAL EDITAR EMPLEADO
                   <option value="NO">NO</option>                  
                 </select>
               </div>
+            </div>
+               <!-- ENTRADA PARA SUBIR FOTO DIPLOMA ANSP-->
+            <div class="form-group">              
+                <div class="panel">SUBIR FOTO DIPLOMA ANSP</div>
+                <input type="file" class="nuevaFotoANSP" name="editarFotoANSP">
+                <p class="help-block">Peso máximo de la foto 2MB</p>
+                <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditarANSP" width="100px">
+                <input type="hidden" name="fotoActualANSP" id="fotoActualANSP">
             </div>
             <!-- ENTRADA PARA TRABAJO ANTERIOR-->            
            <div class="form-group">
@@ -1598,6 +1777,15 @@ MODAL EDITAR EMPLEADO
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
                 <input type="text"  class="form-control input-lg" id="editarMotivoSuspension" name="editarMotivoSuspension" value="" placeholder="Ingresar Motivo Suspensi&oacute;n">
+              </div>
+            </div>
+            <!-- ENTRADA PARA FECHA SUSPENSION-->  
+          <div class="form-group"> 
+              Fecha Suspensi&oacute;n:
+              <div class="input-group">                  
+                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                  <input type="text" value="" class="calendario editarfecha_susp form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_susp" placeholder="Ingresar Fecha" id="mascarafechasusp" readonly>
+                  <input type="text" class="oficial_editarfecha_susp" name="editarfecha_susp" style="display: none;" id="editarfecha_susp">
               </div>
             </div>
              <!-- ENTRADA PARA EXPERIENCI ALABORAL-->            
@@ -1692,6 +1880,84 @@ MODAL EDITAR EMPLEADO
                 </select>
               </div>
             </div>
+            <!-- ENTRADA PARA SUBIR DE SOLICITUD-->
+            <div class="form-group">              
+                <div class="panel">SUBIR FOTO DE SOLICITUD</div>
+                <input type="file" class="nuevaFotoSOLICITUD" name="editarFotoSOLICITUD">
+                <p class="help-block">Peso máximo de la foto 2MB</p>
+                <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditarSOLICITUD" width="100px">
+                <input type="hidden" name="fotoActualSOLICITUD" id="fotoActualSOLICITUD">
+            </div>
+             <!-- ENTRADA PARA SUBIR DE SOLICITUD-->
+             <div class="form-group">              
+                <div class="panel">SUBIR FOTO DE PARTIDA DE NACIMIENTO</div>
+                <input type="file" class="nuevaFotoPARTIDA" name="editarFotoPARTIDA">
+                <p class="help-block">Peso máximo de la foto 2MB</p>
+                <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditarPARTIDA" width="100px">
+                <input type="hidden" name="fotoActualPARTIDA" id="fotoActualPARTIDA">
+            </div>
+            <!-- ENTRADA PARA SUBIR DE ANTECEDENTES PENALES-->
+            <div class="form-group">              
+                <div class="panel">SUBIR FOTO DE ANTECEDENTES PENALES</div>
+                <input type="file" class="nuevaFotoANTECEDENTES" name="editarFotoANTECEDENTES">
+                <p class="help-block">Peso máximo de la foto 2MB</p>
+                <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditarANTECEDENTES" width="100px">
+                <input type="hidden" name="fotoActualANTECEDENTES" id="fotoActualANTECEDENTES">
+            </div>
+            <!-- ENTRADA PARA FECHA VENC AP-->  
+          <div class="form-group"> 
+              Fecha Vencimiento Antecedentes Penales:
+              <div class="input-group">                  
+                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                  <input type="text" value="" class="calendario editarfecha_venceAP form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_venceAP" placeholder="Ingresar Fecha" id="mascarafechavenceAP" readonly>
+                  <input type="text" class="oficial_editarfecha_venceAP" name="editarfecha_venceAP" style="display: none;" id="editarfecha_venceAP">
+              </div>
+            </div>
+            <!-- ENTRADA PARA SUBIR SOLVENCIA PNC -->
+            <div class="form-group">              
+                <div class="panel">SUBIR FOTO DE SOLVENCIA PNC</div>
+                <input type="file" class="nuevaFotoSOLVENCIAPNC" name="editarFotoSOLVENCIAPNC">
+                <p class="help-block">Peso máximo de la foto 2MB</p>
+                <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditarSOLVENCIAPNC" width="100px">
+                <input type="hidden" name="fotoActualSOLVENCIAPNC" id="fotoActualSOLVENCIAPNC">
+            </div>
+            <!-- ENTRADA PARA FECHA VENC AP-->  
+          <div class="form-group"> 
+              Fecha Vencimiento Solvencia PNC:
+              <div class="input-group">                  
+                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                  <input type="text" value="" class="calendario editarfecha_venceSPNC form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_venceSPNC" placeholder="Ingresar Fecha" id="mascarafechavenceSPNC" readonly>
+                  <input type="text" class="oficial_editarfecha_venceSPNC" name="editarfecha_venceSPNC" style="display: none;" id="editarfecha_venceSPNC">
+              </div>
+            </div>
+             <!-- ENTRADA PARA SUBIR CONSTANCIA PSYCOLOGICA -->
+             <div class="form-group">              
+                <div class="panel">SUBIR FOTO DE CONSTANCIA PSICOLOGICA</div>
+                <input type="file" class="nuevaFotoPSYCO" name="editarFotoPSYCO">
+                <p class="help-block">Peso máximo de la foto 2MB</p>
+                <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditarPSYCO" width="100px">
+                <input type="hidden" name="fotoActualPSYCO" id="fotoActualPSYCO">
+            </div>
+
+
+            <!-- ENTRADA PARA SUBIR EXAMEN POLIGRAFICO -->
+            <div class="form-group">              
+                <div class="panel">SUBIR FOTO DE EXAMEN POLIGRAFICO</div>
+                <input type="file" class="nuevaFotoPOLI" name="editarFotoPOLI">
+                <p class="help-block">Peso máximo de la foto 2MB</p>
+                <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditarPOLI" width="100px">
+                <input type="hidden" name="fotoActualPOLI" id="fotoActualPOLI">
+            </div>
+            <!-- ENTRADA PARA SUBIR HUELLAS DIGITALES -->
+            <div class="form-group">              
+                <div class="panel">SUBIR FOTO DE HUELLAS DIGITALES</div>
+                <input type="file" class="nuevaFotoHUELLAS" name="editarFotoHUELLAS">
+                <p class="help-block">Peso máximo de la foto 2MB</p>
+                <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditarHUELLAS" width="100px">
+                <input type="hidden" name="fotoActualHUELLAS" id="fotoActualHUELLAS">
+            </div>
+
+
             <!-- ENTRADA PARA CONFIABLE-->
             <div class="form-group"> 
               Es Confiable?             

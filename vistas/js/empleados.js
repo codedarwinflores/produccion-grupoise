@@ -137,6 +137,281 @@ $(".nuevaFotoLicLTA").change(function(){
   	}
 })
 
+/*=============================================
+SUBIENDO LA FOTO DE DIPLOMA ANSP
+=============================================*/
+$(".nuevaFotoANSP").change(function(){
+	var imagen = this.files[0];	
+	/*=============================================
+  	VALIDAMOS EL FORMATO DE LA IMAGEN SEA JPG O PNG
+  	=============================================*/
+  	if(imagen["type"] != "image/jpeg" && imagen["type"] != "image/png"){
+  		$(".nuevaFotoANSP").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen debe estar en formato JPG o PNG!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else if(imagen["size"] > 2000000){
+  		$(".nuevaFotoANSP").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen no debe pesar más de 2MB!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else{
+  		var datosImagen = new FileReader;
+  		datosImagen.readAsDataURL(imagen);
+  		$(datosImagen).on("load", function(event){
+  			var rutaImagen = event.target.result;
+  			$(".previsualizarANSP").attr("src", rutaImagen);
+  		})
+  	}
+})
+
+/*=============================================
+SUBIENDO LA FOTO DE LA SOLICITUD
+=============================================*/
+$(".nuevaFotoSOLICITUD").change(function(){
+	var imagen = this.files[0];	
+	/*=============================================
+  	VALIDAMOS EL FORMATO DE LA IMAGEN SEA JPG O PNG
+  	=============================================*/
+  	if(imagen["type"] != "image/jpeg" && imagen["type"] != "image/png"){
+  		$(".nuevaFotoSOLICITUD").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen debe estar en formato JPG o PNG!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else if(imagen["size"] > 2000000){
+  		$(".nuevaFotoSOLICITUD").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen no debe pesar más de 2MB!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else{
+  		var datosImagen = new FileReader;
+  		datosImagen.readAsDataURL(imagen);
+  		$(datosImagen).on("load", function(event){
+  			var rutaImagen = event.target.result;
+  			$(".previsualizarSOLICITUD").attr("src", rutaImagen);
+  		})
+  	}
+})
+
+
+/*=============================================
+SUBIENDO LA FOTO DE LA PARTIDA DE NACIMIENTO
+=============================================*/
+$(".nuevaFotoPARTIDA").change(function(){
+	var imagen = this.files[0];	
+	/*=============================================
+  	VALIDAMOS EL FORMATO DE LA IMAGEN SEA JPG O PNG
+  	=============================================*/
+  	if(imagen["type"] != "image/jpeg" && imagen["type"] != "image/png"){
+  		$(".nuevaFotoPARTIDA").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen debe estar en formato JPG o PNG!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else if(imagen["size"] > 2000000){
+  		$(".nuevaFotoPARTIDA").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen no debe pesar más de 2MB!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else{
+  		var datosImagen = new FileReader;
+  		datosImagen.readAsDataURL(imagen);
+  		$(datosImagen).on("load", function(event){
+  			var rutaImagen = event.target.result;
+  			$(".previsualizarPARTIDA").attr("src", rutaImagen);
+  		})
+  	}
+})
+
+
+/*=============================================
+SUBIENDO LA FOTO DE ANTECEDENTES PENALES
+=============================================*/
+$(".nuevaFotoANTECEDENTES").change(function(){
+	var imagen = this.files[0];	
+	/*=============================================
+  	VALIDAMOS EL FORMATO DE LA IMAGEN SEA JPG O PNG
+  	=============================================*/
+  	if(imagen["type"] != "image/jpeg" && imagen["type"] != "image/png"){
+  		$(".nuevaFotoANTECEDENTES").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen debe estar en formato JPG o PNG!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else if(imagen["size"] > 2000000){
+  		$(".nuevaFotoANTECEDENTES").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen no debe pesar más de 2MB!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else{
+  		var datosImagen = new FileReader;
+  		datosImagen.readAsDataURL(imagen);
+  		$(datosImagen).on("load", function(event){
+  			var rutaImagen = event.target.result;
+  			$(".previsualizarANTECEDENTES").attr("src", rutaImagen);
+  		})
+  	}
+})
+
+/*=============================================
+SUBIENDO LA FOTO DE SOLVENCIA PNC
+=============================================*/
+$(".nuevaFotoSOLVENCIAPNC").change(function(){
+	var imagen = this.files[0];	
+	/*=============================================
+  	VALIDAMOS EL FORMATO DE LA IMAGEN SEA JPG O PNG
+  	=============================================*/
+  	if(imagen["type"] != "image/jpeg" && imagen["type"] != "image/png"){
+  		$(".nuevaFotoSOLVENCIAPNC").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen debe estar en formato JPG o PNG!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else if(imagen["size"] > 2000000){
+  		$(".nuevaFotoSOLVENCIAPNC").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen no debe pesar más de 2MB!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else{
+  		var datosImagen = new FileReader;
+  		datosImagen.readAsDataURL(imagen);
+  		$(datosImagen).on("load", function(event){
+  			var rutaImagen = event.target.result;
+  			$(".previsualizarSOLVENCIAPNC").attr("src", rutaImagen);
+  		})
+  	}
+})
+
+
+/*=============================================
+SUBIENDO LA FOTO DE CONSTANCIA PSYCO
+=============================================*/
+$(".nuevaFotoPSYCO").change(function(){
+	var imagen = this.files[0];	
+	/*=============================================
+  	VALIDAMOS EL FORMATO DE LA IMAGEN SEA JPG O PNG
+  	=============================================*/
+  	if(imagen["type"] != "image/jpeg" && imagen["type"] != "image/png"){
+  		$(".nuevaFotoPSYCO").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen debe estar en formato JPG o PNG!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else if(imagen["size"] > 2000000){
+  		$(".nuevaFotoPSYCO").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen no debe pesar más de 2MB!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else{
+  		var datosImagen = new FileReader;
+  		datosImagen.readAsDataURL(imagen);
+  		$(datosImagen).on("load", function(event){
+  			var rutaImagen = event.target.result;
+  			$(".previsualizarPSYCO").attr("src", rutaImagen);
+  		})
+  	}
+})
+
+
+/*=============================================
+SUBIENDO LA FOTO DE EXAMEN POLIGRAFICO
+=============================================*/
+$(".nuevaFotoPOLI").change(function(){
+	var imagen = this.files[0];	
+	/*=============================================
+  	VALIDAMOS EL FORMATO DE LA IMAGEN SEA JPG O PNG
+  	=============================================*/
+  	if(imagen["type"] != "image/jpeg" && imagen["type"] != "image/png"){
+  		$(".nuevaFotoPOLI").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen debe estar en formato JPG o PNG!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else if(imagen["size"] > 2000000){
+  		$(".nuevaFotoPOLI").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen no debe pesar más de 2MB!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else{
+  		var datosImagen = new FileReader;
+  		datosImagen.readAsDataURL(imagen);
+  		$(datosImagen).on("load", function(event){
+  			var rutaImagen = event.target.result;
+  			$(".previsualizarPOLI").attr("src", rutaImagen);
+  		})
+  	}
+})
+
+/*=============================================
+SUBIENDO LA FOTO DE HUELLAS DIGITALES
+=============================================*/
+$(".nuevaFotoHUELLAS").change(function(){
+	var imagen = this.files[0];	
+	/*=============================================
+  	VALIDAMOS EL FORMATO DE LA IMAGEN SEA JPG O PNG
+  	=============================================*/
+  	if(imagen["type"] != "image/jpeg" && imagen["type"] != "image/png"){
+  		$(".nuevaFotoHUELLAS").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen debe estar en formato JPG o PNG!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else if(imagen["size"] > 2000000){
+  		$(".nuevaFotoHUELLAS").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen no debe pesar más de 2MB!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else{
+  		var datosImagen = new FileReader;
+  		datosImagen.readAsDataURL(imagen);
+  		$(datosImagen).on("load", function(event){
+  			var rutaImagen = event.target.result;
+  			$(".previsualizarHUELLAS").attr("src", rutaImagen);
+  		})
+  	}
+})
 
 
 /*=============================================
@@ -200,9 +475,9 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 				dataType: "json",
 				success: function(respuestaDep){			
 						
-					myArray = respuestaDep.split(",");
-					$("#editarDepartamento").html(myArray[1]);
-					$("#editarDepartamento").val(respuesta["id_departamento"]);
+					//myArray = respuestaDep.split(",");
+					//$("#editarDepartamento").html(myArray[1]);
+					//$("#editarDepartamento").val(respuesta["id_departamento"]);
 					
 				}
 			});
@@ -223,9 +498,9 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 				dataType: "json",
 				success: function(respuestaMun){			
 						
-					myArray = respuestaMun.split(",");
-					$("#editarMunicipio").html(myArray[1]);
-					$("#editarMunicipio").val(respuesta["id_municipio"]);
+					//myArray = respuestaMun.split(",");
+					//$("#editarMunicipio").html(myArray[1]);
+					//$("#editarMunicipio").val(respuesta["id_municipio"]);
 					
 				}
 			});
@@ -241,6 +516,37 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 			$("#editarNumeroIsss").val(respuesta["numero_isss"]);		
 			$("#editarNombreIsss").val(respuesta["nombre_segun_isss"]);
 			$("#editarLugarExpedicionDoc").val(respuesta["lugar_expedicion_documento"]);
+
+			var date0 = respuesta["fecha_expedicion_documento"];
+			var formattedDate = new Date(date0); 
+			var d = formattedDate.getDate()+1; 
+			var m = formattedDate.getMonth(); m += 1;
+			m += 1; // javascript months are 0-11 
+			var y = formattedDate.getFullYear();
+			$("#mascarafecha").val(d+'-'+m+'-'+y);
+			$("#editarfecha_expedicion").val(respuesta["fecha_expedicion_documento"]);
+
+			var date1 = respuesta["fecha_vencimiento_documento"];
+			var formattedDate = new Date(date1); 
+			var d = formattedDate.getDate()+1; 
+			var m = formattedDate.getMonth(); m += 1;
+			m += 1; // javascript months are 0-11 
+			var y = formattedDate.getFullYear();
+			$("#mascarafechav").val(d+'-'+m+'-'+y);
+			$("#editarfecha_vencimiento").val(respuesta["fecha_vencimiento_documento"]);
+
+			var date2 = respuesta["fecha_nacimiento"];
+			var formattedDate = new Date(date2); 
+			var d = formattedDate.getDate()+1; 
+			var m = formattedDate.getMonth(); m += 1;
+			m += 1; // javascript months are 0-11 
+			var y = formattedDate.getFullYear();
+			$("#mascarafechanac").val(d+'-'+m+'-'+y);
+			$("#editarfecha_nacimiento").val(respuesta["fecha_nacimiento"]);
+
+
+
+
 			$("#editarNumeroLicenciaConducir").val(respuesta["licencia_conducir"]);
 			
 			$("#editarTipoLicenciaConducir").html(respuesta["tipo_licencia_conducir"]);
@@ -289,12 +595,38 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 			$("#editarServicioMilitar").val(respuesta["servicio_militar"]);
 			$("#editarServicioMilitar").html(respuesta["servicio_militar"]);
 
+			var date3 = respuesta["fecha_servicio_inicio"];
+			var formattedDate = new Date(date3); 
+			var d = formattedDate.getDate()+1; 
+			var m = formattedDate.getMonth(); m += 1;
+			m += 1; // javascript months are 0-11 
+			var y = formattedDate.getFullYear();
+			$("#mascarafechainism").val(d+'-'+m+'-'+y);
+			$("#editarfecha_inism").val(respuesta["fecha_servicio_inicio"]);
+
+			var date4 = respuesta["fecha_servicio_fin"];
+			var formattedDate = new Date(date4); 
+			var d = formattedDate.getDate()+1; 
+			var m = formattedDate.getMonth(); m += 1;
+			m += 1; // javascript months are 0-11 
+			var y = formattedDate.getFullYear();
+			$("#mascarafechafinsm").val(d+'-'+m+'-'+y);
+			$("#editarfecha_finsm").val(respuesta["fecha_servicio_fin"]);
+
 			$("#editarLugarServicioMilitar").val(respuesta["lugar_servicio"]);
 			$("#editarGradoMilitar").val(respuesta["grado_militar"]);
 			$("#editarMotivoBaja").val(respuesta["motivo_baja"]);
 
 			$("#editarExPNC").val(respuesta["ex_pnc"]);
 			$("#editarExPNC").html(respuesta["ex_pnc"]);
+
+			if(respuesta["imagen_diploma_ansp"] != ""){
+				$(".previsualizarEditarANSP").attr("src", respuesta["imagen_diploma_ansp"]);
+			}else{
+				$(".previsualizarEditarANSP").attr("src", "vistas/img/usuarios/default/anonymous.png");
+			}
+            $("#fotoActualANSP").val(respuesta["imagen_diploma_ansp"]);
+
 
 			$("#editarCursoANSP").val(respuesta["curso_ansp"]);
 			$("#editarCursoANSP").html(respuesta["curso_ansp"]);
@@ -309,6 +641,18 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 
 			$("#editarEmpresaSuspendio").val(respuesta["empresa_suspendio"]);
 			$("#editarMotivoSuspension").val(respuesta["motivo_suspension"]);
+
+			var date5 = respuesta["fecha_suspension"];
+			var formattedDate = new Date(date5); 
+			var d = formattedDate.getDate()+1; 
+			var m = formattedDate.getMonth(); m += 1;
+			m += 1; // javascript months are 0-11 
+			var y = formattedDate.getFullYear();
+			$("#mascarafechasusp").val(d+'-'+m+'-'+y);
+			$("#editarfecha_susp").val(respuesta["fecha_suspension"]);
+
+
+
 			$("#editarExperienciaLaboral").val(respuesta["experiencia_laboral"]);
 			$("#editarRazonIse").val(respuesta["razon_trabajar_en_ise"]);
 			$("#editarPersonasDependientes").val(respuesta["numero_personas_dependientes"]);
@@ -322,6 +666,78 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 
 			$("#editarInfoVerificada").val(respuesta["info_verificada"]);
 			$("#editarInfoVerificada").html(respuesta["info_verificada"]);
+
+			if(respuesta["imagen_solicitud"] != ""){
+				$(".previsualizarEditarSOLICITUD").attr("src", respuesta["imagen_solicitud"]);
+			}else{
+				$(".previsualizarEditarSOLICITUD").attr("src", "vistas/img/usuarios/default/anonymous.png");
+			}
+            $("#fotoActualSOLICITUD").val(respuesta["imagen_solicitud"]);
+
+			if(respuesta["imagen_partida_nacimiento"] != ""){
+				$(".previsualizarEditarPARTIDA").attr("src", respuesta["imagen_partida_nacimiento"]);
+			}else{
+				$(".previsualizarEditarPARTIDA").attr("src", "vistas/img/usuarios/default/anonymous.png");
+			}
+            $("#fotoActualPARTIDA").val(respuesta["imagen_partida_nacimiento"]);
+
+			if(respuesta["imagen_antecedentes_penales"] != ""){
+				$(".previsualizarEditarANTECEDENTES").attr("src", respuesta["imagen_antecedentes_penales"]);
+			}else{
+				$(".previsualizarEditarANTECEDENTES").attr("src", "vistas/img/usuarios/default/anonymous.png");
+			}
+            $("#fotoActualANTECEDENTES").val(respuesta["imagen_antecedentes_penales"]);
+
+			var date6 = respuesta["fecha_vencimiento_antecedentes_penales"];
+			var formattedDate = new Date(date6); 
+			var d = formattedDate.getDate()+1; 
+			var m = formattedDate.getMonth(); m += 1;
+			m += 1; // javascript months are 0-11 
+			var y = formattedDate.getFullYear();
+			$("#mascarafechavenceAP").val(d+'-'+m+'-'+y);
+			$("#editarfecha_venceAP").val(respuesta["fecha_vencimiento_antecedentes_penales"]);
+
+			if(respuesta["imagen_solvencia_pnc"] != ""){
+				$(".previsualizarEditarSOLVENCIAPNC").attr("src", respuesta["imagen_solvencia_pnc"]);
+			}else{
+				$(".previsualizarEditarSOLVENCIAPNC").attr("src", "vistas/img/usuarios/default/anonymous.png");
+			}
+            $("#fotoActualSOLVENCIAPNC").val(respuesta["imagen_solvencia_pnc"]);
+
+			var date7 = respuesta["fecha_vencimiento_solvencia_pnc"];
+			var formattedDate = new Date(date7); 
+			var d = formattedDate.getDate()+1; 
+			var m = formattedDate.getMonth(); m += 1;
+			m += 1; // javascript months are 0-11 
+			var y = formattedDate.getFullYear();
+			$("#mascarafechavenceSPNC").val(d+'-'+m+'-'+y);
+			$("#editarfecha_venceSPNC").val(respuesta["fecha_vencimiento_solvencia_pnc"]);
+
+			if(respuesta["imagen_constancia_psicologica"] != ""){
+				$(".previsualizarEditarPSYCO").attr("src", respuesta["imagen_constancia_psicologica"]);
+			}else{
+				$(".previsualizarEditarPSYCO").attr("src", "vistas/img/usuarios/default/anonymous.png");
+			}
+            $("#fotoActualPSYCO").val(respuesta["imagen_constancia_psicologica"]);
+
+
+
+			if(respuesta["imagen_examen_poligrafico"] != ""){
+				$(".previsualizarEditarPOLI").attr("src", respuesta["imagen_examen_poligrafico"]);
+			}else{
+				$(".previsualizarEditarPOLI").attr("src", "vistas/img/usuarios/default/anonymous.png");
+			}
+            $("#fotoActualPOLI").val(respuesta["imagen_examen_poligrafico"]);
+
+			if(respuesta["imagen_huellas"] != ""){
+				$(".previsualizarEditarHUELLAS").attr("src", respuesta["imagen_huellas"]);
+			}else{
+				$(".previsualizarEditarHUELLAS").attr("src", "vistas/img/usuarios/default/anonymous.png");
+			}
+            $("#fotoActualHUELLAS").val(respuesta["imagen_huellas"]);
+
+
+
 
 			$("#editarConfiable").val(respuesta["confiable"]);
 			$("#editarConfiable").html(respuesta["confiable"]);

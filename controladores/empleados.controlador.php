@@ -200,9 +200,395 @@ class ControladorEmpleados{
 					}
 				}
 
+				/*=============================================
+				VALIDAR IMAGEN DIPLOMA ANSP
+				=============================================*/
+				$rutaANSP = "";
+				if(isset($_FILES["nuevaFotoANSP"]["tmp_name"])){
+					list($ancho, $alto) = getimagesize($_FILES["nuevaFotoANSP"]["tmp_name"]);
+					$nuevoAncho = 500;
+					$nuevoAlto = 500;
+					/*=============================================
+					CREAMOS EL DIRECTORIO(DUI) DONDE VAMOS A GUARDAR LA FOTO DEL EMPLEADO 
+					=============================================*/
+					$directorio = "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"];
+					mkdir($directorio, 0755);
+					/*=============================================
+					DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
+					=============================================*/
+					if($_FILES["nuevaFotoANSP"]["type"] == "image/jpeg"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,99999);
+						$rutaANSP = "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"]."/diploma_ansp".$aleatorio.".jpg";
+						//$origen = imagecreatefromjpeg($_FILES["nuevaFotoLicCond"]["tmp_name"]);	
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagejpeg($destino, $rutaDoc);						
+						if(move_uploaded_file($_FILES["nuevaFotoANSP"]["tmp_name"], $rutaANSP)) {							
+						}
+						else{								
+						}
+					}
+					if($_FILES["nuevaFotoANSP"]["type"] == "image/png"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,99999);
+						$rutaANSP = "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"]."/diploma_ansp".$aleatorio.".png";
+						//$origen = imagecreatefrompng($_FILES["nuevaFotoDoc"]["tmp_name"]);
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagepng($destino, $rutaDoc);
+						if(move_uploaded_file($_FILES["nuevaFotoANSP"]["tmp_name"], $rutaANSP)) {							
+						}
+						else{								
+						}
+					}
+				}
+
+				/*=============================================
+				VALIDAR IMAGEN SOLICITUD
+				=============================================*/
+				$rutaSOLICITUD = "";
+				if(isset($_FILES["nuevaFotoSOLICITUD"]["tmp_name"])){
+					list($ancho, $alto) = getimagesize($_FILES["nuevaFotoSOLICITUD"]["tmp_name"]);
+					$nuevoAncho = 500;
+					$nuevoAlto = 500;
+					/*=============================================
+					CREAMOS EL DIRECTORIO(DUI) DONDE VAMOS A GUARDAR LA FOTO DEL EMPLEADO 
+					=============================================*/
+					$directorio = "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"];
+					mkdir($directorio, 0755);
+					/*=============================================
+					DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
+					=============================================*/
+					if($_FILES["nuevaFotoSOLICITUD"]["type"] == "image/jpeg"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,99999);
+						$rutaSOLICITUD = "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"]."/solicitud_".$aleatorio.".jpg";
+						//$origen = imagecreatefromjpeg($_FILES["nuevaFotoLicCond"]["tmp_name"]);	
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagejpeg($destino, $rutaDoc);						
+						if(move_uploaded_file($_FILES["nuevaFotoSOLICITUD"]["tmp_name"], $rutaSOLICITUD)) {							
+						}
+						else{								
+						}
+					}
+					if($_FILES["nuevaFotoSOLICITUD"]["type"] == "image/png"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,99999);
+						$rutaSOLICITUD = "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"]."/solicitud_".$aleatorio.".png";
+						//$origen = imagecreatefrompng($_FILES["nuevaFotoDoc"]["tmp_name"]);
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagepng($destino, $rutaDoc);
+						if(move_uploaded_file($_FILES["nuevaFotoSOLICITUD"]["tmp_name"], $rutaSOLICITUD)) {							
+						}
+						else{								
+						}
+					}
+				}
+
+
+				/*=============================================
+				VALIDAR PARTIDA DE NACIMIENTO
+				=============================================*/
+				$rutaPARTIDA = "";
+				if(isset($_FILES["nuevaFotoPARTIDA"]["tmp_name"])){
+					list($ancho, $alto) = getimagesize($_FILES["nuevaFotoPARTIDA"]["tmp_name"]);
+					$nuevoAncho = 500;
+					$nuevoAlto = 500;
+					/*=============================================
+					CREAMOS EL DIRECTORIO(DUI) DONDE VAMOS A GUARDAR LA FOTO DEL EMPLEADO 
+					=============================================*/
+					$directorio = "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"];
+					mkdir($directorio, 0755);
+					/*=============================================
+					DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
+					=============================================*/
+					if($_FILES["nuevaFotoPARTIDA"]["type"] == "image/jpeg"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,99999);
+						$rutaPARTIDA = "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"]."/partidanacimiento_".$aleatorio.".jpg";
+						//$origen = imagecreatefromjpeg($_FILES["nuevaFotoLicCond"]["tmp_name"]);	
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagejpeg($destino, $rutaDoc);						
+						if(move_uploaded_file($_FILES["nuevaFotoPARTIDA"]["tmp_name"], $rutaPARTIDA)) {							
+						}
+						else{								
+						}
+					}
+					if($_FILES["nuevaFotoPARTIDA"]["type"] == "image/png"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,99999);
+						$rutaPARTIDA = "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"]."/partidanacimiento_".$aleatorio.".png";
+						//$origen = imagecreatefrompng($_FILES["nuevaFotoDoc"]["tmp_name"]);
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagepng($destino, $rutaDoc);
+						if(move_uploaded_file($_FILES["nuevaFotoPARTIDA"]["tmp_name"], $rutaPARTIDA)) {							
+						}
+						else{								
+						}
+					}
+				}
+
+				/*=============================================
+				VALIDAR ANTECEDENTES PENALES
+				=============================================*/
+				$rutaANTECEDENTES = "";
+				if(isset($_FILES["nuevaFotoANTECEDENTES"]["tmp_name"])){
+					list($ancho, $alto) = getimagesize($_FILES["nuevaFotoANTECEDENTES"]["tmp_name"]);
+					$nuevoAncho = 500;
+					$nuevoAlto = 500;
+					/*=============================================
+					CREAMOS EL DIRECTORIO(DUI) DONDE VAMOS A GUARDAR LA FOTO DEL EMPLEADO 
+					=============================================*/
+					$directorio = "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"];
+					mkdir($directorio, 0755);
+					/*=============================================
+					DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
+					=============================================*/
+					if($_FILES["nuevaFotoANTECEDENTES"]["type"] == "image/jpeg"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,99999);
+						$rutaANTECEDENTES = "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"]."/antecedentespenales_".$aleatorio.".jpg";
+						//$origen = imagecreatefromjpeg($_FILES["nuevaFotoLicCond"]["tmp_name"]);	
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagejpeg($destino, $rutaDoc);						
+						if(move_uploaded_file($_FILES["nuevaFotoANTECEDENTES"]["tmp_name"], $rutaANTECEDENTES)) {							
+						}
+						else{								
+						}
+					}
+					if($_FILES["nuevaFotoANTECEDENTES"]["type"] == "image/png"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,99999);
+						$rutaANTECEDENTES = "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"]."/antecedentespenales_".$aleatorio.".png";
+						//$origen = imagecreatefrompng($_FILES["nuevaFotoDoc"]["tmp_name"]);
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagepng($destino, $rutaDoc);
+						if(move_uploaded_file($_FILES["nuevaFotoANTECEDENTES"]["tmp_name"], $rutaANTECEDENTES)) {							
+						}
+						else{								
+						}
+					}
+				}
 
 
 
+				/*=============================================
+				VALIDAR SOLVENCIA PNC
+				=============================================*/
+				$rutaSOLVENCIAPNC = "";
+				if(isset($_FILES["nuevaFotoSOLVENCIAPNC"]["tmp_name"])){
+					list($ancho, $alto) = getimagesize($_FILES["nuevaFotoSOLVENCIAPNC"]["tmp_name"]);
+					$nuevoAncho = 500;
+					$nuevoAlto = 500;
+					/*=============================================
+					CREAMOS EL DIRECTORIO(DUI) DONDE VAMOS A GUARDAR LA FOTO DEL EMPLEADO 
+					=============================================*/
+					$directorio = "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"];
+					mkdir($directorio, 0755);
+					/*=============================================
+					DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
+					=============================================*/
+					if($_FILES["nuevaFotoSOLVENCIAPNC"]["type"] == "image/jpeg"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,99999);
+						$rutaSOLVENCIAPNC = "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"]."/solvenciapnc_".$aleatorio.".jpg";
+						//$origen = imagecreatefromjpeg($_FILES["nuevaFotoLicCond"]["tmp_name"]);	
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagejpeg($destino, $rutaDoc);						
+						if(move_uploaded_file($_FILES["nuevaFotoSOLVENCIAPNC"]["tmp_name"], $rutaSOLVENCIAPNC)) {							
+						}
+						else{								
+						}
+					}
+					if($_FILES["nuevaFotoSOLVENCIAPNC"]["type"] == "image/png"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,99999);
+						$rutaSOLVENCIAPNC = "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"]."/solvenciapnc_".$aleatorio.".png";
+						//$origen = imagecreatefrompng($_FILES["nuevaFotoDoc"]["tmp_name"]);
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagepng($destino, $rutaDoc);
+						if(move_uploaded_file($_FILES["nuevaFotoSOLVENCIAPNC"]["tmp_name"], $rutaSOLVENCIAPNC)) {							
+						}
+						else{								
+						}
+					}
+				}
+
+
+				/*=============================================
+				VALIDAR CONSTANCIA PSYCO
+				=============================================*/
+				$rutaPSYCO = "";
+				if(isset($_FILES["nuevaFotoPSYCO"]["tmp_name"])){
+					list($ancho, $alto) = getimagesize($_FILES["nuevaFotoPSYCO"]["tmp_name"]);
+					$nuevoAncho = 500;
+					$nuevoAlto = 500;
+					/*=============================================
+					CREAMOS EL DIRECTORIO(DUI) DONDE VAMOS A GUARDAR LA FOTO DEL EMPLEADO 
+					=============================================*/
+					$directorio = "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"];
+					mkdir($directorio, 0755);
+					/*=============================================
+					DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
+					=============================================*/
+					if($_FILES["nuevaFotoPSYCO"]["type"] == "image/jpeg"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,99999);
+						$rutaPSYCO = "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"]."/constancia_psicologica_".$aleatorio.".jpg";
+						//$origen = imagecreatefromjpeg($_FILES["nuevaFotoLicCond"]["tmp_name"]);	
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagejpeg($destino, $rutaDoc);						
+						if(move_uploaded_file($_FILES["nuevaFotoPSYCO"]["tmp_name"], $rutaPSYCO)) {							
+						}
+						else{								
+						}
+					}
+					if($_FILES["nuevaFotoPSYCO"]["type"] == "image/png"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,99999);
+						$rutaPSYCO = "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"]."/constancia_psicologica_".$aleatorio.".png";
+						//$origen = imagecreatefrompng($_FILES["nuevaFotoDoc"]["tmp_name"]);
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagepng($destino, $rutaDoc);
+						if(move_uploaded_file($_FILES["nuevaFotoPSYCO"]["tmp_name"], $rutaPSYCO)) {							
+						}
+						else{								
+						}
+					}
+				}
+
+
+				/*=============================================
+				VALIDAR CONSTANCIA POLI
+				=============================================*/
+				$rutaPOLI = "";
+				if(isset($_FILES["nuevaFotoPOLI"]["tmp_name"])){
+					list($ancho, $alto) = getimagesize($_FILES["nuevaFotoPOLI"]["tmp_name"]);
+					$nuevoAncho = 500;
+					$nuevoAlto = 500;
+					/*=============================================
+					CREAMOS EL DIRECTORIO(DUI) DONDE VAMOS A GUARDAR LA FOTO DEL EMPLEADO 
+					=============================================*/
+					$directorio = "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"];
+					mkdir($directorio, 0755);
+					/*=============================================
+					DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
+					=============================================*/
+					if($_FILES["nuevaFotoPOLI"]["type"] == "image/jpeg"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,99999);
+						$rutaPOLI = "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"]."/examen_poligrafico_".$aleatorio.".jpg";
+						//$origen = imagecreatefromjpeg($_FILES["nuevaFotoLicCond"]["tmp_name"]);	
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagejpeg($destino, $rutaDoc);						
+						if(move_uploaded_file($_FILES["nuevaFotoPOLI"]["tmp_name"], $rutaPOLI)) {							
+						}
+						else{								
+						}
+					}
+					if($_FILES["nuevaFotoPOLI"]["type"] == "image/png"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,99999);
+						$rutaPOLI = "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"]."/examen_poligrafico_".$aleatorio.".png";
+						//$origen = imagecreatefrompng($_FILES["nuevaFotoDoc"]["tmp_name"]);
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagepng($destino, $rutaDoc);
+						if(move_uploaded_file($_FILES["nuevaFotoPOLI"]["tmp_name"], $rutaPOLI)) {							
+						}
+						else{								
+						}
+					}
+				}
+
+
+				/*=============================================
+				VALIDAR CONSTANCIA HUELLAS
+				=============================================*/
+				$rutaHUELLAS = "";
+				if(isset($_FILES["nuevaFotoHUELLAS"]["tmp_name"])){
+					list($ancho, $alto) = getimagesize($_FILES["nuevaFotoHUELLAS"]["tmp_name"]);
+					$nuevoAncho = 500;
+					$nuevoAlto = 500;
+					/*=============================================
+					CREAMOS EL DIRECTORIO(DUI) DONDE VAMOS A GUARDAR LA FOTO DEL EMPLEADO 
+					=============================================*/
+					$directorio = "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"];
+					mkdir($directorio, 0755);
+					/*=============================================
+					DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
+					=============================================*/
+					if($_FILES["nuevaFotoHUELLAS"]["type"] == "image/jpeg"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,99999);
+						$rutaHUELLAS = "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"]."/huellas_digitales_".$aleatorio.".jpg";
+						//$origen = imagecreatefromjpeg($_FILES["nuevaFotoLicCond"]["tmp_name"]);	
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagejpeg($destino, $rutaDoc);						
+						if(move_uploaded_file($_FILES["nuevaFotoHUELLAS"]["tmp_name"], $rutaHUELLAS)) {							
+						}
+						else{								
+						}
+					}
+					if($_FILES["nuevaFotoHUELLAS"]["type"] == "image/png"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,99999);
+						$rutaHUELLAS = "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"]."/huellas_digitales_".$aleatorio.".png";
+						//$origen = imagecreatefrompng($_FILES["nuevaFotoDoc"]["tmp_name"]);
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagepng($destino, $rutaDoc);
+						if(move_uploaded_file($_FILES["nuevaFotoHUELLAS"]["tmp_name"], $rutaHUELLAS)) {							
+						}
+						else{								
+						}
+					}
+				}
 
 
 				$tabla = "tbl_empleados";
@@ -224,6 +610,8 @@ class ControladorEmpleados{
 							   "numero_isss" => $_POST["nuevoNumeroIsss"],
 							   "nombre_segun_isss" => $_POST["nuevoNombreIsss"],
 							   "lugar_expedicion_documento" => $_POST["nuevoLugarExpedicionDoc"],
+							   "fecha_expedicion_documento" => $_POST["nuevofecha_expedicion"],
+							   "fecha_vencimiento_documento" => $_POST["nuevofecha_vencimiento"],
 							   "licencia_conducir" => $_POST["nuevoLicenciaConducir"],
 							   "tipo_licencia_conducir" => $_POST["nuevoTipoLicenciaConducir"],
 							   "imagen_licencia_conducir" =>$rutaLicCond,
@@ -232,6 +620,7 @@ class ControladorEmpleados{
 							   "profesion_oficio" => $_POST["nuevoProfesionOficio"],
 							   "nacionalidad" => $_POST["nuevoNacionalidad"],
 							   "lugar_nacimiento" => $_POST["nuevoLugarNacimiento"],
+							   "fecha_nacimiento" => $_POST["nuevofecha_nacimiento"],
 							   "religion" => $_POST["nuevoReligion"],
 							   "grado_estudio" => $_POST["nuevoGradoEstudio"],
 							   "plantel" => $_POST["nuevoPlantel"],
@@ -247,11 +636,14 @@ class ControladorEmpleados{
 							   "numero_licencia_tenencia_armas" => $_POST["nuevoNumeroLicenciaTDA"],
 							   "imagen_licencia_tenencia_armas" =>$rutaLicLTA,
 							   "servicio_militar" => $_POST["nuevoServicioMilitar"],
+							   "fecha_servicio_inicio" => $_POST["nuevofecha_inism"],
+							   "fecha_servicio_fin" => $_POST["nuevofecha_finsm"],
 							   "lugar_servicio" => $_POST["nuevoLugarServicioMilitar"],
 							   "grado_militar" => $_POST["nuevoGradoMilitar"],
 							   "motivo_baja" => $_POST["nuevoMotivoBaja"],
 							   "ex_pnc" => $_POST["nuevoExPnc"],
 							   "curso_ansp" => $_POST["nuevoCursoANSP"],
+							   "imagen_diploma_ansp" =>$rutaANSP,
 							   "trabajo_anterior" => $_POST["nuevoTrabajoAnterior"],
 							   "sueldo_que_devengo" => $_POST["nuevoSueldoDevengo"],
 							   "trabajo_actual" => $_POST["nuevoTrabajoActual"],
@@ -259,6 +651,7 @@ class ControladorEmpleados{
 							   "suspendido_trabajo_anterior" => $_POST["nuevoSuspendidoAnterior"],
 							   "empresa_suspendio" => $_POST["nuevoEmpresaSuspendio"],
 							   "motivo_suspension" => $_POST["nuevoMotivoSuspension"],
+							   "fecha_suspension" => $_POST["nuevofecha_susp"],
 							   "experiencia_laboral" => $_POST["nuevoExperienciaLaboral"],
 							   "razon_trabajar_en_ise" => $_POST["nuevoRazonIse"],
 							   "numero_personas_dependientes" => $_POST["nuevoNumeroPersonasDependientes"],
@@ -271,6 +664,15 @@ class ControladorEmpleados{
 							   "evaluacion_actual" => $_POST["nuevoEvaluacionActual"],
 							   "info_verificada" => $_POST["nuevoInfoVerificada"],
 							   "confiable" => $_POST["nuevoConfiable"],
+							   "imagen_solicitud" =>$rutaSOLICITUD,
+							   "imagen_partida_nacimiento" =>$rutaPARTIDA,
+							   "imagen_antecedentes_penales" =>$rutaANTECEDENTES,
+							   "fecha_vencimiento_antecedentes_penales" => $_POST["nuevofecha_venceAP"],
+							   "imagen_solvencia_pnc" =>$rutaSOLVENCIAPNC,
+							   "fecha_vencimiento_solvencia_pnc" => $_POST["nuevofecha_venceSPNC"],
+							   "imagen_constancia_psicologica" =>$rutaPSYCO,
+							   "imagen_examen_poligrafico" =>$rutaPOLI,
+							   "imagen_huellas" =>$rutaHUELLAS,							   
                                "estado" => $_POST["nuevoEstado"],					           
 					           "fotografia"=>$ruta,
 							   "imagen_documento_identidad"=>$rutaDoc
@@ -573,6 +975,450 @@ class ControladorEmpleados{
 				}
 
 
+				/*=============================================
+				VALIDAR IMAGEN DIPLOMA ANSP
+				=============================================*/
+				$rutaANSP= $_POST["fotoActualANSP"];
+				if(isset($_FILES["editarFotoANSP"]["tmp_name"]) && !empty($_FILES["editarFotoANSP"]["tmp_name"])){
+					list($ancho, $alto) = getimagesize($_FILES["editarFotoANSP"]["tmp_name"]);
+					$nuevoAncho = 500;
+					$nuevoAlto = 500;
+					/*=============================================
+					CREAMOS EL DIRECTORIO DONDE VAMOS A GUARDAR LA FOTO DEL DOCUMENTO
+					=============================================*/
+					$directorio = "vistas/img/empleados/".$_POST["editarNumeroDocumento"];
+					/*=============================================
+					PRIMERO PREGUNTAMOS SI EXISTE OTRA IMAGEN EN LA BD
+					=============================================*/
+					if(!empty($_POST["fotoActualANSP"])){
+						unlink($_POST["fotoActualANSP"]);
+					}else{
+						mkdir($directorio, 0755);
+					}	
+					/*=============================================
+					DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
+					=============================================*/
+					if($_FILES["editarFotoANSP"]["type"] == "image/jpeg"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,99999);
+						$rutaANSP = "vistas/img/empleados/".$_POST["editarNumeroDocumento"]."/diploma_ansp".$aleatorio.".jpg";
+						//$origen = imagecreatefromjpeg($_FILES["editarFotoDoc"]["tmp_name"]);	
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagejpeg($destino, $rutaDoc);
+						if(move_uploaded_file($_FILES["editarFotoANSP"]["tmp_name"], $rutaANSP)) {							
+						}
+						else{								
+						}
+					}
+					if($_FILES["editarFotoANSP"]["type"] == "image/png"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,9999);
+						$rutaANSP = "vistas/img/empleados/".$_POST["editarNumeroDocumento"]."/diploma_ansp".$aleatorio.".png";
+						//$origen = imagecreatefrompng($_FILES["editarFotoDoc"]["tmp_name"]);
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagepng($destino, $ruta);
+						if(move_uploaded_file($_FILES["editarFotoANSP"]["tmp_name"], $rutaANSP)) {							
+						}
+						else{								
+						}
+					}
+				}
+
+				/*=============================================
+				VALIDAR IMAGEN PARA LA SOLICITUD
+				=============================================*/
+				$rutaSOLICITUD= $_POST["fotoActualSOLICITUD"];
+				if(isset($_FILES["editarFotoSOLICITUD"]["tmp_name"]) && !empty($_FILES["editarFotoSOLICITUD"]["tmp_name"])){
+					list($ancho, $alto) = getimagesize($_FILES["editarFotoSOLICITUD"]["tmp_name"]);
+					$nuevoAncho = 500;
+					$nuevoAlto = 500;
+					/*=============================================
+					CREAMOS EL DIRECTORIO DONDE VAMOS A GUARDAR LA FOTO DEL DOCUMENTO
+					=============================================*/
+					$directorio = "vistas/img/empleados/".$_POST["editarNumeroDocumento"];
+					/*=============================================
+					PRIMERO PREGUNTAMOS SI EXISTE OTRA IMAGEN EN LA BD
+					=============================================*/
+					if(!empty($_POST["fotoActualSOLICITUD"])){
+						unlink($_POST["fotoActualSOLICITUD"]);
+					}else{
+						mkdir($directorio, 0755);
+					}	
+					/*=============================================
+					DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
+					=============================================*/
+					if($_FILES["editarFotoSOLICITUD"]["type"] == "image/jpeg"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,99999);
+						$rutaSOLICITUD = "vistas/img/empleados/".$_POST["editarNumeroDocumento"]."/solicitud_".$aleatorio.".jpg";
+						//$origen = imagecreatefromjpeg($_FILES["editarFotoDoc"]["tmp_name"]);	
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagejpeg($destino, $rutaDoc);
+						if(move_uploaded_file($_FILES["editarFotoSOLICITUD"]["tmp_name"], $rutaSOLICITUD)) {							
+						}
+						else{								
+						}
+					}
+					if($_FILES["editarFotoSOLICITUD"]["type"] == "image/png"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,9999);
+						$rutaSOLICITUD = "vistas/img/empleados/".$_POST["editarNumeroDocumento"]."/solicitud_".$aleatorio.".png";
+						//$origen = imagecreatefrompng($_FILES["editarFotoDoc"]["tmp_name"]);
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagepng($destino, $ruta);
+						if(move_uploaded_file($_FILES["editarFotoSOLICITUD"]["tmp_name"], $rutaSOLICITUD)) {							
+						}
+						else{								
+						}
+					}
+				}
+
+				/*=============================================
+				VALIDAR IMAGEN PARA LA PARTIDA NACIMIENTO
+				=============================================*/
+				$rutaPARTIDA= $_POST["fotoActualPARTIDA"];
+				if(isset($_FILES["editarFotoPARTIDA"]["tmp_name"]) && !empty($_FILES["editarFotoPARTIDA"]["tmp_name"])){
+					list($ancho, $alto) = getimagesize($_FILES["editarFotoPARTIDA"]["tmp_name"]);
+					$nuevoAncho = 500;
+					$nuevoAlto = 500;
+					/*=============================================
+					CREAMOS EL DIRECTORIO DONDE VAMOS A GUARDAR LA FOTO DEL DOCUMENTO
+					=============================================*/
+					$directorio = "vistas/img/empleados/".$_POST["editarNumeroDocumento"];
+					/*=============================================
+					PRIMERO PREGUNTAMOS SI EXISTE OTRA IMAGEN EN LA BD
+					=============================================*/
+					if(!empty($_POST["fotoActualPARTIDA"])){
+						unlink($_POST["fotoActualPARTIDA"]);
+					}else{
+						mkdir($directorio, 0755);
+					}	
+					/*=============================================
+					DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
+					=============================================*/
+					if($_FILES["editarFotoPARTIDA"]["type"] == "image/jpeg"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,99999);
+						$rutaPARTIDA = "vistas/img/empleados/".$_POST["editarNumeroDocumento"]."/partidanacimiento_".$aleatorio.".jpg";
+						//$origen = imagecreatefromjpeg($_FILES["editarFotoDoc"]["tmp_name"]);	
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagejpeg($destino, $rutaDoc);
+						if(move_uploaded_file($_FILES["editarFotoPARTIDA"]["tmp_name"], $rutaPARTIDA)) {							
+						}
+						else{								
+						}
+					}
+					if($_FILES["editarFotoPARTIDA"]["type"] == "image/png"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,9999);
+						$rutaPARTIDA = "vistas/img/empleados/".$_POST["editarNumeroDocumento"]."/partidanacimiento_".$aleatorio.".png";
+						//$origen = imagecreatefrompng($_FILES["editarFotoDoc"]["tmp_name"]);
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagepng($destino, $ruta);
+						if(move_uploaded_file($_FILES["editarFotoPARTIDA"]["tmp_name"], $rutaPARTIDA)) {							
+						}
+						else{								
+						}
+					}
+				}
+
+				/*=============================================
+				VALIDAR IMAGEN PARA ANTECEDENTES PENALES
+				=============================================*/
+				$rutaANTECEDENTES= $_POST["fotoActualANTECEDENTES"];
+				if(isset($_FILES["editarFotoANTECEDENTES"]["tmp_name"]) && !empty($_FILES["editarFotoANTECEDENTES"]["tmp_name"])){
+					list($ancho, $alto) = getimagesize($_FILES["editarFotoANTECEDENTES"]["tmp_name"]);
+					$nuevoAncho = 500;
+					$nuevoAlto = 500;
+					/*=============================================
+					CREAMOS EL DIRECTORIO DONDE VAMOS A GUARDAR LA FOTO DEL DOCUMENTO
+					=============================================*/
+					$directorio = "vistas/img/empleados/".$_POST["editarNumeroDocumento"];
+					/*=============================================
+					PRIMERO PREGUNTAMOS SI EXISTE OTRA IMAGEN EN LA BD
+					=============================================*/
+					if(!empty($_POST["fotoActualANTECEDENTES"])){
+						unlink($_POST["fotoActualANTECEDENTES"]);
+					}else{
+						mkdir($directorio, 0755);
+					}	
+					/*=============================================
+					DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
+					=============================================*/
+					if($_FILES["editarFotoANTECEDENTES"]["type"] == "image/jpeg"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,99999);
+						$rutaANTECEDENTES = "vistas/img/empleados/".$_POST["editarNumeroDocumento"]."/antecedentespenales_".$aleatorio.".jpg";
+						//$origen = imagecreatefromjpeg($_FILES["editarFotoDoc"]["tmp_name"]);	
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagejpeg($destino, $rutaDoc);
+						if(move_uploaded_file($_FILES["editarFotoANTECEDENTES"]["tmp_name"], $rutaANTECEDENTES)) {							
+						}
+						else{								
+						}
+					}
+					if($_FILES["editarFotoANTECEDENTES"]["type"] == "image/png"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,9999);
+						$rutaANTECEDENTES = "vistas/img/empleados/".$_POST["editarNumeroDocumento"]."/antecedentespenales_".$aleatorio.".png";
+						//$origen = imagecreatefrompng($_FILES["editarFotoDoc"]["tmp_name"]);
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagepng($destino, $ruta);
+						if(move_uploaded_file($_FILES["editarFotoANTECEDENTES"]["tmp_name"], $rutaANTECEDENTES)) {							
+						}
+						else{								
+						}
+					}
+				}
+
+				/*=============================================
+				VALIDAR IMAGEN SOLVENCIA PNC
+				=============================================*/
+				$rutaSOLVENCIAPNC= $_POST["fotoActualSOLVENCIAPNC"];
+				if(isset($_FILES["editarFotoSOLVENCIAPNC"]["tmp_name"]) && !empty($_FILES["editarFotoSOLVENCIAPNC"]["tmp_name"])){
+					list($ancho, $alto) = getimagesize($_FILES["editarFotoSOLVENCIAPNC"]["tmp_name"]);
+					$nuevoAncho = 500;
+					$nuevoAlto = 500;
+					/*=============================================
+					CREAMOS EL DIRECTORIO DONDE VAMOS A GUARDAR LA FOTO DEL DOCUMENTO
+					=============================================*/
+					$directorio = "vistas/img/empleados/".$_POST["editarNumeroDocumento"];
+					/*=============================================
+					PRIMERO PREGUNTAMOS SI EXISTE OTRA IMAGEN EN LA BD
+					=============================================*/
+					if(!empty($_POST["fotoActualSOLVENCIAPNC"])){
+						unlink($_POST["fotoActualSOLVENCIAPNC"]);
+					}else{
+						mkdir($directorio, 0755);
+					}	
+					/*=============================================
+					DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
+					=============================================*/
+					if($_FILES["editarFotoSOLVENCIAPNC"]["type"] == "image/jpeg"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,99999);
+						$rutaSOLVENCIAPNC = "vistas/img/empleados/".$_POST["editarNumeroDocumento"]."/solvenciapnc_".$aleatorio.".jpg";
+						//$origen = imagecreatefromjpeg($_FILES["editarFotoDoc"]["tmp_name"]);	
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagejpeg($destino, $rutaDoc);
+						if(move_uploaded_file($_FILES["editarFotoSOLVENCIAPNC"]["tmp_name"], $rutaSOLVENCIAPNC)) {							
+						}
+						else{								
+						}
+					}
+					if($_FILES["editarFotoSOLVENCIAPNC"]["type"] == "image/png"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,9999);
+						$rutaSOLVENCIAPNC = "vistas/img/empleados/".$_POST["editarNumeroDocumento"]."/solvenciapnc_".$aleatorio.".png";
+						//$origen = imagecreatefrompng($_FILES["editarFotoDoc"]["tmp_name"]);
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagepng($destino, $ruta);
+						if(move_uploaded_file($_FILES["editarFotoSOLVENCIAPNC"]["tmp_name"], $rutaSOLVENCIAPNC)) {							
+						}
+						else{								
+						}
+					}
+				}
+
+				/*=============================================
+				VALIDAR IMAGEN CONSTANCIA PSYCO
+				=============================================*/
+				$rutaPSYCO= $_POST["fotoActualPSYCO"];
+				if(isset($_FILES["editarFotoPSYCO"]["tmp_name"]) && !empty($_FILES["editarFotoPSYCO"]["tmp_name"])){
+					list($ancho, $alto) = getimagesize($_FILES["editarFotoPSYCO"]["tmp_name"]);
+					$nuevoAncho = 500;
+					$nuevoAlto = 500;
+					/*=============================================
+					CREAMOS EL DIRECTORIO DONDE VAMOS A GUARDAR LA FOTO DEL DOCUMENTO
+					=============================================*/
+					$directorio = "vistas/img/empleados/".$_POST["editarNumeroDocumento"];
+					/*=============================================
+					PRIMERO PREGUNTAMOS SI EXISTE OTRA IMAGEN EN LA BD
+					=============================================*/
+					if(!empty($_POST["fotoActuaPSYCO"])){
+						unlink($_POST["fotoActuaPSYCO"]);
+					}else{
+						mkdir($directorio, 0755);
+					}	
+					/*=============================================
+					DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
+					=============================================*/
+					if($_FILES["editarFotoPSYCO"]["type"] == "image/jpeg"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,99999);
+						$rutaPSYCO = "vistas/img/empleados/".$_POST["editarNumeroDocumento"]."/constancia_psicologica_".$aleatorio.".jpg";
+						//$origen = imagecreatefromjpeg($_FILES["editarFotoDoc"]["tmp_name"]);	
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagejpeg($destino, $rutaDoc);
+						if(move_uploaded_file($_FILES["editarFotoPSYCO"]["tmp_name"], $rutaPSYCO)) {							
+						}
+						else{								
+						}
+					}
+					if($_FILES["editarFotoPSYCO"]["type"] == "image/png"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,9999);
+						$rutaPSYCO = "vistas/img/empleados/".$_POST["editarNumeroDocumento"]."/constancia_psicologica_".$aleatorio.".png";
+						//$origen = imagecreatefrompng($_FILES["editarFotoDoc"]["tmp_name"]);
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagepng($destino, $ruta);
+						if(move_uploaded_file($_FILES["editarFotoPSYCO"]["tmp_name"], $rutaPSYCO)) {							
+						}
+						else{								
+						}
+					}
+				}
+
+
+				/*=============================================
+				VALIDAR IMAGEN EXAMEN POLIGRAFICO
+				=============================================*/
+				$rutaPOLI= $_POST["fotoActualPOLI"];
+				if(isset($_FILES["editarFotoPOLI"]["tmp_name"]) && !empty($_FILES["editarFotoPOLI"]["tmp_name"])){
+					list($ancho, $alto) = getimagesize($_FILES["editarFotoPOLI"]["tmp_name"]);
+					$nuevoAncho = 500;
+					$nuevoAlto = 500;
+					/*=============================================
+					CREAMOS EL DIRECTORIO DONDE VAMOS A GUARDAR LA FOTO DEL DOCUMENTO
+					=============================================*/
+					$directorio = "vistas/img/empleados/".$_POST["editarNumeroDocumento"];
+					/*=============================================
+					PRIMERO PREGUNTAMOS SI EXISTE OTRA IMAGEN EN LA BD
+					=============================================*/
+					if(!empty($_POST["fotoActuaPOLI"])){
+						unlink($_POST["fotoActuaPOLI"]);
+					}else{
+						mkdir($directorio, 0755);
+					}	
+					/*=============================================
+					DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
+					=============================================*/
+					if($_FILES["editarFotoPOLI"]["type"] == "image/jpeg"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,99999);
+						$rutaPOLI = "vistas/img/empleados/".$_POST["editarNumeroDocumento"]."/examen_poligrafico_".$aleatorio.".jpg";
+						//$origen = imagecreatefromjpeg($_FILES["editarFotoDoc"]["tmp_name"]);	
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagejpeg($destino, $rutaDoc);
+						if(move_uploaded_file($_FILES["editarFotoPOLI"]["tmp_name"], $rutaPOLI)) {							
+						}
+						else{								
+						}
+					}
+					if($_FILES["editarFotoPOLI"]["type"] == "image/png"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,9999);
+						$rutaPOLI= "vistas/img/empleados/".$_POST["editarNumeroDocumento"]."/examen_poligrafico".$aleatorio.".png";
+						//$origen = imagecreatefrompng($_FILES["editarFotoDoc"]["tmp_name"]);
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagepng($destino, $ruta);
+						if(move_uploaded_file($_FILES["editarFotoPOLI"]["tmp_name"], $rutaPOLI)) {							
+						}
+						else{								
+						}
+					}
+				}
+
+
+				/*=============================================
+				VALIDAR IMAGEN HUELLAS DIGITALES
+				=============================================*/
+				$rutaHUELLAS= $_POST["fotoActualHUELLAS"];
+				if(isset($_FILES["editarFotoHUELLAS"]["tmp_name"]) && !empty($_FILES["editarFotoHUELLAS"]["tmp_name"])){
+					list($ancho, $alto) = getimagesize($_FILES["editarFotoHUELLAS"]["tmp_name"]);
+					$nuevoAncho = 500;
+					$nuevoAlto = 500;
+					/*=============================================
+					CREAMOS EL DIRECTORIO DONDE VAMOS A GUARDAR LA FOTO DEL DOCUMENTO
+					=============================================*/
+					$directorio = "vistas/img/empleados/".$_POST["editarNumeroDocumento"];
+					/*=============================================
+					PRIMERO PREGUNTAMOS SI EXISTE OTRA IMAGEN EN LA BD
+					=============================================*/
+					if(!empty($_POST["fotoActualHUELLAS"])){
+						unlink($_POST["fotoActualHUELLAS"]);
+					}else{
+						mkdir($directorio, 0755);
+					}	
+					/*=============================================
+					DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
+					=============================================*/
+					if($_FILES["editarFotoHUELLAS"]["type"] == "image/jpeg"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,99999);
+						$rutaHUELLAS = "vistas/img/empleados/".$_POST["editarNumeroDocumento"]."/huellas_digitales_".$aleatorio.".jpg";
+						//$origen = imagecreatefromjpeg($_FILES["editarFotoDoc"]["tmp_name"]);	
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagejpeg($destino, $rutaDoc);
+						if(move_uploaded_file($_FILES["editarFotoHUELLAS"]["tmp_name"], $rutaHUELLAS)) {							
+						}
+						else{								
+						}
+					}
+					if($_FILES["editarFotoHUELLAS"]["type"] == "image/png"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,9999);
+						$rutaHUELLAS= "vistas/img/empleados/".$_POST["editarNumeroDocumento"]."/huellas_digitales_".$aleatorio.".png";
+						//$origen = imagecreatefrompng($_FILES["editarFotoDoc"]["tmp_name"]);
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagepng($destino, $ruta);
+						if(move_uploaded_file($_FILES["editarFotoHUELLAS"]["tmp_name"], $rutaHUELLAS)) {							
+						}
+						else{								
+						}
+					}
+				}
+
+
+
 				$tabla = "tbl_empleados";
 
 				$datos = array("primer_nombre" => $_POST["editarNombre"],
@@ -590,6 +1436,8 @@ class ControladorEmpleados{
 								"numero_isss" => $_POST["editarNumeroIsss"],
 								"nombre_segun_isss" => $_POST["editarNombreIsss"],
 								"lugar_expedicion_documento" => $_POST["editarLugarExpedicionDoc"],
+								"fecha_expedicion_documento" => $_POST["editarfecha_expedicion"],
+								"fecha_vencimiento_documento" => $_POST["editarfecha_vencimiento"],
 								"licencia_conducir" => $_POST["editarNumeroLicenciaConducir"],
 								"tipo_licencia_conducir" => $_POST["editarTipoLicenciaConducir"],
 								"imagen_licencia_conducir"=>$rutaLicCond,
@@ -598,6 +1446,7 @@ class ControladorEmpleados{
 								"profesion_oficio" => $_POST["editarProfesionOficio"],
 								"nacionalidad" => $_POST["editarNacionalidad"],
 								"lugar_nacimiento" => $_POST["editarLugarNac"],
+								"fecha_nacimiento" => $_POST["editarfecha_nacimiento"],
 								"religion" => $_POST["editarReligion"],
 								"grado_estudio" => $_POST["editarGradoEstudios"],
 								"plantel" => $_POST["editarPlantel"],
@@ -613,10 +1462,13 @@ class ControladorEmpleados{
 								"numero_licencia_tenencia_armas" => $_POST["editarNumeroLicenciaTDA"],
 								"imagen_licencia_tenencia_armas"=>$rutaLicLTA,
 								"servicio_militar" => $_POST["editarServicioMilitar"],
+								"fecha_servicio_inicio" => $_POST["editarfecha_inism"],
+							   "fecha_servicio_fin" => $_POST["editarfecha_finsm"],
 								"lugar_servicio" => $_POST["editarLugarServicioMilitar"],
 								"grado_militar" => $_POST["editarGradoMilitar"],
 								"motivo_baja" => $_POST["editarMotivoBaja"],
 								"ex_pnc" => $_POST["editarExPNC"],
+								"imagen_diploma_ansp"=>$rutaANSP,
 								"curso_ansp" => $_POST["editarCursoANSP"],
 								"trabajo_anterior" => $_POST["editarTrabajoAnterior"],
 								"sueldo_que_devengo" => $_POST["editarSueldoDevengo"],
@@ -625,6 +1477,7 @@ class ControladorEmpleados{
 								"suspendido_trabajo_anterior" => $_POST["editarSuspendidoAnterior"],
 								"empresa_suspendio" => $_POST["editarEmpresaSuspendio"],
 								"motivo_suspension" => $_POST["editarMotivoSuspension"],
+								"fecha_suspension" => $_POST["editarfecha_susp"],
 								"experiencia_laboral" => $_POST["editarExperienciaLaboral"],
 								"razon_trabajar_en_ise" => $_POST["editarRazonIse"],
 								"numero_personas_dependientes" => $_POST["editarPersonasDependientes"],
@@ -636,13 +1489,22 @@ class ControladorEmpleados{
 								"referencia_actual" => $_POST["editarNomRefTrabajoActual"],
 								"evaluacion_actual" => $_POST["editarEvaluacionActual"],
 								"info_verificada" => $_POST["editarInfoVerificada"],
+								"imagen_solicitud"=>$rutaSOLICITUD,
+								"imagen_partida_nacimiento"=>$rutaPARTIDA,
+								"imagen_antecedentes_penales"=>$rutaANTECEDENTES,
+								"fecha_vencimiento_antecedentes_penales" => $_POST["editarfecha_venceAP"],
+								"imagen_solvencia_pnc"=>$rutaSOLVENCIAPNC,
+								"fecha_vencimiento_solvencia_pnc" => $_POST["editarfecha_venceSPNC"],
+								"imagen_constancia_psicologica"=>$rutaPSYCO,
+								"imagen_examen_poligrafico"=>$rutaPOLI,
+								"imagen_huellas"=>$rutaHUELLAS,
 								"confiable" => $_POST["editarConfiable"],
                                "estado" => $_POST["editarEstado"],					           
 					           "fotografia"=>$ruta,
 							   "imagen_documento_identidad"=>$rutaDoc,
                                "id"=>$_POST["idEmpleado"]);
 
-				//print_r($datos);
+				
 
 				$respuesta = ModeloEmpleados::mdlEditarEmpleado($tabla, $datos);
 
@@ -665,6 +1527,24 @@ class ControladorEmpleados{
 
 					</script>';
 
+				}
+				else{
+					echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "El Empleado NO ha sido editado correctamente",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result) {
+									if (result.value) {
+
+									window.location = "empleados";
+
+									}
+								})
+
+					</script>';
 				}
 
 

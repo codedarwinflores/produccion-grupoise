@@ -59,6 +59,8 @@ class ModeloEmpleados{
 		numero_isss,
 		nombre_segun_isss,
 		lugar_expedicion_documento,
+		fecha_expedicion_documento,
+		fecha_vencimiento_documento,
 		licencia_conducir,
 		tipo_licencia_conducir,
 		imagen_licencia_conducir,
@@ -67,6 +69,7 @@ class ModeloEmpleados{
 		profesion_oficio,
 		nacionalidad,
 		lugar_nacimiento,
+		fecha_nacimiento,
 		religion,
 		grado_estudio,
 		plantel,
@@ -82,11 +85,14 @@ class ModeloEmpleados{
 		numero_licencia_tenencia_armas,
 		imagen_licencia_tenencia_armas,
 		servicio_militar,
-		lugar_servicio,
+		fecha_servicio_inicio,
+		fecha_servicio_fin,
+		lugar_servicio,		
 		grado_militar,
 		motivo_baja,
 		ex_pnc,
 		curso_ansp,
+		imagen_diploma_ansp,
 		trabajo_anterior,
 		sueldo_que_devengo,
 		trabajo_actual,
@@ -94,6 +100,7 @@ class ModeloEmpleados{
 		suspendido_trabajo_anterior,
 		empresa_suspendio,
 		motivo_suspension,
+		fecha_suspension,
 		experiencia_laboral,
 		razon_trabajar_en_ise,
 		numero_personas_dependientes,
@@ -105,6 +112,15 @@ class ModeloEmpleados{
 		referencia_actual,
 		evaluacion_actual,
 		info_verificada,
+		imagen_solicitud,
+		imagen_partida_nacimiento,
+		imagen_antecedentes_penales,
+		fecha_vencimiento_antecedentes_penales,
+		imagen_solvencia_pnc,
+		fecha_vencimiento_solvencia_pnc,
+		imagen_constancia_psicologica,
+		imagen_examen_poligrafico,
+		imagen_huellas,
 		confiable,
         estado,
         fotografia,
@@ -125,6 +141,8 @@ class ModeloEmpleados{
 		:numero_isss,
 		:nombre_segun_isss,
 		:lugar_expedicion_documento,
+		:fecha_expedicion_documento,
+		:fecha_vencimiento_documento,
 		:licencia_conducir,
 		:tipo_licencia_conducir,
 		:imagen_licencia_conducir,
@@ -133,6 +151,7 @@ class ModeloEmpleados{
 		:profesion_oficio,
 		:nacionalidad,
 		:lugar_nacimiento,
+		:fecha_nacimiento,
 		:religion,
 		:grado_estudio,
 		:plantel,
@@ -148,11 +167,14 @@ class ModeloEmpleados{
 		:numero_licencia_tenencia_armas,
 		:imagen_licencia_tenencia_armas,
 		:servicio_militar,
+		:fecha_servicio_inicio,
+		:fecha_servicio_fin,
 		:lugar_servicio,
 		:grado_militar,
 		:motivo_baja,
 		:ex_pnc,
 		:curso_ansp,
+		:imagen_diploma_ansp,
 		:trabajo_anterior,
 		:sueldo_que_devengo,
 		:trabajo_actual,
@@ -160,6 +182,7 @@ class ModeloEmpleados{
 		:suspendido_trabajo_anterior,
 		:empresa_suspendio,
 		:motivo_suspension,
+		:fecha_suspension,
 		:experiencia_laboral,
 		:razon_trabajar_en_ise,
 		:numero_personas_dependientes,
@@ -171,6 +194,15 @@ class ModeloEmpleados{
 		:referencia_actual,
 		:evaluacion_actual,
 		:info_verificada,
+		:imagen_solicitud,
+		:imagen_partida_nacimiento,
+		:imagen_antecedentes_penales,
+		:fecha_vencimiento_antecedentes_penales,
+		:imagen_solvencia_pnc,
+		:fecha_vencimiento_solvencia_pnc,
+		:imagen_constancia_psicologica,
+		:imagen_examen_poligrafico,
+		:imagen_huellas,
 		:confiable,
         :estado,
         :fotografia,
@@ -191,7 +223,9 @@ class ModeloEmpleados{
 		$stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
 		$stmt->bindParam(":numero_isss", $datos["numero_isss"], PDO::PARAM_STR);
 		$stmt->bindParam(":nombre_segun_isss", $datos["nombre_segun_isss"], PDO::PARAM_STR);
-		$stmt->bindParam(":lugar_expedicion_documento", $datos["lugar_expedicion_documento"], PDO::PARAM_STR);
+		$stmt->bindParam(":lugar_expedicion_documento", $datos["lugar_expedicion_documento"], PDO::PARAM_STR);		
+		$stmt->bindParam(":fecha_expedicion_documento", $datos["fecha_expedicion_documento"], PDO::PARAM_STR);		
+		$stmt->bindParam(":fecha_vencimiento_documento", $datos["fecha_vencimiento_documento"], PDO::PARAM_STR);
 		$stmt->bindParam(":licencia_conducir", $datos["licencia_conducir"], PDO::PARAM_STR);
 		$stmt->bindParam(":tipo_licencia_conducir", $datos["tipo_licencia_conducir"], PDO::PARAM_STR);
 		$stmt->bindParam(":imagen_licencia_conducir", $datos["imagen_licencia_conducir"], PDO::PARAM_STR);
@@ -200,6 +234,7 @@ class ModeloEmpleados{
 		$stmt->bindParam(":profesion_oficio", $datos["profesion_oficio"], PDO::PARAM_STR);
 		$stmt->bindParam(":nacionalidad", $datos["nacionalidad"], PDO::PARAM_STR);
 		$stmt->bindParam(":lugar_nacimiento", $datos["lugar_nacimiento"], PDO::PARAM_STR);
+		$stmt->bindParam(":fecha_nacimiento", $datos["fecha_nacimiento"], PDO::PARAM_STR);
 		$stmt->bindParam(":religion", $datos["religion"], PDO::PARAM_STR);
 		$stmt->bindParam(":grado_estudio", $datos["grado_estudio"], PDO::PARAM_STR);
 		$stmt->bindParam(":plantel", $datos["plantel"], PDO::PARAM_STR);
@@ -214,11 +249,14 @@ class ModeloEmpleados{
 		$stmt->bindParam(":licencia_tenencia_armas", $datos["licencia_tenencia_armas"], PDO::PARAM_STR);
 		$stmt->bindParam(":numero_licencia_tenencia_armas", $datos["numero_licencia_tenencia_armas"], PDO::PARAM_STR);
 		$stmt->bindParam(":imagen_licencia_tenencia_armas", $datos["imagen_licencia_tenencia_armas"], PDO::PARAM_STR);
-		$stmt->bindParam(":servicio_militar", $datos["servicio_militar"], PDO::PARAM_STR);
+		$stmt->bindParam(":servicio_militar", $datos["servicio_militar"], PDO::PARAM_STR);		
+		$stmt->bindParam(":fecha_servicio_inicio", $datos["fecha_servicio_inicio"], PDO::PARAM_STR);
+		$stmt->bindParam(":fecha_servicio_fin", $datos["fecha_servicio_fin"], PDO::PARAM_STR);
 		$stmt->bindParam(":lugar_servicio", $datos["lugar_servicio"], PDO::PARAM_STR);
 		$stmt->bindParam(":grado_militar", $datos["grado_militar"], PDO::PARAM_STR);
 		$stmt->bindParam(":motivo_baja", $datos["motivo_baja"], PDO::PARAM_STR);
 		$stmt->bindParam(":ex_pnc", $datos["ex_pnc"], PDO::PARAM_STR);
+		$stmt->bindParam(":imagen_diploma_ansp", $datos["imagen_diploma_ansp"], PDO::PARAM_STR);
 		$stmt->bindParam(":curso_ansp", $datos["curso_ansp"], PDO::PARAM_STR);
 		$stmt->bindParam(":trabajo_anterior", $datos["trabajo_anterior"], PDO::PARAM_STR);
 		$stmt->bindParam(":sueldo_que_devengo", $datos["sueldo_que_devengo"], PDO::PARAM_STR);
@@ -226,7 +264,8 @@ class ModeloEmpleados{
 		$stmt->bindParam(":sueldo_que_devenga", $datos["sueldo_que_devenga"], PDO::PARAM_STR);
 		$stmt->bindParam(":suspendido_trabajo_anterior", $datos["suspendido_trabajo_anterior"], PDO::PARAM_STR);
 		$stmt->bindParam(":empresa_suspendio", $datos["empresa_suspendio"], PDO::PARAM_STR);
-		$stmt->bindParam(":motivo_suspension", $datos["motivo_suspension"], PDO::PARAM_STR);
+		$stmt->bindParam(":motivo_suspension", $datos["motivo_suspension"], PDO::PARAM_STR);		
+		$stmt->bindParam(":fecha_suspension", $datos["fecha_suspension"], PDO::PARAM_STR);
 		$stmt->bindParam(":experiencia_laboral", $datos["experiencia_laboral"], PDO::PARAM_STR);
 		$stmt->bindParam(":razon_trabajar_en_ise", $datos["razon_trabajar_en_ise"], PDO::PARAM_STR);
 		$stmt->bindParam(":numero_personas_dependientes", $datos["numero_personas_dependientes"], PDO::PARAM_STR);
@@ -237,13 +276,26 @@ class ModeloEmpleados{
 		$stmt->bindParam(":evaluacion_anterior", $datos["evaluacion_anterior"], PDO::PARAM_STR);
 		$stmt->bindParam(":referencia_actual", $datos["referencia_actual"], PDO::PARAM_STR);
 		$stmt->bindParam(":evaluacion_actual", $datos["evaluacion_actual"], PDO::PARAM_STR);
-		$stmt->bindParam(":info_verificada", $datos["info_verificada"], PDO::PARAM_STR);
+		$stmt->bindParam(":info_verificada", $datos["info_verificada"], PDO::PARAM_STR); 
+		$stmt->bindParam(":imagen_solicitud", $datos["imagen_solicitud"], PDO::PARAM_STR);		
+		$stmt->bindParam(":imagen_partida_nacimiento", $datos["imagen_partida_nacimiento"], PDO::PARAM_STR);		
+		$stmt->bindParam(":imagen_antecedentes_penales", $datos["imagen_antecedentes_penales"], PDO::PARAM_STR);		
+		$stmt->bindParam(":fecha_vencimiento_antecedentes_penales", $datos["fecha_vencimiento_antecedentes_penales"], PDO::PARAM_STR);		
+		$stmt->bindParam(":imagen_solvencia_pnc", $datos["imagen_solvencia_pnc"], PDO::PARAM_STR);				
+		$stmt->bindParam(":fecha_vencimiento_solvencia_pnc", $datos["fecha_vencimiento_solvencia_pnc"], PDO::PARAM_STR);	
+		$stmt->bindParam(":imagen_constancia_psicologica", $datos["imagen_constancia_psicologica"], PDO::PARAM_STR);		
+		$stmt->bindParam(":imagen_examen_poligrafico", $datos["imagen_examen_poligrafico"], PDO::PARAM_STR);		
+		$stmt->bindParam(":imagen_huellas", $datos["imagen_huellas"], PDO::PARAM_STR);
 		$stmt->bindParam(":confiable", $datos["confiable"], PDO::PARAM_STR);
 		$stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
 		$stmt->bindParam(":fotografia", $datos["fotografia"], PDO::PARAM_STR);
 		$stmt->bindParam(":imagen_documento_identidad", $datos["imagen_documento_identidad"], PDO::PARAM_STR);
 
 		if($stmt->execute()){
+			
+
+			print_r($datos);
+
 
 			return "ok";	
 
@@ -281,6 +333,8 @@ class ModeloEmpleados{
 		numero_isss = :numero_isss,
 		nombre_segun_isss = :nombre_segun_isss,
 		lugar_expedicion_documento = :lugar_expedicion_documento,
+		fecha_expedicion_documento = :fecha_expedicion_documento,
+		fecha_vencimiento_documento =:fecha_vencimiento_documento,
 		licencia_conducir = :licencia_conducir,
 		tipo_licencia_conducir = :tipo_licencia_conducir,
 		imagen_licencia_conducir = :imagen_licencia_conducir,
@@ -289,6 +343,7 @@ class ModeloEmpleados{
 		profesion_oficio = :profesion_oficio,
 		nacionalidad = :nacionalidad,
 		lugar_nacimiento = :lugar_nacimiento,
+		fecha_nacimiento = :fecha_nacimiento,
 		religion = :religion,
 		grado_estudio = :grado_estudio,
 		plantel = :plantel,
@@ -304,11 +359,14 @@ class ModeloEmpleados{
 		numero_licencia_tenencia_armas = :numero_licencia_tenencia_armas,
 		imagen_licencia_tenencia_armas = :imagen_licencia_tenencia_armas.
 		servicio_militar = :servicio_militar,
+		fecha_servicio_inicio = :fecha_servicio_inicio,
+		fecha_servicio_fin = :fecha_servicio_fin,
 		lugar_servicio = :lugar_servicio,
 		grado_militar = :grado_militar,
 		motivo_baja = :motivo_baja,
 		ex_pnc = :ex_pnc,
 		curso_ansp = :curso_ansp,
+		imagen_diploma_ansp = :imagen_diploma_ansp,
 		trabajo_anterior = :trabajo_anterior,
 		sueldo_que_devengo = :sueldo_que_devengo,
 		trabajo_actual = :trabajo_actual,
@@ -316,6 +374,7 @@ class ModeloEmpleados{
 		suspendido_trabajo_anterior = :suspendido_trabajo_anterior,
 		empresa_suspendio = :empresa_suspendio,
 		motivo_suspension = :motivo_suspension,
+		fecha_suspension = :fecha_suspension,
 		experiencia_laboral = :experiencia_laboral,
 		razon_trabajar_en_ise = :razon_trabajar_en_ise,
 		numero_personas_dependientes = :numero_personas_dependientes,
@@ -327,6 +386,15 @@ class ModeloEmpleados{
 		referencia_actual = :referencia_actual,
 		evaluacion_actual = :evaluacion_actual,
 		info_verificada = :info_verificada,
+		imagen_solicitud = :imagen_solicitud,
+		imagen_partida_nacimiento = :imagen_partida_nacimiento,
+		imagen_antecedentes_penales = :imagen_antecedentes_penales,
+		fecha_vencimiento_antecedentes_penales =:fecha_vencimiento_antecedentes_penales,
+		imagen_solvencia_pnc = :imagen_solvencia_pnc,
+		fecha_vencimiento_solvencia_pnc = :fecha_vencimiento_solvencia_pnc,
+		imagen_constancia_psicologica = :imagen_constancia_psicologica,
+		imagen_examen_poligrafico = :imagen_examen_poligrafico,
+		imagen_huellas = :imagen_huellas,
 		confiable = :confiable,
         estado = :estado, 
         fotografia = :fotografia,
@@ -348,7 +416,9 @@ class ModeloEmpleados{
 		$stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
 		$stmt->bindParam(":numero_isss", $datos["numero_isss"], PDO::PARAM_STR);
 		$stmt->bindParam(":nombre_segun_isss", $datos["nombre_segun_isss"], PDO::PARAM_STR);
-		$stmt->bindParam(":lugar_expedicion_documento", $datos["lugar_expedicion_documento"], PDO::PARAM_STR);
+		$stmt->bindParam(":lugar_expedicion_documento", $datos["lugar_expedicion_documento"], PDO::PARAM_STR);		
+		$stmt->bindParam(":fecha_expedicion_documento", $datos["fecha_expedicion_documento"], PDO::PARAM_STR);		
+		$stmt->bindParam(":fecha_vencimiento_documento", $datos["fecha_vencimiento_documento"], PDO::PARAM_STR);
 		$stmt->bindParam(":licencia_conducir", $datos["licencia_conducir"], PDO::PARAM_STR);
 		$stmt->bindParam(":tipo_licencia_conducir", $datos["tipo_licencia_conducir"], PDO::PARAM_STR); 
 		$stmt->bindParam(":imagen_licencia_conducir", $datos["imagen_licencia_conducir"], PDO::PARAM_STR);
@@ -356,7 +426,8 @@ class ModeloEmpleados{
 		$stmt->bindParam(":nup", $datos["nup"], PDO::PARAM_STR);
 		$stmt->bindParam(":profesion_oficio", $datos["profesion_oficio"], PDO::PARAM_STR);
 		$stmt->bindParam(":nacionalidad", $datos["nacionalidad"], PDO::PARAM_STR);
-		$stmt->bindParam(":lugar_nacimiento", $datos["lugar_nacimiento"], PDO::PARAM_STR);
+		$stmt->bindParam(":lugar_nacimiento", $datos["lugar_nacimiento"], PDO::PARAM_STR);		
+		$stmt->bindParam(":fecha_nacimiento", $datos["fecha_nacimiento"], PDO::PARAM_STR);
 		$stmt->bindParam(":religion", $datos["religion"], PDO::PARAM_STR);
 		$stmt->bindParam(":grado_estudio", $datos["grado_estudio"], PDO::PARAM_STR);
 		$stmt->bindParam(":plantel", $datos["plantel"], PDO::PARAM_STR);
@@ -372,11 +443,14 @@ class ModeloEmpleados{
 		$stmt->bindParam(":numero_licencia_tenencia_armas", $datos["numero_licencia_tenencia_armas"], PDO::PARAM_STR); 
 		$stmt->bindParam(":imagen_licencia_tenencia_armas", $datos["imagen_licencia_tenencia_armas"], PDO::PARAM_STR);
 		$stmt->bindParam(":servicio_militar", $datos["servicio_militar"], PDO::PARAM_STR);
+		$stmt->bindParam(":fecha_servicio_inicio", $datos["fecha_servicio_inicio"], PDO::PARAM_STR);
+		$stmt->bindParam(":fecha_servicio_fin", $datos["fecha_servicio_fin"], PDO::PARAM_STR);
 		$stmt->bindParam(":lugar_servicio", $datos["lugar_servicio"], PDO::PARAM_STR);
 		$stmt->bindParam(":grado_militar", $datos["grado_militar"], PDO::PARAM_STR);
 		$stmt->bindParam(":motivo_baja", $datos["motivo_baja"], PDO::PARAM_STR);
 		$stmt->bindParam(":ex_pnc", $datos["ex_pnc"], PDO::PARAM_STR);
 		$stmt->bindParam(":curso_ansp", $datos["curso_ansp"], PDO::PARAM_STR);
+		$stmt->bindParam(":imagen_diploma_ansp", $datos["imagen_diploma_ansp"], PDO::PARAM_STR);
 		$stmt->bindParam(":trabajo_anterior", $datos["trabajo_anterior"], PDO::PARAM_STR);
 		$stmt->bindParam(":sueldo_que_devengo", $datos["sueldo_que_devengo"], PDO::PARAM_STR);
 		$stmt->bindParam(":trabajo_actual", $datos["trabajo_actual"], PDO::PARAM_STR);
@@ -384,6 +458,7 @@ class ModeloEmpleados{
 		$stmt->bindParam(":suspendido_trabajo_anterior", $datos["suspendido_trabajo_anterior"], PDO::PARAM_STR);
 		$stmt->bindParam(":empresa_suspendio", $datos["empresa_suspendio"], PDO::PARAM_STR);
 		$stmt->bindParam(":motivo_suspension", $datos["motivo_suspension"], PDO::PARAM_STR);
+		$stmt->bindParam(":fecha_suspension", $datos["fecha_suspension"], PDO::PARAM_STR);
 		$stmt->bindParam(":experiencia_laboral", $datos["experiencia_laboral"], PDO::PARAM_STR);
 		$stmt->bindParam(":razon_trabajar_en_ise", $datos["razon_trabajar_en_ise"], PDO::PARAM_STR);
 		$stmt->bindParam(":numero_personas_dependientes", $datos["numero_personas_dependientes"], PDO::PARAM_STR);
@@ -394,13 +469,24 @@ class ModeloEmpleados{
 		$stmt->bindParam(":evaluacion_anterior", $datos["evaluacion_anterior"], PDO::PARAM_STR);
 		$stmt->bindParam(":referencia_actual", $datos["referencia_actual"], PDO::PARAM_STR);
 		$stmt->bindParam(":evaluacion_actual", $datos["evaluacion_actual"], PDO::PARAM_STR);
-		$stmt->bindParam(":info_verificada", $datos["info_verificada"], PDO::PARAM_STR);
+		$stmt->bindParam(":info_verificada", $datos["info_verificada"], PDO::PARAM_STR);		
+		$stmt->bindParam(":imagen_solicitud", $datos["imagen_solicitud"], PDO::PARAM_STR);		
+		$stmt->bindParam(":imagen_partida_nacimiento", $datos["imagen_partida_nacimiento"], PDO::PARAM_STR);		
+		$stmt->bindParam(":imagen_antecedentes_penales", $datos["imagen_antecedentes_penales"], PDO::PARAM_STR);
+		$stmt->bindParam(":fecha_vencimiento_antecedentes_penales", $datos["fecha_vencimiento_antecedentes_penales"], PDO::PARAM_STR);				
+		$stmt->bindParam(":imagen_solvencia_pnc", $datos["imagen_solvencia_pnc"], PDO::PARAM_STR);	
+		$stmt->bindParam(":fecha_vencimiento_solvencia_pnc", $datos["fecha_vencimiento_solvencia_pnc"], PDO::PARAM_STR);	
+		$stmt->bindParam(":imagen_constancia_psicologica", $datos["imagen_constancia_psicologica"], PDO::PARAM_STR);		
+		$stmt->bindParam(":imagen_examen_poligrafico", $datos["imagen_examen_poligrafico"], PDO::PARAM_STR);		
+		$stmt->bindParam(":imagen_huellas", $datos["imagen_huellas"], PDO::PARAM_STR);
 		$stmt->bindParam(":confiable", $datos["confiable"], PDO::PARAM_STR);
 		$stmt -> bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
         $stmt -> bindParam(":fotografia", $datos["fotografia"], PDO::PARAM_STR);
 		$stmt -> bindParam(":imagen_documento_identidad", $datos["imagen_documento_identidad"], PDO::PARAM_STR);
 		$stmt -> bindParam(":id", $datos["id"], PDO::PARAM_INT);
 
+
+	
 		if($stmt -> execute()){
 
 			return "ok";
