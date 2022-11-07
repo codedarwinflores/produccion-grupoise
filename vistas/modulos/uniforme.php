@@ -157,6 +157,7 @@ MODAL AGREGAR
               /*  $datos = array("".$row['Field']."" => $_POST["nuevo".$row['Field'].""]); */
            ?>
             <div class="form-group grupo_<?php echo $row['Field'];?> ugrupo_<?php echo $row['Field'];?>  <?php echo $row['Field'];?>">
+         <label for="" class="label_<?php echo $row['Field'];?>"></label> 
               
               <div class="input-group">
               
@@ -168,11 +169,14 @@ MODAL AGREGAR
 
             </div>
 
+
           <?php
              }
           ?>
              
-             <div class="input-group tipo_uniforme_s">
+             <div class="tipo_uniforme_s">
+              <label for="">Seleccionar Tipo Uniforme</label>
+             <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
                 <select name="nuevotipo_uniforme" required  id="" class="form-control input-lg nuevotipo_uniforme">
                   <option value="">Seleccionar Tipo Uniforme</option>
@@ -182,14 +186,18 @@ MODAL AGREGAR
                   <option value="Gorra">Gorra</option>
                 </select>
              </div>
+             </div>
 
-             <div class="input-group estado_uniforme">
+             <div class="estado_uniforme">
+              <label for="">Seleccionar Estado</label>
+             <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-shield"></i></span>
                 <select name="nuevoestado" required  id="" class="form-control input-lg nuevoestado">
                   <option value="">Seleccionar Estado</option>
                   <option value="Usado">Usado</option>
                   <option value="Nuevo">Nuevo</option>
                 </select>
+             </div>
              </div>
 
           
@@ -271,6 +279,7 @@ MODAL EDITAR
              foreach($data as $row) {
            ?>
             <div class="form-group egrupo_<?php echo $row['Field'];?> <?php echo $row['Field'];?>">
+         <label for="" class="label_<?php echo $row['Field'];?>"></label> 
               
               <div class="input-group">
               
@@ -286,8 +295,10 @@ MODAL EDITAR
              }
           ?>
              
-             
-             <div class="input-group tipo_uniforme_s_editar">
+             <div class="tipo_uniforme_s_editar">
+             <label for="">Seleccionar Tipo Uniforme</label>
+
+             <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
                 <select name="editartipo_uniforme" required  id="editartipo_uniforme" class="form-control input-lg editartipo_uniforme">
                   <option value="">Seleccionar Tipo Uniforme</option>
@@ -297,14 +308,19 @@ MODAL EDITAR
                   <option value="Gorra">Gorra</option>
                 </select>
              </div>
+             </div>
 
-             <div class="input-group estado_uniforme_editar">
+             <div class="estado_uniforme_editar">
+             <label for="">Seleccionar Estado</label>
+
+             <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-shield"></i></span>
                 <select name="editarestado" required  id="editarestado" class="form-control input-lg editarestado">
                   <option value="">Seleccionar Estado</option>
                   <option value="Usado">Usado</option>
                   <option value="Nuevo">Nuevo</option>
                 </select>
+             </div>
              </div>
 
 

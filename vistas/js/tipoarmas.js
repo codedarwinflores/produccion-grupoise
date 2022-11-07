@@ -3,14 +3,24 @@ $(document).ready(function(){
 
 	var  texto= "Ingresar";
 
-	$(".tipoarma_input_id").removeAttr("required");;
+	$(".tipoarma_input_id").removeAttr("required");
 
 	
 	$(".icono_nombre_tipo").addClass("fa fa-server");
 	$(".tipoarma_input_nombre_tipo").attr("placeholder", texto+"  Tipo de Arma");
 	$(".tipoarma_input_codigo").attr("placeholder", texto+"  Código");
 
+              /* *********LABEL*********** */
+			  var tipoarma_input_codigo = $(".tipoarma_input_codigo").attr("placeholder");
+			  $(".label_codigo").text(tipoarma_input_codigo);
 
+		  
+              /* *********LABEL*********** */
+			  var tipoarma_input_nombre_tipo = $(".tipoarma_input_nombre_tipo").attr("placeholder");
+			  $(".label_nombre_tipo").text(tipoarma_input_nombre_tipo);
+
+		  
+		  
 
 
  })

@@ -13,6 +13,16 @@ $(document).ready(function(){
 	$(".binput_nombre").attr("placeholder", texto+" Nombre");
 
 
+              /* *********LABEL*********** */
+			  var binput_codigo = $(".binput_codigo").attr("placeholder");
+			  $(".blabel_codigo").text(binput_codigo);
+
+		  
+              /* *********LABEL*********** */
+			  var binput_nombre = $(".binput_nombre").attr("placeholder");
+			  $(".blabel_nombre").text(binput_nombre);
+
+		  
 
 
  })

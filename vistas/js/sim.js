@@ -31,6 +31,26 @@ $(document).ready(function(){
 	$(".input_sim_card").attr("placeholder", texto+" SIM CARD");
 
 
+              /* *********LABEL*********** */
+			  var input_operador = $(".input_operador").attr("placeholder");
+			  $(".label_operador").text(input_operador);
+
+		  
+              /* *********LABEL*********** */
+			  var input_sim = $(".input_sim").attr("placeholder");
+			  $(".label_sim").text(input_sim);
+
+		  
+              /* *********LABEL*********** */
+			  var input_IMEI = $(".input_IMEI").attr("placeholder");
+			  $(".label_IMEI").text(input_IMEI);
+
+		  
+              /* *********LABEL*********** */
+			  var input_sim_card = $(".input_sim_card").attr("placeholder");
+			  $(".label_sim_card").text(input_sim_card);
+
+		  
  })
 
  

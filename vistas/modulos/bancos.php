@@ -131,7 +131,7 @@ MODAL AGREGAR
             <!-- ENTRADA PARA EL Codigo  -->
             
             <div class="form-group">
-              
+              <label for="">Ingresar Código</label>
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="fa fa-qrcode"></i></span> 
@@ -145,7 +145,7 @@ MODAL AGREGAR
             <!-- ENTRADA PARA EL NOMBRE -->
 
              <div class="form-group">
-              
+              <label for="">Ingresar Nombre</label>
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="fa fa-building"></i></span> 
@@ -228,12 +228,13 @@ MODAL EDITAR
             <!-- ENTRADA PARA EL CODIGO  -->
             
             <div class="form-group">
+            <label for="">Ingresar Código</label>
               
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="fa fa-qrcode"></i></span> 
 
-                <input type="text" class="form-control input-lg" id="editarCodigo" name="editarCodigo" value="" placeholder="Ingresar Codigo" required>
+                <input type="text" class="form-control input-lg" id="editarCodigo" name="editarCodigo" value="" placeholder="Ingresar Código" required>
 
               </div>
 
@@ -242,6 +243,7 @@ MODAL EDITAR
             <!-- ENTRADA PARA EL NOMBRE-->
 
              <div class="form-group">
+             <label for="">Ingresar Nombre</label>
               
               <div class="input-group">
               

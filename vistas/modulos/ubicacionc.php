@@ -200,6 +200,7 @@ MODAL AGREGAR
               /*  $datos = array("".$row['Field']."" => $_POST["nuevo".$row['Field'].""]); */
            ?>
             <div class="form-group ubicacioncgrupo_<?php echo $row['Field'];?> <?php echo $row['Field'];?>">
+         <label for="" class="nuevoubicacionlabel_<?php echo $row['Field'];?>"></label> 
               
               <div class="input-group">
               
@@ -211,6 +212,9 @@ MODAL AGREGAR
 
             </div>
 
+
+
+
           <?php
              }
           ?>
@@ -220,7 +224,9 @@ MODAL AGREGAR
              <input type="text" name="nuevofecha_fin" class="nuevoubicacionfechafin" placeholder="fecha_fin" style="display: none;">
              <input type="text" name="nuevofecha_ultimo_inventario" class="nuevoubicacionfechaultimo" placeholder="fecha_ultimo" style="display: none;">
 
-             <div class="input-group ubicacionc_s_cliente">
+             <div class="ubicacionc_s_cliente">
+              <label for="">Seleccione Cliente</label>
+             <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-users"></i></span>
                 <select name="nuevoid_cliente" id="" class="form-control input-lg ubicacioncid_cliente" required>
                   <option value="">Seleccione Cliente</option>
@@ -234,9 +240,11 @@ MODAL AGREGAR
                   ?>
                 </select>
             </div>
+            </div>
 
-             
-             <div class="input-group ubicacionc_s_depa">
+             <div class="ubicacionc_s_depa">
+              <label for="">Seleccione Departamento</label>
+             <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-globe"></i></span>
                 <select name="nuevoid_departamento" id="" class="form-control input-lg opciondepartamento" required>
                   <option value="">Seleccione Departamento</option>
@@ -250,13 +258,16 @@ MODAL AGREGAR
                   ?>
                 </select>
             </div>
+            </div>
 
-            
-            <div class="input-group ubicacionc_s_muni">
+            <div class="ubicacionc_s_muni">
+              <label for="">Seleccione Municipio</label>
+            <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-globe"></i></span>
                 <select name="nuevoid_municipio" id="nuevoid_municipio" class="form-control input-lg" required>
                   <option value="">Seleccione Municipio</option>
                 </select>
+            </div>
             </div>
           
 
@@ -337,6 +348,7 @@ MODAL EDITAR
              foreach($data as $row) {
            ?>
             <div class="form-group eubicacioncgrupo_<?php echo $row['Field'];?> <?php echo $row['Field'];?>">
+         <label for="" class="nuevoubicacionlabel_<?php echo $row['Field'];?>"></label> 
               
               <div class="input-group">
               
@@ -360,7 +372,10 @@ MODAL EDITAR
              <input type="text" name="editarfecha_fin" id="inputeditarfecha_fin" class="ubicacionfechafin" placeholder="fecha_fin" style="display: none;">
              <input type="text" name="editarfecha_ultimo_inventario" id="inputeditarfecha_ultimo_inventario" class="ubicacionfechaultimo" placeholder="fecha_ultimo" style="display: none;">
 
-             <div class="input-group eubicacionc_s_cliente">
+             <div class="eubicacionc_s_cliente">
+            <label for="">Seleccione Cliente</label>
+
+             <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-users"></i></span>
                 <select name="editarid_cliente" id="editarid_cliente" class="form-control input-lg ubicacioncid_cliente" required>
                   <option value="">Seleccione Cliente</option>
@@ -374,9 +389,12 @@ MODAL EDITAR
                   ?>
                 </select>
             </div>
+            </div>
 
-             
-             <div class="input-group eubicacionc_s_depa">
+             <div class="eubicacionc_s_depa">
+            <label for="">Seleccione Departamento</label>
+
+             <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-globe"></i></span>
                 <select name="editarid_departamento" id="editarid_departamento" class="form-control input-lg eopciondepartamento" required>
                   <option value="">Seleccione Departamento</option>
@@ -390,9 +408,12 @@ MODAL EDITAR
                   ?>
                 </select>
             </div>
+            </div>
 
-            
-            <div class="input-group eubicacionc_s_muni">
+            <div class="eubicacionc_s_muni">
+            <label for="">Seleccione Municipio</label>
+
+            <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-globe"></i></span>
                 <select name="editarid_municipio" id="editarid_municipio" class="form-control input-lg" required>
                   <option value="">Seleccione Municipio</option>
@@ -406,6 +427,7 @@ MODAL EDITAR
                   ?>
  
                 </select>
+            </div>
             </div>
           
 

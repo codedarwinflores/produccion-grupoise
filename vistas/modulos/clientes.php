@@ -48,6 +48,7 @@ function getContent() {
       <input type="text" value="" class="calendario" data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY" style="display: none;">
 
 
+
       <table class="table table-bordered table-striped dt-responsive tablas" width="100%">
          
          <thead>
@@ -198,7 +199,39 @@ MODAL AGREGAR
             
             <input type="text" name="nuevofecha_apertura" id="fecha_apertura" class="fecha_apertura" style="display: none;">
 
+            <?php
             
+              function ObtenerCorrelativo() {
+                global $nombretabla_clientes;
+                $query = "select id,codigo from $nombretabla_clientes order by id desc limit 1";
+                $sql = Conexion::conectar()->prepare($query);
+                $sql->execute();			
+                return $sql->fetchAll();
+              };
+
+              
+             $data0 = ObtenerCorrelativo();
+             foreach($data0 as $row0) {
+              $numero = $row0['codigo'];
+              $quitarletra = substr($numero, 1);
+              $quitarceros = ltrim($quitarletra, "0"); 
+              $addnumber= $quitarceros+1;
+
+
+              $correlativo = sprintf("%04d",$addnumber);
+              
+              /* echo $correlativo; */
+              $html="<script>";
+              $html.="$(document).ready(function(){";
+                $html .='$(".input_nombre").keydown(function(event){';
+                $html .="var letra = $(this).val().charAt(0);";
+                $html.="$('.input_codigo').val(letra+'".$correlativo."');";
+                $html.="});";
+              $html.="});";
+              $html.="</script>";
+              echo $html;
+            }
+          ?>
 
           <?php 
              $data = getContent();
@@ -207,6 +240,7 @@ MODAL AGREGAR
               /*  $datos = array("".$row['Field']."" => $_POST["nuevo".$row['Field'].""]); */
            ?>
             <div class="form-group <?php echo $row['Field'];?>">
+              <label for="" class="clabel_<?php echo $row['Field'];?>"></label>
               
               <div class="input-group">
               
@@ -218,11 +252,11 @@ MODAL AGREGAR
 
             </div>
 
+
           <?php
              }
           ?>
              
-
 
              
           <!-- ***CONTRIBUYENTE -->
@@ -379,6 +413,7 @@ MODAL EDITAR
               /*  $datos = array("".$row['Field']."" => $_POST["nuevo".$row['Field'].""]); */
            ?>
             <div class="form-group  <?php echo $row['Field'];?>">
+            <label for="" class="clabel_<?php echo $row['Field'];?>"></label>
               
               <div class="input-group">
               

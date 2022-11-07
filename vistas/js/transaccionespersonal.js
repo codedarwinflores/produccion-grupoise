@@ -18,6 +18,16 @@ $(document).ready(function(){
 
 
 
+              /* *********LABEL*********** */
+			  var personalinput_codigo = $(".personalinput_codigo").attr("placeholder");
+			  $(".personallabel_codigo").text(personalinput_codigo);
+
+		  
+              /* *********LABEL*********** */
+			  var personalinput_nombre = $(".personalinput_nombre").attr("placeholder");
+			  $(".personallabel_nombre").text(personalinput_nombre);
+
+		  
 
  })
 

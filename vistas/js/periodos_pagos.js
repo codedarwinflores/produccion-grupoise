@@ -5,6 +5,10 @@ $(document).ready(function(){
 	$(".icono_nombre_periodo").addClass("fa fa-sticky-note-o");
 	$(".input_nombre_periodo").attr("placeholder", texto+" Periodo de Pago");
 
+	/* *********LABEL*********** */
+	var input_nombre_periodo = $(".input_nombre_periodo").attr("placeholder");
+	$(".label_nombre_periodo").text(input_nombre_periodo);
+
 /* 	$(".icono_personal_asignado").addClass("fa fa-user");
 	$(".input_personal_asignado").attr("placeholder", texto+" Personal Asignado");
 	$(".input_personal_asignado").get(0).type = 'number';

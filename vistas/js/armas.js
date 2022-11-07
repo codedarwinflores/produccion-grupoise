@@ -128,6 +128,51 @@ $(document).ready(function(){
 	$(".input_estado").attr("placeholder", texto+" Estado");
 
 	
+              /* *********LABEL*********** */
+			  var input_fecha_ingreso = $(".input_fecha_ingreso").attr("placeholder");
+			  $(".label_fecha_ingreso").text(input_fecha_ingreso);
+
+		  
+              /* *********LABEL*********** */
+			  var input_numero_serie = $(".input_numero_serie").attr("placeholder");
+			  $(".label_numero_serie").text(input_numero_serie);
+
+		  
+              /* *********LABEL*********** */
+			  var input_marca = $(".input_marca").attr("placeholder");
+			  $(".label_marca").text(input_marca);
+
+		  
+              /* *********LABEL*********** */
+			  var input_modelo = $(".input_modelo").attr("placeholder");
+			  $(".label_modelo").text(input_modelo);
+
+		  
+              /* *********LABEL*********** */
+			  var input_color = $(".input_color").attr("placeholder");
+			  $(".label_color").text(input_color);
+
+		  
+              /* *********LABEL*********** */
+			  var input_numero_matricula = $(".input_numero_matricula").attr("placeholder");
+			  $(".label_numero_matricula").text(input_numero_matricula);
+
+		  
+              /* *********LABEL*********** */
+			  var input_lugar_adquisicion = $(".input_lugar_adquisicion").attr("placeholder");
+			  $(".label_lugar_adquisicion").text(input_lugar_adquisicion);
+
+		  
+              /* *********LABEL*********** */
+			  var input_precio_costo = $(".input_precio_costo").attr("placeholder");
+			  $(".label_precio_costo").text(input_precio_costo);
+
+		  
+              /* *********LABEL*********** */
+			  var input_fecha_vencimiento = $(".input_fecha_vencimiento").attr("placeholder");
+			  $(".label_fecha_vencimiento").text(input_fecha_vencimiento);
+
+		  
 
  })
 

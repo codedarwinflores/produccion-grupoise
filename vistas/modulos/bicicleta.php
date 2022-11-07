@@ -155,6 +155,7 @@ MODAL AGREGAR
               /*  $datos = array("".$row['Field']."" => $_POST["nuevo".$row['Field'].""]); */
            ?>
             <div class="form-group bicicleta_grupo_<?php echo $row['Field'];?> <?php echo $row['Field'];?>">
+         <label for="" class="label_<?php echo $row['Field'];?>"></label> 
               
               <div class="input-group">
               
@@ -166,14 +167,18 @@ MODAL AGREGAR
 
             </div>
 
+            
+
           <?php
              }
           ?>
              
 
 
+             <div class="s_familia_b">
+              <label for="">Seleccione Familia</label>
 
-             <div class="input-group s_familia_b">
+             <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-users"></i></span>
                 <select name="nuevoid_familia" id="" class="form-control input-lg" required>
                   <option value="">Seleccione Familia</option>
@@ -187,9 +192,12 @@ MODAL AGREGAR
                   ?>
                 </select>
             </div>
+            </div>
 
           
-            <div class="input-group s_tipo">
+            <div class="s_tipo">
+              <label for="">Seleccione Tipo Bicicleta</label>
+            <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
                 <select name="nuevoid_tipo_bicicleta" id="" class="form-control input-lg" required>
                   <option value="">Seleccione Tipo Bicicleta</option>
@@ -202,6 +210,7 @@ MODAL AGREGAR
                     }
                   ?>
                 </select>
+            </div>
             </div>
 
 
@@ -282,6 +291,7 @@ MODAL EDITAR
              foreach($data as $row) {
            ?>
             <div class="form-group bicicleta_grupoeditar_<?php echo $row['Field'];?> <?php echo $row['Field'];?>">
+         <label for="" class="label_<?php echo $row['Field'];?>"></label> 
               
               <div class="input-group">
               
@@ -298,7 +308,9 @@ MODAL EDITAR
           ?>
              
 
-             <div class="input-group s_familia_b_editar">
+             <div class="s_familia_b_editar">
+              <label for="">Seleccione Familia</label>
+             <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-users"></i></span>
                 <select name="editarid_familia" id="editarid_familia" class="form-control input-lg" required>
                   <option value="">Seleccione Familia</option>
@@ -312,9 +324,11 @@ MODAL EDITAR
                   ?>
                 </select>
             </div>
+            </div>
 
-          
-            <div class="input-group s_tipo_editar">
+          <div class="s_tipo_editar">
+            <label for="">Seleccione Tipo Bicicleta</label>
+            <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
                 <select name="editarid_tipo_bicicleta" id="editarid_tipo_bicicleta" class="form-control input-lg" required>
                   <option value="">Seleccione Tipo Bicicleta</option>
@@ -327,6 +341,7 @@ MODAL EDITAR
                     }
                   ?>
                 </select>
+            </div>
             </div>
 
 

@@ -24,6 +24,10 @@ $(document).ready(function(){
 	$(".input_monto").attr("step", "0.01");
 
 	
+    /* *********LABEL*********** */
+	var input_monto = $(".input_monto").attr("placeholder");
+	$(".label_monto").text(input_monto);
+
 
 
 
@@ -75,6 +79,9 @@ $(".tablas").on("click", ".btnEditarpedido", function(){
 		}
 
 	});
+
+	
+          
 
 })
 

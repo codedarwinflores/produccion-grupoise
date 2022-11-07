@@ -254,12 +254,112 @@ $(document).ready(function(){
 	$(".input_cuenta_contable").attr("placeholder", texto+" Cuenta Contable");
 
 	
+	
 
 /* 	$(".icono_personal_asignado").addClass("fa fa-user");
 	$(".input_personal_asignado").attr("placeholder", texto+" Personal Asignado");
 	$(".input_personal_asignado").get(0).type = 'number';
  */
 
+	       
+              /* *********clabel*********** */
+
+
+			  var input_codigo = $(".input_codigo").attr("placeholder");
+              $(".clabel_codigo").text("Código Correlativo");
+			  $(".input_codigo").attr("readonly","readonly");
+
+			  var input_nombre = $(".input_nombre").attr("placeholder");
+              $(".clabel_nombre").text(input_nombre);
+             
+
+              var input_fecha_apertura = $(".input_fecha_apertura").attr("placeholder");
+              $(".clabel_fecha_apertura").text(input_fecha_apertura);
+             
+                     
+              /* *********clabel*********** */
+              var input_nit = $(".input_nit").attr("placeholder");
+              $(".clabel_nit").text(input_nit);
+             
+              /* *********clabel*********** */
+              var input_nrc = $(".input_nrc").attr("placeholder");
+              $(".clabel_nrc").text(input_nrc);
+             
+              /* *********clabel*********** */
+              var input_nombre_registro = $(".input_nombre_registro").attr("placeholder");
+              $(".clabel_nombre_registro").text(input_nombre_registro);
+             
+              /* *********clabel*********** */
+              var input_giro = $(".input_giro").attr("placeholder");
+              $(".clabel_giro").text(input_giro);
+             
+              /* *********clabel*********** */
+              var input_contribuyente = $(".input_contribuyente").attr("placeholder");
+              $(".clabel_contribuyente").text(input_contribuyente);
+             
+              /* *********clabel*********** */
+              var input_clasificacion = $(".input_clasificacion").attr("placeholder");
+              $(".clabel_clasificacion").text(input_clasificacion);
+             
+              /* *********clabel*********** */
+              var input_tipo_cliente = $(".input_tipo_cliente").attr("placeholder");
+              $(".clabel_tipo_cliente").text(input_tipo_cliente);
+             
+              /* *********clabel*********** */
+              var input_correo_electronico = $(".input_correo_electronico").attr("placeholder");
+              $(".clabel_correo_electronico").text(input_correo_electronico);
+             
+              /* *********clabel*********** */
+              var input_direccion = $(".input_direccion").attr("placeholder");
+              $(".clabel_direccion").text(input_direccion);
+             
+              /* *********clabel*********** */
+              var input_telefono_1 = $(".input_telefono_1").attr("placeholder");
+              $(".clabel_telefono_1").text(input_telefono_1);
+             
+              /* *********clabel*********** */
+              var input_telefono_2 = $(".input_telefono_2").attr("placeholder");
+              $(".clabel_telefono_2").text(input_telefono_2);
+             
+              /* *********clabel*********** */
+              var input_fax = $(".input_fax").attr("placeholder");
+              $(".clabel_fax").text(input_fax);
+             
+              /* *********clabel*********** */
+              var input_contacto = $(".input_contacto").attr("placeholder");
+              $(".clabel_contacto").text(input_contacto);
+             
+              /* *********clabel*********** */
+              var input_id_pais = $(".input_id_pais").attr("placeholder");
+              $(".clabel_id_pais").text(input_id_pais);
+             
+              /* *********clabel*********** */
+              var input_id_departamento = $(".input_id_departamento").attr("placeholder");
+              $(".clabel_id_departamento").text(input_id_departamento);
+             
+              /* *********clabel*********** */
+              var input_id_municipio = $(".input_id_municipio").attr("placeholder");
+              $(".clabel_id_municipio").text(input_id_municipio);
+             
+              /* *********clabel*********** */
+              var input_limite_credito = $(".input_limite_credito").attr("placeholder");
+              $(".clabel_limite_credito").text(input_limite_credito);
+             
+              /* *********clabel*********** */
+              var input_plazo = $(".input_plazo").attr("placeholder");
+              $(".clabel_plazo").text(input_plazo);
+             
+              /* *********clabel*********** */
+              var input_observaciones = $(".input_observaciones").attr("placeholder");
+              $(".clabel_observaciones").text(input_observaciones);
+             
+              /* *********clabel*********** */
+              var input_cuenta_contable = $(".input_cuenta_contable").attr("placeholder");
+              $(".clabel_cuenta_contable").text(input_cuenta_contable);
+             
+              
+            
+            
  })
 
  function pasar_muni(){
@@ -459,6 +559,7 @@ $(".tablas").on("click", ".btnEditarclientes", function(){
 			$("#editarcuenta_contable").val(respuesta["cuenta_contable"]);
 			
 
+			
 
 
 

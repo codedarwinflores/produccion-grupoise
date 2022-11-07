@@ -155,6 +155,7 @@ MODAL AGREGAR
               /*  $datos = array("".$row['Field']."" => $_POST["nuevo".$row['Field'].""]); */
            ?>
             <div class="form-group grupo_<?php echo $row['Field'];?> <?php echo $row['Field'];?>">
+         <label for="" class="label_<?php echo $row['Field'];?>"></label> 
               
               <div class="input-group">
               
@@ -172,8 +173,9 @@ MODAL AGREGAR
              
 
 
-
-             <div class="input-group s_familia_r">
+             <div class="s_familia_r">
+              <label for="">Seleccione Familia</label>
+             <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-users"></i></span>
                 <select name="nuevoid_familia" id="" class="form-control input-lg" required>
                   <option value="">Seleccione Familia</option>
@@ -187,9 +189,11 @@ MODAL AGREGAR
                   ?>
                 </select>
             </div>
+            </div>
 
-          
-            <div class="input-group r_tipo">
+          <div class="r_tipo">
+            <label for="">Seleccione Tipo radio</label>
+            <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
                 <select name="nuevoid_tipo_de_radio" id="" class="form-control input-lg" required>
                   <option value="">Seleccione Tipo radio</option>
@@ -202,6 +206,7 @@ MODAL AGREGAR
                     }
                   ?>
                 </select>
+            </div>
             </div>
 
 
@@ -282,6 +287,7 @@ MODAL EDITAR
              foreach($data as $row) {
            ?>
             <div class="form-group grupoeditar_<?php echo $row['Field'];?> <?php echo $row['Field'];?>">
+         <label for="" class="label_<?php echo $row['Field'];?>"></label> 
               
               <div class="input-group">
               
@@ -299,8 +305,9 @@ MODAL EDITAR
              
 
              
-
-             <div class="input-group r_familia_editar">
+             <div class="r_familia_editar">
+              <label for="">Seleccione Familia</label>
+             <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-users"></i></span>
                 <select name="editarid_familia" id="editarid_familia" class="form-control input-lg" required>
                   <option value="">Seleccione Familia</option>
@@ -314,9 +321,11 @@ MODAL EDITAR
                   ?>
                 </select>
             </div>
+            </div>
 
-          
-            <div class="input-group r_tipo_editar">
+          <div class="r_tipo_editar">
+            <label for="">Seleccione Tipo radio</label>
+            <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
                 <select name="editarid_tipo_de_radio" id="editarid_tipo_de_radio" class="form-control input-lg" required>
                   <option value="">Seleccione Tipo radio</option>
@@ -329,6 +338,7 @@ MODAL EDITAR
                     }
                   ?>
                 </select>
+            </div>
             </div>
 
 

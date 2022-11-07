@@ -315,6 +315,7 @@ MODAL AGREGAR
 
 
             <div class="form-group   " bis_skin_checked="1">
+              <label for="">Ingresar Fecha</label>
               <div class="input-group">
                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                   <input type="text" value="" class="calendario nuevofecha_pedido form-control input-lg" data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_pedido" placeholder="Ingresar Fecha" required readonly>
@@ -323,6 +324,7 @@ MODAL AGREGAR
             </div>
 
             <div class="form-group   " bis_skin_checked="1">
+              <label for="">Ingresar Abono</label>
               <div class="input-group" bis_skin_checked="1">
                 <span class="input-group-addon"><i class=" fa fa-money"></i></span>
                 <input type="number" class="form-control input-lg input_monto_pago" name="nuevoabono" placeholder="Ingresar Abono" value="" autocomplete="off" required="" step="0.01">
@@ -410,6 +412,8 @@ MODAL EDITAR
 
 
             <div class="form-group   " bis_skin_checked="1">
+            <label for="">Ingresar Fecha</label>
+
               <div class="input-group">
                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                   <input type="text" value="" class="calendario editarfecha_pedido form-control input-lg" data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_pedido" placeholder="Ingresar Fecha" required id="editarfecha2" readonly>
@@ -418,6 +422,7 @@ MODAL EDITAR
             </div>
 
             <div class="form-group   " bis_skin_checked="1">
+              <label for="">Ingresar Abono</label>
               <div class="input-group" bis_skin_checked="1">
                 <span class="input-group-addon"><i class=" fa fa-money"></i></span>
                 <input type="number" class="form-control input-lg einput_monto_pago" name="editarabono" placeholder="Ingresar Abono" value="" autocomplete="off" required="" step="0.01" id="editarabono">
