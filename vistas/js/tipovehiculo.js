@@ -14,6 +14,16 @@ $(document).ready(function(){
 
 
 
+              /* *********LABEL*********** */
+			  var tipovehiculo_input_codigo = $(".tipovehiculo_input_codigo").attr("placeholder");
+			  $(".tipovehiculo_label_codigo").text(tipovehiculo_input_codigo);
+
+		  
+              /* *********LABEL*********** */
+			  var tipovehiculo_input_nombre_tipo = $(".tipovehiculo_input_nombre_tipo").attr("placeholder");
+			  $(".tipovehiculo_label_nombre_tipo").text(tipovehiculo_input_nombre_tipo);
+
+		  
 
  })
 

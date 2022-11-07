@@ -153,6 +153,7 @@ MODAL AGREGAR
               /*  $datos = array("".$row['Field']."" => $_POST["nuevo".$row['Field'].""]); */
            ?>
             <div class="form-group <?php echo $row['Field'];?>">
+            <label for="" class="label_<?php echo $row['Field'];?>"></label> 
               
               <div class="input-group">
               
@@ -164,6 +165,7 @@ MODAL AGREGAR
 
             </div>
 
+            
           <?php
              }
           ?>
@@ -250,7 +252,8 @@ MODAL EDITAR
              foreach($data as $row) {
            ?>
             <div class="form-group <?php echo $row['Field'];?>">
-              
+            <label for="" class="label_<?php echo $row['Field'];?>"></label> 
+
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="icono_<?php echo $row['Field'];?>"></i></span> 

@@ -10,6 +10,13 @@ $(document).ready(function(){
 	$(".input_correrlativo").attr("placeholder", texto+" Correlativo");
 
 
+	
+              /* *********LABEL*********** */
+			  var input_correrlativo = $(".input_correrlativo").attr("placeholder");
+			  $(".label_correrlativo").text(input_correrlativo);
+
+		  
+			  
  })
 
  

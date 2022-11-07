@@ -150,11 +150,14 @@ MODAL AGREGAR
 
             <!-- ENTRADA PARA CAMPOS  -->
 
-            
+            <div>
+            <label for="">Ingresar Fecha</label>
+
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 <input type="text" value="" class="calendario nuevofecha_pedido form-control input-lg" data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_pedido" placeholder="Ingresar Fecha" readonly>
                 <input type="text" class="oficial_nuevofecha_pedido" name="nuevofecha_pedido" style="display: none;">
+            </div>
             </div>
          
           <?php 
@@ -164,6 +167,7 @@ MODAL AGREGAR
               /*  $datos = array("".$row['Field']."" => $_POST["nuevo".$row['Field'].""]); */
            ?>
             <div class="form-group <?php echo $row['Field'];?>  grupopedido_<?php echo $row['Field'];?>">
+         <label for="" class="label_<?php echo $row['Field'];?>"></label> 
               
               <div class="input-group">
               
@@ -175,12 +179,23 @@ MODAL AGREGAR
 
             </div>
 
+            
+<script>
+              /* *********LABEL*********** */
+                var input_<?php echo $row['Field'];?> = $(".input_<?php echo $row['Field'];?>").attr("placeholder");
+                $(".label_<?php echo $row['Field'];?>").text(input_<?php echo $row['Field'];?>);
+
+            </script>
+
+
           <?php
              }
           ?>
              
 
-             <div class="input-group proveedor_pedido_s">
+             <div class="proveedor_pedido_s">
+              <label for="">Seleccione Proveedor</label>
+             <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-globe"></i></span>
                 <select name="nuevoid_proveedor" id="" class="form-control input-lg sproveedor_pedido" required>
                   <option value="">Seleccione Proveedor</option>
@@ -193,6 +208,7 @@ MODAL AGREGAR
                     }
                   ?>
                 </select>
+            </div>
             </div>
 
           
@@ -269,11 +285,13 @@ MODAL EDITAR
  
             <!-- ENTRADA PARA CAMPOS  -->
 
-            
+            <div>
+              <label for="">Ingresar Fecha</label>
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 <input type="text" value="" class="calendario editarfecha_pedido form-control input-lg" data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_pedido" placeholder="Ingresar Fecha" id="mascarafecha" readonly>
                 <input type="text" class="oficial_editarfecha_pedido" name="editarfecha_pedido" style="display: none;" id="editarfecha_pedido">
+            </div>
             </div>
 
 
@@ -282,6 +300,7 @@ MODAL EDITAR
              foreach($data as $row) {
            ?>
             <div class="form-group <?php echo $row['Field'];?> egrupopedido_<?php echo $row['Field'];?>">
+         <label for="" class="label_<?php echo $row['Field'];?>"></label> 
               
               <div class="input-group">
               
@@ -297,7 +316,9 @@ MODAL EDITAR
              }
           ?>
 
-             <div class="input-group eproveedor_pedido_s">
+<div class="eproveedor_pedido_s">
+  <label for="">Seleccione Proveedor</label>
+             <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-globe"></i></span>
                 <select name="editarid_proveedor" id="editarid_proveedor" class="form-control input-lg sproveedor_pedido" required>
                   <option value="">Seleccione Proveedor</option>
@@ -311,6 +332,7 @@ MODAL EDITAR
                   ?>
                 </select>
             </div>
+        </div>
 
 
 

@@ -156,7 +156,7 @@ MODAL AGREGAR USUARIO
             <!-- ENTRADA PARA EL NOMBRE -->
             
             <div class="form-group">
-              
+              <label for="">Ingresar nombre</label>
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
@@ -170,7 +170,7 @@ MODAL AGREGAR USUARIO
             <!-- ENTRADA PARA EL USUARIO -->
 
              <div class="form-group">
-              
+              <label for="">Ingresar usuario</label>
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="fa fa-key"></i></span> 
@@ -184,7 +184,7 @@ MODAL AGREGAR USUARIO
             <!-- ENTRADA PARA LA CONTRASEÑA -->
 
              <div class="form-group">
-              
+              <label for="">Ingresar contraseña</label>
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="fa fa-lock"></i></span> 
@@ -198,7 +198,7 @@ MODAL AGREGAR USUARIO
             <!-- ENTRADA PARA SELECCIONAR SU PERFIL -->
 
             <div class="form-group">
-              
+              <label for="">Selecionar perfil</label>
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="fa fa-users"></i></span> 
@@ -222,7 +222,7 @@ MODAL AGREGAR USUARIO
             <!-- ENTRADA PARA SUBIR FOTO -->
 
              <div class="form-group">
-              
+              <label for="">SUBIR FOTO</label>
               <div class="panel">SUBIR FOTO</div>
 
               <input type="file" class="nuevaFoto" name="nuevaFoto">
@@ -299,6 +299,7 @@ MODAL EDITAR USUARIO
             <!-- ENTRADA PARA EL NOMBRE -->
             
             <div class="form-group">
+            <label for="">Ingresar nombre</label>
               
               <div class="input-group">
               
@@ -313,6 +314,7 @@ MODAL EDITAR USUARIO
             <!-- ENTRADA PARA EL USUARIO -->
 
              <div class="form-group">
+             <label for="">Ingresar usuario</label>
               
               <div class="input-group">
               
@@ -327,6 +329,7 @@ MODAL EDITAR USUARIO
             <!-- ENTRADA PARA LA CONTRASEÑA -->
 
              <div class="form-group">
+             <label for="">Ingresar contraseña</label>
               
               <div class="input-group">
               
@@ -343,6 +346,7 @@ MODAL EDITAR USUARIO
             <!-- ENTRADA PARA SELECCIONAR SU PERFIL -->
 
             <div class="form-group">
+            <label for="">Selecionar perfil</label>
               
               <div class="input-group">
               
@@ -367,6 +371,7 @@ MODAL EDITAR USUARIO
             <!-- ENTRADA PARA SUBIR FOTO -->
 
              <div class="form-group">
+             <label for="">SUBIR FOTO</label>
               
               <div class="panel">SUBIR FOTO</div>
 

@@ -7,6 +7,15 @@ $(document).ready(function(){
 
 	$(".icono_nombre").addClass("fa fa-tags");
 	$(".input_nombre").attr("placeholder", texto+" Nombre");
+
+	
+/* *********LABEL*********** */
+var input_codigo = $(".input_codigo").attr("placeholder");
+var input_nombre = $(".input_nombre").attr("placeholder");
+
+$(".label_codigo").text(input_codigo);
+$(".label_nombre").text(input_nombre);
+
  })
 
 /*=============================================

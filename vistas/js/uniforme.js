@@ -41,6 +41,21 @@ $(document).ready(function(){
 	
 
 	
+              /* *********LABEL*********** */
+			  var input_talla = $(".input_talla").attr("placeholder");
+			  $(".label_talla").text(input_talla);
+
+		  
+              /* *********LABEL*********** */
+			  var input_precio = $(".input_precio").attr("placeholder");
+			  $(".label_precio").text(input_precio);
+
+		  
+              /* *********LABEL*********** */
+			  var input_stock = $(".input_stock").attr("placeholder");
+			  $(".label_stock").text(input_stock);
+
+		  
 
 
 

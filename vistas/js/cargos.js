@@ -84,6 +84,36 @@ $(document).ready(function(){
 		
 	});
 
+
+
+
+
+	
+              /* *********LABEL*********** */
+			  var input_nivel = $(".input_nivel").attr("placeholder");
+			  $(".label_nivel").text(input_nivel);
+
+		  
+              /* *********LABEL*********** */
+			  var input_codigo_contable = $(".input_codigo_contable").attr("placeholder");
+			  $(".label_codigo_contable").text(input_codigo_contable);
+
+		  
+              /* *********LABEL*********** */
+			  var input_personal_asignado = $(".input_personal_asignado").attr("placeholder");
+			  $(".label_personal_asignado").text(input_personal_asignado);
+
+		  
+              /* *********LABEL*********** */
+			  var input_pago_feriados = $(".input_pago_feriados").attr("placeholder");
+			  $(".label_pago_feriados").text(input_pago_feriados);
+
+		  
+              /* *********LABEL*********** */
+			  var input_calculo = $(".input_calculo").attr("placeholder");
+			  $(".label_calculo").text(input_calculo);
+
+		  
  })
 
  

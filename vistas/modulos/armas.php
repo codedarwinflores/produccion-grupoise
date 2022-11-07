@@ -186,6 +186,7 @@ MODAL AGREGAR
               /*  $datos = array("".$row['Field']."" => $_POST["nuevo".$row['Field'].""]); */
            ?>
             <div class="form-group grupo_<?php echo $row['Field'];?> armagrupo_<?php echo $row['Field'];?> <?php echo $row['Field'];?>">
+         <label for="" class="label_<?php echo $row['Field'];?>"></label> 
               
               <div class="input-group">
               
@@ -202,8 +203,9 @@ MODAL AGREGAR
           ?>
 
                               
-
-            <div class="input-group s_idempresa">
+          <div class="s_idempresa">
+            <label for="">Seleccione Empresa</label>
+            <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-university"></i></span>
                 <select name="nuevoid_empresa" id="" class="form-control input-lg" required>
                   <option value="">Seleccione Empresa</option>
@@ -217,8 +219,11 @@ MODAL AGREGAR
                   ?>
                 </select>
             </div>
+      </div>
 
-            <div class="input-group s_idtipoarma">
+            <div class="s_idtipoarma">
+              <label for="">Seleccione Tipo Arma</label>
+            <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
                 <select name="nuevoid_tipo_arma" id="" class="form-control input-lg" required>
                   <option value="">Seleccione Tipo Arma</option>
@@ -232,9 +237,11 @@ MODAL AGREGAR
                   ?>
                 </select>
             </div>
+            </div>
 
-
-            <div class="input-group s_familia_arma">
+        <div class="s_familia_arma">
+          <label for="">Seleccione Familia</label>
+            <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-users"></i></span>
                 <select name="nuevoid_familia" id="" class="form-control input-lg" required>
                   <option value="">Seleccione Familia</option>
@@ -248,9 +255,11 @@ MODAL AGREGAR
                   ?>
                 </select>
             </div>
+        </div>
 
-
-            <div class="input-group s_matricula_tipo">
+          <div class="s_matricula_tipo">
+            <label for="">Seleccione Tipo Matricula</label>
+            <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
                 <select name="nuevotipo_matricula" id="" class="form-control input-lg" required>
                   <option value="">Seleccione Tipo Matricula</option>
@@ -258,32 +267,37 @@ MODAL AGREGAR
                     <option value="Tenencia">Tenencia</option>  
                 </select>
             </div>
+          </div>
 
-            
-            <div class="input-group s_municion_tipo">
-                <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
-                <select name="nuevotipo_municion" id="" class="form-control input-lg" required>
-                  <option value="">Seleccione Tipo Munición</option>
-                    <option value="9mm">9mm</option>  
-                    <option value="12mm">12mm</option>  
-                    <option value="22mm">22mm</option>  
-                    <option value="38mm">38mm</option>  
-                    <option value="45mm">45mm</option>  
-                    <option value="3.57mm">3.57mm</option>  
-                    <option value="7.62mm">7.62mm</option>  
-                    <option value="otros">otros</option>
-                </select>
+            <div class="s_municion_tipo">
+              <label for="">Seleccione Tipo Munición</label>
+                <div class="input-group ">
+                    <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
+                    <select name="nuevotipo_municion" id="" class="form-control input-lg" required>
+                      <option value="">Seleccione Tipo Munición</option>
+                        <option value="9mm">9mm</option>  
+                        <option value="12mm">12mm</option>  
+                        <option value="22mm">22mm</option>  
+                        <option value="38mm">38mm</option>  
+                        <option value="45mm">45mm</option>  
+                        <option value="3.57mm">3.57mm</option>  
+                        <option value="7.62mm">7.62mm</option>  
+                        <option value="otros">otros</option>
+                    </select>
+                </div>
             </div>
 
 
-            
-            <div class="input-group s_estado">
+            <div class="s_estado">
+              <label for="">Seleccionar Estado</label>
+            <div class="input-group ">
                <span class="input-group-addon"><i class="fa fa-shield"></i></span>
                 <select name="nuevoestado" id="" class="form-control input-lg" required>
                   <option value="">Seleccione Estado</option>
                     <option value="Activa">Activa</option>  
                     <option value="Inactiva">Inactiva</option>  
                 </select>
+            </div>
             </div>
                     
           
@@ -369,6 +383,7 @@ MODAL EDITAR
              foreach($data as $row) {
            ?>
             <div class="form-group grupo_editar_<?php echo $row['Field'];?> <?php echo $row['Field'];?>">
+         <label for="" class="label_<?php echo $row['Field'];?>"></label> 
               
               <div class="input-group">
               
@@ -386,56 +401,70 @@ MODAL EDITAR
              
 
              <!-- **** -->
-             <div class="input-group s_idempresa_editar">
-                <span class="input-group-addon"><i class="fa fa-university"></i></span>
-                <select name="editarid_empresa" id="editarid_empresa" class="form-control input-lg" required>
-                  <option value="">Seleccione Empresa</option>
-                <?php
-                    $datos_mostrar = ControladorEmpresas::ctrMostrarEmpresas($item, $valor);
-                    foreach ($datos_mostrar as $key => $value){
-                ?>
-                    <option value="<?php echo $value['id'] ?>"><?php echo $value["nombre"] ?></option>  
-                <?php
-                    }
-                  ?>
-                </select>
+             <div class="s_idempresa_editar">
+              <label for="" class="">Seleccione Empresa</label> 
+
+                
+                <div class="input-group ">
+                    <span class="input-group-addon"><i class="fa fa-university"></i></span>
+                    <select name="editarid_empresa" id="editarid_empresa" class="form-control input-lg" required>
+                      <option value="">Seleccione Empresa</option>
+                    <?php
+                        $datos_mostrar = ControladorEmpresas::ctrMostrarEmpresas($item, $valor);
+                        foreach ($datos_mostrar as $key => $value){
+                    ?>
+                        <option value="<?php echo $value['id'] ?>"><?php echo $value["nombre"] ?></option>  
+                    <?php
+                        }
+                      ?>
+                    </select>
+                </div>
             </div>
 
-            <div class="input-group s_idtipoarma_editar">
-                <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
-                <select name="editarid_tipo_arma" id="editarid_tipo_arma" class="form-control input-lg" required>
-                  <option value="">Seleccione Tipo Arma</option>
-                <?php
-                    $datos_mostrar = Controladortipoarmas::ctrMostrar($item, $valor);
-                    foreach ($datos_mostrar as $key => $value){
-                ?>
-                    <option value="<?php echo $value['id'] ?>"><?php echo $value["nombre_tipo"] ?></option>  
-                <?php
-                    }
+            <div class="s_idtipoarma_editar">
+            <label for="" class="">Seleccione Tipo Arma</label> 
+
+
+              <div class="input-group ">
+                  <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
+                  <select name="editarid_tipo_arma" id="editarid_tipo_arma" class="form-control input-lg" required>
+                    <option value="">Seleccione Tipo Arma</option>
+                  <?php
+                      $datos_mostrar = Controladortipoarmas::ctrMostrar($item, $valor);
+                      foreach ($datos_mostrar as $key => $value){
                   ?>
-                </select>
+                      <option value="<?php echo $value['id'] ?>"><?php echo $value["nombre_tipo"] ?></option>  
+                  <?php
+                      }
+                    ?>
+                  </select>
+              </div>
+            </div>
+
+            <div class="s_familia_editar">
+            <label for="" class="">Seleccione Tipo Arma</label> 
+              
+                <div class="input-group ">
+                    <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                    <select name="editarid_familia" id="editarid_familia" class="form-control input-lg" required>
+                      <option value="">Seleccione Familia</option>
+                    <?php
+                        $datos_mostrar = Controladorfamilia::ctrMostrar($item, $valor);
+                        foreach ($datos_mostrar as $key => $value){
+                    ?>
+                        <option value="<?php echo $value['id'] ?>"><?php echo $value["nombre"] ?></option>  
+                    <?php
+                        }
+                      ?>
+                    </select>
+                </div>
             </div>
 
 
-            <div class="input-group s_familia_editar">
-                <span class="input-group-addon"><i class="fa fa-users"></i></span>
-                <select name="editarid_familia" id="editarid_familia" class="form-control input-lg" required>
-                  <option value="">Seleccione Familia</option>
-                <?php
-                    $datos_mostrar = Controladorfamilia::ctrMostrar($item, $valor);
-                    foreach ($datos_mostrar as $key => $value){
-                ?>
-                    <option value="<?php echo $value['id'] ?>"><?php echo $value["nombre"] ?></option>  
-                <?php
-                    }
-                  ?>
-                </select>
-            </div>
 
-
-
-            
-            <div class="input-group editar_s_matricula_tipo">
+            <div class="editar_s_matricula_tipo">
+            <label for="">Seleccione Tipo Matricula</label>
+            <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
                 <select name="editartipo_matricula" id="editartipo_matricula" class="form-control input-lg" required>
                   <option value="">Seleccione Tipo Matricula</option>
@@ -443,9 +472,11 @@ MODAL EDITAR
                     <option value="Tenencia">Tenencia</option>  
                 </select>
             </div>
+            </div>
 
-            
-            <div class="input-group editar_s_municion_tipo">
+            <div class="editar_s_municion_tipo">
+              <label for="">Seleccione Tipo Munición</label>
+            <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
                 <select name="editartipo_municion" id="editartipo_municion" class="form-control input-lg" required>
                   <option value="">Seleccione Tipo Munición</option>
@@ -459,16 +490,19 @@ MODAL EDITAR
                     <option value="otros">otros</option>
                 </select>
             </div>
+            </div>
 
 
-            
-            <div class="input-group editar_s_estado">
+            <div class="editar_s_estado">
+              <label for="">Seleccione Estado</label>
+            <div class="input-group ">
                <span class="input-group-addon"><i class="fa fa-shield"></i></span>
                 <select name="editarestado" id="editarestado" class="form-control input-lg" required>
                   <option value="">Seleccione Estado</option>
                     <option value="Activa">Activa</option>  
                     <option value="Inactiva">Inactiva</option>  
                 </select>
+            </div>
             </div>
 
 

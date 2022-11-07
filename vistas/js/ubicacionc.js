@@ -86,6 +86,116 @@ $(document).ready(function(){
 	
    
 
+              /* *********LABEL*********** */
+			  var nuevoubicacioninput_codigo_cliente = $(".nuevoubicacioninput_codigo_cliente").attr("placeholder");
+			  $(".nuevoubicacionlabel_codigo_cliente").text(nuevoubicacioninput_codigo_cliente);
+
+		  
+              /* *********LABEL*********** */
+			  var nuevoubicacioninput_id_coordinador_zona = $(".nuevoubicacioninput_id_coordinador_zona").attr("placeholder");
+			  $(".nuevoubicacionlabel_id_coordinador_zona").text(nuevoubicacioninput_id_coordinador_zona);
+
+		  
+              /* *********LABEL*********** */
+			  var nuevoubicacioninput_nombre_ubicacion = $(".nuevoubicacioninput_nombre_ubicacion").attr("placeholder");
+			  $(".nuevoubicacionlabel_nombre_ubicacion").text(nuevoubicacioninput_nombre_ubicacion);
+
+		  
+              /* *********LABEL*********** */
+			  var nuevoubicacioninput_latitude = $(".nuevoubicacioninput_latitude").attr("placeholder");
+			  $(".nuevoubicacionlabel_latitude").text(nuevoubicacioninput_latitude);
+
+		  
+              /* *********LABEL*********** */
+			  var nuevoubicacioninput_longitude = $(".nuevoubicacioninput_longitude").attr("placeholder");
+			  $(".nuevoubicacionlabel_longitude").text(nuevoubicacioninput_longitude);
+
+		  
+              /* *********LABEL*********** */
+			  var nuevoubicacioninput_direccion = $(".nuevoubicacioninput_direccion").attr("placeholder");
+			  $(".nuevoubicacionlabel_direccion").text(nuevoubicacioninput_direccion);
+
+		  
+              /* *********LABEL*********** */
+			  var nuevoubicacioninput_persona_contacto = $(".nuevoubicacioninput_persona_contacto").attr("placeholder");
+			  $(".nuevoubicacionlabel_persona_contacto").text(nuevoubicacioninput_persona_contacto);
+
+		  
+              /* *********LABEL*********** */
+			  var nuevoubicacioninput_telefono_contacto = $(".nuevoubicacioninput_telefono_contacto").attr("placeholder");
+			  $(".nuevoubicacionlabel_telefono_contacto").text(nuevoubicacioninput_telefono_contacto);
+
+		  
+              /* *********LABEL*********** */
+			  var nuevoubicacioninput_email_contacto = $(".nuevoubicacioninput_email_contacto").attr("placeholder");
+			  $(".nuevoubicacionlabel_email_contacto").text(nuevoubicacioninput_email_contacto);
+
+		  
+              /* *********LABEL*********** */
+			  var nuevoubicacioninput_cantidad_armas = $(".nuevoubicacioninput_cantidad_armas").attr("placeholder");
+			  $(".nuevoubicacionlabel_cantidad_armas").text(nuevoubicacioninput_cantidad_armas);
+
+		  
+              /* *********LABEL*********** */
+			  var nuevoubicacioninput_cantidad_radios = $(".nuevoubicacioninput_cantidad_radios").attr("placeholder");
+			  $(".nuevoubicacionlabel_cantidad_radios").text(nuevoubicacioninput_cantidad_radios);
+
+		  
+              /* *********LABEL*********** */
+			  var nuevoubicacioninput_cantidad_celulares = $(".nuevoubicacioninput_cantidad_celulares").attr("placeholder");
+			  $(".nuevoubicacionlabel_cantidad_celulares").text(nuevoubicacioninput_cantidad_celulares);
+
+		  
+              /* *********LABEL*********** */
+			  var nuevoubicacioninput_bonos = $(".nuevoubicacioninput_bonos").attr("placeholder");
+			  $(".nuevoubicacionlabel_bonos").text(nuevoubicacioninput_bonos);
+
+		  
+              /* *********LABEL*********** */
+			  var nuevoubicacioninput_visitas = $(".nuevoubicacioninput_visitas").attr("placeholder");
+			  $(".nuevoubicacionlabel_visitas").text(nuevoubicacioninput_visitas);
+
+		  
+              /* *********LABEL*********** */
+			  var nuevoubicacioninput_zona = $(".nuevoubicacioninput_zona").attr("placeholder");
+			  $(".nuevoubicacionlabel_zona").text(nuevoubicacioninput_zona);
+
+		  
+              /* *********LABEL*********** */
+			  var nuevoubicacioninput_fecha_inicio = $(".nuevoubicacioninput_fecha_inicio").attr("placeholder");
+			  $(".nuevoubicacionlabel_fecha_inicio").text(nuevoubicacioninput_fecha_inicio);
+
+		  
+              /* *********LABEL*********** */
+			  var nuevoubicacioninput_fecha_fin = $(".nuevoubicacioninput_fecha_fin").attr("placeholder");
+			  $(".nuevoubicacionlabel_fecha_fin").text(nuevoubicacioninput_fecha_fin);
+
+		  
+              /* *********LABEL*********** */
+			  var nuevoubicacioninput_horas_permitidas = $(".nuevoubicacioninput_horas_permitidas").attr("placeholder");
+			  $(".nuevoubicacionlabel_horas_permitidas").text(nuevoubicacioninput_horas_permitidas);
+
+		  
+              /* *********LABEL*********** */
+			  var nuevoubicacioninput_observaciones_generales = $(".nuevoubicacioninput_observaciones_generales").attr("placeholder");
+			  $(".nuevoubicacionlabel_observaciones_generales").text(nuevoubicacioninput_observaciones_generales);
+
+		  
+              /* *********LABEL*********** */
+			  var nuevoubicacioninput_fecha_ultimo_inventario = $(".nuevoubicacioninput_fecha_ultimo_inventario").attr("placeholder");
+			  $(".nuevoubicacionlabel_fecha_ultimo_inventario").text(nuevoubicacioninput_fecha_ultimo_inventario);
+
+		  
+              /* *********LABEL*********** */
+			  var nuevoubicacioninput_hombres_autorizados = $(".nuevoubicacioninput_hombres_autorizados").attr("placeholder");
+			  $(".nuevoubicacionlabel_hombres_autorizados").text(nuevoubicacioninput_hombres_autorizados);
+
+		  
+              /* *********LABEL*********** */
+			  var nuevoubicacioninput_rubro = $(".nuevoubicacioninput_rubro").attr("placeholder");
+			  $(".nuevoubicacionlabel_rubro").text(nuevoubicacioninput_rubro);
+
+		  
 
  })
 

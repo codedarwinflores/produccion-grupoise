@@ -37,6 +37,16 @@ $(document).ready(function(){
 
 
 
+              /* *********LABEL*********** */
+			  var input_id_familia = $(".input_id_familia").attr("placeholder");
+			  $(".label_id_familia").text(input_id_familia);
+
+		  
+              /* *********LABEL*********** */
+			  var input_descripcion = $(".input_descripcion").attr("placeholder");
+			  $(".label_descripcion").text(input_descripcion);
+
+		  
 
 
  })

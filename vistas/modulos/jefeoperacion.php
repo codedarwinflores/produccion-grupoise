@@ -187,6 +187,7 @@ MODAL AGREGAR
             <!-- ENTRADA PARA CAMPOS  -->
 
             <div class="form-group">
+              <label for="">Fecha Registro</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="icono_ fa fa-calendar"></i></span> 
                 <input type="text" class="form-control input-lg calendario input_fecharegistro " placeholder="Fecha Registro" value="" autocomplete="off" required data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY" fecha="fecharegistro" id="">
@@ -197,6 +198,7 @@ MODAL AGREGAR
             <!-- **** -->
 
             <div class="form-group">
+              <label for="">Jefe de operaciones</label>
               <div class="input-group">
 
               <span class="input-group-addon"><i class="icono_ fa fa-user"></i></span> 
@@ -207,6 +209,7 @@ MODAL AGREGAR
             <!-- **** -->
 
             <div class="form-group">
+              <label for="">Seleccione Código Cliente</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="icono_ fa fa-qrcode"></i></span> 
                 <select name="nuevocodigo_cliente" class="form-control input-lg " required  id="">
@@ -226,6 +229,7 @@ MODAL AGREGAR
             <!-- **** -->
 
             <div class="form-group">
+              <label for="">Persona Contacto</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="icono_ fa fa-user"></i></span> 
                 <input type="text" class="form-control input-lg   " placeholder="Persona Contacto" value="" autocomplete="off" name="nuevopersona_contacto" required id="">
@@ -235,6 +239,7 @@ MODAL AGREGAR
             <!-- **** -->
 
             <div class="form-group">
+              <label for="">ID Patrulla</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="icono_ fa  fa-address-card"></i></span> 
                 <input type="text" class="form-control input-lg   " placeholder="ID Patrulla" value="" autocomplete="off" name="nuevoid_patrulla" required id="">
@@ -245,6 +250,7 @@ MODAL AGREGAR
             <!-- **** -->
 
             <div class="form-group">
+              <label for="">¿Conoce coordinador de zona?</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="icono_ fa  fa-address-book"></i></span> 
                 <select name="nuevoconoce_coordinador_zona"  class="form-control input-lg" required id="">
@@ -260,6 +266,7 @@ MODAL AGREGAR
             <!-- **** -->
 
             <div class="form-group">
+              <label for="">Frecuencia de visitas por mes</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="icono_ fa fa-address-book-o"></i></span> 
                 <select name="nuevofrecuencia_visitas_por_mes"  class="form-control input-lg" required id="">
@@ -276,6 +283,7 @@ MODAL AGREGAR
             <!-- **** -->
 
             <div class="form-group">
+              <label for="">Capacidad Respuesta</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="icono_ fa fa-group "></i></span> 
                 <select name="nuevocapacidad_respuesta"  class="form-control input-lg" required id="">
@@ -291,6 +299,7 @@ MODAL AGREGAR
             <!-- **** -->
 
             <div class="form-group">
+              <label for="">Solución de problemas</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="icono_ fa fa-leaf"></i></span> 
                 <select name="nuevosolucion_de_problemas"  class="form-control input-lg" required id="">
@@ -306,6 +315,7 @@ MODAL AGREGAR
             <!-- **** -->
 
             <div class="form-group">
+              <label for="">¿Hay supervisor de Perímetro?</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="icono_ fa fa-user"></i></span> 
                 <select name="nuevohay_supervisor_perimetro"  class="form-control input-lg" required id="">
@@ -320,6 +330,7 @@ MODAL AGREGAR
             <!-- **** -->
 
             <div class="form-group">
+              <label for="">Actitud del Supervisor</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="icono_ fa fa-user"></i></span> 
                 <select name="nuevoactitud_del_superior"  class="form-control input-lg" required id="">
@@ -337,6 +348,7 @@ MODAL AGREGAR
             <!-- **** -->
 
             <div class="form-group">
+              <label for="">Exigencia cumplimiento POM</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="icono_ fa fa-line-chart"></i></span> 
                 <select name="nuevoexigencia_cumplimiento_pom"  class="form-control input-lg" required id="">
@@ -352,6 +364,7 @@ MODAL AGREGAR
             <!-- **** -->
 
             <div class="form-group">
+              <label for="">Solución Problemas</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="icono_ fa fa-magnet"></i></span> 
                 <select name="nuevosolucion_problemas"  class="form-control input-lg" required id="">
@@ -368,6 +381,7 @@ MODAL AGREGAR
             <!-- **** -->
 
             <div class="form-group">
+              <label for="">Informa Oportunamente las Novedades</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="icono_ fa fa-newspaper-o"></i></span> 
                 <select name="nuevoinforma_oportunamente_novedades"  class="form-control input-lg" required id="">
@@ -383,6 +397,7 @@ MODAL AGREGAR
             <!-- **** -->
 
             <div class="form-group">
+              <label for="">Puntualidad en Horarios</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="icono_ fa fa-hourglass-2 "></i></span> 
                 <select name="nuevopuntualidad_horarios"  class="form-control input-lg" required id="">
@@ -399,6 +414,7 @@ MODAL AGREGAR
             <!-- **** -->
 
             <div class="form-group">
+              <label for="">Actitud HS</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="icono_ fa fa-id-card-o"></i></span> 
                 <select name="nuevoactitud_hs"  class="form-control input-lg" required id="">
@@ -417,6 +433,7 @@ MODAL AGREGAR
             <!-- **** -->
 
             <div class="form-group">
+              <label for="">Presentacion Personal</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="icono_ fa fa-user"></i></span> 
                 <select name="nuevopresentacion_personal"  class="form-control input-lg" required id="">
@@ -432,6 +449,7 @@ MODAL AGREGAR
             <!-- **** -->
 
             <div class="form-group">
+              <label for="">Cumplimiento PON</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="icono_ fa fa-bar-chart"></i></span> 
                 <select name="nuevocumplimiento_pon"  class="form-control input-lg" required id="">
@@ -448,6 +466,7 @@ MODAL AGREGAR
             <!-- **** -->
 
             <div class="form-group">
+              <label for="">Acata indicaciones</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="icono_ fa fa-cubes"></i></span> 
                 <select name="nuevoacata_indicaciones"  class="form-control input-lg" required id="">
@@ -463,6 +482,7 @@ MODAL AGREGAR
             <!-- **** -->
 
             <div class="form-group">
+              <label for="">Informa oportunamente las novedades</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="icono_ fa fa-file-powerpoint-o"></i></span> 
                 <select name="nuevoinforma_oportuna_novedades"  class="form-control input-lg" required id="">
@@ -478,6 +498,7 @@ MODAL AGREGAR
             <!-- **** -->
 
             <div class="form-group">
+              <label for="">Atento a su servicio</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="icono_ fa fa-flash "></i></span> 
                 <select name="nuevoatento_a_su_servicio"  class="form-control input-lg" required id="">
@@ -494,6 +515,7 @@ MODAL AGREGAR
             <!-- **** -->
 
             <div class="form-group">
+              <label for="">Atento hacia el cliente</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="icono_ fa fa-hand-paper-o"></i></span> 
                 <select name="nuevoatencion_hacia_cliente"  class="form-control input-lg" required id="">
@@ -511,6 +533,7 @@ MODAL AGREGAR
             <!-- **** -->
 
             <div class="form-group">
+              <label for="">Observaciones</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="icono_ fa fa-eye"></i></span> 
                 <input type="text" class="form-control input-lg   " placeholder="Observaciones" value="" autocomplete="off" name="nuevoobservaciones" required id="">
@@ -591,7 +614,10 @@ MODAL EDITAR
 <input type="text" name="editarid" id="editarid" style="display: none;">
 
 <div class="form-group">
+<label for="">Fecha Registro</label>
+  
   <div class="input-group">
+    
     <span class="input-group-addon"><i class="icono_ fa fa-calendar"></i></span> 
     <input type="text" class="form-control input-lg calendario einput_efecharegistro " placeholder="Fecha Registro" value="" autocomplete="off" required data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY" fecha="efecharegistro" id="editarfecha_registro2">
     <input type="text" name="editarfecha_registro" class="efecharegistro" id="editarfecha_registro" style="display: none;">
@@ -601,6 +627,8 @@ MODAL EDITAR
 <!-- **** -->
 
 <div class="form-group">
+<label for="">Jefe de operaciones</label>
+
   <div class="input-group">
 
   <span class="input-group-addon"><i class="icono_ fa fa-user"></i></span> 
@@ -611,6 +639,8 @@ MODAL EDITAR
 <!-- **** -->
 
 <div class="form-group">
+<label for="">Seleccione Código Cliente</label>
+
   <div class="input-group">
     <span class="input-group-addon"><i class="icono_ fa fa-qrcode"></i></span> 
     <select name="editarcodigo_cliente" class="form-control input-lg " required  id="editarcodigo_cliente">
@@ -630,6 +660,8 @@ MODAL EDITAR
 <!-- **** -->
 
 <div class="form-group">
+<label for="">Persona Contacto</label>
+
   <div class="input-group">
     <span class="input-group-addon"><i class="icono_ fa fa-user"></i></span> 
     <input type="text" class="form-control input-lg   " placeholder="Persona Contacto" value="" autocomplete="off" name="editarpersona_contacto" required id="editarpersona_contacto">
@@ -639,6 +671,8 @@ MODAL EDITAR
 <!-- **** -->
 
 <div class="form-group">
+<label for="">ID Patrulla</label>
+
   <div class="input-group">
     <span class="input-group-addon"><i class="icono_ fa  fa-address-card"></i></span> 
     <input type="text" class="form-control input-lg   " placeholder="ID Patrulla" value="" autocomplete="off" name="editarid_patrulla" required id="editarid_patrulla">
@@ -649,6 +683,8 @@ MODAL EDITAR
 <!-- **** -->
 
 <div class="form-group">
+<label for="">¿Conoce coordinador de zona?</label>
+
   <div class="input-group">
     <span class="input-group-addon"><i class="icono_ fa  fa-address-book"></i></span> 
     <select name="editarconoce_coordinador_zona"  class="form-control input-lg" required id="editarconoce_coordinador_zona">
@@ -664,6 +700,8 @@ MODAL EDITAR
 <!-- **** -->
 
 <div class="form-group">
+<label for="">Frecuencia de visitas por mes</label>
+
   <div class="input-group">
     <span class="input-group-addon"><i class="icono_ fa fa-address-book-o"></i></span> 
     <select name="editarfrecuencia_visitas_por_mes"  class="form-control input-lg" required id="editarfrecuencia_visitas_por_mes">
@@ -680,6 +718,8 @@ MODAL EDITAR
 <!-- **** -->
 
 <div class="form-group">
+<label for="">Capacidad Respuesta</label>
+
   <div class="input-group">
     <span class="input-group-addon"><i class="icono_ fa fa-group "></i></span> 
     <select name="editarcapacidad_respuesta"  class="form-control input-lg" required id="editarcapacidad_respuesta">
@@ -695,6 +735,8 @@ MODAL EDITAR
 <!-- **** -->
 
 <div class="form-group">
+<label for="">Solución de problemas</label>
+
   <div class="input-group">
     <span class="input-group-addon"><i class="icono_ fa fa-leaf"></i></span> 
     <select name="editarsolucion_de_problemas"  class="form-control input-lg" required id="editarsolucion_de_problemas">
@@ -710,6 +752,8 @@ MODAL EDITAR
 <!-- **** -->
 
 <div class="form-group">
+<label for="">¿Hay supervisor de Perímetro?</label>
+
   <div class="input-group">
     <span class="input-group-addon"><i class="icono_ fa fa-user"></i></span> 
     <select name="editarhay_supervisor_perimetro"  class="form-control input-lg" required id="editarhay_supervisor_perimetro">
@@ -724,6 +768,8 @@ MODAL EDITAR
 <!-- **** -->
 
 <div class="form-group">
+<label for="">Actitud del Supervisor</label>
+
   <div class="input-group">
     <span class="input-group-addon"><i class="icono_ fa fa-user"></i></span> 
     <select name="editaractitud_del_superior"  class="form-control input-lg" required id="editaractitud_del_superior">
@@ -741,6 +787,8 @@ MODAL EDITAR
 <!-- **** -->
 
 <div class="form-group">
+<label for="">Exigencia cumplimiento POM</label>
+
   <div class="input-group">
     <span class="input-group-addon"><i class="icono_ fa fa-line-chart"></i></span> 
     <select name="editarexigencia_cumplimiento_pom"  class="form-control input-lg" required id="editarexigencia_cumplimiento_pom">
@@ -756,6 +804,8 @@ MODAL EDITAR
 <!-- **** -->
 
 <div class="form-group">
+<label for="">Solución Problemas</label>
+
   <div class="input-group">
     <span class="input-group-addon"><i class="icono_ fa fa-magnet"></i></span> 
     <select name="editarsolucion_problemas"  class="form-control input-lg" required id="editarsolucion_problemas">
@@ -772,6 +822,8 @@ MODAL EDITAR
 <!-- **** -->
 
 <div class="form-group">
+<label for="">Informa Oportunamente las Novedades</label>
+
   <div class="input-group">
     <span class="input-group-addon"><i class="icono_ fa fa-newspaper-o"></i></span> 
     <select name="editarinforma_oportunamente_novedades"  class="form-control input-lg" required id="editarinforma_oportunamente_novedades">
@@ -787,6 +839,8 @@ MODAL EDITAR
 <!-- **** -->
 
 <div class="form-group">
+<label for="">Puntualidad en Horarios</label>
+
   <div class="input-group">
     <span class="input-group-addon"><i class="icono_ fa fa-hourglass-2 "></i></span> 
     <select name="editarpuntualidad_horarios"  class="form-control input-lg" required id="editarpuntualidad_horarios">
@@ -803,6 +857,8 @@ MODAL EDITAR
 <!-- **** -->
 
 <div class="form-group">
+<label for="">Actitud HS</label>
+
   <div class="input-group">
     <span class="input-group-addon"><i class="icono_ fa fa-id-card-o"></i></span> 
     <select name="editaractitud_hs"  class="form-control input-lg" required id="editaractitud_hs">
@@ -821,6 +877,8 @@ MODAL EDITAR
 <!-- **** -->
 
 <div class="form-group">
+<label for="">Presentacion Personal</label>
+
   <div class="input-group">
     <span class="input-group-addon"><i class="icono_ fa fa-user"></i></span> 
     <select name="editarpresentacion_personal"  class="form-control input-lg" required id="editarpresentacion_personal">
@@ -836,6 +894,8 @@ MODAL EDITAR
 <!-- **** -->
 
 <div class="form-group">
+<label for="">Cumplimiento PON</label>
+
   <div class="input-group">
     <span class="input-group-addon"><i class="icono_ fa fa-bar-chart"></i></span> 
     <select name="editarcumplimiento_pon"  class="form-control input-lg" required id="editarcumplimiento_pon">
@@ -852,6 +912,8 @@ MODAL EDITAR
 <!-- **** -->
 
 <div class="form-group">
+<label for="">Acata indicaciones</label>
+
   <div class="input-group">
     <span class="input-group-addon"><i class="icono_ fa fa-cubes"></i></span> 
     <select name="editaracata_indicaciones"  class="form-control input-lg" required id="editaracata_indicaciones">
@@ -867,6 +929,8 @@ MODAL EDITAR
 <!-- **** -->
 
 <div class="form-group">
+<label for="">Informa oportunamente las novedades</label>
+
   <div class="input-group">
     <span class="input-group-addon"><i class="icono_ fa fa-file-powerpoint-o"></i></span> 
     <select name="editarinforma_oportuna_novedades"  class="form-control input-lg" required id="editarinforma_oportuna_novedades">
@@ -882,6 +946,8 @@ MODAL EDITAR
 <!-- **** -->
 
 <div class="form-group">
+<label for="">Atento a su servicio</label>
+
   <div class="input-group">
     <span class="input-group-addon"><i class="icono_ fa fa-flash "></i></span> 
     <select name="editaratento_a_su_servicio"  class="form-control input-lg" required id="editaratento_a_su_servicio">
@@ -898,6 +964,8 @@ MODAL EDITAR
 <!-- **** -->
 
 <div class="form-group">
+<label for="">Atento hacia el cliente</label>
+
   <div class="input-group">
     <span class="input-group-addon"><i class="icono_ fa fa-hand-paper-o"></i></span> 
     <select name="editaratencion_hacia_cliente"  class="form-control input-lg" required id="editaratencion_hacia_cliente">
@@ -915,6 +983,8 @@ MODAL EDITAR
 <!-- **** -->
 
 <div class="form-group">
+<label for="">Observaciones</label>
+
   <div class="input-group">
     <span class="input-group-addon"><i class="icono_ fa fa-eye"></i></span> 
     <input type="text" class="form-control input-lg   " placeholder="Observaciones" value="" autocomplete="off" name="editarobservaciones" required id="editarobservaciones">

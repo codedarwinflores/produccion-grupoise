@@ -159,6 +159,7 @@ MODAL AGREGAR
               /*  $datos = array("".$row['Field']."" => $_POST["nuevo".$row['Field'].""]); */
            ?>
             <div class="form-group <?php echo $row['Field'];?>">
+         <label for="" class="label_<?php echo $row['Field'];?>"></label> 
               
               <div class="input-group">
               
@@ -170,11 +171,23 @@ MODAL AGREGAR
 
             </div>
 
+            
+
+
+<script>
+              /* *********LABEL*********** */
+                var input_<?php echo $row['Field'];?> = $(".input_<?php echo $row['Field'];?>").attr("placeholder");
+                $(".label_<?php echo $row['Field'];?>").text(input_<?php echo $row['Field'];?>);
+
+            </script>
+
+
           <?php
              }
           ?>
              
              
+
           <!-- ***PERSONAL ASIGNADO -->
           <div id="personal" class="dropdown-content myDropdown_personal drop_personal">
             <span class="select_personal" personal="Si"> Si</span>
@@ -279,6 +292,7 @@ MODAL EDITAR
              foreach($data as $row) {
            ?>
             <div class="form-group <?php echo $row['Field'];?>">
+         <label for="" class="label_<?php echo $row['Field'];?>"></label> 
               
               <div class="input-group">
               

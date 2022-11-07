@@ -138,6 +138,7 @@ MODAL AGREGAR
             <!-- ENTRADA PARA EL Codigo  -->
             
             <div class="form-group">
+              <label for="">Ingresar Código</label>
               
               <div class="input-group">
               
@@ -152,6 +153,7 @@ MODAL AGREGAR
             <!-- ENTRADA PARA EL NOMBRE -->
 
              <div class="form-group">
+             <label for="">Ingresar Nombre</label>
               
               <div class="input-group">
               
@@ -166,7 +168,8 @@ MODAL AGREGAR
             <!-- ENTRADA PARA EL SUPERINTENDENCIA -->
 
             <div class="form-group">
-              
+            <label for="">Ingresar Código superintendencia</label>
+
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="fa fa-qrcode"></i></span> 
@@ -180,12 +183,13 @@ MODAL AGREGAR
             <!-- ENTRADA PARA EL porcentaje -->
 
             <div class="form-group">
+             <label for="">Ingresar Porcentaje</label>
               
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="fa fa-percent"></i></span> 
 
-                <input type="number" class="form-control input-lg" name="nuevoPorcentaje" placeholder="Ingresar Porcentaje" id="nuevoPorcentaje" required>
+                <input type="number" step="0.01" class="form-control input-lg" name="nuevoPorcentaje" placeholder="Ingresar Porcentaje" id="nuevoPorcentaje" required>
 
               </div>
 
@@ -194,12 +198,12 @@ MODAL AGREGAR
             <!-- ENTRADA PARA EL cuota patronal -->
 
             <div class="form-group">
-              
+              <label for="">Ingresar Cuota Patronal</label>
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="fa fa-book"></i></span> 
 
-                <input type="number" class="form-control input-lg" name="nuevoCuota_patronal" placeholder="Ingresar Cuota Patronal" id="nuevoCuota_patronal" required>
+                <input type="number" step="0.01" class="form-control input-lg" name="nuevoCuota_patronal" placeholder="Ingresar Cuota Patronal" id="nuevoCuota_patronal" required>
 
               </div>
 
@@ -277,6 +281,7 @@ MODAL EDITAR
              <!-- ENTRADA PARA EL Codigo  -->
             
              <div class="form-group">
+             <label for="">Ingresar Código</label>
               
               <div class="input-group">
               
@@ -291,6 +296,7 @@ MODAL EDITAR
             <!-- ENTRADA PARA EL NOMBRE -->
 
              <div class="form-group">
+              <label for="">Ingresar Nombre</label>
               
               <div class="input-group">
               
@@ -305,6 +311,7 @@ MODAL EDITAR
             <!-- ENTRADA PARA EL SUPERINTENDENCIA -->
 
             <div class="form-group">
+              <label for="">Ingresar Código superintendencia</label>
               
               <div class="input-group">
               
@@ -319,12 +326,13 @@ MODAL EDITAR
             <!-- ENTRADA PARA EL porcentaje -->
 
             <div class="form-group">
-              
+              <label for="">Ingresar Porcentaje</label>
+
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="fa fa-percent"></i></span> 
 
-                <input type="number" class="form-control input-lg" name="editarPorcentaje" placeholder="Ingresar Porcentaje" id="editarPorcentaje" required>
+                <input type="number" step="0.01" class="form-control input-lg" name="editarPorcentaje" placeholder="Ingresar Porcentaje" id="editarPorcentaje" required>
 
               </div>
 
@@ -333,12 +341,13 @@ MODAL EDITAR
             <!-- ENTRADA PARA EL cuota patronal -->
 
             <div class="form-group">
+              <label for="">Ingresar Cuota Patronal</label>
               
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="fa fa-book"></i></span> 
 
-                <input type="number" class="form-control input-lg" name="editarCuota_patronal" placeholder="Ingresar Cuota Patronal" id="editarCuota_patronal" required>
+                <input type="number" step="0.01" class="form-control input-lg" name="editarCuota_patronal" placeholder="Ingresar Cuota Patronal" id="editarCuota_patronal" required>
 
               </div>
 

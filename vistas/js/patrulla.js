@@ -21,6 +21,21 @@ $(document).ready(function(){
 	$(".input_id_jefe_operaciones_patrulla").attr("placeholder", texto+" Jefe de Operaciones");
 
 
+              /* *********LABEL*********** */
+			  var input_codigo_patrulla = $(".input_codigo_patrulla").attr("placeholder");
+			  $(".label_codigo_patrulla").text(input_codigo_patrulla);
+
+		  
+              /* *********LABEL*********** */
+			  var input_descripcion_patrulla = $(".input_descripcion_patrulla").attr("placeholder");
+			  $(".label_descripcion_patrulla").text(input_descripcion_patrulla);
+
+		  
+              /* *********LABEL*********** */
+			  var input_id_jefe_operaciones_patrulla = $(".input_id_jefe_operaciones_patrulla").attr("placeholder");
+			  $(".label_id_jefe_operaciones_patrulla").text(input_id_jefe_operaciones_patrulla);
+
+		  
 
  })
 

@@ -141,7 +141,7 @@ MODAL AGREGAR EMPRESAS
             <!-- ENTRADA PARA EL Codigo Empresa -->
             
             <div class="form-group">
-              
+              <label for="">Ingresar Código Empresa</label>
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="fa fa-qrcode"></i></span> 
@@ -155,7 +155,7 @@ MODAL AGREGAR EMPRESAS
             <!-- ENTRADA PARA EL NOMBRE -->
 
              <div class="form-group">
-              
+              <label for="">Ingresar Nombre</label>
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="fa fa-building"></i></span> 
@@ -171,7 +171,7 @@ MODAL AGREGAR EMPRESAS
             <!-- ENTRADA PARA SUBIR FOTO -->
 
              <div class="form-group">
-              
+              <label for="">SUBIR LOGO</label>
               <div class="panel">SUBIR LOGO</div>
 
               <input type="file" class="nuevaLogo" name="nuevaLogo">
@@ -251,7 +251,7 @@ MODAL EDITAR EMPRESAS
 
             <!-- ENTRADA PARA EL CODIGO EMRPESA -->
             
-            <div class="form-group">
+            <div class="form-group" style="display: none;">
               
               <div class="input-group">
               
@@ -266,6 +266,7 @@ MODAL EDITAR EMPRESAS
             <!-- ENTRADA PARA EL NOMBRE-->
 
              <div class="form-group">
+             <label for="">Ingresar Nombre</label>
               
               <div class="input-group">
               
@@ -281,6 +282,7 @@ MODAL EDITAR EMPRESAS
             <!-- ENTRADA PARA SUBIR FOTO -->
 
              <div class="form-group">
+             <label for="">SUBIR LOGO</label>
               
               <div class="panel">SUBIR FOTO</div>
 

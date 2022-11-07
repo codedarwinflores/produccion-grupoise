@@ -171,6 +171,7 @@ MODAL AGREGAR
               /*  $datos = array("".$row['Field']."" => $_POST["nuevo".$row['Field'].""]); */
            ?>
             <div class="form-group <?php echo $row['Field'];?>  grupovehiculo_<?php echo $row['Field'];?>">
+         <label for="" class="label_<?php echo $row['Field'];?>"></label> 
               
               <div class="input-group">
               
@@ -182,12 +183,20 @@ MODAL AGREGAR
 
             </div>
 
+            <script>
+              /* *********LABEL*********** */
+                var input_<?php echo $row['Field'];?> = $(".input_<?php echo $row['Field'];?>").attr("placeholder");
+                $(".label_<?php echo $row['Field'];?>").text(input_<?php echo $row['Field'];?>);
+
+            </script>
           <?php
              }
           ?>
              
+             <div class="" id="ntiene_logotipo">
+              <label for="">¿Tiene Logotipo?</label>
 
-             <div class="input-group" id="ntiene_logotipo">
+             <div class="input-group" id="">
               <span class="input-group-addon"><i class="fa fa-server"></i></span> 
               <select name="nuevotiene_logotipo" id="" class="form-control input-lg" required>
                 <option value="">¿Tiene Logotipo?</option>
@@ -195,8 +204,11 @@ MODAL AGREGAR
                 <option value="No">No</option>
               </select>
              </div>
+            </div>
 
-             <div class="input-group" id="ntiene_nombre_entidad">
+            <div id="ntiene_nombre_entidad">
+              <label for="">¿Tiene Nombre Entidad?</label>
+             <div class="input-group" id="">
               <span class="input-group-addon"><i class="fa fa-book"></i></span> 
               <select name="nuevotiene_nombre_entidad" id="" class="form-control input-lg" required>
                 <option value="">¿Tiene Nombre Entidad?</option>
@@ -204,8 +216,12 @@ MODAL AGREGAR
                 <option value="No">No</option>
               </select>
              </div>
+             </div>
 
-             <div class="input-group s_familia_vehiculo">
+             <div class="s_familia_vehiculo">
+              <label for="">Seleccione Familia</label>
+
+             <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-users"></i></span>
                 <select name="nuevoid_familia" id="" class="form-control input-lg" required>
                   <option value="">Seleccione Familia</option>
@@ -219,8 +235,11 @@ MODAL AGREGAR
                   ?>
                 </select>
             </div>
+            </div>
 
-            <div class="input-group s_tipo_vehiculo">
+            <div class="s_tipo_vehiculo">
+              <label for="">Seleccione Tipo Vehículo</label>
+            <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
                 <select name="nuevoid_tipo_vehiculo" id="" class="form-control input-lg" required>
                   <option value="">Seleccione Tipo Vehículo</option>
@@ -234,7 +253,7 @@ MODAL AGREGAR
                   ?>
                 </select>
             </div>
-
+            </div>
 
           </div>
 
@@ -312,6 +331,7 @@ MODAL EDITAR
              foreach($data as $row) {
            ?>
             <div class="form-group <?php echo $row['Field'];?> egrupovehiculo_<?php echo $row['Field'];?>">
+         <label for="" class="label_<?php echo $row['Field'];?>"></label> 
               
               <div class="input-group">
               
@@ -329,7 +349,10 @@ MODAL EDITAR
 
 
 
-<div class="input-group" id="etiene_logotipo">
+              <div id="etiene_logotipo">
+              <label for="">¿Tiene Logotipo?</label>
+
+              <div class="input-group" id="">
               <span class="input-group-addon"><i class="fa fa-server"></i></span> 
               <select name="editartiene_logotipo" id="editartiene_logotipo" class="form-control input-lg" required>
                 <option value="">¿Tiene Logotipo?</option>
@@ -337,8 +360,12 @@ MODAL EDITAR
                 <option value="No">No</option>
               </select>
              </div>
+             </div>
 
-             <div class="input-group" id="etiene_nombre_entidad">
+             <div id="etiene_nombre_entidad">
+             <label for="">¿Tiene Nombre Entidad?</label>
+
+             <div class="input-group" id="">
               <span class="input-group-addon"><i class="fa fa-book"></i></span> 
               <select name="editartiene_nombre_entidad" id="editartiene_nombre_entidad" class="form-control input-lg" required>
                 <option value="">¿Tiene Nombre Entidad?</option>
@@ -346,8 +373,11 @@ MODAL EDITAR
                 <option value="No">No</option>
               </select>
              </div>
+             </div>
+             <div class="es_familia_vehiculo">
+             <label for="">Seleccione Familia</label>
 
-             <div class="input-group es_familia_vehiculo">
+             <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-users"></i></span>
                 <select name="editarid_familia" id="editarid_familia" class="form-control input-lg" required>
                   <option value="">Seleccione Familia</option>
@@ -361,8 +391,14 @@ MODAL EDITAR
                   ?>
                 </select>
             </div>
+            </div>
 
-            <div class="input-group es_tipo_vehiculo">
+
+
+            <div class="es_tipo_vehiculo">
+            <label for="">Seleccione Tipo Vehículo</label>
+
+            <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
                 <select name="editarid_tipo_vehiculo" id="editarid_tipo_vehiculo" class="form-control input-lg" required>
                   <option value="">Seleccione Tipo Vehículo</option>
@@ -375,6 +411,7 @@ MODAL EDITAR
                     }
                   ?>
                 </select>
+            </div>
             </div>
 
 
@@ -503,6 +540,31 @@ $(document).ready(function(){
 
 
 
+              /* *********LABEL*********** */
+              var input_numero_chasis = $(".input_numero_chasis").attr("placeholder");
+                $(".label_numero_chasis").text(input_numero_chasis);
+
+            
+              /* *********LABEL*********** */
+              var input_numero_motor = $(".input_numero_motor").attr("placeholder");
+                $(".label_numero_motor").text(input_numero_motor);
+
+            
+              /* *********LABEL*********** */
+              var input_capacidad = $(".input_capacidad").attr("placeholder");
+                $(".label_capacidad").text(input_capacidad);
+
+            
+              /* *********LABEL*********** */
+              var input_anio = $(".input_anio").attr("placeholder");
+                $(".label_anio").text(input_anio);
+
+            
+              /* *********LABEL*********** */
+              var input_placa = $(".input_placa").attr("placeholder");
+                $(".label_placa").text(input_placa);
+
+            
 
 
     })

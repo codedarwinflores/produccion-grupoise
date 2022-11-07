@@ -151,7 +151,7 @@ MODAL AGREGAR PROVEEDORES
             <!-- ENTRADA PARA EL Codigo  -->
             <div class="col-md-6">
               <div class="form-group">
-                
+                <label for="">Ingresar Código</label>
                 <div class="input-group">
                 
                   <span class="input-group-addon"><i class="fa fa-qrcode"></i></span> 
@@ -166,6 +166,7 @@ MODAL AGREGAR PROVEEDORES
             <!-- ENTRADA PARA EL NOMBRE -->
             <div class="col-md-12">
              <div class="form-group">
+             <label for="">Ingresar Nombre</label>
               
               <div class="input-group">
               
@@ -181,6 +182,7 @@ MODAL AGREGAR PROVEEDORES
             <!-- ENTRADA PARA EL DIRECCION -->
             <div class="col-md-12">
              <div class="form-group">
+            <label for="">Ingresar Dirección</label>
               
               <div class="input-group">
               
@@ -198,6 +200,7 @@ MODAL AGREGAR PROVEEDORES
             <!-- ENTRADA PARA EL EXTENSION -->
             <div class="col-md-6">
              <div class="form-group">
+            <label for="">Ingresar Extensión</label>
               
               <div class="input-group">
               
@@ -214,6 +217,7 @@ MODAL AGREGAR PROVEEDORES
             <!-- ENTRADA PARA EL TELEFONO -->
             <div class="col-md-6">
              <div class="form-group">
+            <label for="">Ingresar Teléfono</label>
               
               <div class="input-group">
               
@@ -230,6 +234,7 @@ MODAL AGREGAR PROVEEDORES
             <!-- ENTRADA PARA EL ENCARGADO -->
             <div class="col-md-12">
              <div class="form-group">
+            <label for="">Ingresar Encargado</label>
               
               <div class="input-group">
               
@@ -247,12 +252,19 @@ MODAL AGREGAR PROVEEDORES
             <!-- ENTRADA PARA EL NACIONALIDAD -->
             <div class="col-md-6">
              <div class="form-group">
+            <label for="">Ingresar Nacionalidad</label>
               
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="fa fa-flag"></i></span> 
 
-                <input type="text" class="form-control input-lg" name="nuevoNacionalidad" placeholder="Ingresar Nacionalidad" id="nuevoNacionalidad" required>
+<!--                 <input type="text"  placeholder="Ingresar Nacionalidad" id="nuevoNacionalidad" required>
+ -->
+                <select id="" class="form-control input-lg" name="nuevoNacionalidad" required>
+                  <option value=" ">Seleccionar Nacionalidad </option>
+                  <option value="Nacional ">Nacional </option>
+                  <option value="Exterior">Exterior</option>
+                </select>
 
               </div>
 
@@ -263,6 +275,7 @@ MODAL AGREGAR PROVEEDORES
             <!-- ENTRADA PARA EL NUMERO DE REGISTRO -->
             <div class="col-md-6">
              <div class="form-group">
+            <label for="">Ingresar Número de Registro</label>
               
               <div class="input-group">
               
@@ -281,6 +294,7 @@ MODAL AGREGAR PROVEEDORES
             <!-- ENTRADA PARA EL COMENTARIOS -->
             <div class="col-md-12">
              <div class="form-group">
+            <label for="">Ingresar Comentarios</label>
               
               <div class="input-group">
               
@@ -298,13 +312,14 @@ MODAL AGREGAR PROVEEDORES
             <!-- ENTRADA PARA EL CONTRIBUYENTE -->
             <div class="col-md-6">
              <div class="form-group">
+            <label for="">Ingresar Proveedor</label>
               
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="fa fa-money"></i></span> 
 
                 <select name="nuevoContribuyente" id="nuevoContribuyente" class="form-control input-lg" required>
-                  <option value="">Seleccionar Opción</option>
+                  <option value="">Tipo Proveedor</option>
                   <option value="Contribuyente">Contribuyente</option>
                   <option value="Exento">Exento</option>
                 </select>
@@ -318,6 +333,7 @@ MODAL AGREGAR PROVEEDORES
             <!-- ENTRADA PARA EL CODIGO CONTABLE -->
             <div class="col-md-6">
              <div class="form-group">
+            <label for="">Ingresar Código Contable</label>
               
               <div class="input-group">
               
@@ -409,6 +425,7 @@ MODAL EDITAR PROVEEDORES
             <!-- ENTRADA PARA EL Codigo  -->
             <div class="col-md-6">
               <div class="form-group">
+            <label for="">Ingresar Código</label>
                 
                 <div class="input-group">
                 
@@ -424,6 +441,7 @@ MODAL EDITAR PROVEEDORES
             <!-- ENTRADA PARA EL NOMBRE -->
             <div class="col-md-12">
              <div class="form-group">
+            <label for="">Ingresar Nombre</label>
               
               <div class="input-group">
               
@@ -439,7 +457,8 @@ MODAL EDITAR PROVEEDORES
             <!-- ENTRADA PARA EL DIRECCION -->
             <div class="col-md-12">
              <div class="form-group">
-              
+             <label for="">Ingresar Dirección</label>
+
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="fa fa-address-card-o"></i></span> 
@@ -456,6 +475,7 @@ MODAL EDITAR PROVEEDORES
             <!-- ENTRADA PARA EL EXTENSION -->
             <div class="col-md-6">
              <div class="form-group">
+            <label for="">Ingresar Extensión</label>
               
               <div class="input-group">
               
@@ -471,6 +491,7 @@ MODAL EDITAR PROVEEDORES
             <!-- ENTRADA PARA EL TELEFONO -->
             <div class="col-md-6">
              <div class="form-group">
+            <label for="">Ingresar Teléfono</label>
               
               <div class="input-group">
               
@@ -487,6 +508,7 @@ MODAL EDITAR PROVEEDORES
             <!-- ENTRADA PARA EL ENCARGADO -->
             <div class="col-md-12">
              <div class="form-group">
+            <label for="">Ingresar Encargado</label>
               
               <div class="input-group">
               
@@ -504,12 +526,20 @@ MODAL EDITAR PROVEEDORES
             <!-- ENTRADA PARA EL NACIONALIDAD -->
             <div class="col-md-6">
              <div class="form-group">
+            <label for="">Ingresar Nacionalidad</label>
               
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="fa fa-flag"></i></span> 
+<!-- 
+                <input type="text" class="form-control input-lg" name="editarNacionalidad" placeholder="Ingresar Nacionalidad" id="editarNacionalidad" required> -->
 
-                <input type="text" class="form-control input-lg" name="editarNacionalidad" placeholder="Ingresar Nacionalidad" id="editarNacionalidad" required>
+                <select class="form-control input-lg" name="editarNacionalidad" id="editarNacionalidad" required>
+                  <option value=" ">Seleccionar Nacionalidad </option>
+                  <option value="Nacional ">Nacional </option>
+                  <option value="Exterior">Exterior</option>
+                </select>
+
 
               </div>
 
@@ -520,6 +550,7 @@ MODAL EDITAR PROVEEDORES
             <!-- ENTRADA PARA EL NUMERO DE REGISTRO -->
             <div class="col-md-6">
              <div class="form-group">
+            <label for="">Ingresar Número de Registro</label>
               
               <div class="input-group">
               
@@ -538,6 +569,7 @@ MODAL EDITAR PROVEEDORES
             <!-- ENTRADA PARA EL COMENTARIOS -->
             <div class="col-md-12">
              <div class="form-group">
+            <label for="">Ingresar Comentarios</label>
               
               <div class="input-group">
               
@@ -555,6 +587,7 @@ MODAL EDITAR PROVEEDORES
              <!-- ENTRADA PARA EL CONTRIBUYENTE -->
              <div class="col-md-6">
              <div class="form-group">
+            <label for="">Ingresar Proveedor</label>
               
               <div class="input-group">
               
@@ -563,7 +596,7 @@ MODAL EDITAR PROVEEDORES
                 <!-- <input type="text"> -->
 
                 <select  class="form-control input-lg" name="editarContribuyente" placeholder="Ingresar Contribuyente" id="editarContribuyente" required>
-                  <option value="">Seleccionar Opcion</option>
+                  <option value="">Tipo Proveedor</option>
                   <option value="Contribuyente">Contribuyente</option>
                   <option value="Exento">Exento</option>
                 </select>
@@ -577,6 +610,7 @@ MODAL EDITAR PROVEEDORES
             <!-- ENTRADA PARA EL CODIGO CONTABLE -->
             <div class="col-md-6">
              <div class="form-group">
+            <label for="">Ingresar Código Contable</label>
               
               <div class="input-group">
               
