@@ -3,6 +3,9 @@
 require_once "../controladores/departamentos.controlador.php";
 require_once "../modelos/departamentos.modelo.php";
 
+require_once "../controladores/departamento.controlador.php";
+require_once "../modelos/departamento.modelo.php";
+
 class AjaxDepartamentos{
 
 	/*=============================================
@@ -38,6 +41,17 @@ class AjaxDepartamentos{
 
 		echo json_encode($respuesta);
 
+	}
+
+	/*=============================================
+	MOSTRAR DEPTO
+	=============================================*/	
+	public $idDepto;
+	public function ajaxMostrarDEP(){
+		$item = "id";
+		$valor = $this->idDepto;
+		$respuesta = ControladorDepartamentos::ctrMostrarDepartamentos($item, $valor);
+		echo json_encode($respuesta);
 	}
 }
 
@@ -75,4 +89,14 @@ if(isset( $_POST["validarUsuario"])){
 	$valUsuario -> validarUsuario = $_POST["validarUsuario"];
 	$valUsuario -> ajaxValidarUsuario();
 
+}
+
+/*=============================================
+MOSTRAR DEPARTAMENTO
+=============================================*/	
+if(isset($_POST["idDepartamento"])){
+
+	$verDep = new AjaxDepartamentos();
+	$verDep -> idDepto = $_POST["idDepartamento"];
+	$verDep -> ajaxMostrarDEP();
 }

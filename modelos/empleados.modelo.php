@@ -53,6 +53,8 @@ class ModeloEmpleados{
 		estado_civil,
 		sexo,
 		direccion,
+		id_departamento,
+		id_municipio,
         documento_identidad,
         numero_documento_identidad,
 		telefono,
@@ -65,6 +67,8 @@ class ModeloEmpleados{
 		tipo_licencia_conducir,
 		imagen_licencia_conducir,
 		nit,
+		imagen_nit,
+		codigo_afp,
 		nup,
 		profesion_oficio,
 		nacionalidad,
@@ -123,6 +127,7 @@ class ModeloEmpleados{
 		imagen_huellas,
 		confiable,
         estado,
+		id_cargo,
         fotografia,
 		imagen_documento_identidad
         ) VALUES (
@@ -135,6 +140,8 @@ class ModeloEmpleados{
 		:estado_civil,
 		:sexo,
 		:direccion,
+		:id_departamento,
+		:id_municipio,
         :documento_identidad,
         :numero_documento_identidad,
 		:telefono,
@@ -147,6 +154,8 @@ class ModeloEmpleados{
 		:tipo_licencia_conducir,
 		:imagen_licencia_conducir,
 		:nit,
+		:imagen_nit,
+		:codigo_afp,
 		:nup,
 		:profesion_oficio,
 		:nacionalidad,
@@ -205,6 +214,7 @@ class ModeloEmpleados{
 		:imagen_huellas,
 		:confiable,
         :estado,
+		:id_cargo,
         :fotografia,
 		:imagen_documento_identidad
         )");
@@ -218,6 +228,8 @@ class ModeloEmpleados{
 		$stmt->bindParam(":estado_civil", $datos["estado_civil"], PDO::PARAM_STR);
 		$stmt->bindParam(":sexo", $datos["sexo"], PDO::PARAM_STR);
 		$stmt->bindParam(":direccion", $datos["direccion"], PDO::PARAM_STR);
+		$stmt->bindParam(":id_departamento", $datos["id_departamento"], PDO::PARAM_INT);
+		$stmt->bindParam(":id_municipio", $datos["id_municipio"], PDO::PARAM_INT);
 		$stmt->bindParam(":documento_identidad", $datos["documento_identidad"], PDO::PARAM_STR);
 		$stmt->bindParam(":numero_documento_identidad", $datos["numero_documento_identidad"], PDO::PARAM_STR);
 		$stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
@@ -230,6 +242,8 @@ class ModeloEmpleados{
 		$stmt->bindParam(":tipo_licencia_conducir", $datos["tipo_licencia_conducir"], PDO::PARAM_STR);
 		$stmt->bindParam(":imagen_licencia_conducir", $datos["imagen_licencia_conducir"], PDO::PARAM_STR);
 		$stmt->bindParam(":nit", $datos["nit"], PDO::PARAM_STR);
+		$stmt->bindParam(":imagen_nit", $datos["imagen_nit"], PDO::PARAM_STR);		
+		$stmt->bindParam(":codigo_afp", $datos["codigo_afp"], PDO::PARAM_STR);
 		$stmt->bindParam(":nup", $datos["nup"], PDO::PARAM_STR);
 		$stmt->bindParam(":profesion_oficio", $datos["profesion_oficio"], PDO::PARAM_STR);
 		$stmt->bindParam(":nacionalidad", $datos["nacionalidad"], PDO::PARAM_STR);
@@ -288,6 +302,7 @@ class ModeloEmpleados{
 		$stmt->bindParam(":imagen_huellas", $datos["imagen_huellas"], PDO::PARAM_STR);
 		$stmt->bindParam(":confiable", $datos["confiable"], PDO::PARAM_STR);
 		$stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
+		$stmt->bindParam(":id_cargo", $datos["id_cargo"], PDO::PARAM_INT);
 		$stmt->bindParam(":fotografia", $datos["fotografia"], PDO::PARAM_STR);
 		$stmt->bindParam(":imagen_documento_identidad", $datos["imagen_documento_identidad"], PDO::PARAM_STR);
 
@@ -300,7 +315,7 @@ class ModeloEmpleados{
 			return "ok";	
 
 		}else{
-
+			print_r($stmt->errorInfo());
 			return "error";
 		
 		}
@@ -327,6 +342,8 @@ class ModeloEmpleados{
 		estado_civil = :estado_civil,
 		sexo = :sexo,
 		direccion = :direccion,
+		id_departamento = :id_departamento,
+		id_municipio = :id_municipio,
         documento_identidad = :documento_identidad,
         numero_documento_identidad = :numero_documento_identidad,
 		telefono = :telefono,
@@ -339,6 +356,8 @@ class ModeloEmpleados{
 		tipo_licencia_conducir = :tipo_licencia_conducir,
 		imagen_licencia_conducir = :imagen_licencia_conducir,
 		nit = :nit,
+		imagen_nit = :imagen_nit,
+		codigo_afp = :codigo_afp,
 		nup = :nup,
 		profesion_oficio = :profesion_oficio,
 		nacionalidad = :nacionalidad,
@@ -357,7 +376,7 @@ class ModeloEmpleados{
 		senales_especiales = :senales_especiales,
 		licencia_tenencia_armas = :licencia_tenencia_armas,
 		numero_licencia_tenencia_armas = :numero_licencia_tenencia_armas,
-		imagen_licencia_tenencia_armas = :imagen_licencia_tenencia_armas.
+		imagen_licencia_tenencia_armas = :imagen_licencia_tenencia_armas,
 		servicio_militar = :servicio_militar,
 		fecha_servicio_inicio = :fecha_servicio_inicio,
 		fecha_servicio_fin = :fecha_servicio_fin,
@@ -396,7 +415,8 @@ class ModeloEmpleados{
 		imagen_examen_poligrafico = :imagen_examen_poligrafico,
 		imagen_huellas = :imagen_huellas,
 		confiable = :confiable,
-        estado = :estado, 
+        estado = :estado,
+		nivel_cargo = :nivel_cargo, 
         fotografia = :fotografia,
 		imagen_documento_identidad = :imagen_documento_identidad 
         WHERE id = :id"
@@ -411,6 +431,8 @@ class ModeloEmpleados{
 		$stmt -> bindParam(":estado_civil", $datos["estado_civil"], PDO::PARAM_STR);
 		$stmt -> bindParam(":sexo", $datos["sexo"], PDO::PARAM_STR);
 		$stmt -> bindParam(":direccion", $datos["direccion"], PDO::PARAM_STR);
+		$stmt->bindParam(":id_departamento", $datos["id_departamento"], PDO::PARAM_INT);
+		$stmt->bindParam(":id_municipio", $datos["id_municipio"], PDO::PARAM_INT);
 		$stmt -> bindParam(":documento_identidad", $datos["documento_identidad"], PDO::PARAM_STR);
 		$stmt -> bindParam(":numero_documento_identidad", $datos["numero_documento_identidad"], PDO::PARAM_STR);
 		$stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
@@ -423,6 +445,8 @@ class ModeloEmpleados{
 		$stmt->bindParam(":tipo_licencia_conducir", $datos["tipo_licencia_conducir"], PDO::PARAM_STR); 
 		$stmt->bindParam(":imagen_licencia_conducir", $datos["imagen_licencia_conducir"], PDO::PARAM_STR);
 		$stmt->bindParam(":nit", $datos["nit"], PDO::PARAM_STR);
+		$stmt->bindParam(":imagen_nit", $datos["imagen_nit"], PDO::PARAM_STR);
+		$stmt->bindParam(":codigo_afp", $datos["codigo_afp"], PDO::PARAM_STR);
 		$stmt->bindParam(":nup", $datos["nup"], PDO::PARAM_STR);
 		$stmt->bindParam(":profesion_oficio", $datos["profesion_oficio"], PDO::PARAM_STR);
 		$stmt->bindParam(":nacionalidad", $datos["nacionalidad"], PDO::PARAM_STR);
@@ -481,6 +505,7 @@ class ModeloEmpleados{
 		$stmt->bindParam(":imagen_huellas", $datos["imagen_huellas"], PDO::PARAM_STR);
 		$stmt->bindParam(":confiable", $datos["confiable"], PDO::PARAM_STR);
 		$stmt -> bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
+		$stmt->bindParam(":nivel_cargo", $datos["nivel_cargo"], PDO::PARAM_STR);
         $stmt -> bindParam(":fotografia", $datos["fotografia"], PDO::PARAM_STR);
 		$stmt -> bindParam(":imagen_documento_identidad", $datos["imagen_documento_identidad"], PDO::PARAM_STR);
 		$stmt -> bindParam(":id", $datos["id"], PDO::PARAM_INT);
@@ -492,7 +517,7 @@ class ModeloEmpleados{
 			return "ok";
 		
 		}else{
-
+			print_r($stmt->errorInfo());
 			return "error";	
 
 		}

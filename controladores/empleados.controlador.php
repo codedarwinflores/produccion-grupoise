@@ -152,6 +152,56 @@ class ControladorEmpleados{
 						}
 					}
 				}
+
+				/*=============================================
+				VALIDAR IMAGEN LICENCIA DE CONDUCIR
+				=============================================*/
+				$rutaNIT = "";
+				if(isset($_FILES["nuevaFotoNIT"]["tmp_name"])){
+					list($ancho, $alto) = getimagesize($_FILES["nuevaFotoNIT"]["tmp_name"]);
+					$nuevoAncho = 500;
+					$nuevoAlto = 500;
+					/*=============================================
+					CREAMOS EL DIRECTORIO(DUI) DONDE VAMOS A GUARDAR LA FOTO DEL EMPLEADO 
+					=============================================*/
+					$directorio = "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"];
+					mkdir($directorio, 0755);
+					/*=============================================
+					DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
+					=============================================*/
+					if($_FILES["nuevaFotoNIT"]["type"] == "image/jpeg"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,99999);
+						$rutaNIT= "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"]."/nit_".$aleatorio.".jpg";
+						//$origen = imagecreatefromjpeg($_FILES["nuevaFotoLicCond"]["tmp_name"]);	
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagejpeg($destino, $rutaDoc);						
+						if(move_uploaded_file($_FILES["nuevaFotoNIT"]["tmp_name"], $rutaNIT)) {							
+						}
+						else{								
+						}
+					}
+					if($_FILES["nuevaFotoNIT"]["type"] == "image/png"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,99999);
+						$rutaNIT = "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"]."/nit_".$aleatorio.".png";
+						//$origen = imagecreatefrompng($_FILES["nuevaFotoDoc"]["tmp_name"]);
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagepng($destino, $rutaDoc);
+						if(move_uploaded_file($_FILES["nuevaFotoNIT"]["tmp_name"], $rutaNIT)) {							
+						}
+						else{								
+						}
+					}
+				}
+
+
 				/*=============================================
 				VALIDAR IMAGEN LICENCIA TENENCIA ARMAS
 				=============================================*/
@@ -604,6 +654,8 @@ class ControladorEmpleados{
 								"estado_civil" => $_POST["nuevoEstadoCivil"],
 								"sexo" => $_POST["nuevoSexo"],
 								"direccion" => $_POST["nuevoDireccion"],
+								"id_departamento" => $_POST["nuevoDepartamento"],
+								"id_municipio" => $_POST["nuevoMunicipio"],
 					           "documento_identidad" => $_POST["nuevoTipoDocumento"],
                                "numero_documento_identidad" => $_POST["nuevoNumeroDocumento"],
 							   "telefono" => $_POST["nuevoTelefono"],
@@ -616,6 +668,8 @@ class ControladorEmpleados{
 							   "tipo_licencia_conducir" => $_POST["nuevoTipoLicenciaConducir"],
 							   "imagen_licencia_conducir" =>$rutaLicCond,
 							   "nit" => $_POST["nuevoNumeroNIT"],
+							   "imagen_nit" =>$rutaNIT,
+							   "codigo_afp" => $_POST["nuevoAFP"],
 							   "nup" => $_POST["nuevoNumeroNUP"],
 							   "profesion_oficio" => $_POST["nuevoProfesionOficio"],
 							   "nacionalidad" => $_POST["nuevoNacionalidad"],
@@ -673,7 +727,8 @@ class ControladorEmpleados{
 							   "imagen_constancia_psicologica" =>$rutaPSYCO,
 							   "imagen_examen_poligrafico" =>$rutaPOLI,
 							   "imagen_huellas" =>$rutaHUELLAS,							   
-                               "estado" => $_POST["nuevoEstado"],					           
+                               "estado" => $_POST["nuevoEstado"],
+							   "nivel_cargo" => $_POST["nuevoCARGO"],					           
 					           "fotografia"=>$ruta,
 							   "imagen_documento_identidad"=>$rutaDoc
                             );
@@ -706,7 +761,24 @@ class ControladorEmpleados{
 
 
 				}	
+				else{
+					echo'<script>
 
+					swal({
+						  type: "error",
+						  title: "El Empleado NO ha sido guardado correctamente",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result) {
+									if (result.value) {
+
+									window.location = "empleados";
+
+									}
+								})
+
+					</script>';
+				}
 
 			}else{
 
@@ -918,6 +990,61 @@ class ControladorEmpleados{
 						}
 					}
 				}
+				/*=============================================
+				VALIDAR IMAGEN NIT
+				=============================================*/
+				$rutaNIT= $_POST["fotoActualNIT"];
+				if(isset($_FILES["editarFotoNIT"]["tmp_name"]) && !empty($_FILES["editarFotoNIT"]["tmp_name"])){
+					list($ancho, $alto) = getimagesize($_FILES["editarFotoNIT"]["tmp_name"]);
+					$nuevoAncho = 500;
+					$nuevoAlto = 500;
+					/*=============================================
+					CREAMOS EL DIRECTORIO DONDE VAMOS A GUARDAR LA FOTO DEL DOCUMENTO
+					=============================================*/
+					$directorio = "vistas/img/empleados/".$_POST["editarNumeroDocumento"];
+					/*=============================================
+					PRIMERO PREGUNTAMOS SI EXISTE OTRA IMAGEN EN LA BD
+					=============================================*/
+					if(!empty($_POST["fotoActualNIT"])){
+						unlink($_POST["fotoActualNIT"]);
+					}else{
+						mkdir($directorio, 0755);
+					}	
+					/*=============================================
+					DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
+					=============================================*/
+					if($_FILES["editarFotoNIT"]["type"] == "image/jpeg"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,99999);
+						$rutaNIT = "vistas/img/empleados/".$_POST["editarNumeroDocumento"]."/nit_".$aleatorio.".jpg";
+						//$origen = imagecreatefromjpeg($_FILES["editarFotoDoc"]["tmp_name"]);	
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagejpeg($destino, $rutaDoc);
+						if(move_uploaded_file($_FILES["editarFotoNIT"]["tmp_name"], $rutaNIT)) {							
+						}
+						else{								
+						}
+					}
+					if($_FILES["editarFotoNIT"]["type"] == "image/png"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,9999);
+						$rutaNIT = "vistas/img/empleados/".$_POST["editarNumeroDocumento"]."/nit_".$aleatorio.".png";
+						//$origen = imagecreatefrompng($_FILES["editarFotoDoc"]["tmp_name"]);
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagepng($destino, $ruta);
+						if(move_uploaded_file($_FILES["editarFotoNIT"]["tmp_name"], $rutaNIT)) {							
+						}
+						else{								
+						}
+					}
+				}
+
 
 				/*=============================================
 				VALIDAR IMAGEN LICENCIA LTA
@@ -1430,6 +1557,8 @@ class ControladorEmpleados{
 								"estado_civil" => $_POST["editarEstadoCivil"],
 								"sexo" => $_POST["editarSexo"],
 								"direccion" => $_POST["editarDireccion"],
+								"id_departamento" => $_POST["editarDepartamento"],
+								"id_municipio" => $_POST["editarMunicipio"],
 					           "documento_identidad" => $_POST["editarTipoDocumento"],
                                "numero_documento_identidad" => $_POST["editarNumeroDocumento"],
 							   "telefono" => $_POST["editarNumeroTelefono"],
@@ -1440,8 +1569,10 @@ class ControladorEmpleados{
 								"fecha_vencimiento_documento" => $_POST["editarfecha_vencimiento"],
 								"licencia_conducir" => $_POST["editarNumeroLicenciaConducir"],
 								"tipo_licencia_conducir" => $_POST["editarTipoLicenciaConducir"],
-								"imagen_licencia_conducir"=>$rutaLicCond,
+								"imagen_licencia_conducir"=>$rutaLicCond,								
 								"nit" => $_POST["editarNumeroNit"],
+								"imagen_nit"=>$rutaNIT,
+								"codigo_afp" => $_POST["editarAFP"],
 								"nup" => $_POST["editarNumeroNup"],
 								"profesion_oficio" => $_POST["editarProfesionOficio"],
 								"nacionalidad" => $_POST["editarNacionalidad"],
@@ -1499,7 +1630,8 @@ class ControladorEmpleados{
 								"imagen_examen_poligrafico"=>$rutaPOLI,
 								"imagen_huellas"=>$rutaHUELLAS,
 								"confiable" => $_POST["editarConfiable"],
-                               "estado" => $_POST["editarEstado"],					           
+                               "estado" => $_POST["editarEstado"],	
+							   "nivel_cargo" => $_POST["editarCARGO"],					           
 					           "fotografia"=>$ruta,
 							   "imagen_documento_identidad"=>$rutaDoc,
                                "id"=>$_POST["idEmpleado"]);

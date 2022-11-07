@@ -39,6 +39,17 @@ class AjaxAfp{
 		echo json_encode($respuesta);
 
 	}
+
+	/*=============================================
+	MOSTRAR AFP
+	=============================================*/	
+	public $codigoAFP;
+	public function ajaxMostrarAFP(){
+		$item = "codigo";
+		$valor = $this->codigoAFP;
+		$respuesta = ControladorAfp::ctrMostrarAfp($item, $valor);
+		echo json_encode($respuesta);
+	}
 }
 
 /*=============================================
@@ -75,4 +86,15 @@ if(isset( $_POST["validarUsuario"])){
 	$valUsuario -> validarUsuario = $_POST["validarUsuario"];
 	$valUsuario -> ajaxValidarUsuario();
 
+}
+
+
+/*=============================================
+MOSTRAR AFP
+=============================================*/	
+if(isset($_POST["codigo_afp"])){
+
+	$verafp = new AjaxAfp();
+	$verafp -> codigoAFP = $_POST["codigo_afp"];
+	$verafp -> ajaxMostrarAFP();
 }

@@ -205,7 +205,7 @@ MODAL AGREGAR EMPLEADO
               
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
 
-                <input type="text" class="form-control input-lg" name="nuevoSegundoNombre" placeholder="Ingresar Segundo Nombre" required>
+                <input type="text" class="form-control input-lg" name="nuevoSegundoNombre" placeholder="Ingresar Segundo Nombre" >
 
               </div>
 
@@ -245,7 +245,7 @@ MODAL AGREGAR EMPLEADO
               
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
 
-                <input type="text" class="form-control input-lg" name="nuevoSegundoApellido" placeholder="Ingresar Segundo Apellido" >
+                <input type="text" class="form-control input-lg" name="nuevoSegundoApellido" placeholder="Ingresar Segundo Apellido" required>
 
               </div>
 
@@ -368,7 +368,7 @@ MODAL AGREGAR EMPLEADO
             Tel&eacute;fono:            
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" name="nuevoTelefono" placeholder="Ingresar N&uacute;mero de Tel&eacute;fono" >
+                <input type="text" data-inputmask="'mask':'9999-9999'" data-mask="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" name="nuevoTelefono" placeholder="Ingresar N&uacute;mero de Tel&eacute;fono" >
               </div>
           </div>
           <!-- ENTRADA PARA EL numero ISSS -->            
@@ -396,7 +396,7 @@ MODAL AGREGAR EMPLEADO
               
                 <span class="input-group-addon"><i class="fa fa-users"></i></span> 
 
-                <select class="form-control input-lg" name="nuevoTipoDocumento">
+                <select class="form-control input-lg" name="nuevoTipoDocumento" required>
                   
                   <option value="">Seleccionar tipo de documento</option>
 
@@ -420,7 +420,7 @@ MODAL AGREGAR EMPLEADO
               
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
 
-                <input type="text" class="form-control input-lg" name="nuevoNumeroDocumento" id="nuevoNumeroDocumento" placeholder="Ingresar n&uacute;mero documento identidad" required>
+                <input type="text" class="form-control input-lg" data-inputmask="'mask':'99999999-9'" data-mask="" name="nuevoNumeroDocumento" id="nuevoNumeroDocumento" placeholder="Ingresar n&uacute;mero documento identidad" required>
 
               </div>
 
@@ -430,7 +430,7 @@ MODAL AGREGAR EMPLEADO
             Lugar expedici&oacute;n Documento:              
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" class="form-control input-lg" name="nuevoLugarExpedicionDoc" placeholder="Lugar expedicion del documento" required>
+                <input type="text" class="form-control input-lg" name="nuevoLugarExpedicionDoc" placeholder="Lugar expedicion del documento" >
               </div>
           </div>
           <!-- ENTRADA PARA FECHA DE  expedicion documento   --> 
@@ -465,7 +465,7 @@ MODAL AGREGAR EMPLEADO
             N&uacute;mero Licencia Conducir:             
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" class="form-control input-lg" name="nuevoLicenciaConducir" placeholder="Ingresar N&uacute;mero de Licencia Conducir" >
+                <input type="text" class="form-control input-lg" data-inputmask="'mask':'9999-999999-999-9'" data-mask="" name="nuevoLicenciaConducir" placeholder="Ingresar N&uacute;mero de Licencia Conducir" >
               </div>
           </div>
 
@@ -500,9 +500,36 @@ MODAL AGREGAR EMPLEADO
           N&uacute;mero NIT:              
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" name="nuevoNumeroNIT" placeholder="Ingresar N&uacute;mero de NIT" >
+                <input type="text" data-inputmask="'mask':'9999-999999-999-9'" data-mask=""  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" name="nuevoNumeroNIT" placeholder="Ingresar N&uacute;mero de NIT" >
               </div>
           </div>
+          <!-- ENTRADA PARA SUBIR FOTO NIT-->
+          <div class="form-group">              
+              <div class="panel">SUBIR FOTO NIT</div>
+              <input type="file" class="nuevaFotoNIT" name="nuevaFotoNIT">
+              <p class="help-block">Peso máximo de la foto 2MB</p>
+              <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarNIT" width="100px">
+          </div>
+
+          <div class="form-group"> 
+            AFP:           
+              <div class="input-group">              
+                <span class="input-group-addon"><i class="fa fa-users"></i></span> 
+                <select class="form-control input-lg" name="nuevoAFP" id="nuevoAFP" >                  
+                  <option value="">Seleccionar AFP</option>
+                  <?php
+                    $datos_mostrar_afp = ControladorAfp::ctrMostrarAfp($item, $valor);
+                    foreach ($datos_mostrar_afp as $key => $value){
+                      echo '<option value="'.$value["codigo"].'">'.$value["nombre"].'</option>';                     
+                    }
+                ?>
+                </select>
+              </div>
+          </div>
+
+
+
+
           <!-- ENTRADA PARA NUP  -->            
           <div class="form-group"> 
           N&uacute;mero NUP:              
@@ -878,7 +905,7 @@ MODAL AGREGAR EMPLEADO
           N&uacute;mero de Tel&eacute;fono Trabajo Anterior:            
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" class="form-control input-lg" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" name="nuevoNumeroTelTrabajoAnterior" placeholder="Ingresar N&uacute;mero de Tel&eacute;fono Trabajo Anterior" >
+                <input type="text" class="form-control input-lg" data-inputmask="'mask':'9999-9999'" data-mask="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" name="nuevoNumeroTelTrabajoAnterior" placeholder="Ingresar N&uacute;mero de Tel&eacute;fono Trabajo Anterior" >
               </div>
           </div>
           <!-- ENTRADA PARA TRABAJO ACTUAL-->            
@@ -890,7 +917,7 @@ MODAL AGREGAR EMPLEADO
               </div>
           </div>
 
-           <!-- ENTRADA PARA TELEFONO REFEREWANCIA ANTERIOR-->            
+           <!-- ENTRADA PARA NOMBRE REFEREWANCIA ANTERIOR-->            
            <div class="form-group"> 
            Nombre Referencia Trabajo Anterior:             
               <div class="input-group">              
@@ -913,7 +940,7 @@ MODAL AGREGAR EMPLEADO
            Nombre Referencia Trabajo Actual:            
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text"  class="form-control input-lg" name="nuevoNomRefTrabajoActual" placeholder="Ingresar Nombre Referencia Trabajo Actual" >
+                <input type="text"  data-inputmask="'mask':'9999-9999'" data-mask="" class="form-control input-lg" name="nuevoNomRefTrabajoActual" placeholder="Ingresar Nombre Referencia Trabajo Actual" >
               </div>
           </div>
           <!-- ENTRADA PARA EVALUACION ACTUAL-->            
@@ -1033,35 +1060,39 @@ MODAL AGREGAR EMPLEADO
           <!-- *** -->
 
             <!-- ENTRADA PARA SELECCIONAR EL ESTADO -->
-
-            <div class="form-group">
-              
-              <div class="input-group">
-              
+            <div class="form-group">              
+              <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-
-                <select class="form-control input-lg" name="nuevoEstado" required>
-                  
+                <select class="form-control input-lg" name="nuevoEstado" required>                  
                   <option value="">Seleccionar estado</option>
-
                   <option value="1">Solicitud</option>
-
                   <option value="2">Contratado</option>
-
                   <option value="3">Inactivo</option>
-
                   <option value="4">Incapacitado</option>
-
                 </select>
-
               </div>
-
-            </div>
-
-            
-
+            </div> 
+             <!-- ENTRADA PARA SELECCIONAR EL CARGO -->  
+            <div class="form-group"> 
+            CARGO:           
+              <div class="input-group">              
+                <span class="input-group-addon"><i class="fa fa-users"></i></span> 
+                <select class="form-control input-lg" name="nuevoCARGO" id="nuevoCARGO" required>                  
+                  <option value="">Seleccionar Cargo</option>
+                  <?php
+                    $datos_mostrar_cargo = ControladorCargos::ctrMostrar($item, $valor);
+                    foreach ($datos_mostrar_cargo as $key => $value){
+                      echo '<option value="'.$value["nivel"].'">'.$value["descripcion"].'</option>';                     
+                    }
+                ?>
+                </select>
+              </div>
           </div>
 
+
+
+
+          </div>
         </div>
 
         <!--=====================================
@@ -1188,7 +1219,7 @@ MODAL EDITAR EMPLEADO
               
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
 
-                <input type="text" class="form-control input-lg" id="editarPrimerApellido" name="editarPrimerApellido" value="" reqired>
+                <input type="text" class="form-control input-lg" id="editarPrimerApellido" name="editarPrimerApellido" value="" required>
 
               </div>
 
@@ -1201,7 +1232,7 @@ MODAL EDITAR EMPLEADO
               
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
 
-                <input type="text" class="form-control input-lg" id="editarSegundoApellido" name="editarSegundoApellido" value="" >
+                <input type="text" class="form-control input-lg" id="editarSegundoApellido" name="editarSegundoApellido" value="" required>
 
               </div>
 
@@ -1291,7 +1322,7 @@ MODAL EDITAR EMPLEADO
             Departamento:            
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-                <select class="form-control input-lg" name="editarDepartamento"  onchange='poblarMuniEditar()'>                  
+                <select class="form-control input-lg" name="editarDepartamento"  >                  
                 <option id="editarDepartamento"></option>
                   <?php
                     $datos_mostrar_departamento = Controladorcat_departamento::ctrMostrar($item, $valor);
@@ -1317,7 +1348,12 @@ MODAL EDITAR EMPLEADO
                 <span class="input-group-addon"><i class="fa fa-users"></i></span> 
                 <select class="form-control input-lg" name="editarMunicipio"  >                  
                 <option id="editarMunicipio"></option>
-               
+                <?php
+                    $datos_mostrar_municipio = Controladorcat_municipios::ctrMostrar($item, $valor);
+                    foreach ($datos_mostrar_municipio as $key => $value){
+                      echo '<option value="'.$value["id"].'">'.$value["Nombre_m"].'</option>';                     
+                    }
+                ?>
                 </select>
               </div>
             </div>
@@ -1327,7 +1363,7 @@ MODAL EDITAR EMPLEADO
             N&uacute;mero de Tel&eacute;fono:             
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="editarNumeroTelefono" name="editarNumeroTelefono" value="" placeholder="Ingresar N&uacute;mero de Tel&eacute;fono">
+                <input type="text" data-inputmask="'mask':'9999-9999'" data-mask="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="editarNumeroTelefono" name="editarNumeroTelefono" value="" placeholder="Ingresar N&uacute;mero de Tel&eacute;fono">
               </div>
             </div>
 
@@ -1354,7 +1390,7 @@ MODAL EDITAR EMPLEADO
               Tipo de Documento:              
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-                <select class="form-control input-lg" name="editarTipoDocumento">                  
+                <select class="form-control input-lg" name="editarTipoDocumento" required>                  
                   <option value="" id="editarTipoDocumento"></option>  
                   <option value="DUI">DUI</option>
                   <option value="Pasaporte">DUI</option>
@@ -1372,7 +1408,7 @@ MODAL EDITAR EMPLEADO
               
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
 
-                <input type="text" class="form-control input-lg" id="editarNumeroDocumento" name="editarNumeroDocumento" value="" >
+                <input type="text" class="form-control input-lg" data-inputmask="'mask':'99999999-9'" data-mask="" id="editarNumeroDocumento" name="editarNumeroDocumento" value="" required>
 
               </div>
 
@@ -1419,7 +1455,7 @@ MODAL EDITAR EMPLEADO
             N&uacute;mero de Licencia de Conducir:             
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="editarNumeroLicenciaConducir" name="editarNumeroLicenciaConducir" value="" placeholder="Ingresar N&uacute;mero de Licencia de Conducir">
+                <input type="text" data-inputmask="'mask':'9999-999999-999-9'" data-mask=""  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="editarNumeroLicenciaConducir" name="editarNumeroLicenciaConducir" value="" placeholder="Ingresar N&uacute;mero de Licencia de Conducir">
               </div>
             </div>
             <!-- ENTRADA PARA SELECCIONAR TIPO LICENCIA CONDUCIR -->
@@ -1454,9 +1490,36 @@ MODAL EDITAR EMPLEADO
             N&uacute;mero de NIT:             
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="editarNumeroNit" name="editarNumeroNit" value="" placeholder="Ingresar N&uacute;mero de NIT">
+                <input type="text" data-inputmask="'mask':'9999-999999-999-9'" data-mask=""  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="editarNumeroNit" name="editarNumeroNit" value="" placeholder="Ingresar N&uacute;mero de NIT">
               </div>
             </div>
+            <!-- ENTRADA PARA SUBIR NIT -->
+          <div class="form-group">              
+              <div class="panel">SUBIR FOTO NIT</div>
+              <input type="file" class="nuevaFotoNIT" name="editarFotoNIT">
+              <p class="help-block">Peso máximo de la foto 2MB</p>
+              <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditarNIT" width="100px">
+              <input type="hidden" name="fotoActualNIT" id="fotoActualNIT">
+          </div>
+            <div class="form-group">  
+            AFP:            
+              <div class="input-group">              
+                <span class="input-group-addon"><i class="fa fa-users"></i></span> 
+                <select class="form-control input-lg" name="editarAFP"  >                  
+                <option id="editarAFP"></option>
+                  <?php
+                    $datos_mostrar_afp = ControladorAfp::ctrMostrarAfp($item, $valor);
+                    foreach ($datos_mostrar_afp as $key => $value){
+                      echo '<option value="'.$value["codigo"].'">'.$value["nombre"].'</option>';                     
+                    }
+                  ?>
+                </select>
+              </div>
+            </div>
+
+
+
+
             <!-- ENTRADA PARA NUUP-->            
             <div class="form-group">  
             N&uacute;mero de NUP:            
@@ -1825,7 +1888,7 @@ MODAL EDITAR EMPLEADO
             N&uacute;mero de Tel&eacute;fono Trabajo Anterior:            
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="editarNumTelTrabajoAnterior" name="editarNumTelTrabajoAnterior" value="" placeholder="Ingresar N&uacute;mero de Tel&eacute;fono Trabajo Anterior">
+                <input type="text" data-inputmask="'mask':'9999-9999'" data-mask=""  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="editarNumTelTrabajoAnterior" name="editarNumTelTrabajoAnterior" value="" placeholder="Ingresar N&uacute;mero de Tel&eacute;fono Trabajo Anterior">
               </div>
             </div>
             <!-- ENTRADA PARA TRABAJO ACTUAL-->            
@@ -1982,28 +2045,34 @@ MODAL EDITAR EMPLEADO
             <!-- ENTRADA PARA SELECCIONAR ESTADO -->
             <div class="form-group">
               Estado:
-              <div class="input-group">
-              
+              <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-
-                <select class="form-control input-lg" name="editarEstado">
-                  
-                  <option value="" id="editarEstado"></option>                  
-
+                <select class="form-control input-lg" name="editarEstado" required>                  
+                  <option value="" id="editarEstado"></option>           
                   <option value="1">Solicitud</option>
-
                   <option value="2">Contratado</option>
-
                   <option value="3">Inactivo</option>
-
                   <option value="4">Incapacitado</option>
-
                 </select>
-
               </div>
-
             </div>
 
+            <!-- ENTRADA PARA SELECCIONAR CARGO -->
+            <div class="form-group">  
+            CARGO:            
+              <div class="input-group">              
+                <span class="input-group-addon"><i class="fa fa-users"></i></span> 
+                <select class="form-control input-lg" name="editarCARGO"  >                  
+                <option id="editarCARGO"></option>
+                  <?php
+                    $datos_mostrar_cargo = ControladorCargos::ctrMostrar($item, $valor);
+                    foreach ($datos_mostrar_cargo as $key => $value){
+                      echo '<option value="'.$value["nivel"].'">'.$value["descripcion"].'</option>';                     
+                    }
+                  ?>
+                </select>
+              </div>
+            </div>
             
 
             

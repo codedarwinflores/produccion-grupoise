@@ -104,6 +104,39 @@ $(".nuevaFotoLicCond").change(function(){
 })
 
 /*=============================================
+SUBIENDO LA FOTO DE NIT
+=============================================*/
+$(".nuevaFotoNIT").change(function(){
+	var imagen = this.files[0];	
+	/*=============================================
+  	VALIDAMOS EL FORMATO DE LA IMAGEN SEA JPG O PNG
+  	=============================================*/
+  	if(imagen["type"] != "image/jpeg" && imagen["type"] != "image/png"){
+  		$(".nuevaFotoNIT").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen debe estar en formato JPG o PNG!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else if(imagen["size"] > 2000000){
+  		$(".nuevaFotoNIT").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen no debe pesar más de 2MB!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else{
+  		var datosImagen = new FileReader;
+  		datosImagen.readAsDataURL(imagen);
+  		$(datosImagen).on("load", function(event){
+  			var rutaImagen = event.target.result;
+  			$(".previsualizarNIT").attr("src", rutaImagen);
+  		})
+  	}
+})
+/*=============================================
 SUBIENDO LA FOTO DE LICENCIA TENENCIA ARMAS
 =============================================*/
 $(".nuevaFotoLicLTA").change(function(){
@@ -460,8 +493,7 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 			$("#editarDireccion").val(respuesta["direccion"]);
 			
 
-			//poblar editar Departamento
-			
+			//poblar editar Departamento			
 			iddepartamento = respuesta["id_departamento"];			
 			var datosDep = new FormData();
 			datosDep.append("idDepartamento", iddepartamento);
@@ -473,12 +505,10 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 				contentType: false,
 				processData: false,
 				dataType: "json",
-				success: function(respuestaDep){			
-						
-					//myArray = respuestaDep.split(",");
-					//$("#editarDepartamento").html(myArray[1]);
-					//$("#editarDepartamento").val(respuesta["id_departamento"]);
-					
+				success: function(respuestaDep){	
+					myArray = respuestaDep.split(",");		
+					$("#editarDepartamento").html(myArray[1]);
+					$("#editarDepartamento").val(myArray[0]);				
 				}
 			});
 
@@ -487,7 +517,7 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 			//poblar editar municipio
 			idmunicipio = respuesta["id_municipio"];			
 			var datosMun = new FormData();
-			datosMun.append("idmunicipio", idmunicipio);
+			datosMun.append("idMunicipio", idmunicipio);
 			$.ajax({
 				url:"ajax/municipio4.ajax.php",
 				method: "POST",
@@ -497,10 +527,10 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 				processData: false,
 				dataType: "json",
 				success: function(respuestaMun){			
-						
-					//myArray = respuestaMun.split(",");
-					//$("#editarMunicipio").html(myArray[1]);
-					//$("#editarMunicipio").val(respuesta["id_municipio"]);
+					//alert(respuestaMun);
+					myArray = respuestaMun.split(",");
+					$("#editarMunicipio").html(myArray[1]);
+					$("#editarMunicipio").val(respuesta["id_municipio"]);
 					
 				}
 			});
@@ -523,8 +553,14 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 			var m = formattedDate.getMonth(); m += 1;
 			m += 1; // javascript months are 0-11 
 			var y = formattedDate.getFullYear();
-			$("#mascarafecha").val(d+'-'+m+'-'+y);
-			$("#editarfecha_expedicion").val(respuesta["fecha_expedicion_documento"]);
+			if(isNaN(d)){
+
+			}
+			else{
+				$("#mascarafecha").val(respuesta["fecha_expedicion_documento"]);
+				$("#editarfecha_expedicion").val(respuesta["fecha_expedicion_documento"]);
+			}
+			
 
 			var date1 = respuesta["fecha_vencimiento_documento"];
 			var formattedDate = new Date(date1); 
@@ -532,8 +568,15 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 			var m = formattedDate.getMonth(); m += 1;
 			m += 1; // javascript months are 0-11 
 			var y = formattedDate.getFullYear();
-			$("#mascarafechav").val(d+'-'+m+'-'+y);
-			$("#editarfecha_vencimiento").val(respuesta["fecha_vencimiento_documento"]);
+			if(isNaN(d)){				
+				$("#mascarafechav").val('');
+				$("#editarfecha_vencimiento").val('');
+			}
+			else{
+				$("#mascarafechav").val(respuesta["fecha_vencimiento_documento"]);
+				$("#editarfecha_vencimiento").val(respuesta["fecha_vencimiento_documento"]);
+			}
+			
 
 			var date2 = respuesta["fecha_nacimiento"];
 			var formattedDate = new Date(date2); 
@@ -541,8 +584,14 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 			var m = formattedDate.getMonth(); m += 1;
 			m += 1; // javascript months are 0-11 
 			var y = formattedDate.getFullYear();
-			$("#mascarafechanac").val(d+'-'+m+'-'+y);
-			$("#editarfecha_nacimiento").val(respuesta["fecha_nacimiento"]);
+			if(isNaN(d)){
+				
+			}
+			else{
+				$("#mascarafechanac").val(respuesta["fecha_nacimiento"]);
+				$("#editarfecha_nacimiento").val(respuesta["fecha_nacimiento"]);
+			}
+			
 
 
 
@@ -562,6 +611,36 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 
 
 			$("#editarNumeroNit").val(respuesta["nit"]);
+
+
+			if(respuesta["imagen_nit"] != ""){
+				$(".previsualizarEditarNIT").attr("src", respuesta["imagen_nit"]);
+			}else{
+				$(".previsualizarEditarNIT").attr("src", "vistas/img/usuarios/default/anonymous.png");
+			}
+            $("#fotoActualNIT").val(respuesta["imagen_nit"]);
+
+			//BUSCAR EL NOMBRE DE LA AFP SEGUN EL CODIGO QUE TENEMOS			
+			var datosAFP = new FormData();
+			datosAFP.append("codigo_afp", respuesta["codigo_afp"]);
+			$.ajax({
+				url:"ajax/afp.ajax.php",
+				method: "POST",
+				data: datosAFP,
+				cache: false,
+				contentType: false,
+				processData: false,
+				dataType:"json",
+				success:function(respuestaAFP){					
+					$("#editarAFP").html(respuestaAFP[2]);
+					$("#editarAFP").val(respuestaAFP[1]);								 
+				}
+			})
+
+			
+
+
+
 			$("#editarNumeroNup").val(respuesta["nup"]);
 			$("#editarProfesionOficio").val(respuesta["profesion_oficio"]);
 			$("#editarNacionalidad").val(respuesta["nacionalidad"]);
@@ -601,8 +680,14 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 			var m = formattedDate.getMonth(); m += 1;
 			m += 1; // javascript months are 0-11 
 			var y = formattedDate.getFullYear();
-			$("#mascarafechainism").val(d+'-'+m+'-'+y);
-			$("#editarfecha_inism").val(respuesta["fecha_servicio_inicio"]);
+			if(isNaN(d)){
+				
+			}
+			else{
+				$("#mascarafechainism").val(respuesta["fecha_servicio_inicio"]);
+				$("#editarfecha_inism").val(respuesta["fecha_servicio_inicio"]);
+			}
+			
 
 			var date4 = respuesta["fecha_servicio_fin"];
 			var formattedDate = new Date(date4); 
@@ -610,8 +695,14 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 			var m = formattedDate.getMonth(); m += 1;
 			m += 1; // javascript months are 0-11 
 			var y = formattedDate.getFullYear();
-			$("#mascarafechafinsm").val(d+'-'+m+'-'+y);
-			$("#editarfecha_finsm").val(respuesta["fecha_servicio_fin"]);
+			if(isNaN(d)){
+				
+			}
+			else{
+				$("#mascarafechafinsm").val(respuesta["fecha_servicio_fin"]);
+				$("#editarfecha_finsm").val(respuesta["fecha_servicio_fin"]);
+			}
+			
 
 			$("#editarLugarServicioMilitar").val(respuesta["lugar_servicio"]);
 			$("#editarGradoMilitar").val(respuesta["grado_militar"]);
@@ -648,8 +739,14 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 			var m = formattedDate.getMonth(); m += 1;
 			m += 1; // javascript months are 0-11 
 			var y = formattedDate.getFullYear();
-			$("#mascarafechasusp").val(d+'-'+m+'-'+y);
-			$("#editarfecha_susp").val(respuesta["fecha_suspension"]);
+			if(isNaN(d)){
+				
+			}
+			else{
+				$("#mascarafechasusp").val(respuesta["fecha_suspension"]);
+				$("#editarfecha_susp").val(respuesta["fecha_suspension"]);
+			}
+		
 
 
 
@@ -694,8 +791,14 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 			var m = formattedDate.getMonth(); m += 1;
 			m += 1; // javascript months are 0-11 
 			var y = formattedDate.getFullYear();
-			$("#mascarafechavenceAP").val(d+'-'+m+'-'+y);
-			$("#editarfecha_venceAP").val(respuesta["fecha_vencimiento_antecedentes_penales"]);
+			if(isNaN(d)){
+				
+			}
+			else{
+				$("#mascarafechavenceAP").val(respuesta["fecha_vencimiento_antecedentes_penales"]);
+				$("#editarfecha_venceAP").val(respuesta["fecha_vencimiento_antecedentes_penales"]);
+			}
+			
 
 			if(respuesta["imagen_solvencia_pnc"] != ""){
 				$(".previsualizarEditarSOLVENCIAPNC").attr("src", respuesta["imagen_solvencia_pnc"]);
@@ -710,8 +813,14 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 			var m = formattedDate.getMonth(); m += 1;
 			m += 1; // javascript months are 0-11 
 			var y = formattedDate.getFullYear();
-			$("#mascarafechavenceSPNC").val(d+'-'+m+'-'+y);
-			$("#editarfecha_venceSPNC").val(respuesta["fecha_vencimiento_solvencia_pnc"]);
+			if(isNaN(d)){
+				
+			}
+			else{
+				$("#mascarafechavenceSPNC").val(respuesta["fecha_vencimiento_solvencia_pnc"]);
+				$("#editarfecha_venceSPNC").val(respuesta["fecha_vencimiento_solvencia_pnc"]);
+			}
+			
 
 			if(respuesta["imagen_constancia_psicologica"] != ""){
 				$(".previsualizarEditarPSYCO").attr("src", respuesta["imagen_constancia_psicologica"]);
@@ -777,7 +886,22 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 			$("#editarEstado").val(respuesta["estado"]);
 			
 
-			
+			//BUSCAR EL NOMBRE DEL CARGO SEGUN EL CODIGO QUE TENEMOS			
+			var datosCARGO = new FormData();
+			datosCARGO.append("nivel", respuesta["nivel_cargo"]);
+			$.ajax({
+				url:"ajax/cargos.ajax.php",
+				method: "POST",
+				data: datosCARGO,
+				cache: false,
+				contentType: false,
+				processData: false,
+				dataType:"json",
+				success:function(respuestaCARGO){					
+					$("#editarCARGO").html(respuestaCARGO[1]);
+					$("#editarCARGO").val(respuestaCARGO[2]);								 
+				}
+			})
 
 			
 

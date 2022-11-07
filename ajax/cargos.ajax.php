@@ -39,6 +39,17 @@ class AjaxCargos{
 		echo json_encode($respuesta);
 
 	}
+
+	/*=============================================
+	MOSTRAR CARGOS
+	=============================================*/	
+	public $codigoCARGO;
+	public function ajaxMostrarCARGO(){
+		$item = "nivel";
+		$valor = $this->codigoCARGO;
+		$respuesta = ControladorCargos::ctrMostrar($item, $valor);
+		echo json_encode($respuesta);
+	}
 }
 
 /*=============================================
@@ -75,4 +86,13 @@ if(isset( $_POST["validarUsuario"])){
 	$valUsuario -> validarUsuario = $_POST["validarUsuario"];
 	$valUsuario -> ajaxValidarUsuario();
 
+}
+
+/*=============================================
+MOSTRAR CARGO
+=============================================*/	
+if(isset($_POST["nivel"])){
+	$vercargo = new AjaxCargos();
+	$vercargo -> codigoCARGO = $_POST["nivel"];
+	$vercargo -> ajaxMostrarCARGO();
 }

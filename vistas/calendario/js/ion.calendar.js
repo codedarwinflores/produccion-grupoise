@@ -614,25 +614,25 @@
                     }
                     else if(x=="editarfecha_nacimiento"){
                         
-                        var dateNEW = $('.editaeditarfecha_nacimiento').val();
+                        var dateNEW = $('.editarfecha_nacimiento').val();
                         var newDate = dateNEW.split("-").reverse().join("-");
-                        $(".oficial_editarfecha_vencimiento").val(newDate);
+                        $(".oficial_editarfecha_nacimiento").val(newDate);
                     }
                     else if(x=="editarfecha_inism"){
                         
-                        var dateNEW = $('.editaeditarfecha_inism').val();
+                        var dateNEW = $('.editarfecha_inism').val();
                         var newDate = dateNEW.split("-").reverse().join("-");
                         $(".oficial_editarfecha_inism").val(newDate);
                     }
                     else if(x=="editarfecha_finsm"){
                         
-                        var dateNEW = $('.editaeditarfecha_finsm').val();
+                        var dateNEW = $('.editarfecha_finsm').val();
                         var newDate = dateNEW.split("-").reverse().join("-");
                         $(".oficial_editarfecha_finsm").val(newDate);
                     }
                     else if(x=="editarfecha_susp"){
                         
-                        var dateNEW = $('.editaeditarfecha_susp').val();
+                        var dateNEW = $('.editarfecha_susp').val();
                         var newDate = dateNEW.split("-").reverse().join("-");
                         $(".oficial_editarfecha_susp").val(newDate);
                     }

@@ -3,7 +3,7 @@
 require_once "../controladores/municipio.controlador.php";
 require_once "../modelos/municipio.modelo.php";
 
-$id_municipio = $_POST["idmunicipio"];
+$id_municipio = $_POST["idMunicipio"];
 
 function getContent() {
 	global $id_municipio;
