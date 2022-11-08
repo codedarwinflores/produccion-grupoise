@@ -127,7 +127,7 @@ class ModeloEmpleados{
 		imagen_huellas,
 		confiable,
         estado,
-		id_cargo,
+		nivel_cargo,
         fotografia,
 		imagen_documento_identidad
         ) VALUES (
@@ -214,7 +214,7 @@ class ModeloEmpleados{
 		:imagen_huellas,
 		:confiable,
         :estado,
-		:id_cargo,
+		:nivel_cargo,
         :fotografia,
 		:imagen_documento_identidad
         )");
@@ -302,7 +302,7 @@ class ModeloEmpleados{
 		$stmt->bindParam(":imagen_huellas", $datos["imagen_huellas"], PDO::PARAM_STR);
 		$stmt->bindParam(":confiable", $datos["confiable"], PDO::PARAM_STR);
 		$stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
-		$stmt->bindParam(":id_cargo", $datos["id_cargo"], PDO::PARAM_INT);
+		$stmt->bindParam(":nivel_cargo", $datos["nivel_cargo"], PDO::PARAM_STR);
 		$stmt->bindParam(":fotografia", $datos["fotografia"], PDO::PARAM_STR);
 		$stmt->bindParam(":imagen_documento_identidad", $datos["imagen_documento_identidad"], PDO::PARAM_STR);
 
