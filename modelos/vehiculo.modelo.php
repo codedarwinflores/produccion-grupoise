@@ -30,7 +30,7 @@ class Modelovehiculo{
 
 		if($item != null){
 
-			$stmt = Conexion::conectar()->prepare("SELECT  tbl_vehiculos.id as idvehiculos , tbl_vehiculos.id_familia as familiavehiculo, `id_tipo_vehiculo`, `numero_chasis`, `numero_motor`, `capacidad`, `tiene_logotipo`, `tiene_nombre_entidad`, `marca`, `modelo`, `anio`, `placa`, `color`,  tbl_tipos_de_vehiculo.id as idtipovehiculo, tbl_tipos_de_vehiculo.codigo as codigovehiculo, `nombre_tipo` , tbl_familia.id as idfamiliaoriginal,  tbl_familia.nombre as nombrefamiliaoriginal
+			$stmt = Conexion::conectar()->prepare("SELECT  tbl_vehiculos.id as idvehiculos , tbl_vehiculos.id_familia as familiavehiculo, `id_tipo_vehiculo`, `numero_chasis`, `numero_motor`, `capacidad`, `tiene_logotipo`, `tiene_nombre_entidad`, `marca`, `modelo`, `anio`, `placa`, `color`,  tbl_tipos_de_vehiculo.id as idtipovehiculo, tbl_tipos_de_vehiculo.codigo as codigovehiculo, `nombre_tipo` , tbl_familia.id as idfamiliaoriginal,  tbl_familia.nombre as nombrefamiliaoriginal, codigo_vehiculo, descripcion_vehiculo, costo_vehiculo 
 			FROM `tbl_vehiculos`, tbl_tipos_de_vehiculo, tbl_familia
 			WHERE tbl_vehiculos.id_tipo_vehiculo = tbl_tipos_de_vehiculo.id and tbl_vehiculos.id and tbl_familia.id=tbl_vehiculos.id_familia and tbl_vehiculos.id = :$item");
 
@@ -42,7 +42,7 @@ class Modelovehiculo{
 
 		}else{
 
-			$stmt = Conexion::conectar()->prepare("SELECT  tbl_vehiculos.id as idvehiculos , tbl_vehiculos.id_familia as familiavehiculo, `id_tipo_vehiculo`, `numero_chasis`, `numero_motor`, `capacidad`, `tiene_logotipo`, `tiene_nombre_entidad`, `marca`, `modelo`, `anio`, `placa`, `color`,  tbl_tipos_de_vehiculo.id as idtipovehiculo, tbl_tipos_de_vehiculo.codigo as codigovehiculo, `nombre_tipo` , tbl_familia.id as idfamiliaoriginal,  tbl_familia.nombre as nombrefamiliaoriginal
+			$stmt = Conexion::conectar()->prepare("SELECT  tbl_vehiculos.id as idvehiculos , tbl_vehiculos.id_familia as familiavehiculo, `id_tipo_vehiculo`, `numero_chasis`, `numero_motor`, `capacidad`, `tiene_logotipo`, `tiene_nombre_entidad`, `marca`, `modelo`, `anio`, `placa`, `color`,  tbl_tipos_de_vehiculo.id as idtipovehiculo, tbl_tipos_de_vehiculo.codigo as codigovehiculo, `nombre_tipo` , tbl_familia.id as idfamiliaoriginal,  tbl_familia.nombre as nombrefamiliaoriginal, codigo_vehiculo, descripcion_vehiculo, costo_vehiculo 
 			FROM `tbl_vehiculos`, tbl_tipos_de_vehiculo, tbl_familia
 			WHERE tbl_vehiculos.id_tipo_vehiculo = tbl_tipos_de_vehiculo.id and tbl_vehiculos.id and tbl_familia.id=tbl_vehiculos.id_familia");
 

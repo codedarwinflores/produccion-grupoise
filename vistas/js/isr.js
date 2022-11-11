@@ -13,6 +13,7 @@ $(document).ready(function(){
 
 	$(".icono_codigo").addClass("fa fa-qr");
 	$(".input_codigo").attr("placeholder", texto+" Código");
+	
 
 	
 	$(".icono_nombre_rango").addClass("fa fa-random");
@@ -211,36 +212,8 @@ $(".tablas").on("click", ".btnEditarisr", function(){
 REVISAR SI  YA ESTÁ REGISTRADO
 =============================================*/
 
-$("#nuevonombre").change(function(){
 
 
-	var usuario = $(this).val();
-
-	var datos = new FormData();
-	datos.append("validarnombre", usuario);
-
-	 $.ajax({
-	    url:"ajax/isr.ajax.php",
-	    method:"POST",
-	    data: datos,
-	    cache: false,
-	    contentType: false,
-	    processData: false,
-	    dataType: "json",
-	    success:function(respuesta){
-	    	
-	    	if(respuesta){
-
-	    		$("#nuevonombre").parent().after('<div class="alert alert-warning">Este registro ya existe en la base de datos</div>');
-
-	    		$("#nuevonombre").val("");
-
-	    	}
-
-	    }
-
-	})
-})
 
 /*=============================================
 ELIMINAR 

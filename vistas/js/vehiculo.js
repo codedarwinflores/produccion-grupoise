@@ -37,6 +37,10 @@ $(".tablas").on("click", ".btnEditarvehiculo", function(){
 			$("#editaranio").val(respuesta["anio"]);
 			$("#editarplaca").val(respuesta["placa"]);
 			$("#editarcolor").val(respuesta["color"]);
+			/* **** */
+			$("#editarcodigo_vehiculo").val(respuesta["codigo_vehiculo"]);
+			$("#editardescripcion_vehiculo").val(respuesta["descripcion_vehiculo"]);
+			$("#editarcosto_vehiculo").val(respuesta["costo_vehiculo"]);
 			
 
 

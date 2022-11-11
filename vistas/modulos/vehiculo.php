@@ -66,6 +66,9 @@ function getContent() {
             <th>Año</th>
             <th>Placa</th>
             <th>Color</th>
+            <th>Código</th>
+            <th>Descripción</th>
+            <th>Costo</th>
             <th>Acciones</th>
  
           </tr> 
@@ -96,7 +99,10 @@ function getContent() {
                    <td>'.$value["modelo"].'</td>
                    <td>'.$value["anio"].'</td>
                    <td>'.$value["placa"].'</td>
-                   <td>'.$value["color"].'</td>';
+                   <td>'.$value["color"].'</td>
+                   <td>'.$value["codigo_vehiculo"].'</td>
+                   <td>'.$value["descripcion_vehiculo"].'</td>
+                   <td>'.$value["costo_vehiculo"].'</td>';
  
                   
  
@@ -177,7 +183,7 @@ MODAL AGREGAR
               
                 <span class="input-group-addon"><i class="icono_<?php echo $row['Field'];?>"></i></span> 
 
-                <input type="text" class="form-control input-lg input_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value="" autocomplete="off" required>
+                <input type="text" class="form-control input-lg input_<?php echo $row['Field'];?> " name="nuevo<?php echo $row['Field'];?>" placeholder="" value="" autocomplete="off" required tabla_validar="tbl_vehiculos" item_validar="codigo_vehiculo">
 
               </div>
 
@@ -538,6 +544,23 @@ $(document).ready(function(){
     $(".icono_color").addClass("fa fa-spinner");
     $(".input_color").attr("placeholder", texto+" Color");
 
+    /* ****NUVOS CAMPOS****** */
+    $(".icono_codigo_vehiculo").addClass("fa fa-qrcode");
+    $(".input_codigo_vehiculo").attr("placeholder", texto+" Código Vehiculo");
+
+    
+    $(".icono_descripcion_vehiculo").addClass("fa fa-spinner");
+    $(".input_descripcion_vehiculo").attr("placeholder", texto+" Descripción Vehiculo");
+
+    /* editarcosto_vehiculo */
+    $(".icono_costo_vehiculo").addClass("fa fa-money");
+    $(".input_costo_vehiculo").attr("placeholder", texto+" Costo Vehiculo");
+	  $(".input_costo_vehiculo").get(0).type = 'number';
+    $(".input_costo_vehiculo").attr("step", "0.01");
+    /* **** */
+    $("#editarcosto_vehiculo").get(0).type = 'number';
+    $("#editarcosto_vehiculo").attr("step", "0.01");
+
 
 
               /* *********LABEL*********** */
@@ -563,6 +586,21 @@ $(document).ready(function(){
               /* *********LABEL*********** */
               var input_placa = $(".input_placa").attr("placeholder");
                 $(".label_placa").text(input_placa);
+
+            
+              /* *********LABEL*********** */
+              var input_codigo_vehiculo = $(".input_codigo_vehiculo").attr("placeholder");
+                $(".label_codigo_vehiculo").text(input_codigo_vehiculo);
+
+            
+              /* *********LABEL*********** */
+              var input_descripcion_vehiculo = $(".input_descripcion_vehiculo").attr("placeholder");
+                $(".label_descripcion_vehiculo").text(input_descripcion_vehiculo);
+
+            
+              /* *********LABEL*********** */
+              var input_costo_vehiculo = $(".input_costo_vehiculo").attr("placeholder");
+                $(".label_costo_vehiculo").text(input_costo_vehiculo);
 
             
 

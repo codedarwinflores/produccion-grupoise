@@ -91,7 +91,7 @@ function getContent() {
            echo ' <tr>
                    <td>'.($key+1).'</td>
                    <td>'.$value["fecha_ingreso"].'</td>
-                   <td>'.$value["nombreempresas"].'</td>
+                   <td>'.$value["id_empresa"].'</td>
                    <td>'.$value["nombrefamilia"].'</td>
                    <td>'.$value["nombre_tipo"].'</td>
                    <td>'.$value["codigoarmas"].'</td>
@@ -174,8 +174,95 @@ MODAL AGREGAR
           
           <input type="text" name="nuevofecha_ingreso" id="fecha_ingreso" class="fecha_ingreso" style="display: none;" >
           <input type="text" name="nuevofecha_vencimiento" id="fecha_vencimiento" class="fecha_vencimiento" style="display: none;">
+          
+          <input type="text" name="nuevoid_empresa" value="Grupo Ise" style="display: none;">
 
              
+          
+            <!-- *************************** -->
+
+            <script>
+              $(document).on('change', '#nuevoid_tipo_arma', function(event) {
+                   var obtenercodigo = $("#nuevoid_tipo_arma option:selected").attr("codigo");
+                   
+                   /* *** */
+                   
+                        var datos = "obtenercodigo="+obtenercodigo;
+
+                        $.ajax({
+                          url:"ajax/code_armas.ajax.php",
+                          method:"POST",
+                          data: datos,
+                          success:function(respuesta){
+                          
+                            /* alert(respuesta.replace(/["']/g, "")); */
+                            /* alert(respuesta); */
+                            $(".input_codigo").val(respuesta.replace(/["']/g, ""));
+                          }
+
+                        })
+                 /* *** */
+              });
+
+              $(document).on('change', '#nuevotipo_municion', function(event) {
+                   var otro = $("#nuevotipo_municion option:selected").val();
+                   
+                   if(otro=="otros"){
+                    $("#nuevotipo_municion option:selected").val("otros");
+                    $("#texto_tipomunicion").attr("style","display:block");
+
+                    $("#texto_tipomunicion").change(function(){
+                      $("#nuevotipo_municion option:selected").val($("#texto_tipomunicion").val());
+
+                    });
+
+                   }
+                   else{
+                    $("#texto_tipomunicion").attr("style","display:none");
+
+                   }
+              });
+
+            </script>
+
+            <?php
+            
+              function ObtenerCorrelativo() {
+                global $nombretabla_clientes;
+                $query = "select id,codigo from $nombretabla_clientes order by id desc limit 1";
+                $sql = Conexion::conectar()->prepare($query);
+                $sql->execute();			
+                return $sql->fetchAll();
+              };
+
+              
+             $data0 = ObtenerCorrelativo();
+             foreach($data0 as $row0) {
+              $numero = $row0['codigo'];
+              $quitarletra = substr($numero, 1);
+              $quitarceros = ltrim($quitarletra, "0"); 
+              $addnumber= $quitarceros+1;
+
+
+              $correlativo = sprintf("%04d",$addnumber);
+              
+              /* echo $correlativo; */
+              $html="<script>";
+              $html.="$(document).ready(function(){";
+                $html .='$(".input_nombre").keydown(function(event){';
+                $html .="var letra = $(this).val().charAt(0);";
+                $html.="$('.input_codigo').val(letra+'".$correlativo."');";
+                $html.="});";
+              $html.="});";
+              $html.="</script>";
+              echo $html;
+            }
+          ?>
+
+
+        <!-- ***************************** -->
+
+
 
             <!-- ENTRADA PARA CAMPOS  -->
 
@@ -192,7 +279,7 @@ MODAL AGREGAR
               
                 <span class="input-group-addon"><i class="icono_<?php echo $row['Field'];?>"></i></span> 
 
-                <input type="text" class="form-control input-lg input_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value="" autocomplete="off" required>
+                <input type="text" class="form-control input-lg input_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value="" autocomplete="off" required tabla_validar="tbl_armas" item_validar="codigo">
 
               </div>
 
@@ -203,7 +290,7 @@ MODAL AGREGAR
           ?>
 
                               
-          <div class="s_idempresa">
+        <!-- <div class="s_idempresa">
             <label for="">Seleccione Empresa</label>
             <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-university"></i></span>
@@ -219,19 +306,19 @@ MODAL AGREGAR
                   ?>
                 </select>
             </div>
-      </div>
+      </div> -->
 
             <div class="s_idtipoarma">
               <label for="">Seleccione Tipo Arma</label>
             <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
-                <select name="nuevoid_tipo_arma" id="" class="form-control input-lg" required>
+                <select name="nuevoid_tipo_arma" id="nuevoid_tipo_arma" class="form-control input-lg" required>
                   <option value="">Seleccione Tipo Arma</option>
                 <?php
                     $datos_mostrar = Controladortipoarmas::ctrMostrar($item, $valor);
                     foreach ($datos_mostrar as $key => $value){
                 ?>
-                    <option value="<?php echo $value['id'] ?>"><?php echo $value["nombre_tipo"] ?></option>  
+                    <option value="<?php echo $value['id'] ?>" codigo="<?php echo $value['codigo'] ?>"><?php echo $value["nombre_tipo"] ?></option>  
                 <?php
                     }
                   ?>
@@ -273,7 +360,7 @@ MODAL AGREGAR
               <label for="">Seleccione Tipo Munición</label>
                 <div class="input-group ">
                     <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
-                    <select name="nuevotipo_municion" id="" class="form-control input-lg" required>
+                    <select name="nuevotipo_municion" id="nuevotipo_municion" class="form-control input-lg" required>
                       <option value="">Seleccione Tipo Munición</option>
                         <option value="9mm">9mm</option>  
                         <option value="12mm">12mm</option>  
@@ -284,6 +371,7 @@ MODAL AGREGAR
                         <option value="7.62mm">7.62mm</option>  
                         <option value="otros">otros</option>
                     </select>
+                    <input type="text" class="form-control input-lg " id="texto_tipomunicion" style="display: none;">
                 </div>
             </div>
 
@@ -376,6 +464,14 @@ MODAL EDITAR
           <input type="text" name="editarfecha_ingreso" id="fecha_ingreso_editar" class="editar_fecha_ingreso" style="display: none;" >
           <input type="text" name="editarfecha_vencimiento" id="fecha_vencimiento_editar" class="editar_fecha_vencimiento" style="display: none;">
 
+          <input type="hidden" name="editarid_empresa" value="Grupo Ise">
+
+            <!-- *************************** -->
+
+
+
+        <!-- ***************************** -->
+
             <!-- ENTRADA PARA CAMPOS  -->
 
             <?php 
@@ -401,7 +497,7 @@ MODAL EDITAR
              
 
              <!-- **** -->
-             <div class="s_idempresa_editar">
+             <!-- <div class="s_idempresa_editar">
               <label for="" class="">Seleccione Empresa</label> 
 
                 
@@ -419,7 +515,7 @@ MODAL EDITAR
                       ?>
                     </select>
                 </div>
-            </div>
+            </div> -->
 
             <div class="s_idtipoarma_editar">
             <label for="" class="">Seleccione Tipo Arma</label> 
@@ -433,7 +529,7 @@ MODAL EDITAR
                       $datos_mostrar = Controladortipoarmas::ctrMostrar($item, $valor);
                       foreach ($datos_mostrar as $key => $value){
                   ?>
-                      <option value="<?php echo $value['id'] ?>"><?php echo $value["nombre_tipo"] ?></option>  
+                      <option value="<?php echo $value['id'] ?>" codigo="<?php echo $value['codigo'] ?>"><?php echo $value["nombre_tipo"] ?></option>  
                   <?php
                       }
                     ?>
@@ -489,6 +585,7 @@ MODAL EDITAR
                     <option value="7.62mm">7.62mm</option>  
                     <option value="otros">otros</option>
                 </select>
+                <input type="text" class="form-control input-lg" id="editartipo_municion02" style="display: none;">
             </div>
             </div>
 

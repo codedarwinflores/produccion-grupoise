@@ -177,9 +177,27 @@
 						</a>
 					</li>
 					<li>
+						<a href="tipootrosequipos">
+							<i class="fa fa-sitemap"></i>
+							<span>Tipo Otros Equipos</span>
+						</a>
+					</li>
+					<li>
 						<a href="equipos">
 							<i class="fa fa-sitemap"></i>
 							<span>Otros Equipos</span>
+						</a>
+					</li>
+					<li>
+						<a href="tipocelular">
+							<i class="fa fa-sitemap"></i>
+							<span>Tipo Celular</span>
+						</a>
+					</li>
+					<li>
+						<a href="celular">
+							<i class="fa fa-phone"></i>
+							<span> Celular</span>
 						</a>
 					</li>
 					<li>

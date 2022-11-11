@@ -40,7 +40,7 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
          <tr>
            
            <th style="width:10px">#</th>
-           <th>Código</th>
+           <th>Nivel de Importacia</th>
            <th>Nombre</th>
            <th>Acciones</th>
 
@@ -131,12 +131,12 @@ MODAL AGREGAR
             <!-- ENTRADA PARA EL Codigo  -->
             
             <div class="form-group">
-              <label for="">Ingresar Código</label>
+              <label for="">Ingresar Nivel de Importancia</label>
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="fa fa-qrcode"></i></span> 
 
-                <input type="text" class="form-control input-lg" name="nuevoCodigo" placeholder="Ingresar Código" required>
+                <input type="text" class="form-control input-lg codigo_validar" name="nuevoCodigo" placeholder="Ingresar Código" required tabla_validar="departamentos_empresa" item_validar="codigo">
 
               </div>
 
@@ -228,13 +228,13 @@ MODAL EDITAR
             <!-- ENTRADA PARA EL CODIGO  -->
             
             <div class="form-group">
-            <label for="">Ingresar Código</label>
+            <label for="">Ingresar Nivel de Importancia</label>
               
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="fa fa-qrcode"></i></span> 
 
-                <input type="text" class="form-control input-lg" id="editarCodigo" name="editarCodigo" placeholder="Ingresar Código" value="" required>
+                <input type="text" class="form-control input-lg codigo" id="editarCodigo" name="editarCodigo" placeholder="Ingresar Código" value="" required tabla_validar="departamentos_empresa" item_validar="codigo">
 
               </div>
 

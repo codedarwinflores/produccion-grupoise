@@ -53,10 +53,14 @@ $(document).ready(function(){
 
 
 	$(".input_id_empresa").attr("placeholder", texto+" Empresa");
-	$(".grupo_id_empresa").empty();
+	$(".armagrupo_id_empresa ").empty();
+	$("#editarid_empresa").empty();
+	$(".grupo_editar_id_empresa").empty();
+
+	/* $(".grupo_id_empresa").empty();
 	$('.grupo_id_empresa').append($('.s_idempresa'));
 	$(".grupo_editar_id_empresa").empty();
-	$('.grupo_editar_id_empresa').append($('.s_idempresa_editar'));
+	$('.grupo_editar_id_empresa').append($('.s_idempresa_editar')); */
 
 	
 	$(".armagrupo_id_familia").empty();
@@ -253,6 +257,24 @@ $(".tablas").on("click", ".btnEditararmas", function(){
 			$("#editarestado").val(respuesta["estado"]);
 			
 
+			if($("#editartipo_municion").val() == null)
+			{
+
+			$("#editartipo_municion option[value=otros]").attr("selected",true);
+			$("#editartipo_municion option[value=otros]").attr("selected",true);
+
+			
+			$("#editartipo_municion02").attr("style","display:block");
+			$("#editartipo_municion02").val(respuesta["tipo_municion"]);
+			$("#editartipo_municion option[value=otros]").val(respuesta["tipo_municion"]);
+
+			$("#editartipo_municion02").change(function(){
+				$("#editartipo_municion option:selected").val($("#editartipo_municion02").val());
+
+			  });
+
+
+			}
 
 
 		}

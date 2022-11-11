@@ -29,8 +29,8 @@ $(document).ready(function(){
 	
 	$(".icono_nit").addClass("fa fa-address-card");
 	$(".input_nit").attr("placeholder", texto+" NIT");
-	$(".input_nit").get(0).type = 'number';
-	$("#editarnit").get(0).type = 'number';
+	$(".input_nit").addClass("nits");
+	$("#editarnit").addClass("nits");
 
 	
 	$(".icono_nrc").addClass("fa  fa-id-card");
@@ -119,15 +119,15 @@ $(document).ready(function(){
 	
 	$(".icono_telefono_1").addClass("fa fa-phone");
 	$(".input_telefono_1").attr("placeholder", texto+" Telefono 1");
-	$(".input_telefono_1").get(0).type = 'number';
-	$("#editartelefono_1").get(0).type = 'number';
+	$(".input_telefono_1").addClass("telefono");
+	$("#editartelefono_1").addClass("telefono");
 	
 
 	
 	$(".icono_telefono_2").addClass("fa fa-phone");
 	$(".input_telefono_2").attr("placeholder", texto+" Telefono 2");
-	$(".input_telefono_2").get(0).type = 'number';
-	$("#editartelefono_2").get(0).type = 'number';
+	$(".input_telefono_2").addClass("telefono");
+	$("#editartelefono_2").addClass("telefono");
 
 	
 	$(".icono_fax").addClass("fa fa-fax");
@@ -253,6 +253,17 @@ $(document).ready(function(){
 	$(".icono_cuenta_contable").addClass("fa  fa-pencil-square-o");
 	$(".input_cuenta_contable").attr("placeholder", texto+" Cuenta Contable");
 
+	$(".input_vendedor").attr("placeholder", texto+" Vendedor");
+	$(".input_dui").attr("placeholder", texto+" DUI");
+	$(".input_categoria_cliente").attr("placeholder", texto+" Categoria Cliente");
+	$(".input_tipo_servicio").attr("placeholder", texto+" Tipo Servicio");
+	$(".input_posee_contrato").attr("placeholder", texto+" ¿Posee Contrato?");
+	$(".input_vigencia_contrato").attr("placeholder", texto+" Vigencia Contrato");
+	$(".input_porcentaje_comision").attr("placeholder", texto+" Porcentaje Comisión");
+	$(".input_porcentaje_comision").attr("step","0.01");
+
+	$(".input_dui").addClass("duis");
+
 	
 	
 
@@ -358,7 +369,72 @@ $(document).ready(function(){
               $(".clabel_cuenta_contable").text(input_cuenta_contable);
              
               
+              /* *********LABEL*********** */
+			  var input_vendedor = $(".input_vendedor").attr("placeholder");
+			  $(".label_vendedor").text(input_vendedor);
+
+		  
+              /* *********LABEL*********** */
+			  var input_porcentaje_comision = $(".input_porcentaje_comision").attr("placeholder");
+			  $(".label_porcentaje_comision").text(input_porcentaje_comision);
+
+		  
+          
+              /* *********LABEL*********** */
+			  var input_vendedor = $(".input_vendedor").attr("placeholder");
+			  $(".clabel_vendedor").text(input_vendedor);
+
+              /* *********LABEL*********** */
+                var input_porcentaje_comision = $(".input_porcentaje_comision").attr("placeholder");
+                $(".clabel_porcentaje_comision").text(input_porcentaje_comision);
+
             
+              /* *********LABEL*********** */
+			  var input_vigencia_contrato = $(".input_vigencia_contrato").attr("placeholder");
+			  $(".clabel_vigencia_contrato").text(input_vigencia_contrato);
+
+		  
+              /* *********LABEL*********** */
+			  var input_posee_contrato = $(".input_posee_contrato").attr("placeholder");
+			  $(".clabel_posee_contrato").text(input_posee_contrato);
+
+		  
+              /* *********LABEL*********** */
+			  var input_tipo_servicio = $(".input_tipo_servicio").attr("placeholder");
+			  $(".clabel_tipo_servicio").text(input_tipo_servicio);
+
+		  
+              /* *********LABEL*********** */
+			  var input_categoria_cliente = $(".input_categoria_cliente").attr("placeholder");
+			  $(".clabel_categoria_cliente").text(input_categoria_cliente);
+
+		  
+              /* *********LABEL*********** */
+			  var input_dui = $(".input_dui").attr("placeholder");
+			  $(".clabel_dui").text(input_dui);
+
+
+			  $(".cgrupo_posee_contrato").empty();
+			  $(".cgrupo_posee_contrato").append($('#nposee_contrato'));
+			  
+			  $(".cgrupo_tipo_servicio").empty();
+			  $(".cgrupo_tipo_servicio").append($('.c_servicio'));
+
+			  
+			  $(".cgrupo_categoria_cliente").empty();
+			  $(".cgrupo_categoria_cliente").append($('#nc_categoria'));
+		  
+			  /* ***EDITAR */
+			  $(".ecgrupo_posee_contrato").empty();
+			  $(".ecgrupo_posee_contrato").append($('#enposee_contrato'));
+			  
+			  $(".ecgrupo_tipo_servicio").empty();
+			  $(".ecgrupo_tipo_servicio").append($('.ec_servicio'));
+
+			  
+			  $(".ecgrupo_categoria_cliente").empty();
+			  $(".ecgrupo_categoria_cliente").append($('#enc_categoria'));
+		  
             
  })
 
@@ -557,6 +633,15 @@ $(".tablas").on("click", ".btnEditarclientes", function(){
 			$("#editarplazo").val(respuesta["plazo"]);
 			$("#editarobservaciones").val(respuesta["observaciones"]);
 			$("#editarcuenta_contable").val(respuesta["cuenta_contable"]);
+
+			$("#editarvendedor").val(respuesta["vendedor"]);
+			$("#editarporcentaje_comision").val(respuesta["porcentaje_comision"]);
+			$("#editarvigencia_contrato").val(respuesta["vigencia_contrato"]);
+			$("#editarposee_contrato").val(respuesta["posee_contrato"]);
+			$("#editartipo_servicio").val(respuesta["tipo_servicio"]);
+			$("#editarcategoria_cliente").val(respuesta["categoria_cliente"]);
+			$("#editardui").val(respuesta["dui"]);
+
 			
 
 			
@@ -574,7 +659,7 @@ $(".tablas").on("click", ".btnEditarclientes", function(){
 REVISAR SI  YA ESTÁ REGISTRADO
 =============================================*/
 
-$("#nuevonombre").change(function(){
+$("#nuevocodigo").change(function(){
 
 
 	var usuario = $(this).val();
@@ -594,7 +679,7 @@ $("#nuevonombre").change(function(){
 	    	
 	    	if(respuesta){
 
-	    		$("#nuevonombre").parent().after('<div class="alert alert-warning">Este registro ya existe en la base de datos</div>');
+	    		$("body").parent().after('<div class="alert alert-warning">Este registro ya existe en la base de datos</div>');
 
 	    		$("#nuevonombre").val("");
 

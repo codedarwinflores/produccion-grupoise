@@ -58,6 +58,10 @@ function getContent() {
             <th>Tipo Radio</th>
             <th>Marca</th>
             <th>Número Serie</th>
+            <th>Código</th>
+            <th>Costo</th>
+            <th>Modelo</th>
+            <th>Color</th>
             <th>Acciones</th>
  
           </tr> 
@@ -80,7 +84,12 @@ function getContent() {
                    <td>'.$value["nombrefamilia"].'</td>
                    <td>'.$value["nombretiporadio"].'</td>
                    <td>'.$value["marca"].'</td>
-                   <td>'.$value["numero_serie"].'</td>';
+                   <td>'.$value["numero_serie"].'</td>
+                   <td>'.$value["codigo_radio"].'</td>
+                   <td>'.$value["descripcion_radio"].'</td>
+                   <td>'.$value["costo_radio"].'</td>
+                   <td>'.$value["modelo_radio"].'</td>
+                   <td>'.$value["color_radio"].'</td>';
  
                   
  
@@ -161,12 +170,18 @@ MODAL AGREGAR
               
                 <span class="input-group-addon"><i class="icono_<?php echo $row['Field'];?>"></i></span> 
 
-                <input type="text" class="form-control input-lg input_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value="" autocomplete="off" required>
+                <input type="text" class="form-control input-lg input_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value="" autocomplete="off" required tabla_validar="tbl_radios" item_validar="codigo_radio">
 
               </div>
 
             </div>
 
+            <script>
+              /* *********LABEL*********** */
+                var input_<?php echo $row['Field'];?> = $(".input_<?php echo $row['Field'];?>").attr("placeholder");
+                $(".label_<?php echo $row['Field'];?>").text(input_<?php echo $row['Field'];?>);
+
+            </script>
           <?php
              }
           ?>

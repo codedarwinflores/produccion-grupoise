@@ -185,6 +185,22 @@ require_once "modelos/patrulla.modelo.php";
 require_once "controladores/administrarpatrulla.controlador.php";
 require_once "modelos/administrarpatrulla.modelo.php";
 
+
+/* **  administrarpatrulla *** */
+require_once "controladores/tipootrosequipos.controlador.php";
+require_once "modelos/tipootrosequipos.modelo.php";
+
+
+/* **  tipocelular *** */
+require_once "controladores/tipocelular.controlador.php";
+require_once "modelos/tipocelular.modelo.php";
+
+
+/* **  celular *** */
+require_once "controladores/celular.controlador.php";
+require_once "modelos/celular.modelo.php";
+
+
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();
 
