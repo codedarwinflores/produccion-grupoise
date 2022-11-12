@@ -281,7 +281,8 @@ MODAL AGREGAR
                         <option value="38mm">38mm</option>  
                         <option value="45mm">45mm</option>  
                         <option value="3.57mm">3.57mm</option>  
-                        <option value="7.62mm">7.62mm</option>  
+                        <option value="5.56mm">5.56mm</option>  
+                        <option value="7.62mm">7.62mm</option> 
                         <option value="otros">otros</option>
                     </select>
                 </div>
@@ -485,7 +486,8 @@ MODAL EDITAR
                     <option value="22mm">22mm</option>  
                     <option value="38mm">38mm</option>  
                     <option value="45mm">45mm</option>  
-                    <option value="3.57mm">3.57mm</option>  
+                    <option value="3.57mm">3.57mm</option>
+                    <option value="5.56mm">5.56mm</option>    
                     <option value="7.62mm">7.62mm</option>  
                     <option value="otros">otros</option>
                 </select>

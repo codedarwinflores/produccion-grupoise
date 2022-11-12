@@ -212,12 +212,7 @@
 							<span>Portación de Arma</span>
 						</a>
 					</li>
-					<li>
-						<a href="jefeoperacion">
-							<i class="fa fa-user"></i>
-							<span>Jefe de Operaciones</span>
-						</a>
-					</li>
+					
 
 
 
@@ -283,6 +278,32 @@
 						<a href="patrulla">
 							<i class="fa  fa-address-book"></i>
 							<span>Patrulla</span>
+						</a>
+					</li>
+				</ul>
+				
+			</li>
+			<li class="treeview">
+				<a href="#">
+
+					<i class="fa  fa fa-eye"></i>
+					
+					<span>Formularios</span>
+					
+					<span class="pull-right-container">
+					
+						<i class="fa fa-angle-left pull-right"></i>
+
+					</span>
+
+				</a>
+
+				<ul class="treeview-menu">
+				
+					 <li>
+						<a href="jefeoperacion">
+							<i class="fa  fa fa-circle-o"></i>
+							<span>Visita Jefe Operaciones</span>
 						</a>
 					</li>
 				</ul>
