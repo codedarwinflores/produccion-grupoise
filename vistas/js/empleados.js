@@ -1053,5 +1053,31 @@ $(".tablas").on("click", ".btnEliminarEmpleado", function(){
 })
 
 
+/*=============================================
+IMPRIMIR CCF
+=============================================*/
+
+$(".tablas").on("click", ".btnImprimirImagenes", function(){
+
+	var documentoEmpleado = $(this).attr("empleado");
+
+//alert(documentoEmpleado);
+	var form = $('<form action="imprimirimagenes" method="post">' +
+	  '<input type="text" name="numDoc" value="' + documentoEmpleado + '" />' +
+	  '</form>');
+	$('body').append(form);
+	form.submit();
+
+	//var codigoVenta = $(this).attr("codigoVenta");
+
+	//window.open("extensiones/tcpdf/pdf/factura.php?codigo="+codigoVenta, "_blank");
+
+})
 
 
+$( ".fotoaImprimir" ).click(function() {	
+	var direccionFotoImprimir= $(this).attr("fotoaImprimir");
+	//alert(direccionFotoImprimir);
+	$(".previsualizarImagenaImprimir").attr("src", direccionFotoImprimir);
+
+});

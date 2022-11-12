@@ -115,7 +115,7 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
                     <div class="btn-group">
                         
                       <button class="btn btn-warning btnEditarEmpleado" idEmpleado="'.$value["id"].'" data-toggle="modal" data-target="#modalEditarEmpleado"><i class="fa fa-pencil"></i></button>
-
+                      <button class="btn btn-info btnImprimirImagenes"  style="background-color: #3c8dbc;"   empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-print"> I</i></button> 
                       <button class="btn btn-danger btnEliminarEmpleado" idEmpleado="'.$value["id"].'" fotoEmpleado="'.$value["fotografia"].'" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-times"></i></button>
 
                     </div>  
@@ -368,7 +368,7 @@ MODAL AGREGAR EMPLEADO
             Tel&eacute;fono:            
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" data-inputmask="'mask':'9999-9999'" data-mask="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" name="nuevoTelefono" placeholder="Ingresar N&uacute;mero de Tel&eacute;fono" >
+                <input type="text" data-inputmask="'mask':'9999-9999'" data-mask=""  class="form-control input-lg" name="nuevoTelefono" placeholder="Ingresar N&uacute;mero de Tel&eacute;fono" >
               </div>
           </div>
           <!-- ENTRADA PARA EL numero ISSS -->            
@@ -500,7 +500,7 @@ MODAL AGREGAR EMPLEADO
           N&uacute;mero NIT:              
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" data-inputmask="'mask':'9999-999999-999-9'" data-mask=""  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" name="nuevoNumeroNIT" placeholder="Ingresar N&uacute;mero de NIT" >
+                <input type="text" data-inputmask="'mask':'9999-999999-999-9'" data-mask=""   class="form-control input-lg" name="nuevoNumeroNIT" placeholder="Ingresar N&uacute;mero de NIT" >
               </div>
           </div>
           <!-- ENTRADA PARA SUBIR FOTO NIT-->
@@ -804,10 +804,10 @@ MODAL AGREGAR EMPLEADO
           </div>
           <!-- ENTRADA PARA SUELDO QUE DEVENGO-->            
           <div class="form-group"> 
-          Sueldo que Deveng&oacute;o:             
+          Sueldo que Deveng&oacute;:             
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" name="nuevoSueldoDevengo" placeholder="Ingresar Sueldo que Deveng&oacute;o" >
+                <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" name="nuevoSueldoDevengo" placeholder="Ingresar Sueldo que Deveng&oacute;" >
               </div>
           </div>
           <!-- ENTRADA PARA TRABAJO ACTUAL-->            
@@ -940,7 +940,7 @@ MODAL AGREGAR EMPLEADO
            Nombre Referencia Trabajo Actual:            
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text"  data-inputmask="'mask':'9999-9999'" data-mask="" class="form-control input-lg" name="nuevoNomRefTrabajoActual" placeholder="Ingresar Nombre Referencia Trabajo Actual" >
+                <input type="text"   class="form-control input-lg" name="nuevoNomRefTrabajoActual" placeholder="Ingresar Nombre Referencia Trabajo Actual" >
               </div>
           </div>
           <!-- ENTRADA PARA EVALUACION ACTUAL-->            
@@ -1363,7 +1363,7 @@ MODAL EDITAR EMPLEADO
             N&uacute;mero de Tel&eacute;fono:             
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" data-inputmask="'mask':'9999-9999'" data-mask="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="editarNumeroTelefono" name="editarNumeroTelefono" value="" placeholder="Ingresar N&uacute;mero de Tel&eacute;fono">
+                <input type="text" data-inputmask="'mask':'9999-9999'" data-mask=""  class="form-control input-lg" id="editarNumeroTelefono" name="editarNumeroTelefono" value="" placeholder="Ingresar N&uacute;mero de Tel&eacute;fono">
               </div>
             </div>
 
@@ -1490,7 +1490,7 @@ MODAL EDITAR EMPLEADO
             N&uacute;mero de NIT:             
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" data-inputmask="'mask':'9999-999999-999-9'" data-mask=""  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="editarNumeroNit" name="editarNumeroNit" value="" placeholder="Ingresar N&uacute;mero de NIT">
+                <input type="text" data-inputmask="'mask':'9999-999999-999-9'" data-mask=""   class="form-control input-lg" id="editarNumeroNit" name="editarNumeroNit" value="" placeholder="Ingresar N&uacute;mero de NIT">
               </div>
             </div>
             <!-- ENTRADA PARA SUBIR NIT -->
@@ -1915,7 +1915,7 @@ MODAL EDITAR EMPLEADO
                 <input type="text"  class="form-control input-lg" id="editarEvaluacionAnterior" name="editarEvaluacionAnterior" value="" placeholder="Ingresar Evaluaci&oacute;n Anterior">
               </div>
             </div>
-            <!-- ENTRADA NUMERO DE REF TEL TRABAJO ACTUAL-->            
+            <!-- ENTRADA NOM DE REF TEL TRABAJO ACTUAL-->            
             <div class="form-group"> 
             Nombre de Referencia  Trabajo Actual:             
               <div class="input-group">              
