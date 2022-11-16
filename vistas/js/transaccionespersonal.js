@@ -16,6 +16,10 @@ $(document).ready(function(){
 	$(".epersonalinput_nombre").get(0).type = 'number';
  */
 
+	$(".tipo_movimiento_personal").empty();
+	$(".devolucion").empty();
+	$(".numero_transaccion_personal").empty();
+
 
 
               /* *********LABEL*********** */
@@ -58,7 +62,9 @@ $(".tablas").on("click", ".btnEditartransaccionespersonal", function(){
 			$("#editarid").val(respuesta["id"]);
 			$("#editarcodigo").val(respuesta["codigo"]);
 			$("#editarnombre").val(respuesta["nombre"]);
-
+			$("#editartipo_movimiento_personal").val(respuesta["tipo_movimiento_personal"]);
+			$("#editardevolucion").val(respuesta["devolucion"]);
+			$("#editarnumero_transacción_personal").val(respuesta["numero_transacción_personal"]);
 
 
 		}

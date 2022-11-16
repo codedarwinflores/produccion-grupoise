@@ -195,11 +195,28 @@ $(document).ready(function(){
 			  var nuevoubicacioninput_rubro = $(".nuevoubicacioninput_rubro").attr("placeholder");
 			  $(".nuevoubicacionlabel_rubro").text(nuevoubicacioninput_rubro);
 
+			  
+          
+			  
+
 		  		/* --------------NUEVOS */
 
 				  $(".icono_facturar").addClass("fa fa-male");
 				  $(".ubicacioninput_facturar").attr("placeholder", texto+" Facturar a");
 				  $(".ubicacioninput_facturar").attr("readonly", "readonly");
+
+				  $(".icono_codigo_ubicacion").addClass("fa fa-list");
+				  $(".ubicacioninput_codigo_ubicacion").attr("placeholder", texto+" Codigo Ubicación");
+				  $(".ubicacioninput_codigo_ubicacion").attr("readonly", "readonly");
+				  
+				      /* *********LABEL*********** */
+			  var nuevoubicacioninput_codigo_ubicacion = $(".ubicacioninput_codigo_ubicacion").attr("placeholder");
+			  $(".nuevoubicacionlabel_codigo_ubicacion").text(nuevoubicacioninput_codigo_ubicacion);
+
+		  
+
+
+
 				  $(".ubicacioncgrupo_tipo_documento").empty();
 				  $(".ubicacioncgrupo_forma_pago").empty();
 				  $(".ubicacioncgrupo_concepto").empty();
@@ -225,7 +242,49 @@ $(document).ready(function(){
 
 			   
 
+			  $(".ubicacioncgrupo_bono_unidad").empty();
+			  $( "#sibonounidad" ).click(function() {
+				$("#nobonounidad").prop('checked', false); 
+				var sibono = $(this).val();
+				$("#nuevobono_unidad").val(sibono);
+			  });
+			  $( "#nobonounidad" ).click(function() {
+				$("#sibonounidad").prop('checked', false); 
+				var sibono = $(this).val();
+				$("#nuevobono_unidad").val(sibono);
+			  });
+
+
+			  
+			  $(".ubicacioncgrupo_bono_horas").empty();
+			  $( "#sibonohoras" ).click(function() {
+				$("#nobonohoras").prop('checked', false); 
+				var sibono = $(this).val();
+				$("#nuevobono_horas").val(sibono);
+			  });
+			  $( "#nobonohoras" ).click(function() {
+				$("#sibonohoras").prop('checked', false); 
+				var sibono = $(this).val();
+				$("#nuevobono_horas").val(sibono);
+			  });
+
+			  $(".eubicacioncgrupo_bono_unidad").empty();
+			  $(".eubicacioncgrupo_bono_horas").empty();
+			  $(".ubicacioncgrupo_selefactura").empty();
+			  $(".eubicacioncgrupo_selefactura").empty();
+			  $(".ubicacioncgrupo_rubro").empty();
+			  $(".ubicacioncgrupo_rubro").append($("#snuevorubro"));
+			  $(".eubicacioncgrupo_rubro").empty();
+			  $(".eubicacioncgrupo_rubro").append($("#esnuevorubro"));
+			  $(".ubicacioncgrupo_zonaubicacion").empty();
+			  $(".eubicacioncgrupo_zonaubicacion").empty();
+			  $(".ubicacioninput_codigo_ubicacion").attr("name"," ");
+
+
+
  })
+
+
 
  function modificacioninicial(){
 	
@@ -241,7 +300,23 @@ $(document).ready(function(){
 	$("#editarcantidad_armas").get(0).type = 'number';
 	$("#editarcantidad_celulares").get(0).type = 'number';
 	$("#editarhombres_autorizados").get(0).type = 'number';
+	$(".ubicacioninput_cantidad_radios").get(0).type = 'number';
+	$("#editarcantidad_radios").get(0).type = 'number';
 	
+	$(".ubicacioncgrupo_tienepon").empty();
+	$(".eubicacioncgrupo_tienepon").empty();
+
+	$(".ubicacioncgrupo_visitas").empty();
+	$(".ubicacioncgrupo_visitas").append($('#svisitas'));
+	$(".eubicacioncgrupo_visitas").empty();
+	$(".eubicacioncgrupo_visitas").append($('#esvisitas'));
+
+
+	$(".ubicacioncgrupo_bonos").empty();
+	$(".ubicacioncgrupo_bonos").append($('#sbonos'));
+	$(".eubicacioncgrupo_bonos").empty();
+	$(".eubicacioncgrupo_bonos").append($('#esbonos'));
+
 
 
 	$(".ubicacioncgrupo_id_cliente").empty();
@@ -394,6 +469,34 @@ EDITAR
 =============================================*/
 $(".tablas").on("click", ".btnEditarubicacionc", function(){
 
+	
+			  /* editar*************** */
+
+			  
+			  $( "#esibonounidad" ).click(function() {
+				$("#enobonounidad").prop('checked', false); 
+				var sibonoe = $(this).val();
+				$(".editarbono_unidad").val(sibonoe);
+			  });
+			  
+			  $( "#enobonounidad" ).click(function() {
+				$("#esibonounidad").prop('checked', false); 
+				var sibonoe = $(this).val();
+				$(".editarbono_unidad").val(sibonoe);
+			  });
+
+			  $( "#esibonohoras" ).click(function() {
+				$("#enobonohoras").prop('checked', false); 
+				var sibonoe = $(this).val();
+				$(".editarbono_horas").val(sibonoe);
+			  });
+			  $( "#enobonohoras" ).click(function() {
+				$("#esibonohoras").prop('checked', false); 
+				var sibonoe = $(this).val();
+				$(".editarbono_horas").val(sibonoe);
+			  });
+
+
 		/* modificacioninicial(); */
 	var idubicacionc = $(this).attr("idubicacionc");
 	
@@ -414,7 +517,30 @@ $(".tablas").on("click", ".btnEditarubicacionc", function(){
 
 			
 	/* ********** */
+	$("#editarcodigo_ubicacion2").val(respuesta["codigo_ubicacion"]);
+	$("#editarcodigo_ubicacion").val(respuesta["codigo_cliente"]+respuesta["codigo_ubicacion"]);
 
+
+	$("#editarbono_horas").val(respuesta["bono_horas"]);
+	$("#editarselefactura").val(respuesta["selefactura"]);
+	$("#editarzonaubicacion").val(respuesta["zonaubicacion"]);
+
+	if(respuesta["bono_horas"] == "SI"){
+		$("#esibonohoras").prop('checked', true); 
+	}
+	else{
+		$("#enobonohoras").prop('checked', true); 
+		
+	}
+
+	$("#editarbono_unidad").val(respuesta["bono_unidad"]);
+	if(respuesta["bono_unidad"]=="SI"){
+		$("#esibonounidad").prop('checked', true); 
+	}
+	else{
+		$("#enobonounidad").prop('checked', true); 
+
+	}
 	
 	/* ********** */
 	
@@ -451,6 +577,7 @@ $(".tablas").on("click", ".btnEditarubicacionc", function(){
 	$("#inputeditarfecha_ultimo_inventario").val(respuesta["fecha_ultimo_inventario"]);
 
 
+			$("#editartienepon").val(respuesta["tienepon"]);
 
 
 
@@ -468,8 +595,11 @@ $(".tablas").on("click", ".btnEditarubicacionc", function(){
 			$("#editarcantidad_armas").val(respuesta["cantidad_armas"]);
 			$("#editarcantidad_radios").val(respuesta["cantidad_radios"]);
 			$("#editarcantidad_celulares").val(respuesta["cantidad_celulares"]);
-			$("#editarbonos").val(respuesta["bonos"]);
-			$("#editarvisitas").val(respuesta["visitas"]);
+			/* $("#editarbonos").val(respuesta["bonos"]); */
+			$("#editarvisitas02").val(respuesta["visitas"]);
+			$("#editarbonos02").val(respuesta["bonos"]);
+			
+			
 			$("#editarzona").val(respuesta["zona"]);
 			$("#editarrubro").val(respuesta["rubro"]);
 			$("#editarhoras_permitidas").val(respuesta["horas_permitidas"]);

@@ -56,6 +56,8 @@ function getContent() {
             
             <th>Código</th>
             <th>Nombre</th>
+            <th>Tipo de Movimiento</th>
+            <th>¿Requiere devolución de uniforme?</th>
             <th>Acciones</th>
  
           </tr> 
@@ -76,7 +78,9 @@ function getContent() {
            echo ' <tr>
                    <td>'.($key+1).'</td>
                    <td>'.$value["codigo"].'</td>
-                   <td>'.$value["nombre"].'</td>';
+                   <td>'.$value["nombre"].'</td>
+                   <td>'.$value["tipo_movimiento_personal"].'</td>
+                   <td>'.$value["devolucion"].'</td>';
  
                   
  
@@ -168,6 +172,71 @@ MODAL AGREGAR
              }
           ?>
              
+             
+                          <!-- ****** -->
+
+             
+                          <?php
+                
+                              function ObtenerCorrelativo() {
+                                $query = "select numero_transaccion_personal from tbl_transacciones_personal order by id desc limit 1";
+                                $sql = Conexion::conectar()->prepare($query);
+                                $sql->execute();			
+                                return $sql->fetchAll();
+                              };
+
+                              
+                            $data0 = ObtenerCorrelativo();
+                            foreach($data0 as $row0) {
+                              $numero = $row0['numero_transaccion_personal'];
+                          
+                              $addnumber= $numero+1;
+
+
+                              $correlativo = sprintf("%09d",$addnumber);
+                              
+                              /* echo $correlativo; */
+                              $html="<script>";
+                              $html.="$(document).ready(function(){";
+                                $html.="$('.nuevonumero_transaccion_personal').val('".$correlativo."');";
+                                $html.="$('.editarnumero_transaccion_personal').val('".$correlativo."');";
+                              
+                              $html.="});";
+                              $html.="</script>";
+                              echo $html;
+                            }
+                          ?>
+
+                     <input type="hidden" name="nuevonumero_transaccion_personal" class="nuevonumero_transaccion_personal"/>
+
+         <!-- ****** -->
+
+
+             
+             <div id="">
+             <label for="" class="">¿Requiere devolución de uniforme?</label> 
+             <div class="input-group" >
+              <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+              <select name="nuevodevolucion" id="" class="form-control input-lg" required>
+                <option value="">¿Requiere devolución de uniforme?</option>
+                <option value="Si">Si</option>
+                <option value="No">No</option>
+              </select>
+             </div>
+             </div>
+
+
+             <div id="">
+             <label for="" class="">Seleccione Tipo de Movimiento</label> 
+             <div class="input-group" >
+              <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+              <select name="nuevotipo_movimiento_personal" id="" class="form-control input-lg" required>
+                <option value="">Seleccione Tipo de Movimiento</option>
+                <option value="Ingreso">Ingreso</option>
+                <option value="Egreso">Egreso</option>
+              </select>
+             </div>
+             </div>
 
 
 
@@ -266,7 +335,37 @@ MODAL EDITAR
              }
           ?>
              
+             
 
+             <input type="hidden" name="editarnumero_transaccion_personal" class="editarnumero_transaccion_personal" id="editarnumero_transaccion_personal"/>
+             
+             
+             <div id="">
+             <label for="" class="">¿Requiere devolución de uniforme?</label> 
+             <div class="input-group" >
+              <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+              <select name="editardevolucion" id="editardevolucion" class="form-control input-lg" required>
+                <option value="">¿Requiere devolución de uniforme?</option>
+                <option value="Si">Si</option>
+                <option value="No">No</option>
+              </select>
+             </div>
+             </div>
+
+
+
+             <div id="">
+             <label for="" class="">Seleccione Tipo de Movimiento</label> 
+            
+             <div class="input-group" >
+              <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+              <select name="editartipo_movimiento_personal" id="editartipo_movimiento_personal" class="form-control input-lg" required>
+                <option value="">Seleccione Tipo de Movimiento</option>
+                <option value="Ingreso">Ingreso</option>
+                <option value="Egreso">Egreso</option>
+              </select>
+             </div>
+             </div>
 
 
           </div>
