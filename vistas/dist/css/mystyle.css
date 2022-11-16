@@ -1,3 +1,13 @@
+
+.mitad{
+  float: left;
+  width: 50%;
+}
+.center{
+  text-align: center;
+
+}
+
 .dropdown-content {
     display: none;
     position: absolute;

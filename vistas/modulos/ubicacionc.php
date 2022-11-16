@@ -57,6 +57,7 @@ function getContent() {
             <th>ID Cliente</th>
             <th>Nombre Cliente</th>
             <th>Código Cliente</th>
+            <th>Código Ubicación</th>
             <th>Facturado a</th>
             <th>ID Coordinador de Zona</th>
             <th>Nombre Ubicación</th>
@@ -69,7 +70,7 @@ function getContent() {
             <th>Cantidad de Armas</th>
             <th>Cantidad de Radios</th>
             <th>Cantidad de Celulares</th>
-            <th>Bonos</th>
+            
             <th>Visitas</th>
             <th>Zona</th>
             <th>Rubro</th>
@@ -85,6 +86,11 @@ function getContent() {
             <th>Forma Pago</th>
             <th>Concepto</th>
             <th>¿No suma HS?</th>
+            <th>¿Tine PON?</th>
+            <th>BONO POR LABORAR EN UNIDAD ESPECIAL</th>
+            <th>BONO POR TRABAJAR 12 HORAS</th>
+            <th>¿SE LE FACTURA?</th>
+            <th>Zona</th>
             <th>Acciones</th>
  
           </tr> 
@@ -107,6 +113,7 @@ function getContent() {
                    <td>'.$value["id_cliente"].'</td>
                    <td>'.$value["nombrecliente"].'</td>
                    <td>'.$value["codigo_cliente"].'</td>
+                   <td>'.$value["codigo_cliente"].$value["codigo_ubicacion"].'</td>
                    <td>'.$value["facturar"].'</td>
                    <td>'.$value["id_coordinador_zona"].'</td>
                    <td>'.$value["nombre_ubicacion"].'</td>
@@ -119,7 +126,7 @@ function getContent() {
                    <td>'.$value["cantidad_armas"].'</td>
                    <td>'.$value["cantidad_radios"].'</td>
                    <td>'.$value["cantidad_celulares"].'</td>
-                   <td>'.$value["bonos"].'</td>
+                  
                    <td>'.$value["visitas"].'</td>
                    <td>'.$value["zona"].'</td>
                    <td>'.$value["rubro"].'</td>
@@ -134,7 +141,12 @@ function getContent() {
                    <td>'.$value["tipo_documento"].'</td>
                    <td>'.$value["forma_pago"].'</td>
                    <td>'.$value["concepto"].'</td>
-                   <td>'.$value["sumahs"].'</td>';
+                   <td>'.$value["sumahs"].'</td>
+                   <td>'.$value["tienepon"].'</td>
+                   <td>'.$value["bono_unidad"].'</td>
+                   <td>'.$value["bono_horas"].'</td>
+                   <td>'.$value["selefactura"].'</td>
+                   <td>'.$value["zonaubicacion"].'</td>';
                    
  
                   
@@ -197,6 +209,48 @@ MODAL AGREGAR
         CUERPO DEL MODAL
         ======================================-->
 
+
+        <!-- ********generar codigo ubicacion******** -->
+
+        <!-- ****** -->
+
+             
+        <?php
+                
+                function ObtenerCorrelativo() {
+                  $query = "select codigo_ubicacion  from tbl_clientes_ubicaciones  order by id desc limit 1";
+                  $sql = Conexion::conectar()->prepare($query);
+                  $sql->execute();			
+                  return $sql->fetchAll();
+                };
+
+                
+              $data0 = ObtenerCorrelativo();
+              foreach($data0 as $row0) {
+                $numero = $row0['codigo_ubicacion'];
+                $addnumber= $numero+1;
+                $correlativo = sprintf("%03d",$addnumber);
+                
+                /* echo $correlativo; */
+                $html="<script>";
+                $html.="$(document).ready(function(){";
+                $html .="$(document).on('change', '.ubicacioncid_cliente', function(event) {";
+                $html .='var letra = $(".ubicacioncid_cliente option:selected").attr("codigo");';
+                $html.="$('.ubicacioninput_codigo_ubicacion').val(letra+'".$correlativo."');";
+                $html.="$('.ncodigo_ubicacion').val('".$correlativo."');";
+                $html.="});";
+              $html.="});";
+              $html.="</script>";
+              echo $html;
+              }
+            ?>
+
+              <input type="hidden" name="nuevocodigo_ubicacion" class="ncodigo_ubicacion">
+<!-- ****** -->
+
+        <!-- ***************************** -->
+
+
         <div class="modal-body">
 
           <div class="box-body">
@@ -223,9 +277,29 @@ MODAL AGREGAR
             </div>
 
 
+
+
           <?php
              }
           ?>
+             
+             
+             
+             <div id="sbonos">
+              <input type="hidden" name="nuevobonos" value="bono">
+             </div>
+
+             <div id="svisitas">
+                <label for="" class="">Seleccione Visitas</label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+                  <select name="nuevovisitas" id="nuevovisitas" class="form-control input-lg" required>
+                    <option value="">Seleccione Visitas</option>
+                    <option value="SEMANAL">SEMANAL</option>
+                    <option value="QUINCENAL">QUINCENAL</option>
+                  </select>
+                </div>
+             </div>
              
              
              <div id="">
@@ -280,6 +354,119 @@ MODAL AGREGAR
                 </div>
              </div>
 
+             <div id="spon">
+                <label for="" class="">¿TIENE PON?</label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+                  <select name="nuevotienepon" id="" class="form-control input-lg" required>
+                    <option value="">¿TIENE PON?</option>
+                    <option value="SI">SI</option>
+                    <option value="NO">NO</option>
+                  </select>
+                </div>
+             </div>
+
+             <!-- ****************** -->
+             <br>
+             <div id="spon">
+                  <div class="mitad">
+                    <label for="" class="">BONO POR LABORAR EN UNIDAD ESPECIAL</label>
+                  </div>
+                  <div class="mitad">
+                    <div class="" >
+                        <div class="form-check mitad center">
+                          <input class="form-check-input" type="checkbox" value="SI" id="sibonounidad">
+                          <label class="form-check-label" for="flexCheckDefault">
+                            SI
+                          </label>
+                        </div>
+                        <div class="form-check mitad center">
+                          <input class="form-check-input" type="checkbox" value="NO" id="nobonounidad">
+                          <label class="form-check-label" for="flexCheckChecked">
+                            NO
+                          </label>
+                        </div>
+                      <input type="hidden" name="nuevobono_unidad" id="nuevobono_unidad">
+                    </div>
+                  </div>
+             </div>
+
+             <!-- ****************** -->
+             <br>
+             <div id="spon">
+                  <div class="mitad">
+                    <label for="" class="">BONO POR TRABAJAR 12 HORAS</label>
+                  </div>
+                  <div class="mitad">
+                    <div class="" >
+                        <div class="form-check mitad center">
+                          <input class="form-check-input" type="checkbox" value="SI" id="sibonohoras">
+                          <label class="form-check-label" for="flexCheckDefault">
+                            SI
+                          </label>
+                        </div>
+                        <div class="form-check mitad center">
+                          <input class="form-check-input" type="checkbox" value="NO" id="nobonohoras">
+                          <label class="form-check-label" for="flexCheckChecked">
+                            NO
+                          </label>
+                        </div>
+                      <input type="hidden" name="nuevobono_horas" id="nuevobono_horas">
+                    </div>
+                  </div>
+             </div>
+
+             <!-- *********** -->
+
+
+             <div id="sselefactura">
+                <label for="" class="">¿SE LE FACTURA?</label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+                  <select name="nuevoselefactura" id="nuevoselefactura" class="form-control input-lg" required>
+                    <option value="">¿SE LE FACTURA?</option>
+                    <option value="SI">SI</option>
+                    <option value="NO">NO</option>
+                  </select>
+                </div>
+             </div>
+
+
+             <div id="">
+                <label for="" class="">Seleccione la Zona</label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+                  <select name="nuevozonaubicacion" id="" class="form-control input-lg" required>
+                    <option value="">Seleccione la Zona</option>
+                    <option value="ORIENTAL">ORIENTAL</option>
+                    <option value="OCCIDENTAL">OCCIDENTAL</option>
+                    <option value="CENTRAL">CENTRAL</option>
+                    <option value="NORTE">NORTE</option>
+                    <option value="PARACENTRAL">PARACENTRAL</option>
+                  </select>
+                </div>
+             </div>
+
+
+
+             
+
+             
+             <div id="snuevorubro">
+                <label for="" class="">Seleccione Rubro</label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+                  <select name="nuevorubro" id="" class="form-control input-lg" required>
+                    <option value="">Seleccione Rubro</option>
+                    <option value="RESIDENCIAL">RESIDENCIAL</option>
+                    <option value="COMERCIO">COMERCIO</option>
+                    <option value="SERVICIO">SERVICIO</option>
+                    <option value="TEXTIL">TEXTIL</option>
+                    <option value="BANCA">BANCA</option>
+                    <option value="EMPRESA">EMPRESA</option>
+                  </select>
+                </div>
+             </div>
 
 
              <input type="text" name="nuevofecha_inicio" class="nuevoubicacionfechainicio" placeholder="fecha_inicio" style="display: none;">
@@ -403,6 +590,33 @@ MODAL EDITAR
  -->
 
  
+             
+ <?php
+                
+                
+              $data0 = ObtenerCorrelativo();
+              foreach($data0 as $row0) {
+                $numero = $row0['codigo_ubicacion'];
+                $addnumber= $numero+1;
+                $correlativo = sprintf("%03d",$addnumber);
+                
+                /* echo $correlativo; */
+                $html="<script>";
+                $html.="$(document).ready(function(){";
+                $html .="$(document).on('change', '#editarid_cliente', function(event) {";
+                $html .='var letra = $("#editarid_cliente option:selected").attr("codigo");';
+                $html.="$('#editarcodigo_ubicacion').val(letra+'".$correlativo."');";
+                $html.="$('.ecodigo_ubicacion').val('".$correlativo."');";
+                $html.="});";
+              $html.="});";
+              $html.="</script>";
+              echo $html;
+              }
+            ?>
+
+              <input type="hidden" name="editarcodigo_ubicacion" id="editarcodigo_ubicacion2" class="ecodigo_ubicacion">
+
+ 
             <!-- ENTRADA PARA CAMPOS  -->
 
             <?php 
@@ -426,6 +640,26 @@ MODAL EDITAR
              }
           ?>
              
+             
+             
+             <div id="esbonos">
+             <input type="hidden" name="editarbonos" id="editarbonos02" value="bono">
+             </div>
+
+             
+             <div id="esvisitas">
+                <label for="" class="">Seleccione Visitas</label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+                  <select name="editarvisitas" id="editarvisitas02" class="form-control input-lg" required>
+                    <option value="">Seleccione Visitas</option>
+                    <option value="SEMANAL">SEMANAL</option>
+                    <option value="QUINCENAL">QUINCENAL</option>
+                  </select>
+                </div>
+             </div>
+
+
              
              <div id="">
                 <label for="" class="">Seleccione Tipo Documento</label>
@@ -480,8 +714,120 @@ MODAL EDITAR
              </div>
 
 
+             
+             <div id="spon">
+                <label for="" class="">¿TIENE PON?</label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+                  <select name="editartienepon" id="editartienepon" class="form-control input-lg" required>
+                    <option value="">¿TIENE PON?</option>
+                    <option value="SI">SI</option>
+                    <option value="NO">NO</option>
+                  </select>
+                </div>
+             </div>
+             
+
+             
+             <!-- ****************** -->
+             <br>
+             <div id="spon">
+                  <div class="mitad">
+                    <label for="" class="">BONO POR LABORAR EN UNIDAD ESPECIAL</label>
+                  </div>
+                  <div class="mitad">
+                    <div class="" >
+                        <div class="form-check mitad center">
+                          <input class="form-check-input" type="checkbox" value="SI" id="esibonounidad">
+                          <label class="form-check-label" for="flexCheckDefault">
+                            SI
+                          </label>
+                        </div>
+                        <div class="form-check mitad center">
+                          <input class="form-check-input" type="checkbox" value="NO" id="enobonounidad">
+                          <label class="form-check-label" for="flexCheckChecked">
+                            NO
+                          </label>
+                        </div>
+                      <input type="hidden" name="editarbono_unidad" id="editarbono_unidad" class="editarbono_unidad">
+                    </div>
+                  </div>
+             </div>
+
+             <!-- ****************** -->
+             <br>
+             <div id="spon">
+                  <div class="mitad">
+                    <label for="" class="">BONO POR TRABAJAR 12 HORAS</label>
+                  </div>
+                  <div class="mitad">
+                    <div class="" >
+                        <div class="form-check mitad center">
+                          <input class="form-check-input" type="checkbox" value="SI" id="esibonohoras">
+                          <label class="form-check-label" for="flexCheckDefault">
+                            SI
+                          </label>
+                        </div>
+                        <div class="form-check mitad center">
+                          <input class="form-check-input" type="checkbox" value="NO" id="enobonohoras">
+                          <label class="form-check-label" for="flexCheckChecked">
+                            NO
+                          </label>
+                        </div>
+                      <input type="hidden" name="editarbono_horas" id="editarbono_horas" class="editarbono_horas">
+                    </div>
+                  </div>
+             </div>
+
+             <!-- *********** -->
+
+
+             <div id="sselefactura">
+                <label for="" class="">¿SE LE FACTURA?</label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+                  <select name="editarselefactura" id="editarselefactura" class="form-control input-lg" required>
+                    <option value="">¿SE LE FACTURA?</option>
+                    <option value="SI">SI</option>
+                    <option value="NO">NO</option>
+                  </select>
+                </div>
+             </div>
+
+
+             <div id="">
+                <label for="" class="">Seleccione la Zona</label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+                  <select name="editarzonaubicacion" id="editarzonaubicacion" class="form-control input-lg" required>
+                    <option value="">Seleccione la Zona</option>
+                    <option value="ORIENTAL">ORIENTAL</option>
+                    <option value="OCCIDENTAL">OCCIDENTAL</option>
+                    <option value="CENTRAL">CENTRAL</option>
+                    <option value="NORTE">NORTE</option>
+                    <option value="PARACENTRAL">PARACENTRAL</option>
+                  </select>
+                </div>
+             </div>
 
              <!-- *************** -->
+
+             
+             <div id="esnuevorubro">
+                <label for="" class="">Seleccione Rubro</label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+                  <select name="editarrubro" id="editarrubro" class="form-control input-lg" required>
+                    <option value="">Seleccione Rubro</option>
+                    <option value="RESIDENCIAL">RESIDENCIAL</option>
+                    <option value="COMERCIO">COMERCIO</option>
+                    <option value="SERVICIO">SERVICIO</option>
+                    <option value="TEXTIL">TEXTIL</option>
+                    <option value="BANCA">BANCA</option>
+                    <option value="EMPRESA">EMPRESA</option>
+                  </select>
+                </div>
+             </div>
 
              
              <input type="text" name="editarfecha_inicio" id="inputeditarfecha_inicio" class="ubicacionfechainicio" placeholder="fecha_inicio" style="display: none;">

@@ -56,6 +56,7 @@ function getContent() {
             
             <th>Código</th>
             <th>Transacciones Equipo</th>
+            <th>Tipo de Transancción</th>
             <th>Acciones</th>
  
           </tr> 
@@ -76,7 +77,8 @@ function getContent() {
            echo ' <tr>
                    <td>'.($key+1).'</td>
                    <td>'.$value["codigo"].'</td>
-                   <td>'.$value["nombre"].'</td>';
+                   <td>'.$value["nombre"].'</td>
+                   <td>'.$value["tipo_transaccion_equipo"].'</td>';
  
                   
  
@@ -163,11 +165,62 @@ MODAL AGREGAR
 
             </div>
 
+            
           <?php
              }
           ?>
              
+                          <!-- ****** -->
 
+             
+                          <?php
+                
+                function ObtenerCorrelativo() {
+                  $query = "select numero_transaccion_equipo from tbl_transacciones_equipo order by id desc limit 1";
+                  $sql = Conexion::conectar()->prepare($query);
+                  $sql->execute();			
+                  return $sql->fetchAll();
+                };
+
+                
+              $data0 = ObtenerCorrelativo();
+              foreach($data0 as $row0) {
+                $numero = $row0['numero_transaccion_equipo'];
+            
+                $addnumber= $numero+1;
+
+
+                $correlativo = sprintf("%09d",$addnumber);
+                
+                /* echo $correlativo; */
+                $html="<script>";
+                $html.="$(document).ready(function(){";
+                  $html.="$('.nuevonumero_transaccion_equipo').val('".$correlativo."');";
+                  $html.="$('.editarnumero_transaccion_equipo').val('".$correlativo."');";
+                 
+                $html.="});";
+                $html.="</script>";
+                echo $html;
+              }
+            ?>
+
+              <input type="hidden" name="nuevonumero_transaccion_equipo" class="nuevonumero_transaccion_equipo"/>
+
+         <!-- ****** -->
+
+
+             <div id="">
+             <label for="" class="">Seleccione Tipo de Transacción</label> 
+            
+             <div class="input-group" >
+              <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+              <select name="nuevotipo_transaccion_equipo" id="" class="form-control input-lg" required>
+                <option value="">Seleccione Tipo de Transacción</option>
+                <option value="Aumenta">Aumenta</option>
+                <option value="Disminuye">Disminuye</option>
+              </select>
+             </div>
+             </div>
 
 
           
@@ -264,9 +317,22 @@ MODAL EDITAR
           <?php
              }
           ?>
+
+              <input type="hidden" name="editarnumero_transaccion_equipo" id="editarnumero_transaccion_equipo" class=""/>
+
              
-
-
+             <div id="">
+             <label for="" class="">Seleccione Tipo de Transacción</label> 
+            
+             <div class="input-group" >
+              <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+              <select name="editartipo_transaccion_equipo" id="editartipo_transaccion_equipo" class="form-control input-lg" required>
+                <option value="">Seleccione Tipo de Transacción</option>
+                <option value="Aumenta">Aumenta</option>
+                <option value="Disminuye">Disminuye</option>
+              </select>
+             </div>
+             </div>
 
           </div>
 

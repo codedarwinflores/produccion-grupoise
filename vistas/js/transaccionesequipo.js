@@ -9,7 +9,8 @@ $(document).ready(function(){
 	$(".icono_operador").addClass("fa fa-server");
 	$(".input_operador").attr("placeholder", texto+" Operador");
 
-
+	$(".tipo_transaccion_equipo").empty();
+	$(".numero_transaccion_equipo").empty();
  })
 
  
@@ -39,6 +40,8 @@ $(".tablas").on("click", ".btnEditartransaccionesequipo", function(){
 			$("#editarid").val(respuesta["id"]);
 			$("#editarcodigo").val(respuesta["codigo"]);
 			$("#editarnombre").val(respuesta["nombre"]);
+			$("#editartipo_transaccion_equipo").val(respuesta["tipo_transaccion_equipo"]);
+			$("#editarnumero_transaccion_equipo").val(respuesta["numero_transaccion_equipo"])
 
 
 
