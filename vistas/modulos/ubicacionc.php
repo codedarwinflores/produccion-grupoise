@@ -57,6 +57,7 @@ function getContent() {
             <th>ID Cliente</th>
             <th>Nombre Cliente</th>
             <th>Código Cliente</th>
+            <th>Facturado a</th>
             <th>ID Coordinador de Zona</th>
             <th>Nombre Ubicación</th>
             <th>Latitud</th>
@@ -80,6 +81,10 @@ function getContent() {
             <th>Observaciones</th>
             <th>Última Fecha de Inventario</th>
             <th>Hombres Autorizados</th>
+            <th>Tipo documento</th>
+            <th>Forma Pago</th>
+            <th>Concepto</th>
+            <th>¿No suma HS?</th>
             <th>Acciones</th>
  
           </tr> 
@@ -102,6 +107,7 @@ function getContent() {
                    <td>'.$value["id_cliente"].'</td>
                    <td>'.$value["nombrecliente"].'</td>
                    <td>'.$value["codigo_cliente"].'</td>
+                   <td>'.$value["facturar"].'</td>
                    <td>'.$value["id_coordinador_zona"].'</td>
                    <td>'.$value["nombre_ubicacion"].'</td>
                    <td>'.$value["latitude"].'</td>
@@ -124,7 +130,11 @@ function getContent() {
                    <td>'.$value["Nombre_m"].'</td>
                    <td>'.$value["observaciones_generales"].'</td>
                    <td>'.$value["fecha_ultimo_inventario"].'</td>
-                   <td>'.$value["hombres_autorizados"].'</td>';
+                   <td>'.$value["hombres_autorizados"].'</td>
+                   <td>'.$value["tipo_documento"].'</td>
+                   <td>'.$value["forma_pago"].'</td>
+                   <td>'.$value["concepto"].'</td>
+                   <td>'.$value["sumahs"].'</td>';
                    
  
                   
@@ -200,7 +210,7 @@ MODAL AGREGAR
               /*  $datos = array("".$row['Field']."" => $_POST["nuevo".$row['Field'].""]); */
            ?>
             <div class="form-group ubicacioncgrupo_<?php echo $row['Field'];?> <?php echo $row['Field'];?>">
-         <label for="" class="nuevoubicacionlabel_<?php echo $row['Field'];?>"></label> 
+              <label for="" class="nuevoubicacionlabel_<?php echo $row['Field'];?>"></label> 
               
               <div class="input-group">
               
@@ -213,12 +223,64 @@ MODAL AGREGAR
             </div>
 
 
-
-
           <?php
              }
           ?>
              
+             
+             <div id="">
+                <label for="" class="">Seleccione Tipo Documento</label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+                  <select name="nuevotipo_documento" id="" class="form-control input-lg" required>
+                    <option value="">Seleccione Tipo Documento</option>
+                    <option value="CCF">CCF</option>
+                    <option value="FA">FA</option>
+                    <option value="FE">FE</option>
+                  </select>
+                </div>
+             </div>
+
+             
+             <div id="">
+                <label for="" class="">Seleccione Forma de Pago</label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+                  <select name="nuevoforma_pago" id="" class="form-control input-lg" required>
+                    <option value="">Seleccione Forma de Pago</option>
+                    <option value="Mensual">Mensual</option>
+                    <option value="Bimensual">Bimensual</option>
+                    <option value="Trimestral">Trimestral</option>
+                    <option value="Semestral">Semestral</option>
+                    <option value="Anual">Anual</option>
+                    <option value="24 Meses">24 Meses</option>
+                  </select>
+                </div>
+             </div>
+
+             
+             <div id="">
+                <label for="" class="">Concepto</label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-bars"></i></span> 
+                  <textarea name="nuevoconcepto" id="" cols="30" rows="10" class="form-control input-lg"></textarea>
+                </div>
+             </div>
+
+             
+             <div id="">
+                <label for="" class="">¿No suma HS?</label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-list-ol"></i></span> 
+                  <select name="nuevosumahs" id="" class="form-control input-lg" required>
+                    <option value="">¿No suma HS?</option>
+                    <option value="Si">Si</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+             </div>
+
+
 
              <input type="text" name="nuevofecha_inicio" class="nuevoubicacionfechainicio" placeholder="fecha_inicio" style="display: none;">
              <input type="text" name="nuevofecha_fin" class="nuevoubicacionfechafin" placeholder="fecha_fin" style="display: none;">
@@ -228,7 +290,7 @@ MODAL AGREGAR
               <label for="">Seleccione Cliente</label>
              <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-users"></i></span>
-                <select name="nuevoid_cliente" id="" class="form-control input-lg ubicacioncid_cliente" required>
+                <select name="nuevoid_cliente" id="infocliente" class="form-control input-lg ubicacioncid_cliente" required>
                   <option value="">Seleccione Cliente</option>
                 <?php
                     $datos_mostrar = Controladorclientes::ctrMostrar($item, $valor);
@@ -244,30 +306,30 @@ MODAL AGREGAR
 
              <div class="ubicacionc_s_depa">
               <label for="">Seleccione Departamento</label>
-             <div class="input-group ">
-                <span class="input-group-addon"><i class="fa fa-globe"></i></span>
-                <select name="nuevoid_departamento" id="" class="form-control input-lg opciondepartamento" required>
-                  <option value="">Seleccione Departamento</option>
-                <?php
-                    $datos_mostrar = Controladorcat_departamento::ctrMostrar($item, $valor);
-                    foreach ($datos_mostrar as $key => $value){
-                ?>
-                    <option value="<?php echo $value['id'] ?>" ><?php echo $value["Nombre"] ?></option>  
-                <?php
-                    }
+              <div class="input-group ">
+                  <span class="input-group-addon"><i class="fa fa-globe"></i></span>
+                  <select name="nuevoid_departamento" id="" class="form-control input-lg opciondepartamento" required>
+                    <option value="">Seleccione Departamento</option>
+                  <?php
+                      $datos_mostrar = Controladorcat_departamento::ctrMostrar($item, $valor);
+                      foreach ($datos_mostrar as $key => $value){
                   ?>
-                </select>
-            </div>
+                      <option value="<?php echo $value['id'] ?>" ><?php echo $value["Nombre"] ?></option>  
+                  <?php
+                      }
+                    ?>
+                  </select>
+              </div>
             </div>
 
             <div class="ubicacionc_s_muni">
               <label for="">Seleccione Municipio</label>
-            <div class="input-group ">
-                <span class="input-group-addon"><i class="fa fa-globe"></i></span>
-                <select name="nuevoid_municipio" id="nuevoid_municipio" class="form-control input-lg" required>
-                  <option value="">Seleccione Municipio</option>
-                </select>
-            </div>
+              <div class="input-group ">
+                  <span class="input-group-addon"><i class="fa fa-globe"></i></span>
+                  <select name="nuevoid_municipio" id="nuevoid_municipio" class="form-control input-lg" required>
+                    <option value="">Seleccione Municipio</option>
+                  </select>
+              </div>
             </div>
           
 
@@ -354,7 +416,7 @@ MODAL EDITAR
               
                 <span class="input-group-addon"><i class="icono_<?php echo $row['Field'];?>"></i></span> 
 
-                <input type="text" class="form-control input-lg ubicacioninput_<?php echo $row['Field'];?>" name="editar<?php echo $row['Field'];?>" id="editar<?php echo $row['Field'];?>" placeholder="" value="" autocomplete="off" required>
+                <input type="text" class="form-control input-lg ubicacioninput_<?php echo $row['Field'];?>" name="editar<?php echo $row['Field'];?>" id="editar<?php echo $row['Field'];?>" placeholder="" value="" autocomplete="off" required >
  
               </div>
 
@@ -364,6 +426,60 @@ MODAL EDITAR
              }
           ?>
              
+             
+             <div id="">
+                <label for="" class="">Seleccione Tipo Documento</label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+                  <select name="editartipo_documento" id="editartipo_documento" class="form-control input-lg" required>
+                    <option value="">Seleccione Tipo Documento</option>
+                    <option value="CCF">CCF</option>
+                    <option value="FA">FA</option>
+                    <option value="FE">FE</option>
+                  </select>
+                </div>
+             </div>
+
+             
+             <div id="">
+                <label for="" class="">Seleccione Forma de Pago</label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+                  <select name="editarforma_pago" id="editarforma_pago" class="form-control input-lg" required>
+                    <option value="">Seleccione Forma de Pago</option>
+                    <option value="Mensual">Mensual</option>
+                    <option value="Bimensual">Bimensual</option>
+                    <option value="Trimestral">Trimestral</option>
+                    <option value="Semestral">Semestral</option>
+                    <option value="Anual">Anual</option>
+                    <option value="24 Meses">24 Meses</option>
+                  </select>
+                </div>
+             </div>
+
+             
+             <div id="">
+                <label for="" class="">Concepto</label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-bars"></i></span> 
+                  <textarea name="editarconcepto" id="editarconcepto" cols="30" rows="10" class="form-control input-lg"></textarea>
+                </div>
+             </div>
+
+             
+             <div id="">
+                <label for="" class="">¿No suma HS?</label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-list-ol"></i></span> 
+                  <select name="editarsumahs" id="editarsumahs" class="form-control input-lg" required>
+                    <option value="">¿No suma HS?</option>
+                    <option value="Si">Si</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+             </div>
+
+
 
              <!-- *************** -->
 

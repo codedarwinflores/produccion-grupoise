@@ -195,7 +195,35 @@ $(document).ready(function(){
 			  var nuevoubicacioninput_rubro = $(".nuevoubicacioninput_rubro").attr("placeholder");
 			  $(".nuevoubicacionlabel_rubro").text(nuevoubicacioninput_rubro);
 
-		  
+		  		/* --------------NUEVOS */
+
+				  $(".icono_facturar").addClass("fa fa-male");
+				  $(".ubicacioninput_facturar").attr("placeholder", texto+" Facturar a");
+				  $(".ubicacioninput_facturar").attr("readonly", "readonly");
+				  $(".ubicacioncgrupo_tipo_documento").empty();
+				  $(".ubicacioncgrupo_forma_pago").empty();
+				  $(".ubicacioncgrupo_concepto").empty();
+				  $(".ubicacioncgrupo_sumahs").empty();
+
+				  $(".eubicacioncgrupo_tipo_documento").empty();
+				  $(".eubicacioncgrupo_forma_pago").empty();
+				  $(".eubicacioncgrupo_concepto").empty();
+				  $(".eubicacioncgrupo_sumahs").empty();
+
+				  $(document).on('change', '#infocliente', function(event) {
+					$('.ubicacioninput_facturar').val($("#infocliente option:selected").text());
+			  	 });
+
+				   $(document).on('change', '#editarid_cliente', function(event) {
+					$('#editarfacturar').val($("#editarid_cliente option:selected").text());
+			  	 });
+			   
+				  
+              /* *********LABEL*********** */
+			  var nuevoubicacioninput_facturar = $(".nuevoubicacioninput_facturar").attr("placeholder");
+			  $(".nuevoubicacionlabel_facturar").text(nuevoubicacioninput_facturar);
+
+			   
 
  })
 
@@ -450,6 +478,13 @@ $(".tablas").on("click", ".btnEditarubicacionc", function(){
 
 			$("#editarobservaciones_generales").val(respuesta["observaciones_generales"]);
 			$("#editarhombres_autorizados").val(respuesta["hombres_autorizados"]);
+				/* nuevo */
+			$("#editarfacturar").val(respuesta["facturar"]);
+			$("#editartipo_documento").val(respuesta["tipo_documento"]);
+			$("#editarforma_pago").val(respuesta["forma_pago"]);
+			$("#editarconcepto").val(respuesta["concepto"]);
+			$("#editarsumahs").val(respuesta["sumahs"]);
+
 
 
 

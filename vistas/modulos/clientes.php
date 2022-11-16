@@ -80,6 +80,13 @@ function getContent() {
             <th>Plazo</th>
             <th>Observaciones</th>
             <th>Cuenta Contable</th>
+            <th>Vendedor</th>
+            <th>Porcentaje comisión</th>
+            <th> Vigencia del contrato</th>
+            <th> ¿Posee Contrato?</th>
+            <th> Tipo de servicio:</th>
+            <th> Categoría</th>
+            <th> Dui</th>
             <th>Acciones</th>
  
           </tr> 
@@ -124,7 +131,14 @@ function getContent() {
                    <td>'.$value["limite_credito"].'</td>
                    <td>'.$value["plazo"].'</td>
                    <td>'.$value["observaciones"].'</td>
-                   <td>'.$value["cuenta_contable"].'</td>';
+                   <td>'.$value["cuenta_contable"].'</td>
+                   <td>'.$value["vendedor"].'</td>
+                   <td>'.$value["porcentaje_comision"].'</td>
+                   <td>'.$value["vigencia_contrato"].'</td>
+                   <td>'.$value["posee_contrato"].'</td>
+                   <td>'.$value["nombreservicio"].'</td>
+                   <td>'.$value["categoria_cliente"].'</td>
+                   <td>'.$value["dui"].'</td>';
  
                   
  
@@ -239,19 +253,26 @@ MODAL AGREGAR
      
               /*  $datos = array("".$row['Field']."" => $_POST["nuevo".$row['Field'].""]); */
            ?>
-            <div class="form-group <?php echo $row['Field'];?>">
+            <div class="form-group <?php echo $row['Field'];?>  cgrupo_<?php echo $row['Field'];?>">
               <label for="" class="clabel_<?php echo $row['Field'];?>"></label>
               
-              <div class="input-group">
+              <div class="input-group ">
               
                 <span class="input-group-addon"><i class="icono_<?php echo $row['Field'];?>"></i></span> 
 
-                <input type="text" class="form-control input-lg  input_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value=""  autocomplete="off" required> 
+                <input type="text" class="form-control input-lg  input_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value=""  autocomplete="off" required tabla_validar="clientes" item_validar="codigo"> 
 
               </div>
 
             </div>
 
+
+            <script>
+              /* *********LABEL*********** */
+                var input_<?php echo $row['Field'];?> = $(".input_<?php echo $row['Field'];?>").attr("placeholder");
+                $(".clabel_<?php echo $row['Field'];?>").text(input_<?php echo $row['Field'];?>);
+
+            </script>
 
           <?php
              }
@@ -273,7 +294,6 @@ MODAL AGREGAR
             <span class="select_clasificacion" clasificacion="C"> C</span>
             <span class="select_clasificacion" clasificacion="D"> D</span>
             <span class="select_clasificacion" clasificacion="E"> E</span>
-
           </div>   
           <!-- *** -->
 
@@ -321,8 +341,61 @@ MODAL AGREGAR
           
           </div>   
           <!-- *** -->
+
+
           <!-- *** -->
 
+          <div class="" id="nposee_contrato">
+              <label for="">¿Posee Contrato?</label>
+             <div class="input-group" id="">
+              <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+              <select name="nuevoposee_contrato" id="" class="form-control input-lg" required>
+                <option value="">¿Posee Contrato?</option>
+                <option value="Si">Si</option>
+                <option value="No">No</option>
+              </select>
+             </div>
+            </div>
+          <!-- **** -->
+
+          
+          <div class="c_servicio">
+              <label for="">Seleccione Servicio</label>
+             <div class="input-group ">
+                <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                <select name="nuevotipo_servicio" id="" class="form-control input-lg" required>
+                  <option value="">Seleccione Servicio</option>
+                <?php
+                    $datos_mostrar = ControladorServicios::ctrMostrar($item, $valor);
+                    foreach ($datos_mostrar as $key => $value){
+                ?>
+                <option value="<?php echo $value['id'] ?>"> <?php echo $value["nombre"] ?></option>  
+                <?php
+                    }
+                  ?>
+                </select>
+            </div>
+            </div>
+
+          <!-- ********* -->
+
+          
+
+          <!-- *** -->
+
+          <div class="" id="nc_categoria">
+              <label for="">Seleccione Categoria</label>
+             <div class="input-group" id="">
+              <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+              <select name="nuevocategoria_cliente" id="" class="form-control input-lg" required>
+                <option value="">Seleccione Categoria</option>
+                <option value="Grande">Grande</option>
+                <option value="Mediano ">Mediano </option>
+                <option value="Pequeño">Pequeño</option>
+              </select>
+             </div>
+            </div>
+          <!-- **** -->
 
 
           </div>
@@ -412,7 +485,7 @@ MODAL EDITAR
      
               /*  $datos = array("".$row['Field']."" => $_POST["nuevo".$row['Field'].""]); */
            ?>
-            <div class="form-group  <?php echo $row['Field'];?>">
+            <div class="form-group  <?php echo $row['Field'];?> ecgrupo_<?php echo $row['Field'];?>">
             <label for="" class="clabel_<?php echo $row['Field'];?>"></label>
               
               <div class="input-group">
@@ -498,6 +571,61 @@ MODAL EDITAR
 
 
 
+
+          
+          <!-- *** -->
+
+          <div class="" id="enposee_contrato">
+            <label for="">¿Posee Contrato?</label>
+           <div class="input-group" id="">
+            <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+            <select name="editarposee_contrato" id="editarposee_contrato" class="form-control input-lg" required>
+              <option value="">¿Posee Contrato?</option>
+              <option value="Si">Si</option>
+              <option value="No">No</option>
+            </select>
+           </div>
+          </div>
+        <!-- **** -->
+
+        
+        <div class="ec_servicio">
+            <label for="">Seleccione Servicio</label>
+           <div class="input-group ">
+              <span class="input-group-addon"><i class="fa fa-users"></i></span>
+              <select name="editartipo_servicio" id="editartipo_servicio" class="form-control input-lg" required>
+                <option value="">Seleccione Servicio</option>
+              <?php
+                  $datos_mostrar = ControladorServicios::ctrMostrar($item, $valor);
+                  foreach ($datos_mostrar as $key => $value){
+              ?>
+              <option value="<?php echo $value['id'] ?>"> <?php echo $value["nombre"] ?></option>  
+              <?php
+                  }
+                ?>
+              </select>
+          </div>
+          </div>
+
+        <!-- ********* -->
+
+        
+
+        <!-- *** -->
+
+        <div class="" id="enc_categoria">
+            <label for="">Seleccione Categoria</label>
+           <div class="input-group" id="">
+            <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+            <select name="editarcategoria_cliente" id="editarcategoria_cliente" class="form-control input-lg" required>
+              <option value="">Seleccione Categoria</option>
+              <option value="Grande">Grande</option>
+              <option value="Mediano ">Mediano </option>
+              <option value="Pequeño">Pequeño</option>
+            </select>
+           </div>
+          </div>
+        <!-- **** -->
 
 
 

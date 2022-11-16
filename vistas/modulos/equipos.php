@@ -58,6 +58,12 @@ function getContent() {
             <th>Familia</th>
             <th>Descripción</th>
             <th>Número Serie</th>
+            <th>Tipo de otro equipo</th>
+            <th>Código</th>
+            <th>Descripción</th>
+            <th>Costo</th>
+            <th>Modelo</th>
+            <th>Color </th>
             <th>Acciones</th>
  
           </tr> 
@@ -79,7 +85,13 @@ function getContent() {
                    <td>'.($key+1).'</td>
                    <td>'.$value["nombrefamilia"].'</td>
                    <td>'.$value["descripcion"].'</td>
-                   <td>'.$value["numero_serie"].'</td>';
+                   <td>'.$value["numero_serie"].'</td>
+                   <td>'.$value["codigo_equipo"].'</td>
+                   <td>'.$value["descripcion_equipo"].'</td>
+                   <td>'.$value["costo_equipo"].'</td>
+                   <td>'.$value["modelo_equipo"].'</td>
+                   <td>'.$value["color_equipo"].'</td>
+                   <td>'.$value["nombretipo"].'</td>';
  
                   
  
@@ -153,20 +165,26 @@ MODAL AGREGAR
      
               /*  $datos = array("".$row['Field']."" => $_POST["nuevo".$row['Field'].""]); */
            ?>
-            <div class="form-group <?php echo $row['Field'];?>">
+            <div class="form-group <?php echo $row['Field'];?> equipogrupo_<?php echo $row['Field'];?>">
             <label for="" class="label_<?php echo $row['Field'];?>"></label> 
 
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="icono_<?php echo $row['Field'];?>"></i></span> 
 
-                <input type="text" class="form-control input-lg input_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value="" autocomplete="off" required>
+                <input type="text" class="form-control input-lg input_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value="" autocomplete="off" required tabla_validar="tbl_otros_equipos" item_validar="codigo_equipo">
 
               </div>
 
             </div>
 
             
+<script>
+              /* *********LABEL*********** */
+                var input_<?php echo $row['Field'];?> = $(".input_<?php echo $row['Field'];?>").attr("placeholder");
+                $(".label_<?php echo $row['Field'];?>").text(input_<?php echo $row['Field'];?>);
+
+            </script>
 
           <?php
              }
@@ -187,6 +205,24 @@ MODAL AGREGAR
           </div>   
           <!-- *** -->
 
+          
+          <div class="stipo_equipos">
+              <label for="">Seleccione Tipo de otro quipo</label>
+             <div class="input-group ">
+                <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                <select name="nuevotipo_equipos" id="" class="form-control input-lg" required>
+                  <option value="">Seleccione Tipo de otro quipo</option>
+                <?php
+                    $datos_mostrar = Controladortipootrosequipos::ctrMostrar($item, $valor);
+                    foreach ($datos_mostrar as $key => $value){
+                ?>
+                    <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>  
+                <?php
+                    }
+                  ?>
+                </select>
+            </div>
+            </div>
           
 
 
@@ -265,7 +301,7 @@ MODAL EDITAR
              $data = getContent();
              foreach($data as $row) {
            ?>
-            <div class="form-group <?php echo $row['Field'];?>">
+            <div class="form-group <?php echo $row['Field'];?> eequipogrupo_<?php echo $row['Field'];?>">
          <label for="" class="label_<?php echo $row['Field'];?>"></label> 
               
               <div class="input-group">
@@ -297,6 +333,25 @@ MODAL EDITAR
                     ?>
                     </div>   
                     <!-- *** -->
+
+            
+          <div class="stipo_equipos">
+              <label for="">Seleccione Tipo de otro quipo</label>
+             <div class="input-group ">
+                <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                <select name="editartipo_equipos" id="editartipo_equipos" class="form-control input-lg" required>
+                  <option value="">Seleccione Tipo de otro quipo</option>
+                <?php
+                    $datos_mostrar = Controladortipootrosequipos::ctrMostrar($item, $valor);
+                    foreach ($datos_mostrar as $key => $value){
+                ?>
+                    <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>  
+                <?php
+                    }
+                  ?>
+                </select>
+            </div>
+            </div>
 
           </div>
 

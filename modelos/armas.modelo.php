@@ -30,9 +30,10 @@ class Modeloarmas{
 
 		if($item != null){
 
-			$stmt = Conexion::conectar()->prepare("SELECT tbl_armas.id as idarmas, `fecha_ingreso`, `id_empresa`, `id_familia`, `id_tipo_arma`, tbl_armas.codigo as codigoarmas, `numero_serie`, `marca`, `modelo`, `color`, `numero_matricula`, `fecha_vencimiento`, `tipo_matricula`, `tipo_municion`, `lugar_adquisicion`, `precio_costo`, `estado` , tbl_tipos_de_armas.id as idtipoarmas, tbl_tipos_de_armas.codigo as codigotipoarmas , `nombre_tipo` , empresas.id as idempresas , `codigo_empresa`, empresas.nombre as nombreempresas , `logo` , tbl_familia.id as idfamilia , tbl_familia.codigo as codigofamilia, tbl_familia.nombre as nombrefamilia, `correrlativo` 
+			/* $stmt = Conexion::conectar()->prepare("SELECT tbl_armas.id as idarmas, `fecha_ingreso`, `id_empresa`, `id_familia`, `id_tipo_arma`, tbl_armas.codigo as codigoarmas, `numero_serie`, `marca`, `modelo`, `color`, `numero_matricula`, `fecha_vencimiento`, `tipo_matricula`, `tipo_municion`, `lugar_adquisicion`, `precio_costo`, `estado` , tbl_tipos_de_armas.id as idtipoarmas, tbl_tipos_de_armas.codigo as codigotipoarmas , `nombre_tipo` , empresas.id as idempresas , `codigo_empresa`, empresas.nombre as nombreempresas , `logo` , tbl_familia.id as idfamilia , tbl_familia.codigo as codigofamilia, tbl_familia.nombre as nombrefamilia, `correrlativo` 
 			FROM `tbl_armas` , tbl_tipos_de_armas , empresas , tbl_familia
-			WHERE tbl_armas.id_empresa = empresas.id and tbl_tipos_de_armas.id = tbl_armas.id_tipo_arma and tbl_familia.id= tbl_armas.id_familia and tbl_armas.id = :$item");
+			WHERE tbl_armas.id_empresa = empresas.id and tbl_tipos_de_armas.id = tbl_armas.id_tipo_arma and tbl_familia.id= tbl_armas.id_familia and tbl_armas.id = :$item"); */
+			$stmt = Conexion::conectar()->prepare("SELECT tbl_armas.id as idarmas, `fecha_ingreso`, `id_empresa`, `id_familia`, `id_tipo_arma`, tbl_armas.codigo as codigoarmas, `numero_serie`, `marca`, `modelo`, `color`, `numero_matricula`, `fecha_vencimiento`, `tipo_matricula`, `tipo_municion`, `lugar_adquisicion`, `precio_costo`, `estado` , tbl_tipos_de_armas.id as idtipoarmas, tbl_tipos_de_armas.codigo as codigotipoarmas , `nombre_tipo` , tbl_familia.id as idfamilia , tbl_familia.codigo as codigofamilia, tbl_familia.nombre as nombrefamilia, `correrlativo` FROM `tbl_armas` , tbl_tipos_de_armas , tbl_familia WHERE tbl_tipos_de_armas.id = tbl_armas.id_tipo_arma and tbl_familia.id= tbl_armas.id_familia and tbl_armas.id = :$item");
 
 			$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
 
@@ -42,9 +43,11 @@ class Modeloarmas{
 
 		}else{
 
-			$stmt = Conexion::conectar()->prepare("SELECT tbl_armas.id as idarmas, `fecha_ingreso`, `id_empresa`, `id_familia`, `id_tipo_arma`, tbl_armas.codigo as codigoarmas, `numero_serie`, `marca`, `modelo`, `color`, `numero_matricula`, `fecha_vencimiento`, `tipo_matricula`, `tipo_municion`, `lugar_adquisicion`, `precio_costo`, `estado` , tbl_tipos_de_armas.id as idtipoarmas, tbl_tipos_de_armas.codigo as codigotipoarmas , `nombre_tipo` , empresas.id as idempresas , `codigo_empresa`, empresas.nombre as nombreempresas , `logo` , tbl_familia.id as idfamilia , tbl_familia.codigo as codigofamilia, tbl_familia.nombre as nombrefamilia, `correrlativo` 
+			/* $stmt = Conexion::conectar()->prepare("SELECT tbl_armas.id as idarmas, `fecha_ingreso`, `id_empresa`, `id_familia`, `id_tipo_arma`, tbl_armas.codigo as codigoarmas, `numero_serie`, `marca`, `modelo`, `color`, `numero_matricula`, `fecha_vencimiento`, `tipo_matricula`, `tipo_municion`, `lugar_adquisicion`, `precio_costo`, `estado` , tbl_tipos_de_armas.id as idtipoarmas, tbl_tipos_de_armas.codigo as codigotipoarmas , `nombre_tipo` , empresas.id as idempresas , `codigo_empresa`, empresas.nombre as nombreempresas , `logo` , tbl_familia.id as idfamilia , tbl_familia.codigo as codigofamilia, tbl_familia.nombre as nombrefamilia, `correrlativo` 
 			FROM `tbl_armas` , tbl_tipos_de_armas , empresas , tbl_familia
-			WHERE tbl_armas.id_empresa = empresas.id and tbl_tipos_de_armas.id = tbl_armas.id_tipo_arma and tbl_familia.id= tbl_armas.id_familia");
+			WHERE tbl_armas.id_empresa = empresas.id and tbl_tipos_de_armas.id = tbl_armas.id_tipo_arma and tbl_familia.id= tbl_armas.id_familia"); */
+
+			$stmt = Conexion::conectar()->prepare("SELECT tbl_armas.id as idarmas, `fecha_ingreso`, `id_empresa`, `id_familia`, `id_tipo_arma`, tbl_armas.codigo as codigoarmas, `numero_serie`, `marca`, `modelo`, `color`, `numero_matricula`, `fecha_vencimiento`, `tipo_matricula`, `tipo_municion`, `lugar_adquisicion`, `precio_costo`, `estado` , tbl_tipos_de_armas.id as idtipoarmas, tbl_tipos_de_armas.codigo as codigotipoarmas , `nombre_tipo` , tbl_familia.id as idfamilia , tbl_familia.codigo as codigofamilia, tbl_familia.nombre as nombrefamilia, `correrlativo` FROM `tbl_armas` , tbl_tipos_de_armas , tbl_familia WHERE tbl_tipos_de_armas.id = tbl_armas.id_tipo_arma and tbl_familia.id= tbl_armas.id_familia");
 
 			$stmt -> execute();
 

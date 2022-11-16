@@ -58,6 +58,11 @@ function getContent() {
             <th>Tipo Bicicleta</th>
             <th>Marca</th>
             <th>Número Serie</th>
+            <th>Código Bicicleta</th>
+            <th>Descripción</th>
+            <th>Costo</th>
+            <th>Modelo</th>
+            <th>Color</th>
             <th>Acciones</th>
  
           </tr> 
@@ -80,7 +85,13 @@ function getContent() {
                    <td>'.$value["nombrefamilia"].'</td>
                    <td>'.$value["nombretipobicicleta"].'</td>
                    <td>'.$value["marca"].'</td>
-                   <td>'.$value["numero_serie"].'</td>';
+                   <td>'.$value["numero_serie"].'</td>
+                   
+                   <td>'.$value["codigo_bicicleta"].'</td>
+                   <td>'.$value["descripcion_bicicleta"].'</td>
+                   <td>'.$value["costo_bicicleta"].'</td>
+                   <td>'.$value["modelo_bicicleta"].'</td>
+                   <td>'.$value["color_bicicleta"].'</td>';
  
                   
  
@@ -155,13 +166,13 @@ MODAL AGREGAR
               /*  $datos = array("".$row['Field']."" => $_POST["nuevo".$row['Field'].""]); */
            ?>
             <div class="form-group bicicleta_grupo_<?php echo $row['Field'];?> <?php echo $row['Field'];?>">
-         <label for="" class="label_<?php echo $row['Field'];?>"></label> 
+            <label for="" class="label_<?php echo $row['Field'];?>"></label> 
               
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="icono_<?php echo $row['Field'];?>"></i></span> 
 
-                <input type="text" class="form-control input-lg input_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value="" autocomplete="off" required>
+                <input type="text" class="form-control input-lg input_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value="" autocomplete="off" required tabla_validar="tbl_bicicleta" item_validar="codigo_bicicleta">
 
               </div>
 

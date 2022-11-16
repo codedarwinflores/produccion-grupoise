@@ -22,8 +22,58 @@ $(document).ready(function(){
 	$(".icono_operador").addClass("fa fa-server");
 	$(".input_operador").attr("placeholder", texto+" Operador");
 
+	/* ****nuevo** */
+	
+	$(".icono_codigo_bicicleta").addClass("fa fa-server");
+	$(".input_codigo_bicicleta").attr("placeholder", texto+" Código");
+	
+	$(".icono_descripcion_bicicleta").addClass("fa fa-server");
+	$(".input_descripcion_bicicleta").attr("placeholder", texto+" Descripción");
+	
+	$(".icono_costo_bicicleta").addClass("fa fa-server");
+	$(".input_costo_bicicleta").attr("placeholder", texto+" Costo");
+	$(".input_costo_bicicleta").get(0).type = 'number';
+    $(".input_costo_bicicleta").attr("step", "0.01");
+	    /* **** */
+		$("#editarcosto_bicicleta").get(0).type = 'number';
+		$("#editarcosto_bicicleta").attr("step", "0.01");
+	
+	
+	$(".icono_modelo_bicicleta").addClass("fa fa-server");
+	$(".input_modelo_bicicleta").attr("placeholder", texto+" Modelo");
+	
+	$(".icono_color_bicicleta").addClass("fa fa-server");
+	$(".input_color_bicicleta").attr("placeholder", texto+" Color");
 
 
+
+	
+              /* *********LABEL*********** */
+			  var input_codigo_bicicleta = $(".input_codigo_bicicleta").attr("placeholder");
+			  $(".label_codigo_bicicleta").text(input_codigo_bicicleta);
+
+		  
+			  
+              /* *********LABEL*********** */
+			  var input_descripcion_bicicleta = $(".input_descripcion_bicicleta").attr("placeholder");
+			  $(".label_descripcion_bicicleta").text(input_descripcion_bicicleta);
+
+		  
+              /* *********LABEL*********** */
+			  var input_costo_bicicleta = $(".input_costo_bicicleta").attr("placeholder");
+			  $(".label_costo_bicicleta").text(input_costo_bicicleta);
+
+		  
+              /* *********LABEL*********** */
+			  var input_modelo_bicicleta = $(".input_modelo_bicicleta").attr("placeholder");
+			  $(".label_modelo_bicicleta").text(input_modelo_bicicleta);
+
+		  
+              /* *********LABEL*********** */
+			  var input_color_bicicleta = $(".input_color_bicicleta").attr("placeholder");
+			  $(".label_color_bicicleta").text(input_color_bicicleta);
+
+		  
  })
 
  

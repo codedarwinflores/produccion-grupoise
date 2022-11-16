@@ -29,9 +29,11 @@ class AjaxEmpresas{
 
 	public $validarEmpresa;
 
-	public function ajaxValidarEmpresa(){
 
-		$item = "empresas";
+	 function ajaxValidarEmpresa(){
+		$validarEmpresa = $_POST["validarEmpresa"];
+
+		$item = "codigo_empresa";
 		$valor = $this->validarEmpresa;
 
 		$respuesta = ControladorEmpresas::ctrMostrarEmpresas($item, $valor);

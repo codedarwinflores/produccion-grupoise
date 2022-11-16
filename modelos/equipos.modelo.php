@@ -30,7 +30,7 @@ class Modeloequipos{
 
 		if($item != null){
 
-			$stmt = Conexion::conectar()->prepare("SELECT tbl_otros_equipos.id as idequipos, `id_familia`, `descripcion`, `numero_serie`, tbl_familia.id as idfamilia , tbl_familia.codigo as codigofamilia , tbl_familia.nombre as nombrefamilia, `correrlativo` FROM `tbl_otros_equipos`, tbl_familia WHERE tbl_otros_equipos.id_familia = tbl_familia.id and tbl_otros_equipos.id = :$item");
+			$stmt = Conexion::conectar()->prepare("SELECT tbl_otros_equipos.id as idequipos, `id_familia`, `descripcion`, `numero_serie`, tbl_familia.id as idfamilia , tbl_familia.codigo as codigofamilia , tbl_familia.nombre as nombrefamilia, `correrlativo`,tipo_equipos,tipo_otros_equipos.id as idtipo, tipo_otros_equipos.codigo as codigotipo, tipo_otros_equipos.nombre as nombretipo,codigo_equipo ,descripcion_equipo ,costo_equipo ,modelo_equipo ,color_equipo  FROM `tbl_otros_equipos`, tbl_familia, tipo_otros_equipos WHERE tbl_otros_equipos.id_familia = tbl_familia.id and tipo_otros_equipos.id=tbl_otros_equipos.tipo_equipos and tbl_otros_equipos.id = :$item");
 
 			$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
 
@@ -40,7 +40,7 @@ class Modeloequipos{
 
 		}else{
 
-			$stmt = Conexion::conectar()->prepare("SELECT  tbl_otros_equipos.id as idequipos, `id_familia`, `descripcion`, `numero_serie`, tbl_familia.id as idfamilia , tbl_familia.codigo as codigofamilia , tbl_familia.nombre as nombrefamilia, `correrlativo` FROM `tbl_otros_equipos`, tbl_familia WHERE tbl_otros_equipos.id_familia = tbl_familia.id");
+			$stmt = Conexion::conectar()->prepare("SELECT tbl_otros_equipos.id as idequipos, `id_familia`, `descripcion`, `numero_serie`, tbl_familia.id as idfamilia , tbl_familia.codigo as codigofamilia , tbl_familia.nombre as nombrefamilia, `correrlativo`,tipo_equipos,tipo_otros_equipos.id as idtipo, tipo_otros_equipos.codigo as codigotipo, tipo_otros_equipos.nombre as nombretipo,codigo_equipo ,descripcion_equipo ,costo_equipo ,modelo_equipo ,color_equipo  FROM `tbl_otros_equipos`, tbl_familia, tipo_otros_equipos WHERE tbl_otros_equipos.id_familia = tbl_familia.id and tipo_otros_equipos.id=tbl_otros_equipos.tipo_equipos");
 
 			$stmt -> execute();
 

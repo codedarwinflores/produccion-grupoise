@@ -9,6 +9,8 @@ $(document).ready(function(){
 	$(".icono_correrlativo").addClass("fa fa-server");
 	$(".input_correrlativo").attr("placeholder", texto+" Correlativo");
 
+	$(".ocultarf_correrlativo").attr("style","visibility:hidden");
+	$("#ocultarf_correrlativo").attr("style","visibility:hidden");
 
 	
               /* *********LABEL*********** */

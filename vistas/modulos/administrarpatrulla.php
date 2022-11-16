@@ -203,13 +203,15 @@ MODAL AGREGAR
 
               <div class="input-group ">
                   <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-                  <select name="nuevoid_ubicacion_pu" id="" class="form-control input-lg " required>
+                  <select name="nuevoid_ubicacion_pu" id="nuevoid_ubicacion_pu" class="form-control input-lg " required>
                     <option value="">Seleccione Ubicación</option>
                   <?php
+                  $valor="";
+                  $item="";
                       $datos_mostrar = Controladorubicacionc::ctrMostrar($item, $valor);
                       foreach ($datos_mostrar as $key => $value){
                   ?>
-                      <option value="<?php echo $value['idubicacionc'] ?>">
+                      <option value="<?php echo $value['idubicacionc'] ?>" tabla_validar="tbl_patrullas_ubicaciones" item_validar="id_ubicacion_pu">
                          <?php echo $value["nombre_ubicacion"] ?>
                       </option>  
                   <?php

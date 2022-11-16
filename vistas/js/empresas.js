@@ -97,14 +97,15 @@ $(".tablas").on("click", ".btnEditarEmpresa", function(){
 REVISAR SI EL EMPRESAS YA ESTÁ REGISTRADO
 =============================================*/
 
-$("#nuevoNombre").change(function(){
+$(".codigo").change(function(){
 
 	$(".alert").remove();
 
-	var usuario = $(this).val();
+	var codigo = $(this).val();
 
 	var datos = new FormData();
-	datos.append("validarNombre", usuario);
+	datos.append("validarEmpresa", codigo);
+
 
 	 $.ajax({
 	    url:"ajax/empresas.ajax.php",
@@ -116,13 +117,14 @@ $("#nuevoNombre").change(function(){
 	    dataType: "json",
 	    success:function(respuesta){
 	    	
-	    	if(respuesta){
+				alert(respuesta);
 
-	    		$("#nuevoNombre").parent().after('<div class="alert alert-warning">Este usuario ya existe en la base de datos</div>');
+	    	/* if(respuesta){
+	    		$("body").parent().after('<div class="alert alert-warning">Este usuario ya existe en la base de datos</div>');
 
 	    		$("#nuevoNombre").val("");
 
-	    	}
+	    	} */
 
 	    }
 

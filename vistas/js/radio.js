@@ -22,8 +22,58 @@ $(document).ready(function(){
 	$(".icono_operador").addClass("fa fa-server");
 	$(".input_operador").attr("placeholder", texto+" Operador");
 
+	/* **** */
+
+	
+	$(".icono_codigo_radio").addClass("fa fa-server");
+	$(".input_codigo_radio").attr("placeholder", texto+" Código");
+	
+	$(".icono_descripcion_radio").addClass("fa fa-server");
+	$(".input_descripcion_radio").attr("placeholder", texto+" Descripción");
+	
+	$(".icono_costo_radio").addClass("fa fa-server");
+	$(".input_costo_radio").attr("placeholder", texto+" Costo");
+	
+	$(".input_costo_radio").get(0).type = 'number';
+	$(".input_costo_radio").attr("step", "0.01");
+
+	
+	$("#editarcosto_radio").get(0).type = 'number';
+	$("#editarcosto_radio").attr("step", "0.01");
+	
+	$(".icono_modelo_radio").addClass("fa fa-server");
+	$(".input_modelo_radio").attr("placeholder", texto+" Modelo");
+	
+	$(".icono_color_radio").addClass("fa fa-server");
+	$(".input_color_radio").attr("placeholder", texto+" Color");
 
 
+              /* *********LABEL*********** */
+			  var input_codigo_radio = $(".input_codigo_radio").attr("placeholder");
+			  $(".label_codigo_radio").text(input_codigo_radio);
+
+		  
+			  
+              /* *********LABEL*********** */
+			  var input_descripcion_radio = $(".input_descripcion_radio").attr("placeholder");
+			  $(".label_descripcion_radio").text(input_descripcion_radio);
+
+		  
+              /* *********LABEL*********** */
+			  var input_costo_radio = $(".input_costo_radio").attr("placeholder");
+			  $(".label_costo_radio").text(input_costo_radio);
+
+		  
+              /* *********LABEL*********** */
+			  var input_modelo_radio = $(".input_modelo_radio").attr("placeholder");
+			  $(".label_modelo_radio").text(input_modelo_radio);
+
+		  
+              /* *********LABEL*********** */
+			  var input_color_radio = $(".input_color_radio").attr("placeholder");
+			  $(".label_color_radio").text(input_color_radio);
+
+		  
  })
 
  
