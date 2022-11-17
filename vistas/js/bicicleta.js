@@ -6,6 +6,12 @@ $(document).ready(function(){
 	$(".input_id").removeAttr("required");
 
 	
+	$(".icono_fecha_adquisicion").addClass("fa  fa-calendar");
+    $(".input_fecha_adquisicion").attr("placeholder", texto+" Fecha de adquisición");
+
+	$(".input_codigo_bicicleta").attr("readonly","readonly");
+
+
 	$(".bicicleta_grupo_id_familia").empty();
 	$('.bicicleta_grupo_id_familia').append($('.s_familia_b'));
 	$(".bicicleta_grupo_id_tipo_bicicleta").empty();
@@ -47,6 +53,12 @@ $(document).ready(function(){
 
 
 
+	    /* *********LABEL*********** */
+		var input_fecha_adquisicion = $(".input_fecha_adquisicion").attr("placeholder");
+		$(".label_fecha_adquisicion").text(input_fecha_adquisicion);
+
+	
+
 	
               /* *********LABEL*********** */
 			  var input_codigo_bicicleta = $(".input_codigo_bicicleta").attr("placeholder");
@@ -73,16 +85,25 @@ $(document).ready(function(){
 			  var input_color_bicicleta = $(".input_color_bicicleta").attr("placeholder");
 			  $(".label_color_bicicleta").text(input_color_bicicleta);
 
+			  calendario02();
 		  
  })
 
  
 
+ function calendario02(){
+	$(".input_fecha_adquisicion").addClass("calendario");
+	$(".input_fecha_adquisicion").attr("fecha","fecha_adquisionb");
+	$(".input_fecha_adquisicion").attr("name"," ");
+
+}
 /*=============================================
 EDITAR 
 =============================================*/
 $(".tablas").on("click", ".btnEditarbicicleta", function(){
 
+	$("#editarfecha_adquisicion").attr("fecha","fecha_adquisionbe");
+	
 	
 	var idbicicleta = $(this).attr("idbicicleta");
 	
@@ -105,6 +126,22 @@ $(".tablas").on("click", ".btnEditarbicicleta", function(){
 			$("#editarid_tipo_bicicleta").val(respuesta["idtipobicicleta"]);
 			$("#editarmarca").val(respuesta["marca"]);
 			$("#editarnumero_serie").val(respuesta["numero_serie"]);
+
+			
+
+				
+			var dateNEW = respuesta["fecha_adquisicion"];
+			var date = new Date(dateNEW);
+			var year = date.toLocaleString("default", { year: "numeric" });
+			var month = date.toLocaleString("default", { month: "2-digit" });
+			var day = date.toLocaleString("default", { day: "2-digit" });
+			var formattedDate = day + "-" + month + "-" + year;
+
+			$("#editarfecha_adquisicion").val(formattedDate);
+			
+			$("#editarfecha_adquisicion2").val(respuesta["fecha_adquision"]);
+			$("#editarobservaciones").val(respuesta["observaciones"]);
+			$("#editarserie").val(respuesta["serie"]);
 
 
 

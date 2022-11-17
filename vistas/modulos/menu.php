@@ -206,12 +206,7 @@
 							<span>Transacciones Equipo</span>
 						</a>
 					</li>
-					<li>
-						<a href="uniforme">
-							<i class="fa fa-street-view"></i>
-							<span>Uniforme</span>
-						</a>
-					</li>
+				
 					<li>
 						<a href="transaccionespersonal">
 							<i class="fa fa-retweet"></i>

@@ -544,6 +544,18 @@
                         var newDate = dateNEW.split("-").reverse().join("-");
                         $(".oficial_nuevofecha_venceSPNC").val(newDate);
                     }
+                    else if(x=="fecha_adquision"){
+                        
+                        var dateNEW = $('.input_fecha_adquision').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".fecha_adquisiondate").val(newDate);
+                    }
+                    else if(x=="fecha_adquisionb"){
+                        
+                        var dateNEW = $('.input_fecha_adquisicion').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".fecha_adquisiondate").val(newDate);
+                    }
                 }
 
                 function formatofecha_editar(x){
@@ -647,6 +659,18 @@
                         var dateNEW = $('.editarfecha_venceSPNC').val();
                         var newDate = dateNEW.split("-").reverse().join("-");
                         $(".oficial_editarfecha_venceSPNC").val(newDate);
+                    }
+                    else if(x=="editarfecha_adquision"){
+                        
+                        var dateNEW = $('#editarfecha_adquision').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".efecha_adquisiondate").val(newDate);
+                    }
+                    else if(x=="fecha_adquisionbe"){
+                        
+                        var dateNEW = $('#editarfecha_adquisicion').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".fecha_adquisiondate").val(newDate);
                     }
                     
                 }

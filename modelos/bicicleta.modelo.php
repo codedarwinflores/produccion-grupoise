@@ -30,7 +30,7 @@ class Modelobicicleta{
 
 		if($item != null){
 
-			$stmt = Conexion::conectar()->prepare("SELECT tbl_bicicleta.id as idbicicleta, `id_familia`, `id_tipo_bicicleta`, `marca`, `numero_serie`,tbl_familia.id as idfamilia, tbl_familia.codigo as codigofamilia , tbl_familia.nombre as nombrefamilia , `correrlativo`,tbl_tipos_bicicleta.id as idtipobicicleta, tbl_tipos_bicicleta.codigo as codigotipobicicleta, tbl_tipos_bicicleta.nombre as nombretipobicicleta,codigo_bicicleta , descripcion_bicicleta, costo_bicicleta, modelo_bicicleta, color_bicicleta 
+			$stmt = Conexion::conectar()->prepare("SELECT tbl_bicicleta.id as idbicicleta, `id_familia`, `id_tipo_bicicleta`, `marca`, `numero_serie`,tbl_familia.id as idfamilia, tbl_familia.codigo as codigofamilia , tbl_familia.nombre as nombrefamilia , `correrlativo`,tbl_tipos_bicicleta.id as idtipobicicleta, tbl_tipos_bicicleta.codigo as codigotipobicicleta, tbl_tipos_bicicleta.nombre as nombretipobicicleta,codigo_bicicleta , descripcion_bicicleta, costo_bicicleta, modelo_bicicleta, color_bicicleta, fecha_adquisicion ,observaciones 
 			FROM `tbl_bicicleta`,tbl_tipos_bicicleta,tbl_familia
 			WHERE tbl_bicicleta.id_familia=tbl_familia.id  and tbl_bicicleta.id_tipo_bicicleta=tbl_tipos_bicicleta.id and tbl_bicicleta.id = :$item");
 
@@ -42,7 +42,7 @@ class Modelobicicleta{
 
 		}else{
 
-			$stmt = Conexion::conectar()->prepare("SELECT tbl_bicicleta.id as idbicicleta, `id_familia`, `id_tipo_bicicleta`, `marca`, `numero_serie`,tbl_familia.id as idfamilia, tbl_familia.codigo as codigofamilia , tbl_familia.nombre as nombrefamilia , `correrlativo`,tbl_tipos_bicicleta.id as idtipobicicleta, tbl_tipos_bicicleta.codigo as codigotipobicicleta, tbl_tipos_bicicleta.nombre as nombretipobicicleta,codigo_bicicleta , descripcion_bicicleta, costo_bicicleta, modelo_bicicleta, color_bicicleta 
+			$stmt = Conexion::conectar()->prepare("SELECT tbl_bicicleta.id as idbicicleta, `id_familia`, `id_tipo_bicicleta`, `marca`, `numero_serie`,tbl_familia.id as idfamilia, tbl_familia.codigo as codigofamilia , tbl_familia.nombre as nombrefamilia , `correrlativo`,tbl_tipos_bicicleta.id as idtipobicicleta, tbl_tipos_bicicleta.codigo as codigotipobicicleta, tbl_tipos_bicicleta.nombre as nombretipobicicleta,codigo_bicicleta , descripcion_bicicleta, costo_bicicleta, modelo_bicicleta, color_bicicleta , fecha_adquisicion ,observaciones 
 			FROM `tbl_bicicleta`,tbl_tipos_bicicleta,tbl_familia
 			WHERE tbl_bicicleta.id_familia=tbl_familia.id  and tbl_bicicleta.id_tipo_bicicleta=tbl_tipos_bicicleta.id");
 

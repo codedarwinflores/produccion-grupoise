@@ -46,6 +46,8 @@ function getContent() {
 
       <div class="box-body">
         
+      
+      <input type="text" value="" class="calendario" data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY" style="display: none;">
         
       <table class="table table-bordered table-striped dt-responsive tablas" width="100%">
          
@@ -64,6 +66,9 @@ function getContent() {
             <th>Costo</th>
             <th>Modelo</th>
             <th>Color </th>
+            
+            <th>Fecha de adquisición</th>
+            <th>Observaciones</th>
             <th>Acciones</th>
  
           </tr> 
@@ -91,7 +96,10 @@ function getContent() {
                    <td>'.$value["costo_equipo"].'</td>
                    <td>'.$value["modelo_equipo"].'</td>
                    <td>'.$value["color_equipo"].'</td>
-                   <td>'.$value["nombretipo"].'</td>';
+                   <td>'.$value["nombretipo"].'</td>
+                   
+                   <td>'.$value["fecha_adquisicion"].'</td>
+                   <td>'.$value["observaciones"].'</td>';
  
                   
  
@@ -159,6 +167,50 @@ MODAL AGREGAR
 
             <!-- ENTRADA PARA CAMPOS  -->
 
+            
+            <?php
+            
+            function ObtenerCorrelativo() {
+              global $nombretabla_clientes;
+              $query = "select codigo_equipo  from tbl_otros_equipos  order by id desc limit 1";
+              $sql = Conexion::conectar()->prepare($query);
+              $sql->execute();			
+              return $sql->fetchAll();
+            };
+
+          $correlativo="";
+           $data0 = ObtenerCorrelativo();
+           foreach($data0 as $row0) {
+            $numero = $row0['codigo_equipo'];
+            $quitarletra = substr($numero, 4);
+            $quitarceros = ltrim($quitarletra, "0"); 
+            $addnumber= $quitarceros+1;
+            $correlativo = sprintf("%04d",$addnumber);
+            
+            /* echo $correlativo; */
+            
+          }
+          if($correlativo == "")
+          {
+            $correlativo="0001";
+          }
+          $html="<script>";
+            $html.="$(document).ready(function(){";
+
+              $html .="var letra = 'DEMT';";
+              $html.="$('.input_codigo_equipo').val(letra+'".$correlativo."');";
+              
+            $html.="});";
+            $html.="</script>";
+            echo $html;
+        ?>
+
+            <!-- ************** -->
+
+
+
+
+
           <?php 
              $data = getContent();
              foreach($data as $row) {
@@ -191,10 +243,13 @@ MODAL AGREGAR
           ?>
              
 
+             <input type="hidden" name="nuevofecha_adquisicion" id="" class="fecha_adquisiondate">
+
+
           <input type="text" name="nuevoid_familia" class="input_id_familia_1" style="display: none;">
 
           <!-- *** -->
-          <div id="s_familia" class="dropdown-content  s_familia">
+          <div id="s_familia" class="dropdown-content  s_familia s_familia02">
           <?php
          $datos_mostrar = Controladorfamilia::ctrMostrar($item, $valor);
          foreach ($datos_mostrar as $key => $value){
@@ -320,10 +375,12 @@ MODAL EDITAR
              
 
 
+             <input type="hidden" name="editarfecha_adquisicion" id="editarfecha_adquisicion2" class="fecha_adquisiondate">
+
              <input type="text" name="editarid_familia" class="input_id_familia_1" style="display: none;" id="editarid_familia_1">
 
                     <!-- *** -->
-                    <div id="s_familia" class="dropdown-content  s_familia">
+                    <div id="s_familia" class="dropdown-content s_familia  s_familia02">
                     <?php
                     $datos_mostrar = Controladorfamilia::ctrMostrar($item, $valor);
                     foreach ($datos_mostrar as $key => $value){
@@ -335,7 +392,7 @@ MODAL EDITAR
                     <!-- *** -->
 
             
-          <div class="stipo_equipos">
+          <div class="stipo_equipose">
               <label for="">Seleccione Tipo de otro quipo</label>
              <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-users"></i></span>

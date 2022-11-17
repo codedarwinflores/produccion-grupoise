@@ -44,7 +44,9 @@ function getContent() {
       </div>
 
       <div class="box-body">
-        
+
+      <input type="text" value="" class="calendario" data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY" style="display: none;">
+
         
       <table class="table table-bordered table-striped dt-responsive tablas" width="100%">
          
@@ -56,6 +58,7 @@ function getContent() {
             
             <th>Familia</th>
             <th>Tipo Vehículo</th>
+            <th>Código</th>
             <th>Número Chasis</th>
             <th>Número Motor</th>
             <th>Capacidad</th>
@@ -66,9 +69,11 @@ function getContent() {
             <th>Año</th>
             <th>Placa</th>
             <th>Color</th>
-            <th>Código</th>
             <th>Descripción</th>
             <th>Costo</th>
+            <th>Fecha de adquisición</th>
+            <th>Observaciones</th>
+            <th>No Serie</th>
             <th>Acciones</th>
  
           </tr> 
@@ -90,6 +95,7 @@ function getContent() {
                    <td>'.($key+1).'</td>
                    <td>'.$value["nombrefamiliaoriginal"].'</td>
                    <td>'.$value["nombre_tipo"].'</td>
+                   <td>'.$value["codigo_vehiculo"].'</td>
                    <td>'.$value["numero_chasis"].'</td>
                    <td>'.$value["numero_motor"].'</td>
                    <td>'.$value["capacidad"].'</td>
@@ -100,9 +106,11 @@ function getContent() {
                    <td>'.$value["anio"].'</td>
                    <td>'.$value["placa"].'</td>
                    <td>'.$value["color"].'</td>
-                   <td>'.$value["codigo_vehiculo"].'</td>
                    <td>'.$value["descripcion_vehiculo"].'</td>
-                   <td>'.$value["costo_vehiculo"].'</td>';
+                   <td>'.$value["costo_vehiculo"].'</td>
+                   <td>'.$value["fecha_adquision"].'</td>
+                   <td>'.$value["observaciones"].'</td>
+                   <td>'.$value["serie"].'</td>';
  
                   
  
@@ -169,6 +177,44 @@ MODAL AGREGAR
           <div class="box-body">
 
             <!-- ENTRADA PARA CAMPOS  -->
+            <?php
+            
+            function ObtenerCorrelativo() {
+              global $nombretabla_clientes;
+              $query = "select codigo_vehiculo  from tbl_vehiculos  order by id desc limit 1";
+              $sql = Conexion::conectar()->prepare($query);
+              $sql->execute();			
+              return $sql->fetchAll();
+            };
+
+          $correlativo="";
+           $data0 = ObtenerCorrelativo();
+           foreach($data0 as $row0) {
+            $numero = $row0['codigo_vehiculo'];
+            $quitarletra = substr($numero, 4);
+            $quitarceros = ltrim($quitarletra, "0"); 
+            $addnumber= $quitarceros+1;
+            $correlativo = sprintf("%04d",$addnumber);
+            
+            /* echo $correlativo; */
+            
+          }
+          if($correlativo == "")
+          {
+            $correlativo="0001";
+          }
+          $html="<script>";
+            $html.="$(document).ready(function(){";
+
+              $html .="var letra = 'VEHI';";
+              $html.="$('.input_codigo_vehiculo').val(letra+'".$correlativo."');";
+              
+            $html.="});";
+            $html.="</script>";
+            echo $html;
+        ?>
+
+            <!-- ************** -->
 
           <?php 
              $data = getContent();
@@ -198,6 +244,9 @@ MODAL AGREGAR
           <?php
              }
           ?>
+
+            <input type="hidden" name="nuevofecha_adquision" id="" class="fecha_adquisiondate">
+
              
              <div class="" id="ntiene_logotipo">
               <label for="">¿Tiene Logotipo?</label>
@@ -353,6 +402,8 @@ MODAL EDITAR
              }
           ?>
 
+
+              <input type="hidden" name="editarfecha_adquision" id="editarfecha_adquision2" class="efecha_adquisiondate">
 
 
               <div id="etiene_logotipo">
@@ -546,15 +597,15 @@ $(document).ready(function(){
 
     /* ****NUVOS CAMPOS****** */
     $(".icono_codigo_vehiculo").addClass("fa fa-qrcode");
-    $(".input_codigo_vehiculo").attr("placeholder", texto+" Código Vehiculo");
+    $(".input_codigo_vehiculo").attr("placeholder", texto+" Código vehículo");
 
     
     $(".icono_descripcion_vehiculo").addClass("fa fa-spinner");
-    $(".input_descripcion_vehiculo").attr("placeholder", texto+" Descripción Vehiculo");
+    $(".input_descripcion_vehiculo").attr("placeholder", texto+" Descripción vehículo");
 
     /* editarcosto_vehiculo */
     $(".icono_costo_vehiculo").addClass("fa fa-money");
-    $(".input_costo_vehiculo").attr("placeholder", texto+" Costo Vehiculo");
+    $(".input_costo_vehiculo").attr("placeholder", texto+" Costo vehículo");
 	  $(".input_costo_vehiculo").get(0).type = 'number';
     $(".input_costo_vehiculo").attr("step", "0.01");
     /* **** */

@@ -6,6 +6,8 @@ $(document).ready(function(){
 	$(".input_id").removeAttr("required");;
 
 
+	$(".input_limite_credito").attr("step","any");
+
 
 	$(".icono_fecha_apertura").addClass("fa fa-calendar");
 	$(".input_fecha_apertura").addClass("calendario");

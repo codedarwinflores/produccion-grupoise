@@ -48,6 +48,16 @@ $(document).ready(function(){
 	$(".input_color_radio").attr("placeholder", texto+" Color");
 
 
+	$(".input_fecha_adquisicion").attr("placeholder", texto+" Fecha de adquisición");
+
+
+	
+              /* *********LABEL*********** */
+			  var input_fecha_adquisicion = $(".input_fecha_adquisicion").attr("placeholder");
+			  $(".label_fecha_adquisicion").text(input_fecha_adquisicion);
+
+		  
+
               /* *********LABEL*********** */
 			  var input_codigo_radio = $(".input_codigo_radio").attr("placeholder");
 			  $(".label_codigo_radio").text(input_codigo_radio);
@@ -73,16 +83,27 @@ $(document).ready(function(){
 			  var input_color_radio = $(".input_color_radio").attr("placeholder");
 			  $(".label_color_radio").text(input_color_radio);
 
-		  
+			  calendario03();
+
+			  $(".input_codigo_radio").addClass("readonly","readonly");
  })
 
  
+ 
+
+ function calendario03(){
+	$(".input_fecha_adquisicion").addClass("calendario");
+	$(".input_fecha_adquisicion").attr("fecha","fecha_adquisionb");
+	$(".input_fecha_adquisicion").attr("name"," ");
+
+}
 
 /*=============================================
 EDITAR 
 =============================================*/
 $(".tablas").on("click", ".btnEditarradio", function(){
 
+	$("#editarfecha_adquisicion").attr("fecha","fecha_adquisionbe");
 	
 	var idradio = $(this).attr("idradios");
 	
@@ -105,6 +126,24 @@ $(".tablas").on("click", ".btnEditarradio", function(){
 			$("#editarid_tipo_de_radio").val(respuesta["idtiporadio"]);
 			$("#editarmarca").val(respuesta["marca"]);
 			$("#editarnumero_serie").val(respuesta["numero_serie"]);
+
+				
+			var dateNEW = respuesta["fecha_adquisicion"];
+			var date = new Date(dateNEW);
+			var year = date.toLocaleString("default", { year: "numeric" });
+			var month = date.toLocaleString("default", { month: "2-digit" });
+			var day = date.toLocaleString("default", { day: "2-digit" });
+			var formattedDate = day + "-" + month + "-" + year;
+
+			$("#editarfecha_adquisicion").val(formattedDate);
+			
+			$("#editarfecha_adquisicion2").val(respuesta["fecha_adquision"]);
+			$("#editardescripcion_radio").val(respuesta["descripcion_radio"]);
+			$("#editarcosto_radio").val(respuesta["costo_radio"]);
+			$("#editarmodelo_radio").val(respuesta["modelo_radio"]);
+			$("#editarcolor_radio").val(respuesta["color_radio"]);
+			$("#editarobservaciones").val(respuesta["observaciones"]);
+			
 
 
 

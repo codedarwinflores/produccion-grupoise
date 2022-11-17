@@ -272,14 +272,17 @@ MODAL AGREGAR
      
               /*  $datos = array("".$row['Field']."" => $_POST["nuevo".$row['Field'].""]); */
            ?>
+           
+           <div class="form-group farmagrupo_<?php echo $row['Field'];?> "> </div>
+
             <div class="form-group grupo_<?php echo $row['Field'];?> armagrupo_<?php echo $row['Field'];?> <?php echo $row['Field'];?>">
-         <label for="" class="label_<?php echo $row['Field'];?>"></label> 
+              <label for="" class="label_<?php echo $row['Field'];?>"></label> 
               
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="icono_<?php echo $row['Field'];?>"></i></span> 
 
-                <input type="text" class="form-control input-lg input_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value="" autocomplete="off" required tabla_validar="tbl_armas" item_validar="codigo">
+                <input type="text" class="form-control input-lg input_<?php echo $row['Field'];?> armasinput_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value="" autocomplete="off" required tabla_validar="tbl_armas" item_validar="codigo">
 
               </div>
 
@@ -310,20 +313,20 @@ MODAL AGREGAR
 
             <div class="s_idtipoarma">
               <label for="">Seleccione Tipo Arma</label>
-            <div class="input-group ">
-                <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
-                <select name="nuevoid_tipo_arma" id="nuevoid_tipo_arma" class="form-control input-lg" required>
-                  <option value="">Seleccione Tipo Arma</option>
-                <?php
-                    $datos_mostrar = Controladortipoarmas::ctrMostrar($item, $valor);
-                    foreach ($datos_mostrar as $key => $value){
-                ?>
-                    <option value="<?php echo $value['id'] ?>" codigo="<?php echo $value['codigo'] ?>"><?php echo $value["nombre_tipo"] ?></option>  
-                <?php
-                    }
-                  ?>
-                </select>
-            </div>
+                <div class="input-group ">
+                    <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
+                    <select name="nuevoid_tipo_arma" id="nuevoid_tipo_arma" class="form-control input-lg" required>
+                      <option value="">Seleccione Tipo Arma</option>
+                    <?php
+                        $datos_mostrar = Controladortipoarmas::ctrMostrar($item, $valor);
+                        foreach ($datos_mostrar as $key => $value){
+                    ?>
+                        <option value="<?php echo $value['id'] ?>" codigo="<?php echo $value['codigo'] ?>"><?php echo $value["nombre_tipo"] ?></option>  
+                    <?php
+                        }
+                      ?>
+                    </select>
+                </div>
             </div>
 
         <div class="s_familia_arma">

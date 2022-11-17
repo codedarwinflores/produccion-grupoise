@@ -38,7 +38,7 @@ function tbl_tipos_de_armas() {
 		$stmt = null;
 	};
 
-			$correlativo_arma;
+			$correlativo_arma="";
 			$data01 = armas();
 			$quitarceros;
 			foreach($data01 as $row) {
@@ -59,6 +59,10 @@ function tbl_tipos_de_armas() {
 				 $correlativo_arma=$obtenercodigo.$correlativo_numero;
               
 	
+			}
+			if($correlativo_arma=="")
+			{
+				$correlativo_arma=$obtenercodigo."0001";
 			}
 
 	/* ****************** */

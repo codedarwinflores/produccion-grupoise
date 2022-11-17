@@ -45,6 +45,9 @@ function getContent() {
 
       <div class="box-body">
         
+      
+      <input type="text" value="" class="calendario" data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY" style="display: none;">
+        
         
       <table class="table table-bordered table-striped dt-responsive tablas" width="100%">
          
@@ -59,9 +62,12 @@ function getContent() {
             <th>Marca</th>
             <th>Número Serie</th>
             <th>Código</th>
+            <th>Descripción</th>
             <th>Costo</th>
             <th>Modelo</th>
             <th>Color</th>
+            <th>Fecha de adquisición</th>
+            <th>Observaciones</th>
             <th>Acciones</th>
  
           </tr> 
@@ -89,7 +95,9 @@ function getContent() {
                    <td>'.$value["descripcion_radio"].'</td>
                    <td>'.$value["costo_radio"].'</td>
                    <td>'.$value["modelo_radio"].'</td>
-                   <td>'.$value["color_radio"].'</td>';
+                   <td>'.$value["color_radio"].'</td>
+                   <td>'.$value["fecha_adquisicion"].'</td>
+                   <td>'.$value["observaciones"].'</td>';
  
                   
  
@@ -157,6 +165,50 @@ MODAL AGREGAR
 
             <!-- ENTRADA PARA CAMPOS  -->
 
+            
+            <?php
+            
+            function ObtenerCorrelativo() {
+              global $nombretabla_clientes;
+              $query = "select codigo_radio  from tbl_radios  order by id desc limit 1";
+              $sql = Conexion::conectar()->prepare($query);
+              $sql->execute();			
+              return $sql->fetchAll();
+            };
+
+          $correlativo="";
+           $data0 = ObtenerCorrelativo();
+           foreach($data0 as $row0) {
+            $numero = $row0['codigo_radio'];
+            $quitarletra = substr($numero, 4);
+            $quitarceros = ltrim($quitarletra, "0"); 
+            $addnumber= $quitarceros+1;
+            $correlativo = sprintf("%04d",$addnumber);
+            
+            /* echo $correlativo; */
+            
+          }
+          if($correlativo == "")
+          {
+            $correlativo="0001";
+          }
+          $html="<script>";
+            $html.="$(document).ready(function(){";
+
+              $html .="var letra = 'RADI';";
+              $html.="$('.input_codigo_radio').val(letra+'".$correlativo."');";
+              
+            $html.="});";
+            $html.="</script>";
+            echo $html;
+        ?>
+
+            <!-- ************** -->
+
+
+
+
+
           <?php 
              $data = getContent();
              foreach($data as $row) {
@@ -187,6 +239,7 @@ MODAL AGREGAR
           ?>
              
 
+             <input type="hidden" name="nuevofecha_adquisicion" id="" class="fecha_adquisiondate">
 
              <div class="s_familia_r">
               <label for="">Seleccione Familia</label>
@@ -319,6 +372,7 @@ MODAL EDITAR
           ?>
              
 
+             <input type="hidden" name="editarfecha_adquisicion" id="editarfecha_adquisicion2" class="fecha_adquisiondate">
              
              <div class="r_familia_editar">
               <label for="">Seleccione Familia</label>

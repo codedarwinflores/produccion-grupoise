@@ -6,7 +6,7 @@ $(document).ready(function(){
 	$(".input_id").removeAttr("required");
 
 
-
+	$(".armasinput_codigo").attr("readonly","readonly");
 
 	$(".grupo_tipo_matricula").empty();
 	$('.grupo_tipo_matricula').append($('.s_matricula_tipo'));
@@ -63,10 +63,10 @@ $(document).ready(function(){
 	$('.grupo_editar_id_empresa').append($('.s_idempresa_editar')); */
 
 	
-	$(".armagrupo_id_familia").empty();
-	$('.armagrupo_id_familia').append($('.s_familia'));
-	$(".grupo_editar_id_familia").empty();
-	$('.grupo_editar_id_familia').append($('.s_familia_editar'));
+	$(".farmagrupo_id_familia").empty();
+	$('.farmagrupo_id_familia').append($(".s_familia_arma"));
+/* 	$(".grupo_editar_id_familia").empty();
+	$('.grupo_editar_id_familia').append($('.s_familia_editar')); */
 
 
 	

@@ -187,6 +187,7 @@ MODAL AGREGAR
 
                               
                             $data0 = ObtenerCorrelativo();
+                            $correlativo="";
                             foreach($data0 as $row0) {
                               $numero = $row0['numero_transaccion_personal'];
                           
@@ -196,7 +197,13 @@ MODAL AGREGAR
                               $correlativo = sprintf("%09d",$addnumber);
                               
                               /* echo $correlativo; */
-                              $html="<script>";
+                              
+                            }
+                            if($correlativo==""){
+                              $correlativo = sprintf("%09d",1);
+
+                            }
+                            $html="<script>";
                               $html.="$(document).ready(function(){";
                                 $html.="$('.nuevonumero_transaccion_personal').val('".$correlativo."');";
                                 $html.="$('.editarnumero_transaccion_personal').val('".$correlativo."');";
@@ -204,7 +211,6 @@ MODAL AGREGAR
                               $html.="});";
                               $html.="</script>";
                               echo $html;
-                            }
                           ?>
 
                      <input type="hidden" name="nuevonumero_transaccion_personal" class="nuevonumero_transaccion_personal"/>

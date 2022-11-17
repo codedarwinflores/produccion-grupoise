@@ -452,6 +452,47 @@ $(".input_codigo_equipo").change(function(){
 })
 
 
+
+$(".familiainput_codigo").change(function(){
+
+	
+	$(".alert").remove();
+
+	var tabla_validar=$(this).attr("tabla_validar");
+	var item_validar=$(this).attr("item_validar");
+	var valor_validar = $(this).val();
+	
+	
+
+	
+	var datos = "tabla_validar="+tabla_validar+"&item_validar="+item_validar+ "&valor_validar="+valor_validar;
+
+	 $.ajax({
+	    url:"ajax/validar.ajax.php",
+	    method:"POST",
+	    data: datos,
+	    success:function(respuesta){
+	    	
+				/* alert(respuesta); */
+
+	    	if(respuesta=='"0"'){
+
+	    	}
+			else{
+				$(".familiainput_codigo").parent().after('<div class="alert alert-warning">Este Dato ya existe en la base de datos</div>');
+
+
+	    		$(".familiainput_codigo").val("");
+
+			}
+
+	    }
+
+	})
+})
+
+
+
 $(document).on('change', '#nuevoid_ubicacion_pu', function(event) {
 
 	
