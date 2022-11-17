@@ -45,6 +45,7 @@ function getContent() {
 
       <div class="box-body">
         
+      <input type="text" value="" class="calendario" data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY" style="display: none;">
         
       <table class="table table-bordered table-striped dt-responsive tablas" width="100%">
          
@@ -63,6 +64,8 @@ function getContent() {
             <th>Costo</th>
             <th>Modelo</th>
             <th>Color</th>
+            <th>Fecha de adquisición</th>
+            <th>Observaciones</th>
             <th>Acciones</th>
  
           </tr> 
@@ -91,7 +94,9 @@ function getContent() {
                    <td>'.$value["descripcion_bicicleta"].'</td>
                    <td>'.$value["costo_bicicleta"].'</td>
                    <td>'.$value["modelo_bicicleta"].'</td>
-                   <td>'.$value["color_bicicleta"].'</td>';
+                   <td>'.$value["color_bicicleta"].'</td>
+                   <td>'.$value["fecha_adquisicion"].'</td>
+                   <td>'.$value["observaciones"].'</td>';
  
                   
  
@@ -159,6 +164,47 @@ MODAL AGREGAR
 
             <!-- ENTRADA PARA CAMPOS  -->
 
+            <?php
+            
+            function ObtenerCorrelativo() {
+              global $nombretabla_clientes;
+              $query = "select codigo_bicicleta  from tbl_bicicleta  order by id desc limit 1";
+              $sql = Conexion::conectar()->prepare($query);
+              $sql->execute();			
+              return $sql->fetchAll();
+            };
+
+          $correlativo="";
+           $data0 = ObtenerCorrelativo();
+           foreach($data0 as $row0) {
+            $numero = $row0['codigo_bicicleta'];
+            $quitarletra = substr($numero, 4);
+            $quitarceros = ltrim($quitarletra, "0"); 
+            $addnumber= $quitarceros+1;
+            $correlativo = sprintf("%04d",$addnumber);
+            
+            /* echo $correlativo; */
+            
+          }
+          if($correlativo == "")
+          {
+            $correlativo="0001";
+          }
+          $html="<script>";
+            $html.="$(document).ready(function(){";
+
+              $html .="var letra = 'BICI';";
+              $html.="$('.input_codigo_bicicleta').val(letra+'".$correlativo."');";
+              
+            $html.="});";
+            $html.="</script>";
+            echo $html;
+        ?>
+
+            <!-- ************** -->
+
+
+
           <?php 
              $data = getContent();
              foreach($data as $row) {
@@ -185,6 +231,7 @@ MODAL AGREGAR
           ?>
              
 
+             <input type="hidden" name="nuevofecha_adquisicion" id="" class="fecha_adquisiondate">
 
              <div class="s_familia_b">
               <label for="">Seleccione Familia</label>
@@ -317,6 +364,7 @@ MODAL EDITAR
           <?php
              }
           ?>
+             <input type="hidden" name="editarfecha_adquisicion" id="editarfecha_adquisicion2" class="fecha_adquisiondate">
              
 
              <div class="s_familia_b_editar">

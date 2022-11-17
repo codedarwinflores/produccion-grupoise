@@ -39,6 +39,11 @@ $(document).ready(function(){
 	$(".equipogrupo_tipo_equipos").empty();
 	$(".eequipogrupo_tipo_equipos").empty();
 
+	
+
+	$(".equipogrupo_tipo_equipos").append($(".stipo_equipos"));
+	$(".eequipogrupo_tipo_equipos").append($(".stipo_equipose"));
+
 	/* *******nuevos campos** */
 
 	$(".icono_codigo_equipo").addClass("fa fa-qrcode");
@@ -97,11 +102,21 @@ $(document).ready(function(){
 			  var input_color_equipo = $(".input_color_equipo").attr("placeholder");
 			  $(".label_color_equipo").text(input_color_equipo);
 
+
+		  	$(".input_fecha_adquisicion").attr("placeholder", texto+" Fecha de adquisición");
+
+              /* *********LABEL*********** */
+			  var input_fecha_adquisicion = $(".input_fecha_adquisicion").attr("placeholder");
+			  $(".label_fecha_adquisicion").text(input_fecha_adquisicion);
+
+	calendario04();
+	$(".input_codigo_equipo").attr("readonly","readonly");
 		  
 
 
  })
 
+ 
  
  document.addEventListener("mouseup", function(event) {
     var obj = document.getElementById("s_familia");
@@ -111,11 +126,24 @@ $(document).ready(function(){
     else {
        
     }
+
 })
+
+
+function calendario04(){
+	$(".input_fecha_adquisicion").addClass("calendario");
+	$(".input_fecha_adquisicion").attr("fecha","fecha_adquisionb");
+	$(".input_fecha_adquisicion").attr("name"," ");
+
+}
+
+
+
 /*=============================================
 EDITAR 
 =============================================*/
 $(".tablas").on("click", ".btnEditarequipos", function(){
+	$("#editarfecha_adquisicion").attr("fecha","fecha_adquisionbe");
 
 	
 	var idequipos = $(this).attr("idequipos");
@@ -133,12 +161,31 @@ $(".tablas").on("click", ".btnEditarequipos", function(){
 		processData: false,
 		dataType: "json",
 		success: function(respuesta){
+			
 			$("#editarid").val(respuesta["idequipos"]);
 			$("#editarid_familia_1").val(respuesta["idfamilia"]);
 			$("#editarid_familia").val(respuesta["nombrefamilia"]);
 			$("#editardescripcion").val(respuesta["descripcion"]);
 			$("#editarnumero_serie").val(respuesta["numero_serie"]);
 			$("#editartipo_equipos").val(respuesta["tipo_equipos"]);
+
+				
+			var dateNEW = respuesta["fecha_adquisicion"];
+			var date = new Date(dateNEW);
+			var year = date.toLocaleString("default", { year: "numeric" });
+			var month = date.toLocaleString("default", { month: "2-digit" });
+			var day = date.toLocaleString("default", { day: "2-digit" });
+			var formattedDate = day + "-" + month + "-" + year;
+
+			$("#editarfecha_adquisicion").val(formattedDate);
+			$("#editarfecha_adquisicion2").val(respuesta["fecha_adquision"]);
+			$("#editarobservaciones").val(respuesta["observaciones"]);
+			$("#editardescripcion_equipo").val(respuesta["observaciones"]);
+			$("#editarcosto_equipo").val(respuesta["observaciones"]);
+			$("#editarmodelo_equipo").val(respuesta["observaciones"]);
+			$("#editarcolor_equipo").val(respuesta["observaciones"]);
+			$("#editarcodigo_equipo").val(respuesta["codigo_equipo"]);
+			
 
 
 

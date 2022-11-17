@@ -56,7 +56,7 @@ function getContent() {
             
             <th>Codigo</th>
             <th>Nombre</th>
-            <th>Correlativo</th>
+            <!-- <th>Correlativo</th> -->
             <th>Acciones</th>
  
           </tr> 
@@ -77,8 +77,7 @@ function getContent() {
            echo ' <tr>
                    <td>'.($key+1).'</td>
                    <td>'.$value["codigo"].'</td>
-                   <td>'.$value["nombre"].'</td>
-                   <td>'.$value["correrlativo"].'</td>';
+                   <td>'.$value["nombre"].'</td>';
  
                   
  
@@ -170,6 +169,47 @@ MODAL AGREGAR
              }
           ?>
              
+
+             
+                          <!-- ****** -->
+
+             
+                          <?php
+                
+                              function ObtenerCorrelativo() {
+                                $query = "select correrlativo from tbl_familia order by id desc limit 1";
+                                $sql = Conexion::conectar()->prepare($query);
+                                $sql->execute();			
+                                return $sql->fetchAll();
+                              };
+
+                              
+                            $data0 = ObtenerCorrelativo();
+                            $correlativo="";
+                            foreach($data0 as $row0) {
+                              $numero = $row0['correrlativo'];
+                          
+                              $addnumber= $numero+1;
+
+
+                              $correlativo = sprintf("%09d",$addnumber);
+                              
+                              /* echo $correlativo; */
+                              
+                            }
+                            if($correlativo==""){
+                              $correlativo = sprintf("%09d",1);
+
+                            }
+                            $html="<script>";
+                              $html.="$(document).ready(function(){";
+                                $html.="$('.input_correrlativo').val('".$correlativo."');";
+                                $html.="$('.editarnumero_transaccion_personal').val('".$correlativo."');";
+                              
+                              $html.="});";
+                              $html.="</script>";
+                              echo $html;
+                          ?>
 
 
 

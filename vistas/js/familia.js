@@ -3,7 +3,7 @@ $(document).ready(function(){
 
 	var  texto= "Ingresar";
 
-	$(".input_id").removeAttr("required");;
+	$(".input_id").removeAttr("required");
 
 	
 	$(".icono_correrlativo").addClass("fa fa-server");
@@ -11,6 +11,8 @@ $(document).ready(function(){
 
 	$(".ocultarf_correrlativo").attr("style","visibility:hidden");
 	$("#ocultarf_correrlativo").attr("style","visibility:hidden");
+	$(".input_correrlativo").removeAttr("required");
+
 
 	
               /* *********LABEL*********** */

@@ -30,7 +30,7 @@ class Modeloradio{
 
 		if($item != null){
 
-			$stmt = Conexion::conectar()->prepare("SELECT tbl_radios.id as idradios, tbl_radios.id_familia as idfamiliaradio  , `id_tipo_de_radio`, `marca`, `numero_serie` , tbl_familia.id as idfamilia, tbl_familia.nombre as nombrefamilia, tbl_tipos_de_radios.id as idtiporadio, tbl_tipos_de_radios.nombre as nombretiporadio, codigo_radio, descripcion_radio, costo_radio, modelo_radio, color_radio 
+			$stmt = Conexion::conectar()->prepare("SELECT tbl_radios.id as idradios, tbl_radios.id_familia as idfamiliaradio  , `id_tipo_de_radio`, `marca`, `numero_serie` , tbl_familia.id as idfamilia, tbl_familia.nombre as nombrefamilia, tbl_tipos_de_radios.id as idtiporadio, tbl_tipos_de_radios.nombre as nombretiporadio, codigo_radio, descripcion_radio, costo_radio, modelo_radio, color_radio ,fecha_adquisicion ,observaciones 
 			FROM `tbl_radios` , tbl_tipos_de_radios, tbl_familia
 			WHERE tbl_tipos_de_radios.id=tbl_radios.id_tipo_de_radio and tbl_radios.id_familia = tbl_familia.id and tbl_radios.id = :$item");
 
@@ -42,7 +42,7 @@ class Modeloradio{
 
 		}else{
 
-			$stmt = Conexion::conectar()->prepare("SELECT tbl_radios.id as idradios, tbl_radios.id_familia as idfamiliaradio  , `id_tipo_de_radio`, `marca`, `numero_serie` , tbl_familia.id as idfamilia, tbl_familia.nombre as nombrefamilia, tbl_tipos_de_radios.id as idtiporadio, tbl_tipos_de_radios.nombre as nombretiporadio, codigo_radio, descripcion_radio, costo_radio, modelo_radio, color_radio 
+			$stmt = Conexion::conectar()->prepare("SELECT tbl_radios.id as idradios, tbl_radios.id_familia as idfamiliaradio  , `id_tipo_de_radio`, `marca`, `numero_serie` , tbl_familia.id as idfamilia, tbl_familia.nombre as nombrefamilia, tbl_tipos_de_radios.id as idtiporadio, tbl_tipos_de_radios.nombre as nombretiporadio, codigo_radio, descripcion_radio, costo_radio, modelo_radio, color_radio  ,fecha_adquisicion ,observaciones 
 			FROM `tbl_radios` , tbl_tipos_de_radios, tbl_familia
 			WHERE tbl_tipos_de_radios.id=tbl_radios.id_tipo_de_radio and tbl_radios.id_familia = tbl_familia.id;");
 

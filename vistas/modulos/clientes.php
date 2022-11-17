@@ -223,28 +223,33 @@ MODAL AGREGAR
                 return $sql->fetchAll();
               };
 
-              
+            $correlativo="";
              $data0 = ObtenerCorrelativo();
              foreach($data0 as $row0) {
               $numero = $row0['codigo'];
               $quitarletra = substr($numero, 1);
               $quitarceros = ltrim($quitarletra, "0"); 
               $addnumber= $quitarceros+1;
-
-
               $correlativo = sprintf("%04d",$addnumber);
               
               /* echo $correlativo; */
-              $html="<script>";
+              
+            }
+            if($correlativo == "")
+            {
+              $correlativo="0001";
+            }
+            $html="<script>";
               $html.="$(document).ready(function(){";
+
                 $html .='$(".input_nombre").keydown(function(event){';
+
                 $html .="var letra = $(this).val().charAt(0);";
                 $html.="$('.input_codigo').val(letra+'".$correlativo."');";
                 $html.="});";
               $html.="});";
               $html.="</script>";
               echo $html;
-            }
           ?>
 
           <?php 
