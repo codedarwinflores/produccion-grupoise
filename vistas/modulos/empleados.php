@@ -368,7 +368,7 @@ MODAL AGREGAR EMPLEADO
             Tel&eacute;fono:            
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" data-inputmask="'mask':'9999-9999'" data-mask=""  class="form-control input-lg" name="nuevoTelefono" placeholder="Ingresar N&uacute;mero de Tel&eacute;fono" >
+                <input type="text"   class="form-control input-lg" name="nuevoTelefono" placeholder="Ingresar N&uacute;mero de Tel&eacute;fono" >
               </div>
           </div>
           <!-- ENTRADA PARA EL numero ISSS -->            
@@ -420,7 +420,7 @@ MODAL AGREGAR EMPLEADO
               
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
 
-                <input type="text" class="form-control input-lg" data-inputmask="'mask':'99999999-9'" data-mask="" name="nuevoNumeroDocumento" id="nuevoNumeroDocumento" placeholder="Ingresar n&uacute;mero documento identidad" required>
+                <input type="text" class="form-control input-lg"  name="nuevoNumeroDocumento" id="nuevoNumeroDocumento" placeholder="Ingresar n&uacute;mero documento identidad" required>
 
               </div>
 
@@ -465,7 +465,7 @@ MODAL AGREGAR EMPLEADO
             N&uacute;mero Licencia Conducir:             
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" class="form-control input-lg" data-inputmask="'mask':'9999-999999-999-9'" data-mask="" name="nuevoLicenciaConducir" placeholder="Ingresar N&uacute;mero de Licencia Conducir" >
+                <input type="text" class="form-control input-lg"  name="nuevoLicenciaConducir" placeholder="Ingresar N&uacute;mero de Licencia Conducir" >
               </div>
           </div>
 
@@ -500,7 +500,7 @@ MODAL AGREGAR EMPLEADO
           N&uacute;mero NIT:              
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" data-inputmask="'mask':'9999-999999-999-9'" data-mask=""   class="form-control input-lg" name="nuevoNumeroNIT" placeholder="Ingresar N&uacute;mero de NIT" >
+                <input type="text"    class="form-control input-lg" name="nuevoNumeroNIT" placeholder="Ingresar N&uacute;mero de NIT" >
               </div>
           </div>
           <!-- ENTRADA PARA SUBIR FOTO NIT-->
@@ -905,7 +905,7 @@ MODAL AGREGAR EMPLEADO
           N&uacute;mero de Tel&eacute;fono Trabajo Anterior:            
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" class="form-control input-lg telefono" name="nuevoNumeroTelTrabajoAnterior" placeholder="Ingresar N&uacute;mero de Tel&eacute;fono Trabajo Anterior" >
+                <input type="text" class="form-control input-lg"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" name="nuevoNumeroTelTrabajoAnterior" placeholder="Ingresar N&uacute;mero de Tel&eacute;fono Trabajo Anterior" >
               </div>
           </div>
           <!-- ENTRADA PARA TRABAJO ACTUAL-->            
@@ -1363,7 +1363,7 @@ MODAL EDITAR EMPLEADO
             N&uacute;mero de Tel&eacute;fono:             
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" data-inputmask="'mask':'9999-9999'" data-mask=""  class="form-control input-lg" id="editarNumeroTelefono" name="editarNumeroTelefono" value="" placeholder="Ingresar N&uacute;mero de Tel&eacute;fono">
+                <input type="text"   class="form-control input-lg" id="editarNumeroTelefono" name="editarNumeroTelefono" value="" placeholder="Ingresar N&uacute;mero de Tel&eacute;fono">
               </div>
             </div>
 
@@ -1408,7 +1408,7 @@ MODAL EDITAR EMPLEADO
               
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
 
-                <input type="text" class="form-control input-lg" data-inputmask="'mask':'99999999-9'" data-mask="" id="editarNumeroDocumento" name="editarNumeroDocumento" value="" required>
+                <input type="text" class="form-control input-lg"  id="editarNumeroDocumento" name="editarNumeroDocumento" value="" required>
 
               </div>
 
@@ -1455,7 +1455,7 @@ MODAL EDITAR EMPLEADO
             N&uacute;mero de Licencia de Conducir:             
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" data-inputmask="'mask':'9999-999999-999-9'" data-mask=""  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="editarNumeroLicenciaConducir" name="editarNumeroLicenciaConducir" value="" placeholder="Ingresar N&uacute;mero de Licencia de Conducir">
+                <input type="text"   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="editarNumeroLicenciaConducir" name="editarNumeroLicenciaConducir" value="" placeholder="Ingresar N&uacute;mero de Licencia de Conducir">
               </div>
             </div>
             <!-- ENTRADA PARA SELECCIONAR TIPO LICENCIA CONDUCIR -->
@@ -1490,7 +1490,7 @@ MODAL EDITAR EMPLEADO
             N&uacute;mero de NIT:             
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" data-inputmask="'mask':'9999-999999-999-9'" data-mask=""   class="form-control input-lg" id="editarNumeroNit" name="editarNumeroNit" value="" placeholder="Ingresar N&uacute;mero de NIT">
+                <input type="text"    class="form-control input-lg" id="editarNumeroNit" name="editarNumeroNit" value="" placeholder="Ingresar N&uacute;mero de NIT">
               </div>
             </div>
             <!-- ENTRADA PARA SUBIR NIT -->
@@ -1888,7 +1888,7 @@ MODAL EDITAR EMPLEADO
             N&uacute;mero de Tel&eacute;fono Trabajo Anterior:            
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" data-inputmask="'mask':'9999-9999'" data-mask=""  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="editarNumTelTrabajoAnterior" name="editarNumTelTrabajoAnterior" value="" placeholder="Ingresar N&uacute;mero de Tel&eacute;fono Trabajo Anterior">
+                <input type="text"   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="editarNumTelTrabajoAnterior" name="editarNumTelTrabajoAnterior" value="" placeholder="Ingresar N&uacute;mero de Tel&eacute;fono Trabajo Anterior">
               </div>
             </div>
             <!-- ENTRADA PARA TRABAJO ACTUAL-->            
