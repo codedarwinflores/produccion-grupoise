@@ -126,12 +126,26 @@ function imprimirOrden(divaimprimir)
 					<tr>
 						<td style="font-size: small;text-align: center;font-weight: 600;">Fotograf&iacute;a</td>
 					</tr>
-					<tr>
-						<td><img src="<?php echo  $img_empleado?>" style="width: 75px;height: 75px;" ></td>
-					</tr>
-					<tr>
-						<td><button class="btn btn-primary fotoaImprimir"  fotoaImprimir="<?php echo $img_empleado?>"  data-toggle="modal" data-target="#modalImprimir" style="width: 100%;"><i class="fa fa-print"> </i></button></td>
-					</tr>
+					<?php
+						if($img_empleado==""){
+							?>
+								<tr>
+									<td><img src="vistas/img/usuarios/default/anonymous.png" style="width: 75px;height: 75px;" ></td>
+								</tr>
+							<?php
+						}
+						else{
+							?>
+								<tr>
+									<td><img src="<?php echo  $img_empleado?>" style="width: 75px;height: 75px;" ></td>
+								</tr>
+								<tr>
+									<td><button class="btn btn-primary fotoaImprimir"  fotoaImprimir="<?php echo $img_empleado?>"  data-toggle="modal" data-target="#modalImprimir" style="width: 100%;"><i class="fa fa-print"> </i></button></td>
+								</tr>
+							<?php
+						}
+					?>
+					
 				</table>	
 			</div>
 			
@@ -140,12 +154,26 @@ function imprimirOrden(divaimprimir)
 					<tr>
 						<td style="font-size: small;text-align: center;font-weight: 600;">Documento</td>
 					</tr>
-					<tr>
-						<td><img src="<?php echo  $img_documento_identidad?>" style="width: 75px;height: 75px;" ></td>
-					</tr>
-					<tr>
-						<td><button class="btn btn-primary fotoaImprimir"  fotoaImprimir="<?php echo $img_documento_identidad?>"  data-toggle="modal" data-target="#modalImprimir" style="width: 100%;"><i class="fa fa-print"> </i></button></td>
-					</tr>
+					<?php
+						if($img_documento_identidad==""){
+							?>
+								<tr>
+									<td><img src="vistas/img/usuarios/default/anonymous.png" style="width: 75px;height: 75px;" ></td>
+								</tr>
+							<?php
+						}
+						else{
+							?>
+								<tr>
+									<td><img src="<?php echo  $img_documento_identidad?>" style="width: 75px;height: 75px;" ></td>
+								</tr>
+								<tr>
+									<td><button class="btn btn-primary fotoaImprimir"  fotoaImprimir="<?php echo $img_documento_identidad?>"  data-toggle="modal" data-target="#modalImprimir" style="width: 100%;"><i class="fa fa-print"> </i></button></td>
+								</tr>
+							<?php
+						}
+					?>
+					
 				</table>	
 			</div>
 			<div class="col-lg-2 col-xs-2" style="font-size: large;text-align: -webkit-center;">
@@ -153,12 +181,26 @@ function imprimirOrden(divaimprimir)
 					<tr>
 						<td style="font-size: small;text-align: center;font-weight: 600;">Licencia Conducir</td>
 					</tr>
-					<tr>
-						<td><img src="<?php echo  $img_licencia_conducir?>" style="width: 75px;height: 75px;" ></td>
-					</tr>
-					<tr>
-						<td><button class="btn btn-primary fotoaImprimir"  fotoaImprimir="<?php echo $img_licencia_conducir?>"  data-toggle="modal" data-target="#modalImprimir" style="width: 100%;"><i class="fa fa-print"> </i></button></td>
-					</tr>
+					<?php
+						if($img_licencia_conducir==""){
+							?>
+								<tr>
+									<td><img src="vistas/img/usuarios/default/anonymous.png" style="width: 75px;height: 75px;" ></td>
+								</tr>
+							<?php
+						}
+						else{
+							?>
+								<tr>
+									<td><img src="<?php echo  $img_licencia_conducir?>" style="width: 75px;height: 75px;" ></td>
+								</tr>
+								<tr>
+									<td><button class="btn btn-primary fotoaImprimir"  fotoaImprimir="<?php echo $img_licencia_conducir?>"  data-toggle="modal" data-target="#modalImprimir" style="width: 100%;"><i class="fa fa-print"> </i></button></td>
+								</tr>
+							<?php
+						}
+					?>
+					
 				</table>	
 			</div>
 			
@@ -167,12 +209,26 @@ function imprimirOrden(divaimprimir)
 					<tr>
 						<td style="font-size: small;text-align: center;font-weight: 600;">NIT</td>
 					</tr>
-					<tr>
-						<td><img src="<?php echo  $img_nit?>" style="width: 75px;height: 75px;" ></td>
-					</tr>
-					<tr>
-						<td><button class="btn btn-primary fotoaImprimir"  fotoaImprimir="<?php echo $img_nit?>"  data-toggle="modal" data-target="#modalImprimir" style="width: 100%;"><i class="fa fa-print"> </i></button></td>
-					</tr>
+					<?php
+						if($img_nit==""){
+							?>
+								<tr>
+									<td><img src="vistas/img/usuarios/default/anonymous.png" style="width: 75px;height: 75px;" ></td>
+								</tr>
+							<?php
+						}
+						else{
+							?>
+								<tr>
+									<td><img src="<?php echo  $img_nit?>" style="width: 75px;height: 75px;" ></td>
+								</tr>
+								<tr>
+									<td><button class="btn btn-primary fotoaImprimir"  fotoaImprimir="<?php echo $img_nit?>"  data-toggle="modal" data-target="#modalImprimir" style="width: 100%;"><i class="fa fa-print"> </i></button></td>
+								</tr>
+							<?php
+						}
+					?>
+					
 				</table>	
 			</div>
 
@@ -181,12 +237,26 @@ function imprimirOrden(divaimprimir)
 					<tr>
 						<td style="font-size: small;text-align: center;font-weight: 600;">Licencia TDA</td>
 					</tr>
-					<tr>
-						<td><img src="<?php echo  $img_licencia_tenencia_armas?>" style="width: 75px;height: 75px;" ></td>
-					</tr>
-					<tr>
-						<td><button class="btn btn-primary fotoaImprimir"  fotoaImprimir="<?php echo $img_licencia_tenencia_armas?>"  data-toggle="modal" data-target="#modalImprimir" style="width: 100%;"><i class="fa fa-print"> </i></button></td>
-					</tr>
+					<?php
+						if($img_licencia_tenencia_armas==""){
+							?>
+								<tr>
+									<td><img src="vistas/img/usuarios/default/anonymous.png" style="width: 75px;height: 75px;" ></td>
+								</tr>
+							<?php
+						}
+						else{
+							?>
+								<tr>
+									<td><img src="<?php echo  $img_licencia_tenencia_armas?>" style="width: 75px;height: 75px;" ></td>
+								</tr>
+								<tr>
+									<td><button class="btn btn-primary fotoaImprimir"  fotoaImprimir="<?php echo $img_licencia_tenencia_armas?>"  data-toggle="modal" data-target="#modalImprimir" style="width: 100%;"><i class="fa fa-print"> </i></button></td>
+								</tr>
+							<?php
+						}
+					?>
+					
 				</table>	
 			</div>
 			<div class="col-lg-2 col-xs-2" style="font-size: large;text-align: -webkit-center;">
@@ -194,12 +264,26 @@ function imprimirOrden(divaimprimir)
 					<tr>
 						<td style="font-size: small;text-align: center;font-weight: 600;">Diploma ANSP</td>
 					</tr>
-					<tr>
-						<td><img src="<?php echo  $img_diploma_ansp?>" style="width: 75px;height: 75px;"></td>
-					</tr>
-					<tr>
-						<td><button class="btn btn-primary fotoaImprimir"  fotoaImprimir="<?php echo $img_diploma_ansp?>"  data-toggle="modal" data-target="#modalImprimir" style="width: 100%;"><i class="fa fa-print"> </i></button></td>
-					</tr>
+					<?php
+						if($img_diploma_ansp==""){
+							?>
+								<tr>
+									<td><img src="vistas/img/usuarios/default/anonymous.png" style="width: 75px;height: 75px;" ></td>
+								</tr>
+							<?php
+						}
+						else{
+							?>
+								<tr>
+									<td><img src="<?php echo  $img_diploma_ansp?>" style="width: 75px;height: 75px;"></td>
+								</tr>
+								<tr>
+									<td><button class="btn btn-primary fotoaImprimir"  fotoaImprimir="<?php echo $img_diploma_ansp?>"  data-toggle="modal" data-target="#modalImprimir" style="width: 100%;"><i class="fa fa-print"> </i></button></td>
+								</tr>
+							<?php
+						}
+					?>
+					
 				</table>	
 			</div>
 			<hr>
@@ -212,12 +296,26 @@ function imprimirOrden(divaimprimir)
 					<tr>
 						<td style="font-size: small;text-align: center;font-weight: 600;">Solicitud</td>
 					</tr>
-					<tr>
-						<td><img src="<?php echo  $img_solicitud?>" style="width: 75px;height: 75px;" ></td>
-					</tr>
-					<tr>
-						<td><button class="btn btn-primary fotoaImprimir"  fotoaImprimir="<?php echo $img_solicitud?>"  data-toggle="modal" data-target="#modalImprimir" style="width: 100%;"><i class="fa fa-print"> </i></button></td>
-					</tr>
+					<?php
+						if($img_solicitud==""){
+							?>
+								<tr>
+									<td><img src="vistas/img/usuarios/default/anonymous.png" style="width: 75px;height: 75px;" ></td>
+								</tr>
+							<?php
+						}
+						else{
+							?>
+								<tr>
+									<td><img src="<?php echo  $img_solicitud?>" style="width: 75px;height: 75px;" ></td>
+								</tr>
+								<tr>
+									<td><button class="btn btn-primary fotoaImprimir"  fotoaImprimir="<?php echo $img_solicitud?>"  data-toggle="modal" data-target="#modalImprimir" style="width: 100%;"><i class="fa fa-print"> </i></button></td>
+								</tr>
+							<?php
+						}
+					?>
+					
 				</table>	
 			</div>
 			
@@ -226,12 +324,26 @@ function imprimirOrden(divaimprimir)
 					<tr>
 						<td style="font-size: small;text-align: center;font-weight: 600;">Partida Nac.</td>
 					</tr>
-					<tr>
-						<td><img src="<?php echo  $img_partida_nacimiento?>" style="width: 75px;height: 75px;" ></td>
-					</tr>
-					<tr>
-						<td><button class="btn btn-primary fotoaImprimir"  fotoaImprimir="<?php echo $img_partida_nacimiento?>"  data-toggle="modal" data-target="#modalImprimir" style="width: 100%;"><i class="fa fa-print"> </i></button></td>
-					</tr>
+					<?php
+						if($img_partida_nacimiento==""){
+							?>
+								<tr>
+									<td><img src="vistas/img/usuarios/default/anonymous.png" style="width: 75px;height: 75px;" ></td>
+								</tr>
+							<?php
+						}
+						else{
+							?>
+								<tr>
+									<td><img src="<?php echo  $img_partida_nacimiento?>" style="width: 75px;height: 75px;" ></td>
+								</tr>
+								<tr>
+									<td><button class="btn btn-primary fotoaImprimir"  fotoaImprimir="<?php echo $img_partida_nacimiento?>"  data-toggle="modal" data-target="#modalImprimir" style="width: 100%;"><i class="fa fa-print"> </i></button></td>
+								</tr>
+							<?php
+						}
+					?>
+					
 				</table>	
 			</div>
 			<div class="col-lg-2 col-xs-2" style="font-size: large;text-align: -webkit-center;">
@@ -239,12 +351,26 @@ function imprimirOrden(divaimprimir)
 					<tr>
 						<td style="font-size: small;text-align: center;font-weight: 600;">A. Penales</td>
 					</tr>
-					<tr>
-						<td><img src="<?php echo  $img_antecedentes_penales?>" style="width: 75px;height: 75px;" ></td>
-					</tr>
-					<tr>
-						<td><button class="btn btn-primary fotoaImprimir"  fotoaImprimir="<?php echo $img_antecedentes_penales?>"  data-toggle="modal" data-target="#modalImprimir" style="width: 100%;"><i class="fa fa-print"> </i></button></td>
-					</tr>
+					<?php
+						if($img_antecedentes_penales==""){
+							?>
+								<tr>
+									<td><img src="vistas/img/usuarios/default/anonymous.png" style="width: 75px;height: 75px;" ></td>
+								</tr>
+							<?php
+						}
+						else{
+							?>
+								<tr>
+									<td><img src="<?php echo  $img_antecedentes_penales?>" style="width: 75px;height: 75px;" ></td>
+								</tr>
+								<tr>
+									<td><button class="btn btn-primary fotoaImprimir"  fotoaImprimir="<?php echo $img_antecedentes_penales?>"  data-toggle="modal" data-target="#modalImprimir" style="width: 100%;"><i class="fa fa-print"> </i></button></td>
+								</tr>
+							<?php
+						}
+					?>
+					
 				</table>	
 			</div>
 			
@@ -253,12 +379,26 @@ function imprimirOrden(divaimprimir)
 					<tr>
 						<td style="font-size: small;text-align: center;font-weight: 600;">Solv. PNC</td>
 					</tr>
-					<tr>
-						<td><img src="<?php echo  $img_solvencia_pnc?>" style="width: 75px;height: 75px;" ></td>
-					</tr>
-					<tr>
-						<td><button class="btn btn-primary fotoaImprimir"  fotoaImprimir="<?php echo $img_solvencia_pnc?>"  data-toggle="modal" data-target="#modalImprimir" style="width: 100%;"><i class="fa fa-print"> </i></button></td>
-					</tr>
+					<?php
+						if($img_solvencia_pnc==""){
+							?>
+								<tr>
+									<td><img src="vistas/img/usuarios/default/anonymous.png" style="width: 75px;height: 75px;" ></td>
+								</tr>
+							<?php
+						}
+						else{
+							?>
+								<tr>
+									<td><img src="<?php echo  $img_solvencia_pnc?>" style="width: 75px;height: 75px;" ></td>
+								</tr>
+								<tr>
+									<td><button class="btn btn-primary fotoaImprimir"  fotoaImprimir="<?php echo $img_solvencia_pnc?>"  data-toggle="modal" data-target="#modalImprimir" style="width: 100%;"><i class="fa fa-print"> </i></button></td>
+								</tr>
+							<?php
+						}
+					?>
+					
 				</table>	
 			</div>
 
@@ -267,12 +407,26 @@ function imprimirOrden(divaimprimir)
 					<tr>
 						<td style="font-size: small;text-align: center;font-weight: 600;">C.Psicol&oacute;ogica</td>
 					</tr>
-					<tr>
-						<td><img src="<?php echo  $img_constancia_psico?>" style="width: 75px;height: 75px;" ></td>
-					</tr>
-					<tr>
-						<td><button class="btn btn-primary fotoaImprimir"  fotoaImprimir="<?php echo $img_constancia_psico?>"  data-toggle="modal" data-target="#modalImprimir" style="width: 100%;"><i class="fa fa-print"> </i></button></td>
-					</tr>
+					<?php
+						if($img_constancia_psico==""){
+							?>
+								<tr>
+									<td><img src="vistas/img/usuarios/default/anonymous.png" style="width: 75px;height: 75px;" ></td>
+								</tr>
+							<?php
+						}
+						else{
+							?>
+								<tr>
+									<td><img src="<?php echo  $img_constancia_psico?>" style="width: 75px;height: 75px;" ></td>
+								</tr>
+								<tr>
+									<td><button class="btn btn-primary fotoaImprimir"  fotoaImprimir="<?php echo $img_constancia_psico?>"  data-toggle="modal" data-target="#modalImprimir" style="width: 100%;"><i class="fa fa-print"> </i></button></td>
+								</tr>
+							<?php
+						}
+					?>
+					
 				</table>	
 			</div>
 			<div class="col-lg-2 col-xs-2" style="font-size: large;text-align: -webkit-center;">
@@ -280,12 +434,26 @@ function imprimirOrden(divaimprimir)
 					<tr>
 						<td style="font-size: small;text-align: center;font-weight: 600;">E.Poligr&aacute;afico</td>
 					</tr>
-					<tr>
-						<td><img src="<?php echo  $img_examen_pol?>" style="width: 75px;height: 75px;" ></td>
-					</tr>
-					<tr>
-						<td><button class="btn btn-primary fotoaImprimir"  fotoaImprimir="<?php echo $img_examen_pol?>"  data-toggle="modal" data-target="#modalImprimir" style="width: 100%;"><i class="fa fa-print"> </i></button></td>
-					</tr>
+					<?php
+						if($img_examen_pol==""){
+							?>
+								<tr>
+									<td><img src="vistas/img/usuarios/default/anonymous.png" style="width: 75px;height: 75px;" ></td>
+								</tr>
+							<?php
+						}
+						else{
+							?>
+								<tr>
+									<td><img src="<?php echo  $img_examen_pol?>" style="width: 75px;height: 75px;" ></td>
+								</tr>
+								<tr>
+									<td><button class="btn btn-primary fotoaImprimir"  fotoaImprimir="<?php echo $img_examen_pol?>"  data-toggle="modal" data-target="#modalImprimir" style="width: 100%;"><i class="fa fa-print"> </i></button></td>
+								</tr>
+							<?php
+						}
+					?>
+					
 				</table>	
 			</div>
 			
@@ -297,12 +465,26 @@ function imprimirOrden(divaimprimir)
 					<tr>
 						<td style="font-size: small;text-align: center;font-weight: 600;">Huellas Dig.</td>
 					</tr>
-					<tr>
-						<td><img src="<?php echo  $img_huellas?>" style="width: 75px;height: 75px;" ></td>
-					</tr>
-					<tr>
-						<td><button class="btn btn-primary fotoaImprimir"  fotoaImprimir="<?php echo $img_huellas?>"  data-toggle="modal" data-target="#modalImprimir" style="width: 100%;"><i class="fa fa-print"> </i></button></td>
-					</tr>
+					<?php
+						if($img_huellas==""){
+							?>
+								<tr>
+									<td><img src="vistas/img/usuarios/default/anonymous.png" style="width: 75px;height: 75px;" ></td>
+								</tr>
+							<?php
+						}
+						else{
+							?>
+								<tr>
+									<td><img src="<?php echo  $img_huellas?>" style="width: 75px;height: 75px;" ></td>
+								</tr>
+								<tr>
+									<td><button class="btn btn-primary fotoaImprimir"  fotoaImprimir="<?php echo $img_huellas?>"  data-toggle="modal" data-target="#modalImprimir" style="width: 100%;"><i class="fa fa-print"> </i></button></td>
+								</tr>
+							<?php
+						}
+					?>
+					
 				</table>	
 			</div>
 		</div>

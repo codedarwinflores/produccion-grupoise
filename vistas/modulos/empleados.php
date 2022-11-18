@@ -909,7 +909,7 @@ MODAL AGREGAR EMPLEADO
               </div>
           </div>
           <!-- ENTRADA PARA TRABAJO ACTUAL-->            
-          <div class="form-group"> 
+          <div class="form-group" style="display:none;"> 
           Nombre Trabajo Actual:             
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
@@ -1103,7 +1103,7 @@ MODAL AGREGAR EMPLEADO
 
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
 
-          <button type="submit" class="btn btn-primary">Guardar empleado</button>
+          <button type="submit" class="btn btn-primary" id="btnGuardarEmpleado">Guardar empleado</button>
 
         </div>
 
@@ -1892,7 +1892,7 @@ MODAL EDITAR EMPLEADO
               </div>
             </div>
             <!-- ENTRADA PARA TRABAJO ACTUAL-->            
-           <div class="form-group"> 
+           <div class="form-group" style="display:none;"> 
            Nombre Trabajo Actual:             
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 

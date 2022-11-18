@@ -1081,3 +1081,8 @@ $( ".fotoaImprimir" ).click(function() {
 	$(".previsualizarImagenaImprimir").attr("src", direccionFotoImprimir);
 
 });
+
+$( "#btnGuardarEmpleado" ).click(function() {	
+	document.getElementById("btnGuardarEmpleado").style.display = "none";
+
+});
