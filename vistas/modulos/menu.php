@@ -9,6 +9,12 @@
 		if($_SESSION["perfil"] == "Administrador"){
 
 			echo '
+			<li >			
+				<a href="inicio">
+					<i class="fa fa-home"></i>
+					<span>Inicio</span>
+				</a>
+			</li>
 			<li class="treeview">
 
 				<a href="#">
@@ -26,12 +32,7 @@
 				</a>
 
 				<ul class="treeview-menu">
-					<li class="active">			
-						<a href="inicio">
-							<i class="fa fa-home"></i>
-							<span>Inicio</span>
-						</a>
-					</li>
+					
 					<li>
 						<a href="usuarios">
 							<i class="fa fa-user"></i>
@@ -258,7 +259,7 @@
 				</ul>
 				
 			</li>
-			<li>
+			<li >
 					<a href="empleados">
 
 					<i class="fa fa fa-drivers-license-o"></i>

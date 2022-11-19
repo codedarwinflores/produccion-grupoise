@@ -1,10 +1,10 @@
-<div id="back"></div>
+
 
 <div class="login-box">
   
   <div class="login-logo">
 
-    <img src="vistas/img/plantilla/logo-blanco-bloque.png" class="img-responsive" style="max-width: 101%;">
+    <img src="vistas/img/plantilla/logo-blanco-lineal.png" class="img-responsive" style="max-width: 101%;">
 
   </div>
 
@@ -28,14 +28,11 @@
       
       </div>
 
-      <div class="row">
-       
-        <div class="col-xs-4">
-
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Ingresar</button>
-        
+      <div class="row">       
+        <div class="col-xs-12">
+          <button type="submit" class="btn btn-primary btn-block btn-flat">Ingresar</button>        
         </div>
-
+        <p class="login-box-msg" style=" margin-top: 65px;">Sistema Administrativo interno  Grupo ISE de Centroam&eacute;rica, todos los &#174; Derechos Reservados 2023 </p>
       </div>
 
       <?php
