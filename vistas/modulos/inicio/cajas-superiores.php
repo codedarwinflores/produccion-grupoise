@@ -458,7 +458,7 @@
   <hr style="border-color: #f6ae0f;margin-top: 0px;">
 </div>
 
-<div class="col-lg-6 col-xs-6">
+<div class="col-lg-3 col-xs-6">
 
   <div class="small-box " style="background-color: #222d32eb;color: #ffb002;">    
     <div class="inner">    
@@ -473,7 +473,7 @@
   </div>
 
 </div>
-<div class="col-lg-6 col-xs-6">
+<div class="col-lg-3 col-xs-6">
 
   <div class="small-box " style="background-color: #222d32eb;color: #ffb002;">    
     <div class="inner">    
@@ -494,7 +494,7 @@
   <hr style="border-color: #f6ae0f;margin-top: 0px;">
 </div>
 
-<div class="col-lg-6 col-xs-6">
+<div class="col-lg-3 col-xs-6">
 
   <div class="small-box " style="background-color: #2b2468;color: #ffb002;">    
     <div class="inner">    
@@ -509,7 +509,7 @@
   </div>
 
 </div>
-<div class="col-lg-6 col-xs-6">
+<div class="col-lg-3 col-xs-6">
 
   <div class="small-box " style="background-color: #2b2468;color: #ffb002;">    
     <div class="inner">    
@@ -530,7 +530,7 @@
   <hr style="border-color: #f6ae0f;margin-top: 0px;">
 </div>
 
-<div class="col-lg-6 col-xs-6">
+<div class="col-lg-3 col-xs-6">
 
   <div class="small-box " style="background-color: #222d32eb;color: #ffb002;">    
     <div class="inner">    
@@ -551,7 +551,7 @@
   <hr style="border-color: #f6ae0f;margin-top: 0px;">
 </div>
 
-<div class="col-lg-6 col-xs-6">
+<div class="col-lg-3 col-xs-6">
 
   <div class="small-box " style="background-color: #2b2468;color: #ffb002;">    
     <div class="inner">    
@@ -572,7 +572,7 @@
   <hr style="border-color: #f6ae0f;margin-top: 0px;">
 </div>
 
-<div class="col-lg-6 col-xs-6">
+<div class="col-lg-3 col-xs-6">
 
   <div class="small-box " style="background-color: #222d32eb;color: #ffb002;">    
     <div class="inner">    
