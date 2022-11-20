@@ -6,7 +6,7 @@ $obtenercodigo = $_POST["obtenercodigo"];
 
 function tbl_tipos_de_armas() {
 	global $obtenercodigo;
-	$query = "SELECT * FROM tbl_tipos_de_armas WHERE codigo='$obtenercodigo'";
+	$query = "SELECT * FROM clientes WHERE codigo='$obtenercodigo'";
 	$stmt = Conexion::conectar()->prepare($query);
 	$stmt->execute();			
 	return $stmt->fetchAll();
@@ -15,10 +15,10 @@ function tbl_tipos_de_armas() {
 	
 	$stmt = null;
 };
-		$id_tipo_arma;
+		$id_tipo;
 		$data = tbl_tipos_de_armas();
 		foreach($data as $row) {
-			$id_tipo_arma = $row["id"];
+			$id_tipo = $row["id"];
 
 		}
 
@@ -27,8 +27,8 @@ function tbl_tipos_de_armas() {
 
 
 	function armas() {
-		global $id_tipo_arma;
-		$query = "SELECT * FROM tbl_armas WHERE id_tipo_arma='$id_tipo_arma' order by id desc limit 1";
+		global $id_tipo;
+		$query = "SELECT * FROM tbl_clientes_ubicaciones WHERE id_cliente='$id_tipo' order by id desc limit 1";
 		$stmt = Conexion::conectar()->prepare($query);
 		$stmt->execute();			
 		return $stmt->fetchAll();
@@ -38,13 +38,13 @@ function tbl_tipos_de_armas() {
 		$stmt = null;
 	};
 
-			$correlativo_arma="";
+			$correlativo="";
 			$data01 = armas();
 			$quitarceros;
 			foreach($data01 as $row) {
-				$numero = $row["codigo"];
+				$numero = $row["codigo_ubicacion"];
 
-				$quitarletra = substr($numero, 4);
+				$quitarletra = substr($numero, 5);
               	$quitarceros = ltrim($quitarletra, "0"); 
 				
 				if($quitarceros=="")
@@ -56,18 +56,17 @@ function tbl_tipos_de_armas() {
 				}
 
              	 $correlativo_numero = sprintf("%04d",$addnumber);
-				 $correlativo_arma=$obtenercodigo.$correlativo_numero;
+				 $correlativo=$obtenercodigo.$correlativo_numero;
               
 	
 			}
-			if($correlativo_arma=="")
+			if($correlativo=="")
 			{
-				$correlativo_arma=$obtenercodigo."0001";
+				$correlativo=$obtenercodigo."0001";
 			}
 
 	/* ****************** */
-	$query = "SELECT * FROM tbl_armas WHERE id_tipo_arma='$id_tipo_arma' order by id desc limit 1";
-
-echo json_encode($correlativo_arma);
+	/* $query = "SELECT * FROM tbl_otros_equipos WHERE tipo_equipos='$id_tipo' order by id desc limit 1"; */
+echo json_encode($correlativo);
 
 

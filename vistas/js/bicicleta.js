@@ -143,6 +143,12 @@ $(".tablas").on("click", ".btnEditarbicicleta", function(){
 			$("#editarobservaciones").val(respuesta["observaciones"]);
 			$("#editarserie").val(respuesta["serie"]);
 
+			$("#editardescripcion_bicicleta").val(respuesta["descripcion_bicicleta"]);
+			$("#editarcosto_bicicleta").val(respuesta["costo_bicicleta"]);
+			$("#editarmodelo_bicicleta").val(respuesta["modelo_bicicleta"]);
+			$("#editarcolor_bicicleta").val(respuesta["color_bicicleta"]);
+
+
 
 
 		}

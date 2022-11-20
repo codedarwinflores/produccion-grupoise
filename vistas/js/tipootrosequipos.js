@@ -46,10 +46,8 @@ $(".tablas").on("click", ".btnEditartipootrosequipos", function(){
 		success: function(respuesta){
 			
 			$("#editarid").val(respuesta["id"]);
-			$("#editaroperador").val(respuesta["operador"]);
-			$("#editartipootrosequipos").val(respuesta["tipootrosequipos"]);
-			$("#editarIMEI").val(respuesta["IMEI"]);
-			$("#editartipootrosequipos_card").val(respuesta["tipootrosequipos_card"]);
+			$("#editarcodigo").val(respuesta["codigo"]);
+			$("#editarnombre").val(respuesta["nombre"]);
 
 
 

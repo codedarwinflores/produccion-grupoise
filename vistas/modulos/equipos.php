@@ -197,9 +197,9 @@ MODAL AGREGAR
           $html="<script>";
             $html.="$(document).ready(function(){";
 
-              $html .="var letra = 'DEMT';";
+              /* $html .="var letra = 'DEMT';";
               $html.="$('.input_codigo_equipo').val(letra+'".$correlativo."');";
-              
+               */
             $html.="});";
             $html.="</script>";
             echo $html;
@@ -260,18 +260,71 @@ MODAL AGREGAR
           </div>   
           <!-- *** -->
 
+          <script>
+
+              /* ****ASIGNAR CODIGO SEGUN TIPO  */
+              $(document).on('change', '#nuevotipo_equipos', function(event) {
+                   var obtenercodigo = $("#nuevotipo_equipos option:selected").attr("codigo");
+                   
+                   /* *** */
+                   
+                        var datos = "obtenercodigo="+obtenercodigo;
+
+                        $.ajax({
+                          url:"ajax/code_tipoequipo.ajax.php",
+                          method:"POST",
+                          data: datos,
+                          success:function(respuesta){
+                          
+                            /* alert(respuesta.replace(/["']/g, "")); */
+                            /* alert(respuesta); */
+                            $(".input_codigo_equipo").val(respuesta.replace(/["']/g, ""));
+                          }
+
+                        })
+                 /* *** */
+              });
+              /* ********* */
+
+              
+
+              /* ****ASIGNAR CODIGO SEGUN TIPO  */
+              $(document).on('change', '#editartipo_equipos', function(event) {
+                   var obtenercodigo = $("#editartipo_equipos option:selected").attr("codigo");
+                   
+                   /* *** */
+                   
+                        var datos = "obtenercodigo="+obtenercodigo;
+
+                        $.ajax({
+                          url:"ajax/code_tipoequipo.ajax.php",
+                          method:"POST",
+                          data: datos,
+                          success:function(respuesta){
+                          
+                            /* alert(respuesta.replace(/["']/g, "")); */
+                            /* alert(respuesta); */
+                            $(".input_codigo_equipo").val(respuesta.replace(/["']/g, ""));
+                          }
+
+                        })
+                 /* *** */
+              });
+              /* ********* */
+          </script>
+
           
           <div class="stipo_equipos">
-              <label for="">Seleccione Tipo de otro quipo</label>
+              <label for="">Seleccione Tipo de otro equipo</label>
              <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-users"></i></span>
-                <select name="nuevotipo_equipos" id="" class="form-control input-lg" required>
-                  <option value="">Seleccione Tipo de otro quipo</option>
+                <select name="nuevotipo_equipos" id="nuevotipo_equipos" class="form-control input-lg" required>
+                  <option value="">Seleccione Tipo de otro equipo</option>
                 <?php
                     $datos_mostrar = Controladortipootrosequipos::ctrMostrar($item, $valor);
                     foreach ($datos_mostrar as $key => $value){
                 ?>
-                    <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>  
+                    <option value="<?php echo $value['id'] ?>" codigo="<?php echo $value['codigo'] ?>"><?php echo $value['nombre'] ?></option>  
                 <?php
                     }
                   ?>
@@ -393,16 +446,16 @@ MODAL EDITAR
 
             
           <div class="stipo_equipose">
-              <label for="">Seleccione Tipo de otro quipo</label>
+              <label for="">Seleccione Tipo de otro equipo</label>
              <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-users"></i></span>
                 <select name="editartipo_equipos" id="editartipo_equipos" class="form-control input-lg" required>
-                  <option value="">Seleccione Tipo de otro quipo</option>
+                  <option value="">Seleccione Tipo de otro equipo</option>
                 <?php
                     $datos_mostrar = Controladortipootrosequipos::ctrMostrar($item, $valor);
                     foreach ($datos_mostrar as $key => $value){
                 ?>
-                    <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>  
+                    <option value="<?php echo $value['id'] ?>" codigo="<?php echo $value['codigo'] ?>"><?php echo $value['nombre'] ?></option>  
                 <?php
                     }
                   ?>

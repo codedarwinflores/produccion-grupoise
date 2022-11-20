@@ -5,6 +5,9 @@ $(document).ready(function(){
 
 	$(".input_id").removeAttr("required");
 
+
+
+
 	
 	$(".grupo_id_familia").empty();
 	$('.grupo_id_familia').append($('.s_familia_r'));
@@ -85,7 +88,7 @@ $(document).ready(function(){
 
 			  calendario03();
 
-			  $(".input_codigo_radio").addClass("readonly","readonly");
+			  $(".input_codigo_radio").attr("readonly","readonly");
  })
 
  
@@ -143,6 +146,7 @@ $(".tablas").on("click", ".btnEditarradio", function(){
 			$("#editarmodelo_radio").val(respuesta["modelo_radio"]);
 			$("#editarcolor_radio").val(respuesta["color_radio"]);
 			$("#editarobservaciones").val(respuesta["observaciones"]);
+			$("#editarcodigo_radio").val(respuesta["codigo_radio"]);
 			
 
 

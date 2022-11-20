@@ -263,21 +263,7 @@ MODAL EDITAR
           <?php
              }
           ?>
-           <div id="editaroperadordiv">
-             <label for="" class="">Seleccione Operador</label> 
-            
-             <div class="input-group" id="">
-              <span class="input-group-addon"><i class="fa fa-server"></i></span> 
-              <select name="editaroperador" id="editaroperador" class="form-control input-lg" required>
-                <option value="">Seleccione Operador</option>
-                <option value="Tigo">Tigo</option>
-                <option value="Digicel">Digicel</option>
-                <option value="Claro">Claro</option>
-                <option value="Movistar">Movistar</option>
-              </select>
-             </div>
-           </div>
-
+           
 
 
           </div>

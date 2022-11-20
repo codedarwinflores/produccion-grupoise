@@ -182,6 +182,7 @@ MODAL AGREGAR
             <!-- *************************** -->
 
             <script>
+              /* ****ASIGNAR CODIGO SEGUN TIPO DE ARMA */
               $(document).on('change', '#nuevoid_tipo_arma', function(event) {
                    var obtenercodigo = $("#nuevoid_tipo_arma option:selected").attr("codigo");
                    
@@ -203,6 +204,32 @@ MODAL AGREGAR
                         })
                  /* *** */
               });
+
+              /* ************** */
+
+              /* ****ASIGNAR CODIGO SEGUN TIPO DE ARMA */
+              $(document).on('change', '#editarid_tipo_arma', function(event) {
+                   var obtenercodigo = $("#editarid_tipo_arma option:selected").attr("codigo");
+                   
+                   /* *** */
+                   
+                        var datos = "obtenercodigo="+obtenercodigo;
+
+                        $.ajax({
+                          url:"ajax/code_armas.ajax.php",
+                          method:"POST",
+                          data: datos,
+                          success:function(respuesta){
+                          
+                            /* alert(respuesta.replace(/["']/g, "")); */
+                            /* alert(respuesta); */
+                            $(".input_codigo").val(respuesta.replace(/["']/g, ""));
+                          }
+
+                        })
+                 /* *** */
+              });
+              /* ********* */
 
               $(document).on('change', '#nuevotipo_municion', function(event) {
                    var otro = $("#nuevotipo_municion option:selected").val();
@@ -371,8 +398,7 @@ MODAL AGREGAR
                         <option value="38mm">38mm</option>  
                         <option value="45mm">45mm</option>  
                         <option value="3.57mm">3.57mm</option>  
-                        <option value="5.56mm">5.56mm</option>  
-                        <option value="7.62mm">7.62mm</option> 
+                        <option value="7.62mm">7.62mm</option>  
                         <option value="otros">otros</option>
                     </select>
                     <input type="text" class="form-control input-lg " id="texto_tipomunicion" style="display: none;">
@@ -542,7 +568,7 @@ MODAL EDITAR
             </div>
 
             <div class="s_familia_editar">
-            <label for="" class="">Seleccione Tipo Arma</label> 
+            <label for="" class="">Seleccione Familia</label> 
               
                 <div class="input-group ">
                     <span class="input-group-addon"><i class="fa fa-users"></i></span>
@@ -585,8 +611,7 @@ MODAL EDITAR
                     <option value="22mm">22mm</option>  
                     <option value="38mm">38mm</option>  
                     <option value="45mm">45mm</option>  
-                    <option value="3.57mm">3.57mm</option>
-                    <option value="5.56mm">5.56mm</option>    
+                    <option value="3.57mm">3.57mm</option>  
                     <option value="7.62mm">7.62mm</option>  
                     <option value="otros">otros</option>
                 </select>

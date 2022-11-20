@@ -113,7 +113,7 @@ function getContent() {
                    <td>'.$value["id_cliente"].'</td>
                    <td>'.$value["nombrecliente"].'</td>
                    <td>'.$value["codigo_cliente"].'</td>
-                   <td>'.$value["codigo_cliente"].$value["codigo_ubicacion"].'</td>
+                   <td>'.$value["codigo_ubicacion"].'</td>
                    <td>'.$value["facturar"].'</td>
                    <td>'.$value["id_coordinador_zona"].'</td>
                    <td>'.$value["nombre_ubicacion"].'</td>
@@ -224,29 +224,64 @@ MODAL AGREGAR
                   return $sql->fetchAll();
                 };
 
-                
-              $data0 = ObtenerCorrelativo();
-              foreach($data0 as $row0) {
-                $numero = $row0['codigo_ubicacion'];
-                $addnumber= $numero+1;
-                $correlativo = sprintf("%03d",$addnumber);
-                
-                /* echo $correlativo; */
-                $html="<script>";
-                $html.="$(document).ready(function(){";
-                $html .="$(document).on('change', '.ubicacioncid_cliente', function(event) {";
-                $html .='var letra = $(".ubicacioncid_cliente option:selected").attr("codigo");';
-                $html.="$('.ubicacioninput_codigo_ubicacion').val(letra+'".$correlativo."');";
-                $html.="$('.ncodigo_ubicacion').val('".$correlativo."');";
-                $html.="});";
-              $html.="});";
-              $html.="</script>";
-              echo $html;
-              }
+
+              /* **** */
             ?>
 
-              <input type="hidden" name="nuevocodigo_ubicacion" class="ncodigo_ubicacion">
-<!-- ****** -->
+            <script>
+              
+              /* ****ASIGNAR CODIGO SEGUN TIPO DE ARMA */
+              $(document).on('change', '#infocliente', function(event) {
+                   var obtenercodigo = $("#infocliente option:selected").attr("codigo");
+                   
+                   /* *** */
+                   
+                        var datos = "obtenercodigo="+obtenercodigo;
+
+                        $.ajax({
+                          url:"ajax/code_cliente.ajax.php",
+                          method:"POST",
+                          data: datos,
+                          success:function(respuesta){
+                          
+                            /* alert(respuesta.replace(/["']/g, "")); */
+                            /* alert(respuesta); */
+                            $(".ubicacioninput_codigo_ubicacion").val(respuesta.replace(/["']/g, ""));
+                          }
+
+                        })
+                 /* *** */
+              });
+              /* ********* */
+
+              
+              
+              /* ****ASIGNAR CODIGO SEGUN TIPO DE ARMA */
+              $(document).on('change', '#editarid_cliente', function(event) {
+                   var obtenercodigo = $("#editarid_cliente option:selected").attr("codigo");
+                   
+                   /* *** */
+                   
+                        var datos = "obtenercodigo="+obtenercodigo;
+
+                        $.ajax({
+                          url:"ajax/code_cliente.ajax.php",
+                          method:"POST",
+                          data: datos,
+                          success:function(respuesta){
+                          
+                            /* alert(respuesta.replace(/["']/g, "")); */
+                            /* alert(respuesta); */
+                            $("#editarcodigo_ubicacion").val(respuesta.replace(/["']/g, ""));
+                          }
+
+                        })
+                 /* *** */
+              });
+              /* ********* */
+
+
+            </script>
 
         <!-- ***************************** -->
 
@@ -474,22 +509,45 @@ MODAL AGREGAR
              <input type="text" name="nuevofecha_ultimo_inventario" class="nuevoubicacionfechaultimo" placeholder="fecha_ultimo" style="display: none;">
 
              <div class="ubicacionc_s_cliente">
-              <label for="">Seleccione Cliente</label>
-             <div class="input-group ">
-                <span class="input-group-addon"><i class="fa fa-users"></i></span>
-                <select name="nuevoid_cliente" id="infocliente" class="form-control input-lg ubicacioncid_cliente" required>
-                  <option value="">Seleccione Cliente</option>
-                <?php
-                    $datos_mostrar = Controladorclientes::ctrMostrar($item, $valor);
-                    foreach ($datos_mostrar as $key => $value){
-                ?>
-                    <option value="<?php echo $value['clienteid'] ?>" codigo="<?php echo $value['clientecodigo'] ?>"><?php echo $value['clienteid'] ?> - <?php echo $value["clientenombre"] ?></option>  
-                <?php
-                    }
-                  ?>
-                </select>
+                <label for="">Seleccione Cliente</label>
+                <div class="input-group ">
+                    <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                    <select name="nuevoid_cliente" id="infocliente" class="form-control input-lg ubicacioncid_cliente mi-selector" required>
+                      <option value="">Seleccione Cliente</option>
+                    <?php
+                        $datos_mostrar = Controladorclientes::ctrMostrar($item, $valor);
+                        foreach ($datos_mostrar as $key => $value){
+                    ?>
+                        <option value="<?php echo $value['clienteid'] ?>" codigo="<?php echo $value['clientecodigo'] ?>"><?php echo $value['clienteid'] ?> - <?php echo $value["clientenombre"] ?></option>  
+                    <?php
+                        }
+                      ?>
+                    </select>
+                </div>
             </div>
+
+            <!-- ***************** -->
+
+            
+            <div class="facturar_cliente">
+                <label for="">Facturar a:</label>
+                <div class="input-group ">
+                    <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                    <select name="nuevofacturar" id="nuevofacturar" class="form-control input-lg mi-selector" required>
+                      <option value="">Seleccione Cliente</option>
+                    <?php
+                        $datos_mostrar = Controladorclientes::ctrMostrar($item, $valor);
+                        foreach ($datos_mostrar as $key => $value){
+                    ?>
+                        <option value="<?php echo $value['clienteid'] ?> - <?php echo $value["clientenombre"] ?>"><?php echo $value['clienteid'] ?> - <?php echo $value["clientenombre"] ?></option>  
+                    <?php
+                        }
+                      ?>
+                    </select>
+                </div>
             </div>
+
+            <!-- ****************** -->
 
              <div class="ubicacionc_s_depa">
               <label for="">Seleccione Departamento</label>
@@ -596,12 +654,12 @@ MODAL EDITAR
                 
               $data0 = ObtenerCorrelativo();
               foreach($data0 as $row0) {
-                $numero = $row0['codigo_ubicacion'];
+                /* $numero = $row0['codigo_ubicacion'];
                 $addnumber= $numero+1;
                 $correlativo = sprintf("%03d",$addnumber);
-                
+                 */
                 /* echo $correlativo; */
-                $html="<script>";
+                /* $html="<script>";
                 $html.="$(document).ready(function(){";
                 $html .="$(document).on('change', '#editarid_cliente', function(event) {";
                 $html .='var letra = $("#editarid_cliente option:selected").attr("codigo");';
@@ -610,7 +668,7 @@ MODAL EDITAR
                 $html.="});";
               $html.="});";
               $html.="</script>";
-              echo $html;
+              echo $html; */
               }
             ?>
 
@@ -839,7 +897,7 @@ MODAL EDITAR
 
              <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-users"></i></span>
-                <select name="editarid_cliente" id="editarid_cliente" class="form-control input-lg ubicacioncid_cliente" required>
+                <select name="editarid_cliente" id="editarid_cliente" class="form-control input-lg ubicacioncid_cliente mi-selector" required>
                   <option value="">Seleccione Cliente</option>
                 <?php
                     $datos_mostrar = Controladorclientes::ctrMostrar($item, $valor);
@@ -852,6 +910,33 @@ MODAL EDITAR
                 </select>
             </div>
             </div>
+
+            
+
+            <!-- ***************** -->
+
+            
+            <div class="efacturar_cliente">
+                <label for="">Facturar a:</label>
+                <div class="input-group ">
+                    <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                    <select name="editarfacturar" id="editarfacturar" class="form-control input-lg " required>
+                      <option value="">Seleccione Cliente</option>
+                    <?php
+                        $datos_mostrar = Controladorclientes::ctrMostrar($item, $valor);
+                        foreach ($datos_mostrar as $key => $value){
+                    ?>
+                        <option value="<?php echo $value['clienteid'] ?> - <?php echo $value["clientenombre"] ?>"><?php echo $value['clienteid'] ?> - <?php echo $value["clientenombre"] ?></option>  
+                    <?php
+                        }
+                      ?>
+                    </select>
+                </div>
+            </div>
+
+            <!-- ****************** -->
+
+
 
              <div class="eubicacionc_s_depa">
             <label for="">Seleccione Departamento</label>

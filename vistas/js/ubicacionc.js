@@ -278,9 +278,14 @@ $(document).ready(function(){
 			  $(".eubicacioncgrupo_rubro").append($("#esnuevorubro"));
 			  $(".ubicacioncgrupo_zonaubicacion").empty();
 			  $(".eubicacioncgrupo_zonaubicacion").empty();
-			  $(".ubicacioninput_codigo_ubicacion").attr("name"," ");
+/* 			  $(".ubicacioninput_codigo_ubicacion").attr("name"," ");
+ */
 
-
+			  $(".ubicacioncgrupo_facturar").empty();
+			  $(".ubicacioncgrupo_facturar").append($(".facturar_cliente"));
+			  $(".eubicacioncgrupo_facturar").empty();
+			  $(".eubicacioncgrupo_facturar").append($(".efacturar_cliente"));
+			  $(".ubicacioninput_telefono_contacto").addClass("telefono");
 
  })
 
@@ -516,9 +521,10 @@ $(".tablas").on("click", ".btnEditarubicacionc", function(){
 
 
 			
+			$(".select2-selection__rendered").text(respuesta["idcliente"]+" - "+respuesta["nombrecliente"])
 	/* ********** */
 	$("#editarcodigo_ubicacion2").val(respuesta["codigo_ubicacion"]);
-	$("#editarcodigo_ubicacion").val(respuesta["codigo_cliente"]+respuesta["codigo_ubicacion"]);
+	$("#editarcodigo_ubicacion").val(respuesta["codigo_ubicacion"]);
 
 
 	$("#editarbono_horas").val(respuesta["bono_horas"]);
