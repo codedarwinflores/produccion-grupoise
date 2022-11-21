@@ -32,6 +32,8 @@ $(document).ready(function(){
               /* *********LABEL*********** */
 			  var input_serie = $(".input_serie").attr("placeholder");
 			  $(".label_serie").text(input_serie);
+
+			  $(".input_fecha_adquision").attr("readonly","readonly");
 		  
 
 });

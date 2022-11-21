@@ -111,6 +111,7 @@ $(document).ready(function(){
 
 	calendario04();
 	$(".input_codigo_equipo").attr("readonly","readonly");
+	$(".input_fecha_adquisicion").attr("readonly","readonly");
 		  
 
 

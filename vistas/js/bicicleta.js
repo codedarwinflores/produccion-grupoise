@@ -86,6 +86,8 @@ $(document).ready(function(){
 			  $(".label_color_bicicleta").text(input_color_bicicleta);
 
 			  calendario02();
+			  $(".input_fecha_adquisicion").attr("readonly","readonly");
+
 		  
  })
 
