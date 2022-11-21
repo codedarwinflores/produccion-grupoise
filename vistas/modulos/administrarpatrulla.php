@@ -92,6 +92,25 @@ function recagar(){
 
       $("#campos").html(respuesta);
 
+      var table = $('.tablas').DataTable();
+      
+      $(".dataTables_filter").empty();
+      
+          // captura el evento keyup cuando escribes en el input
+    $(".busqueda_input").keyup(function(){
+        _this = this;
+        // Muestra los tr que concuerdan con la busqueda, y oculta los demás.
+        $.each($(".tablas tbody tr"), function() {
+            if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
+               $(this).hide();
+            else
+               $(this).show();                
+        });
+    }); 
+
+
+
+
     }
     });
 }
@@ -105,7 +124,6 @@ function recagar(){
 </script>
 <div class="content-wrapper">
 
- 
 
   <section class="content">
 
@@ -113,11 +131,18 @@ function recagar(){
 
       <div class="box-header with-border">
   
-        <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregaradministrarpatrulla">
-          
-          Agregar Ubicación
-
-        </button>
+        <div class="row">
+          <div class="col-md-6">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregaradministrarpatrulla">   
+              Agregar Ubicación
+            </button>
+          </div>
+          <div class="col-md-6" align="right">
+            <a href="patrulla" class="btn btn-success" >   
+              Volver  
+            </a>
+          </div>
+        </div>
 
         
           <div class="row">
@@ -136,7 +161,14 @@ function recagar(){
 
       <div class="box-body">
         
-        
+      <div class="row">
+        <div class="col-md-6"></div>
+        <div class="col-md-6" align="right"> 
+          <label for="">
+            Buscar: <input type="text" class="busqueda_input">
+          </label>
+        </div>
+      </div>
       <table class="table table-bordered table-striped dt-responsive tablas" width="100%">
          
          <thead>

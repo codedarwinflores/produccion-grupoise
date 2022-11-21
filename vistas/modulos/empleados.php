@@ -940,7 +940,7 @@ MODAL AGREGAR EMPLEADO
            Nombre Referencia Trabajo Actual:            
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text"   class="form-control input-lg" name="nuevoNomRefTrabajoActual" placeholder="Ingresar Nombre Referencia Trabajo Actual" >
+                <input type="text"   class="form-control input-lg telefono" name="nuevoNomRefTrabajoActual" placeholder="Ingresar Nombre Referencia Trabajo Actual" >
               </div>
           </div>
           <!-- ENTRADA PARA EVALUACION ACTUAL-->            

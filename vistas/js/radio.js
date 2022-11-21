@@ -5,6 +5,9 @@ $(document).ready(function(){
 
 	$(".input_id").removeAttr("required");
 
+
+
+
 	
 	$(".grupo_id_familia").empty();
 	$('.grupo_id_familia').append($('.s_familia_r'));
@@ -85,7 +88,9 @@ $(document).ready(function(){
 
 			  calendario03();
 
-			  $(".input_codigo_radio").addClass("readonly","readonly");
+			  $(".input_codigo_radio").attr("readonly","readonly");
+			  $(".input_fecha_adquisicion").attr("readonly","readonly");
+
  })
 
  
@@ -128,21 +133,24 @@ $(".tablas").on("click", ".btnEditarradio", function(){
 			$("#editarnumero_serie").val(respuesta["numero_serie"]);
 
 				
-			var dateNEW = respuesta["fecha_adquisicion"];
+			var dateNEW = respuesta["fecha_adquisicion"].split('-');;
 			var date = new Date(dateNEW);
 			var year = date.toLocaleString("default", { year: "numeric" });
 			var month = date.toLocaleString("default", { month: "2-digit" });
 			var day = date.toLocaleString("default", { day: "2-digit" });
 			var formattedDate = day + "-" + month + "-" + year;
 
-			$("#editarfecha_adquisicion").val(formattedDate);
+			var newDate = dateNEW[2] + '-' + dateNEW[1] + '-' + dateNEW[0].slice(-2);
+
+			$("#editarfecha_adquisicion").val(newDate);
 			
-			$("#editarfecha_adquisicion2").val(respuesta["fecha_adquision"]);
+			$("#editarfecha_adquisicion2").val(respuesta["fecha_adquisicion"]);
 			$("#editardescripcion_radio").val(respuesta["descripcion_radio"]);
 			$("#editarcosto_radio").val(respuesta["costo_radio"]);
 			$("#editarmodelo_radio").val(respuesta["modelo_radio"]);
 			$("#editarcolor_radio").val(respuesta["color_radio"]);
 			$("#editarobservaciones").val(respuesta["observaciones"]);
+			$("#editarcodigo_radio").val(respuesta["codigo_radio"]);
 			
 
 

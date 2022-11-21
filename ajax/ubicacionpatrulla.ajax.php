@@ -25,6 +25,7 @@ function getContent() {
 
 
 
+
         foreach ($data as $value){
           
 		/* echo json_encode($respuesta); */
@@ -32,13 +33,15 @@ function getContent() {
 		$dato.="<td>".$value["nombre_ubicacion"]."</td>";
 
 		$dato .='<td><div class="btn-group">
-                         
-		<button class="btn btn-warning btnEditarubicacion" idadministrarpatrulla="'.$value["id_patrullas_ubicaciones"].'" data-toggle="modal" data-target="#modalEditaradministrarpatrulla"><i class="fa fa-pencil"></i></button>
+									
+					<button class="btn btn-warning btnEditarubicacion" idadministrarpatrulla="'.$value["id_patrullas_ubicaciones"].'" data-toggle="modal" data-target="#modalEditaradministrarpatrulla"><i class="fa fa-pencil"></i></button>
 
-		<button class="btn btn-danger btnEliminaradministrarpatrulla" id="'.$id.'" idadministrarpatrulla="'.$value["id_patrullas_ubicaciones"].'"  Codigo="'.$value["id_patrullas_pu"].'"><i class="fa fa-times"></i></button>
+					<button class="btn btn-danger btnEliminaradministrarpatrulla" id="'.$id.'" idadministrarpatrulla="'.$value["id_patrullas_ubicaciones"].'"  Codigo="'.$value["id_patrullas_pu"].'"><i class="fa fa-times"></i></button>
 
-	  </div>  
+	  		</div>  
 		</td>';
 		$dato.="</tr>";
 		}
+
+
 		echo json_encode($dato);

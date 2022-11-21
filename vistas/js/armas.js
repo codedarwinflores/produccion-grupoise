@@ -7,6 +7,7 @@ $(document).ready(function(){
 
 
 	$(".armasinput_codigo").attr("readonly","readonly");
+	$("#editarcodigo").attr("readonly","readonly");
 
 	$(".grupo_tipo_matricula").empty();
 	$('.grupo_tipo_matricula').append($('.s_matricula_tipo'));
@@ -65,8 +66,8 @@ $(document).ready(function(){
 	
 	$(".farmagrupo_id_familia").empty();
 	$('.farmagrupo_id_familia').append($(".s_familia_arma"));
-/* 	$(".grupo_editar_id_familia").empty();
-	$('.grupo_editar_id_familia').append($('.s_familia_editar')); */
+	$(".grupo_editar_id_familia").empty();
+	$('.grupo_editar_id_familia').append($('.s_familia_editar'));
 
 
 	
