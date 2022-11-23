@@ -75,7 +75,9 @@
   .drop_sueldo{
     top: 90% !important;
   }
-
+.drop_pagoferiado{
+  top: 75% !important;
+}
   
   .s_familia{
     top: 30% !important;

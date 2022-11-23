@@ -49,7 +49,7 @@ $(".tablas").on("click", ".btnEditarjefeoperacion", function(){
 		dataType: "json",
 		success: function(respuesta){
 			
-			$("#editarid").val(respuesta["id"]);
+			$("#editarid").val(respuesta["idjefe"]);
 
 
 					
@@ -83,7 +83,7 @@ $(".tablas").on("click", ".btnEditarjefeoperacion", function(){
 			$("#editarinforma_oportuna_novedades").val(respuesta["informa_oportuna_novedades"]);
 			$("#editaratento_a_su_servicio").val(respuesta["atento_a_su_servicio"]);
 			$("#editaratencion_hacia_cliente").val(respuesta["atencion_hacia_cliente"]);
-			$("#editarobservaciones").val(respuesta["observaciones"]);
+			$("#editarobservaciones").val(respuesta["observacionesjefe"]);
 			
 		
 

@@ -82,7 +82,7 @@ function getContent() {
                         <td>'.($key+1).'</td>
                         <td>'.$value["codigo_patrulla"].'</td>
                         <td>'.$value["descripcion_patrulla"].'</td>
-                        <td>'.$value["id_jefe_operaciones_patrulla"].'</td>';
+                        <td>'.$value["primer_nombre"].' '.$value["primer_apellido"]. '</td>';
       
                         
       
@@ -90,11 +90,11 @@ function getContent() {
       
                           <div class="btn-group">
                               
-                            <button class="btn btn-warning btnEditarpatrulla" idpatrulla="'.$value["id"].'" data-toggle="modal" data-target="#modalEditarpatrulla"><i class="fa fa-pencil"></i></button>
+                            <button class="btn btn-warning btnEditarpatrulla" idpatrulla="'.$value["idpatrulla"].'" data-toggle="modal" data-target="#modalEditarpatrulla"><i class="fa fa-pencil"></i></button>
       
-                            <button class="btn btn-danger btnEliminarpatrulla" idpatrulla="'.$value["id"].'"  Codigo="'.$value["codigo_patrulla"].'"><i class="fa fa-times"></i></button>
+                            <button class="btn btn-danger btnEliminarpatrulla" idpatrulla="'.$value["idpatrulla"].'"  Codigo="'.$value["codigo_patrulla"].'"><i class="fa fa-times"></i></button>
 
-                            <a href="administrarpatrulla?id='.$value["id"].'" class="btn btn-primary "><i class="fa fa-eye"></i></a>
+                            <a href="administrarpatrulla?id='.$value["idpatrulla"].'" class="btn btn-primary "><i class="fa fa-eye"></i></a>
       
                           </div>  
       
@@ -179,6 +179,26 @@ MODAL AGREGAR
           ?>
              
 
+             
+            <div class="sempleado">
+                <label for="">Seleccione Jefe de Operaciones:</label>
+                <div class="input-group ">
+                    <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                    <select name="nuevoid_jefe_operaciones_patrulla" id="" class="form-control input-lg " required>
+                      <option value="">Seleccione Jefe de Operaciones</option>
+                    <?php
+                        $datos_mostrar = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
+                        foreach ($datos_mostrar as $key => $value){
+                    ?>
+                        <option value="<?php echo $value['id'] ?>">
+                          <?php echo $value["primer_nombre"].' '.$value["primer_apellido"] ?>
+                        </option>  
+                    <?php
+                        }
+                      ?>
+                    </select>
+                </div>
+            </div>
           
 
 
@@ -274,7 +294,26 @@ MODAL EDITAR
              }
           ?>
 
-
+          <div class="editarsempleado">
+                <label for="">Seleccione Jefe de Operaciones:</label>
+                <div class="input-group ">
+                    <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                    <select name="editarid_jefe_operaciones_patrulla" id="editarid_jefe_operaciones_patrulla" class="form-control input-lg " required>
+                      <option value="">Seleccione Jefe de Operaciones</option>
+                    <?php
+                        $datos_mostrar = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
+                        foreach ($datos_mostrar as $key => $value){
+                    ?>
+                        <option value="<?php echo $value['id'] ?>">
+                          <?php echo $value["primer_nombre"].' '.$value["primer_apellido"] ?>
+                        </option>  
+                    <?php
+                        }
+                      ?>
+                    </select>
+                </div>
+            </div>
+          
 
 
           </div>
