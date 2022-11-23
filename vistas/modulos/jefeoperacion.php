@@ -97,7 +97,7 @@ function getContent() {
            echo ' <tr>
                    <td>'.($key+1).'</td>
                    <td>'.$value["fecha_registro"].'</td>
-                   <td>'.$value["id_empleado"].'</td>
+                   <td>'.$value["primer_nombre"].' '.$value["primer_apellido"]. '</td>
                    <td>'.$value["codigo_cliente"].'</td>
                    <td>'.$value["persona_contacto"].'</td>
                    <td>'.$value["id_patrulla"].'</td>
@@ -118,7 +118,7 @@ function getContent() {
                    <td>'.$value["informa_oportuna_novedades"].'</td>
                    <td>'.$value["atento_a_su_servicio"].'</td>
                    <td>'.$value["atencion_hacia_cliente"].'</td>
-                   <td>'.$value["observaciones"].'</td>';
+                   <td>'.$value["observacionesjefe"].'</td>';
  
                   
  
@@ -126,9 +126,9 @@ function getContent() {
  
                      <div class="btn-group">
                          
-                       <button class="btn btn-warning btnEditarjefeoperacion" idjefeoperacion="'.$value["id"].'" data-toggle="modal" data-target="#modalEditarjefeoperacion"><i class="fa fa-pencil"></i></button>
+                       <button class="btn btn-warning btnEditarjefeoperacion" idjefeoperacion="'.$value["idjefe"].'" data-toggle="modal" data-target="#modalEditarjefeoperacion"><i class="fa fa-pencil"></i></button>
  
-                       <button class="btn btn-danger btnEliminarjefeoperacion" idjefeoperacion="'.$value["id"].'"  Codigo="'.$value["codigo_cliente"].'"><i class="fa fa-times"></i></button>
+                       <button class="btn btn-danger btnEliminarjefeoperacion" idjefeoperacion="'.$value["idjefe"].'"  Codigo="'.$value["codigo_cliente"].'"><i class="fa fa-times"></i></button>
  
                      </div>  
  
@@ -198,12 +198,24 @@ MODAL AGREGAR
             <!-- **** -->
 
             <div class="form-group">
-              <label for="">Jefe de operaciones</label>
-              <div class="input-group">
-
-              <span class="input-group-addon"><i class="icono_ fa fa-user"></i></span> 
-                <input type="text" class="form-control input-lg " placeholder="Jefe de operaciones" value="" autocomplete="off" name="nuevoid_empleado" required id="">
-              </div>
+            <label for="">Seleccione Jefe de Operaciones:</label>
+                <div class="input-group ">
+                    <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                    <select name="nuevoid_empleado" id="" class="form-control input-lg " required>
+                      <option value="">Seleccione Jefe de Operaciones</option>
+                    <?php
+                        $datos_mostrar = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
+                        foreach ($datos_mostrar as $key => $value){
+                    ?>
+                        <option value="<?php echo $value['id'] ?>">
+                          <?php echo $value["primer_nombre"].' '.$value["primer_apellido"] ?>
+                        </option>  
+                    <?php
+                        }
+                      ?>
+                    </select>
+                </div>
+            
             </div>
 
             <!-- **** -->
@@ -540,6 +552,13 @@ MODAL AGREGAR
               </div>
             </div>
 
+
+            
+                
+          
+
+
+          </div>
             
 
 
@@ -627,13 +646,24 @@ MODAL EDITAR
 <!-- **** -->
 
 <div class="form-group">
-<label for="">Jefe de operaciones</label>
-
-  <div class="input-group">
-
-  <span class="input-group-addon"><i class="icono_ fa fa-user"></i></span> 
-    <input type="text" class="form-control input-lg " placeholder="Jefe de operaciones" value="" autocomplete="off" name="editarid_empleado" required id="editarid_empleado">
-  </div>
+<label for="">Seleccione Jefe de Operaciones:</label>
+                <div class="input-group ">
+                    <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                    <select name="editarid_empleado" id="editarid_empleado" class="form-control input-lg " required>
+                      <option value="">Seleccione Jefe de Operaciones</option>
+                    <?php
+                        $datos_mostrar = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
+                        foreach ($datos_mostrar as $key => $value){
+                    ?>
+                        <option value="<?php echo $value['id'] ?>">
+                          <?php echo $value["primer_nombre"].' '.$value["primer_apellido"] ?>
+                        </option>  
+                    <?php
+                        }
+                      ?>
+                    </select>
+                </div>
+            
 </div>
 
 <!-- **** -->

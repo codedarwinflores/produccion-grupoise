@@ -203,6 +203,10 @@ require_once "controladores/celular.controlador.php";
 require_once "modelos/celular.modelo.php";
 
 
+/* **  celular *** */
+require_once "controladores/ajustes.controlador.php";
+require_once "modelos/ajustes.modelo.php";
+
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();
 

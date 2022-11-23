@@ -188,27 +188,39 @@ MODAL AGREGAR
              
              
 
+          <?php
+              function ObtenerCorrelativo() {
+                $query = "select * from ajustes where name_table='cargos' and accion='nuevo'";
+                $sql = Conexion::conectar()->prepare($query);
+                $sql->execute();			
+                return $sql->fetchAll();
+              };
+             $data0 = ObtenerCorrelativo();
+             foreach($data0 as $row0) {
+              echo $row0['code'];
+            }
+          ?>
           <!-- ***PERSONAL ASIGNADO -->
-          <div id="personal" class="dropdown-content myDropdown_personal drop_personal">
+          <!-- <div id="personal" class="dropdown-content myDropdown_personal drop_personal">
             <span class="select_personal" personal="Si"> Si</span>
             <span class="select_personal" personal="No"> No</span>    
-          </div>   
+          </div>    -->
           <!-- *** -->
 
           
              
           <!-- ***PAGO FERIADO -->
-          <div id="pagoferiado" class="dropdown-content myDropdown_pagoferiado drop_pagoferiado">
+          <!-- <div id="pagoferiado" class="dropdown-content myDropdown_pagoferiado drop_pagoferiado">
             <span class="select_pagoferiado" pagoferiado="Si"> Si</span>
             <span class="select_pagoferiado" pagoferiado="No"> No</span>    
-          </div>   
+          </div>  -->  
           <!-- *** -->
 
-                    <!-- ***PAGO FERIADO -->
-          <div id="sueldo" class="dropdown-content myDropdown_sueldo drop_sueldo">
+          <!-- ***PAGO FERIADO -->
+          <!-- <div id="sueldo" class="dropdown-content myDropdown_sueldo drop_sueldo">
             <span class="select_sueldo" sueldo="Sueldo"> Sueldo </span>
             <span class="select_sueldo" sueldo="Sueldo+Tfijo"> Sueldo+Tfijo</span>    
-          </div>   
+          </div>    -->
           <!-- *** -->
 
 
@@ -309,28 +321,40 @@ MODAL EDITAR
           ?>
              
 
+             <?php
+              function Obtenereditar() {
+                $query = "select * from ajustes where name_table='cargos' and accion='editar'";
+                $sql = Conexion::conectar()->prepare($query);
+                $sql->execute();			
+                return $sql->fetchAll();
+              };
+             $data0 = Obtenereditar();
+             foreach($data0 as $row0) {
+              echo $row0['code'];
+            }
+          ?>
                           
           <!-- ***PERSONAL ASIGNADO -->
-          <div id="personal2" class="dropdown-content myDropdown_personal drop_personal">
+          <!-- <div id="personal2" class="dropdown-content myDropdown_personal drop_personal">
             <span class="select_personal" personal="Si"> Si</span>
             <span class="select_personal" personal="No"> No</span>    
-          </div>   
+          </div>    -->
           <!-- *** -->
 
           
              
           <!-- ***PAGO FERIADO -->
-          <div id="pagoferiado2" class="dropdown-content myDropdown_pagoferiado drop_pagoferiado">
+          <!-- <div id="pagoferiado2" class="dropdown-content myDropdown_pagoferiado drop_pagoferiado">
             <span class="select_pagoferiado" pagoferiado="Si"> Si</span>
             <span class="select_pagoferiado" pagoferiado="No"> No</span>    
-          </div>   
+          </div>    -->
           <!-- *** -->
 
                     <!-- ***PAGO FERIADO -->
-          <div id="sueldo2" class="dropdown-content myDropdown_sueldo drop_sueldo">
+          <!-- <div id="sueldo2" class="dropdown-content myDropdown_sueldo drop_sueldo">
             <span class="select_sueldo" sueldo="Sueldo"> Sueldo </span>
             <span class="select_sueldo" sueldo="Sueldo+Tfijo"> Sueldo+Tfijo</span>    
-          </div>   
+          </div>    -->
           <!-- *** -->
 
 

@@ -7,6 +7,12 @@ $(document).ready(function(){
 /* 	$(".id_patrulla  ").attr("style","display:none");
 
  */
+	$(".grupopatrulla_id_jefe_operaciones_patrulla").empty();
+	$(".grupopatrulla_id_jefe_operaciones_patrulla").append($("sempleado"));
+
+	$(".egrupopatrulla_id_jefe_operaciones_patrulla").empty();
+	$(".egrupopatrulla_id_jefe_operaciones_patrulla").append($("editarsempleado"));
+
 
 	
 	$(".icono_codigo_patrulla").addClass("fa fa-qrcode");
@@ -64,7 +70,7 @@ $(".tablas").on("click", ".btnEditarpatrulla", function(){
 		dataType: "json",
 		success: function(respuesta){
 			
-			$("#editarid").val(respuesta["id"]);
+			$("#editarid").val(respuesta["idpatrulla"]);
 			$("#editarcodigo_patrulla").val(respuesta["codigo_patrulla"]);
 			$("#editardescripcion_patrulla").val(respuesta["descripcion_patrulla"]);
 			$("#editarid_jefe_operaciones_patrulla").val(respuesta["id_jefe_operaciones_patrulla"]);
