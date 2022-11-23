@@ -115,7 +115,8 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
                     <div class="btn-group">
                         
                       <button class="btn btn-warning btnEditarEmpleado" idEmpleado="'.$value["id"].'" data-toggle="modal" data-target="#modalEditarEmpleado"><i class="fa fa-pencil"></i></button>
-                      <button class="btn btn-info btnImprimirImagenes"  style="background-color: #3c8dbc;"   empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-print"> I</i></button> 
+                      <button class="btn btn-info btnImprimirImagenes"  style="background-color: #3c8dbc;"   empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-print"></i></button>
+                      <button class="btn btn-info btnParentesco"  style="background-color: #3c8dbc;" idEmpleado="'.$value["id"].'"  data-toggle="modal" data-target="#modalParentesco" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-users"></i></button>  
                       <button class="btn btn-danger btnEliminarEmpleado" idEmpleado="'.$value["id"].'" fotoEmpleado="'.$value["fotografia"].'" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-times"></i></button>
 
                     </div>  
@@ -2109,6 +2110,142 @@ MODAL EDITAR EMPLEADO
   </div>
 
 </div>
+
+<!--=====================================
+MODAL PARENTESCO 
+======================================-->
+
+<div id="modalParentesco" class="modal fade" role="dialog">
+  
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+
+      
+
+        <!--=====================================
+        CABEZA DEL MODAL
+        ======================================-->
+
+        <div class="modal-header" style="background:#3c8dbc; color:white">
+
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+          <h4 class="modal-title">Parentesco</h4>
+
+        </div>
+
+        <!--=====================================
+        CUERPO DEL MODAL
+        ======================================-->
+        <div class="modal-body">
+          <div id="headerParentesco"></div>
+          <div class="box-body">
+
+          <form role="form" method="post" enctype="multipart/form-data">
+          <label for="">FORMULARIO DE INGRESO DE NUEVO PARIENTE</label> 
+            <!-- ENTRADA PARA SELECCIONAR TIPO DOCUMENTO -->
+            <input type="hidden" name="idEmpleadoParentesco" id="idEmpleadoParentesco" value="">
+            <div class="form-group">
+              <label for="">Parentesco:</label>             
+              <div class="input-group">              
+                <span class="input-group-addon"><i class="fa fa-users"></i></span> 
+                <select class="form-control input-lg" name="nuevoParentesco" required>                  
+                  <option value="" >Seleccione Parentesco</option>  
+                  <option value="Esposo(a)">Esposo(a)</option>
+                  <option value="Hijo(a)">Hijo(a)</option>
+                  <option value="Padre">Padre</option>
+                  <option value="Madre">Madre</option>
+                  <option value="Hermano(a)">Hermano(a)</option>
+                  <option value="Tio(a)">Tio(a)</option>
+                  <option value="Primo(a)">Primo(a)</option>
+                  <option value="Sobrino(a)">Sobrino(a)</option>
+                  <option value="Abuelo(a)">Abuelo(a)</option>
+                  <option value="cunado(a)">cunado(a)</option>
+                 
+                </select>
+              </div>
+            </div>
+
+
+            <!-- ENTRADA PARA EL Codigo  -->            
+            <div class="form-group">
+              <label for="">Ingresar Nombre Completo</label>
+              <div class="input-group">              
+                <span class="input-group-addon"><i class="fa fa-qrcode"></i></span> 
+                <input type="text" class="form-control input-lg codigo_validar" name="nuevoNombreParentesco" placeholder="Ingresar Nombre Completo" required >
+              </div>
+            </div>
+
+            <!-- ENTRADA PARA EL NOMBRE -->
+             <div class="form-group">
+              <label for="">Ingresar Edad</label>
+              <div class="input-group">              
+                <span class="input-group-addon"><i class="fa fa-building"></i></span> 
+                <input type="text" class="form-control input-lg" name="nuevoEdadParentesco" placeholder="Ingresar Edad"  required>
+              </div>
+            </div>
+             <!-- ENTRADA PARA SELECCIONAR TIPO DOCUMENTO -->            
+             <div class="form-group">
+              <label for="">Con Vida:</label>             
+              <div class="input-group">              
+                <span class="input-group-addon"><i class="fa fa-users"></i></span> 
+                <select class="form-control input-lg" name="nuevoConVidaParentesco" required>                  
+                  <option value="" >Seleccione </option>  
+                  <option value="SI">SI</option>
+                  <option value="NO">NO</option>                 
+                </select>
+              </div>
+            </div>
+            <!-- ENTRADA PARA LA DIRECCION DE RESIDENCIA-->            
+            <div class="form-group">
+              Direcci&oacute;n Residencia:
+              <div class="input-group">              
+                <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                <input type="text" class="form-control input-lg" name="nuevoDireccionParentesco" placeholder="Ingresar Direcci&oacute;n" >
+              </div>
+            </div>
+            <!-- ENTRADA PARA EL TELEFONO -->            
+          <div class="form-group">  
+            Tel&eacute;fono:            
+              <div class="input-group">              
+                <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                <input type="text"   class="form-control input-lg input_telefono_1 telefono" name="nuevoTelefonoParentesco" placeholder="Ingresar N&uacute;mero de Tel&eacute;fono" >
+              </div>
+          </div>
+                      
+          </div>
+
+        </div>
+
+        <!--=====================================
+        PIE DEL MODAL
+        ======================================-->
+
+        <div class="modal-footer">
+
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
+
+          <button type="submit" class="btn btn-primary">Guardar Pariente</button>
+
+        </div>
+
+        <?php
+
+          $crearp = new ControladorParentesco();
+          $crearp -> ctrCrearParentesco();
+
+        ?>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>
+
+
 
 <?php
 

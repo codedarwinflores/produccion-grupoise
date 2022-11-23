@@ -174,6 +174,8 @@ require_once "modelos/pago.modelo.php";
 /* **  empleados *** */
 require_once "controladores/empleados.controlador.php";
 require_once "modelos/empleados.modelo.php";
+require_once "controladores/parentescos.controlador.php";
+require_once "modelos/parentescos.modelo.php";
 
 
 /* **  patrulla *** */

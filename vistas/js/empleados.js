@@ -1083,6 +1083,82 @@ $( ".fotoaImprimir" ).click(function() {
 });
 
 $( "#btnGuardarEmpleado" ).click(function() {	
-	document.getElementById("btnGuardarEmpleado").style.display = "none";
+	//document.getElementById("btnGuardarEmpleado").style.display = "none";
 
 });
+
+$( ".btnParentesco" ).click(function() {
+	//asignar el valor al hidden del form parentesco
+	var idParentescoEmpleado = $(this).attr("idEmpleado");	
+	document.getElementById("idEmpleadoParentesco").value = idParentescoEmpleado; 
+	
+	//mostrar los datos generales de empleado con ajax
+	//tambien traer los parientes ya registrados en <html>
+	var datosParentesco = new FormData();
+	datosParentesco.append("id_empleado", idParentescoEmpleado);
+	$.ajax({
+	    url:"ajax/empleados_parentesco.ajax.php",
+	    method:"POST",
+	    data: datosParentesco,
+	    cache: false,
+	    contentType: false,
+	    processData: false,
+	    dataType: "text",
+	    success:function(respuestaParentesco){
+	    	
+	    	document.getElementById("headerParentesco").innerHTML = respuestaParentesco;
+
+	    }
+
+	})
+
+});
+
+
+/*=============================================
+ELIMINAR PARIENTE
+=============================================*/
+
+function eliminarPariente(idPariente){
+	var datosParentesco = new FormData();
+	datosParentesco.append("id_pariente", idPariente);
+	datosParentesco.append("bandera_eliminar", "eliminar");
+	$.ajax({
+	    url:"ajax/empleados_parentesco.ajax.php",
+	    method:"POST",
+	    data: datosParentesco,
+	    cache: false,
+	    contentType: false,
+	    processData: false,
+	    dataType: "text",
+	    success:function(respuestaParentesco){
+	    	if(respuestaParentesco =="0"){
+				//alert("Pariente eliminado correctamente");
+				swal({
+
+					type: "success",
+					title: "Pariente ha sido eliminado correctamente!",
+					showConfirmButton: true,
+					confirmButtonText: "Cerrar"
+
+				}).then(function(result){
+
+					if(result.value){
+					
+						window.location = "empleados";
+
+					}
+
+				});
+			}
+			else{
+				alert("Pariente no pudo eliminarse");
+				location.reload();
+			}
+	    	
+
+	    }
+
+	})
+}
+
