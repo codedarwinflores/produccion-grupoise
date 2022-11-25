@@ -321,7 +321,7 @@ MODAL EDITAR
           ?>
              
 
-             <?php
+            <?php
               function Obtenereditar() {
                 $query = "select * from ajustes where name_table='cargos' and accion='editar'";
                 $sql = Conexion::conectar()->prepare($query);

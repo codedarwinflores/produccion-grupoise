@@ -549,6 +549,29 @@ MODAL AGREGAR
 
             <!-- ****************** -->
 
+
+            <div class="coordinador">
+                <label for="">Seleccione ID coordinador de zona. :</label>
+                <div class="input-group ">
+                    <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                    <select name="nuevoid_coordinador_zona" id="" class="form-control input-lg " required>
+                      <option value="">Seleccione ID coordinador de zona. </option>
+                    <?php
+                        $datos_mostrar = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
+                        foreach ($datos_mostrar as $key => $value){
+                    ?>
+                        <option value="<?php echo $value['id'] ?>">
+                          <?php echo $value["primer_nombre"].' '.$value["primer_apellido"] ?>
+                        </option>  
+                    <?php
+                        }
+                      ?>
+                    </select>
+                </div>
+            </div>
+          
+            <!-- ********************* -->
+
              <div class="ubicacionc_s_depa">
               <label for="">Seleccione Departamento</label>
               <div class="input-group ">
@@ -977,6 +1000,28 @@ MODAL EDITAR
             </div>
             </div>
           
+
+            
+
+            <div class="ecoordinador">
+                <label for="">Seleccione ID coordinador de zona. :</label>
+                <div class="input-group ">
+                    <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                    <select name="editarid_coordinador_zona" id="editarid_coordinador_zona" class="form-control input-lg " required>
+                      <option value="">Seleccione ID coordinador de zona. </option>
+                    <?php
+                        $datos_mostrar = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
+                        foreach ($datos_mostrar as $key => $value){
+                    ?>
+                        <option value="<?php echo $value['id'] ?>">
+                          <?php echo $value["primer_nombre"].' '.$value["primer_apellido"] ?>
+                        </option>  
+                    <?php
+                        }
+                      ?>
+                    </select>
+                </div>
+            </div>
 
              <!-- ****************** -->
           </div>

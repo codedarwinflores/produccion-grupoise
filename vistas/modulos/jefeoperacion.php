@@ -12,7 +12,7 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
 
 }
 
-$Nombre_del_Modulo="Jefe de Operaciones";
+$Nombre_del_Modulo="Visita jefe de operaciones";
 
 /* CAPTURAR NOMBRE COLUMNAS*/
 
@@ -198,7 +198,7 @@ MODAL AGREGAR
             <!-- **** -->
 
             <div class="form-group">
-            <label for="">Seleccione Jefe de Operaciones:</label>
+              <label for="">Seleccione Jefe de Operaciones:</label>
                 <div class="input-group ">
                     <span class="input-group-addon"><i class="fa fa-users"></i></span>
                     <select name="nuevoid_empleado" id="" class="form-control input-lg " required>
@@ -217,6 +217,9 @@ MODAL AGREGAR
                 </div>
             
             </div>
+
+            <!-- ******* -->
+            
 
             <!-- **** -->
 
@@ -250,11 +253,29 @@ MODAL AGREGAR
 
             <!-- **** -->
 
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label for="">ID Patrulla</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="icono_ fa  fa-address-card"></i></span> 
                 <input type="text" class="form-control input-lg   " placeholder="ID Patrulla" value="" autocomplete="off" name="nuevoid_patrulla" required id="">
+              </div>
+            </div> -->
+            
+            <div class="form-group">
+              <label for="">Seleccione ID Patrulla</label>
+              <div class="input-group">
+                <span class="input-group-addon"><i class="icono_ fa fa-qrcode"></i></span> 
+                <select name="nuevoid_patrulla" class="form-control input-lg " required  id="">
+                  <option value="">Seleccione ID Patrulla</option>
+                <?php
+                    $datos_mostrar = Controladorpatrulla::ctrMostrar($item, $valor);
+                    foreach ($datos_mostrar as $key => $value){
+                ?>
+                    <option value="<?php echo $value['idpatrulla'] ?>"><?php echo $value["codigo_patrulla"] ?></option>  
+                <?php
+                    }
+                  ?>
+                </select>
               </div>
             </div>
 
@@ -558,7 +579,7 @@ MODAL AGREGAR
           
 
 
-          </div>
+            <!-- </div> -->
             
 
 
@@ -700,15 +721,33 @@ MODAL EDITAR
 
 <!-- **** -->
 
-<div class="form-group">
+<!-- <div class="form-group">
 <label for="">ID Patrulla</label>
 
   <div class="input-group">
     <span class="input-group-addon"><i class="icono_ fa  fa-address-card"></i></span> 
     <input type="text" class="form-control input-lg   " placeholder="ID Patrulla" value="" autocomplete="off" name="editarid_patrulla" required id="editarid_patrulla">
   </div>
-</div>
+</div> -->
 
+
+<div class="form-group">
+              <label for="">Seleccione ID Patrulla</label>
+              <div class="input-group">
+                <span class="input-group-addon"><i class="icono_ fa fa-qrcode"></i></span> 
+                <select name="editarid_patrulla" id="editarid_patrulla" class="form-control input-lg " required  id="">
+                  <option value="">Seleccione ID Patrulla</option>
+                <?php
+                    $datos_mostrar = Controladorpatrulla::ctrMostrar($item, $valor);
+                    foreach ($datos_mostrar as $key => $value){
+                ?>
+                    <option value="<?php echo $value['idpatrulla'] ?>"><?php echo $value["codigo_patrulla"] ?></option>  
+                <?php
+                    }
+                  ?>
+                </select>
+              </div>
+            </div>
 
 <!-- **** -->
 

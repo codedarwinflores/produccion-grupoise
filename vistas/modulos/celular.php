@@ -162,6 +162,38 @@ MODAL AGREGAR
 
             <!-- ENTRADA PARA CAMPOS  -->
 
+
+            <!-- ************** -->
+
+            <script>
+              
+              /* ****ASIGNAR CODIGO SEGUN TIPO DE ARMA */
+              $(document).on('change', '#nuevotipocelular', function(event) {
+                   var obtenercodigo = $("#nuevotipocelular option:selected").attr("codigo");
+                   
+                   /* *** */
+                   
+                        var datos = "obtenercodigo="+obtenercodigo;
+
+                        $.ajax({
+                          url:"ajax/code_celular.ajax.php",
+                          method:"POST",
+                          data: datos,
+                          success:function(respuesta){
+                          
+                            /* alert(respuesta.replace(/["']/g, "")); */
+                            /* alert(respuesta); */
+                            $(".input_codigo").val(respuesta.replace(/["']/g, ""));
+                          }
+
+                        })
+                 /* *** */
+              });
+              /* ********* */
+            </script>
+
+
+
           <?php 
              $data = getContent();
              foreach($data as $row) {
@@ -188,17 +220,17 @@ MODAL AGREGAR
           ?>
              
 
-             <div id="">
+             <div id="stipocelular">
              <label for="" class="">Seleccione Tipo celular</label> 
              <div class="input-group" >
               <span class="input-group-addon"><i class="fa fa-server"></i></span> 
-              <select name="nuevotipocelular" id="" class="form-control input-lg " required>
+              <select name="nuevotipocelular" id="nuevotipocelular" class="form-control input-lg " required>
                   <option value="">Seleccione Tipo celular</option>
                 <?php
                     $datos_mostrar = Controladortipocelular::ctrMostrar($item, $valor);
                     foreach ($datos_mostrar as $key => $value){
                 ?>
-                    <option value="<?php echo $value['id'] ?>" ><?php echo $value["nombre"] ?></option>  
+                    <option value="<?php echo $value['id'] ?>" codigo="<?php echo $value['codigo'] ?>" ><?php echo $value["nombre"] ?></option>  
                 <?php
                     }
                   ?>
@@ -206,7 +238,7 @@ MODAL AGREGAR
              </div>
              </div>
 
-             <div id="">
+             <div id="seleccionar_sim">
              <label for="" class="">Seleccione SIM</label> 
              <div class="input-group" >
               <span class="input-group-addon"><i class="fa fa-server"></i></span> 
@@ -224,19 +256,23 @@ MODAL AGREGAR
              </div>
              </div>
 
-             <div class="form-group ">
-              <label for="" class="">Operador</label> 
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" id="noperador"  class="form-control input-lg" placeholder="Operador"  readonly >
+             <div class="operador_celular">
+              <div class="form-group ">
+                <label for="" class="">Operador</label> 
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                  <input type="text" id="noperador"  class="form-control input-lg" placeholder="Operador"  readonly >
+                </div>
               </div>
             </div>
 
-            <div class="form-group ">
-              <label for="" class="">IMEI</label> 
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" id="nimei"  class="form-control input-lg" placeholder="IMEI"  readonly >
+            <div class="imei_celular">
+              <div class="form-group ">
+                <label for="" class="">IMEI</label> 
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                  <input type="text" id="nimei"  class="form-control input-lg" placeholder="IMEI"  readonly >
+                </div>
               </div>
             </div>
           
@@ -310,6 +346,35 @@ MODAL EDITAR
 <!--           <input type="hidden" name="id" id="editarid">
  -->
 
+ <script>
+              
+              /* ****ASIGNAR CODIGO SEGUN TIPO DE ARMA */
+              $(document).on('change', '#editartipocelular', function(event) {
+                   var obtenercodigo = $("#editartipocelular option:selected").attr("codigo");
+                   
+                   /* *** */
+                   
+                        var datos = "obtenercodigo="+obtenercodigo;
+
+                        $.ajax({
+                          url:"ajax/code_celular.ajax.php",
+                          method:"POST",
+                          data: datos,
+                          success:function(respuesta){
+                          
+                            /* alert(respuesta.replace(/["']/g, "")); */
+                            /* alert(respuesta); */
+                            $("#editarcodigo").val(respuesta.replace(/["']/g, ""));
+                          }
+
+                        })
+                 /* *** */
+              });
+              /* ********* */
+            </script>
+
+
+
  
             <!-- ENTRADA PARA CAMPOS  -->
 
@@ -335,7 +400,7 @@ MODAL EDITAR
           ?>
 
 
-<div id="">
+            <div id="estipocelular">
              <label for="" class="">Seleccione Tipo celular</label> 
              <div class="input-group" >
               <span class="input-group-addon"><i class="fa fa-server"></i></span> 
@@ -345,7 +410,7 @@ MODAL EDITAR
                     $datos_mostrar = Controladortipocelular::ctrMostrar($item, $valor);
                     foreach ($datos_mostrar as $key => $value){
                 ?>
-                    <option value="<?php echo $value['id'] ?>" ><?php echo $value["nombre"] ?></option>  
+                    <option value="<?php echo $value['id'] ?>" codigo="<?php echo $value['codigo'] ?>"><?php echo $value["nombre"] ?></option>  
                 <?php
                     }
                   ?>
@@ -354,7 +419,7 @@ MODAL EDITAR
              </div>
 
 
-<div id="nuevooperador">
+          <div id="nuevooperador editar_sim_celular">
              <label for="" class="">Seleccione SIM</label> 
              <div class="input-group" >
               <span class="input-group-addon"><i class="fa fa-server"></i></span> 
@@ -372,6 +437,7 @@ MODAL EDITAR
              </div>
              </div>
 
+             <div class="editar_operador">
              <div class="form-group ">
               <label for="" class="">Operador</label> 
               <div class="input-group">
@@ -379,13 +445,16 @@ MODAL EDITAR
                 <input type="text" id="eoperador"  class="form-control input-lg" placeholder="Operador"  readonly >
               </div>
             </div>
+            </div>
 
+            <div class="editar_imei">
             <div class="form-group ">
               <label for="" class="">IMEI</label> 
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
                 <input type="text" id="eimei"  class="form-control input-lg" placeholder="IMEI"  readonly >
               </div>
+            </div>
             </div>
 
 

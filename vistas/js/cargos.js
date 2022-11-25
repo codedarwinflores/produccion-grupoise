@@ -87,6 +87,10 @@ $(document).ready(function(){
 
 
 
+	
+              /* *********LABEL*********** */
+			  var input_descripcion = $(".input_descripcion").attr("placeholder");
+			  $(".label_descripcion").text(input_descripcion);
 
 	
               /* *********LABEL*********** */
