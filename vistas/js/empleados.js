@@ -1162,3 +1162,78 @@ function eliminarPariente(idPariente){
 	})
 }
 
+$( ".btnDescuentos" ).click(function() {
+	//asignar el valor al hidden del form parentesco
+	var idEmpleadoDescuento = $(this).attr("idEmpleado");	
+	document.getElementById("idEmpleadoDescuento").value = idEmpleadoDescuento; 
+	
+	//mostrar los datos generales de empleado con ajax
+	//tambien traer los parientes ya registrados en <html>
+	
+	var datosEmpleadoDescuento = new FormData();
+	datosEmpleadoDescuento.append("id_empleado", idEmpleadoDescuento);
+	$.ajax({
+	    url:"ajax/empleados_descuento.ajax.php",
+	    method:"POST",
+	    data: datosEmpleadoDescuento,
+	    cache: false,
+	    contentType: false,
+	    processData: false,
+	    dataType: "text",
+	    success:function(respuestaEmpleadosDescuento){
+	    	
+	    	document.getElementById("headerEmpleadoDescuento").innerHTML = respuestaEmpleadosDescuento;
+
+	    }
+
+	})
+	
+
+});
+
+/*=============================================
+ELIMINAR DESCUENTO O DEVENGO
+=============================================*/
+
+function eliminarEmpleadodescuento(idDescuentoEmpleado){
+	var datosEliminarDewscuento = new FormData();
+	datosEliminarDewscuento.append("id_descuento", idDescuentoEmpleado);
+	datosEliminarDewscuento.append("bandera_eliminar", "eliminar");
+	$.ajax({
+	    url:"ajax/empleados_descuento.ajax.php",
+	    method:"POST",
+	    data: datosEliminarDewscuento,
+	    cache: false,
+	    contentType: false,
+	    processData: false,
+	    dataType: "text",
+	    success:function(respuestaDescuento){
+	    	if(respuestaDescuento =="0"){
+				//alert("Pariente eliminado correctamente");
+				swal({
+
+					type: "success",
+					title: "El Descuento ha sido eliminado correctamente!",
+					showConfirmButton: true,
+					confirmButtonText: "Cerrar"
+
+				}).then(function(result){
+
+					if(result.value){
+					
+						window.location = "empleados";
+
+					}
+
+				});
+			}
+			else{
+				alert("El Descuento no pudo eliminarse");
+				location.reload();
+			}
+	    	
+
+	    }
+
+	})
+}

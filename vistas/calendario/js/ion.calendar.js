@@ -449,7 +449,7 @@
                 function formatofecha_ingreso(x){
 
                     closePopups();
-
+                    //alert(x);
                     if(x=="fechaingreso"){
 
                     var dateNEW = $('.'+x).val();
@@ -555,6 +555,13 @@
                         var dateNEW = $('.input_fecha_adquisicion').val();
                         var newDate = dateNEW.split("-").reverse().join("-");
                         $(".fecha_adquisiondate").val(newDate);
+                    }
+                    else if(x=="nuevofecha_caducidad"){
+                        //alert(x)
+                        var dateNEW = $('.nuevofecha_caducidad').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".oficial_nuevofecha_caducidad").val(newDate);
+                       // alert(newDate);
                     }
                 }
 

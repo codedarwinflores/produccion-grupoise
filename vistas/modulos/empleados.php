@@ -2275,7 +2275,7 @@ MODAL DESCUENTOS
         CUERPO DEL MODAL
         ======================================-->
         <div class="modal-body">
-          <div id="headerParentesco"></div>
+          <div id="headerEmpleadoDescuento"></div>
           <div class="box-body">
 
           <form role="form" method="post" enctype="multipart/form-data">
@@ -2283,11 +2283,49 @@ MODAL DESCUENTOS
             <!-- ENTRADA PARA SELECCIONAR TIPO DOCUMENTO -->
             <input type="hidden" name="idEmpleadoDescuento" id="idEmpleadoDescuento" value="">
            
+            <div class="form-group">
+              <label for="">Seleccionar Devengo o Descuento:</label>             
+              <div class="input-group">              
+                <span class="input-group-addon"><i class="fa fa-users"></i></span> 
+                <select class="form-control input-lg" name="nuevoIdDescuento" required>                  
+                  <option value="" >Seleccione una opci&oacute;n</option>  
+                  <?php
+                    $datos_mostrar_descuento = ControladorDescuentos::ctrMostrar($item, $valor);
+                    foreach ($datos_mostrar_descuento as $key => $value){
+                      echo '<option value="'.$value["id"].'">'.$value["codigo"].','.$value["descripcion"].','.$value["porcentaje"].'% - $'.$value["tipo"].','.$value["cargo_abono"].','.$value["cuenta_contable"].'</option>';                     
+                    }
+                ?>
+                 
+                </select>
+              </div>
+            </div>
 
-
+            <div class="form-group"> 
+              Valor:             
+              <div class="input-group">              
+                <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" name="nuevoValor" placeholder="Ingresar Valor" >
+              </div>
+            </div>
             
-
+            <!-- ENTRADA PARA FECHA DE  vencimiento DEscuento,devengo   --> 
+            <div class="form-group">
+          Fecha Caducidad:
+            <div class="input-group">           
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                <input type="text" value="" class="calendario nuevofecha_caducidad form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_caducidad" placeholder="Ingresar Fecha" readonly>
+                <input type="text" class="oficial_nuevofecha_caducidad" name="nuevofecha_caducidad" style="display: none;">
+            </div>
+          </div>
             
+           <!-- ENTRADA referencia -->            
+           <div class="form-group">  
+           Referencia:             
+              <div class="input-group">              
+                <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                <input type="text" class="form-control input-lg" name="nuevoReferencia" placeholder="Ingresar Referencia" >
+              </div>
+          </div>
                       
           </div>
 
@@ -2301,14 +2339,14 @@ MODAL DESCUENTOS
 
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
 
-          <button type="submit" class="btn btn-primary">Guardar Pariente</button>
+          <button type="submit" class="btn btn-primary">Guardar Devengo o Descuento</button>
 
         </div>
 
         <?php
 
-         // $crearp = new ControladorParentesco();
-         // $crearp -> ctrCrearParentesco();
+          $creardesc = new ControladorEmpleadoDescuento();
+          $creardesc -> ctrCrearEmpleadoDescuento();
 
         ?>
 

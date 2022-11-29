@@ -211,6 +211,9 @@ require_once "modelos/ajustes.modelo.php";
 require_once "controladores/descuentos.controlador.php";
 require_once "modelos/descuentos.modelo.php";
 
+/* **  EMPLEADO descuentos *** */
+require_once "controladores/empleadodescuento.controlador.php";
+require_once "modelos/empleadodescuento.modelo.php";
 
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();
