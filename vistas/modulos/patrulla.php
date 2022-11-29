@@ -59,7 +59,7 @@ function getContent() {
                   <th style="width:10px">#</th>
                   
                   <th>Código Patrulla</th>
-                  <th>Dscripción</th>
+                  <th>Descripción</th>
                   <th>Jefe Operación</th>
                   <th>Acciones</th>
       

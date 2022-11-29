@@ -35,11 +35,26 @@ $(document).ready(function(){
 	$(".input_numero").attr("placeholder", texto+" Numero");
 	$(".input_numero").addClass("telefono");
 
-	$(".grupocelular_sim").empty();
+
 	$(".grupocelular_tipocelular").empty();
+	$(".grupocelular_tipocelular").append($("#stipocelular"));
+
+
+
+	$(".grupocelular_sim").empty();
+	$(".grupocelular_sim").append($("#seleccionar_sim"));
+	$(".grupocelular_sim").append($(".operador_celular"));
+	$(".operador_celular").append($(".imei_celular"));
+
+
+
+	$(".egrupocelular_tipocelular").empty();
+	$(".egrupocelular_tipocelular").append($("#estipocelular"));
 
 	$(".egrupocelular_sim").empty();
-	$(".egrupocelular_tipocelular").empty();
+	$(".egrupocelular_sim").append($("#editar_sim_celular"));
+	$(".egrupocelular_sim").append($(".editar_operador"));
+	$(".editar_operador").append($(".editar_imei"));
 
 
 

@@ -55,7 +55,7 @@ success: function(respuesta){
 
       $(".codigo").text(respuesta["codigo_patrulla"]);
 			$(".jefe").text(respuesta["id_jefe_operaciones_patrulla"]);
-      $(".nuevoid_patrullas_pu").val(respuesta["id"])
+      $(".nuevoid_patrullas_pu").val(respuesta["idpatrulla"])
 
 }
 });
@@ -231,7 +231,7 @@ MODAL AGREGAR
 
             <!-- ENTRADA PARA CAMPOS  -->
 
-                <input type="text" class="nuevoid_patrullas_pu" name="nuevoid_patrullas_pu" placeholder="" value="" autocomplete="off" required style="display: none;">
+                <input type="text" class="nuevoid_patrullas_pu" name="nuevoid_patrullas_pu" placeholder="" value="" autocomplete="off" required style="display:none;">
 
               <div class="input-group ">
                   <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>

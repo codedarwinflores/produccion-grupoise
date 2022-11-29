@@ -287,6 +287,12 @@ $(document).ready(function(){
 			  $(".eubicacioncgrupo_facturar").append($(".efacturar_cliente"));
 			  $(".ubicacioninput_telefono_contacto").addClass("telefono");
 
+			  $(".ubicacioncgrupo_id_coordinador_zona").empty();
+			  $(".ubicacioncgrupo_id_coordinador_zona").append($(".coordinador"));
+			  
+			  $(".eubicacioncgrupo_id_coordinador_zona").empty();
+			  $(".eubicacioncgrupo_id_coordinador_zona").append($(".ecoordinador"));
+
  })
 
 

@@ -136,7 +136,7 @@ MODAL AGREGAR
               
                 <span class="input-group-addon"><i class="fa fa-qrcode"></i></span> 
 
-                <input type="text" class="form-control input-lg codigo_validar" name="nuevoCodigo" placeholder="Ingresar Código" required tabla_validar="departamentos_empresa" item_validar="codigo">
+                <input type="text" class="form-control input-lg codigo_validar trescaracter" name="nuevoCodigo" placeholder="Ingresar Código" required tabla_validar="departamentos_empresa" item_validar="codigo">
 
               </div>
 
@@ -234,7 +234,7 @@ MODAL EDITAR
               
                 <span class="input-group-addon"><i class="fa fa-qrcode"></i></span> 
 
-                <input type="text" class="form-control input-lg codigo" id="editarCodigo" name="editarCodigo" placeholder="Ingresar Código" value="" required tabla_validar="departamentos_empresa" item_validar="codigo">
+                <input type="text" class="form-control input-lg codigo trescaracter" id="editarCodigo" name="editarCodigo" placeholder="Ingresar Código" value="" required tabla_validar="departamentos_empresa" item_validar="codigo">
 
               </div>
 

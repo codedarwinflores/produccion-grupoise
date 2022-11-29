@@ -121,6 +121,41 @@ session_start();
 
 
 
+<script type="text/javascript">
+$(document).ready(function() {
+
+  
+    // 2
+    $('.doscaracter').attr("maxlength","2");
+    $('.trescaracter').attr("maxlength","3");
+    $('.cuatrocaracter').attr("maxlength","4");
+
+  /* asignar */
+
+  $(".input_nivel").addClass("trescaracter");
+  $(".isr_codigo").addClass("cuatrocaracter");
+  $(".servicios_codigo").attr("maxlength","2");
+  $(".seminarios_codigo").attr("maxlength","4");
+  $(".planilla_codigo").attr("maxlength","2");
+  $(".familia_codigo").attr("maxlength","4");
+  $(".tipoarma_input_codigo").attr("maxlength","4");
+  $(".tiporadio_codigo").attr("maxlength","4");
+  $(".tipovehiculo_input_codigo").attr("maxlength","4");
+  $(".binput_codigo").attr("maxlength","4");
+  $(".tipootrosequipos_codigo").attr("maxlength","4");
+  $(".celular_codigo").attr("maxlength","4");
+  $(".transequipo_codigo").attr("maxlength","2");
+  $(".personalinput_codigo").attr("maxlength","2");
+  $(".portacion_codigo").attr("maxlength","2");
+  $(".input_codigo_patrulla").attr("maxlength","2");
+  /* $(".").addClass("");
+  $(".").addClass("");
+  $(".").addClass("");
+  $(".").addClass(""); */
+});
+</script>
+
+
 </head>
 
 <!--=====================================
@@ -283,6 +318,7 @@ CUERPO DOCUMENTO
 
 <script src="vistas/js/validar.js"></script>
 
+
 <script>
 $(function(){
     
@@ -312,6 +348,9 @@ $(function(){
     });
 });
 </script>
+
+
+
 
 </body>
 </html>

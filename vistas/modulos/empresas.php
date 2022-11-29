@@ -146,7 +146,7 @@ MODAL AGREGAR EMPRESAS
               
                 <span class="input-group-addon"><i class="fa fa-qrcode"></i></span> 
 
-                <input type="text" class="form-control input-lg codigo_validar" name="nuevoCodigo_empresa" placeholder="Ingresar Código Empresa" tabla_validar="empresas" item_validar="codigo_empresa" required>
+                <input type="text" class="form-control input-lg codigo_validar doscaracter"  name="nuevoCodigo_empresa" placeholder="Ingresar Código Empresa" tabla_validar="empresas" item_validar="codigo_empresa" required>
 
               </div>
 
@@ -257,7 +257,7 @@ MODAL EDITAR EMPRESAS
               
                 <span class="input-group-addon"><i class="fa fa-qrcode"></i></span> 
 
-                <input type="text" class="form-control input-lg codigo" id="editarCodigo_empresa" name="editarCodigo_empresa" placeholder="Ingresar Código Empresa" value=""  required >
+                <input type="text" class="form-control input-lg codigo doscaracter" id="editarCodigo_empresa" name="editarCodigo_empresa" placeholder="Ingresar Código Empresa" value=""  required >
 
               </div>
 
