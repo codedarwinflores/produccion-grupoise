@@ -118,6 +118,12 @@
 						</a>
 					</li>
 					<li>
+						<a href="descuentos">
+							<i class="fa fa-exchange"></i>
+							<span>Devengos y Descuentos</span>
+						</a>
+					</li>
+					<li>
 						<a href="sim">
 							<i class="fa fa-print"></i>
 							<span>Tarjeta SIM</span>

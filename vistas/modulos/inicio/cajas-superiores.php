@@ -205,7 +205,32 @@
     </a>
   </div>
 
+  
+
 </div>
+
+<div class="col-lg-2 col-xs-6">
+
+  <div class="small-box " style="background-color: #222d32eb;color: #ffb002;">    
+    <div class="inner">    
+      <p>Descuentos y Devengos</p>    
+    </div>    
+    <div class="icon">      
+      <i class="fa fa-exchange"></i>    
+    </div>    
+    <a href="descuentos" class="small-box-footer">      
+      Más info <i class="fa fa-arrow-circle-right"></i>    
+    </a>
+  </div>
+
+  
+
+</div>
+
+
+
+
+
 
 <div class="col-lg-12 col-xs-12">
   <p style="font-weight: bold;font-size: x-large;">Equipos </p>

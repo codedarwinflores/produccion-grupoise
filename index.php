@@ -207,6 +207,11 @@ require_once "modelos/celular.modelo.php";
 require_once "controladores/ajustes.controlador.php";
 require_once "modelos/ajustes.modelo.php";
 
+/* **  descuentos *** */
+require_once "controladores/descuentos.controlador.php";
+require_once "modelos/descuentos.modelo.php";
+
+
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();
 

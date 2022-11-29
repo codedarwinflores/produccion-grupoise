@@ -195,7 +195,8 @@ CUERPO DOCUMENTO
          $_GET["ruta"] == "tipootrosequipos" ||        
          $_GET["ruta"] == "tipocelular" ||        
          $_GET["ruta"] == "celular" ||        
-         $_GET["ruta"] == "ajustes" ||        
+         $_GET["ruta"] == "ajustes" ||   
+         $_GET["ruta"] == "descuentos" ||      
          $_GET["ruta"] == "salir"){
 
         include "modulos/".$_GET["ruta"].".php";
@@ -277,6 +278,8 @@ CUERPO DOCUMENTO
 <script src="vistas/js/celular.js"></script>
 <script src="vistas/js/ajustes.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+
+<script src="vistas/js/descuentos.js"></script>
 
 <script src="vistas/js/validar.js"></script>
 
