@@ -41,10 +41,10 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
            
            <th style="width:10px">#</th>
            <th>Foto</th>
-           <th>Primer Nombre</th>
+           <th>Nombre completo</th>
            <th>Tipo Documento</th> 
            <th># Documento</th>  
-           <th>Imagen Documento</th>        
+          
            <th>Estado</th>           
            <th>Acciones</th>
 
@@ -92,7 +92,7 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
                     echo '<td><img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail" width="40px"></td>';
                   }
 
-                 echo '<td>'.$value["primer_nombre"].'</td>';
+                 echo '<td>'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["tercer_nombre"].' '.$value["primer_apellido"].' '.$value["segundo_apellido"].' '.$value["apellido_casada"]. '</td>';
 
                   
 
@@ -100,11 +100,7 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
                   echo '<td>'.$value["numero_documento_identidad"].'</td>';
 
 
-                  if($value["imagen_documento_identidad"] != ""){
-                    echo '<td><img src="'.$value["imagen_documento_identidad"].'" class="img-thumbnail" width="40px"></td>';
-                  }else{
-                    echo '<td><img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail" width="40px"></td>';
-                  }
+                 
 
 
                   echo '<td>'.$nombreEstado.'</td>';          
@@ -118,6 +114,7 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
                       <button class="btn btn-info btnImprimirImagenes"  style="background-color: #3c8dbc;"   empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-print"></i></button>
                       <button class="btn btn-info btnParentesco"  style="background-color: #3c8dbc;" idEmpleado="'.$value["id"].'"  data-toggle="modal" data-target="#modalParentesco" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-users"></i></button> 
                       <button class="btn btn-info btnDescuentos"  style="background-color: #3c8dbc;" idEmpleado="'.$value["id"].'"  data-toggle="modal" data-target="#modalDescuento" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-exchange"></i></button> 
+                      <button class="btn btn-info btnSeminarios"  style="background-color: #3c8dbc;" idEmpleado="'.$value["id"].'"  data-toggle="modal" data-target="#modalSeminario" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-trophy"></i></button> 
                       <button class="btn btn-danger btnEliminarEmpleado" idEmpleado="'.$value["id"].'" fotoEmpleado="'.$value["fotografia"].'" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-times"></i></button>
 
                     </div>  
@@ -2358,6 +2355,101 @@ MODAL DESCUENTOS
 
 </div>
 
+<!--=====================================
+MODAL SEMINARIO 
+======================================-->
+
+<div id="modalSeminario" class="modal fade" role="dialog">
+  
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+
+      
+
+        <!--=====================================
+        CABEZA DEL MODAL
+        ======================================-->
+
+        <div class="modal-header" style="background:#3c8dbc; color:white">
+
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+          <h4 class="modal-title">Seminarios</h4>
+
+        </div>
+
+        <!--=====================================
+        CUERPO DEL MODAL
+        ======================================-->
+        <div class="modal-body">
+          <div id="headerEmpleadoSeminario"></div>
+          <div class="box-body">
+
+          <form role="form" method="post" enctype="multipart/form-data">
+          <label for="">FORMULARIO DE NUEVO SEMINARIO</label> 
+            <!-- ENTRADA PARA SELECCIONAR TIPO DOCUMENTO -->
+            <input type="hidden" name="idEmpleadoSeminario" id="idEmpleadoSeminario" value="">
+           
+            <div class="form-group">
+              <label for="">Seleccionar Seminario:</label>             
+              <div class="input-group">              
+                <span class="input-group-addon"><i class="fa fa-users"></i></span> 
+                <select class="form-control input-lg" name="nuevoIdSeminario" required>                  
+                  <option value="" >Seleccione una opci&oacute;n</option>  
+                  <?php
+                    $datos_mostrar_seminario = Controladorseminarios::ctrMostrar($item, $valor);
+                    foreach ($datos_mostrar_seminario as $key => $value){
+                      echo '<option value="'.$value["id"].'-'.$value["codigo"].'">'.$value["codigo"].' - '.$value["nombre"].'</option>';                     
+                    }
+                ?>
+                 
+                </select>
+              </div>
+            </div>          
+            
+            <!-- ENTRADA FECHA REALIZACION SEMINARIO   --> 
+            <div class="form-group">
+            Fecha Realizado:
+            <div class="input-group">           
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                <input type="text" value="" class="calendario nuevofecha_seminarior form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_seminarior" placeholder="Ingresar Fecha" readonly>
+                <input type="text" class="oficial_nuevofecha_seminarior" name="nuevofecha_seminarior" style="display: none;">
+            </div>
+          </div>
+            
+          
+                      
+          </div>
+
+        </div>
+
+        <!--=====================================
+        PIE DEL MODAL
+        ======================================-->
+
+        <div class="modal-footer">
+
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
+
+          <button type="submit" class="btn btn-primary">Guardar Seminario</button>
+
+        </div>
+
+        <?php
+
+          $crearsem = new ControladorEmpleadoSeminario();
+          $crearsem -> ctrCrearEmpleadoSeminario();
+
+        ?>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>
 
 
 

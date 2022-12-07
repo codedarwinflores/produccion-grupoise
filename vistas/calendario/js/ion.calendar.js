@@ -563,6 +563,13 @@
                         $(".oficial_nuevofecha_caducidad").val(newDate);
                        // alert(newDate);
                     }
+                    else if(x=="nuevofecha_seminarior"){
+                        //alert(x)
+                        var dateNEW = $('.nuevofecha_seminarior').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".oficial_nuevofecha_seminarior").val(newDate);
+                       // alert(newDate);
+                    }
                 }
 
                 function formatofecha_editar(x){

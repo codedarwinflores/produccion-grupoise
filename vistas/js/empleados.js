@@ -1237,3 +1237,83 @@ function eliminarEmpleadodescuento(idDescuentoEmpleado){
 
 	})
 }
+
+/*=============================================
+CLICK BTN SEMINARIOS
+=============================================*/
+$( ".btnSeminarios" ).click(function() {
+	//asignar el valor al hidden del form parentesco
+	var idEmpleadoSeminario = $(this).attr("idEmpleado");	
+	document.getElementById("idEmpleadoSeminario").value = idEmpleadoSeminario; 
+	
+	//mostrar los datos generales de empleado con ajax
+	//tambien traer los parientes ya registrados en <html>
+	
+	
+	var datosEmpleadoSeminario = new FormData();
+	datosEmpleadoSeminario.append("id_empleado", idEmpleadoSeminario);
+	$.ajax({
+	    url:"ajax/empleados_seminarios.ajax.php",
+	    method:"POST",
+	    data: datosEmpleadoSeminario,
+	    cache: false,
+	    contentType: false,
+	    processData: false,
+	    dataType: "text",
+	    success:function(respuestaEmpleadosSeminarios){
+	    	
+	    	document.getElementById("headerEmpleadoSeminario").innerHTML = respuestaEmpleadosSeminarios;
+
+	    }
+
+	})
+	
+
+});
+
+/*=============================================
+ELIMINAR SEMINARIO
+=============================================*/
+
+function eliminarEmpleadoseminario(idSeminarioEmpleado){
+	var datosEliminarSeminario = new FormData();
+	datosEliminarSeminario.append("id_seminario", idSeminarioEmpleado);
+	datosEliminarSeminario.append("bandera_eliminar", "eliminar");
+	$.ajax({
+	    url:"ajax/empleados_seminarios.ajax.php",
+	    method:"POST",
+	    data: datosEliminarSeminario,
+	    cache: false,
+	    contentType: false,
+	    processData: false,
+	    dataType: "text",
+	    success:function(respuestaSeminario){
+	    	if(respuestaSeminario =="0"){
+				//alert("Pariente eliminado correctamente");
+				swal({
+
+					type: "success",
+					title: "El Seminario ha sido eliminado correctamente!",
+					showConfirmButton: true,
+					confirmButtonText: "Cerrar"
+
+				}).then(function(result){
+
+					if(result.value){
+					
+						window.location = "empleados";
+
+					}
+
+				});
+			}
+			else{
+				alert("El Seminario no pudo eliminarse");
+				location.reload();
+			}
+	    	
+
+	    }
+
+	})
+}
