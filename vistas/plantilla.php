@@ -132,8 +132,260 @@ $(document).ready(function() {
 
   /* asignar */
 
-  $(".input_nivel").addClass("trescaracter");
-  $(".isr_codigo").addClass("cuatrocaracter");
+
+  $( ".doscaracter" ).blur(function() {
+    if ( $(this).val().trim().length > 0 ) {}
+    else {
+      alert("El campo contiene espacios y está vacío");
+      $(this).val("");
+    }
+    if($(this).val().trim().length < 2){
+      alert("Por favor complete el campo");
+      $(this).val("");
+    }
+  });
+
+ /*  ****** */
+
+ $( ".trescaracter" ).blur(function() {
+    if ( $(this).val().trim().length > 0 ) {}
+    else {
+      alert("El campo contiene espacios y está vacío");
+      $(this).val("");
+    }
+    if($(this).val().trim().length < 3){
+      alert("Por favor complete el campo");
+      $(this).val("");
+    }
+  });
+
+  
+ $( ".cuatrocaracter" ).blur(function() {
+    if ( $(this).val().trim().length > 0 ) {}
+    else {
+      alert("El campo contiene espacios y está vacío");
+      $(this).val("");
+    }
+    if($(this).val().trim().length < 4){
+      alert("Por favor complete el campo");
+      $(this).val("");
+    }
+  });
+
+  
+ $( ".servicios_codigo" ).blur(function() {
+    if ( $(this).val().trim().length > 0 ) {}
+    else {
+      alert("El campo contiene espacios y está vacío");
+      $(this).val("");
+    }
+    if($(this).val().trim().length < 2){
+      alert("Por favor complete el campo");
+      $(this).val("");
+    }
+  });
+
+
+  
+ $( ".seminarios_codigo" ).blur(function() {
+    if ( $(this).val().trim().length > 0 ) {}
+    else {
+      alert("El campo contiene espacios y está vacío");
+      $(this).val("");
+    }
+    if($(this).val().trim().length < 4){
+      alert("Por favor complete el campo");
+      $(this).val("");
+    }
+  });
+
+  
+ $( ".planilla_codigo" ).blur(function() {
+    if ( $(this).val().trim().length > 0 ) {}
+    else {
+      alert("El campo contiene espacios y está vacío");
+      $(this).val("");
+    }
+    if($(this).val().trim().length < 2){
+      alert("Por favor complete el campo");
+      $(this).val("");
+    }
+  });
+
+  
+ $( ".familia_codigo" ).blur(function() {
+    if ( $(this).val().trim().length > 0 ) {}
+    else {
+      alert("El campo contiene espacios y está vacío");
+      $(this).val("");
+    }
+    if($(this).val().trim().length < 4){
+      alert("Por favor complete el campo");
+      $(this).val("");
+    }
+  });
+
+  
+ $( ".tipoarma_input_codigo" ).blur(function() {
+    if ( $(this).val().trim().length > 0 ) {}
+    else {
+      alert("El campo contiene espacios y está vacío");
+      $(this).val("");
+    }
+    if($(this).val().trim().length < 4){
+      alert("Por favor complete el campo");
+      $(this).val("");
+    }
+  });
+
+  
+ $( ".tiporadio_codigo" ).blur(function() {
+    if ( $(this).val().trim().length > 0 ) {}
+    else {
+      alert("El campo contiene espacios y está vacío");
+      $(this).val("");
+    }
+    if($(this).val().trim().length < 4){
+      alert("Por favor complete el campo");
+      $(this).val("");
+    }
+  });
+
+  
+ $( ".tipovehiculo_input_codigo" ).blur(function() {
+    if ( $(this).val().trim().length > 0 ) {}
+    else {
+      alert("El campo contiene espacios y está vacío");
+      $(this).val("");
+    }
+    if($(this).val().trim().length < 4){
+      alert("Por favor complete el campo");
+      $(this).val("");
+    }
+  });
+
+  
+ $( ".binput_codigo" ).blur(function() {
+    if ( $(this).val().trim().length > 0 ) {}
+    else {
+      alert("El campo contiene espacios y está vacío");
+      $(this).val("");
+    }
+    if($(this).val().trim().length < 4){
+      alert("Por favor complete el campo");
+      $(this).val("");
+    }
+  });
+
+  
+ $( ".tipootrosequipos_codigo" ).blur(function() {
+    if ( $(this).val().trim().length > 0 ) {}
+    else {
+      alert("El campo contiene espacios y está vacío");
+      $(this).val("");
+    }
+    if($(this).val().trim().length < 4){
+      alert("Por favor complete el campo");
+      $(this).val("");
+    }
+  });
+
+  
+ $( ".celular_codigo" ).blur(function() {
+    if ( $(this).val().trim().length > 0 ) {}
+    else {
+      alert("El campo contiene espacios y está vacío");
+      $(this).val("");
+    }
+    if($(this).val().trim().length < 4){
+      alert("Por favor complete el campo");
+      $(this).val("");
+    }
+  });
+
+  
+ $( ".transequipo_codigo" ).blur(function() {
+    if ( $(this).val().trim().length > 0 ) {}
+    else {
+      alert("El campo contiene espacios y está vacío");
+      $(this).val("");
+    }
+    if($(this).val().trim().length < 2){
+      alert("Por favor complete el campo");
+      $(this).val("");
+    }
+  });
+  
+  
+ $( ".personalinput_codigo" ).blur(function() {
+    if ( $(this).val().trim().length > 0 ) {}
+    else {
+      alert("El campo contiene espacios y está vacío");
+      $(this).val("");
+    }
+    if($(this).val().trim().length < 2){
+      alert("Por favor complete el campo");
+      $(this).val("");
+    }
+  });
+
+  
+ $( ".portacion_codigo" ).blur(function() {
+    if ( $(this).val().trim().length > 0 ) {}
+    else {
+      alert("El campo contiene espacios y está vacío");
+      $(this).val("");
+    }
+    if($(this).val().trim().length < 2){
+      alert("Por favor complete el campo");
+      $(this).val("");
+    }
+  });
+
+  
+ $( ".input_codigo_patrulla" ).blur(function() {
+    if ( $(this).val().trim().length > 0 ) {}
+    else {
+      alert("El campo contiene espacios y está vacío");
+      $(this).val("");
+    }
+    if($(this).val().trim().length < 2){
+      alert("Por favor complete el campo");
+      $(this).val("");
+    }
+  });
+
+
+  
+ $( ".cargos_nivel" ).blur(function() {
+    if ( $(this).val().trim().length > 0 ) {}
+    else {
+      alert("El campo contiene espacios y está vacío");
+      $(this).val("");
+    }
+    if($(this).val().trim().length < 3){
+      alert("Por favor complete el campo");
+      $(this).val("");
+    }
+  });
+
+  
+  
+ $( ".isr_codigo" ).blur(function() {
+    if ( $(this).val().trim().length > 0 ) {}
+    else {
+      alert("El campo contiene espacios y está vacío");
+      $(this).val("");
+    }
+    if($(this).val().trim().length < 3){
+      alert("Por favor complete el campo");
+      $(this).val("");
+    }
+  });
+
+
+  $(".cargos_nivel").attr("maxlength","3");
+  $(".isr_codigo").attr("maxlength","4");
   $(".servicios_codigo").attr("maxlength","2");
   $(".seminarios_codigo").attr("maxlength","4");
   $(".planilla_codigo").attr("maxlength","2");
