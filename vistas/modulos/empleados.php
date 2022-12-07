@@ -42,8 +42,8 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
            <th style="width:10px">#</th>
            <th>Foto</th>
            <th>Nombre completo</th>
-           <th>Tipo Documento</th> 
-           <th># Documento</th>  
+           
+           <th>Documento</th>  
           
            <th>Estado</th>           
            <th>Acciones</th>
@@ -96,8 +96,8 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
 
                   
 
-                  echo '<td>'.$value["documento_identidad"].'</td>';
-                  echo '<td>'.$value["numero_documento_identidad"].'</td>';
+                
+                  echo '<td>'.$value["documento_identidad"].': '.$value["numero_documento_identidad"].'</td>';
 
 
                  
