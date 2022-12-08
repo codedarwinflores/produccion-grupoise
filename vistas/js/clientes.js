@@ -139,7 +139,7 @@ $(document).ready(function(){
 
 	
 	$(".icono_contacto").addClass("fa fa-mobile");
-	$(".input_contacto").attr("placeholder", texto+" Contacto");
+	$(".input_contacto").attr("placeholder", texto+" contacto de operaciones");
 
 	
 	$(".icono_id_pais").addClass("fa fa-globe");
@@ -267,7 +267,24 @@ $(document).ready(function(){
 	$(".input_dui").addClass("duis");
 
 	
-	
+	/* ******NUVOS CAMPOS******** */
+
+	$(".icono_contacto_contable").addClass("fa  fa-pencil-square-o");
+	$(".input_contacto_contable").attr("placeholder", texto+" Contacto Contable");
+
+
+	$(".icono_telefono_contacto_contable").addClass("fa  fa-phone");
+	$(".input_telefono_contacto_contable").attr("placeholder", texto+" Teléfono Contacto Contable");
+
+	$(".icono_correo_contacto_contable").addClass("fa  fa-envelope");
+	$(".input_correo_contacto_contable").attr("placeholder", texto+" Correo Contacto Contable");
+
+	$("#editartelefono_contacto_contable").addClass("telefono");
+	$(".input_telefono_contacto_contable").addClass("telefono");
+
+	$(".input_correo_contacto_contable").get(0).type = 'email';
+	$("#editarcorreo_contacto_contable").get(0).type = 'email';
+
 
 /* 	$(".icono_personal_asignado").addClass("fa fa-user");
 	$(".input_personal_asignado").attr("placeholder", texto+" Personal Asignado");
@@ -415,6 +432,23 @@ $(document).ready(function(){
 			  var input_dui = $(".input_dui").attr("placeholder");
 			  $(".clabel_dui").text(input_dui);
 
+			  
+              /* *********LABEL*********** */
+			  var input_contacto_contable = $(".input_contacto_contable").attr("placeholder");
+			  $(".clabel_contacto_contable").text(input_contacto_contable);
+
+		  
+              /* *********LABEL*********** */
+			  var input_telefono_contacto_contable = $(".input_telefono_contacto_contable").attr("placeholder");
+			  $(".clabel_telefono_contacto_contable").text(input_telefono_contacto_contable);
+
+		  
+              /* *********LABEL*********** */
+			  var input_correo_contacto_contable = $(".input_correo_contacto_contable").attr("placeholder");
+			  $(".clabel_correo_contacto_contable").text(input_correo_contacto_contable);
+
+		  
+
 
 			  $(".cgrupo_posee_contrato").empty();
 			  $(".cgrupo_posee_contrato").append($('#nposee_contrato'));
@@ -436,6 +470,7 @@ $(document).ready(function(){
 			  
 			  $(".ecgrupo_categoria_cliente").empty();
 			  $(".ecgrupo_categoria_cliente").append($('#enc_categoria'));
+
 		  
             
  })
@@ -643,6 +678,11 @@ $(".tablas").on("click", ".btnEditarclientes", function(){
 			$("#editartipo_servicio").val(respuesta["tipo_servicio"]);
 			$("#editarcategoria_cliente").val(respuesta["categoria_cliente"]);
 			$("#editardui").val(respuesta["dui"]);
+
+			/* NUEVOS */
+			$("#editarcontacto_contable").val(respuesta["contacto_contable"]);
+			$("#editartelefono_contacto_contable").val(respuesta["telefono_contacto_contable"]);
+			$("#editarcorreo_contacto_contable").val(respuesta["correo_contacto_contable"]);
 
 			
 

@@ -11,7 +11,7 @@ class ControladorServicios{
 
 	function getContent() {
 		global $nombretabla;
-		$query = "SHOW COLUMNS FROM $nombretabla";
+		$query = "SHOW COLUMNS FROM servicios_prestados";
 		$sql = Conexion::conectar()->prepare($query);
 		$sql->execute();			
 		return $sql->fetchAll();

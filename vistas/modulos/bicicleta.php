@@ -45,7 +45,7 @@ function getContent() {
 
       <div class="box-body">
         
-      <input type="text" value="" class="calendario" data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY" style="display: none;">
+      <input type="text" value="" class="calendario" data-lang="es" data-years="1600-2060" data-format="DD-MM-YYYY" style="display: none;">
         
       <table class="table table-bordered table-striped dt-responsive tablas" width="100%">
          

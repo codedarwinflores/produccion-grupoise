@@ -11,7 +11,7 @@ class ModeloServicios{
 
 	function getContent() {
 		global $nombretabla;
-		$query = "SHOW COLUMNS FROM $nombretabla";
+		$query = "SHOW COLUMNS FROM servicios_prestados";
 		$stmt = Conexion::conectar()->prepare($query);
 		$stmt->execute();			
 		return $stmt->fetchAll();
@@ -30,7 +30,7 @@ class ModeloServicios{
 
 		if($item != null){
 
-			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+			$stmt = Conexion::conectar()->prepare("SELECT * FROM servicios_prestados WHERE $item = :$item");
 
 			$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
 
@@ -40,7 +40,7 @@ class ModeloServicios{
 
 		}else{
 
-			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+			$stmt = Conexion::conectar()->prepare("SELECT * FROM servicios_prestados");
 
 			$stmt -> execute();
 

@@ -190,7 +190,7 @@ MODAL AGREGAR
               <label for="">Fecha Registro</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="icono_ fa fa-calendar"></i></span> 
-                <input type="text" class="form-control input-lg calendario input_fecharegistro " placeholder="Fecha Registro" value="" autocomplete="off" required data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY" fecha="fecharegistro" id="">
+                <input type="text" class="form-control input-lg calendario input_fecharegistro " placeholder="Fecha Registro" value="" autocomplete="off" required data-lang="es" data-years="1600-2060" data-format="DD-MM-YYYY" fecha="fecharegistro" id="">
                 <input type="text" name="nuevofecha_registro" class="fecharegistro" style="display: none;">
               </div>
             </div>
@@ -659,7 +659,7 @@ MODAL EDITAR
   <div class="input-group">
     
     <span class="input-group-addon"><i class="icono_ fa fa-calendar"></i></span> 
-    <input type="text" class="form-control input-lg calendario einput_efecharegistro " placeholder="Fecha Registro" value="" autocomplete="off" required data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY" fecha="efecharegistro" id="editarfecha_registro2">
+    <input type="text" class="form-control input-lg calendario einput_efecharegistro " placeholder="Fecha Registro" value="" autocomplete="off" required data-lang="es" data-years="1600-2060" data-format="DD-MM-YYYY" fecha="efecharegistro" id="editarfecha_registro2">
     <input type="text" name="editarfecha_registro" class="efecharegistro" id="editarfecha_registro" style="display: none;">
   </div>
 </div>

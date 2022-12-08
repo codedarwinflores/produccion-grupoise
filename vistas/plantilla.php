@@ -598,6 +598,8 @@ $(function(){
     $(document).ready(function() {
         $('.mi-selector').select2();
     });
+
+    $(".calendario").attr("readonly","readonly");
 });
 </script>
 

@@ -346,8 +346,7 @@ MODAL EDITAR
 <!--           <input type="hidden" name="id" id="editarid">
  -->
 
- <script>
-              
+            <script>
               /* ****ASIGNAR CODIGO SEGUN TIPO DE ARMA */
               $(document).on('change', '#editartipocelular', function(event) {
                    var obtenercodigo = $("#editartipocelular option:selected").attr("codigo");
@@ -361,7 +360,6 @@ MODAL EDITAR
                           method:"POST",
                           data: datos,
                           success:function(respuesta){
-                          
                             /* alert(respuesta.replace(/["']/g, "")); */
                             /* alert(respuesta); */
                             $("#editarcodigo").val(respuesta.replace(/["']/g, ""));

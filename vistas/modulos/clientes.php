@@ -45,7 +45,7 @@ function getContent() {
 
       <div class="box-body">
         
-      <input type="text" value="" class="calendario" data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY" style="display: none;">
+      <input type="text" value="" class="calendario" data-lang="es" data-years="1600-2060" data-format="DD-MM-YYYY" style="display: none;">
 
 
 
@@ -87,6 +87,9 @@ function getContent() {
             <th> Tipo de servicio:</th>
             <th> Categoría</th>
             <th> Dui</th>
+            <th> Contacto contable</th>
+            <th> Teléfono contacto contable</th>
+            <th> Correo electrónico contacto contable </th>
             <th>Acciones</th>
  
           </tr> 
@@ -138,7 +141,10 @@ function getContent() {
                    <td>'.$value["posee_contrato"].'</td>
                    <td>'.$value["nombreservicio"].'</td>
                    <td>'.$value["categoria_cliente"].'</td>
-                   <td>'.$value["dui"].'</td>';
+                   <td>'.$value["dui"].'</td>
+                   <td>'.$value["contacto_contable"].'</td>
+                   <td>'.$value["telefono_contacto_contable"].'</td>
+                   <td>'.$value["correo_contacto_contable"].'</td>';
  
                   
  

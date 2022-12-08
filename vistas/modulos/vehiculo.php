@@ -45,7 +45,7 @@ function getContent() {
 
       <div class="box-body">
 
-      <input type="text" value="" class="calendario" data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY" style="display: none;">
+      <input type="text" value="" class="calendario" data-lang="es" data-years="1600-2060" data-format="DD-MM-YYYY" style="display: none;">
 
         
       <table class="table table-bordered table-striped dt-responsive tablas" width="100%">
@@ -203,7 +203,7 @@ MODAL AGREGAR
           {
             $correlativo="0001";
           }
-          $html="<script>";
+         /*  $html="<script>";
             $html.="$(document).ready(function(){";
 
               $html .="var letra = 'VEHI';";
@@ -211,10 +211,57 @@ MODAL AGREGAR
               
             $html.="});";
             $html.="</script>";
-            echo $html;
+            echo $html; */
         ?>
 
             <!-- ************** -->
+
+            <script>
+              /* ****ASIGNAR CODIGO SEGUN TIPO DE ARMA */
+              $(document).on('change', '#nuevoid_tipo_vehiculo', function(event) {
+                   var obtenercodigo = $("#nuevoid_tipo_vehiculo option:selected").attr("codigo");
+                   /* *** */
+                        var datos = "obtenercodigo="+obtenercodigo;
+                        $.ajax({
+                          url:"ajax/code_vehiculo.ajax.php",
+                          method:"POST",
+                          data: datos,
+                          success:function(respuesta){
+                            /* alert(respuesta.replace(/["']/g, "")); */
+                            /* alert(respuesta); */
+                            $(".input_codigo_vehiculo").val(respuesta.replace(/["']/g, ""));
+                          }
+
+                        })
+                 /* *** */
+              });
+              /* ********* */
+            </script>
+
+            <script>
+              /* ****ASIGNAR CODIGO SEGUN TIPO DE ARMA */
+              $(document).on('change', '#editarid_tipo_vehiculo', function(event) {
+                   var obtenercodigo = $("#editarid_tipo_vehiculo option:selected").attr("codigo");
+                   /* *** */
+                        var datos = "obtenercodigo="+obtenercodigo;
+                        $.ajax({
+                          url:"ajax/code_vehiculo.ajax.php",
+                          method:"POST",
+                          data: datos,
+                          success:function(respuesta){
+                            /* alert(respuesta.replace(/["']/g, "")); */
+                            /* alert(respuesta); */
+                            $("#editarcodigo_vehiculo").val(respuesta.replace(/["']/g, ""));
+                          }
+
+                        })
+                 /* *** */
+              });
+              /* ********* */
+            </script>
+
+
+
 
           <?php 
              $data = getContent();
@@ -296,13 +343,13 @@ MODAL AGREGAR
               <label for="">Seleccione Tipo Vehículo</label>
             <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
-                <select name="nuevoid_tipo_vehiculo" id="" class="form-control input-lg" required>
+                <select name="nuevoid_tipo_vehiculo" id="nuevoid_tipo_vehiculo" class="form-control input-lg" required>
                   <option value="">Seleccione Tipo Vehículo</option>
                 <?php
                     $datos_mostrar = Controladortipovehiculo::ctrMostrar($item, $valor);
                     foreach ($datos_mostrar as $key => $value){
                 ?>
-                    <option value="<?php echo $value['id'] ?>"><?php echo $value["nombre_tipo"] ?></option>  
+                    <option value="<?php echo $value['id'] ?>" codigo="<?php echo $value['codigo'] ?>"><?php echo $value["nombre_tipo"] ?></option>  
                 <?php
                     }
                   ?>
@@ -463,7 +510,7 @@ MODAL EDITAR
                     $datos_mostrar = Controladortipovehiculo::ctrMostrar($item, $valor);
                     foreach ($datos_mostrar as $key => $value){
                 ?>
-                    <option value="<?php echo $value['id'] ?>"><?php echo $value["nombre_tipo"] ?></option>  
+                    <option value="<?php echo $value['id'] ?>" codigo="<?php echo $value['codigo'] ?>"><?php echo $value["nombre_tipo"] ?></option>  
                 <?php
                     }
                   ?>

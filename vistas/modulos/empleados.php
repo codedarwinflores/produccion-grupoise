@@ -437,7 +437,7 @@ MODAL AGREGAR EMPLEADO
           Fecha Expedici&oacute;n Documento:
             <div class="input-group">           
                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                <input type="text" value="" class="calendario nuevofecha_expedicion form-control input-lg" data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_expedicion" placeholder="Ingresar Fecha" readonly>
+                <input type="text" value="" class="calendario nuevofecha_expedicion form-control input-lg" data-lang="es" data-years="1600-2060" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_expedicion" placeholder="Ingresar Fecha" readonly>
                 <input type="text" class="oficial_nuevofecha_expedicion" name="nuevofecha_expedicion" style="display: none;">
             </div>
           </div>
@@ -446,7 +446,7 @@ MODAL AGREGAR EMPLEADO
           Fecha Vencimiento Documento:
             <div class="input-group">           
                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                <input type="text" value="" class="calendario nuevofecha_vencimiento form-control input-lg" data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_vencimiento" placeholder="Ingresar Fecha" readonly>
+                <input type="text" value="" class="calendario nuevofecha_vencimiento form-control input-lg" data-lang="es" data-years="1600-2060" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_vencimiento" placeholder="Ingresar Fecha" readonly>
                 <input type="text" class="oficial_nuevofecha_vencimiento" name="nuevofecha_vencimiento" style="display: none;">
             </div>
           </div>
@@ -1436,7 +1436,7 @@ MODAL EDITAR EMPLEADO
               Fecha Expedici&oacute;n Documento:
               <div class="input-group">                  
                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                  <input type="text" value="" class="calendario editarfecha_expedicion form-control input-lg" data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_expedicion" placeholder="Ingresar Fecha" id="mascarafecha" readonly>
+                  <input type="text" value="" class="calendario editarfecha_expedicion form-control input-lg" data-lang="es" data-years="1600-2060" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_expedicion" placeholder="Ingresar Fecha" id="mascarafecha" readonly>
                   <input type="text" class="oficial_editarfecha_expedicion" name="editarfecha_expedicion" style="display: none;" id="editarfecha_expedicion">
               </div>
             </div>
@@ -1445,7 +1445,7 @@ MODAL EDITAR EMPLEADO
               Fecha Vencimiento  Documento:
               <div class="input-group">                  
                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                  <input type="text" value="" class="calendario editarfecha_vencimiento form-control input-lg" data-lang="es" data-years="2015-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_vencimiento" placeholder="Ingresar Fecha" id="mascarafechav" readonly>
+                  <input type="text" value="" class="calendario editarfecha_vencimiento form-control input-lg" data-lang="es" data-years="1600-2060" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_vencimiento" placeholder="Ingresar Fecha" id="mascarafechav" readonly>
                   <input type="text" class="oficial_editarfecha_vencimiento" name="editarfecha_vencimiento" style="display: none;" id="editarfecha_vencimiento">
               </div>
             </div>
