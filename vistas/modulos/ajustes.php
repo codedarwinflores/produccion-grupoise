@@ -57,6 +57,7 @@ function getContent() {
             <th>Código</th>
             <th>Modulo</th>
             <th>Tipo Acción</th>
+            <th>Elemento</th>
             <th>Acciones</th>
  
           </tr> 
@@ -79,7 +80,8 @@ function getContent() {
                    <td><textarea class="form-control"  rows="15" style="width:100%" >
                    '.$value["code"].'</textarea></td>
                    <td>'.$value["name_table"].'</td>
-                   <td>'.$value["accion"].'</td>';
+                   <td>'.$value["accion"].'</td>
+                   <td>'.$value["elemento"].'</td>';
  
                   
  

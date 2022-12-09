@@ -250,6 +250,27 @@ MODAL AGREGAR
                    }
               });
 
+
+              
+              $(document).on('change', '#editartipo_municion', function(event) {
+                   var otro = $("#editartipo_municion option:selected").val();
+                   
+                   if(otro=="otros"){
+                    $("#editartipo_municion option:selected").val("otros");
+                    $("#editartipo_municion02").attr("style","display:block");
+
+                    $("#editartipo_municion02").change(function(){
+                      $("#editartipo_municion option:selected").val($("#editartipo_municion02").val());
+
+                    });
+
+                   }
+                   else{
+                    $("#editartipo_municion02").attr("style","display:none");
+
+                   }
+              });
+
             </script>
 
             <?php
@@ -374,7 +395,22 @@ MODAL AGREGAR
             </div>
         </div>
 
-          <div class="s_matricula_tipo">
+        <?php
+                    function clasificacionnuevo() {
+                      $query = "select * from ajustes where name_table='tbl_armas' and accion='nuevo'
+                      ";
+                      $sql = Conexion::conectar()->prepare($query);
+                      $sql->execute();			
+                      return $sql->fetchAll();
+                    };
+                  $data0 = clasificacionnuevo();
+                  foreach($data0 as $row0) {
+                    echo $row0['code'];
+                  }
+                ?>
+
+
+         <!--  <div class="s_matricula_tipo">
             <label for="">Seleccione Tipo Matricula</label>
             <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
@@ -385,8 +421,10 @@ MODAL AGREGAR
                 </select>
             </div>
           </div>
+ -->
 
-            <div class="s_municion_tipo">
+                  
+            <!-- <div class="s_municion_tipo">
               <label for="">Seleccione Tipo Munición</label>
                 <div class="input-group ">
                     <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
@@ -404,9 +442,9 @@ MODAL AGREGAR
                     <input type="text" class="form-control input-lg " id="texto_tipomunicion" style="display: none;">
                 </div>
             </div>
+ -->
 
-
-            <div class="s_estado">
+            <!-- <div class="s_estado">
               <label for="">Seleccionar Estado</label>
             <div class="input-group ">
                <span class="input-group-addon"><i class="fa fa-shield"></i></span>
@@ -416,7 +454,7 @@ MODAL AGREGAR
                     <option value="Inactiva">Inactiva</option>  
                 </select>
             </div>
-            </div>
+            </div> -->
                     
           
 
@@ -587,8 +625,23 @@ MODAL EDITAR
             </div>
 
 
+            
+        <?php
+                    function editar() {
+                      $query = "select * from ajustes where name_table='tbl_armas' and accion='editar'
+                      ";
+                      $sql = Conexion::conectar()->prepare($query);
+                      $sql->execute();			
+                      return $sql->fetchAll();
+                    };
+                  $data0 = editar();
+                  foreach($data0 as $row0) {
+                    echo $row0['code'];
+                  }
+                ?>
 
-            <div class="editar_s_matricula_tipo">
+
+            <!-- <div class="editar_s_matricula_tipo">
             <label for="">Seleccione Tipo Matricula</label>
             <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
@@ -598,9 +651,9 @@ MODAL EDITAR
                     <option value="Tenencia">Tenencia</option>  
                 </select>
             </div>
-            </div>
+            </div> -->
 
-            <div class="editar_s_municion_tipo">
+            <!-- <div class="editar_s_municion_tipo">
               <label for="">Seleccione Tipo Munición</label>
             <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
@@ -617,10 +670,10 @@ MODAL EDITAR
                 </select>
                 <input type="text" class="form-control input-lg" id="editartipo_municion02" style="display: none;">
             </div>
-            </div>
+            </div> -->
 
 
-            <div class="editar_s_estado">
+            <!-- <div class="editar_s_estado">
               <label for="">Seleccione Estado</label>
             <div class="input-group ">
                <span class="input-group-addon"><i class="fa fa-shield"></i></span>
@@ -630,7 +683,7 @@ MODAL EDITAR
                     <option value="Inactiva">Inactiva</option>  
                 </select>
             </div>
-            </div>
+            </div> -->
 
 
             

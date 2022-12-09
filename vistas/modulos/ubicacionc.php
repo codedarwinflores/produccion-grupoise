@@ -324,7 +324,21 @@ MODAL AGREGAR
               <input type="hidden" name="nuevobonos" value="bono">
              </div>
 
-             <div id="svisitas">
+             <?php
+                    function ubicacion_nuevo() {
+                      $query = "select * from ajustes where name_table='tbl_clientes_ubicaciones' and accion='nuevo'
+                      ";
+                      $sql = Conexion::conectar()->prepare($query);
+                      $sql->execute();			
+                      return $sql->fetchAll();
+                    };
+                  $data0 = ubicacion_nuevo();
+                  foreach($data0 as $row0) {
+                    echo $row0['code'];
+                  }
+                ?>
+
+             <!-- <div id="svisitas">
                 <label for="" class="">Seleccione Visitas</label>
                 <div class="input-group" >
                   <span class="input-group-addon"><i class="fa fa-server"></i></span> 
@@ -334,9 +348,9 @@ MODAL AGREGAR
                     <option value="QUINCENAL">QUINCENAL</option>
                   </select>
                 </div>
-             </div>
+             </div> -->
              
-             
+             <!-- 
              <div id="">
                 <label for="" class="">Seleccione Tipo Documento</label>
                 <div class="input-group" >
@@ -348,10 +362,10 @@ MODAL AGREGAR
                     <option value="FE">FE</option>
                   </select>
                 </div>
-             </div>
+             </div> -->
 
              
-             <div id="">
+             <!-- <div id="">
                 <label for="" class="">Seleccione Forma de Pago</label>
                 <div class="input-group" >
                   <span class="input-group-addon"><i class="fa fa-server"></i></span> 
@@ -366,7 +380,7 @@ MODAL AGREGAR
                   </select>
                 </div>
              </div>
-
+ -->
              
              <div id="">
                 <label for="" class="">Concepto</label>
@@ -467,7 +481,7 @@ MODAL AGREGAR
              </div>
 
 
-             <div id="">
+<!--              <div id="">
                 <label for="" class="">Seleccione la Zona</label>
                 <div class="input-group" >
                   <span class="input-group-addon"><i class="fa fa-server"></i></span> 
@@ -481,13 +495,13 @@ MODAL AGREGAR
                   </select>
                 </div>
              </div>
-
+ -->
 
 
              
 
              
-             <div id="snuevorubro">
+             <!-- <div id="snuevorubro">
                 <label for="" class="">Seleccione Rubro</label>
                 <div class="input-group" >
                   <span class="input-group-addon"><i class="fa fa-server"></i></span> 
@@ -501,7 +515,7 @@ MODAL AGREGAR
                     <option value="EMPRESA">EMPRESA</option>
                   </select>
                 </div>
-             </div>
+             </div> -->
 
 
              <input type="text" name="nuevofecha_inicio" class="nuevoubicacionfechainicio" placeholder="fecha_inicio" style="display: none;">
@@ -727,8 +741,23 @@ MODAL EDITAR
              <input type="hidden" name="editarbonos" id="editarbonos02" value="bono">
              </div>
 
+
              
-             <div id="esvisitas">
+             <?php
+                    function ubicacion_editar() {
+                      $query = "select * from ajustes where name_table='tbl_clientes_ubicaciones' and accion='editar'
+                      ";
+                      $sql = Conexion::conectar()->prepare($query);
+                      $sql->execute();			
+                      return $sql->fetchAll();
+                    };
+                  $data0 = ubicacion_editar();
+                  foreach($data0 as $row0) {
+                    echo $row0['code'];
+                  }
+                ?>
+             
+             <!-- <div id="esvisitas">
                 <label for="" class="">Seleccione Visitas</label>
                 <div class="input-group" >
                   <span class="input-group-addon"><i class="fa fa-server"></i></span> 
@@ -738,11 +767,11 @@ MODAL EDITAR
                     <option value="QUINCENAL">QUINCENAL</option>
                   </select>
                 </div>
-             </div>
+             </div> -->
 
 
              
-             <div id="">
+             <!-- <div id="">
                 <label for="" class="">Seleccione Tipo Documento</label>
                 <div class="input-group" >
                   <span class="input-group-addon"><i class="fa fa-server"></i></span> 
@@ -754,9 +783,9 @@ MODAL EDITAR
                   </select>
                 </div>
              </div>
-
+ -->
              
-             <div id="">
+             <!-- <div id="">
                 <label for="" class="">Seleccione Forma de Pago</label>
                 <div class="input-group" >
                   <span class="input-group-addon"><i class="fa fa-server"></i></span> 
@@ -770,7 +799,7 @@ MODAL EDITAR
                     <option value="24 Meses">24 Meses</option>
                   </select>
                 </div>
-             </div>
+             </div> -->
 
              
              <div id="">
@@ -876,7 +905,7 @@ MODAL EDITAR
              </div>
 
 
-             <div id="">
+             <!-- <div id="">
                 <label for="" class="">Seleccione la Zona</label>
                 <div class="input-group" >
                   <span class="input-group-addon"><i class="fa fa-server"></i></span> 
@@ -890,11 +919,11 @@ MODAL EDITAR
                   </select>
                 </div>
              </div>
-
+ -->
              <!-- *************** -->
 
              
-             <div id="esnuevorubro">
+             <!-- <div id="esnuevorubro">
                 <label for="" class="">Seleccione Rubro</label>
                 <div class="input-group" >
                   <span class="input-group-addon"><i class="fa fa-server"></i></span> 
@@ -909,7 +938,7 @@ MODAL EDITAR
                   </select>
                 </div>
              </div>
-
+ -->
              
              <input type="text" name="editarfecha_inicio" id="inputeditarfecha_inicio" class="ubicacionfechainicio" placeholder="fecha_inicio" style="display: none;">
              <input type="text" name="editarfecha_fin" id="inputeditarfecha_fin" class="ubicacionfechafin" placeholder="fecha_fin" style="display: none;">

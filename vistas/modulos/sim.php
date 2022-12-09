@@ -173,7 +173,7 @@ MODAL AGREGAR
           ?>
              
 
-             <div id="nuevooperador">
+            <!--  <div id="nuevooperador">
              <label for="" class="">Seleccione Operador</label> 
             
              <div class="input-group" >
@@ -187,7 +187,20 @@ MODAL AGREGAR
               </select>
              </div>
              </div>
-          
+           -->
+           <?php
+                    function operadornuevo() {
+                      $query = "select * from ajustes where name_table='tarjetas_sim' and accion='nuevo' and elemento='Seleccione Operador'
+                      ";
+                      $sql = Conexion::conectar()->prepare($query);
+                      $sql->execute();			
+                      return $sql->fetchAll();
+                    };
+                  $data0 = operadornuevo();
+                  foreach($data0 as $row0) {
+                    echo $row0['code'];
+                  }
+                ?>
 
 
           </div>
@@ -281,7 +294,7 @@ MODAL EDITAR
           <?php
              }
           ?>
-           <div id="editaroperadordiv">
+           <!-- <div id="editaroperadordiv">
              <label for="" class="">Seleccione Operador</label> 
             
              <div class="input-group" id="">
@@ -294,8 +307,21 @@ MODAL EDITAR
                 <option value="Movistar">Movistar</option>
               </select>
              </div>
-           </div>
+           </div> -->
 
+           <?php
+                    function operadoreditar() {
+                      $query = "select * from ajustes where name_table='tarjetas_sim' and accion='editar' and elemento='Seleccione Operador'
+                      ";
+                      $sql = Conexion::conectar()->prepare($query);
+                      $sql->execute();			
+                      return $sql->fetchAll();
+                    };
+                  $data0 = operadoreditar();
+                  foreach($data0 as $row0) {
+                    echo $row0['code'];
+                  }
+                ?>
 
 
           </div>

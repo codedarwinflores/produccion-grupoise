@@ -209,7 +209,7 @@ MODAL AGREGAR
          <!-- ****** -->
 
 
-             <div id="">
+             <!-- <div id="">
              <label for="" class="">Seleccione Tipo de Transacción</label> 
             
              <div class="input-group" >
@@ -220,7 +220,21 @@ MODAL AGREGAR
                 <option value="Disminuye">Disminuye</option>
               </select>
              </div>
-             </div>
+             </div> -->
+
+             <?php
+                    function clasificacionnuevo() {
+                      $query = "select * from ajustes where name_table='tbl_transacciones_equipo' and accion='nuevo'
+                      ";
+                      $sql = Conexion::conectar()->prepare($query);
+                      $sql->execute();			
+                      return $sql->fetchAll();
+                    };
+                  $data0 = clasificacionnuevo();
+                  foreach($data0 as $row0) {
+                    echo $row0['code'];
+                  }
+                ?>
 
 
           
@@ -321,7 +335,7 @@ MODAL EDITAR
               <input type="hidden" name="editarnumero_transaccion_equipo" id="editarnumero_transaccion_equipo" class=""/>
 
              
-             <div id="">
+            <!--  <div id="">
              <label for="" class="">Seleccione Tipo de Transacción</label> 
             
              <div class="input-group" >
@@ -332,8 +346,22 @@ MODAL EDITAR
                 <option value="Disminuye">Disminuye</option>
               </select>
              </div>
-             </div>
+             </div> -->
 
+             
+             <?php
+                    function Transacción() {
+                      $query = "select * from ajustes where name_table='tbl_transacciones_equipo' and accion='editar'
+                      ";
+                      $sql = Conexion::conectar()->prepare($query);
+                      $sql->execute();			
+                      return $sql->fetchAll();
+                    };
+                  $data0 = Transacción();
+                  foreach($data0 as $row0) {
+                    echo $row0['code'];
+                  }
+                ?>
           </div>
 
         </div>

@@ -232,7 +232,7 @@ MODAL AGREGAR
              </div>
 
 
-             <div id="">
+             <!-- <div id="">
              <label for="" class="">Seleccione Tipo de Movimiento</label> 
              <div class="input-group" >
               <span class="input-group-addon"><i class="fa fa-server"></i></span> 
@@ -242,8 +242,21 @@ MODAL AGREGAR
                 <option value="Egreso">Egreso</option>
               </select>
              </div>
-             </div>
+             </div> -->
 
+             <?php
+                    function tipo_nuevo() {
+                      $query = "select * from ajustes where name_table='tbl_transacciones_personal' and accion='nuevo'
+                      ";
+                      $sql = Conexion::conectar()->prepare($query);
+                      $sql->execute();			
+                      return $sql->fetchAll();
+                    };
+                  $data0 = tipo_nuevo();
+                  foreach($data0 as $row0) {
+                    echo $row0['code'];
+                  }
+                ?>
 
 
           
@@ -360,7 +373,7 @@ MODAL EDITAR
 
 
 
-             <div id="">
+             <!-- <div id="">
              <label for="" class="">Seleccione Tipo de Movimiento</label> 
             
              <div class="input-group" >
@@ -371,7 +384,23 @@ MODAL EDITAR
                 <option value="Egreso">Egreso</option>
               </select>
              </div>
-             </div>
+             </div> -->
+
+             
+             <?php
+                    function tipo_editar() {
+                      $query = "select * from ajustes where name_table='tbl_transacciones_personal' and accion='editar'
+                      ";
+                      $sql = Conexion::conectar()->prepare($query);
+                      $sql->execute();			
+                      return $sql->fetchAll();
+                    };
+                  $data0 = tipo_editar();
+                  foreach($data0 as $row0) {
+                    echo $row0['code'];
+                  }
+                ?>
+
 
 
           </div>

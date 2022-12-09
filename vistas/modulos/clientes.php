@@ -299,24 +299,53 @@ MODAL AGREGAR
           <!-- *** -->
 
           <!-- ***CLASIFICACION -->
-          <div id="clasificacion" class="dropdown-content myDropdown_clientes_clasificacion drop_clasificacion">
+          <!-- <div id="clasificacion" class="dropdown-content myDropdown_clientes_clasificacion drop_clasificacion">
             <span class="select_clasificacion" clasificacion="A"> A</span>
             <span class="select_clasificacion" clasificacion="B"> B</span>
             <span class="select_clasificacion" clasificacion="C"> C</span>
             <span class="select_clasificacion" clasificacion="D"> D</span>
             <span class="select_clasificacion" clasificacion="E"> E</span>
-          </div>   
+          </div>  --> 
+          
+                <?php
+                    function clasificacionnuevo() {
+                      $query = "select * from ajustes where name_table='clientes' and accion='nuevo' and elemento='Ingresar Clasificación'
+                      ";
+                      $sql = Conexion::conectar()->prepare($query);
+                      $sql->execute();			
+                      return $sql->fetchAll();
+                    };
+                  $data0 = clasificacionnuevo();
+                  foreach($data0 as $row0) {
+                    echo $row0['code'];
+                  }
+                ?>
+
+
           <!-- *** -->
 
           <!-- ***TIPO CLIENTE -->
-          <div id="tipo_cliente" class="dropdown-content myDropdown_tipo_cliente drop_tipo_cliente">
+          <!-- <div id="tipo_cliente" class="dropdown-content myDropdown_tipo_cliente drop_tipo_cliente">
             <span class="select_tipo_cliente" tipo_cliente="Activo">Activo</span>
             <span class="select_tipo_cliente" tipo_cliente="Exjuridico">Exjuridico</span>
             <span class="select_tipo_cliente" tipo_cliente="Juridico">Juridico</span>
             <span class="select_tipo_cliente" tipo_cliente="Irrecuperable">Irrecuperable</span>
             <span class="select_tipo_cliente" tipo_cliente="Inactivo">Inactivo</span>
             <span class="select_tipo_cliente" tipo_cliente="Mora">Mora</span>
-          </div>   
+          </div> -->   
+          <?php
+                    function tipoclientenuevo() {
+                      $query = "select * from ajustes where name_table='clientes' and accion='nuevo' and elemento='Ingresar Clasificación'
+                      ";
+                      $sql = Conexion::conectar()->prepare($query);
+                      $sql->execute();			
+                      return $sql->fetchAll();
+                    };
+                  $data0 = tipoclientenuevo();
+                  foreach($data0 as $row0) {
+                    echo $row0['code'];
+                  }
+                ?>
           <!-- *** -->
 
           <!-- ***PAIS -->
@@ -394,7 +423,7 @@ MODAL AGREGAR
 
           <!-- *** -->
 
-          <div class="" id="nc_categoria">
+          <!-- <div class="" id="nc_categoria">
               <label for="">Seleccione Categoria</label>
              <div class="input-group" id="">
               <span class="input-group-addon"><i class="fa fa-server"></i></span> 
@@ -405,7 +434,20 @@ MODAL AGREGAR
                 <option value="Pequeño">Pequeño</option>
               </select>
              </div>
-            </div>
+            </div> -->
+
+            <?php
+                    function categorianuevo() {
+                      $query = "select * from ajustes where name_table='clientes' and accion='nuevo' and elemento='Seleccione Categoria'";
+                      $sql = Conexion::conectar()->prepare($query);
+                      $sql->execute();			
+                      return $sql->fetchAll();
+                    };
+                  $data0 = categorianuevo();
+                  foreach($data0 as $row0) {
+                    echo $row0['code'];
+                  }
+                ?>
           <!-- **** -->
 
 
@@ -524,25 +566,54 @@ MODAL EDITAR
           <!-- *** -->
 
           <!-- ***CLASIFICACION -->
-          <div id="clasificacion2" class="dropdown-content myDropdown_clientes_clasificacion drop_clasificacion">
+          <!-- <div id="clasificacion2" class="dropdown-content myDropdown_clientes_clasificacion drop_clasificacion">
             <span class="select_clasificacion" clasificacion="A"> A</span>
             <span class="select_clasificacion" clasificacion="B"> B</span>
             <span class="select_clasificacion" clasificacion="C"> C</span>
             <span class="select_clasificacion" clasificacion="D"> D</span>
             <span class="select_clasificacion" clasificacion="E"> E</span>
-
-          </div>   
+          </div> -->
+          
+          
+                  <?php
+                    function clasificacioneditar() {
+                      $query = "select * from ajustes where name_table='clientes' and accion='editar' and elemento='Ingresar Clasificación'
+                      ";
+                      $sql = Conexion::conectar()->prepare($query);
+                      $sql->execute();			
+                      return $sql->fetchAll();
+                    };
+                  $data0 = clasificacioneditar();
+                  foreach($data0 as $row0) {
+                    echo $row0['code'];
+                  }
+                ?>
           <!-- *** -->
 
           <!-- ***TIPO CLIENTE -->
-          <div id="tipo_cliente2" class="dropdown-content myDropdown_tipo_cliente drop_tipo_cliente">
+          <!-- <div id="tipo_cliente2" class="dropdown-content myDropdown_tipo_cliente drop_tipo_cliente">
             <span class="select_tipo_cliente" tipo_cliente="Activo">Activo</span>
             <span class="select_tipo_cliente" tipo_cliente="Exjuridico">Exjuridico</span>
             <span class="select_tipo_cliente" tipo_cliente="Juridico">Juridico</span>
             <span class="select_tipo_cliente" tipo_cliente="Irrecuperable">Irrecuperable</span>
             <span class="select_tipo_cliente" tipo_cliente="Inactivo">Inactivo</span>
             <span class="select_tipo_cliente" tipo_cliente="Mora">Mora</span>
-          </div>   
+          </div> -->
+          
+          <?php
+                    function tipoclienteeditar() {
+                      $query = "select * from ajustes where name_table='clientes' and accion='editar' and elemento='Ingresar Tipo cliente'
+                      ";
+                      $sql = Conexion::conectar()->prepare($query);
+                      $sql->execute();			
+                      return $sql->fetchAll();
+                    };
+                  $data0 = tipoclienteeditar();
+                  foreach($data0 as $row0) {
+                    echo $row0['code'];
+                  }
+                ?>
+
           <!-- *** -->
 
           <!-- ***PAIS -->
@@ -623,7 +694,7 @@ MODAL EDITAR
         
 
         <!-- *** -->
-
+<!-- 
         <div class="" id="enc_categoria">
             <label for="">Seleccione Categoria</label>
            <div class="input-group" id="">
@@ -635,7 +706,21 @@ MODAL EDITAR
               <option value="Pequeño">Pequeño</option>
             </select>
            </div>
-          </div>
+          </div> -->
+
+          <?php
+                    function categoriaeditar() {
+                      $query = "select * from ajustes where name_table='clientes' and accion='nuevo' and elemento='Seleccione Categoria'
+                      ";
+                      $sql = Conexion::conectar()->prepare($query);
+                      $sql->execute();			
+                      return $sql->fetchAll();
+                    };
+                  $data0 = categoriaeditar();
+                  foreach($data0 as $row0) {
+                    echo $row0['code'];
+                  }
+                ?>
         <!-- **** -->
 
 

@@ -261,12 +261,26 @@ MODAL AGREGAR PROVEEDORES
 
 <!--                 <input type="text"  placeholder="Ingresar Nacionalidad" id="nuevoNacionalidad" required>
  -->
-                <select id="" class="form-control input-lg" name="nuevoNacionalidad" required>
+                <!-- <select id="" class="form-control input-lg" name="nuevoNacionalidad" required>
                   <option value=" ">Seleccionar Nacionalidad </option>
                   <option value="Nacional ">Nacional </option>
                   <option value="Exterior">Exterior</option>
-                </select>
+                </select> -->
 
+                <?php
+                    function ObtenerNacinalidadnuevo() {
+                      $query = "select * from ajustes where name_table='proveedores' and accion='nuevo' and elemento='Ingresar Nacionalidad'";
+                      $sql = Conexion::conectar()->prepare($query);
+                      $sql->execute();			
+                      return $sql->fetchAll();
+                    };
+                  $data0 = ObtenerNacinalidadnuevo();
+                  foreach($data0 as $row0) {
+                    echo $row0['code'];
+                  }
+                ?>
+
+                
               </div>
 
              </div>
@@ -319,11 +333,25 @@ MODAL AGREGAR PROVEEDORES
               
                 <span class="input-group-addon"><i class="fa fa-money"></i></span> 
 
-                <select name="nuevoContribuyente" id="nuevoContribuyente" class="form-control input-lg" required>
+                <!-- <select name="nuevoContribuyente" id="nuevoContribuyente" class="form-control input-lg" required>
                   <option value="">Tipo Proveedor</option>
                   <option value="Contribuyente">Contribuyente</option>
                   <option value="Exento">Exento</option>
-                </select>
+                </select> -->
+
+                
+                <?php
+                    function ObtenerCorrelativonuevo() {
+                      $query = "select * from ajustes where name_table='proveedores' and accion='nuevo' and elemento='Ingresar Proveedor'";
+                      $sql = Conexion::conectar()->prepare($query);
+                      $sql->execute();			
+                      return $sql->fetchAll();
+                    };
+                  $data0 = ObtenerCorrelativonuevo();
+                  foreach($data0 as $row0) {
+                    echo $row0['code'];
+                  }
+                ?>
 
               </div>
 
@@ -535,12 +563,24 @@ MODAL EDITAR PROVEEDORES
 <!-- 
                 <input type="text" class="form-control input-lg" name="editarNacionalidad" placeholder="Ingresar Nacionalidad" id="editarNacionalidad" required> -->
 
-                <select class="form-control input-lg" name="editarNacionalidad" id="editarNacionalidad" required>
+                <!-- <select class="form-control input-lg" name="editarNacionalidad" id="editarNacionalidad" required>
                   <option value=" ">Seleccionar Nacionalidad </option>
                   <option value="Nacional ">Nacional </option>
                   <option value="Exterior">Exterior</option>
-                </select>
+                </select> -->
 
+                <?php
+                    function ObtenerCorrelativo() {
+                      $query = "select * from ajustes where name_table='proveedores' and accion='editar' and elemento='Ingresar Nacionalidad'";
+                      $sql = Conexion::conectar()->prepare($query);
+                      $sql->execute();			
+                      return $sql->fetchAll();
+                    };
+                  $data0 = ObtenerCorrelativo();
+                  foreach($data0 as $row0) {
+                    echo $row0['code'];
+                  }
+                ?>
 
               </div>
 
@@ -596,11 +636,24 @@ MODAL EDITAR PROVEEDORES
 
                 <!-- <input type="text"> -->
 
-                <select  class="form-control input-lg" name="editarContribuyente" placeholder="Ingresar Contribuyente" id="editarContribuyente" required>
+                <!-- <select  class="form-control input-lg" name="editarContribuyente" placeholder="Ingresar Contribuyente" id="editarContribuyente" required>
                   <option value="">Tipo Proveedor</option>
                   <option value="Contribuyente">Contribuyente</option>
                   <option value="Exento">Exento</option>
-                </select>
+                </select> -->
+
+                <?php
+                    function ObtenerCorrelativo2() {
+                      $query = "select * from ajustes where name_table='proveedores' and accion='editar' and elemento='Ingresar Proveedor'";
+                      $sql = Conexion::conectar()->prepare($query);
+                      $sql->execute();			
+                      return $sql->fetchAll();
+                    };
+                  $data0 = ObtenerCorrelativo2();
+                  foreach($data0 as $row0) {
+                    echo $row0['code'];
+                  }
+                ?>
 
               </div>
 
