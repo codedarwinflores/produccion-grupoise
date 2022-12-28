@@ -400,6 +400,7 @@ $(document).ready(function() {
   $(".personalinput_codigo").attr("maxlength","2");
   $(".portacion_codigo").attr("maxlength","2");
   $(".input_codigo_patrulla").attr("maxlength","2");
+
   /* $(".").addClass("");
   $(".").addClass("");
   $(".").addClass("");
@@ -484,6 +485,8 @@ CUERPO DOCUMENTO
          $_GET["ruta"] == "celular" ||        
          $_GET["ruta"] == "ajustes" ||   
          $_GET["ruta"] == "descuentos" ||      
+         $_GET["ruta"] == "configuracion" ||      
+         $_GET["ruta"] == "diasferiados" ||      
          $_GET["ruta"] == "salir"){
 
         include "modulos/".$_GET["ruta"].".php";
@@ -569,6 +572,9 @@ CUERPO DOCUMENTO
 <script src="vistas/js/descuentos.js"></script>
 
 <script src="vistas/js/validar.js"></script>
+
+<script src="vistas/js/configuracion.js"></script>
+<script src="vistas/js/dias_feriados.js"></script>
 
 
 <script>

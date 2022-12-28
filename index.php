@@ -221,6 +221,18 @@ require_once "controladores/empleadoseminario.controlador.php";
 require_once "modelos/empleadosseminario.modelo.php";
 
 
+/* **  configuracion *** */
+require_once "controladores/configuracion.controlador.php";
+require_once "modelos/configuracion.modelo.php";
+
+
+
+/* **  dias feriados *** */
+require_once "controladores/dias_feriados.controlador.php";
+require_once "modelos/dias_feriados.modelo.php";
+
+
+
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();
 
