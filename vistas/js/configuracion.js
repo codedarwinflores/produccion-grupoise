@@ -1,6 +1,8 @@
 /* COLOCACION DE ICONOS */
 $(document).ready(function(){
 
+
+
 var validar = $(".datos_vacios").val();
 
 var nuevo="nuevo";
@@ -80,7 +82,19 @@ else{
 	$(".formulario_nuevo").attr("style","display:block");
 	$(".formulario_editar").attr("style","display:none");
 
+	datos = "";
+	$.ajax({
 
+		url:"ajax/insert_configuracion.ajax.php",
+		dataType: "json",
+		success: function(respuesta){
+			location.reload();
+			alert("hola");
+		}
+	})
+
+
+	location.reload();
 }
 
 

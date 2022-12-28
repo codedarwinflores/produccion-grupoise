@@ -58,7 +58,7 @@ function getContent() {
 
 
       <!-- ****FORMULARIO NUEVO*** -->
-
+<!-- 
         <div class="formulario_nuevo">
           <form role="form" method="post" enctype="multipart/form-data">
                   <input type="text" name="nuevoid">
@@ -85,12 +85,12 @@ function getContent() {
                 
                   <?php
 
-/*                       $crear = new Controladorconfiguracion();
+                      $crear = new Controladorconfiguracion();
                       $crear -> ctrCrear();
- */
+
                     ?>
           </form>
-        </div>
+        </div> -->
 
 
       <!-- FORMULARIO EDITAR -->
