@@ -361,6 +361,72 @@ function getContent() {
                       </div>
                   </div>
                   
+                  
+                  <div class="form-group">
+                      <label for="" class="">Limite</label> 
+                      <div class="">
+                        <input type="number" id="editarlimite"  class="form-control" name="editarlimite"  onKeyPress="if(this.value.length==7) return false;"  step="0.01" >
+                      </div>
+                  </div>
+
+
+                  
+                  <div class="form-group">
+                      <label for="" class="">Clave</label> 
+                      <div class="">
+                        <input type="text" id="editarclave"  class="form-control" name="editarclave"  onKeyPress="if(this.value.length==12) return false;"   >
+                      </div>
+                  </div>
+
+                  
+                  <div class="form-group">
+                      <label for="" class="">Anticipo</label> 
+                      <div class="">
+                        <input type="number" id="editaranticipo"  class="form-control" name="editaranticipo"  onKeyPress="if(this.value.length==6) return false;"  step="0.01" >
+                      </div>
+                  </div>
+
+                  
+
+                  
+                  <div class="form-group">
+                      <label for="" class="">Entrega</label> 
+                      <div class="">
+                        <input type="text" id="editarentrega"  class="form-control" name="editarentrega"  onKeyPress="if(this.value.length==80) return false;"   >
+                      </div>
+                  </div>
+
+                   
+                  <div class="form-group">
+                      <label for="" class="">DUI</label> 
+                      <div class="">
+                        <input type="text" id="editardui"  class="form-control duis" name="editardui" >
+                      </div>
+                  </div>
+
+
+                  <div class="form-group">
+                      <label for="" class="">Impresión tomada por:</label> 
+                      <div class="">
+                        <input type="text" id="editarimpresion"  class="form-control" name="editarimpresion"  onKeyPress="if(this.value.length==80) return false;" >
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label for="" class="">Doctor:</label> 
+                      <div class="">
+                        <input type="text" id="editardoctor"  class="form-control" name="editardoctor"  onKeyPress="if(this.value.length==80) return false;" >
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label for="" class="">Psicólogo:</label> 
+                      <div class="">
+                        <input type="text" id="editarpsicologo"  class="form-control" name="editarpsicologo"  onKeyPress="if(this.value.length==80) return false;" >
+                      </div>
+                  </div>
+
+
                   <a class="btn btn-success" href="diasferiados">Agregar Dia Feriado</a>
                   <table class="table">
                     <thead>
