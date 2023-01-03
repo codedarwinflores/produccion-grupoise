@@ -675,3 +675,5 @@ MODAL EDITAR
 ?> 
 
 
+
+<script src="vistas/js/configuracion.js"></script>

@@ -573,7 +573,6 @@ CUERPO DOCUMENTO
 
 <script src="vistas/js/validar.js"></script>
 
-<script src="vistas/js/configuracion.js"></script>
 <script src="vistas/js/dias_feriados.js"></script>
 
 

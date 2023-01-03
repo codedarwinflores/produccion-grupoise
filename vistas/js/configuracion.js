@@ -5,6 +5,8 @@ $(document).ready(function(){
 
 var validar = $(".datos_vacios").val();
 
+/* alert(validar);
+ */
 var nuevo="nuevo";
 var editar="editar";
 
@@ -86,10 +88,16 @@ else{
 	$.ajax({
 
 		url:"ajax/insert_configuracion.ajax.php",
+		datos:datos,
+		cache: false,
+		contentType: false,
+		processData: false,
 		dataType: "json",
+		
 		success: function(respuesta){
+			/* alert(respuesta); */
 			location.reload();
-			alert("hola");
+			
 		}
 	})
 

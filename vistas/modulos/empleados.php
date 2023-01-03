@@ -29,6 +29,8 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
 
         </button>
 
+        <a href="reporteanticipo" class="btn btn-success">Imprimir solicitud de anticipo</a>
+
       </div>
 
       <div class="box-body">
