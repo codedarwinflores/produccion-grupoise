@@ -335,7 +335,7 @@ MODAL AGREGAR
           </div> -->   
           <?php
                     function tipoclientenuevo() {
-                      $query = "select * from ajustes where name_table='clientes' and accion='nuevo' and elemento='Ingresar Clasificación'
+                      $query = "select * from ajustes where name_table='clientes' and accion='nuevo' and elemento='Ingresar Tipo Cliente'
                       ";
                       $sql = Conexion::conectar()->prepare($query);
                       $sql->execute();			
@@ -710,7 +710,7 @@ MODAL EDITAR
 
           <?php
                     function categoriaeditar() {
-                      $query = "select * from ajustes where name_table='clientes' and accion='nuevo' and elemento='Seleccione Categoria'
+                      $query = "select * from ajustes where name_table='clientes' and accion='editar' and elemento='Seleccione Categoria'
                       ";
                       $sql = Conexion::conectar()->prepare($query);
                       $sql->execute();			

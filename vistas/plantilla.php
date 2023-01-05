@@ -383,6 +383,20 @@ $(document).ready(function() {
     }
   });
 
+  $( ".input_correlativo_lista" ).blur(function() {
+    if ( $(this).val().trim().length > 0 ) {}
+    else {
+      alert("El campo contiene espacios y está vacío");
+      $(this).val("");
+    }
+    if($(this).val().trim().length < 5){
+      alert("Por favor complete el campo");
+      $(this).val("");
+    }
+  });
+  $(".input_correlativo_lista").attr("maxlength","5");
+
+
 
   $(".cargos_nivel").attr("maxlength","3");
   $(".isr_codigo").attr("maxlength","4");
@@ -487,6 +501,11 @@ CUERPO DOCUMENTO
          $_GET["ruta"] == "descuentos" ||      
          $_GET["ruta"] == "configuracion" ||      
          $_GET["ruta"] == "diasferiados" ||      
+         $_GET["ruta"] == "reporteanticipo" ||      
+         $_GET["ruta"] == "regalo" ||      
+         $_GET["ruta"] == "personalnocontratable" ||      
+         $_GET["ruta"] == "formretiro" ||
+         $_GET["ruta"] == "retiro" ||
          $_GET["ruta"] == "salir"){
 
         include "modulos/".$_GET["ruta"].".php";
@@ -574,6 +593,7 @@ CUERPO DOCUMENTO
 <script src="vistas/js/validar.js"></script>
 
 <script src="vistas/js/dias_feriados.js"></script>
+<script src="vistas/js/retiro.js"></script>
 
 
 <script>

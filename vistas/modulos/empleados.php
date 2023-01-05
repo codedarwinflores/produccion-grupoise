@@ -30,6 +30,7 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
         </button>
 
         <a href="reporteanticipo" class="btn btn-success">Imprimir solicitud de anticipo</a>
+        <a href="retiro" class="btn btn-warning">Listado de Empleados Inactivos</a>
 
       </div>
 
@@ -118,6 +119,8 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
                       <button class="btn btn-info btnDescuentos"  style="background-color: #3c8dbc;" idEmpleado="'.$value["id"].'"  data-toggle="modal" data-target="#modalDescuento" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-exchange"></i></button> 
                       <button class="btn btn-info btnSeminarios"  style="background-color: #3c8dbc;" idEmpleado="'.$value["id"].'"  data-toggle="modal" data-target="#modalSeminario" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-trophy"></i></button> 
                       <button class="btn btn-danger btnEliminarEmpleado" idEmpleado="'.$value["id"].'" fotoEmpleado="'.$value["fotografia"].'" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-times"></i></button>
+                      <a href="regalo?id='.$value["id"].'" class="btn btn-success"><i class="fa  fa-gift"></i></a>
+                      <a href="formretiro?id='.$value["id"].'" class="btn btn-warning"><i class="fa fa-info"></i></a>
 
                     </div>  
 
@@ -194,7 +197,7 @@ MODAL AGREGAR EMPLEADO
               
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
 
-                <input type="text" class="form-control input-lg" name="nuevoNombre" placeholder="Ingresar Primer Nombre" required>
+                <input type="text" class="form-control input-lg nombre1" name="nuevoNombre" placeholder="Ingresar Primer Nombre" required>
 
               </div>
 
@@ -206,7 +209,7 @@ MODAL AGREGAR EMPLEADO
               
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
 
-                <input type="text" class="form-control input-lg" name="nuevoSegundoNombre" placeholder="Ingresar Segundo Nombre" >
+                <input type="text" class="form-control input-lg nombre2" name="nuevoSegundoNombre" placeholder="Ingresar Segundo Nombre" >
 
               </div>
 
@@ -219,7 +222,7 @@ MODAL AGREGAR EMPLEADO
               
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
 
-                <input type="text" class="form-control input-lg" name="nuevoTercerNombre" placeholder="Ingresar Tercer Nombre" >
+                <input type="text" class="form-control input-lg nombre3" name="nuevoTercerNombre" placeholder="Ingresar Tercer Nombre" >
 
               </div>
 
@@ -233,7 +236,7 @@ MODAL AGREGAR EMPLEADO
               
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
 
-                <input type="text" class="form-control input-lg" name="nuevoPrimerApellido" placeholder="Ingresar Primer Apellido" required>
+                <input type="text" class="form-control input-lg apellido1" name="nuevoPrimerApellido" placeholder="Ingresar Primer Apellido" required>
 
               </div>
 
@@ -246,7 +249,7 @@ MODAL AGREGAR EMPLEADO
               
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
 
-                <input type="text" class="form-control input-lg" name="nuevoSegundoApellido" placeholder="Ingresar Segundo Apellido" required>
+                <input type="text" class="form-control input-lg apellido2" name="nuevoSegundoApellido" placeholder="Ingresar Segundo Apellido" required>
 
               </div>
 
@@ -260,7 +263,7 @@ MODAL AGREGAR EMPLEADO
               
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
 
-                <input type="text" class="form-control input-lg" name="nuevoApellidoCasada" placeholder="Ingresar Apellido Casada" >
+                <input type="text" class="form-control input-lg " name="nuevoApellidoCasada" placeholder="Ingresar Apellido Casada" >
 
               </div>
 
@@ -421,7 +424,7 @@ MODAL AGREGAR EMPLEADO
               
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
 
-                <input type="text" class="form-control input-lg input_dui duis"  name="nuevoNumeroDocumento" id="nuevoNumeroDocumento" placeholder="Ingresar n&uacute;mero documento identidad" required>
+                <input type="text" class="form-control input-lg input_dui duis numerodui"  nombres="" apellido1="" apellido2="" name="nuevoNumeroDocumento" id="nuevoNumeroDocumento" placeholder="Ingresar n&uacute;mero documento identidad" required>
 
               </div>
 
@@ -2464,3 +2467,4 @@ MODAL SEMINARIO
 ?> 
 
 
+<script src="vistas/js/validarempleado.js"></script>

@@ -3,15 +3,15 @@ $Nombremodulo_mensaje="Descuento";
 $nombremodelo="descuentos";
 $namecolumnas="";
 $namecampos="";
-$nombretabla="tbl_devengo_descuento";
-$tabla = "tbl_devengo_descuento";
+$nombretabla_descuento_descuento="tbl_devengo_descuento";
+$tabla_descuento = "tbl_devengo_descuento";
 class ControladorDescuentos{
 
 	/* CAPTURAR NOMBRE COLUMNAS*/
 
 	function getContent() {
-		global $nombretabla;
-		$query = "SHOW COLUMNS FROM $nombretabla";
+		global $nombretabla_descuento_descuento;
+		$query = "SHOW COLUMNS FROM $nombretabla_descuento_descuento";
 		$sql = Conexion::conectar()->prepare($query);
 		$sql->execute();			
 		return $sql->fetchAll();
@@ -30,12 +30,12 @@ class ControladorDescuentos{
 
 			   	$encriptar = crypt($_POST["ingPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
 
-				$tabla = "usuarios";
+				$tabla_descuento = "usuarios";
 
 				$item = "usuario";
 				$valor = $_POST["ingUsuario"];
 
-				$respuesta = ModeloUsuarios::MdlMostrarUsuarios($tabla, $item, $valor);
+				$respuesta = ModeloUsuarios::MdlMostrarUsuarios($tabla_descuento, $item, $valor);
 
 				if($respuesta["usuario"] == $_POST["ingUsuario"] && $respuesta["password"] == $encriptar){
 
@@ -65,7 +65,7 @@ class ControladorDescuentos{
 						$item2 = "id";
 						$valor2 = $respuesta["id"];
 
-						$ultimoLogin = ModeloUsuarios::mdlActualizarUsuario($tabla, $item1, $valor1, $item2, $valor2);
+						$ultimoLogin = ModeloUsuarios::mdlActualizarUsuario($tabla_descuento, $item1, $valor1, $item2, $valor2);
 
 						if($ultimoLogin == "ok"){
 
@@ -106,7 +106,7 @@ class ControladorDescuentos{
            // echo "2";
 
 
-				global $tabla;
+				global $tabla_descuento;
 				global $namecolumnas;
 				global $namecampos;
 				global $Nombremodulo_mensaje;
@@ -122,7 +122,7 @@ class ControladorDescuentos{
 				}
 			
 				$datos=$array;
-				$respuesta = ModeloDescuentos::mdlIngresar($tabla, $datos);
+				$respuesta = ModeloDescuentos::mdlIngresar($tabla_descuento, $datos);
 			
 				if($respuesta == "ok"){
 
@@ -188,9 +188,9 @@ class ControladorDescuentos{
 
 	static public function ctrMostrar($item, $valor){
 
-		global $tabla;
+		global $tabla_descuento;
 
-		$respuesta = ModeloDescuentos::mdlMostrar($tabla, $item, $valor);
+		$respuesta = ModeloDescuentos::mdlMostrar($tabla_descuento, $item, $valor);
 
 		return $respuesta;
 	}
@@ -204,7 +204,7 @@ class ControladorDescuentos{
 		if(isset($_POST["editardescripcion"])){
 
 
-			global $tabla;
+			global $tabla_descuento;
 			global $namecolumnas;
 			global $namecampos;
 			global $Nombremodulo_mensaje;
@@ -225,7 +225,7 @@ class ControladorDescuentos{
 							   "codigo" => $_POST["editarCodigo"],
 							   "nombre" => $_POST["editarNombre"]); */
 
-				$respuesta = ModeloDescuentos::mdlEditar($tabla, $datos);
+				$respuesta = ModeloDescuentos::mdlEditar($tabla_descuento, $datos);
 
 				if($respuesta == "ok"){
 
@@ -262,7 +262,7 @@ class ControladorDescuentos{
 
 		if(isset($_GET["idDescuentos"])){
 
-			global $tabla;
+			global $tabla_descuento;
 				global $namecolumnas;
 				global $namecampos;
 				global $Nombremodulo_mensaje;
@@ -270,7 +270,7 @@ class ControladorDescuentos{
 			$datos = $_GET["idDescuentos"];
 
 
-			$respuesta = ModeloDescuentos::mdlBorrar($tabla, $datos);
+			$respuesta = ModeloDescuentos::mdlBorrar($tabla_descuento, $datos);
 
 			if($respuesta == "ok"){
 

@@ -234,6 +234,20 @@
 					</li>
 					
 
+					<li>
+						<a href="personalnocontratable">
+							<i class="fa fa-user"></i>
+							<span>Personal no Contratable</span>
+						</a>
+					</li>
+
+					<li>
+						<a href="retiro">
+							<i class="fa fa-users"></i>
+							<span>Personal Retirado</span>
+						</a>
+					</li>
+					
 
 
 					

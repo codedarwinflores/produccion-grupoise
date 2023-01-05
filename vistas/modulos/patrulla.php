@@ -187,10 +187,10 @@ MODAL AGREGAR
                     <select name="nuevoid_jefe_operaciones_patrulla" id="" class="form-control input-lg " required>
                       <option value="">Seleccione Jefe de Operaciones</option>
                     <?php
-                        $datos_mostrar = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
+                        $datos_mostrar = Controladorjefeoperacion::ctrMostrar($item, $valor);
                         foreach ($datos_mostrar as $key => $value){
                     ?>
-                        <option value="<?php echo $value['id'] ?>">
+                        <option value="<?php echo $value['idjefe'] ?>">
                           <?php echo $value["primer_nombre"].' '.$value["primer_apellido"] ?>
                         </option>  
                     <?php
@@ -300,11 +300,11 @@ MODAL EDITAR
                     <span class="input-group-addon"><i class="fa fa-users"></i></span>
                     <select name="editarid_jefe_operaciones_patrulla" id="editarid_jefe_operaciones_patrulla" class="form-control input-lg " required>
                       <option value="">Seleccione Jefe de Operaciones</option>
-                    <?php
-                        $datos_mostrar = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
+                      <?php
+                        $datos_mostrar = Controladorjefeoperacion::ctrMostrar($item, $valor);
                         foreach ($datos_mostrar as $key => $value){
                     ?>
-                        <option value="<?php echo $value['id'] ?>">
+                        <option value="<?php echo $value['idjefe'] ?>">
                           <?php echo $value["primer_nombre"].' '.$value["primer_apellido"] ?>
                         </option>  
                     <?php

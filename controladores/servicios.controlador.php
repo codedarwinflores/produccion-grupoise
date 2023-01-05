@@ -1,6 +1,6 @@
 <?php
-$Nombremodulo_mensaje="Servicio";
-$nombremodelo="servicios";
+$Nombremodulo_mensaje_servicios="Servicio";
+$nombremodelo_servicios="servicios";
 $namecolumnas="";
 $namecampos="";
 $nombretabla="servicios_prestados";
@@ -109,8 +109,8 @@ class ControladorServicios{
 				global $tabla;
 				global $namecolumnas;
 				global $namecampos;
-				global $Nombremodulo_mensaje;
-				global $nombremodelo;
+				global $Nombremodulo_mensaje_servicios;
+				global $nombremodelo_servicios;
 				
 				$data = getContent();
 				$datos="";
@@ -131,7 +131,7 @@ class ControladorServicios{
 					swal({
 
 						type: "success",
-						title: "¡El '.$Nombremodulo_mensaje.' ha sido guardado correctamente!",
+						title: "¡El '.$Nombremodulo_mensaje_servicios.' ha sido guardado correctamente!",
 						showConfirmButton: true,
 						confirmButtonText: "Cerrar"
 
@@ -139,7 +139,7 @@ class ControladorServicios{
 
 						if(result.value){
 						
-							window.location = "'.$nombremodelo.'";
+							window.location = "'.$nombremodelo_servicios.'";
 
 						}
 
@@ -184,8 +184,8 @@ class ControladorServicios{
 			global $tabla;
 			global $namecolumnas;
 			global $namecampos;
-			global $Nombremodulo_mensaje;
-			global $nombremodelo;
+			global $Nombremodulo_mensaje_servicios;
+			global $nombremodelo_servicios;
 
 			$data = getContent();
 			$datos="";
@@ -210,13 +210,13 @@ class ControladorServicios{
 
 					swal({
 						  type: "success",
-						  title: "El '.$Nombremodulo_mensaje.' ha sido editado correctamente",
+						  title: "El '.$Nombremodulo_mensaje_servicios.' ha sido editado correctamente",
 						  showConfirmButton: true,
 						  confirmButtonText: "Cerrar"
 						  }).then(function(result) {
 									if (result.value) {
 
-									window.location = "'.$nombremodelo.'";
+									window.location = "'.$nombremodelo_servicios.'";
 
 									}
 								})
@@ -242,8 +242,8 @@ class ControladorServicios{
 			global $tabla;
 				global $namecolumnas;
 				global $namecampos;
-				global $Nombremodulo_mensaje;
-				global $nombremodelo;
+				global $Nombremodulo_mensaje_servicios;
+				global $nombremodelo_servicios;
 			$datos = $_GET["idServicios"];
 
 
@@ -255,14 +255,14 @@ class ControladorServicios{
 
 				swal({
 					  type: "success",
-					  title: "El '.$Nombremodulo_mensaje.' ha sido borrado correctamente",
+					  title: "El '.$Nombremodulo_mensaje_servicios.' ha sido borrado correctamente",
 					  showConfirmButton: true,
 					  confirmButtonText: "Cerrar",
 					  closeOnConfirm: false
 					  }).then(function(result) {
 								if (result.value) {
 
-								window.location = "'.$nombremodelo.'";
+								window.location = "'.$nombremodelo_servicios.'";
 
 								}
 							})

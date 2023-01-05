@@ -232,6 +232,20 @@ require_once "controladores/dias_feriados.controlador.php";
 require_once "modelos/dias_feriados.modelo.php";
 
 
+/* **  regalo *** */
+require_once "controladores/regalo.controlador.php";
+require_once "modelos/regalo.modelo.php";
+
+/* **  personalnocontratable *** */
+require_once "controladores/personalnocontratable.controlador.php";
+require_once "modelos/personalnocontratable.modelo.php";
+
+
+/* **  retiro *** */
+require_once "controladores/retiro.controlador.php";
+require_once "modelos/retiro.modelo.php";
+
+
 
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();

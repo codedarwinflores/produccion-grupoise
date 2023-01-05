@@ -17,8 +17,8 @@ $Nombre_del_Modulo="Descuentos";
 /* CAPTURAR NOMBRE COLUMNAS*/
 
 function getContent() {
-  global $nombretabla;
-  $query = "SHOW COLUMNS FROM $nombretabla";
+  global $nombretabla_descuento;
+  $query = "SHOW COLUMNS FROM $nombretabla_descuento";
   $sql = Conexion::conectar()->prepare($query);
   $sql->execute();			
   return $sql->fetchAll();
@@ -68,7 +68,7 @@ function getContent() {
         $item = null;
         $valor = null;
 
-        $bancos = ControladorServicios::ctrMostrar($item, $valor);
+        $bancos = ControladorDescuentos::ctrMostrar($item, $valor);
 
        foreach ($bancos as $key => $value){
          

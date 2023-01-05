@@ -342,7 +342,7 @@ MODAL AGREGAR PROVEEDORES
                 
                 <?php
                     function ObtenerCorrelativonuevo() {
-                      $query = "select * from ajustes where name_table='proveedores' and accion='nuevo' and elemento='Ingresar Proveedor'";
+                      $query = "select * from ajustes where name_table='proveedor' and accion='nuevo' and elemento='Ingresar Proveedor'";
                       $sql = Conexion::conectar()->prepare($query);
                       $sql->execute();			
                       return $sql->fetchAll();

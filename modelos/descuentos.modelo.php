@@ -3,15 +3,15 @@
 require_once "conexion.php";
 $namecolumnas="";
 $namecampos="";
-$nombretabla="tbl_devengo_descuento";
+$nombretabla_descuento="tbl_devengo_descuento";
 class ModeloDescuentos{
 
 
 	/* CAPTURAR NOMBRE COLUMNAS*/
 
 	function getContent() {
-		global $nombretabla;
-		$query = "SHOW COLUMNS FROM $nombretabla";
+		global $nombretabla_descuento;
+		$query = "SHOW COLUMNS FROM $nombretabla_descuento";
 		$stmt = Conexion::conectar()->prepare($query);
 		$stmt->execute();			
 		return $stmt->fetchAll();
