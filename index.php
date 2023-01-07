@@ -246,6 +246,10 @@ require_once "controladores/retiro.controlador.php";
 require_once "modelos/retiro.modelo.php";
 
 
+/* **  extravio *** */
+require_once "controladores/extravios.controlador.php";
+require_once "modelos/extravios.modelo.php";
+
 
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();

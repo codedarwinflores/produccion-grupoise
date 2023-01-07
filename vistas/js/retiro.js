@@ -1,11 +1,47 @@
 /* COLOCACION DE ICONOS */
 $(document).ready(function(){
 
+
 	
+	$("#editarestado_retiro").change(function(){
+		if($(this).val()=="Activar"){
+			$("#editarfecha_contratacion_retiro").val("");
+			alert("Si desea Activar el empleado asigne Fecha de Contratación");
+			
+		}
+	});
+
 		  
  })
 
- 
+ $( ".modificar_retiro" ).click(function() {
+
+	var fecha_contratacion=$(".input_fecha_contratacion_retiro").val();
+	var estado_contratacion=$(".input_estado_retiro").val();
+   /*  ******** */
+   var parametros = {
+	"nombres" : nombres,
+	"apellido1" : apellido1,
+	"apellido2" : apellido2,
+	"duis" : duis
+
+};
+$.ajax({
+		data:  parametros,
+		url:"ajax/verificarempleado.ajax.php",
+		type:  'post',
+		success:  function (response) {
+			if(response=="1"){
+				alert("ERROR: POR FAVOR VERIFIQUE EN LISTA DE PERSONAL NO CONTRATABLE");
+				$(".numerodui").val("");
+			}
+		}
+});
+/* ********* */
+
+
+
+});
 
 /*=============================================
 EDITAR 
@@ -30,10 +66,19 @@ $(".tablas").on("click", ".btnEditarretiro", function(){
 		success: function(respuesta){
 			
 			$("#editarid").val(respuesta["id"]);
-			$("#editaroperador").val(respuesta["operador"]);
-			$("#editarretiro").val(respuesta["retiro"]);
-			$("#editarIMEI").val(respuesta["IMEI"]);
-			$("#editarretiro_card").val(respuesta["retiro_card"]);
+			$("#editarnombre_retiro").val(respuesta["nombre_retiro"]);
+			$("#editarubicacion_retiro").val(respuesta["ubicacion_retiro"]);
+			$("#editarcausa_retiro").val(respuesta["causa_retiro"]);
+			$("#editarfecha_contratacion_retiro").val(respuesta["fecha_contratacion_retiro"]);
+			$("#editarfecha_retiro").val(respuesta["fecha_retiro"]);
+			$("#editarhoras_extras_pentientes_retiro").val(respuesta["horas_extras_pentientes_retiro"]);
+			$("#editarhoras_llegadas_tardes_retiro").val(respuesta["horas_llegadas_tardes_retiro"]);
+			$("#editardescuento_tarde_retiro").val(respuesta["descuento_tarde_retiro"]);
+			$("#editarobservaciones_retiro").val(respuesta["observaciones_retiro"]);
+			$("#editaridempleado_retiro").val(respuesta["idempleado_retiro"]);
+			$("#editarestado_retiro").val(respuesta["estado_retiro"]);
+
+
 
 
 

@@ -83,7 +83,14 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
                 $nombreEstado = "Error";
             }   
 
+            if($value["estado"]==3){
 
+              echo "inactivo";
+            }
+            else{
+
+            
+            /* ******* */
           echo ' <tr>
 
                   <td>'.($key+1).'</td>';
@@ -120,13 +127,19 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
                       <button class="btn btn-info btnSeminarios"  style="background-color: #3c8dbc;" idEmpleado="'.$value["id"].'"  data-toggle="modal" data-target="#modalSeminario" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-trophy"></i></button> 
                       <button class="btn btn-danger btnEliminarEmpleado" idEmpleado="'.$value["id"].'" fotoEmpleado="'.$value["fotografia"].'" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-times"></i></button>
                       <a href="regalo?id='.$value["id"].'" class="btn btn-success"><i class="fa  fa-gift"></i></a>
-                      <a href="formretiro?id='.$value["id"].'" class="btn btn-warning"><i class="fa fa-info"></i></a>
+                      <a href="formretiro?id='.$value["id"].'" class="btn btn-danger" style="background-color: #800020 !important;"><i class="fa fa-info"></i></a>
+                      <a href="extravios?id='.$value["id"].'" class="btn btn-primary" style="background-color:#36454F !important;"><i class="fa   fa-balance-scale"></i></a>
+
 
                     </div>  
 
                   </td>
 
                 </tr>';
+
+                 /* ******* */
+
+                }
         }
 
 

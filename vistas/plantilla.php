@@ -506,6 +506,7 @@ CUERPO DOCUMENTO
          $_GET["ruta"] == "personalnocontratable" ||      
          $_GET["ruta"] == "formretiro" ||
          $_GET["ruta"] == "retiro" ||
+         $_GET["ruta"] == "extravios" ||
          $_GET["ruta"] == "salir"){
 
         include "modulos/".$_GET["ruta"].".php";
@@ -594,6 +595,7 @@ CUERPO DOCUMENTO
 
 <script src="vistas/js/dias_feriados.js"></script>
 <script src="vistas/js/retiro.js"></script>
+<script src="vistas/js/extravio.js"></script>
 
 
 <script>
@@ -624,7 +626,11 @@ $(function(){
         $('.mi-selector').select2();
     });
 
-    $(".calendario").attr("readonly","readonly");
+    /* $(".calendario").attr("readonly","readonly"); */
+
+    $(".calendario").keydown(function(e){
+        e.preventDefault();
+    });
 });
 </script>
 

@@ -70,7 +70,7 @@ function getContent() {
               
                 <span class="input-group-addon"><i class="icono_nombre_retiro"></i></span> 
 
-                <input type="text" class="form-control input-lg input_nombre_retiro" name="nuevonombre_retiro" placeholder="" value="" autocomplete="off" required="" readonly>
+                <input type="text" class="form-control input-lg input_nombre_retiro" name="nuevonombre_retiro" placeholder="Nombre Empleado" value="" autocomplete="off"   readonly>
 
               </div>
 
@@ -83,7 +83,7 @@ function getContent() {
               
                 <span class="input-group-addon"><i class="icono_ubicacion_retiro"></i></span> 
 
-                <input type="text" class="form-control input-lg input_ubicacion_retiro" name="nuevoubicacion_retiro" placeholder="" value="" autocomplete="off" required="">
+                <input type="text" class="form-control input-lg input_ubicacion_retiro" name="nuevoubicacion_retiro" placeholder="Ubicación" value="" autocomplete="off"  >
 
               </div>
 
@@ -96,7 +96,7 @@ function getContent() {
               
                 <span class="input-group-addon"><i class="icono_causa_retiro"></i></span> 
 
-                <select name="nuevocausa_retiro" id="" class="form-control input-lg input_causa_retiro" required="">
+                <select name="nuevocausa_retiro" id="" class="form-control input-lg input_causa_retiro"  >
                   <option value="">Seleccione Causa de Retiro</option>
                   <option value="Despido">Despido</option>
                   <option value="Renuncia">Renuncia</option>
@@ -113,7 +113,7 @@ function getContent() {
               
                 <span class="input-group-addon"><i class="icono_fecha_contratacion_retiro"></i></span> 
 
-                <input type="text" class="form-control input-lg input_fecha_contratacion_retiro" name="nuevofecha_contratacion_retiro" placeholder="" value="" autocomplete="off" required="">
+                <input type="text" class="form-control input-lg input_fecha_contratacion_retiro" name="nuevofecha_contratacion_retiro" placeholder="Fecha Contratación" value="" autocomplete="off"  >
 
               </div>
 
@@ -128,7 +128,7 @@ function getContent() {
 
                 <input type="text" value="" class="calendario" data-lang="es" data-years="1600-2060" data-format="DD-MM-YYYY" style="display: none;">
   
-                <input type="text" class="form-control input-lg input_fecha_retiro calendario" name="nuevofecha_retiro" placeholder="" value="" autocomplete="off" required="">
+                <input type="text" class="form-control input-lg input_fecha_retiro calendario" name="nuevofecha_retiro" placeholder="Fecha del Retiro" value="" autocomplete="off"  >
 
               </div>
 
@@ -141,7 +141,7 @@ function getContent() {
               
                 <span class="input-group-addon"><i class="icono_horas_extras_pentientes_retiro"></i></span> 
 
-                <input type="number" class="form-control input-lg input_horas_extras_pentientes_retiro" name="nuevohoras_extras_pentientes_retiro" placeholder="" value="" autocomplete="off" required="">
+                <input type="number" class="form-control input-lg input_horas_extras_pentientes_retiro" name="nuevohoras_extras_pentientes_retiro" placeholder="Horas Extras Pendientes" value="" autocomplete="off"  >
 
               </div>
 
@@ -154,7 +154,7 @@ function getContent() {
               
                 <span class="input-group-addon"><i class="icono_horas_llegadas_tardes_retiro"></i></span> 
 
-                <input type="number" class="form-control input-lg input_horas_llegadas_tardes_retiro" name="nuevohoras_llegadas_tardes_retiro" placeholder="" value="" autocomplete="off" required="">
+                <input type="number" class="form-control input-lg input_horas_llegadas_tardes_retiro" name="nuevohoras_llegadas_tardes_retiro" placeholder="Horas Llegadas Tardes" value="" autocomplete="off"  >
 
               </div>
 
@@ -167,7 +167,7 @@ function getContent() {
               
                 <span class="input-group-addon"><i class="icono_descuento_tarde_retiro"></i></span> 
 
-                <input type="number" class="form-control input-lg input_descuento_tarde_retiro" name="nuevodescuento_tarde_retiro" placeholder="" value="" autocomplete="off" required="">
+                <input type="number" class="form-control input-lg input_descuento_tarde_retiro" name="nuevodescuento_tarde_retiro" placeholder="Descuentos por Llegadas Tardes" value="" autocomplete="off"  >
 
               </div>
 
@@ -180,7 +180,7 @@ function getContent() {
               
                 <span class="input-group-addon"><i class="icono_observaciones_retiro"></i></span> 
 
-                <input type="text" class="form-control input-lg input_observaciones_retiro" name="nuevoobservaciones_retiro" placeholder="" value="" autocomplete="off" required="">
+                <input type="text" class="form-control input-lg input_observaciones_retiro" name="nuevoobservaciones_retiro" placeholder="Observación" value="" autocomplete="off"  >
 
               </div>
 
@@ -193,7 +193,7 @@ function getContent() {
               
                 <span class="input-group-addon"><i class="icono_idempleado_retiro"></i></span> 
 
-                <input type="text" class="form-control input-lg input_idempleado_retiro" name="nuevoidempleado_retiro" placeholder="" value="" autocomplete="off" required="">
+                <input type="text" class="form-control input-lg input_idempleado_retiro" name="nuevoidempleado_retiro" placeholder="" value="" autocomplete="off"  >
 
               </div>
 
@@ -206,13 +206,14 @@ function getContent() {
               
                 <span class="input-group-addon"><i class="icono_estado_retiro"></i></span> 
 
-                <input type="text" class="form-control input-lg input_estado_retiro" name="nuevoestado_retiro" placeholder="" value="Inactivo" autocomplete="off" required="" >
+                <input type="text" class="form-control input-lg input_estado_retiro" name="nuevoestado_retiro" placeholder="" value="Inactivo" autocomplete="off"   >
 
               </div>
 
           </div>
 
           <button type="submit" class="btn btn-primary">Guardar <?php echo $Nombre_del_Modulo?></button>
+          <a href="empleados" class="btn btn-danger">Volver</a>
 
 
             <?php

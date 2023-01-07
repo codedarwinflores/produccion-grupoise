@@ -3,15 +3,15 @@
 require_once "conexion.php";
 $namecolumnas="";
 $namecampos="";
-$nombretabla_retiro="retiro";
-class Modeloretiro{
+$nombretabla_extravios="extravios";
+class Modeloextravios{
 
 
 	/* CAPTURAR NOMBRE COLUMNAS*/
 
 	function getContent() {
-		global $nombretabla_retiro;
-		$query = "SHOW COLUMNS FROM $nombretabla_retiro";
+		global $nombretabla_extravios;
+		$query = "SHOW COLUMNS FROM $nombretabla_extravios";
 		$stmt = Conexion::conectar()->prepare($query);
 		$stmt->execute();			
 		return $stmt->fetchAll();
@@ -40,7 +40,7 @@ class Modeloretiro{
 
 		}else{
 
-			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla where estado_retiro='Inactivo'");
+			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
 
 			$stmt -> execute();
 
@@ -73,15 +73,8 @@ class Modeloretiro{
 
 		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(".trim($namecolumnas,",").") VALUES (".trim($namecampos,",").")");
 
-		
-		$stmt01 = Conexion::conectar()->prepare("UPDATE tbl_empleados SET estado=3 where id=:idempleado_retiro");
-		$stmt01 -> bindParam(":idempleado_retiro", $datos["idempleado_retiro"], PDO::PARAM_STR);
-		$stmt01->execute();
-
-		/* $variable=""; */
 		foreach($data as $row) {
 			$stmt->bindParam(":".$row['Field'], $datos["".$row['Field'].""], PDO::PARAM_STR);	
-	/* 		$variable .=":".$row['Field'].'$datos='.$row['Field']; */
 		}
 
 		if($stmt->execute()){
@@ -148,7 +141,6 @@ class Modeloretiro{
 
 		$stmt -> bindParam(":".$item1, $valor1, PDO::PARAM_STR);
 		$stmt -> bindParam(":".$item2, $valor2, PDO::PARAM_STR);
-
 
 		if($stmt -> execute()){
 
