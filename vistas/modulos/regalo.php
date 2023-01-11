@@ -60,7 +60,6 @@ function getContent() {
           
           <tr>
             
-            <th style="width:10px">#</th>
             
             <th>Fecha</th>
             <th>Código Uniforme</th>
@@ -73,44 +72,8 @@ function getContent() {
  
          </thead>
  
-         <tbody>
+         <tbody id="tablaregalo">
  
-         <?php
- 
-         $item = null;
-         $valor = null;
- 
-         $bancos = Controladorregalo::ctrMostrar($item, $valor);
- 
-        foreach ($bancos as $key => $value){
-          
-           echo ' <tr>
-                   <td>'.($key+1).'</td>
-                   <td>'.$value["fecha"].'</td>
-                   <td>'.$value["regalo_prenda"].'</td>
-                   <td>'.$value["descripcion"].'</td>
-                   <td>'.$value["cantidad"].'</td>
-                   <td>'.$value["precio"].'</td>';
- 
-                  
- 
-                   echo '<td>
- 
-                     <div class="btn-group">
-                         
-                       <button class="btn btn-warning btnEditarregalo" idregalo="'.$value["id"].'" data-toggle="modal" data-target="#modalEditarregalo"><i class="fa fa-pencil"></i></button>
- 
-                       <button class="btn btn-danger btnEliminarregalo" idregalo="'.$value["id"].'"  Codigo="'.$value["id"].'"><i class="fa fa-times"></i></button>
- 
-                     </div>  
- 
-                   </td>
- 
-                 </tr>';
-         }
- 
- 
-         ?> 
  
          </tbody>
  

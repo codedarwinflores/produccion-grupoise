@@ -62,8 +62,6 @@ function getContent() {
           
           <tr>
             
-            <th style="width:10px">#</th>
-            
             <th>Fecha</th>
             <th>Descuento</th>
             <th>Valor</th>
@@ -73,42 +71,7 @@ function getContent() {
  
          </thead>
  
-         <tbody>
- 
-         <?php
- 
-         $item = null;
-         $valor = null;
- 
-         $bancos = Controladorextravios::ctrMostrar($item, $valor);
- 
-        foreach ($bancos as $key => $value){
-          
-           echo ' <tr>
-                   <td>'.($key+1).'</td>
-                   <td>'.$value["fecha_extravio"].'</td>
-                   <td>'.$value["descuento_extravio"].'</td>
-                   <td>'.$value["valor_extravio"].'</td>';
- 
-                  
- 
-                   echo '<td>
- 
-                     <div class="btn-group">
-                         
-                       <button class="btn btn-warning btnEditarextravios" idextravios="'.$value["id"].'" data-toggle="modal" data-target="#modalEditarextravios"><i class="fa fa-pencil"></i></button>
- 
-                       <button class="btn btn-danger btnEliminarextravios" idextravios="'.$value["id"].'"  Codigo="'.$value["id"].'"><i class="fa fa-times"></i></button>
- 
-                     </div>  
- 
-                   </td>
- 
-                 </tr>';
-         }
- 
- 
-         ?> 
+         <tbody id="tableextravio">
  
          </tbody>
  
@@ -406,3 +369,4 @@ MODAL EDITAR
 ?> 
 
 
+<script src="vistas/js/extravio.js"></script>

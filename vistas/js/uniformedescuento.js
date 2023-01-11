@@ -3,7 +3,8 @@ $(document).ready(function(){
 
 	let params = new URLSearchParams(location.search);
 	var id = params.get('id');
-	$(".input_idempleado_extravio").val(id);
+
+	$(".input_codigo_empleado_descuento").val(id);
 
 	 /*  ******** */
 	 var parametros = {
@@ -14,23 +15,33 @@ $(document).ready(function(){
 			url:"ajax/formretiro.ajax.php",
 			type:  'post',
 			success:  function (response) {
-			
-				$(".nombreempleado").text("Empleado: "+response);
+				$(".input_empleado_descuento").val(response);
 			}
 	});
-	/* ********* */
+
 	
-			  /*  ******** */
-			  
+	$.ajax({
+		data:  parametros,
+		url:"ajax/generarcodigodescuento.ajax.php",
+		type:  'post',
+		success:  function (response) {
+		
+			$(".input_numero_recibo_descuento").val(response);
+		}
+	});
+	/* ********* */
+
+	
+			
 
 			$.ajax({
 
-			   url:"ajax/extravio_show.ajax.php",
+			   url:"ajax/descuento_show.ajax.php",
 			   method: "POST",
 			   data: parametros,
 			   success: function(respuesta){
 
-				   $("#tableextravio").html(respuesta)
+				   $("#uniformedescuento").html(respuesta)
 	   
 	   
 	   
@@ -41,7 +52,17 @@ $(document).ready(function(){
 		   
 			/* ********** */
 
-		  
+
+	$(".input_codigo_uni_descuento").change(function(){
+		var t = $('option:selected', this).attr('des1');
+	
+
+		$(".input_descuento").val(t);
+	});
+
+
+
+ 
  })
 
  
@@ -49,17 +70,17 @@ $(document).ready(function(){
 /*=============================================
 EDITAR 
 =============================================*/
-$(".tablas").on("click", ".btnEditarextravios", function(){
+$(".tablas").on("click", ".btnEditaruniformedescuento", function(){
 
 	
-	var idextravios = $(this).attr("idextravios");
+	var iduniformedescuento = $(this).attr("iduniformedescuento");
 	
 	var datos = new FormData();
-	datos.append("idextravios", idextravios);
+	datos.append("iduniformedescuento", iduniformedescuento);
 
 	$.ajax({
 
-		url:"ajax/extravio.ajax.php",
+		url:"ajax/uniformedescuento.ajax.php",
 		method: "POST",
 		data: datos,
 		cache: false,
@@ -68,12 +89,15 @@ $(".tablas").on("click", ".btnEditarextravios", function(){
 		dataType: "json",
 		success: function(respuesta){
 			
-			$("#editarid").val(respuesta["id"]);
-			$("#editarfecha_extravio").val(respuesta["fecha_extravio"]);
-			$("#editardescuento_extravio").val(respuesta["descuento_extravio"]);
-			$("#editarvalor_extravio").val(respuesta["valor_extravio"]);
-			$("#editaridempleado_extravio").val(respuesta["idempleado_extravio"]);
-
+			$("#editarid").val(respuesta["iddescuento"]);
+			$("#editarfecha_descuento").val(respuesta["fecha_descuento"]);
+			$("#editarcodigo_empleado_descuento").val(respuesta["codigo_empleado_descuento"]);
+			$("#nombreempleado").val(respuesta["primer_nombre"]+' '+respuesta["segundo_nombre"]+' '+respuesta["primer_apellido"]);
+			$("#editarcodigo_uni_descuento").val(respuesta["codigo_uni_descuento"]);
+			$("#descuento").val(respuesta["descripcion"]);
+			$("#editarnumero_recibo_descuento").val(respuesta["numero_recibo_descuento"]);
+			$("#editarvalor_descuento").val(respuesta["valor_descuento"]);
+			$("#editarobservacion_descuento").val(respuesta["observacion_descuento"]);
 
 
 
@@ -97,7 +121,7 @@ $("#nuevonombre").change(function(){
 	datos.append("validarnombre", usuario);
 
 	 $.ajax({
-	    url:"ajax/extravios.ajax.php",
+	    url:"ajax/uniformedescuento.ajax.php",
 	    method:"POST",
 	    data: datos,
 	    cache: false,
@@ -122,9 +146,9 @@ $("#nuevonombre").change(function(){
 /*=============================================
 ELIMINAR 
 =============================================*/
-$(".tablas").on("click", ".btnEliminarextravios", function(){
+$(".tablas").on("click", ".btnEliminaruniformedescuento", function(){
 
-  var idextravios = $(this).attr("idextravios");
+  var iduniformedescuento = $(this).attr("iduniformedescuento");
   var Codigo = $(this).attr("Codigo");
 
   swal({
@@ -140,7 +164,7 @@ $(".tablas").on("click", ".btnEliminarextravios", function(){
 
     if(result.value){
 
-      window.location = "index.php?ruta=extravios&idextravios="+idextravios+"&id="+Codigo;
+      window.location = "index.php?ruta=uniformedescuento&iduniformedescuento="+iduniformedescuento+"&id="+Codigo;
 
     }
 

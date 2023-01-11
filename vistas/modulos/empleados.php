@@ -127,8 +127,11 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
                       <button class="btn btn-info btnSeminarios"  style="background-color: #3c8dbc;" idEmpleado="'.$value["id"].'"  data-toggle="modal" data-target="#modalSeminario" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-trophy"></i></button> 
                       <button class="btn btn-danger btnEliminarEmpleado" idEmpleado="'.$value["id"].'" fotoEmpleado="'.$value["fotografia"].'" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-times"></i></button>
                       <a href="regalo?id='.$value["id"].'" class="btn btn-success"><i class="fa  fa-gift"></i></a>
+                      <a href="uniformedescuento?id='.$value["id"].'" style="background-color:#C9E747 !important;" class="btn btn-success"><i class="fa fa-usd"></i></a>
+
                       <a href="formretiro?id='.$value["id"].'" class="btn btn-danger" style="background-color: #800020 !important;"><i class="fa fa-info"></i></a>
                       <a href="extravios?id='.$value["id"].'" class="btn btn-primary" style="background-color:#36454F !important;"><i class="fa   fa-balance-scale"></i></a>
+                      
 
 
                     </div>  
@@ -1064,14 +1067,6 @@ MODAL AGREGAR EMPLEADO
                 </select>
               </div>
             </div>
-
-
-
-
-            
-
-         
-         
              
           <!-- *** -->
           <!-- *** -->
@@ -1106,6 +1101,101 @@ MODAL AGREGAR EMPLEADO
               </div>
           </div>
 
+          <!-- ENTRADA PARA PANTALON--> 
+          <div class="form-group">
+          Pantalón:
+            <div class="input-group">           
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <input type="text" value="" class="form-control input-lg" name="nuevopantalon_empleado" id="" placeholder="Ingresar Pantalón"  maxlength="3">
+            </div>
+          </div>
+
+          <!-- ENTRADA PARA camisa--> 
+          <div class="form-group">
+          Camisa:
+            <div class="input-group">           
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <input type="text" value="" class="form-control input-lg" name="nuevocamisa_empleado" id="" placeholder="Ingresar Camisa" maxlength="3">
+            </div>
+          </div>
+
+          
+          <!-- ENTRADA PARA Zapatos--> 
+          <div class="form-group">
+          Zapatos:
+            <div class="input-group">           
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <input type="text" value="" class="form-control input-lg" name="nuevozapatos_empleado" id="" placeholder="Ingresar Zapatos" maxlength="3">
+            </div>
+          </div>
+          
+
+          <!-- ENTRADA PARA Recomendado por:--> 
+          <div class="form-group">
+          Recomendado por:
+            <div class="input-group">           
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <select class="form-control input-lg" name="nuevorecomendado_empleado" id="" required>                  
+                  <option value="">Seleccionar Recomendado</option>
+                  <?php
+                    $datos_mostrar_cargo = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
+                    foreach ($datos_mostrar_cargo as $key => $value){
+                      echo '<option value="'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["primer_apellido"].'">'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["primer_apellido"].'</option>';                     
+                    }
+                ?>
+                </select>
+            </div>
+          </div>
+
+          
+          
+          <!-- ENTRADA PARA Zapatos--> 
+          <div class="form-group">
+          Medio de contacto:
+            <div class="input-group">           
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <input type="text" value="" class="form-control input-lg telefono" name="nuevocontacto_empleado" id="" placeholder="Ingresar Medio de contacto">
+            </div>
+          </div>
+          
+
+          <div class="form-group">
+          Documentación completa:
+            <div class="input-group">           
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <select class="form-control input-lg" name="nuevodocumentacion_empleado" id="" required>                  
+                  <option value="">Seleccionar Documentación completa</option>
+                  <option value="Si">Si</option>
+                  <option value="No">No</option>
+                </select>
+            </div>
+          </div>
+
+          
+          <div class="form-group">
+          ¿Tiene ANSP?:
+            <div class="input-group">           
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <select class="form-control input-lg" name="nuevoansp_empleado" id="" required>                  
+                  <option value="">¿Tiene ANSP?</option>
+                  <option value="Si">Si</option>
+                  <option value="No">No</option>
+                </select>
+            </div>
+          </div>
+
+          
+          <div class="form-group">
+          Uniforme regalado:
+            <div class="input-group">           
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <select class="form-control input-lg" name="nuevouniformeregalado_empleado" id="" required>                  
+                  <option value="">Uniforme regalado</option>
+                  <option value="Si">Si</option>
+                  <option value="No">No</option>
+                </select>
+            </div>
+          </div>
 
 
 
@@ -2093,6 +2183,107 @@ MODAL EDITAR EMPLEADO
             
 
             
+
+
+
+          <!-- ENTRADA PARA PANTALON--> 
+          <div class="form-group">
+          Pantalón:
+            <div class="input-group">           
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <input type="text" value="" class="form-control input-lg" name="editarpantalon_empleado" id="editarpantalon_empleado" placeholder="Ingresar Pantalón"  maxlength="3">
+            </div>
+          </div>
+
+          <!-- ENTRADA PARA camisa--> 
+          <div class="form-group">
+          Camisa:
+            <div class="input-group">           
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <input type="text" value="" class="form-control input-lg" name="editarcamisa_empleado" id="editarcamisa_empleado" placeholder="Ingresar Camisa" maxlength="3">
+            </div>
+          </div>
+
+          
+          <!-- ENTRADA PARA Zapatos--> 
+          <div class="form-group">
+          Zapatos:
+            <div class="input-group">           
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <input type="text" value="" class="form-control input-lg" name="editarzapatos_empleado" id="editarzapatos_empleado" placeholder="Ingresar Zapatos" maxlength="3">
+            </div>
+          </div>
+          
+
+          <!-- ENTRADA PARA Recomendado por:--> 
+          <div class="form-group">
+          Recomendado por:
+            <div class="input-group">           
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <select class="form-control input-lg" name="editarrecomendado_empleado" id="editarrecomendado_empleado" required>                  
+                  <option value="">Seleccionar Recomendado</option>
+                  <?php
+                    $datos_mostrar_cargo = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
+                    foreach ($datos_mostrar_cargo as $key => $value){
+                      echo '<option value="'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["primer_apellido"].'">'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["primer_apellido"].'</option>';                     
+                    }
+                ?>
+                </select>
+            </div>
+          </div>
+
+          
+          
+          <!-- ENTRADA PARA Zapatos--> 
+          <div class="form-group">
+          Medio de contacto:
+            <div class="input-group">           
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <input type="text" value="" class="form-control input-lg telefono" name="editarcontacto_empleado" id="editarcontacto_empleado" placeholder="Ingresar Medio de contacto">
+            </div>
+          </div>
+          
+
+          <div class="form-group">
+          Documentación completa:
+            <div class="input-group">           
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <select class="form-control input-lg" name="editardocumentacion_empleado" id="editardocumentacion_empleado" required>                  
+                  <option value="">Seleccionar Documentación completa</option>
+                  <option value="Si">Si</option>
+                  <option value="No">No</option>
+                </select>
+            </div>
+          </div>
+
+          
+          <div class="form-group">
+          ¿Tiene ANSP?:
+            <div class="input-group">           
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <select class="form-control input-lg" name="editaransp_empleado" id="editaransp_empleado" required>                  
+                  <option value="">¿Tiene ANSP?</option>
+                  <option value="Si">Si</option>
+                  <option value="No">No</option>
+                </select>
+            </div>
+          </div>
+
+          
+          <div class="form-group">
+          Uniforme regalado:
+            <div class="input-group">           
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <select class="form-control input-lg" name="editaruniformeregalado_empleado" id="editaruniformeregalado_empleado" required>                  
+                  <option value="">Uniforme regalado</option>
+                  <option value="Si">Si</option>
+                  <option value="No">No</option>
+                </select>
+            </div>
+          </div>
+
+            
+           <!--  **** -->
 
             
 

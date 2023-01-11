@@ -2,7 +2,7 @@
 
 require_once "conexion.php";
 
-		$nombretabla = "servicios";
+		$nombretabla = "tbl_empleados";
 		$namecolumnas="";
 		$namecampos="";
 	
@@ -39,7 +39,9 @@ $array=array();
  *//* 
 			$datos = array("".$row['Field']."" => $_POST["nuevo".$row['Field'].""],); */
 			/* $namecolumnas .= " ".$row['Field']." "." =>". $_POST["nuevo".$row['Field'].""].","; */
-			array_push($array,$datos0);
+
+			$datos = array("".$row['Field']."" => $_POST["nuevo".$row['Field'].""],); 
+			array_push($array,$datos);
 			
 
 		}

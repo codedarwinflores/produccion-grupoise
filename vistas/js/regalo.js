@@ -41,6 +41,30 @@ $(document).ready(function(){
 			  $(".label_operador").text(input_operador);
 
 		  
+			  $(".input_codigo_empleado_descuento").val(id);
+
+			  /*  ******** */
+			  var parametros = {
+				 "id" : id
+			 };
+
+			 $.ajax({
+
+				url:"ajax/regalo_show.ajax.php",
+				method: "POST",
+				data: parametros,
+				success: function(respuesta){
+
+					$("#tablaregalo").html(respuesta)
+		
+		
+		
+				}
+		
+			});
+
+			
+			 /* ********** */
 
 		  
  })
@@ -143,7 +167,7 @@ $(".tablas").on("click", ".btnEliminarregalo", function(){
 
     if(result.value){
 
-      window.location = "index.php?ruta=regalo&idregalo="+idregalo+"&Codigo="+Codigo;
+      window.location = "index.php?ruta=regalo&idregalo="+idregalo+"&id="+Codigo;
 
     }
 

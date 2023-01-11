@@ -4,6 +4,8 @@ $(document).ready(function(){
 	var  texto= "Ingresar";
 	$(".icono_codigo").addClass("fa fa-qrcode");
 	$(".input_codigo").attr("placeholder", texto+" Código");
+	$(".servicios_codigo").attr("required","required");
+	$(".servicios_nombre").attr("required","required");
 
 	$(".icono_nombre").addClass("fa fa-tags");
 	$(".input_nombre").attr("placeholder", texto+" Nombre");

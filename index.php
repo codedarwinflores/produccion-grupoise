@@ -251,6 +251,10 @@ require_once "controladores/extravios.controlador.php";
 require_once "modelos/extravios.modelo.php";
 
 
+/* **  uniformedescuento *** */
+require_once "controladores/uniformedescuento.controlador.php";
+require_once "modelos/uniformedescuento.modelo.php";
+
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();
 

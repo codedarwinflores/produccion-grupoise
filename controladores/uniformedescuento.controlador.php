@@ -1,18 +1,18 @@
 <?php
-/* cambiar _regalo por el nombre de la table correspondiente */
-$Nombremodulo_mensaje_regalo="Regalo";
-$nombremodelo_regalo="regalo";
-$namecolumnas_regalo="";
-$namecampos_regalo="";
-$nombretabla_regalo_regalo="regalo";
-$tabla_regalo = "regalo";
-class Controladorregalo{
+/* cambiar _uniformedescuento por el nombre de la table correspondiente */
+$Nombremodulo_mensaje_uniformedescuento="Uniforme Descuento";
+$nombremodelo_uniformedescuento="uniformedescuento";
+$namecolumnas_uniformedescuento="";
+$namecampos_uniformedescuento="";
+$nombretabla_uniformedescuento_uniformedescuento="uniformedescuento";
+$tabla_uniformedescuento = "uniformedescuento";
+class Controladoruniformedescuento{
 
 	/* CAPTURAR NOMBRE COLUMNAS*/
 
 	function getContent() {
-		global $nombretabla_regalo_regalo;
-		$query = "SHOW COLUMNS FROM $nombretabla_regalo_regalo";
+		global $nombretabla_uniformedescuento_uniformedescuento;
+		$query = "SHOW COLUMNS FROM $nombretabla_uniformedescuento_uniformedescuento";
 		$sql = Conexion::conectar()->prepare($query);
 		$sql->execute();			
 		return $sql->fetchAll();
@@ -31,12 +31,12 @@ class Controladorregalo{
 
 			   	$encriptar = crypt($_POST["ingPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
 
-				$tabla_regalo = "usuarios";
+				$tabla_uniformedescuento = "usuarios";
 
 				$item = "usuario";
 				$valor = $_POST["ingUsuario"];
 
-				$respuesta = ModeloUsuarios::MdlMostrarUsuarios($tabla_regalo, $item, $valor);
+				$respuesta = ModeloUsuarios::MdlMostrarUsuarios($tabla_uniformedescuento, $item, $valor);
 
 				if($respuesta["usuario"] == $_POST["ingUsuario"] && $respuesta["password"] == $encriptar){
 
@@ -66,7 +66,7 @@ class Controladorregalo{
 						$item2 = "id";
 						$valor2 = $respuesta["id"];
 
-						$ultimoLogin = ModeloUsuarios::mdlActualizarUsuario($tabla_regalo, $item1, $valor1, $item2, $valor2);
+						$ultimoLogin = ModeloUsuarios::mdlActualizarUsuario($tabla_uniformedescuento, $item1, $valor1, $item2, $valor2);
 
 						if($ultimoLogin == "ok"){
 
@@ -103,27 +103,27 @@ class Controladorregalo{
 
 	static public function ctrCrear(){
 
-		if(isset($_POST["nuevofecha"])){
+		if(isset($_POST["nuevoid"])){
 
 
 
-				global $tabla_regalo;
-				global $namecolumnas_regalo;
-				global $namecampos_regalo;
-				global $Nombremodulo_mensaje_regalo;
-				global $nombremodelo_regalo;
+				global $tabla_uniformedescuento;
+				global $namecolumnas_uniformedescuento;
+				global $namecampos_uniformedescuento;
+				global $Nombremodulo_mensaje_uniformedescuento;
+				global $nombremodelo_uniformedescuento;
 				
 				$data = getContent();
 				$datos="";
 				$array=[];
 				foreach($data as $row) {
 					$datos0 = array("".$row['Field']."" => $_POST["nuevo".$row['Field'].""],);
-				/* $namecolumnas_regalo .= "".$row['Field'].""." =>". $_POST["nuevo".$row['Field'].""].","; */
+				/* $namecolumnas_uniformedescuento .= "".$row['Field'].""." =>". $_POST["nuevo".$row['Field'].""].","; */
 				$array+=["".$row['Field']."" => $_POST["nuevo".$row['Field'].""],];
 				}
 			
 				$datos=$array;
-				$respuesta = Modeloregalo::mdlIngresar($tabla_regalo, $datos);
+				$respuesta = Modelouniformedescuento::mdlIngresar($tabla_uniformedescuento, $datos);
 			
 				if($respuesta == "ok"){
 
@@ -132,7 +132,7 @@ class Controladorregalo{
 					swal({
 
 						type: "success",
-						title: "¡'.$Nombremodulo_mensaje_regalo.' ha sido guardado correctamente!",
+						title: "¡'.$Nombremodulo_mensaje_uniformedescuento.' ha sido guardado correctamente!",
 						showConfirmButton: true,
 						confirmButtonText: "Cerrar"
 
@@ -140,7 +140,7 @@ class Controladorregalo{
 
 						if(result.value){
 						
-							window.location = "'.$nombremodelo_regalo.'?id='.$_POST["nuevoidempleado"].'";
+							window.location = "'.$nombremodelo_uniformedescuento.'?id='.$_POST["nuevocodigo_empleado_descuento"].'";
 
 						}
 
@@ -166,9 +166,9 @@ class Controladorregalo{
 
 	static public function ctrMostrar($item, $valor){
 
-		global $tabla_regalo;
+		global $tabla_uniformedescuento;
 
-		$respuesta = Modeloregalo::mdlMostrar($tabla_regalo, $item, $valor);
+		$respuesta = Modelouniformedescuento::mdlMostrar($tabla_uniformedescuento, $item, $valor);
 
 		return $respuesta;
 	}
@@ -179,22 +179,22 @@ class Controladorregalo{
 
 	static public function ctrEditar(){
 
-		if(isset($_POST["editarfecha"])){
+		if(isset($_POST["editarid"])){
 
 
 
-			global $tabla_regalo;
-			global $namecolumnas_regalo;
-			global $namecampos_regalo;
-			global $Nombremodulo_mensaje_regalo;
-			global $nombremodelo_regalo;
+			global $tabla_uniformedescuento;
+			global $namecolumnas_uniformedescuento;
+			global $namecampos_uniformedescuento;
+			global $Nombremodulo_mensaje_uniformedescuento;
+			global $nombremodelo_uniformedescuento;
 			
 			$data = getContent();
 			$datos="";
 			$array=[];
 			foreach($data as $row) {
 				$datos0 = array("".$row['Field']."" => $_POST["editar".$row['Field'].""],);
-			/* $namecolumnas_regalo .= "".$row['Field'].""." =>". $_POST["nuevo".$row['Field'].""].","; */
+			/* $namecolumnas_uniformedescuento .= "".$row['Field'].""." =>". $_POST["nuevo".$row['Field'].""].","; */
 			$array+=["".$row['Field']."" => $_POST["editar".$row['Field'].""],];
 			}
 		
@@ -205,7 +205,7 @@ class Controladorregalo{
 							   "codigo" => $_POST["editarCodigo"],
 							   "nombre" => $_POST["editarNombre"]); */
 
-				$respuesta = Modeloregalo::mdlEditar($tabla_regalo, $datos);
+				$respuesta = Modelouniformedescuento::mdlEditar($tabla_uniformedescuento, $datos);
 
 				if($respuesta == "ok"){
 
@@ -213,13 +213,13 @@ class Controladorregalo{
 
 					swal({
 						  type: "success",
-						  title: "'.$Nombremodulo_mensaje_regalo.' ha sido editado correctamente",
+						  title: "'.$Nombremodulo_mensaje_uniformedescuento.' ha sido editado correctamente",
 						  showConfirmButton: true,
 						  confirmButtonText: "Cerrar"
 						  }).then(function(result) {
 									if (result.value) {
 
-									window.location = "'.$nombremodelo_regalo.'?id='.$_POST["editaridempleado"].'";
+									window.location = "'.$nombremodelo_uniformedescuento.'?id='.$_POST["editarcodigo_empleado_descuento"].'";
 
 									}
 								})
@@ -240,18 +240,18 @@ class Controladorregalo{
 
 	static public function ctrBorrar(){
 
-		if(isset($_GET["idregalo"])){
+		if(isset($_GET["iduniformedescuento"])){
 
-			global $tabla_regalo;
-				global $namecolumnas_regalo;
-				global $namecampos_regalo;
-				global $Nombremodulo_mensaje_regalo;
-				global $nombremodelo_regalo;
-			$datos = $_GET["idregalo"];
+			global $tabla_uniformedescuento;
+				global $namecolumnas_uniformedescuento;
+				global $namecampos_uniformedescuento;
+				global $Nombremodulo_mensaje_uniformedescuento;
+				global $nombremodelo_uniformedescuento;
+			$datos = $_GET["iduniformedescuento"];
 			$id = $_GET["id"];
 
 
-			$respuesta = Modeloregalo::mdlBorrar($tabla_regalo, $datos);
+			$respuesta = Modelouniformedescuento::mdlBorrar($tabla_uniformedescuento, $datos);
 
 			if($respuesta == "ok"){
 
@@ -259,14 +259,14 @@ class Controladorregalo{
 
 				swal({
 					  type: "success",
-					  title: "'.$Nombremodulo_mensaje_regalo.' ha sido borrado correctamente",
+					  title: "'.$Nombremodulo_mensaje_uniformedescuento.' ha sido borrado correctamente",
 					  showConfirmButton: true,
 					  confirmButtonText: "Cerrar",
 					  closeOnConfirm: false
 					  }).then(function(result) {
 								if (result.value) {
 
-								window.location = "'.$nombremodelo_regalo.'?id='.$id.'";
+								window.location = "'.$nombremodelo_uniformedescuento.'?id='.$id.'";
 
 								}
 							})

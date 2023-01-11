@@ -140,7 +140,7 @@ class Controladorextravios{
 
 						if(result.value){
 						
-							window.location = "'.$nombremodelo_extravios.'";
+							window.location = "'.$nombremodelo_extravios.'?id='.$_POST["nuevoidempleado_extravio"].'";
 
 						}
 
@@ -219,7 +219,7 @@ class Controladorextravios{
 						  }).then(function(result) {
 									if (result.value) {
 
-									window.location = "'.$nombremodelo_extravios.'";
+									window.location = "'.$nombremodelo_extravios.'?id='.$_POST["editaridempleado_extravio"].'";
 
 									}
 								})
@@ -248,6 +248,7 @@ class Controladorextravios{
 				global $Nombremodulo_mensaje_extravios;
 				global $nombremodelo_extravios;
 			$datos = $_GET["idextravios"];
+			$id = $_GET["id"];
 
 
 			$respuesta = Modeloextravios::mdlBorrar($tabla_extravios, $datos);
@@ -265,7 +266,7 @@ class Controladorextravios{
 					  }).then(function(result) {
 								if (result.value) {
 
-								window.location = "'.$nombremodelo_extravios.'";
+								window.location = "'.$nombremodelo_extravios.'?id='.$id.'";
 
 								}
 							})

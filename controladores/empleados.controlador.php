@@ -730,7 +730,16 @@ class ControladorEmpleados{
                                "estado" => $_POST["nuevoEstado"],
 							   "nivel_cargo" => $_POST["nuevoCARGO"],					           
 					           "fotografia"=>$ruta,
-							   "imagen_documento_identidad"=>$rutaDoc
+							   "imagen_documento_identidad"=>$rutaDoc,
+							   "pantalon_empleado" => $_POST["nuevopantalon_empleado"],
+							   "camisa_empleado" => $_POST["nuevocamisa_empleado"],
+							   "zapatos_empleado" => $_POST["nuevozapatos_empleado"],
+							   "recomendado_empleado" => $_POST["nuevorecomendado_empleado"],
+							   "contacto_empleado" => $_POST["nuevocontacto_empleado"],
+							   "documentacion_empleado" => $_POST["nuevodocumentacion_empleado"],
+							   "ansp_empleado" => $_POST["nuevoansp_empleado"],
+							   "uniformeregalado_empleado" => $_POST["nuevouniformeregalado_empleado"]
+
                             );
 
 				$respuesta = ModeloEmpleados::mdlIngresarEmpleado($tabla, $datos);
@@ -1634,6 +1643,14 @@ class ControladorEmpleados{
 							   "nivel_cargo" => $_POST["editarCARGO"],					           
 					           "fotografia"=>$ruta,
 							   "imagen_documento_identidad"=>$rutaDoc,
+							   "pantalon_empleado" => $_POST["editarpantalon_empleado"],
+							   "camisa_empleado" => $_POST["editarcamisa_empleado"],
+							   "zapatos_empleado" => $_POST["editarzapatos_empleado"],
+							   "recomendado_empleado" => $_POST["editarrecomendado_empleado"],
+							   "contacto_empleado" => $_POST["editarcontacto_empleado"],
+							   "documentacion_empleado" => $_POST["editardocumentacion_empleado"],
+							   "ansp_empleado" => $_POST["editaransp_empleado"],
+							   "uniformeregalado_empleado" => $_POST["editaruniformeregalado_empleado"],
                                "id"=>$_POST["idEmpleado"]);
 
 				

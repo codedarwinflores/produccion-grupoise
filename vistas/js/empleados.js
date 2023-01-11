@@ -491,6 +491,17 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 			$("#editarSexo").val(respuesta["sexo"]);
 			
 			$("#editarDireccion").val(respuesta["direccion"]);
+
+			$("#editarpantalon_empleado").val(respuesta["pantalon_empleado"]);
+			$("#editarcamisa_empleado").val(respuesta["camisa_empleado"]);
+			$("#editarzapatos_empleado").val(respuesta["zapatos_empleado"]);
+			$("#editarrecomendado_empleado").val(respuesta["recomendado_empleado"]);
+			$("#editarcontacto_empleado").val(respuesta["contacto_empleado"]);
+			$("#editardocumentacion_empleado").val(respuesta["documentacion_empleado"]);
+			$("#editaransp_empleado").val(respuesta["ansp_empleado"]);
+			$("#editaruniformeregalado_empleado").val(respuesta["uniformeregalado_empleado"]);
+			
+
 			
 
 			//poblar editar Departamento			
