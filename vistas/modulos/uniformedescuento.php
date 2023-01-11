@@ -223,7 +223,7 @@ MODAL AGREGAR
               
                 <span class="input-group-addon"><i class="icono_numero_recibo_descuento"></i></span> 
 
-                <input type="text" class="form-control input-lg input_numero_recibo_descuento" name="nuevonumero_recibo_descuento" id="" placeholder="" value="" autocomplete="off" required="">
+                <input type="text" class="form-control input-lg input_numero_recibo_descuento bloqueado" name="nuevonumero_recibo_descuento" id="" placeholder="" value="" autocomplete="off" required="">
 
               </div>
 
@@ -438,7 +438,7 @@ MODAL EDITAR
               
                 <span class="input-group-addon"><i class="icono_numero_recibo_descuento"></i></span> 
 
-                <input type="text" class="form-control input-lg input_numero_recibo_descuento" name="editarnumero_recibo_descuento" id="editarnumero_recibo_descuento" placeholder="" value="" autocomplete="off" required="">
+                <input type="text" class="form-control input-lg input_numero_recibo_descuento bloqueado" name="editarnumero_recibo_descuento" id="editarnumero_recibo_descuento" placeholder="" value="" autocomplete="off" required="">
 
               </div>
 
