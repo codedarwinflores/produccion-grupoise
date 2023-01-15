@@ -508,6 +508,7 @@ CUERPO DOCUMENTO
          $_GET["ruta"] == "retiro" ||
          $_GET["ruta"] == "extravios" ||
          $_GET["ruta"] == "uniformedescuento" ||
+         $_GET["ruta"] == "imprimirficha" ||
          $_GET["ruta"] == "salir"){
 
         include "modulos/".$_GET["ruta"].".php";
