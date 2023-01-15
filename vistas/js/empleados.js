@@ -1332,3 +1332,36 @@ function eliminarEmpleadoseminario(idSeminarioEmpleado){
 
 	})
 }
+
+/*=============================================
+deshabilitarOpcionesSuspension
+=============================================*/
+function deshabilitarOpcionesSuspension(){
+	if(document.getElementById("nuevoSuspendidoAnterior").value == "SI"){
+		document.getElementById("nuevoEmpresaSuspendio").disabled = true;
+		document.getElementById("nuevoMotivoSuspension").disabled = true;
+		document.getElementById("fechasuspnew").disabled = true;
+	}
+	else{
+		document.getElementById("nuevoEmpresaSuspendio").disabled = false;
+		document.getElementById("nuevoMotivoSuspension").disabled = false;
+		document.getElementById("fechasuspnew").disabled = false;
+	}
+}
+
+/*=============================================
+deshabilitarOpcionesSuspensionEditar
+=============================================*/
+function deshabilitarOpcionesSuspensionEditar(){
+	
+	if(document.getElementById("editarSuspendidoAnterior").value == "SI"){
+		document.getElementById("editarEmpresaSuspendio").disabled = true;
+		document.getElementById("editarMotivoSuspension").disabled = true;
+		document.getElementById("mascarafechasusp").disabled = true;
+	}
+	else{
+		document.getElementById("editarEmpresaSuspendio").disabled = false;
+		document.getElementById("editarMotivoSuspension").disabled = false;
+		document.getElementById("mascarafechasusp").disabled = false;
+	}
+}

@@ -853,7 +853,7 @@ MODAL AGREGAR EMPLEADO
           Suspendido en Trabajos Anteriores:              
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-                <select class="form-control input-lg" name="nuevoSuspendidoAnterior">                  
+                <select class="form-control input-lg" name="nuevoSuspendidoAnterior" id="nuevoSuspendidoAnterior" onchange="deshabilitarOpcionesSuspension()">                  
                   <option value="">Ha sido Suspendido en Trabajos Anteriores</option>
                   <option value="SI">SI</option>
                   <option value="NO">NO</option>
@@ -866,7 +866,7 @@ MODAL AGREGAR EMPLEADO
           Empresa que Suspendi&oacute;:           
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" class="form-control input-lg" name="nuevoEmpresaSuspendio" placeholder="Ingresar Empresa que Suspendi&oacute;" >
+                <input type="text" class="form-control input-lg" name="nuevoEmpresaSuspendio" id="nuevoEmpresaSuspendio" placeholder="Ingresar Empresa que Suspendi&oacute;" >
               </div>
           </div>
           <!-- ENTRADA PARA MOTIVO SUSPENSION-->            
@@ -874,7 +874,7 @@ MODAL AGREGAR EMPLEADO
           Motivo de Suspensi&oacute;n:         
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" class="form-control input-lg" name="nuevoMotivoSuspension" placeholder="Ingresar Motivo de Suspensi&oacute;n" >
+                <input type="text" class="form-control input-lg" name="nuevoMotivoSuspension" id="nuevoMotivoSuspension" placeholder="Ingresar Motivo de Suspensi&oacute;n" >
               </div>
           </div>
           <!-- ENTRADA PARA FECHA SUSPENSION --> 
@@ -882,7 +882,7 @@ MODAL AGREGAR EMPLEADO
           Fecha Suspensi&oacute;n:
             <div class="input-group">           
                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                <input type="text" value="" class="calendario nuevofecha_susp form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_susp" placeholder="Ingresar Fecha" readonly>
+                <input type="text" value="" class="calendario nuevofecha_susp form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" id="fechasuspnew" fecha="nuevofecha_susp" placeholder="Ingresar Fecha" readonly>
                 <input type="text" class="oficial_nuevofecha_susp" name="nuevofecha_susp" style="display: none;">
             </div>
           </div>
@@ -1927,7 +1927,7 @@ MODAL EDITAR EMPLEADO
               Ha sido Suspendido en Trabajos anteriores?              
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-                <select class="form-control input-lg" name="editarSuspendidoAnterior">                  
+                <select class="form-control input-lg" name="editarSuspendidoAnterior" >                  
                   <option value="" id="editarSuspendidoAnterior"></option>  
                   <option value="SI">SI</option>
                   <option value="NO">NO</option>                  
