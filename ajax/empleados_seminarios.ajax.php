@@ -62,7 +62,7 @@ else{//Mostrar Pariente
 			<b>CODIGO:</b>&nbsp;&nbsp;&nbsp;".$rowDetalle[1]."<br>
 			<b>FECHA REALIZADO:</b>&nbsp;&nbsp;&nbsp;".$rowDetalle[3]."<br>
 			<b>SEMINARIO:</b>&nbsp;&nbsp;&nbsp;".$rowSeminario[2]."<br>
-		
+			<b>LUGAR:</b>&nbsp;&nbsp;&nbsp;".$rowDetalle[5]."<br>
 			
 			<button class='btn btn-danger btnEliminarEmpleadoSeminario' idSeminarioEmpleado='".$rowDetalle[0]."' onclick ='eliminarEmpleadoseminario(".$rowDetalle[0].")' >Eliminar Registro</button>
 		</div><br><br>";
