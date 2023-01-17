@@ -50,7 +50,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
 
             
 
-            
+             <input type="hidden" name="idEmpleado" value="<?php echo $_POST["idEmpleado"]?>"> 
 
             <div class="modal-body">
 

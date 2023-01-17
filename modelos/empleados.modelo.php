@@ -278,10 +278,10 @@ class ModeloEmpleados{
         );
 
 		$stmt -> bindParam(":primer_nombre", $datos["primer_nombre"], PDO::PARAM_STR);
-		$stmt -> bindParam(":segundo_nombre", $datos["segundosegundo_nombre_nombre"], PDO::PARAM_STR);
+		$stmt -> bindParam(":segundo_nombre", $datos["segundo_nombre"], PDO::PARAM_STR);
 		$stmt -> bindParam(":tercer_nombre", $datos["tercer_nombre"], PDO::PARAM_STR);
 		$stmt -> bindParam(":primer_apellido", $datos["primer_apellido"], PDO::PARAM_STR);
-		$stmt -> bindParam(":segundo_apellido", $datos["prisegundo_apellidomer_nombre"], PDO::PARAM_STR);
+		$stmt -> bindParam(":segundo_apellido", $datos["segundo_apellido"], PDO::PARAM_STR);
 		$stmt -> bindParam(":apellido_casada", $datos["apellido_casada"], PDO::PARAM_STR);
 		$stmt -> bindParam(":estado_civil", $datos["estado_civil"], PDO::PARAM_STR);
 		$stmt -> bindParam(":sexo", $datos["sexo"], PDO::PARAM_STR);
@@ -376,7 +376,7 @@ class ModeloEmpleados{
 
 	
 		if($stmt -> execute()){
-
+			print_r($stmt->errorInfo());
 			return "ok";
 		
 		}else{
