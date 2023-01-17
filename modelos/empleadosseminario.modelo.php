@@ -16,19 +16,16 @@ class ModeloEmpleadoSeminarios{
             codigo,
             id_empleado,
             fecha_realizacion,
-            id_seminario,
-			lugar_recibido  
+            id_seminario  
             ) VALUES (
             :codigo,
             :id_empleado,
             :fecha_realizacion,
-            :id_seminario,
-			:lugar_recibido  
+            :id_seminario  
             )");
         $stmt->bindParam(":codigo", $datos["codigo"], PDO::PARAM_STR);
 		$stmt->bindParam(":id_empleado", $datos["id_empleado"], PDO::PARAM_INT);
 		$stmt->bindParam(":fecha_realizacion", $datos["fecha_realizacion"], PDO::PARAM_STR);
-		$stmt->bindParam(":lugar_recibido", $datos["lugar_recibido"], PDO::PARAM_STR);
         $stmt->bindParam(":id_seminario", $datos["id_seminario"], PDO::PARAM_INT);
 
 

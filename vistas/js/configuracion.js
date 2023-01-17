@@ -81,28 +81,26 @@ if(validar=="1"){
 
 }
 else{
-	$(".formulario_nuevo").attr("style","display:block");
-	$(".formulario_editar").attr("style","display:none");
 
-	datos = "";
+	var parametros = {
+		"id" : ""
+	};
 	$.ajax({
 
 		url:"ajax/insert_configuracion.ajax.php",
-		datos:datos,
-		cache: false,
-		contentType: false,
-		processData: false,
-		dataType: "json",
-		
+		datos:parametros,
 		success: function(respuesta){
 			/* alert(respuesta); */
 			location.reload();
+			$(".formulario_nuevo").attr("style","display:block");
+			$(".formulario_editar").attr("style","display:none");
+		
 			
 		}
 	})
 
 
-	location.reload();
+	/* location.reload(); */
 }
 
 

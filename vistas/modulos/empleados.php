@@ -116,19 +116,29 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
 
                     <div class="btn-group">
                         
+<<<<<<< HEAD
                       <button class="btn btn-warning btnEditarEmpleado"  idEmpleado="'.$value["id"].'" ><i class="fa fa-pencil"></i></button>
                      
                       <button class="btn btn-info btnImprimirImagenes"  style="background-color: #3c8dbc;"   empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-user"></i></button>
+=======
+                      <button class="btn btn-warning btnEditarEmpleado" idEmpleado="'.$value["id"].'" data-toggle="modal" data-target="#modalEditarEmpleado"><i class="fa fa-pencil"></i></button>
+                      <button class="btn btn-info btnImprimirImagenes"  style="background-color: #3c8dbc;"   empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-print"></i></button>
+>>>>>>> 0c61bfe85886ca1db63bc91709ba9fa9bfb35131
                       <button class="btn btn-info btnParentesco"  style="background-color: #3c8dbc;" idEmpleado="'.$value["id"].'"  data-toggle="modal" data-target="#modalParentesco" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-users"></i></button> 
                       <button class="btn btn-info btnDescuentos"  style="background-color: #3c8dbc;" idEmpleado="'.$value["id"].'"  data-toggle="modal" data-target="#modalDescuento" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-exchange"></i></button> 
                       <button class="btn btn-info btnSeminarios"  style="background-color: #3c8dbc;" idEmpleado="'.$value["id"].'"  data-toggle="modal" data-target="#modalSeminario" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-trophy"></i></button> 
-                      <button class="btn btn-info btnImprimirFicha"  style="background-color: #3c8dbc;"   empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-print"></i></button>
                       <button class="btn btn-danger btnEliminarEmpleado" idEmpleado="'.$value["id"].'" fotoEmpleado="'.$value["fotografia"].'" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-times"></i></button>
                       <a href="regalo?id='.$value["id"].'" class="btn btn-success"><i class="fa  fa-gift"></i></a>
                       <a href="uniformedescuento?id='.$value["id"].'" style="background-color:#C9E747 !important;" class="btn btn-success"><i class="fa fa-usd"></i></a>
 
                       <a href="formretiro?id='.$value["id"].'" class="btn btn-danger" style="background-color: #800020 !important;"><i class="fa fa-info"></i></a>
                       <a href="extravios?id='.$value["id"].'" class="btn btn-primary" style="background-color:#36454F !important;"><i class="fa   fa-balance-scale"></i></a>
+
+                      <a href="vistas/modulos/carnet.php?id='.$value["id"].'" class="btn btn-success" idempleado='.$value["id"].' target="_blank"><i class="fa fa-address-card"></i></a>
+                      
+                      <a href="vistas/modulos/solicitudpnc.php?id='.$value["id"].'" class="btn btn-danger" idempleado='.$value["id"].' target="_blank"><i class="fa fa-file-word-o"></i></a>
+                      
+                      <a href="vistas/modulos/contrato.php?id='.$value["id"].'" class="btn btn-primary" idempleado='.$value["id"].' target="_blank"><i class="fa fa-book"></i></a>
                       
 
 
@@ -850,7 +860,7 @@ MODAL AGREGAR EMPLEADO
           Suspendido en Trabajos Anteriores:              
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-                <select class="form-control input-lg" name="nuevoSuspendidoAnterior" id="nuevoSuspendidoAnterior" onchange="deshabilitarOpcionesSuspension()">                  
+                <select class="form-control input-lg" name="nuevoSuspendidoAnterior">                  
                   <option value="">Ha sido Suspendido en Trabajos Anteriores</option>
                   <option value="SI">SI</option>
                   <option value="NO">NO</option>
@@ -863,7 +873,7 @@ MODAL AGREGAR EMPLEADO
           Empresa que Suspendi&oacute;:           
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" class="form-control input-lg" name="nuevoEmpresaSuspendio" id="nuevoEmpresaSuspendio" placeholder="Ingresar Empresa que Suspendi&oacute;" >
+                <input type="text" class="form-control input-lg" name="nuevoEmpresaSuspendio" placeholder="Ingresar Empresa que Suspendi&oacute;" >
               </div>
           </div>
           <!-- ENTRADA PARA MOTIVO SUSPENSION-->            
@@ -871,7 +881,7 @@ MODAL AGREGAR EMPLEADO
           Motivo de Suspensi&oacute;n:         
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" class="form-control input-lg" name="nuevoMotivoSuspension" id="nuevoMotivoSuspension" placeholder="Ingresar Motivo de Suspensi&oacute;n" >
+                <input type="text" class="form-control input-lg" name="nuevoMotivoSuspension" placeholder="Ingresar Motivo de Suspensi&oacute;n" >
               </div>
           </div>
           <!-- ENTRADA PARA FECHA SUSPENSION --> 
@@ -879,7 +889,7 @@ MODAL AGREGAR EMPLEADO
           Fecha Suspensi&oacute;n:
             <div class="input-group">           
                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                <input type="text" value="" class="calendario nuevofecha_susp form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" id="fechasuspnew" fecha="nuevofecha_susp" placeholder="Ingresar Fecha" readonly>
+                <input type="text" value="" class="calendario nuevofecha_susp form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_susp" placeholder="Ingresar Fecha" readonly>
                 <input type="text" class="oficial_nuevofecha_susp" name="nuevofecha_susp" style="display: none;">
             </div>
           </div>
@@ -1924,7 +1934,7 @@ MODAL EDITAR EMPLEADO
               Ha sido Suspendido en Trabajos anteriores?              
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-                <select class="form-control input-lg" name="editarSuspendidoAnterior" >                  
+                <select class="form-control input-lg" name="editarSuspendidoAnterior">                  
                   <option value="" id="editarSuspendidoAnterior"></option>  
                   <option value="SI">SI</option>
                   <option value="NO">NO</option>                  
@@ -2617,22 +2627,14 @@ MODAL SEMINARIO
             
             <!-- ENTRADA FECHA REALIZACION SEMINARIO   --> 
             <div class="form-group">
-              Fecha Realizado:
-              <div class="input-group">           
-                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                  <input type="text" value="" class="calendario nuevofecha_seminarior form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_seminarior" placeholder="Ingresar Fecha" readonly>
-                  <input type="text" class="oficial_nuevofecha_seminarior" name="nuevofecha_seminarior" style="display: none;">
-              </div>
+            Fecha Realizado:
+            <div class="input-group">           
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                <input type="text" value="" class="calendario nuevofecha_seminarior form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_seminarior" placeholder="Ingresar Fecha" readonly>
+                <input type="text" class="oficial_nuevofecha_seminarior" name="nuevofecha_seminarior" style="display: none;">
             </div>
-             <!-- ENTRADA LUGAR REALIZACION SEMINARIO   --> 
-             <div class="form-group">
-              Lugar:
-              <div class="input-group">           
-                  <span class="input-group-addon"><i class="fa fa-map"></i></span>
-                  <input class="form-control input-lg" type="text" name="nuevoLugarSeminario" placeholder="Ingrese el lugar" required>
-                 
-              </div>
-            </div>
+          </div>
+            
           
                       
           </div>

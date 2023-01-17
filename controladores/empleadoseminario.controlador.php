@@ -97,8 +97,7 @@ class ControladorEmpleadoSeminario{
 				$datos = array("id_empleado" => $_POST["idEmpleadoSeminario"],
                                "id_seminario" => $idCodAux[0],
 							   "codigo" => $idCodAux[1],					          
-                               "fecha_realizacion" => $_POST["nuevofecha_seminarior"], 
-							   "lugar_recibido" => $_POST["nuevoLugarSeminario"]                             
+                               "fecha_realizacion" => $_POST["nuevofecha_seminarior"]                              
                             );
                            // print_r($datos);
 				$respuesta = ModeloEmpleadoSeminarios::mdlIngresarEmpleadoSeminario($tabla, $datos);

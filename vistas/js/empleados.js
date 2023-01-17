@@ -1071,30 +1071,26 @@ $(".tablas").on("click", ".btnEliminarEmpleado", function(){
 
 
 /*=============================================
-IMPRIMIR DOCUMENTOS
+IMPRIMIR CCF
 =============================================*/
 
 $(".tablas").on("click", ".btnImprimirImagenes", function(){
+
 	var documentoEmpleado = $(this).attr("empleado");
+
+//alert(documentoEmpleado);
 	var form = $('<form action="imprimirimagenes" method="post">' +
 	  '<input type="text" name="numDoc" value="' + documentoEmpleado + '" />' +
 	  '</form>');
 	$('body').append(form);
 	form.submit();
+
+	//var codigoVenta = $(this).attr("codigoVenta");
+
+	//window.open("extensiones/tcpdf/pdf/factura.php?codigo="+codigoVenta, "_blank");
+
 })
 
-/*=============================================
-IMPRIMIR FICHA
-=============================================*/
-
-$(".tablas").on("click", ".btnImprimirFicha", function(){
-	var documentoEmpleado = $(this).attr("empleado");
-	var form = $('<form action="imprimirficha" method="post">' +
-	  '<input type="text" name="numDoc" value="' + documentoEmpleado + '" />' +
-	  '</form>');
-	$('body').append(form);
-	form.submit();
-})
 
 $( ".fotoaImprimir" ).click(function() {	
 	var direccionFotoImprimir= $(this).attr("fotoaImprimir");
@@ -1337,6 +1333,7 @@ function eliminarEmpleadoseminario(idSeminarioEmpleado){
 	    }
 
 	})
+<<<<<<< HEAD
 }
 
 /*=============================================
@@ -1868,4 +1865,6 @@ function poblarFormulario(idEmpleado){
 		}
 
 	});
+=======
+>>>>>>> 0c61bfe85886ca1db63bc91709ba9fa9bfb35131
 }
