@@ -22,7 +22,16 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
   </style>
 <div class="content-wrapper">
 
- 
+<section class="content-header">    
+    <h1>      
+      Ficha     
+      <small>Imprimir ficha</small>    
+    </h1>
+    <ol class="breadcrumb">      
+      <li><a href="empleados"><i class="fa fa fa-drivers-license-o"></i> Empleados</a></li>      
+      <li class="active">Volver</li>    
+    </ol>
+  </section>
 
   <section class="content">
 
@@ -32,15 +41,12 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
 
 
         <div class="row">
-          <div class="col-md-6" align="left">
-               <button class="btn btn-primary" onclick="imprimirOrden('impresion')">          
+          <div class="col-md-12" align="left">
+               <button class="btn btn-primary" onclick="imprimirOrden('impresion')" ><i class="fa fa fa-print"></i>          
                 Imprimir 
                 </button>
           </div>
-          <div class="col-md-6" align="right">
-                
-              <a href="empleados" class="btn btn-primary">Volver</a>
-          </div>         
+                  
         </div>
 
       </div>

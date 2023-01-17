@@ -23,12 +23,8 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
 
       <div class="box-header with-border">
   
-        <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarEmpleado">
-          
-          Agregar empleado
-
-        </button>
-
+      <button class="btn btn-info "  style="background-color: #3c8dbc;"  id="btnAgregarCandidato" ><i class="fa fa-handshake-o"></i> Agregar Candidato</button>
+     
         <a href="reporteanticipo" class="btn btn-success">Imprimir solicitud de anticipo</a>
         <a href="retiro" class="btn btn-warning">Listado de Empleados Inactivos</a>
 
@@ -120,7 +116,8 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
 
                     <div class="btn-group">
                         
-                      <button class="btn btn-warning btnEditarEmpleado" idEmpleado="'.$value["id"].'" data-toggle="modal" data-target="#modalEditarEmpleado"><i class="fa fa-pencil"></i></button>
+                      <button class="btn btn-warning btnEditarEmpleado"  idEmpleado="'.$value["id"].'" ><i class="fa fa-pencil"></i></button>
+                     
                       <button class="btn btn-info btnImprimirImagenes"  style="background-color: #3c8dbc;"   empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-user"></i></button>
                       <button class="btn btn-info btnParentesco"  style="background-color: #3c8dbc;" idEmpleado="'.$value["id"].'"  data-toggle="modal" data-target="#modalParentesco" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-users"></i></button> 
                       <button class="btn btn-info btnDescuentos"  style="background-color: #3c8dbc;" idEmpleado="'.$value["id"].'"  data-toggle="modal" data-target="#modalDescuento" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-exchange"></i></button> 
