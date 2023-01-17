@@ -116,14 +116,8 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
 
                     <div class="btn-group">
                         
-<<<<<<< HEAD
-                      <button class="btn btn-warning btnEditarEmpleado"  idEmpleado="'.$value["id"].'" ><i class="fa fa-pencil"></i></button>
-                     
+                      <button class="btn btn-warning btnEditarEmpleado"  idEmpleado="'.$value["id"].'" ><i class="fa fa-pencil"></i></button>                     
                       <button class="btn btn-info btnImprimirImagenes"  style="background-color: #3c8dbc;"   empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-user"></i></button>
-=======
-                      <button class="btn btn-warning btnEditarEmpleado" idEmpleado="'.$value["id"].'" data-toggle="modal" data-target="#modalEditarEmpleado"><i class="fa fa-pencil"></i></button>
-                      <button class="btn btn-info btnImprimirImagenes"  style="background-color: #3c8dbc;"   empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-print"></i></button>
->>>>>>> 0c61bfe85886ca1db63bc91709ba9fa9bfb35131
                       <button class="btn btn-info btnParentesco"  style="background-color: #3c8dbc;" idEmpleado="'.$value["id"].'"  data-toggle="modal" data-target="#modalParentesco" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-users"></i></button> 
                       <button class="btn btn-info btnDescuentos"  style="background-color: #3c8dbc;" idEmpleado="'.$value["id"].'"  data-toggle="modal" data-target="#modalDescuento" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-exchange"></i></button> 
                       <button class="btn btn-info btnSeminarios"  style="background-color: #3c8dbc;" idEmpleado="'.$value["id"].'"  data-toggle="modal" data-target="#modalSeminario" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-trophy"></i></button> 

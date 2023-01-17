@@ -1333,7 +1333,6 @@ function eliminarEmpleadoseminario(idSeminarioEmpleado){
 	    }
 
 	})
-<<<<<<< HEAD
 }
 
 /*=============================================
@@ -1865,6 +1864,4 @@ function poblarFormulario(idEmpleado){
 		}
 
 	});
-=======
->>>>>>> 0c61bfe85886ca1db63bc91709ba9fa9bfb35131
 }
