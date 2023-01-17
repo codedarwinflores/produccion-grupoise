@@ -1065,30 +1065,26 @@ $(".tablas").on("click", ".btnEliminarEmpleado", function(){
 
 
 /*=============================================
-IMPRIMIR DOCUMENTOS
+IMPRIMIR CCF
 =============================================*/
 
 $(".tablas").on("click", ".btnImprimirImagenes", function(){
+
 	var documentoEmpleado = $(this).attr("empleado");
+
+//alert(documentoEmpleado);
 	var form = $('<form action="imprimirimagenes" method="post">' +
 	  '<input type="text" name="numDoc" value="' + documentoEmpleado + '" />' +
 	  '</form>');
 	$('body').append(form);
 	form.submit();
+
+	//var codigoVenta = $(this).attr("codigoVenta");
+
+	//window.open("extensiones/tcpdf/pdf/factura.php?codigo="+codigoVenta, "_blank");
+
 })
 
-/*=============================================
-IMPRIMIR FICHA
-=============================================*/
-
-$(".tablas").on("click", ".btnImprimirFicha", function(){
-	var documentoEmpleado = $(this).attr("empleado");
-	var form = $('<form action="imprimirficha" method="post">' +
-	  '<input type="text" name="numDoc" value="' + documentoEmpleado + '" />' +
-	  '</form>');
-	$('body').append(form);
-	form.submit();
-})
 
 $( ".fotoaImprimir" ).click(function() {	
 	var direccionFotoImprimir= $(this).attr("fotoaImprimir");
@@ -1331,37 +1327,4 @@ function eliminarEmpleadoseminario(idSeminarioEmpleado){
 	    }
 
 	})
-}
-
-/*=============================================
-deshabilitarOpcionesSuspension
-=============================================*/
-function deshabilitarOpcionesSuspension(){
-	if(document.getElementById("nuevoSuspendidoAnterior").value == "SI"){
-		document.getElementById("nuevoEmpresaSuspendio").disabled = false;
-		document.getElementById("nuevoMotivoSuspension").disabled = false;
-		document.getElementById("fechasuspnew").disabled = false;
-	}
-	else{
-		document.getElementById("nuevoEmpresaSuspendio").disabled = true;
-		document.getElementById("nuevoMotivoSuspension").disabled = true;
-		document.getElementById("fechasuspnew").disabled = true;
-	}
-}
-
-/*=============================================
-deshabilitarOpcionesSuspensionEditar
-=============================================*/
-function deshabilitarOpcionesSuspensionEditar(){
-	
-	if(document.getElementById("editarSuspendidoAnterior").value == "SI"){
-		document.getElementById("editarEmpresaSuspendio").disabled = false;
-		document.getElementById("editarMotivoSuspension").disabled = false;
-		document.getElementById("mascarafechasusp").disabled = false;
-	}
-	else{
-		document.getElementById("editarEmpresaSuspendio").disabled = true;
-		document.getElementById("editarMotivoSuspension").disabled = true;
-		document.getElementById("mascarafechasusp").disabled = true;
-	}
 }
