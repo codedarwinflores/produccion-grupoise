@@ -820,61 +820,61 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
             </div>
             <div class="col-md-12" > 
                 <div class="col-md-6" >
-                    <!-- ENTRADA PARA TRABAJO ANTERIOR-->            
-                    <div class="form-group">      
-                        Nombre Trabajo Anterior:        
+                     <!-- ENTRADA PARA TRABAJO ANTERIOR-->            
+                    <div class="form-group">
+                    Nombre Trabajo Anterior:             
                         <div class="input-group">              
-                            <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                            <input type="text" class="form-control input-lg" name="nuevoTrabajoAnterior" placeholder="Ingresar Trabajo Anterior" >
+                          <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                          <input type="text"  class="form-control input-lg" id="editarTrabajoAnterior" name="editarTrabajoAnterior" value="" placeholder="Ingresar Trabajo Anterior">
                         </div>
-                    </div>
+                      </div>
                 </div>
                 
                 <div class="col-md-6" > 
                     <!-- ENTRADA PARA SUELDO QUE DEVENGO-->            
-                    <div class="form-group"> 
-                        Sueldo que Deveng&oacute;:             
-                        <div class="input-group">              
-                            <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                            <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" name="nuevoSueldoDevengo" placeholder="Ingresar Sueldo que Deveng&oacute;" >
-                        </div>
+                    <div class="form-group">  
+                    Sueldo que Deveng&oacute;:            
+                      <div class="input-group">              
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                        <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="editarSueldoDevengo" name="editarSueldoDevengo" value="" placeholder="Ingresar Sueldo que Deveng&oacute;">
+                      </div>
                     </div>
                 </div>               
             </div>
             
             <div class="col-md-12" > 
                 <div class="col-md-6" >
-                     <!-- ENTRADA PARA TELEFONO TRABAJO ANTERIOR-->            
+                    <!-- ENTRADA NUMERO DE TEL TRABAJO ANTERIOR-->            
                     <div class="form-group">  
-                        N&uacute;mero de Tel&eacute;fono Trabajo Anterior:            
-                        <div class="input-group">              
-                            <span class="input-group-addon"><i class="fa fa-phone"></i></span> 
-                            <input type="text" class="form-control input-lg input_telefono_1 telefono"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" name="nuevoNumeroTelTrabajoAnterior" placeholder="Ingresar N&uacute;mero de Tel&eacute;fono Trabajo Anterior" >
-                        </div>
+                    N&uacute;mero de Tel&eacute;fono Trabajo Anterior:            
+                      <div class="input-group">              
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                        <input type="text"   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="editarNumTelTrabajoAnterior" name="editarNumTelTrabajoAnterior" value="" placeholder="Ingresar N&uacute;mero de Tel&eacute;fono Trabajo Anterior">
+                      </div>
                     </div>
                 </div>
                 
                 <div class="col-md-6" > 
-                     <!-- ENTRADA PARA NOMBRE REFEREWANCIA ANTERIOR-->            
+                    <!-- ENTRADA NUMERO DE REF TEL TRABAJO ANTERIOR-->            
                     <div class="form-group"> 
-                        Nombre Referencia Trabajo Anterior:             
-                        <div class="input-group">              
-                            <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                            <input type="text"  class="form-control input-lg" name="nuevoNombreRefTrabajoAnterior" placeholder="Ingresar Nombre Referencia Trabajo Anterior" >
-                        </div>
+                    Nombre de Referencia  Trabajo Anterior:             
+                      <div class="input-group">              
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                        <input type="text"  class="form-control input-lg" id="editarNomRefTrabajoAnterior" name="editarNomRefTrabajoAnterior" value="" placeholder="Ingresar Nombre de Referencia  Trabajo Anterior">
+                      </div>
                     </div>
                 </div>               
             </div>
             <div class="col-md-12" >                
                 <div class="col-md-12" >
                     <!-- ENTRADA PARA EVALUACION ANTERIOR-->            
-                    <div class="form-group">        
-                         Evaluaci&oacute;n Anterior:      
+                    <div class="form-group">
+                    Evaluaci&oacute;n Anterior:              
                         <div class="input-group">              
-                            <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                            <input type="text" class="form-control input-lg" name="nuevoEvaluacionAnterior" placeholder="Ingresar Evaluaci&oacute;n Anterior" >
+                          <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                          <input type="text"  class="form-control input-lg" id="editarEvaluacionAnterior" name="editarEvaluacionAnterior" value="" placeholder="Ingresar Evaluaci&oacute;n Anterior">
                         </div>
-                    </div>
+                      </div>
                 </div> 
             </div>
 
@@ -882,24 +882,24 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
 
             <div class="col-md-12" > 
                 <div class="col-md-6" >
-                     <!-- ENTRADA PARA TRABAJO ACTUAL-->            
+                    <!-- ENTRADA PARA TRABAJO ACTUAL-->            
                     <div class="form-group">  
-                        Nombre Trabajo Actual:          
+                      Nombre Trabajo Actual:            
                         <div class="input-group">              
-                            <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                            <input type="text" class="form-control input-lg" name="nuevoTrabajoActual" placeholder="Ingresar Trabajo Actual" >
+                          <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                          <input type="text"  class="form-control input-lg" id="editarTrabajoActual" name="editarTrabajoActual" value="" placeholder="Ingresar Trabajo Actual">
                         </div>
-                    </div>
+                      </div>
                 </div>
                 
                 <div class="col-md-6" > 
-                    <!-- ENTRADA PARA SUELDO QUE DEVENGA-->            
-                    <div class="form-group"> 
-                        Sueldo que Devenga:             
-                        <div class="input-group">              
-                            <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                            <input type="text" class="form-control input-lg" name="nuevoSueldoDevenga" placeholder="Ingresar Sueldo que Devenga" >
-                        </div>
+                    <!-- ENTRADA PARA SUELDO QUE DEVENGa-->            
+                    <div class="form-group">              
+                    Sueldo que Devenga:
+                      <div class="input-group">              
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                        <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="editarSueldoDevenga" name="editarSueldoDevenga" value="" placeholder="Ingresar Sueldo que Devenga">
+                      </div>
                     </div>
                 </div>               
             </div>
@@ -907,24 +907,24 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
             
             <div class="col-md-12" > 
                 <div class="col-md-6" >
-                    <!-- ENTRADA PARA TELEFONO REFEREWANCIA ACTUAL-->            
-                    <div class="form-group">  
-                         Nombre Referencia Trabajo Actual:            
-                        <div class="input-group">              
-                            <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                            <input type="text"   class="form-control input-lg telefono" name="nuevoNomRefTrabajoActual" placeholder="Ingresar Nombre Referencia Trabajo Actual" >
-                        </div>
+                    <!-- ENTRADA NOM DE REF TEL TRABAJO ACTUAL-->            
+                    <div class="form-group"> 
+                    Nombre de Referencia  Trabajo Actual:             
+                      <div class="input-group">              
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                        <input type="text"  class="form-control input-lg" id="editarNomRefTrabajoActual" name="editarNomRefTrabajoActual" value="" placeholder="Ingresar Nombre de Referencia  Trabajo Actual">
+                      </div>
                     </div>
                 </div>
                 
                 <div class="col-md-6" > 
                    <!-- ENTRADA PARA EVALUACION ACTUAL-->            
-                   <div class="form-group">  
-                        Evaluaci&oacute;n Actual:            
-                        <div class="input-group">              
-                             <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                            <input type="text" class="form-control input-lg" name="nuevoEvaluacionActual" placeholder="Ingresar Evaluaci&oacute;n Actual" >
-                        </div>
+                  <div class="form-group"> 
+                  Evaluaci&oacute;n Actual:             
+                      <div class="input-group">              
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                        <input type="text"  class="form-control input-lg" id="editarEvaluacionActual" name="editarEvaluacionActual" value="" placeholder="Ingresar Evaluaci&oacute;n Actual">
+                      </div>
                     </div>
                 </div>               
             </div>
@@ -933,68 +933,68 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
 
             <div class="col-md-12" > 
                 <div class="col-md-6" >
-                    <!-- ENTRADA PARA SELECCIONAR SI TIENE SUSPENDIDO TRABAJO ANTERIOR -->
+                    <!-- ENTRADA PARA SABER SI FUE SUSPENDIDO ANTERIO-->
                     <div class="form-group">
-                        Suspendido en Trabajos Anteriores:              
-                        <div class="input-group">              
-                            <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                            <select class="form-control input-lg" name="nuevoSuspendidoAnterior" id="nuevoSuspendidoAnterior" onchange="deshabilitarOpcionesSuspension()">                  
-                                <option value="">Ha sido Suspendido en Trabajos Anteriores</option>
-                                <option value="SI">SI</option>
-                                <option value="NO">NO</option>
-                            </select>
-                        </div>
+                      Ha sido Suspendido en Trabajos anteriores?              
+                      <div class="input-group">              
+                        <span class="input-group-addon"><i class="fa fa-users"></i></span> 
+                        <select class="form-control input-lg" name="editarSuspendidoAnterior" >                  
+                          <option value="" id="editarSuspendidoAnterior"></option>  
+                          <option value="SI">SI</option>
+                          <option value="NO">NO</option>                  
+                        </select>
+                      </div>
                     </div>
                 </div>
                 
                 <div class="col-md-6" > 
                     <!-- ENTRADA PARA EMPRESA SUSPENDIO-->            
-                    <div class="form-group">   
-                        Empresa que Suspendi&oacute;:           
-                        <div class="input-group">              
-                            <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                            <input type="text" class="form-control input-lg" name="nuevoEmpresaSuspendio" id="nuevoEmpresaSuspendio" placeholder="Ingresar Empresa que Suspendi&oacute;" >
+                    <div class="form-group">              
+                    Empresa que lo Suspendi&oacute;   
+                      <div class="input-group">              
+                          <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                          <input type="text"  class="form-control input-lg" id="editarEmpresaSuspendio" name="editarEmpresaSuspendio" value="" placeholder="Ingresar Empresa que lo Suspendi&oacute;">
                         </div>
-                    </div>
+                      </div>
                 </div>               
             </div>
 
 
             <div class="col-md-12" > 
                 <div class="col-md-6" >
-                    <!-- ENTRADA PARA FECHA SUSPENSION --> 
-                    <div class="form-group">
+                    <!-- ENTRADA PARA FECHA SUSPENSION-->  
+                    <div class="form-group"> 
                         Fecha Suspensi&oacute;n:
-                        <div class="input-group">           
+                        <div class="input-group">                  
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                            <input type="text" value="" class="calendario nuevofecha_susp form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" id="fechasuspnew" fecha="nuevofecha_susp" placeholder="Ingresar Fecha" readonly>
-                            <input type="text" class="oficial_nuevofecha_susp" name="nuevofecha_susp" style="display: none;">
+                            <input type="text" value="" class="calendario editarfecha_susp form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_susp" placeholder="Ingresar Fecha" id="mascarafechasusp" readonly>
+                            <input type="text" class="oficial_editarfecha_susp" name="editarfecha_susp" style="display: none;" id="editarfecha_susp">
                         </div>
-                    </div>
+                      </div>
                 </div>
                 
                 <div class="col-md-6" > 
-                    <!-- ENTRADA PARA MOTIVO SUSPENSION-->            
-                    <div class="form-group">     
-                        Motivo de Suspensi&oacute;n:         
+                     <!-- ENTRADA PARA MOTIVO SUSPENSION-->            
+                    <div class="form-group">  
+                    Motivo Suspensi&oacute;n:            
                         <div class="input-group">              
-                            <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                            <input type="text" class="form-control input-lg" name="nuevoMotivoSuspension" id="nuevoMotivoSuspension" placeholder="Ingresar Motivo de Suspensi&oacute;n" >
+                          <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                          <input type="text"  class="form-control input-lg" id="editarMotivoSuspension" name="editarMotivoSuspension" value="" placeholder="Ingresar Motivo Suspensi&oacute;n">
                         </div>
-                    </div>
+                      </div>
                 </div>               
             </div>
             
 
             <div class="col-md-12" >                
                 <div class="col-md-12" >
-                     <!-- ENTRADA PARA EXPERIENCIA LABORAL-->            
-                    <div class="form-group">  
-                        Experiencia Laboral:            
-                        <div class="input-group">              
-                            <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                            <input type="text" class="form-control input-lg" name="nuevoExperienciaLaboral" placeholder="Ingresar Experiencia Laboral" >
-                        </div>
+                    <!-- ENTRADA PARA EXPERIENCI ALABORAL-->            
+                  <div class="form-group">  
+                    Experiencia Laboral:            
+                      <div class="input-group">              
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                        <input type="text"  class="form-control input-lg" id="editarExperienciaLaboral" name="editarExperienciaLaboral" value="" placeholder="Ingresar Experiencia Laboral">
+                      </div>
                     </div>
                 </div> 
             </div>
@@ -1007,12 +1007,12 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
 
             <div class="col-md-12" >                
                 <div class="col-md-12" >
-                    <!-- ENTRADA PARA RAZON POR LA CUAL DESEA TRABAJAR EN ISE-->            
-                    <div class="form-group">         
-                        Raz&oacute;n por la cu&aacute;l quiere trabajar en G.ISE:     
+                     <!-- ENTRADA PARA RAZON ISE-->            
+                    <div class="form-group">  
+                    Raz&oacute;n por qu&eacute; quiere trabajar en G. ISE:            
                         <div class="input-group">              
-                            <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                            <input type="text" class="form-control input-lg" name="nuevoRazonIse" placeholder="Raz&oacute;n por la cu&aacute;l quiere trabajar en G.ISE" >
+                          <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                          <input type="text"  class="form-control input-lg" id="editarRazonIse" name="editarRazonIse" value="" placeholder="Ingresar Raz&oacute;n por qu&eacute; quiere trabajar en G. ISE">
                         </div>
                     </div>
                 </div> 
@@ -1020,24 +1020,24 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
             
             <div class="col-md-12" > 
                 <div class="col-md-4" >
-                    <!-- ENTRADA PARA NUMERO PERSONAS DEPENDIENTES-->            
-                    <div class="form-group">   
-                        N&uacute;mero de Personas Dependientes:           
-                        <div class="input-group">              
-                            <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                            <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" name="nuevoNumeroPersonasDependientes" placeholder="N&uacute;mero de Personas Dependientes" >
-                        </div>
+                    <!-- ENTRADA PARA PERSONAS DEPENDIENTES-->            
+                    <div class="form-group"> 
+                    N&uacute;mero de Personas Dependientes:             
+                      <div class="input-group">              
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                        <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="editarPersonasDependientes" name="editarPersonasDependientes" value="" placeholder="Ingresar N&uacute;mero de Personas Dependientes">
+                      </div>
                     </div>
                 </div>
                 
                 <div class="col-md-8" > 
-                     <!-- ENTRADA PARA OBSERVACIONES-->            
-                    <div class="form-group">      
-                        Observaciones:        
-                        <div class="input-group">              
-                            <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                            <input type="text" class="form-control input-lg" name="nuevoObservaciones" placeholder="Ingresar Observaciones" >
-                        </div>
+                    <!-- ENTRADA PARA OBSERVACIONES-->            
+                  <div class="form-group"> 
+                    Observaciones:             
+                      <div class="input-group">              
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                        <input type="text"  class="form-control input-lg" id="editarObservaciones" name="editarObservaciones" value="" placeholder="Ingresar Observaciones">
+                      </div>
                     </div>
                 </div>               
             </div>
@@ -1045,17 +1045,17 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
             
             <div class="col-md-12" >                
                 <div class="col-md-12" >
-                    <!-- ENTRADA PARA SELECCIONAR INFO VERIFICADA -->
-                    <div class="form-group">  
-                        HA SIDO VERIFICADA LA INFORMACION            
-                        <div class="input-group">              
-                        <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                        <select class="form-control input-lg" name="nuevoInfoVerificada">                  
-                            <option value="">HA SIDO VERIFICADA LA INFORMACION?</option>
-                            <option value="SI">SI</option>
-                            <option value="NO">NO</option>
+                    <!-- ENTRADA PARA INFO VERIFICADA-->
+                    <div class="form-group"> 
+                      Ha verificado la informaci&oacute;n?             
+                      <div class="input-group">              
+                        <span class="input-group-addon"><i class="fa fa-users"></i></span> 
+                        <select class="form-control input-lg" name="editarInfoVerificada">                  
+                          <option value="" id="editarInfoVerificada"></option>  
+                          <option value="SI">SI</option>
+                          <option value="NO">NO</option>                  
                         </select>
-                        </div>
+                      </div>
                     </div>
                 </div> 
             </div>
@@ -1064,46 +1064,47 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
             
             <div class="col-md-12" > 
                 <div class="col-md-6" >
-                     <!-- ENTRADA PARA SUBIR FOTO  DE LA SOLICITUD-->
+                    <!-- ENTRADA PARA SUBIR DE SOLICITUD-->
                     <div class="form-group">              
-                        <div class="panel">SUBIR FOTO DE LA SOLICITUD</div>
-                            <input type="file" class="nuevaFotoSOLICITUD" name="nuevaFotoSOLICITUD">
-                            <p class="help-block">Peso máximo de la foto 2MB</p>
-                            <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarSOLICITUD" width="100px">
-                        
+                        <div class="panel">SUBIR FOTO DE SOLICITUD</div>
+                        <input type="file" class="nuevaFotoSOLICITUD" name="editarFotoSOLICITUD">
+                        <p class="help-block">Peso máximo de la foto 2MB</p>
+                        <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditarSOLICITUD" width="100px">
+                        <input type="hidden" name="fotoActualSOLICITUD" id="fotoActualSOLICITUD">
                     </div>
                 </div>
                 <div class="col-md-6" > 
-                    <!-- ENTRADA PARA SUBIR FOTO  PARTINA NACIMIENTO-->
+                    <!-- ENTRADA PARA SUBIR FOTO  PARTIDA NACIMIENTO-->                    
                     <div class="form-group">              
-                        <div class="panel">SUBIR FOTO DE LA PARTIDA DE NACIMIENTO</div>
-                            <input type="file" class="nuevaFotoPARTIDA" name="nuevaFotoPARTIDA">
-                            <p class="help-block">Peso máximo de la foto 2MB</p>
-                            <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarPARTIDA" width="100px">
-                        
+                        <div class="panel">SUBIR FOTO DE PARTIDA DE NACIMIENTO</div>
+                        <input type="file" class="nuevaFotoPARTIDA" name="editarFotoPARTIDA">
+                        <p class="help-block">Peso máximo de la foto 2MB</p>
+                        <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditarPARTIDA" width="100px">
+                        <input type="hidden" name="fotoActualPARTIDA" id="fotoActualPARTIDA">
                     </div>
                 </div>                
             </div>
 
             <div class="col-md-12" > 
                 <div class="col-md-6" >
-                     <!-- ENTRADA PARA FECHA VENCIMIENTO AP--> 
-                    <div class="form-group">
+                    <!-- ENTRADA PARA FECHA VENC AP-->  
+                    <div class="form-group"> 
                         Fecha Vencimiento Antecedentes Penales:
-                        <div class="input-group">           
+                        <div class="input-group">                  
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                            <input type="text" value="" class="calendario nuevofecha_venceAP form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_venceAP" placeholder="Ingresar Fecha" readonly>
-                            <input type="text" class="oficial_nuevofecha_venceAP" name="nuevofecha_venceAP" style="display: none;">
+                            <input type="text" value="" class="calendario editarfecha_venceAP form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_venceAP" placeholder="Ingresar Fecha" id="mascarafechavenceAP" readonly>
+                            <input type="text" class="oficial_editarfecha_venceAP" name="editarfecha_venceAP" style="display: none;" id="editarfecha_venceAP">
                         </div>
-                    </div>
+                      </div>
                 </div>
                 <div class="col-md-6" > 
-                     <!-- ENTRADA PARA SUBIR FOTO  ANTECEDENTES PENALES-->
+                    <!-- ENTRADA PARA SUBIR FOTO DE ANTECEDENTES PENALES-->
                     <div class="form-group">              
-                    <div class="panel">SUBIR FOTO DE ANTECEDENTES PENALES</div>
-                    <input type="file" class="nuevaFotoANTECEDENTES" name="nuevaFotoANTECEDENTES">
-                    <p class="help-block">Peso máximo de la foto 2MB</p>
-                    <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarANTECEDENTES" width="100px">
+                        <div class="panel">SUBIR FOTO DE ANTECEDENTES PENALES</div>
+                        <input type="file" class="nuevaFotoANTECEDENTES" name="editarFotoANTECEDENTES">
+                        <p class="help-block">Peso máximo de la foto 2MB</p>
+                        <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditarANTECEDENTES" width="100px">
+                        <input type="hidden" name="fotoActualANTECEDENTES" id="fotoActualANTECEDENTES">
                     </div>
                 </div>                
             </div>
@@ -1111,23 +1112,24 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
            
             <div class="col-md-12" > 
                 <div class="col-md-6" >
-                    <!-- ENTRADA PARA FECHA VENCIMIENTO SOLV PNC--> 
-                    <div class="form-group">
+                    <!-- ENTRADA PARA FECHA VENCIMIENTO SOLV PNC-->                      
+                    <div class="form-group"> 
                         Fecha Vencimiento Solvencia PNC:
-                        <div class="input-group">           
+                        <div class="input-group">                  
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                            <input type="text" value="" class="calendario nuevofecha_venceSPNC form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_venceSPNC" placeholder="Ingresar Fecha" readonly>
-                            <input type="text" class="oficial_nuevofecha_venceSPNC" name="nuevofecha_venceSPNC" style="display: none;">
+                            <input type="text" value="" class="calendario editarfecha_venceSPNC form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_venceSPNC" placeholder="Ingresar Fecha" id="mascarafechavenceSPNC" readonly>
+                            <input type="text" class="oficial_editarfecha_venceSPNC" name="editarfecha_venceSPNC" style="display: none;" id="editarfecha_venceSPNC">
                         </div>
-                    </div>
+                      </div>
                 </div>
                 <div class="col-md-6" > 
-                    <!-- ENTRADA PARA SUBIR FOTO  SOLVENCIA PNC-->
+                    <!-- ENTRADA PARA SUBIR SOLVENCIA PNC -->
                     <div class="form-group">              
-                    <div class="panel">SUBIR FOTO DE SOLVENCIA PNC</div>
-                    <input type="file" class="nuevaFotoSOLVENCIAPNC" name="nuevaFotoSOLVENCIAPNC">
-                    <p class="help-block">Peso máximo de la foto 2MB</p>
-                    <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarSOLVENCIAPNC" width="100px">
+                        <div class="panel">SUBIR FOTO DE SOLVENCIA PNC</div>
+                        <input type="file" class="nuevaFotoSOLVENCIAPNC" name="editarFotoSOLVENCIAPNC">
+                        <p class="help-block">Peso máximo de la foto 2MB</p>
+                        <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditarSOLVENCIAPNC" width="100px">
+                        <input type="hidden" name="fotoActualSOLVENCIAPNC" id="fotoActualSOLVENCIAPNC">
                     </div>
                 </div>                
             </div>
@@ -1136,30 +1138,33 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
 
             <div class="col-md-12" >                
                 <div class="col-md-4" > 
-                    <!-- ENTRADA PARA CONSTANCIA PSICOLOGICA -->
+                     <!-- ENTRADA PARA SUBIR CONSTANCIA PSYCOLOGICA -->
                     <div class="form-group">              
-                    <div class="panel">SUBIR FOTO DE CONSTANCIA PSICOLOGICA</div>
-                    <input type="file" class="nuevaFotoPSYCO" name="nuevaFotoPSYCO">
-                    <p class="help-block">Peso máximo de la foto 2MB</p>
-                    <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarPSYCO" width="100px">
+                        <div class="panel">SUBIR FOTO DE CONSTANCIA PSICOLOGICA</div>
+                        <input type="file" class="nuevaFotoPSYCO" name="editarFotoPSYCO">
+                        <p class="help-block">Peso máximo de la foto 2MB</p>
+                        <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditarPSYCO" width="100px">
+                        <input type="hidden" name="fotoActualPSYCO" id="fotoActualPSYCO">
                     </div>
                 </div>
                 <div class="col-md-4" > 
-                    <!-- ENTRADA PARA EXAMEN POLIGRAFICO -->
+                    <!-- ENTRADA PARA SUBIR EXAMEN POLIGRAFICO -->
                     <div class="form-group">              
-                    <div class="panel">SUBIR FOTO DE EXAMEN POLIGRAFICO</div>
-                    <input type="file" class="nuevaFotoPOLI" name="nuevaFotoPOLI">
-                    <p class="help-block">Peso máximo de la foto 2MB</p>
-                    <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarPOLI" width="100px">
+                        <div class="panel">SUBIR FOTO DE EXAMEN POLIGRAFICO</div>
+                        <input type="file" class="nuevaFotoPOLI" name="editarFotoPOLI">
+                        <p class="help-block">Peso máximo de la foto 2MB</p>
+                        <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditarPOLI" width="100px">
+                        <input type="hidden" name="fotoActualPOLI" id="fotoActualPOLI">
                     </div>
                 </div>
                 <div class="col-md-4" > 
-                    <!-- ENTRADA PARA IMAGEN HUELLAS DIGITALES -->
+                    <!-- ENTRADA PARA SUBIR HUELLAS DIGITALES -->
                     <div class="form-group">              
-                    <div class="panel">SUBIR FOTO DE IMAGEN HUELLAS DIGITALES</div>
-                    <input type="file" class="nuevaFotoHUELLAS" name="nuevaFotoHUELLAS">
-                    <p class="help-block">Peso máximo de la foto 2MB</p>
-                    <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarHUELLAS" width="100px">
+                        <div class="panel">SUBIR FOTO DE HUELLAS DIGITALES</div>
+                        <input type="file" class="nuevaFotoHUELLAS" name="editarFotoHUELLAS">
+                        <p class="help-block">Peso máximo de la foto 2MB</p>
+                        <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditarHUELLAS" width="100px">
+                        <input type="hidden" name="fotoActualHUELLAS" id="fotoActualHUELLAS">
                     </div>
                 </div>
             </div>
@@ -1169,51 +1174,51 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
            
             <div class="col-md-12" >
                 <div class="col-md-4" > 
-                    <!-- ENTRADA PARA SELECCIONAR SI ES CONFIABLE -->
+                    <!-- ENTRADA PARA CONFIABLE-->
+                    <div class="form-group"> 
+                      Es Confiable?             
+                      <div class="input-group">              
+                        <span class="input-group-addon"><i class="fa fa-users"></i></span> 
+                        <select class="form-control input-lg" name="editarConfiable">                  
+                          <option value="" id="editarConfiable"></option>  
+                          <option value="SI">SI</option>
+                          <option value="NO">NO</option>                  
+                        </select>
+                      </div>
+                    </div>
+                </div>
+                <div class="col-md-4" > 
+                    <!-- ENTRADA PARA SELECCIONAR ESTADO -->
                     <div class="form-group">
-                        Es Confiable?              
-                        <div class="input-group">              
-                            <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                                <select class="form-control input-lg" name="nuevoConfiable">                  
-                                    <option value="">Es Confiable?</option>
-                                    <option value="SI">SI</option>
-                                    <option value="NO">NO</option>
-                                </select>
-                        </div>
+                      Estado:
+                      <div class="input-group">              
+                        <span class="input-group-addon"><i class="fa fa-users"></i></span> 
+                        <select class="form-control input-lg" name="editarEstado" required>                  
+                          <option value="" id="editarEstado"></option>           
+                          <option value="1">Solicitud</option>
+                          <option value="2">Contratado</option>
+                          <option value="3">Inactivo</option>
+                          <option value="4">Incapacitado</option>
+                        </select>
+                      </div>
                     </div>
                 </div>
                 <div class="col-md-4" > 
-                    <!-- ENTRADA PARA SELECCIONAR EL ESTADO -->
-                    <div class="form-group"> 
-                        Estado:             
-                        <div class="input-group">              
-                            <span class="input-group-addon"><i class="fa fa-circle"></i></span> 
-                            <select class="form-control input-lg" name="nuevoEstado" required>                  
-                                <option value="">Seleccionar estado</option>
-                                <option value="1">Solicitud</option>
-                                <option value="2">Contratado</option>
-                                <option value="3">Inactivo</option>
-                                <option value="4">Incapacitado</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4" > 
-                    <!-- ENTRADA PARA SELECCIONAR EL CARGO -->  
-                    <div class="form-group"> 
-                        CARGO:           
-                        <div class="input-group">              
-                            <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                            <select class="form-control input-lg" name="nuevoCARGO" id="nuevoCARGO" required>                  
-                                <option value="">Seleccionar Cargo</option>
-                                <?php
-                                $datos_mostrar_cargo = ControladorCargos::ctrMostrar($item, $valor);
-                                foreach ($datos_mostrar_cargo as $key => $value){
-                                    echo '<option value="'.$value["nivel"].'">'.$value["descripcion"].'</option>';                     
-                                }
-                            ?>
-                            </select>
-                        </div>
+                    <!-- ENTRADA PARA SELECCIONAR CARGO -->
+                    <div class="form-group">  
+                    CARGO:            
+                      <div class="input-group">              
+                        <span class="input-group-addon"><i class="fa fa-users"></i></span> 
+                        <select class="form-control input-lg" name="editarCARGO"  >                  
+                        <option id="editarCARGO"></option>
+                          <?php
+                            $datos_mostrar_cargo = ControladorCargos::ctrMostrar($item, $valor);
+                            foreach ($datos_mostrar_cargo as $key => $value){
+                              echo '<option value="'.$value["nivel"].'">'.$value["descripcion"].'</option>';                     
+                            }
+                          ?>
+                        </select>
+                      </div>
                     </div>
                 </div>                
             </div>
@@ -1223,31 +1228,31 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                 <div class="col-md-4" > 
                     <!-- ENTRADA PARA PANTALON--> 
                     <div class="form-group">
-                        Pantalón:
-                        <div class="input-group">           
-                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                            <input type="text" value="" class="form-control input-lg" name="nuevopantalon_empleado" id="" placeholder="Ingresar Pantalón"  maxlength="3">
-                        </div>
+                    Pantalón:
+                      <div class="input-group">           
+                          <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                          <input type="text" value="" class="form-control input-lg" name="editarpantalon_empleado" id="editarpantalon_empleado" placeholder="Ingresar Pantalón"  maxlength="3">
+                      </div>
                     </div>
                 </div>
                 <div class="col-md-4" > 
                     <!-- ENTRADA PARA camisa--> 
                     <div class="form-group">
-                        Camisa:
-                        <div class="input-group">           
-                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                            <input type="text" value="" class="form-control input-lg" name="nuevocamisa_empleado" id="" placeholder="Ingresar Camisa" maxlength="3">
-                        </div>
+                    Camisa:
+                      <div class="input-group">           
+                          <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                          <input type="text" value="" class="form-control input-lg" name="editarcamisa_empleado" id="editarcamisa_empleado" placeholder="Ingresar Camisa" maxlength="3">
+                      </div>
                     </div>
                 </div>
                 <div class="col-md-4" > 
                     <!-- ENTRADA PARA Zapatos--> 
                     <div class="form-group">
-                        Zapatos:
-                        <div class="input-group">           
-                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                            <input type="text" value="" class="form-control input-lg" name="nuevozapatos_empleado" id="" placeholder="Ingresar Zapatos" maxlength="3">
-                        </div>
+                    Zapatos:
+                      <div class="input-group">           
+                          <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                          <input type="text" value="" class="form-control input-lg" name="editarzapatos_empleado" id="editarzapatos_empleado" placeholder="Ingresar Zapatos" maxlength="3">
+                      </div>
                     </div>
                 </div>                
             </div>
@@ -1257,45 +1262,47 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
 
             <div class="col-md-12" >
                 <div class="col-md-4" > 
-                    <!-- ENTRADA PARA Recomendado por:--> 
+                     <!-- ENTRADA PARA Recomendado por:--> 
                     <div class="form-group">
-                        Recomendado por:
-                        <div class="input-group">           
-                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                            <select class="form-control input-lg" name="nuevorecomendado_empleado" id="" required>                  
-                                <option value="">Seleccionar Recomendado</option>
-                                <?php
-                                    $datos_mostrar_cargo = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
-                                    foreach ($datos_mostrar_cargo as $key => $value){
-                                        echo '<option value="'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["primer_apellido"].'">'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["primer_apellido"].'</option>';                     
-                                    }
-                                ?>
-                            </select>
-                        </div>
+                    Recomendado por:
+                      <div class="input-group">           
+                          <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                          <select class="form-control input-lg" name="editarrecomendado_empleado" id="editarrecomendado_empleado" required>                  
+                            <option value="">Seleccionar Recomendado</option>
+                            <?php
+                              $datos_mostrar_cargo = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
+                              foreach ($datos_mostrar_cargo as $key => $value){
+                                echo '<option value="'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["primer_apellido"].'">'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["primer_apellido"].'</option>';                     
+                              }
+                          ?>
+                          </select>
+                      </div>
                     </div>
                 </div>
                 <div class="col-md-4" > 
-                    <!-- ENTRADA PARA Zapatos--> 
+                    <!-- ENTRADA PARA medio de contacto--> 
                     <div class="form-group">
-                        Medio de contacto:
-                        <div class="input-group">           
-                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                            <input type="text" value="" class="form-control input-lg telefono" name="nuevocontacto_empleado" id="" placeholder="Ingresar Medio de contacto">
-                        </div>
+                    Medio de contacto:
+                      <div class="input-group">           
+                          <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                          <input type="text" value="" class="form-control input-lg telefono" name="editarcontacto_empleado" id="editarcontacto_empleado" placeholder="Ingresar Medio de contacto">
+                      </div>
                     </div>
                 </div>
-                <div class="col-md-4" > 
-                    <div class="form-group">
-                        Documentación completa:
-                        <div class="input-group">           
-                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                            <select class="form-control input-lg" name="nuevodocumentacion_empleado" id="" required>                  
-                                <option value="">Seleccionar Documentación completa</option>
-                                <option value="Si">Si</option>
-                                <option value="No">No</option>
-                            </select>
-                        </div>
+                <div class="col-md-4" >
+                  <!-- ENTRADA PARA documentacion completa-->
+                  <div class="form-group">
+                    Documentación completa:
+                      <div class="input-group">           
+                          <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                          <select class="form-control input-lg" name="editardocumentacion_empleado" id="editardocumentacion_empleado" required>                  
+                            <option value="">Seleccionar Documentación completa</option>
+                            <option value="Si">Si</option>
+                            <option value="No">No</option>
+                          </select>
+                      </div>
                     </div>
+
                 </div>                
             </div>
 
@@ -1303,29 +1310,29 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
 
             <div class="col-md-12" > 
                 <div class="col-md-6" >
-                    <div class="form-group">
-                        ¿Tiene ANSP?:
-                        <div class="input-group">           
-                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                            <select class="form-control input-lg" name="nuevoansp_empleado" id="" required>                  
-                                <option value="">¿Tiene ANSP?</option>
-                                <option value="Si">Si</option>
-                                <option value="No">No</option>
-                            </select>
-                        </div>
+                  <div class="form-group">
+                  ¿Tiene ANSP?:
+                    <div class="input-group">           
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                        <select class="form-control input-lg" name="editaransp_empleado" id="editaransp_empleado" required>                  
+                          <option value="">¿Tiene ANSP?</option>
+                          <option value="Si">Si</option>
+                          <option value="No">No</option>
+                        </select>
                     </div>
+                  </div>
                 </div>
                 <div class="col-md-6" > 
                     <div class="form-group">
-                        Uniforme regalado:
-                        <div class="input-group">           
-                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                            <select class="form-control input-lg" name="nuevouniformeregalado_empleado" id="" required>                  
-                                <option value="">Uniforme regalado</option>
-                                <option value="Si">Si</option>
-                                <option value="No">No</option>
-                            </select>
-                        </div>
+                    Uniforme regalado:
+                      <div class="input-group">           
+                          <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                          <select class="form-control input-lg" name="editaruniformeregalado_empleado" id="editaruniformeregalado_empleado" required>                  
+                            <option value="">Uniforme regalado</option>
+                            <option value="Si">Si</option>
+                            <option value="No">No</option>
+                          </select>
+                      </div>
                     </div>
                 </div>                
             </div>
@@ -1432,16 +1439,16 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
 
             <div class="modal-footer">
 
-            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
 
-            <button type="submit" class="btn btn-primary" id="btnGuardarEmpleado">Guardar empleado</button>
+                <button type="submit" class="btn btn-primary">Modificar empleado</button>
 
             </div>
 
             <?php
 
-            $crearEmpleado = new ControladorEmpleados();
-            $crearEmpleado -> ctrCrearEmpleado();
+            $editarEmpleado = new ControladorEmpleados();
+            $editarEmpleado -> ctrEditarEmpleado();
 
             ?>
 
