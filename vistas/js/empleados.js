@@ -1865,3 +1865,18 @@ function poblarFormulario(idEmpleado){
 
 	});
 }
+
+
+
+/*=============================================
+IMPRIMIR FICHA
+=============================================*/
+
+$(".tablas").on("click", ".btnImprimirFicha", function(){
+	var documentoEmpleado = $(this).attr("empleado");
+	var form = $('<form action="imprimirficha" method="post">' +
+	  '<input type="text" name="numDoc" value="' + documentoEmpleado + '" />' +
+	  '</form>');
+	$('body').append(form);
+	form.submit();
+})

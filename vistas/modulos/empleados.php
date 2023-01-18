@@ -122,6 +122,7 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
                       <button class="btn btn-info btnDescuentos"  style="background-color: #3c8dbc;" idEmpleado="'.$value["id"].'"  data-toggle="modal" data-target="#modalDescuento" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-exchange"></i></button> 
                       <button class="btn btn-info btnSeminarios"  style="background-color: #3c8dbc;" idEmpleado="'.$value["id"].'"  data-toggle="modal" data-target="#modalSeminario" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-trophy"></i></button> 
                       <button class="btn btn-danger btnEliminarEmpleado" idEmpleado="'.$value["id"].'" fotoEmpleado="'.$value["fotografia"].'" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-times"></i></button>
+                      <button class="btn btn-info btnImprimirFicha"  style="background-color: #3c8dbc;"   empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-print"></i></button>
                       <a href="regalo?id='.$value["id"].'" class="btn btn-success"><i class="fa  fa-gift"></i></a>
                       <a href="uniformedescuento?id='.$value["id"].'" style="background-color:#C9E747 !important;" class="btn btn-success"><i class="fa fa-usd"></i></a>
 
