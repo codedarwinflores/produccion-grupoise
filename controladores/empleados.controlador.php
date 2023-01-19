@@ -1729,6 +1729,8 @@ class ControladorEmpleados{
 							   "id_jefe_operaciones" => $_POST["editarjefe_empleado"],
 							   "imagen_contrato"=>$rutaCONTRATO,
 							   "fecha_vencimiento_lpa" => $_POST["editarfecha_venLTA"],
+							   "constancia_psicologica" => $_POST["editarConstanciaPS"],
+							   "nombre_psicologo" => $_POST["editar_nombre_psicologo"],
                                "id"=>$_POST["idEmpleado"]);
 
 				

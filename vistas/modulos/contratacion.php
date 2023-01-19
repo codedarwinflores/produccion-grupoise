@@ -1682,7 +1682,32 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                     </div>                      
                 </div>                
             </div>
-           
+            <div class="col-md-12" >                
+                <div class="col-md-6" >
+                    <!-- ENTRADA PARA SELECCIONAR CONSTANCIA PSICOLOGICA-->         
+                    <div class="form-group">  
+                        Tiene constancia psicol&oacute;gica?:            
+                        <div class="input-group">              
+                            <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                            <select class="form-control input-lg" name="editarConstanciaPS"  >                  
+                              <option value="" id="editarConstanciaPS" ></option>
+                              <option value="SI">SI</option>
+                              <option value="NO">NO</option>
+                            </select>
+                        </div>
+                    </div>
+                </div> 
+                <div class="col-md-6" >
+                    <!-- ENTRADA PARA NOMBRE PSICOLOGO--> 
+                    <div class="form-group"> 
+                      Nombre del Psic&oacute;logo:
+                      <div class="input-group">           
+                          <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                          <input type="text"   class="form-control input-lg " name="editar_nombre_psicologo" id="editar_nombre_psicologo" placeholder="Ingresar Nombre psicologo" readonly>
+                      </div>
+                    </div>
+                </div> 
+            </div>
                 
            
             

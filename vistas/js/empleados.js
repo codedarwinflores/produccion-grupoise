@@ -2063,6 +2063,13 @@ function poblarFormulario(idEmpleado){
 				$("#editarfecha_venLTA").val(respuesta["fecha_vencimiento_lpa"]);
 			}
 
+
+
+			$("#editarConstanciaPS").html(respuesta["constancia_psicologica"]);
+			$("#editarConstanciaPS").val(respuesta["constancia_psicologica"]);
+
+			$("#editar_nombre_psicologo").val(respuesta["nombre_psicologo"]);
+
 		}
 
 	});
@@ -2082,6 +2089,8 @@ $(".tablas").on("click", ".btnImprimirFicha", function(){
 	$('body').append(form);
 	form.submit();
 })
+
+
 
 
 

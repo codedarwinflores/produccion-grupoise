@@ -298,7 +298,9 @@ class ModeloEmpleados{
 		tipo_empleado=:tipo_empleado,
 		id_jefe_operaciones=:id_jefe_operaciones,
 		imagen_contrato=:imagen_contrato,
-		fecha_vencimiento_lpa=:fecha_vencimiento_lpa
+		fecha_vencimiento_lpa=:fecha_vencimiento_lpa,
+		constancia_psicologica=:constancia_psicologica,
+		nombre_psicologo=:nombre_psicologo
         WHERE id = :id"
         );
 
@@ -420,6 +422,8 @@ class ModeloEmpleados{
 		$stmt->bindParam(":id_jefe_operaciones", $datos["id_jefe_operaciones"], PDO::PARAM_INT);
 		$stmt -> bindParam(":imagen_contrato", $datos["imagen_contrato"], PDO::PARAM_STR);
 		$stmt -> bindParam(":fecha_vencimiento_lpa", $datos["fecha_vencimiento_lpa"], PDO::PARAM_STR);
+		$stmt -> bindParam(":constancia_psicologica", $datos["constancia_psicologica"], PDO::PARAM_STR);
+		$stmt -> bindParam(":nombre_psicologo", $datos["nombre_psicologo"], PDO::PARAM_STR);
 
 
 
