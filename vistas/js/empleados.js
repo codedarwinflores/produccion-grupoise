@@ -447,6 +447,13 @@ $(".nuevaFotoHUELLAS").change(function(){
 })
 
 
+
+
+
+
+
+
+
 /*=============================================
 EDITAR EMPLEADO
 =============================================*/
@@ -1859,7 +1866,202 @@ function poblarFormulario(idEmpleado){
 				}
 			})
 
+
+			//fecha ingreso
+			var date8 = respuesta["fecha_ingreso"];
+			var formattedDate = new Date(date8); 
+			var d = formattedDate.getDate()+1; 
+			var m = formattedDate.getMonth(); m += 1;
+			m += 1; // javascript months are 0-11 
+			var y = formattedDate.getFullYear();
+			if(isNaN(d)){	
+						
+			}
+			else{
+				//alert("2");
+				$("#mascarafechaingreso").val(respuesta["fecha_ingreso"]);
+				$("#editarfecha_ingreso").val(respuesta["fecha_ingreso"]);
+			}
+
+			//fecha contratacion
+			var date9 = respuesta["fecha_contratacion"];
+			var formattedDate = new Date(date9); 
+			var d = formattedDate.getDate()+1; 
+			var m = formattedDate.getMonth(); m += 1;
+			m += 1; // javascript months are 0-11 
+			var y = formattedDate.getFullYear();
+			if(isNaN(d)){				
+			}
+			else{
+				$("#mascarafechacontratacion").val(respuesta["fecha_contratacion"]);
+				$("#editarfecha_contratacion").val(respuesta["fecha_contratacion"]);
+			}
+
+
 			
+			//BUSCAR EL NOMBRE DEL DEPARTAMENTO			
+			var datosDepartamento = new FormData();
+			datosDepartamento.append("idDepartamento", respuesta["id_departamento_empresa"]);
+			$.ajax({
+				url:"ajax/departamentos.ajax.php",
+				method: "POST",
+				data: datosDepartamento,
+				cache: false,
+				contentType: false,
+				processData: false,
+				dataType:"json",
+				success:function(respuestaDEPARTAMENTO){					
+					$("#editarDepartamentoEmpresa").html(respuestaDEPARTAMENTO[2]);
+					$("#editarDepartamentoEmpresa").val(respuestaDEPARTAMENTO[0]);								 
+				}
+			})
+			
+			$("#editarPeriodoPago").val(respuesta["periodo_pago"]);
+			$("#editarPeriodoPago").html(respuesta["periodo_pago"]);
+
+			$("#editar_horas_normales_trabajo").val(respuesta["horas_normales_trabajo"]);
+
+			$("#editar_sueldo").val(respuesta["sueldo"]);
+
+			$("#editar_sueldo_diario").val(respuesta["sueldo_diario"]);
+			$("#editar_salario_por_hora").val(respuesta["salario_por_hora"]);
+			$("#editar_hora_extra_diurna").val(respuesta["hora_extra_diurna"]);
+
+			$("#editar_hora_extra_nocturna").val(respuesta["hora_extra_nocturna"]);
+			$("#editar_hora_extra_domingo").val(respuesta["hora_extra_domingo"]);
+			$("#editar_hora_extra_nocturna_domingo").val(respuesta["hora_extra_nocturna_domingo"]);
+
+			//BUSCAR EL NOMBRE DEL TIPO PORTACIOND E ARMA SEGUN ID			
+			var datosTPA = new FormData();
+			datosTPA.append("idportacionarma", respuesta["id_tipo_portacion"]);
+			$.ajax({
+				url:"ajax/portacionarma.ajax.php",
+				method: "POST",
+				data: datosTPA,
+				cache: false,
+				contentType: false,
+				processData: false,
+				dataType:"json",
+				success:function(respuestaTPA){					
+					$("#editarTipoPortacionArmas").html(respuestaTPA[2]);
+					$("#editarTipoPortacionArmas").val(respuestaTPA[0]);								 
+				}
+			})
+
+			$("#editar_descontar_isss").html(respuesta["descontar_isss"]);
+			$("#editar_descontar_isss").val(respuesta["descontar_isss"]);
+
+
+			if(respuesta["nup"] == ""){
+				$("#editar_descontar_afp").html("SI");
+				$("#editar_descontar_afp").val("SI");
+			}
+			else{
+				$("#editar_descontar_afp").html(respuesta["descontar_afp"]);
+				$("#editar_descontar_afp").val(respuesta["descontar_afp"]);
+			}
+			
+
+
+
+			//BUSCAR EL NOMBRE DEL TIPO PLANILLA SEGUN ID		
+			var datosTPLANI = new FormData();
+			datosTPLANI.append("idplantillas", respuesta["id_tipo_planilla"]);
+			$.ajax({
+				url:"ajax/plantillas.ajax.php",
+				method: "POST",
+				data: datosTPLANI,
+				cache: false,
+				contentType: false,
+				processData: false,
+				dataType:"json",
+				success:function(respuestaTPLA){					
+					$("#editarTipoPlanilla").html(respuestaTPLA[2]);
+					$("#editarTipoPlanilla").val(respuestaTPLA[0]);								 
+				}
+			})
+
+			//BUSCAR EL NOMBRE DEL BANCO SEGUN ID		
+			var datosCOBAN = new FormData();
+			datosCOBAN.append("idBancos", respuesta["id_banco"]);
+			$.ajax({
+				url:"ajax/bancos.ajax.php",
+				method: "POST",
+				data: datosCOBAN,
+				cache: false,
+				contentType: false,
+				processData: false,
+				dataType:"json",
+				success:function(respuestaCOBAN){					
+					$("#editarBanco").html(respuestaCOBAN[2]);
+					$("#editarBanco").val(respuestaCOBAN[0]);								 
+				}
+			})
+
+			$("#editar_numero_cuenta").val(respuesta["numero_cuenta"]);
+
+			$("#editar_anticipo").html(respuesta["anticipo"]);
+			$("#editar_anticipo").val(respuesta["anticipo"]);
+
+			$("#editar_reportado_a_pnc").html(respuesta["reportado_a_pnc"]);
+			$("#editar_reportado_a_pnc").val(respuesta["reportado_a_pnc"]);
+
+			$("#editar_tipo_empleado").html(respuesta["tipo_empleado"]);
+			$("#editar_tipo_empleado").val(respuesta["tipo_empleado"]);
+
+			
+			//cuando viene de la base de datos
+			if(respuesta["nivel_cargo"] == "009"){//si es agente de seguridad				
+				if(respuesta["id_jefe_operaciones"] == "0"){//si aun no ha sido asignado un jefe op
+						$("#editarjefe_empleado").html("Seleccione Jefe Operaciones");
+						$("#editarjefe_empleado").val("0");
+				}
+				else{//si ya tiene jefe de operaciones
+					//BUSCAR EL NOMBRE DEL JEFE DE OPERACIONES SEGUN ID		
+					var datosJOP = new FormData();
+					datosJOP.append("idEmpleado", respuesta["id_jefe_operaciones"]);
+					$.ajax({
+						url:"ajax/empleados.ajax.php",
+						method: "POST",
+						data: datosJOP,
+						cache: false,
+						contentType: false,
+						processData: false,
+						dataType:"json",
+						success:function(respuestaJOP){					
+							$("#editarjefe_empleado").html(respuestaJOP[2]+" "+respuestaJOP[3]+" "+respuestaJOP[5]);
+							$("#editarjefe_empleado").val(respuestaJOP[0]);								 
+						}
+					});
+				}				
+			}// si no es agente de seguridad
+			else{
+						$("#editarjefe_empleado").html("N/D");
+						$("#editarjefe_empleado").val("0");
+						document.getElementById("divJOP").style.display= "none";						
+			}
+			
+
+			if(respuesta["imagen_contrato"] != ""){
+				$(".previsualizarEditarContra").attr("src", respuesta["imagen_contrato"]);
+			}else{
+				$(".previsualizarEditarContra").attr("src", "vistas/img/usuarios/default/anonymous.png");
+			}
+            $("#fotoActualContra").val(respuesta["imagen_contrato"]);
+
+			//fecha vencimiento LTA
+			var date10 = respuesta["fecha_vencimiento_lpa"];
+			var formattedDate = new Date(date10); 
+			var d = formattedDate.getDate()+1; 
+			var m = formattedDate.getMonth(); m += 1;
+			m += 1; // javascript months are 0-11 
+			var y = formattedDate.getFullYear();
+			if(isNaN(d)){				
+			}
+			else{
+				$("#mascarafecha_venLTA").val(respuesta["fecha_vencimiento_lpa"]);
+				$("#editarfecha_venLTA").val(respuesta["fecha_vencimiento_lpa"]);
+			}
 
 		}
 
@@ -1880,3 +2082,6 @@ $(".tablas").on("click", ".btnImprimirFicha", function(){
 	$('body').append(form);
 	form.submit();
 })
+
+
+

@@ -56,7 +56,7 @@ class ModeloEmpleados{
 
 	static public function mdlIngresarEmpleado($tabla, $datos){
 
-		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (primer_nombre, segundo_nombre, tercer_nombre, primer_apellido, segundo_apellido, apellido_casada, estado_civil, sexo, direccion, id_departamento, id_municipio, documento_identidad, numero_documento_identidad, telefono, numero_isss, nombre_segun_isss, lugar_expedicion_documento, fecha_expedicion_documento, fecha_vencimiento_documento, licencia_conducir, tipo_licencia_conducir, imagen_licencia_conducir, nit, imagen_nit, codigo_afp, nup, profesion_oficio, nacionalidad, lugar_nacimiento, fecha_nacimiento, religion, grado_estudio, plantel, peso, estatura, piel, ojos, cabello, cara, tipo_sangre, senales_especiales, licencia_tenencia_armas, numero_licencia_tenencia_armas, imagen_licencia_tenencia_armas, servicio_militar, fecha_servicio_inicio, fecha_servicio_fin, lugar_servicio, grado_militar, motivo_baja, ex_pnc, curso_ansp, imagen_diploma_ansp, trabajo_anterior, sueldo_que_devengo, trabajo_actual, sueldo_que_devenga, suspendido_trabajo_anterior, empresa_suspendio, motivo_suspension, fecha_suspension, experiencia_laboral, razon_trabajar_en_ise, numero_personas_dependientes, observaciones, telefono_trabajo_anterior, telefono_trabajo_actual, referencia_anterior, evaluacion_anterior, referencia_actual, evaluacion_actual, info_verificada, imagen_solicitud, imagen_partida_nacimiento, imagen_antecedentes_penales, fecha_vencimiento_antecedentes_penales, imagen_solvencia_pnc, fecha_vencimiento_solvencia_pnc, imagen_constancia_psicologica, imagen_examen_poligrafico, imagen_huellas, confiable, estado, nivel_cargo, fotografia, imagen_documento_identidad, pantalon_empleado, camisa_empleado, zapatos_empleado, recomendado_empleado, contacto_empleado, documentacion_empleado, ansp_empleado, uniformeregalado_empleado ) VALUES ( :primer_nombre, :segundo_nombre, :tercer_nombre, :primer_apellido, :segundo_apellido, :apellido_casada, :estado_civil, :sexo, :direccion, :id_departamento, :id_municipio, :documento_identidad, :numero_documento_identidad, :telefono, :numero_isss, :nombre_segun_isss, :lugar_expedicion_documento, :fecha_expedicion_documento, :fecha_vencimiento_documento, :licencia_conducir, :tipo_licencia_conducir, :imagen_licencia_conducir, :nit, :imagen_nit, :codigo_afp, :nup, :profesion_oficio, :nacionalidad, :lugar_nacimiento, :fecha_nacimiento, :religion, :grado_estudio, :plantel, :peso, :estatura, :piel, :ojos, :cabello, :cara, :tipo_sangre, :senales_especiales, :licencia_tenencia_armas, :numero_licencia_tenencia_armas, :imagen_licencia_tenencia_armas, :servicio_militar, :fecha_servicio_inicio, :fecha_servicio_fin, :lugar_servicio, :grado_militar, :motivo_baja, :ex_pnc, :curso_ansp, :imagen_diploma_ansp, :trabajo_anterior, :sueldo_que_devengo, :trabajo_actual, :sueldo_que_devenga, :suspendido_trabajo_anterior, :empresa_suspendio, :motivo_suspension, :fecha_suspension, :experiencia_laboral, :razon_trabajar_en_ise, :numero_personas_dependientes, :observaciones, :telefono_trabajo_anterior, :telefono_trabajo_actual, :referencia_anterior, :evaluacion_anterior, :referencia_actual, :evaluacion_actual, :info_verificada, :imagen_solicitud, :imagen_partida_nacimiento, :imagen_antecedentes_penales, :fecha_vencimiento_antecedentes_penales, :imagen_solvencia_pnc, :fecha_vencimiento_solvencia_pnc, :imagen_constancia_psicologica, :imagen_examen_poligrafico, :imagen_huellas, :confiable, :estado, :nivel_cargo, :fotografia, :imagen_documento_identidad, :pantalon_empleado, :camisa_empleado, :zapatos_empleado, :recomendado_empleado, :contacto_empleado, :documentacion_empleado, :ansp_empleado, :uniformeregalado_empleado)");
+		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (primer_nombre, segundo_nombre, tercer_nombre, primer_apellido, segundo_apellido, apellido_casada, estado_civil, sexo, direccion, id_departamento, id_municipio, documento_identidad, numero_documento_identidad, telefono, numero_isss, nombre_segun_isss, lugar_expedicion_documento, fecha_expedicion_documento, fecha_vencimiento_documento, licencia_conducir, tipo_licencia_conducir, imagen_licencia_conducir, nit, imagen_nit, codigo_afp, nup, profesion_oficio, nacionalidad, lugar_nacimiento, fecha_nacimiento, religion, grado_estudio, plantel, peso, estatura, piel, ojos, cabello, cara, tipo_sangre, senales_especiales, licencia_tenencia_armas, numero_licencia_tenencia_armas, imagen_licencia_tenencia_armas, servicio_militar, fecha_servicio_inicio, fecha_servicio_fin, lugar_servicio, grado_militar, motivo_baja, ex_pnc, curso_ansp, imagen_diploma_ansp, trabajo_anterior, sueldo_que_devengo, trabajo_actual, sueldo_que_devenga, suspendido_trabajo_anterior, empresa_suspendio, motivo_suspension, fecha_suspension, experiencia_laboral, razon_trabajar_en_ise, numero_personas_dependientes, observaciones, telefono_trabajo_anterior, telefono_trabajo_actual, referencia_anterior, evaluacion_anterior, referencia_actual, evaluacion_actual, info_verificada, imagen_solicitud, imagen_partida_nacimiento, imagen_antecedentes_penales, fecha_vencimiento_antecedentes_penales, imagen_solvencia_pnc, fecha_vencimiento_solvencia_pnc, imagen_constancia_psicologica, imagen_examen_poligrafico, imagen_huellas, confiable, estado, nivel_cargo, fotografia, imagen_documento_identidad, pantalon_empleado, camisa_empleado, zapatos_empleado, recomendado_empleado, contacto_empleado, documentacion_empleado, ansp_empleado, uniformeregalado_empleado, fecha_vencimiento_lpa ) VALUES ( :primer_nombre, :segundo_nombre, :tercer_nombre, :primer_apellido, :segundo_apellido, :apellido_casada, :estado_civil, :sexo, :direccion, :id_departamento, :id_municipio, :documento_identidad, :numero_documento_identidad, :telefono, :numero_isss, :nombre_segun_isss, :lugar_expedicion_documento, :fecha_expedicion_documento, :fecha_vencimiento_documento, :licencia_conducir, :tipo_licencia_conducir, :imagen_licencia_conducir, :nit, :imagen_nit, :codigo_afp, :nup, :profesion_oficio, :nacionalidad, :lugar_nacimiento, :fecha_nacimiento, :religion, :grado_estudio, :plantel, :peso, :estatura, :piel, :ojos, :cabello, :cara, :tipo_sangre, :senales_especiales, :licencia_tenencia_armas, :numero_licencia_tenencia_armas, :imagen_licencia_tenencia_armas, :servicio_militar, :fecha_servicio_inicio, :fecha_servicio_fin, :lugar_servicio, :grado_militar, :motivo_baja, :ex_pnc, :curso_ansp, :imagen_diploma_ansp, :trabajo_anterior, :sueldo_que_devengo, :trabajo_actual, :sueldo_que_devenga, :suspendido_trabajo_anterior, :empresa_suspendio, :motivo_suspension, :fecha_suspension, :experiencia_laboral, :razon_trabajar_en_ise, :numero_personas_dependientes, :observaciones, :telefono_trabajo_anterior, :telefono_trabajo_actual, :referencia_anterior, :evaluacion_anterior, :referencia_actual, :evaluacion_actual, :info_verificada, :imagen_solicitud, :imagen_partida_nacimiento, :imagen_antecedentes_penales, :fecha_vencimiento_antecedentes_penales, :imagen_solvencia_pnc, :fecha_vencimiento_solvencia_pnc, :imagen_constancia_psicologica, :imagen_examen_poligrafico, :imagen_huellas, :confiable, :estado, :nivel_cargo, :fotografia, :imagen_documento_identidad, :pantalon_empleado, :camisa_empleado, :zapatos_empleado, :recomendado_empleado, :contacto_empleado, :documentacion_empleado, :ansp_empleado, :uniformeregalado_empleado, :fecha_vencimiento_lpa)");
 
 		$stmt->bindParam(":primer_nombre", $datos["primer_nombre"], PDO::PARAM_STR);
 		$stmt->bindParam(":segundo_nombre", $datos["segundo_nombre"], PDO::PARAM_STR);
@@ -152,6 +152,7 @@ class ModeloEmpleados{
 		$stmt->bindParam(":documentacion_empleado", $datos["documentacion_empleado"], PDO::PARAM_STR);
 		$stmt->bindParam(":ansp_empleado", $datos["ansp_empleado"], PDO::PARAM_STR);
 		$stmt->bindParam(":uniformeregalado_empleado", $datos["uniformeregalado_empleado"], PDO::PARAM_STR);
+		$stmt->bindParam(":fecha_vencimiento_lpa", $datos["fecha_vencimiento_lpa"], PDO::PARAM_STR);
 
 		if($stmt->execute()){
 			
@@ -273,7 +274,31 @@ class ModeloEmpleados{
 		contacto_empleado=:contacto_empleado,
 		documentacion_empleado=:documentacion_empleado,
 		ansp_empleado=:ansp_empleado,
-		uniformeregalado_empleado=:uniformeregalado_empleado
+		uniformeregalado_empleado=:uniformeregalado_empleado,
+		fecha_ingreso=:fecha_ingreso,
+		fecha_contratacion=:fecha_contratacion,
+		id_departamento_empresa=:id_departamento_empresa,
+		periodo_pago=:periodo_pago,
+		horas_normales_trabajo=:horas_normales_trabajo,
+		sueldo=:sueldo,
+		sueldo_diario=:sueldo_diario,
+		salario_por_hora=:salario_por_hora,
+		hora_extra_diurna=:hora_extra_diurna,
+		hora_extra_nocturna=:hora_extra_nocturna,
+		hora_extra_domingo=:hora_extra_domingo,
+		hora_extra_nocturna_domingo=:hora_extra_nocturna_domingo,
+		id_tipo_portacion=:id_tipo_portacion,
+		descontar_isss=:descontar_isss,
+		descontar_afp=:descontar_afp,
+		id_tipo_planilla=:id_tipo_planilla,
+		id_banco=:id_banco,
+		numero_cuenta=:numero_cuenta,
+		anticipo=:anticipo,
+		reportado_a_pnc=:reportado_a_pnc,
+		tipo_empleado=:tipo_empleado,
+		id_jefe_operaciones=:id_jefe_operaciones,
+		imagen_contrato=:imagen_contrato,
+		fecha_vencimiento_lpa=:fecha_vencimiento_lpa
         WHERE id = :id"
         );
 
@@ -371,12 +396,39 @@ class ModeloEmpleados{
 		$stmt->bindParam(":documentacion_empleado", $datos["documentacion_empleado"], PDO::PARAM_STR);
 		$stmt->bindParam(":ansp_empleado", $datos["ansp_empleado"], PDO::PARAM_STR);
 		$stmt->bindParam(":uniformeregalado_empleado", $datos["uniformeregalado_empleado"], PDO::PARAM_STR);
+		$stmt->bindParam(":fecha_ingreso", $datos["fecha_ingreso"], PDO::PARAM_STR);
+		$stmt->bindParam(":fecha_contratacion", $datos["fecha_contratacion"], PDO::PARAM_STR);
+		$stmt->bindParam(":id_departamento_empresa", $datos["id_departamento_empresa"], PDO::PARAM_INT);
+		$stmt->bindParam(":periodo_pago", $datos["periodo_pago"], PDO::PARAM_STR);
+		$stmt->bindParam(":horas_normales_trabajo", $datos["horas_normales_trabajo"], PDO::PARAM_STR);
+		$stmt->bindParam(":sueldo", $datos["sueldo"], PDO::PARAM_STR);
+		$stmt->bindParam(":sueldo_diario", $datos["sueldo_diario"], PDO::PARAM_STR);
+		$stmt->bindParam(":salario_por_hora", $datos["salario_por_hora"], PDO::PARAM_STR);
+		$stmt->bindParam(":hora_extra_diurna", $datos["hora_extra_diurna"], PDO::PARAM_STR);
+		$stmt->bindParam(":hora_extra_nocturna", $datos["hora_extra_nocturna"], PDO::PARAM_STR);
+		$stmt->bindParam(":hora_extra_domingo", $datos["hora_extra_domingo"], PDO::PARAM_STR);
+		$stmt->bindParam(":hora_extra_nocturna_domingo", $datos["hora_extra_nocturna_domingo"], PDO::PARAM_STR);
+		$stmt->bindParam(":id_tipo_portacion", $datos["id_tipo_portacion"], PDO::PARAM_INT);
+		$stmt->bindParam(":descontar_isss", $datos["descontar_isss"], PDO::PARAM_STR);
+		$stmt->bindParam(":descontar_afp", $datos["descontar_afp"], PDO::PARAM_STR); 
+		$stmt->bindParam(":id_tipo_planilla", $datos["id_tipo_planilla"], PDO::PARAM_INT);
+		$stmt->bindParam(":id_banco", $datos["id_banco"], PDO::PARAM_INT);  
+		$stmt->bindParam(":numero_cuenta", $datos["numero_cuenta"], PDO::PARAM_STR);
+		$stmt->bindParam(":anticipo", $datos["anticipo"], PDO::PARAM_STR);
+		$stmt->bindParam(":reportado_a_pnc", $datos["reportado_a_pnc"], PDO::PARAM_STR);
+		$stmt->bindParam(":tipo_empleado", $datos["tipo_empleado"], PDO::PARAM_STR);  
+		$stmt->bindParam(":id_jefe_operaciones", $datos["id_jefe_operaciones"], PDO::PARAM_INT);
+		$stmt -> bindParam(":imagen_contrato", $datos["imagen_contrato"], PDO::PARAM_STR);
+		$stmt -> bindParam(":fecha_vencimiento_lpa", $datos["fecha_vencimiento_lpa"], PDO::PARAM_STR);
+
+
+
 		$stmt -> bindParam(":id", $datos["id"], PDO::PARAM_INT);
 
 
 	
 		if($stmt -> execute()){
-			print_r($stmt->errorInfo());
+			//print_r($stmt->errorInfo());
 			return "ok";
 		
 		}else{

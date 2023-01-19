@@ -738,7 +738,8 @@ class ControladorEmpleados{
 							   "contacto_empleado" => $_POST["nuevocontacto_empleado"],
 							   "documentacion_empleado" => $_POST["nuevodocumentacion_empleado"],
 							   "ansp_empleado" => $_POST["nuevoansp_empleado"],
-							   "uniformeregalado_empleado" => $_POST["nuevouniformeregalado_empleado"]
+							   "uniformeregalado_empleado" => $_POST["nuevouniformeregalado_empleado"],
+							   "fecha_vencimiento_lpa" => $_POST["nuevofecha_nuevofecha_venLTA"]
 
                             );
 
@@ -1553,7 +1554,60 @@ class ControladorEmpleados{
 					}
 				}
 
-
+				/*=============================================
+				VALIDAR IMAGEN DE CONTRATO
+				=============================================*/
+				$rutaCONTRATO= $_POST["fotoActualContra"];
+				if(isset($_FILES["editarFotoContra"]["tmp_name"]) && !empty($_FILES["editarFotoContra"]["tmp_name"])){
+					list($ancho, $alto) = getimagesize($_FILES["editarFotoContra"]["tmp_name"]);
+					$nuevoAncho = 500;
+					$nuevoAlto = 500;
+					/*=============================================
+					CREAMOS EL DIRECTORIO DONDE VAMOS A GUARDAR LA FOTO DEL DOCUMENTO
+					=============================================*/
+					$directorio = "vistas/img/empleados/".$_POST["editarNumeroDocumento"];
+					/*=============================================
+					PRIMERO PREGUNTAMOS SI EXISTE OTRA IMAGEN EN LA BD
+					=============================================*/
+					if(!empty($_POST["fotoActualContra"])){
+						unlink($_POST["fotoActualContra"]);
+					}else{
+						mkdir($directorio, 0755);
+					}	
+					/*=============================================
+					DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
+					=============================================*/
+					if($_FILES["editarFotoContra"]["type"] == "image/jpeg"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,99999);
+						$rutaCONTRATO = "vistas/img/empleados/".$_POST["editarNumeroDocumento"]."/imagen_contrato_".$aleatorio.".jpg";
+						//$origen = imagecreatefromjpeg($_FILES["editarFotoDoc"]["tmp_name"]);	
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagejpeg($destino, $rutaDoc);
+						if(move_uploaded_file($_FILES["editarFotoContra"]["tmp_name"], $rutaCONTRATO)) {							
+						}
+						else{								
+						}
+					}
+					if($_FILES["editarFotoContra"]["type"] == "image/png"){
+						/*=============================================
+						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+						=============================================*/
+						$aleatorio = mt_rand(100,9999);
+						$rutaCONTRATO= "vistas/img/empleados/".$_POST["editarNumeroDocumento"]."/imagen_contrato_".$aleatorio.".png";
+						//$origen = imagecreatefrompng($_FILES["editarFotoDoc"]["tmp_name"]);
+						//$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+						//imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+						//imagepng($destino, $ruta);
+						if(move_uploaded_file($_FILES["editarFotoContra"]["tmp_name"], $rutaCONTRATO)) {							
+						}
+						else{								
+						}
+					}
+				}
 
 				$tabla = "tbl_empleados";
 
@@ -1651,6 +1705,30 @@ class ControladorEmpleados{
 							   "documentacion_empleado" => $_POST["editardocumentacion_empleado"],
 							   "ansp_empleado" => $_POST["editaransp_empleado"],
 							   "uniformeregalado_empleado" => $_POST["editaruniformeregalado_empleado"],
+							   "fecha_ingreso" => $_POST["editarfecha_ingreso"],
+							   "fecha_contratacion" => $_POST["editarfecha_contratacion"],
+							   "id_departamento_empresa" => $_POST["editarDepartamentoEmpresa"],
+							   "periodo_pago" => $_POST["editarPeriodoPago"],
+							   "horas_normales_trabajo" => $_POST["editar_horas_normales_trabajo"],
+							   "sueldo" => $_POST["editar_sueldo"],
+							   "sueldo_diario" => $_POST["editar_sueldo_diario"],
+							   "salario_por_hora" => $_POST["editar_salario_por_hora"],
+							   "hora_extra_diurna" => $_POST["editar_hora_extra_diurna"],
+							   "hora_extra_nocturna" => $_POST["editar_hora_extra_nocturna"],
+							   "hora_extra_domingo" => $_POST["editar_hora_extra_domingo"],
+							   "hora_extra_nocturna_domingo" => $_POST["editar_hora_extra_nocturna_domingo"],
+							   "id_tipo_portacion" => $_POST["editarTipoPortacionArmas"],
+							   "descontar_isss" => $_POST["editar_descontar_isss"],
+							   "descontar_afp" => $_POST["editar_descontar_afp"],
+							   "id_tipo_planilla" => $_POST["editarTipoPlanilla"],
+							   "id_banco" => $_POST["editarBanco"],
+							   "numero_cuenta" => $_POST["editar_numero_cuenta"],
+							   "anticipo" => $_POST["editar_anticipo"],
+							   "reportado_a_pnc" => $_POST["editar_reportado_a_pnc"],
+							   "tipo_empleado" => $_POST["editar_tipo_empleado"],
+							   "id_jefe_operaciones" => $_POST["editarjefe_empleado"],
+							   "imagen_contrato"=>$rutaCONTRATO,
+							   "fecha_vencimiento_lpa" => $_POST["editarfecha_venLTA"],
                                "id"=>$_POST["idEmpleado"]);
 
 				

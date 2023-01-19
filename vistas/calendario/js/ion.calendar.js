@@ -451,17 +451,17 @@
                     closePopups();
                     //alert(x);
                     if(x=="fechaingreso"){
-
-                    var dateNEW = $('.'+x).val();
-                    var newDate = dateNEW.split("-").reverse().join("-");
-                    $(".fecha_ingreso").val(newDate);
+                        
+                        var dateNEW = $('.'+x).val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".fecha_ingreso").val(newDate);
 
                     }
                     else if(x=="fechavence"){
                         
-                    var dateNEW = $('.'+x).val();
-                    var newDate = dateNEW.split("-").reverse().join("-");
-                    $(".fecha_vencimiento").val(newDate);
+                        var dateNEW = $('.'+x).val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".fecha_vencimiento").val(newDate);
                     }
 
                     else if(x=="nuevofechainicio"){
@@ -576,10 +576,10 @@
 
 
                     if(x=="fechaingreso"){
-
-                    var dateNEW = $('#editarfecha_ingreso').val();
-                    var newDate = dateNEW.split("-").reverse().join("-");
-                    $(".editar_fecha_ingreso").val(newDate);
+                       
+                        var dateNEW = $('#editarfecha_ingreso').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".editar_fecha_ingreso").val(newDate);
                     }
                     else if(x=="fechavence"){
                         
@@ -679,12 +679,22 @@
                         var dateNEW = $('#editarfecha_adquision').val();
                         var newDate = dateNEW.split("-").reverse().join("-");
                         $(".efecha_adquisiondate").val(newDate);
-                    }
-                    else if(x=="fecha_adquisionbe"){
+                    }                    
+                    else if(x=="editarfecha_ingreso"){
                         
-                        var dateNEW = $('#editarfecha_adquisicion').val();
+                        var dateNEW = $('.editarfecha_ingreso').val();
                         var newDate = dateNEW.split("-").reverse().join("-");
-                        $(".fecha_adquisiondate").val(newDate);
+                        $(".oficial_editarfecha_ingreso").val(newDate);
+                    }
+                    else if(x=="editarfecha_contratacion"){                        
+                        var dateNEW = $('.editarfecha_contratacion').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");                       
+                        $(".oficial_editarfecha_contratacion").val(newDate);
+                    }
+                    else if(x=="editarfecha_venLTA"){                        
+                        var dateNEW = $('.editarfecha_venLTA').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");                       
+                        $(".oficial_editarfecha_venLTA").val(newDate);
                     }
                     
                 }

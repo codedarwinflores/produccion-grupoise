@@ -660,8 +660,19 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
             </div>
 
 
-            <div class="col-md-12" >                
-                <div class="col-md-12" >
+            <div class="col-md-12" >
+                <div class="col-md-4" >
+                    <!-- FECHA VENCIMIENTO LTA-->
+                    <div class="form-group">
+                        Fecha vencimiento de Licencia de Tenencia de Armas:
+                        <div class="input-group">           
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            <input type="text" value="" class="calendario nuevofecha_venLTA form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_venLTA" placeholder="Ingresar Fecha" readonly>
+                            <input type="text" class="oficial_nuevofecha_venLTA" name="nuevofecha_nuevofecha_venLTA" style="display: none;">
+                        </div>
+                    </div>
+                </div>                 
+                <div class="col-md-8" >
                     <!-- ENTRADA PARA SUBIR FOTO  DE TENENCIA ARMAS-->
                     <div class="form-group">              
                         <div class="panel">SUBIR FOTO LICENCIA  TENENCIA DE ARMAS</div>

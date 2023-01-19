@@ -306,7 +306,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                       Fecha Expedici&oacute;n Documento:
                       <div class="input-group">                  
                           <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                          <input type="text" value="" class="calendario editarfecha_expedicion form-control input-lg" data-lang="es" data-years="1600-2060" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_expedicion" placeholder="Ingresar Fecha" id="mascarafecha" readonly>
+                          <input type="text" value="" class="calendario editarfecha_expedicion form-control input-lg" data-lang="es" data-years="2010-2060" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_expedicion" placeholder="Ingresar Fecha" id="mascarafecha" readonly>
                           <input type="text" class="oficial_editarfecha_expedicion" name="editarfecha_expedicion" style="display: none;" id="editarfecha_expedicion">
                       </div>
                     </div>
@@ -317,7 +317,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                       Fecha Vencimiento  Documento:
                       <div class="input-group">                  
                           <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                          <input type="text" value="" class="calendario editarfecha_vencimiento form-control input-lg" data-lang="es" data-years="1600-2060" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_vencimiento" placeholder="Ingresar Fecha" id="mascarafechav" readonly>
+                          <input type="text" value="" class="calendario editarfecha_vencimiento form-control input-lg" data-lang="es" data-years="2010-2060" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_vencimiento" placeholder="Ingresar Fecha" id="mascarafechav" readonly>
                           <input type="text" class="oficial_editarfecha_vencimiento" name="editarfecha_vencimiento" style="display: none;" id="editarfecha_vencimiento">
                       </div>
                     </div>
@@ -674,8 +674,19 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
             </div>
 
 
-            <div class="col-md-12" >                
-                <div class="col-md-12" >
+            <div class="col-md-12" >
+                <div class="col-md-6" >
+                     <!-- ENTRADA PARA FECHA VENCIMIENTO LTA-->
+                     <div class="form-group"> 
+                        Fecha vencimiento de Licencia de Tenencia de Armas:
+                        <div class="input-group">                  
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            <input type="text" value="" class="calendario editarfecha_venLTA form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_venLTA" placeholder="Ingresar Fecha" id="mascarafecha_venLTA" readonly>
+                            <input type="text" class="oficial_editarfecha_venLTA" name="editarfecha_venLTA" style="display: none;" id="editarfecha_venLTA">
+                        </div>
+                      </div>
+                </div>                 
+                <div class="col-md-6" >
                      <!-- ENTRADA PARA SUBIR FOTO LICENCIA LTA-->
                     <div class="form-group">              
                         <div class="panel">SUBIR FOTO LICENCIA TENENCIA DE ARMAS</div>
@@ -1209,8 +1220,8 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                     CARGO:            
                       <div class="input-group">              
                         <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-                        <select class="form-control input-lg" name="editarCARGO"  >                  
-                        <option id="editarCARGO"></option>
+                        <select class="form-control input-lg editarCARGO" name="editarCARGO"   >
+                          <option id="editarCARGO"></option>
                           <?php
                             $datos_mostrar_cargo = ControladorCargos::ctrMostrar($item, $valor);
                             foreach ($datos_mostrar_cargo as $key => $value){
@@ -1337,15 +1348,342 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                 </div>                
             </div>
 
+            <div class="col-md-12" >
+                <label style="font-size: xx-large;color: #2b2468;">Datos de contrataci&oacute;n</label> 
+                <hr style="margin-top: 0px;border-top: 1px solid #101010;"></hr>
+            </div>
+
+            <div class="col-md-12" > 
+                <div class="col-md-4" >
+                  <div class="form-group">
+                       <!-- ENTRADA PARA FECHA DE INGRESO-->  
+                      <div class="form-group"> 
+                          Fecha de ingreso:
+                          <div class="input-group">                  
+                              <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                              <input type="text" value="" class="calendario editarfecha_ingreso form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_ingreso" placeholder="Ingresar Fecha" id="mascarafechaingreso" readonly>
+                              <input type="text" class="oficial_editarfecha_ingreso" name="editarfecha_ingreso" style="display: none;" id="editarfecha_ingreso">
+                          </div>
+                        </div>
+                  </div>
+                </div>
+                <div class="col-md-4" > 
+                    <div class="form-group">
+                     <!-- ENTRADA PARA FECHA DE CONTRATACION-->  
+                     <div class="form-group"> 
+                          Fecha de contrataci&oacute;n:
+                          <div class="input-group">                  
+                              <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                              <input type="text" value="" class="calendario editarfecha_contratacion form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_contratacion" placeholder="Ingresar Fecha" id="mascarafechacontratacion" readonly>
+                              <input type="text" class="oficial_editarfecha_contratacion" name="editarfecha_contratacion" style="display: none;" id="editarfecha_contratacion">
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" > 
+                    <!-- ENTRADA PARA SELECCIONAR DEPARTAMENTO DE EMPRESA -->
+                      <div class="form-group">  
+                        Departamento :            
+                        <div class="input-group">              
+                          <span class="input-group-addon"><i class="fa fa-users"></i></span> 
+                          <select class="form-control input-lg" name="editarDepartamentoEmpresa"  >                  
+                          <option id="editarDepartamentoEmpresa"></option>
+                            <?php
+                              $datos_mostrar_departamento = ControladorDepartamentos::ctrMostrarDepartamentos($item, $valor);
+                              foreach ($datos_mostrar_departamento as $key => $value){
+                                echo '<option value="'.$value["id"].'">'.$value["nombre"].'</option>';                     
+                              }
+                            ?>
+                          </select>
+                        </div>
+                      </div>
+                </div>                
+            </div>
+
+            <div class="col-md-12" > 
+                <div class="col-md-4" >
+                  <div class="form-group">
+                       <!-- ENTRADA PARA PERIODO DE PAGO--> 
+                       Per&iacute;odo de pago: 
+                        <select class="form-control input-lg" name="editarPeriodoPago"  >                  
+                          <option value="" id="editarPeriodoPago"></option>
+                          <option value="Quincenal">Quincenal</option>
+                          <option value="Mensual">Mensual</option>
+                        </select>
+                  </div>
+                </div>
+                <div class="col-md-4" > 
+                    <div class="form-group">
+                        <!-- ENTRADA PARA HORAS NORMALES-->  
+                        <div class="form-group"> 
+                          Horas normales de trabajo:
+                          <div class="input-group">           
+                              <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                              <input type="number"  min="0.01" step="0.01" class="form-control input-lg " name="editar_horas_normales_trabajo" id="editar_horas_normales_trabajo" placeholder="Ingresar horas">
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" >                    
+                    <div class="form-group">  
+                       <!-- ENTRADA PARA SUELDO --> 
+                        <div class="form-group"> 
+                          Sueldo:
+                          <div class="input-group">           
+                              <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                              <input type="number"  min="0.01" step="0.01"  class="form-control input-lg " name="editar_sueldo" id="editar_sueldo" placeholder="Ingresar sueldo">
+                          </div>
+                        </div>
+                    </div>
+                      
+                </div>                
+            </div>
+
+            <div class="col-md-12" > 
+                <div class="col-md-4" >
+                  <div class="form-group">
+                       <!-- ENTRADA PARA SUELDO DIARIO-->                         
+                       <div class="form-group"> 
+                          Sueldo diario:
+                          <div class="input-group">           
+                              <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                              <input type="number"  min="0.01" step="0.01" class="form-control input-lg " name="editar_sueldo_diario" id="editar_sueldo_diario" placeholder="Ingresar sueldo diario">
+                          </div>
+                        </div>
+                  </div>
+                </div>
+                <div class="col-md-4" > 
+                    <div class="form-group">
+                        <!-- ENTRADA PARA SALARIO x HORA-->  
+                        <div class="form-group"> 
+                          Salario por hora:
+                          <div class="input-group">           
+                              <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                              <input type="number"  min="0.01" step="0.01" class="form-control input-lg " name="editar_salario_por_hora" id="editar_salario_por_hora" placeholder="Ingresar salario por hora">
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" >                    
+                    <div class="form-group">  
+                       <!-- ENTRADA PARA HX diurna --> 
+                        <div class="form-group"> 
+                          Hora extra diurna:
+                          <div class="input-group">           
+                              <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                              <input type="number"  min="0.01" step="0.01"  class="form-control input-lg " name="editar_hora_extra_diurna" id="editar_hora_extra_diurna" placeholder="Ingresar hora extra diurna">
+                          </div>
+                        </div>
+                    </div>                      
+                </div>                
+            </div>
+
+            <div class="col-md-12" > 
+                <div class="col-md-4" >
+                  <div class="form-group">
+                       <!-- ENTRADA PARA HX NOCTURNA-->                         
+                       <div class="form-group"> 
+                          Hora extra nocturna:
+                          <div class="input-group">           
+                              <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                              <input type="number"  min="0.01" step="0.01" class="form-control input-lg " name="editar_hora_extra_nocturna" id="editar_hora_extra_nocturna" placeholder="Ingresar hora extra nocturna">
+                          </div>
+                        </div>
+                  </div>
+                </div>
+                <div class="col-md-4" > 
+                    <div class="form-group">
+                        <!-- ENTRADA PARA HX DOMINGO-->  
+                        <div class="form-group"> 
+                          Hora extra domingo:
+                          <div class="input-group">           
+                              <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                              <input type="number"  min="0.01" step="0.01" class="form-control input-lg " name="editar_hora_extra_domingo" id="editar_hora_extra_domingo" placeholder="Ingresar hora extra domingo">
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" >                    
+                    <div class="form-group">  
+                       <!-- ENTRADA PARA HX NOCTURNA DOMINGO --> 
+                        <div class="form-group"> 
+                          Hora extra nocturna domingo:
+                          <div class="input-group">           
+                              <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                              <input type="number"  min="0.01" step="0.01"  class="form-control input-lg " name="editar_hora_extra_nocturna_domingo" id="editar_hora_extra_nocturna_domingo" placeholder="Ingresar hora extra nocturna domingo">
+                          </div>
+                        </div>
+                    </div>                      
+                </div>                
+            </div>
+
+
+
+
+            <div class="col-md-12" > 
+                <div class="col-md-4" >
+                  <div class="form-group">
+                       <!-- ENTRADA PARA TIPO PORTACION ARMA-->                         
+                       <div class="form-group"> 
+                          Tipo de portaci&oacute;n de armas:
+                          <select class="form-control input-lg" name="editarTipoPortacionArmas"  >                  
+                          <option id="editarTipoPortacionArmas"></option>
+                            <?php
+                              $datos_mostrar_tipo_portacion_arma = Controladorportacionarma::ctrMostrar($item, $valor);
+                              foreach ($datos_mostrar_tipo_portacion_arma as $key => $value){
+                                echo '<option value="'.$value["id"].'">'.$value["nombre"].'</option>';                     
+                              }
+                            ?>
+                          </select>
+                        </div>
+                  </div>
+                </div>
+                <div class="col-md-4" > 
+                    <div class="form-group">
+                        <!-- ENTRADA PARA DESCONTAR ISSS -->                        
+                        Descontar ISSS: 
+                        <select class="form-control input-lg" name="editar_descontar_isss"  >                  
+                          <option value="" id="editar_descontar_isss"></option>
+                          <option value="SI">SI</option>
+                          <option value="NO">NO</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4" >                    
+                    <div class="form-group">
+                        <!-- ENTRADA PARA DESCONTAR AFP -->                        
+                        Descontar AFP: 
+                        <select class="form-control input-lg" name="editar_descontar_afp"  >                  
+                          <option value="" id="editar_descontar_afp"></option>
+                          <option value="SI">SI</option>
+                          <option value="NO">NO</option>
+                        </select>
+                    </div>                      
+                </div>                
+            </div>
+            
+
+
+            <div class="col-md-12" > 
+                <div class="col-md-4" >
+                  <div class="form-group">
+                       <!-- ENTRADA PARA TIPO PLANILLA-->                         
+                       <div class="form-group"> 
+                          Tipo de planilla:
+                          <select class="form-control input-lg" name="editarTipoPlanilla"  >                  
+                          <option id="editarTipoPlanilla"></option>
+                            <?php
+                              $datos_mostrar_tipo_planilla = Controladorplantillas::ctrMostrar($item, $valor);
+                              foreach ($datos_mostrar_tipo_planilla as $key => $value){
+                                echo '<option value="'.$value["id"].'">'.$value["nombre"].'</option>';                     
+                              }
+                            ?>
+                          </select>
+                        </div>
+                  </div>
+                </div>
+                <div class="col-md-4" > 
+                    <div class="form-group">
+                        <!-- ENTRADA PARA BANCO-->                         
+                       <div class="form-group"> 
+                          Banco:
+                          <select class="form-control input-lg" name="editarBanco"  >                  
+                          <option id="editarBanco"></option>
+                            <?php
+                              $datos_mostrar_banco = ControladorBancos::ctrMostrarBancos($item, $valor);
+                              foreach ($datos_mostrar_banco as $key => $value){
+                                echo '<option value="'.$value["id"].'">'.$value["nombre"].'</option>';                     
+                              }
+                            ?>
+                          </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" >                    
+                    <div class="form-group">
+                       <!-- ENTRADA PARA NUMERO CUENTA BANCO--> 
+                       <div class="form-group"> 
+                          N&uacute;mero de cuenta:
+                          <div class="input-group">           
+                              <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                              <input type="text"   class="form-control input-lg " name="editar_numero_cuenta" id="editar_numero_cuenta" placeholder="Ingresar N. cuenta banco">
+                          </div>
+                        </div>
+                    </div>                      
+                </div>                
+            </div>
+
+            <div class="col-md-12" >
+              <div class="col-md-4" id="divJOP" > 
+                  <!-- ENTRADA PARA JEFE OPERQACIONES A CARGO--> 
+                  <div class="form-group" >
+                    Jefe operaciones:
+                      <div class="input-group">           
+                          <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                          <select class="form-control input-lg" name="editarjefe_empleado"  >                  
+                            <option id="editarjefe_empleado"></option>
+
+                            <?php
+                              $datos_mostrar_cargo = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
+                              foreach ($datos_mostrar_cargo as $key => $value){                                 
+                                echo '<option value="'.$value["id"].'">'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["primer_apellido"].'</option>';                     
+                              }
+                          ?>
+                          </select>
+                      </div>
+                    </div>  
+                </div>              
+                <div class="col-md-4" >
+                    <!-- ENTRADA PARA IMAGEN CONTRATO-->
+                    <div class="form-group">              
+                        <div class="panel">SUBIR IMAGEN DE CONTRATO</div>
+                        <input type="file" class="nuevaFotoContra" name="editarFotoContra">
+                        <p class="help-block">Peso máximo de la foto 2MB</p>
+                        <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditarContra" width="100px">
+                        <input type="hidden" name="fotoActualContra" id="fotoActualContra">
+                    </div>
+                </div> 
+            </div>
+            
+            
+
+            <div class="col-md-12" > 
+                <div class="col-md-4" >
+                    <div class="form-group">
+                        <!-- ENTRADA PARA ANTICIPO -->                        
+                        Anticipo: 
+                        <select class="form-control input-lg" name="editar_anticipo"  >                  
+                          <option value="" id="editar_anticipo"></option>
+                          <option value="SI">SI</option>
+                          <option value="NO">NO</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4" > 
+                    <div class="form-group">
+                        <!-- ENTRADA PARA REPORTADO A LA JURA -->                        
+                        Reportado a PNC: 
+                        <select class="form-control input-lg" name="editar_reportado_a_pnc"  >                  
+                          <option value="" id="editar_reportado_a_pnc"></option>
+                          <option value="SI">SI</option>
+                          <option value="NO">NO</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4" >                    
+                    <div class="form-group">
+                        <!-- ENTRADA PARA TIPO EMPLEADO -->                        
+                        Tipo empleado: 
+                        <select class="form-control input-lg" name="editar_tipo_empleado"  >                  
+                          <option value="" id="editar_tipo_empleado"></option>
+                          <option value="Administrativo">Administrativo</option>
+                          <option value="Operativo">Operativo</option>
+                        </select>
+                    </div>                      
+                </div>                
+            </div>
            
-
-
-
-            
-            
-            
-           
-
+                
            
             
 
