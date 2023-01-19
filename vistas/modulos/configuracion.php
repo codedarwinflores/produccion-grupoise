@@ -291,7 +291,26 @@ function getContent() {
                   <div class="form-group">
                       <label for="" class="">Cargo</label> 
                       <div class="">
-                        <input type="text" id="editarcargo"  class="form-control" name="editarcargo" >
+                       
+
+                        <select id="editarcargo"  class="form-control" name="editarcargo">
+                        <option value="">Seleccione el Cargo</option>
+
+                      <?php
+                        function getcargo() {
+                          $query = "SELECT * FROM cargos_desempenados ";
+                          $sql = Conexion::conectar()->prepare($query);
+                          $sql->execute();			
+                          return $sql->fetchAll();
+                        };
+                        
+                        $data = getcargo();
+                        foreach($data as $row) {
+                         echo "<option value='".$row["descripcion"]."' >".$row["descripcion"]."</option>";
+                        }
+                        ?>
+                        </select>
+
                       </div>
                   </div>
 
@@ -349,7 +368,24 @@ function getContent() {
                   <div class="form-group">
                       <label for="" class="">País</label> 
                       <div class="">
-                        <input type="text" id="editarpais"  class="form-control" name="editarpais"   >
+                        <select id="editarpais"  class="form-control" name="editarpais" >
+                          <option value="">Seleccione el País</option>
+                      <?php
+                        function paises() {
+                          $query = "SELECT * FROM paises ";
+                          $sql = Conexion::conectar()->prepare($query);
+                          $sql->execute();			
+                          return $sql->fetchAll();
+                        };
+                        
+                        $data = paises();
+                        foreach($data as $row) {
+                         echo "<option value='".$row["nombre"]."' >".$row["nombre"]."</option>";
+                        }
+                        ?>
+                        </select>
+
+
                       </div>
                   </div>
 
@@ -357,7 +393,7 @@ function getContent() {
                   <div class="form-group">
                       <label for="" class="">Horas Extras</label> 
                       <div class="">
-                        <input type="number" id="editarh_extra"  class="form-control" name="editarh_extra"  onKeyPress="if(this.value.length==12) return false;"  step="0.01" >
+                        <input type="number" id="editarh_extra"  class="form-control" name="editarh_extra"  onKeyPress="if(this.value.length==5) return false;"  step="0.01" >
                       </div>
                   </div>
                   

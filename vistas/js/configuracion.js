@@ -68,6 +68,16 @@ if(validar=="1"){
 			$("#editarpais").val(respuesta["pais"]);
 			$("#editarh_extra").val(respuesta["h_extra"]);
 
+			$("#editarlimite").val(respuesta["limite"]);
+			$("#editarclave").val(respuesta["clave"]);
+			$("#editaranticipo").val(respuesta["anticipo"]);
+			$("#editarentrega").val(respuesta["entrega"]);
+			$("#editardui").val(respuesta["dui"]);
+			$("#editarimpresion").val(respuesta["impresion"]);
+			$("#editardoctor").val(respuesta["doctor"]);
+			$("#editarpsicologo").val(respuesta["psicologo"]);
+
+
 
 
 
