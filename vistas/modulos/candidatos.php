@@ -13,7 +13,8 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
 
 }
 //require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
-require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
+require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php"); 
+//require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
 
 
 ?>
@@ -368,18 +369,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
 
 
 
-            <div class="col-md-12" >                
-                <div class="col-md-12" >
-                    <!-- ENTRADA PARA SUBIR FOTO  DE LICENCIA-->
-                    <div class="form-group">              
-                        <div class="panel">SUBIR FOTO LICENCIA DE CONDUCIR</div>
-                            <input type="file" class="nuevaFotoLicCond" name="nuevaFotoLicCond">
-                            <p class="help-block">Peso máximo de la foto 2MB</p>
-                            <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarLicCond" width="100px">
-                                    
-                    </div> 
-                </div> 
-            </div> 
+            
 
             <div class="col-md-12" > 
                 <div class="col-md-12" > 
@@ -635,11 +625,11 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
                 <div class="col-md-6" >
                      <!-- ENTRADA PARA SELECCIONAR SI TIENE LICENCIA D EARMAS-->          
                     <div class="form-group"> 
-                        Licencia de Tenencia de Armas:             
+                        Licencia de Portaci&oacute;n de Armas(LPA):             
                         <div class="input-group">              
                             <span class="input-group-addon"><i class="fa fa-address-card"></i></span> 
                             <select class="form-control input-lg" name="nuevoLicenciaTDA">                  
-                                <option value="">Tiene Licencia de Tenencia de Armas</option>
+                                <option value="">Tiene Licencia de Portaci&oacute;n de Armas(LPA)?</option>
                                 <option value="SI">SI</option>
                                 <option value="NO">NO</option>
                             </select>
@@ -650,10 +640,10 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
                 <div class="col-md-6" > 
                     <!-- ENTRADA PARA NUMERO LICENCIA TENENCIA ARMA -->            
                     <div class="form-group">
-                        N&uacute;mero Licencia de Tenencia de Armas:              
+                        N&uacute;mero Licencia de Portaci&oacute;n de Armas(LPA):               
                         <div class="input-group">              
                             <span class="input-group-addon"><i class="fa fa-address-card"></i></span> 
-                        <input type="text" class="form-control input-lg" name="nuevoNumeroLicenciaTDA" placeholder="Ingresar N&uacute;mero Licencia de Tenencia de Armas" >
+                        <input type="text" class="form-control input-lg" name="nuevoNumeroLicenciaTDA" placeholder="Ingresar N&uacute;mero Licencia de Portaci&oacute;n de Armas(LPA)" >
                         </div>
                     </div>
                 </div>               
@@ -664,7 +654,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
                 <div class="col-md-4" >
                     <!-- FECHA VENCIMIENTO LTA-->
                     <div class="form-group">
-                        Fecha vencimiento de Licencia de Tenencia de Armas:
+                        Fecha vencimiento de Licencia de Portaci&oacute;n de Armas(LPA): 
                         <div class="input-group">           
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                             <input type="text" value="" class="calendario nuevofecha_venLTA form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_venLTA" placeholder="Ingresar Fecha" readonly>
@@ -675,7 +665,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
                 <div class="col-md-8" >
                     <!-- ENTRADA PARA SUBIR FOTO  DE TENENCIA ARMAS-->
                     <div class="form-group">              
-                        <div class="panel">SUBIR FOTO LICENCIA  TENENCIA DE ARMAS</div>
+                        <div class="panel">SUBIR FOTO LICENCIA  PORTACION DE ARMAS</div>
                             <input type="file" class="nuevaFotoLicLTA" name="nuevaFotoLicLTA">
                             <p class="help-block">Peso máximo de la foto 2MB</p>
                             <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarLicLTA" width="100px">
@@ -1085,7 +1075,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
 
             
             <div class="col-md-12" > 
-                <div class="col-md-6" >
+                <div class="col-md-12" >
                      <!-- ENTRADA PARA SUBIR FOTO  DE LA SOLICITUD-->
                     <div class="form-group">              
                         <div class="panel">SUBIR FOTO DE LA SOLICITUD</div>
@@ -1095,16 +1085,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
                         
                     </div>
                 </div>
-                <div class="col-md-6" > 
-                    <!-- ENTRADA PARA SUBIR FOTO  PARTINA NACIMIENTO-->
-                    <div class="form-group">              
-                        <div class="panel">SUBIR FOTO DE LA PARTIDA DE NACIMIENTO</div>
-                            <input type="file" class="nuevaFotoPARTIDA" name="nuevaFotoPARTIDA">
-                            <p class="help-block">Peso máximo de la foto 2MB</p>
-                            <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarPARTIDA" width="100px">
-                        
-                    </div>
-                </div>                
+                             
             </div>
 
             <div class="col-md-12" >
@@ -1255,25 +1236,8 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
             -->
 
             <div class="col-md-12" >                
-                <div class="col-md-4" > 
-                    <!-- ENTRADA PARA CONSTANCIA PSICOLOGICA -->
-                    <div class="form-group">              
-                    <div class="panel">SUBIR FOTO DE CONSTANCIA PSICOLOGICA</div>
-                    <input type="file" class="nuevaFotoPSYCO" name="nuevaFotoPSYCO">
-                    <p class="help-block">Peso máximo de la foto 2MB</p>
-                    <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarPSYCO" width="100px">
-                    </div>
-                </div>
-                <div class="col-md-4" > 
-                    <!-- ENTRADA PARA EXAMEN POLIGRAFICO -->
-                    <div class="form-group">              
-                    <div class="panel">SUBIR FOTO DE EXAMEN POLIGRAFICO</div>
-                    <input type="file" class="nuevaFotoPOLI" name="nuevaFotoPOLI">
-                    <p class="help-block">Peso máximo de la foto 2MB</p>
-                    <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarPOLI" width="100px">
-                    </div>
-                </div>
-                <div class="col-md-4" > 
+                
+                <div class="col-md-12" > 
                     <!-- ENTRADA PARA IMAGEN HUELLAS DIGITALES -->
                     <div class="form-group">              
                     <div class="panel">SUBIR FOTO DE IMAGEN HUELLAS DIGITALES</div>
