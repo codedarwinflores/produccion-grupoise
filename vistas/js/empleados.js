@@ -1,4 +1,128 @@
 
+/* COLOCACION DE ICONOS */
+$(document).ready(function(){
+
+
+
+	$('.editarconstancia_psicologica').on('change', function() {
+		var valor = this.value ;
+		if(valor=="SI"){
+
+			$(".editarnombre_psicologo").attr("style","display:block;");
+		}
+		if(valor=="NO"){
+			$(".editarnombre_psicologo").attr("style","display:none;");
+
+		}
+	  });
+
+	/*   *************** */
+
+	$('.editarCursoANSP').on('change', function() {
+
+		var valor = this.value ;
+		if(valor=="SI"){
+
+			$(".editarfecha_curso_ansp").attr("style","display:block;");
+			$(".editarfecha_curso_ansp").attr("required","required");
+			$(".editarnumero_aprobacion_ansp").attr("required","required");
+		}
+		if(valor=="NO"){
+			$(".editarfecha_curso_ansp").attr("style","display:none;");
+			$(".editarfecha_curso_ansp").removeAttr("required","");
+			$(".editarnumero_aprobacion_ansp").removeAttr("required","");
+
+
+		}
+	  });
+
+	  /* ****************** */
+
+	  $('.editarexamen_poligrafico').on('change', function() {
+		var valor = this.value ;
+		if(valor=="SI"){
+
+			$(".editarFecha_poligrafico").attr("style","display:block;");
+			$(".editarFecha_poligrafico").attr("required","required");
+		}
+		if(valor=="NO"){
+			$(".editarFecha_poligrafico").attr("style","display:none;");
+			$(".editarFecha_poligrafico").removeAttr("required","");
+
+		}
+	  });
+
+	  
+	  /* ****************** */
+
+	  $('#editarCARGO').on('change', function() {
+		var valor = this.value;
+		
+		if(valor=="Agente de Seguridad"){
+			 
+			$(".jefeoperacion_empleado").attr("style","display:block")
+
+			/*  ******** */
+			 var parametros = {
+				"val" : ""
+			};
+			$.ajax({
+					data:  parametros,
+					url:"ajax/llenardinero.ajax.php",
+					type:  'post',
+					dataType: "json",
+					success:  function (response) {
+					
+					$("#editar_sueldo").val(response[4]);
+					$("#editar_hora_extra_diurna").val(response[0]);
+					$("#editar_hora_extra_nocturna").val(response[1]);
+
+					$("#editar_hora_extra_domingo").val(response[2]);
+					$("#editar_hora_extra_nocturna_domingo").val(response[3]);
+		
+
+
+					}
+			});
+			/* ********* */
+			
+	
+	
+		}
+		
+	  });
+
+
+	  /* ***************** */
+	
+	  $('.editarBanco').on('change', function() {
+		var valor = this.value;
+	
+		if(valor=="Banco Agricola"){
+		
+			$("#editar_numero_cuenta").attr("class","form-control input-lg agricola");
+			$('.agricola').mask('0000-00000-0', {reverse: true});
+		
+		}
+		if(valor=="Banco Cuscatlan"){
+
+		
+			$("#editar_numero_cuenta").attr("class","form-control input-lg cuscatlan");
+			$('.cuscatlan').mask('000-000-00-000000-0', {reverse: true});
+
+		}
+	  });
+
+	  /* ***************** */
+
+	  $('.solonumero').on('input', function () { 
+		this.value = this.value.replace(/[^0-9]/g,'');
+	});
+
+
+
+})
+
 /*=============================================
 SUBIENDO LA FOTO DEL EMPLEADO
 =============================================*/
@@ -474,6 +598,10 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 		processData: false,
 		dataType: "json",
 		success: function(respuesta){
+
+			
+		
+
 			
 
             $("#idEmpleado").val(respuesta["id"]);
@@ -902,6 +1030,9 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
                 $("#editarEstado").html("Error");
             }           
 			$("#editarEstado").val(respuesta["estado"]);
+
+
+
 			
 
 			//BUSCAR EL NOMBRE DEL CARGO SEGUN EL CODIGO QUE TENEMOS			
@@ -1420,6 +1551,32 @@ function poblarFormulario(idEmpleado){
 		dataType: "json",
 		success: function(respuesta){
 			
+	
+			if(respuesta["constancia_psicologica"]=="SI"){
+				$(".editarnombre_psicologo").attr("style","display:block;");
+			}
+			if(respuesta["curso_ansp"]=="SI"){
+				$(".fecha_ansp").attr("style","display:block;");
+			}
+			if(respuesta["examen_poligrafico"]=="SI"){
+				$(".editarFecha_poligrafico").attr("style","display:block;");
+			}
+			if(respuesta["id_jefe_operaciones"] ==""){
+			}
+			else{
+				$(".jefeoperacion_empleado").attr("style","display:block;");
+			}
+
+			/* update */
+			$("#editarconstancia_psicologica").val(respuesta["constancia_psicologica"]);
+			$("#editarnombre_psicologo").val(respuesta["nombre_psicologo"]);
+			$("#editarfecha_curso_ansp").val(respuesta["fecha_curso_ansp"]);
+			$("#editarnumero_aprobacion_ansp").val(respuesta["numero_aprobacion_ansp"]);
+			$("#editarexamen_poligrafico").val(respuesta["examen_poligrafico"]);
+			$("#editarFecha_poligrafico").val(respuesta["Fecha_poligrafico"]);
+			$("#editarantecedente_policial").val(respuesta["antecedente_policial"]);
+
+
 
             $("#idEmpleado").val(respuesta["id"]);
             if(respuesta["fotografia"] != ""){

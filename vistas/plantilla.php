@@ -130,6 +130,10 @@ $(document).ready(function() {
     $('.trescaracter').attr("maxlength","3");
     $('.cuatrocaracter').attr("maxlength","4");
 
+/* ******** */
+
+
+
   /* asignar */
 
 
@@ -394,6 +398,7 @@ $(document).ready(function() {
       $(this).val("");
     }
   });
+
   $(".input_correlativo_lista").attr("maxlength","5");
 
 

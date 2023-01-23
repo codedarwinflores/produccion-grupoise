@@ -13,9 +13,9 @@ class ControladorEmpleados{
 		if(isset($_POST["nuevoNombre"])){
             
 			if((preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevoNombre"])) &&
-			   ($_POST["nuevoTipoDocumento"] != "" ) &&
-               ($_POST["nuevoNumeroDocumento"] != "" ) &&
-               ($_POST["nuevoEstado"] != "" ) ){
+							   ($_POST["nuevoTipoDocumento"] != "" ) &&
+							   ($_POST["nuevoNumeroDocumento"] != "" ) &&
+							   ($_POST["nuevoEstado"] != "" ) ){
 
 			   	/*=============================================
 				VALIDAR IMAGEN EMPLEADO
@@ -739,7 +739,20 @@ class ControladorEmpleados{
 							   "documentacion_empleado" => $_POST["nuevodocumentacion_empleado"],
 							   "ansp_empleado" => $_POST["nuevoansp_empleado"],
 							   "uniformeregalado_empleado" => $_POST["nuevouniformeregalado_empleado"],
-							   "fecha_vencimiento_lpa" => $_POST["nuevofecha_nuevofecha_venLTA"]
+							   "fecha_vencimiento_lpa" => $_POST["nuevofecha_nuevofecha_venLTA"],
+
+							   "constancia_psicologica" => $_POST["nuevoconstancia_psicologica"],
+							   "nombre_psicologo" => $_POST["nuevonombre_psicologo"],
+							   "fecha_curso_ansp" => $_POST["nuevofecha_curso_ansp"],
+							   "numero_aprobacion_ansp" => $_POST["nuevonumero_aprobacion_ansp"],
+							   "examen_poligrafico" => $_POST["nuevoexamen_poligrafico"],
+							   "Fecha_poligrafico" => $_POST["nuevoFecha_poligrafico"],
+							   "antecedente_policial" => $_POST["nuevoantecedente_policial"]
+
+
+
+
+
 
                             );
 
@@ -776,13 +789,13 @@ class ControladorEmpleados{
 
 					swal({
 						  type: "error",
-						  title: "El Empleado NO ha sido guardado correctamente",
+						  title: "¡El Empleado no ha sido guardado correctamente!",
 						  showConfirmButton: true,
 						  confirmButtonText: "Cerrar"
 						  }).then(function(result) {
 									if (result.value) {
 
-									window.location = "empleados";
+										window.location = "empleados";
 
 									}
 								})
@@ -1729,8 +1742,14 @@ class ControladorEmpleados{
 							   "id_jefe_operaciones" => $_POST["editarjefe_empleado"],
 							   "imagen_contrato"=>$rutaCONTRATO,
 							   "fecha_vencimiento_lpa" => $_POST["editarfecha_venLTA"],
-							   "constancia_psicologica" => $_POST["editarConstanciaPS"],
-							   "nombre_psicologo" => $_POST["editar_nombre_psicologo"],
+							   "constancia_psicologica" => $_POST["editarconstancia_psicologica"],
+							   "nombre_psicologo" => $_POST["editarnombre_psicologo"],
+							   "fecha_curso_ansp" => $_POST["editarfecha_curso_ansp"],
+							   "numero_aprobacion_ansp" => $_POST["editarnumero_aprobacion_ansp"],
+							   "examen_poligrafico" => $_POST["editarexamen_poligrafico"],
+							   "Fecha_poligrafico" => $_POST["editarFecha_poligrafico"],
+							   "antecedente_policial" => $_POST["editarantecedente_policial"],
+
                                "id"=>$_POST["idEmpleado"]);
 
 				

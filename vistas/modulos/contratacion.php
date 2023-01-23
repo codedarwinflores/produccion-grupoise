@@ -13,7 +13,9 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
 
 }
 //require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
-require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
+/* require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php"); */
+require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
+
 
 
 ?>
@@ -802,14 +804,47 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                       HA CURSADO ANSP?              
                       <div class="input-group">              
                         <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-                        <select class="form-control input-lg" name="editarCursoANSP">                  
+                        <select class="form-control input-lg editarCursoANSP" name="editarCursoANSP">                  
                           <option value="" id="editarCursoANSP"></option>  
                           <option value="SI">SI</option>
                           <option value="NO">NO</option>                  
                         </select>
                       </div>
                     </div>
-                </div>               
+                </div>  
+                
+                
+
+                <!-- *******NUEVO CODIGO******** -->
+
+                
+
+
+                <div class="col-md-6 editarfecha_curso_ansp fecha_ansp" style="display: none;"> 
+                    <!-- ENTRADA PARA SELECCIONAR SI TIENE Aprobó curso ANSP -->
+                    <div class="form-group editarfecha_curso_ansp" > 
+                        Fecha en la que aprobó curso ANSP:             
+                        <div class="input-group">              
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span> 
+                            <input type="text" value="" class="calendario editarfecha_curso_ansp form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY" name="editarfecha_curso_ansp" id="editarfecha_curso_ansp" fecha="editarfecha_curso_ansp" placeholder="Ingresar Fecha" readonly="" >
+                        </div>
+                    </div>
+                </div>    
+                
+                <div class="col-md-6 editarfecha_curso_ansp fecha_ansp" style="display: none;">
+
+                 <!-- ENTRADA PARA SELECCIONAR SI TIENE Aprobó curso ANSP -->
+                 <div class="form-group editarfecha_curso_ansp" > 
+                        Número de Aprobación :             
+                        <div class="input-group">              
+                            <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                            <input type="text" class="solonumero editarnumero_aprobacion_ansp  form-control input-lg"  name="editarnumero_aprobacion_ansp" id="editarnumero_aprobacion_ansp"  maxlength="20" placeholder="Ingresar Número de Aprobación">
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- **************** -->
             </div>
 
             <div class="col-md-12" >                
@@ -1096,6 +1131,34 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                 </div>                
             </div>
 
+            <!-- *********** -->
+
+            
+
+
+            <div class="col-md-12" >
+                
+                <div class="col-md-12" bis_skin_checked="1">           
+                        <div class="form-group" bis_skin_checked="1">   
+                            Tiene Antecedentes policiales:           
+                            <div class="input-group" bis_skin_checked="1">              
+                                <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+
+                                <select class="form-control input-lg editarantecedente_policial" name="editarantecedente_policial" id="editarantecedente_policial">
+                                    <option value="">Tiene Antecedentes policiales</option>
+                                    <option value="SI">SI</option>
+                                    <option value="NO">NO</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+
+           
+            </div>
+
+            <!-- ************* -->
+
             <div class="col-md-12" > 
                 <div class="col-md-6" >
                     <!-- ENTRADA PARA FECHA VENC AP-->  
@@ -1145,8 +1208,92 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                 </div>                
             </div>
            
+
+            <!-- **********NUEVO CAMPOS******** -->
+           
+            
+            <div class="col-md-12">
+                
+                    <div class="col-md-6" bis_skin_checked="1">           
+                        <div class="form-group" bis_skin_checked="1">   
+                            Constancia Psicológica:           
+                            <div class="input-group" bis_skin_checked="1">              
+                                <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+
+                                <select class="form-control input-lg editarconstancia_psicologica" name="editarconstancia_psicologica" id="editarconstancia_psicologica">
+                                    <option value="">Constancia Psicológica</option>
+                                    <option value="SI">SI</option>
+                                    <option value="NO">NO</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                                     
+                    
+                <div class="col-md-6" >     
+                    <div class="form-group">
+                        <div class="">Nombre del Psicologo</div>
+                        <div class="">
+                            <select   class="form-control  input-lg editarnombre_psicologo" name="editarnombre_psicologo" id="editarnombre_psicologo" style="display: none;" >
+                                    <option value="vacio">Seleccione el Nombre del Psicologo</option>
+                                    <?php
+                                    function getcargo() {
+                                    $query = "SELECT * FROM configuracion";
+                                    $sql = Conexion::conectar()->prepare($query);
+                                    $sql->execute();			
+                                    return $sql->fetchAll();
+                                    };
+                                    
+                                    $data = getcargo();
+                                    foreach($data as $row) {
+                                    echo "<option value='".$row["psicologo"]."' >".$row["psicologo"]."</option>";
+                                    }
+                                    ?>
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
            
 
+            <div class="col-md-12">
+
+                    <div class="col-md-6" bis_skin_checked="1">           
+                        <div class="form-group" bis_skin_checked="1">   
+                            Tiene examen poligráfico:           
+                            <div class="input-group" bis_skin_checked="1">              
+                                <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+
+                                <select class="form-control input-lg editarexamen_poligrafico" name="editarexamen_poligrafico" id="editarexamen_poligrafico">
+                                    <option value="">Tiene examen poligráfico</option>
+                                    <option value="SI">SI</option>
+                                    <option value="NO">NO</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4" bis_skin_checked="1">           
+                        <div class="form-group" bis_skin_checked="1">   
+                            Fecha examen poligráfico:           
+                            <div class="input-group" bis_skin_checked="1">              
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span> 
+
+                                <input type="text" class="form-control input-lg calendario editarFecha_poligrafico" name="editarFecha_poligrafico" id="editarFecha_poligrafico" readonly="readonly" style="display: none;">
+                              
+
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+
+            
+
+            <!-- ***************************** -->
             <div class="col-md-12" >                
                 <div class="col-md-4" > 
                      <!-- ENTRADA PARA SUBIR CONSTANCIA PSYCOLOGICA -->
@@ -1220,12 +1367,12 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                     CARGO:            
                       <div class="input-group">              
                         <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-                        <select class="form-control input-lg editarCARGO" name="editarCARGO"   >
-                          <option id="editarCARGO"></option>
+                        <select class="form-control input-lg editarCARGO" name="editarCARGO"  id="editarCARGO" >
+                          <option id="editarCARGO" value="">Seleccione el Cargo</option>
                           <?php
                             $datos_mostrar_cargo = ControladorCargos::ctrMostrar($item, $valor);
                             foreach ($datos_mostrar_cargo as $key => $value){
-                              echo '<option value="'.$value["nivel"].'">'.$value["descripcion"].'</option>';                     
+                              echo '<option value="'.$value["descripcion"].'">'.$value["descripcion"].'</option>';                     
                             }
                           ?>
                         </select>
@@ -1333,6 +1480,8 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                     </div>
                   </div>
                 </div>
+                <div class="col-md-12" ></div>
+
                 <div class="col-md-6" > 
                     <div class="form-group">
                     Uniforme regalado:
@@ -1587,12 +1736,12 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                         <!-- ENTRADA PARA BANCO-->                         
                        <div class="form-group"> 
                           Banco:
-                          <select class="form-control input-lg" name="editarBanco"  >                  
-                          <option id="editarBanco"></option>
+                          <select class="form-control input-lg editarBanco" name="editarBanco"  >                  
+                          <option id="editarBanco">Seleccione un Banco</option>
                             <?php
                               $datos_mostrar_banco = ControladorBancos::ctrMostrarBancos($item, $valor);
                               foreach ($datos_mostrar_banco as $key => $value){
-                                echo '<option value="'.$value["id"].'">'.$value["nombre"].'</option>';                     
+                                echo '<option value="'.$value["nombre"].'">'.$value["nombre"].'</option>';                     
                               }
                             ?>
                           </select>
@@ -1614,21 +1763,31 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
             </div>
 
             <div class="col-md-12" >
-              <div class="col-md-4" id="divJOP" > 
+              <div class="col-md-4 jefeoperacion_empleado" id="divJOP" style="display: none;" > 
                   <!-- ENTRADA PARA JEFE OPERQACIONES A CARGO--> 
                   <div class="form-group" >
                     Jefe operaciones:
                       <div class="input-group">           
                           <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                          <select class="form-control input-lg" name="editarjefe_empleado"  >                  
-                            <option id="editarjefe_empleado"></option>
+                          <select class="form-control input-lg " name="editarjefe_empleado"  >   
+                            <option id="editarjefe_empleado" value="">Seleccione Jefe de Operaciones</option>
 
                             <?php
-                              $datos_mostrar_cargo = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
-                              foreach ($datos_mostrar_cargo as $key => $value){                                 
-                                echo '<option value="'.$value["id"].'">'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["primer_apellido"].'</option>';                     
+                                                      
+                              function configuracion() {
+                                    
+                                  $query = "SELECT * from tbl_empleados where nivel_cargo='Jefe de Operaciones'";
+                                  $sql = Conexion::conectar()->prepare($query);
+                                  $sql->execute();			
+                                  return $sql->fetchAll();
+                                };
+                              $data = configuracion();
+                              foreach($data as $value) {
+                               echo "<option value=".$value["id"].">".$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["primer_apellido"]."</option>";
                               }
-                          ?>
+                            ?>
+                          
+                          
                           </select>
                       </div>
                     </div>  
@@ -1682,32 +1841,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                     </div>                      
                 </div>                
             </div>
-            <div class="col-md-12" >                
-                <div class="col-md-6" >
-                    <!-- ENTRADA PARA SELECCIONAR CONSTANCIA PSICOLOGICA-->         
-                    <div class="form-group">  
-                        Tiene constancia psicol&oacute;gica?:            
-                        <div class="input-group">              
-                            <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                            <select class="form-control input-lg" name="editarConstanciaPS"  >                  
-                              <option value="" id="editarConstanciaPS" ></option>
-                              <option value="SI">SI</option>
-                              <option value="NO">NO</option>
-                            </select>
-                        </div>
-                    </div>
-                </div> 
-                <div class="col-md-6" >
-                    <!-- ENTRADA PARA NOMBRE PSICOLOGO--> 
-                    <div class="form-group"> 
-                      Nombre del Psic&oacute;logo:
-                      <div class="input-group">           
-                          <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                          <input type="text"   class="form-control input-lg " name="editar_nombre_psicologo" id="editar_nombre_psicologo" placeholder="Ingresar Nombre psicologo" readonly>
-                      </div>
-                    </div>
-                </div> 
-            </div>
+         
                 
            
             

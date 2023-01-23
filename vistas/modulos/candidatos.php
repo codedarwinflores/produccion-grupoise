@@ -13,7 +13,7 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
 
 }
 //require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
-require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
+require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
 
 
 ?>
@@ -32,7 +32,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
         </h1>
         <ol class="breadcrumb">      
         <li><a href="empleados"><i class="fa fa fa-drivers-license-o"></i> Empleados</a></li>      
-        <li class="active">Volver</li>    
+        <li class="active" > <a href="empleados"> Volver </a></li>    
         </ol>
         </section>
         
@@ -782,20 +782,47 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                 </div>
                 
                 <div class="col-md-6" > 
-                    <!-- ENTRADA PARA SELECCIONAR SI TIENE CURSO ANSP -->
+                    <!-- ENTRADA PARA SELECCIONAR SI TIENE Aprobó curso ANSP -->
                     <div class="form-group"> 
-                        Curso ANSP:             
+                        Aprobó curso ANSP:             
                         <div class="input-group">              
                             <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                            <select class="form-control input-lg" name="nuevoCursoANSP">                  
-                                <option value="">Tiene Curso ANSP</option>
+                            <select class="form-control input-lg nuevoCursoANSP" name="nuevoCursoANSP">                  
+                                <option value=""> Aprobó curso ANSP</option>
                                 <option value="SI">SI</option>
                                 <option value="NO">NO</option>
                             </select>
                         </div>
                     </div>
-                </div>               
+                </div>     
+                
+                
+              <!--   <div class="col-md-6" > 
+                   
+                    <div class="form-group nuevofecha_curso_ansp" style="display: none;"> 
+                        Fecha en la que aprobó curso ANSP:             
+                        <div class="input-group">              
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span> 
+                            <input type="text" value="" class="calendario nuevofecha_curso_ansp form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY" name="nuevofecha_curso_ansp" fecha="nuevofecha_curso_ansp" placeholder="Ingresar Fecha" readonly="">
+                        </div>
+                    </div>
+                </div>    
+                
+                <div class="col-md-6">
+                 <div class="form-group nuevofecha_curso_ansp" style="display: none;"> 
+                        Número de Aprobación :             
+                        <div class="input-group">              
+                            <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                            <input type="text" class="solonumero nuevonumero_aprobacion_ansp  form-control input-lg"  name="nuevonumero_aprobacion_ansp"  maxlength="20" placeholder="Ingresar Número de Aprobación">
+                        </div>
+                    </div>
+
+                </div>
+ -->
+
             </div>
+
+
 
             <div class="col-md-12" >                
                 <div class="col-md-12" >
@@ -1080,6 +1107,26 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                 </div>                
             </div>
 
+            <div class="col-md-12" >
+                
+                <!-- <div class="col-md-12" bis_skin_checked="1">           
+                        <div class="form-group" bis_skin_checked="1">   
+                            Tiene Antecedentes policiales:           
+                            <div class="input-group" bis_skin_checked="1">              
+                                <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+
+                                <select class="form-control input-lg nuevoantecedente_policial" name="nuevoantecedente_policial" id="">
+                                    <option value="">Tiene Antecedentes policiales</option>
+                                    <option value="SI">SI</option>
+                                    <option value="NO">NO</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+ -->
+           
+            </div>
             <div class="col-md-12" > 
                 <div class="col-md-6" >
                      <!-- ENTRADA PARA FECHA VENCIMIENTO AP--> 
@@ -1126,8 +1173,86 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                     </div>
                 </div>                
             </div>
-           
-           
+
+           <!--  <div class="col-md-12">
+                
+                    <div class="col-md-6" bis_skin_checked="1">           
+                        <div class="form-group" bis_skin_checked="1">   
+                            Constancia Psicológica:           
+                            <div class="input-group" bis_skin_checked="1">              
+                                <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+
+                                <select class="form-control input-lg nuevoconstancia_psicologica" name="nuevoconstancia_psicologica" id="">
+                                    <option value="">Constancia Psicológica</option>
+                                    <option value="SI">SI</option>
+                                    <option value="NO">NO</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                                     
+                    
+                <div class="col-md-6" >     
+                    <div class="form-group">
+                        <div class="">Nombre del Psicologo</div>
+                        <div class="">
+                            <select id="editarcargo"  class="form-control  input-lg nuevonombre_psicologo" name="nuevonombre_psicologo" id="" style="display: none;">
+                                    <option value="vacio">Seleccione el Nombre del Psicologo</option>
+                                    <?php
+                                    function getcargo() {
+                                    $query = "SELECT * FROM configuracion ";
+                                    $sql = Conexion::conectar()->prepare($query);
+                                    $sql->execute();			
+                                    return $sql->fetchAll();
+                                    };
+                                    
+                                    $data = getcargo();
+                                    foreach($data as $row) {
+                                    echo "<option value='".$row["psicologo"]."' >".$row["psicologo"]."</option>";
+                                    }
+                                    ?>
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            -->
+
+           <!--  <div class="col-md-12">
+
+                    <div class="col-md-6" bis_skin_checked="1">           
+                        <div class="form-group" bis_skin_checked="1">   
+                            Tiene examen poligráfico:           
+                            <div class="input-group" bis_skin_checked="1">              
+                                <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+
+                                <select class="form-control input-lg nuevoexamen_poligrafico" name="nuevoexamen_poligrafico" id="">
+                                    <option value="">Tiene examen poligráfico</option>
+                                    <option value="SI">SI</option>
+                                    <option value="NO">NO</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4" bis_skin_checked="1">           
+                        <div class="form-group" bis_skin_checked="1">   
+                            Fecha examen poligráfico:           
+                            <div class="input-group" bis_skin_checked="1">              
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span> 
+
+                                <input type="text" class="form-control input-lg calendario nuevoFecha_poligrafico" name="nuevoFecha_poligrafico" readonly="readonly" style="display: none;">
+                              
+
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+            -->
 
             <div class="col-md-12" >                
                 <div class="col-md-4" > 
@@ -1427,7 +1552,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
 
             <div class="modal-footer">
 
-            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal"> <a href="empleados"> Salir</a></button>
 
             <button type="submit" class="btn btn-primary" id="btnGuardarEmpleado">Guardar empleado</button>
 

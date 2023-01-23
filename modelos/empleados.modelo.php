@@ -56,7 +56,7 @@ class ModeloEmpleados{
 
 	static public function mdlIngresarEmpleado($tabla, $datos){
 
-		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (primer_nombre, segundo_nombre, tercer_nombre, primer_apellido, segundo_apellido, apellido_casada, estado_civil, sexo, direccion, id_departamento, id_municipio, documento_identidad, numero_documento_identidad, telefono, numero_isss, nombre_segun_isss, lugar_expedicion_documento, fecha_expedicion_documento, fecha_vencimiento_documento, licencia_conducir, tipo_licencia_conducir, imagen_licencia_conducir, nit, imagen_nit, codigo_afp, nup, profesion_oficio, nacionalidad, lugar_nacimiento, fecha_nacimiento, religion, grado_estudio, plantel, peso, estatura, piel, ojos, cabello, cara, tipo_sangre, senales_especiales, licencia_tenencia_armas, numero_licencia_tenencia_armas, imagen_licencia_tenencia_armas, servicio_militar, fecha_servicio_inicio, fecha_servicio_fin, lugar_servicio, grado_militar, motivo_baja, ex_pnc, curso_ansp, imagen_diploma_ansp, trabajo_anterior, sueldo_que_devengo, trabajo_actual, sueldo_que_devenga, suspendido_trabajo_anterior, empresa_suspendio, motivo_suspension, fecha_suspension, experiencia_laboral, razon_trabajar_en_ise, numero_personas_dependientes, observaciones, telefono_trabajo_anterior, telefono_trabajo_actual, referencia_anterior, evaluacion_anterior, referencia_actual, evaluacion_actual, info_verificada, imagen_solicitud, imagen_partida_nacimiento, imagen_antecedentes_penales, fecha_vencimiento_antecedentes_penales, imagen_solvencia_pnc, fecha_vencimiento_solvencia_pnc, imagen_constancia_psicologica, imagen_examen_poligrafico, imagen_huellas, confiable, estado, nivel_cargo, fotografia, imagen_documento_identidad, pantalon_empleado, camisa_empleado, zapatos_empleado, recomendado_empleado, contacto_empleado, documentacion_empleado, ansp_empleado, uniformeregalado_empleado, fecha_vencimiento_lpa ) VALUES ( :primer_nombre, :segundo_nombre, :tercer_nombre, :primer_apellido, :segundo_apellido, :apellido_casada, :estado_civil, :sexo, :direccion, :id_departamento, :id_municipio, :documento_identidad, :numero_documento_identidad, :telefono, :numero_isss, :nombre_segun_isss, :lugar_expedicion_documento, :fecha_expedicion_documento, :fecha_vencimiento_documento, :licencia_conducir, :tipo_licencia_conducir, :imagen_licencia_conducir, :nit, :imagen_nit, :codigo_afp, :nup, :profesion_oficio, :nacionalidad, :lugar_nacimiento, :fecha_nacimiento, :religion, :grado_estudio, :plantel, :peso, :estatura, :piel, :ojos, :cabello, :cara, :tipo_sangre, :senales_especiales, :licencia_tenencia_armas, :numero_licencia_tenencia_armas, :imagen_licencia_tenencia_armas, :servicio_militar, :fecha_servicio_inicio, :fecha_servicio_fin, :lugar_servicio, :grado_militar, :motivo_baja, :ex_pnc, :curso_ansp, :imagen_diploma_ansp, :trabajo_anterior, :sueldo_que_devengo, :trabajo_actual, :sueldo_que_devenga, :suspendido_trabajo_anterior, :empresa_suspendio, :motivo_suspension, :fecha_suspension, :experiencia_laboral, :razon_trabajar_en_ise, :numero_personas_dependientes, :observaciones, :telefono_trabajo_anterior, :telefono_trabajo_actual, :referencia_anterior, :evaluacion_anterior, :referencia_actual, :evaluacion_actual, :info_verificada, :imagen_solicitud, :imagen_partida_nacimiento, :imagen_antecedentes_penales, :fecha_vencimiento_antecedentes_penales, :imagen_solvencia_pnc, :fecha_vencimiento_solvencia_pnc, :imagen_constancia_psicologica, :imagen_examen_poligrafico, :imagen_huellas, :confiable, :estado, :nivel_cargo, :fotografia, :imagen_documento_identidad, :pantalon_empleado, :camisa_empleado, :zapatos_empleado, :recomendado_empleado, :contacto_empleado, :documentacion_empleado, :ansp_empleado, :uniformeregalado_empleado, :fecha_vencimiento_lpa)");
+		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (primer_nombre, segundo_nombre, tercer_nombre, primer_apellido, segundo_apellido, apellido_casada, estado_civil, sexo, direccion, id_departamento, id_municipio, documento_identidad, numero_documento_identidad, telefono, numero_isss, nombre_segun_isss, lugar_expedicion_documento, fecha_expedicion_documento, fecha_vencimiento_documento, licencia_conducir, tipo_licencia_conducir, imagen_licencia_conducir, nit, imagen_nit, codigo_afp, nup, profesion_oficio, nacionalidad, lugar_nacimiento, fecha_nacimiento, religion, grado_estudio, plantel, peso, estatura, piel, ojos, cabello, cara, tipo_sangre, senales_especiales, licencia_tenencia_armas, numero_licencia_tenencia_armas, imagen_licencia_tenencia_armas, servicio_militar, fecha_servicio_inicio, fecha_servicio_fin, lugar_servicio, grado_militar, motivo_baja, ex_pnc, curso_ansp, imagen_diploma_ansp, trabajo_anterior, sueldo_que_devengo, trabajo_actual, sueldo_que_devenga, suspendido_trabajo_anterior, empresa_suspendio, motivo_suspension, fecha_suspension, experiencia_laboral, razon_trabajar_en_ise, numero_personas_dependientes, observaciones, telefono_trabajo_anterior, telefono_trabajo_actual, referencia_anterior, evaluacion_anterior, referencia_actual, evaluacion_actual, info_verificada, imagen_solicitud, imagen_partida_nacimiento, imagen_antecedentes_penales, fecha_vencimiento_antecedentes_penales, imagen_solvencia_pnc, fecha_vencimiento_solvencia_pnc, imagen_constancia_psicologica, imagen_examen_poligrafico, imagen_huellas, confiable, estado, nivel_cargo, fotografia, imagen_documento_identidad, pantalon_empleado, camisa_empleado, zapatos_empleado, recomendado_empleado, contacto_empleado, documentacion_empleado, ansp_empleado, uniformeregalado_empleado, fecha_vencimiento_lpa, constancia_psicologica, nombre_psicologo, fecha_curso_ansp,numero_aprobacion_ansp, examen_poligrafico, Fecha_poligrafico, antecedente_policial) VALUES ( :primer_nombre, :segundo_nombre, :tercer_nombre, :primer_apellido, :segundo_apellido, :apellido_casada, :estado_civil, :sexo, :direccion, :id_departamento, :id_municipio, :documento_identidad, :numero_documento_identidad, :telefono, :numero_isss, :nombre_segun_isss, :lugar_expedicion_documento, :fecha_expedicion_documento, :fecha_vencimiento_documento, :licencia_conducir, :tipo_licencia_conducir, :imagen_licencia_conducir, :nit, :imagen_nit, :codigo_afp, :nup, :profesion_oficio, :nacionalidad, :lugar_nacimiento, :fecha_nacimiento, :religion, :grado_estudio, :plantel, :peso, :estatura, :piel, :ojos, :cabello, :cara, :tipo_sangre, :senales_especiales, :licencia_tenencia_armas, :numero_licencia_tenencia_armas, :imagen_licencia_tenencia_armas, :servicio_militar, :fecha_servicio_inicio, :fecha_servicio_fin, :lugar_servicio, :grado_militar, :motivo_baja, :ex_pnc, :curso_ansp, :imagen_diploma_ansp, :trabajo_anterior, :sueldo_que_devengo, :trabajo_actual, :sueldo_que_devenga, :suspendido_trabajo_anterior, :empresa_suspendio, :motivo_suspension, :fecha_suspension, :experiencia_laboral, :razon_trabajar_en_ise, :numero_personas_dependientes, :observaciones, :telefono_trabajo_anterior, :telefono_trabajo_actual, :referencia_anterior, :evaluacion_anterior, :referencia_actual, :evaluacion_actual, :info_verificada, :imagen_solicitud, :imagen_partida_nacimiento, :imagen_antecedentes_penales, :fecha_vencimiento_antecedentes_penales, :imagen_solvencia_pnc, :fecha_vencimiento_solvencia_pnc, :imagen_constancia_psicologica, :imagen_examen_poligrafico, :imagen_huellas, :confiable, :estado, :nivel_cargo, :fotografia, :imagen_documento_identidad, :pantalon_empleado, :camisa_empleado, :zapatos_empleado, :recomendado_empleado, :contacto_empleado, :documentacion_empleado, :ansp_empleado, :uniformeregalado_empleado, :fecha_vencimiento_lpa,:constancia_psicologica,:nombre_psicologo, :fecha_curso_ansp,:numero_aprobacion_ansp, :examen_poligrafico, :Fecha_poligrafico, :antecedente_policial)");
 
 		$stmt->bindParam(":primer_nombre", $datos["primer_nombre"], PDO::PARAM_STR);
 		$stmt->bindParam(":segundo_nombre", $datos["segundo_nombre"], PDO::PARAM_STR);
@@ -153,6 +153,16 @@ class ModeloEmpleados{
 		$stmt->bindParam(":ansp_empleado", $datos["ansp_empleado"], PDO::PARAM_STR);
 		$stmt->bindParam(":uniformeregalado_empleado", $datos["uniformeregalado_empleado"], PDO::PARAM_STR);
 		$stmt->bindParam(":fecha_vencimiento_lpa", $datos["fecha_vencimiento_lpa"], PDO::PARAM_STR);
+		$stmt->bindParam(":constancia_psicologica", $datos["constancia_psicologica"], PDO::PARAM_STR);
+		$stmt->bindParam(":nombre_psicologo", $datos["nombre_psicologo"], PDO::PARAM_STR);
+		$stmt->bindParam(":fecha_curso_ansp", $datos["fecha_curso_ansp"], PDO::PARAM_STR);
+		$stmt->bindParam(":numero_aprobacion_ansp", $datos["numero_aprobacion_ansp"], PDO::PARAM_STR);
+		$stmt->bindParam(":examen_poligrafico", $datos["examen_poligrafico"], PDO::PARAM_STR);
+		$stmt->bindParam(":Fecha_poligrafico", $datos["Fecha_poligrafico"], PDO::PARAM_STR);
+		$stmt->bindParam(":antecedente_policial", $datos["antecedente_policial"], PDO::PARAM_STR);
+
+		
+
 
 		if($stmt->execute()){
 			
@@ -164,7 +174,7 @@ class ModeloEmpleados{
 
 		}else{
 			print_r($stmt->errorInfo());
-			return "error";
+			return $stmt;
 		
 		}
 
@@ -300,7 +310,12 @@ class ModeloEmpleados{
 		imagen_contrato=:imagen_contrato,
 		fecha_vencimiento_lpa=:fecha_vencimiento_lpa,
 		constancia_psicologica=:constancia_psicologica,
-		nombre_psicologo=:nombre_psicologo
+		nombre_psicologo=:nombre_psicologo,
+		fecha_curso_ansp=:fecha_curso_ansp,
+		numero_aprobacion_ansp=:numero_aprobacion_ansp,
+		examen_poligrafico=:examen_poligrafico,
+		Fecha_poligrafico=:Fecha_poligrafico,
+		antecedente_policial=:antecedente_policial
         WHERE id = :id"
         );
 
@@ -424,6 +439,13 @@ class ModeloEmpleados{
 		$stmt -> bindParam(":fecha_vencimiento_lpa", $datos["fecha_vencimiento_lpa"], PDO::PARAM_STR);
 		$stmt -> bindParam(":constancia_psicologica", $datos["constancia_psicologica"], PDO::PARAM_STR);
 		$stmt -> bindParam(":nombre_psicologo", $datos["nombre_psicologo"], PDO::PARAM_STR);
+
+		$stmt -> bindParam(":fecha_curso_ansp", $datos["fecha_curso_ansp"], PDO::PARAM_STR);
+		$stmt -> bindParam(":numero_aprobacion_ansp", $datos["numero_aprobacion_ansp"], PDO::PARAM_STR);
+		$stmt -> bindParam(":examen_poligrafico", $datos["examen_poligrafico"], PDO::PARAM_STR);
+		$stmt -> bindParam(":Fecha_poligrafico", $datos["Fecha_poligrafico"], PDO::PARAM_STR);
+		$stmt -> bindParam(":antecedente_policial", $datos["antecedente_policial"], PDO::PARAM_STR);
+
 
 
 

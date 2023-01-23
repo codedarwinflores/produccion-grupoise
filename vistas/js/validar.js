@@ -8,6 +8,10 @@ $(document).ready(function(){
 	$('.duis').mask('00000000-0', {reverse: true});
 
 
+
+
+
+
 })
 
 
