@@ -696,6 +696,11 @@
                         var newDate = dateNEW.split("-").reverse().join("-");                       
                         $(".oficial_editarfecha_venLTA").val(newDate);
                     }
+                    else if(x=="editarfecha_caducidadDD"){                        
+                        var dateNEW = $('.editarfecha_caducidadDD').val();
+                        var newDate = dateNEW.split("-").reverse().join("-");                       
+                        $(".oficial_editarfecha_caducidadDD").val(newDate);
+                    }
                     
                 }
 

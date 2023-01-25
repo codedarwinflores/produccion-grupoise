@@ -136,7 +136,52 @@ class ControladorParentesco{
 	}
 
 	
+/*=============================================
+	EDITAR REGISTRO
+=============================================*/
 
+	static public function ctrEditarParentesco(){
+
+		if(isset($_POST["editarParentesco"])){
+
+				$tabla = "tbl_empleados_parentesco";				
+
+				$datos = array("id" => $_POST["idParentesco"],
+							   "parentesco" => $_POST["editarParentesco"],
+							   "nombre" => $_POST["editarNombreParentesco"],
+							   "edad" => $_POST["editarEdadParentesco"],
+							   "con_vida" => $_POST["editarConVidaParentesco"],
+							   "direccion" => $_POST["editarDireccionParentesco"],
+							   "telefono" => $_POST["editarTelefonoParentesco"]);
+
+				$respuesta = ModeloParentescos::mdlEditarParentescos($tabla, $datos);
+
+				if($respuesta == "ok"){
+
+					echo'<script>
+
+					swal({
+						  type: "success",
+						  title: "El Registro ha sido editado correctamente",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result) {
+									if (result.value) {
+
+									window.location = "empleados";
+
+									}
+								})
+
+					</script>';
+
+				}
+
+
+			
+		}
+
+	}
 	
 
 	

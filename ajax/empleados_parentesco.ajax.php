@@ -18,6 +18,37 @@ if(isset($_POST["bandera_eliminar"])){
 	}
 	echo "0";
 }
+else if(isset($_POST["bandera_editar"])){//Editar Pariente
+	//capturar variables 
+	$id_pariente= $_POST["id_pariente"];
+	$parentesco=$_POST["parentesco"];
+	$nombre=$_POST["nombre"];
+	$edad=$_POST["edad"];
+	$con_vida=$_POST["con_vida"];
+	$direccion=$_POST["direccion"];
+	$telefono=$_POST["telefono"];
+
+	
+
+	$queryEditar=$db->query("UPDATE tbl_empleados_parentesco SET 
+	  parentesco = '$parentesco',
+	  nombre = '$nombre',
+	  edad = '$edad',
+	  con_vida = '$con_vida',
+	  direccion = '$direccion',
+	  telefono = '$telefono'
+	 
+	 WHERE id = $id_pariente" );			 
+	if(!$queryEditar){		
+		echo'<div class="error_ mensajes"><strong>Error</strong><br/>error al editar pariente.</div>';
+		echo $db->last_error();
+		exit();
+	}
+	echo "0";
+
+
+
+}
 else{//Mostrar Pariente
 	//capturar variables 
 	$id_empleado= $_POST["id_empleado"];
@@ -35,7 +66,7 @@ else{//Mostrar Pariente
 						<br><b>Apellidos:</b>&nbsp;&nbsp;".$rowMaestro[4]." ".$rowMaestro[5]." ".$rowMaestro[6]." ".$rowMaestro[7]."
 						<br><b>No Documento:</b>&nbsp;&nbsp;".$rowMaestro[17]."
 						<br><br>
-						<b>LISTA DE PARIENTES REGISTRADOS</b><br>
+						<b style='width: 100%;font-size: large;text-align: center;color: #3c388b;float:left'>LISTA DE PARIENTES REGISTRADOS</b><br>
 						";
 	//TRAER LOS PARIENTES YA REGISTRADOS
 	$queryDetalle=$db->query("SELECT * FROM tbl_empleados_parentesco WHERE id_empleado = $id_empleado" );			 
@@ -46,16 +77,85 @@ else{//Mostrar Pariente
 	}
 	$cadenaDetalle="";
 	while($rowDetalle=$queryDetalle->fetch_row()){	
-		$cadenaDetalle = $cadenaDetalle."
-		<div>
-			<b>Parentesco:</b>&nbsp;&nbsp;&nbsp;".$rowDetalle[2]."<br>
-			<b>Nombre:</b>&nbsp;&nbsp;&nbsp;".$rowDetalle[3]."<br>
-			<b>Edad:</b>&nbsp;&nbsp;&nbsp;".$rowDetalle[4]."<br>
-			<b>Con vida:</b>&nbsp;&nbsp;&nbsp;".$rowDetalle[5]."<br>
-			<b>Direcci&oacute;n:</b>&nbsp;&nbsp;&nbsp;".$rowDetalle[6]."<br>
-			<b>Tel&eacute;fono:</b>&nbsp;&nbsp;&nbsp;".$rowDetalle[7]."<br>
-			<button class='btn btn-danger btnEliminarPariente' idPariente='".$rowDetalle[0]."' onclick ='eliminarPariente(".$rowDetalle[0].")' >Eliminar Pariente</button>
-		</div><br><br>";
+		$cadenaDetalle = $cadenaDetalle.'
+		
+		<input type="hidden" id="idParentesco" name="idParentesco'.$rowDetalle[0].'" id="idParentesco'.$rowDetalle[0].'" value"'.$rowDetalle[0].'">
+		<div class="form-group">
+            <label for="">Parentesco:</label>             
+            <div class="input-group">              
+                <span class="input-group-addon"><i class="fa fa-users"></i></span> 
+                <select class="form-control input-lg" name="editarParentesco'.$rowDetalle[0].'" id="editarParentesco'.$rowDetalle[0].'" required>                  
+					<option value="" >Seleccione Parentesco</option>
+					<option value="'.$rowDetalle[2].'" selected>'.$rowDetalle[2].'</option>  
+					<option value="Esposo(a)">Esposo(a)</option>
+					<option value="Hijo(a)">Hijo(a)</option>
+					<option value="Padre">Padre</option>
+					<option value="Madre">Madre</option>
+					<option value="Hermano(a)">Hermano(a)</option>
+					<option value="Tio(a)">Tio(a)</option>
+					<option value="Primo(a)">Primo(a)</option>
+					<option value="Sobrino(a)">Sobrino(a)</option>
+					<option value="Abuelo(a)">Abuelo(a)</option>
+					<option value="cunado(a)">cunado(a)</option>                 
+                </select>
+            </div>
+        </div>
+		<div class="form-group">
+			<label for="">Nombre Completo:</label>            
+            <div class="input-group">                
+				<span class="input-group-addon"><i class="fa fa-users"></i></span>  
+				<input type="text" class="form-control input-lg " value="'.$rowDetalle[3].'" name="editarNombreParentesco'.$rowDetalle[0].'"  id="editarNombreParentesco'.$rowDetalle[0].'" placeholder="Ingresar Nombre Completo" required >
+			</div>            
+        </div>
+		<div class="form-group">
+			<label for="">Edad:</label>            
+            <div class="input-group">                
+				<span class="input-group-addon"><i class="fa fa-users"></i></span>  
+				<input type="text" class="form-control input-lg " value="'.$rowDetalle[4].'" name="editarEdadParentesco'.$rowDetalle[0].'" id="editarEdadParentesco'.$rowDetalle[0].'"  placeholder="Ingresar Edad" required >
+			</div>            
+        </div>
+		<div class="form-group">
+            <label for="">Con vida?</label>             
+            <div class="input-group">              
+                <span class="input-group-addon"><i class="fa fa-users"></i></span> 
+                <select class="form-control input-lg" name="editarConVidaParentesco'.$rowDetalle[0].'" id="editarConVidaParentesco'.$rowDetalle[0].'" required>                  
+					<option value="" >Seleccione </option>
+					<option value="'.$rowDetalle[5].'" selected>'.$rowDetalle[5].'</option>  
+					<option value="SI">SI</option>
+					<option value="NO">NO</option>					               
+                </select>
+            </div>
+        </div>
+		<div class="form-group">
+			<label for="">Direcci&oacute;n:</label>            
+            <div class="input-group">                
+				<span class="input-group-addon"><i class="fa fa-users"></i></span>  
+				<input type="text" class="form-control input-lg " value="'.$rowDetalle[6].'" name="editarDireccionParentesco'.$rowDetalle[0].'" id="editarDireccionParentesco'.$rowDetalle[0].'" placeholder="Ingresar direcci&oacute;n" required >
+			</div>            
+        </div>
+		<div class="form-group">
+			<label for="">Tel&eacute;fono:</label>            
+            <div class="input-group">                
+				<span class="input-group-addon"><i class="fa fa-users"></i></span>  
+				<input type="text" class="form-control input-lg input_telefono_1 telefono" value="'.$rowDetalle[7].'" name="editarTelefonoParentesco'.$rowDetalle[0].'"  id="editarTelefonoParentesco'.$rowDetalle[0].'" placeholder="Ingresar tel&eacute;fono" required >
+			</div>            
+        </div>
+		<div class="form-group">
+			<label for="">Acciones:</label>            
+            <div class="input-group">                
+				<button type="submit" class="btn btn-info btnEditarPariente" idPariente="'.$rowDetalle[0].'" onclick ="editarPariente('.$rowDetalle[0].')" >Guardar Cambios</button>
+				<button class="btn btn-danger btnEliminarPariente" idPariente="'.$rowDetalle[0].'" onclick ="eliminarPariente('.$rowDetalle[0].')" >Eliminar</button>
+			</div>            
+        </div>
+		<hr style="border-width: 1px;border-color: #8b8888;	"></hr>
+		
+		
+		';
+		
+
+		
+
+		
 	}
 	echo $cadenaMaestro.$cadenaDetalle;	
 

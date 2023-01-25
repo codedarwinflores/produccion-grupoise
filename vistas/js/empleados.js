@@ -1112,7 +1112,60 @@ $( ".btnParentesco" ).click(function() {
 	})
 
 });
+/*=============================================
+EDITAR PARIENTE
+=============================================*/
 
+function editarPariente(idPariente){	
+	var datosParentesco = new FormData();
+	datosParentesco.append("bandera_editar", "editar");
+	datosParentesco.append("id_pariente", idPariente);
+	datosParentesco.append("parentesco", document.getElementById("editarParentesco"+idPariente).value);
+	datosParentesco.append("nombre", document.getElementById("editarNombreParentesco"+idPariente).value);
+	datosParentesco.append("edad", document.getElementById("editarEdadParentesco"+idPariente).value);
+	datosParentesco.append("con_vida", document.getElementById("editarConVidaParentesco"+idPariente).value);
+	datosParentesco.append("direccion", document.getElementById("editarDireccionParentesco"+idPariente).value);
+	datosParentesco.append("telefono", document.getElementById("editarTelefonoParentesco"+idPariente).value);
+	$.ajax({
+	    url:"ajax/empleados_parentesco.ajax.php",
+	    method:"POST",
+	    data: datosParentesco,
+	    cache: false,
+	    contentType: false,
+	    processData: false,
+	    dataType: "text",
+	    success:function(respuestaParentesco){
+			alert(respuestaParentesco);
+	    	if(respuestaParentesco =="0"){
+				//alert("Pariente eliminado correctamente");
+				swal({
+
+					type: "success",
+					title: "Pariente ha sido editado correctamente!",
+					showConfirmButton: true,
+					confirmButtonText: "Cerrar"
+
+				}).then(function(result){
+
+					if(result.value){
+					
+						window.location = "empleados";
+
+					}
+
+				});
+			}
+			else{
+				alert("Pariente no pudo editarse");
+				location.reload();
+			}
+	    	
+
+	    }
+
+	})
+	
+}
 
 /*=============================================
 ELIMINAR PARIENTE
@@ -1189,7 +1242,58 @@ $( ".btnDescuentos" ).click(function() {
 	
 
 });
+/*=============================================
+EDITAR DEVENGO O DESCUENTO
+=============================================*/
 
+function editarDD(idDD){	
+	var datosDD = new FormData();
+	datosDD.append("bandera_editar", "editar");
+	datosDD.append("id_descuento", idDD);
+	datosDD.append("id_tipo_devengo_descuento", document.getElementById("editarTipoDD"+idDD).value);
+	datosDD.append("valor", document.getElementById("editarValorDD"+idDD).value);
+	datosDD.append("fecha_caducidad", document.getElementById("editarFechaCaducidadDD"+idDD).value);
+	datosDD.append("referencia", document.getElementById("editarReferenciaDD"+idDD).value);	
+	$.ajax({
+	    url:"ajax/empleados_descuento.ajax.php",
+	    method:"POST",
+	    data: datosDD,
+	    cache: false,
+	    contentType: false,
+	    processData: false,
+	    dataType: "text",
+	    success:function(respuestaDescuento){
+			
+	    	if(respuestaDescuento =="0"){
+				//alert("Pariente eliminado correctamente");
+				swal({
+
+					type: "success",
+					title: "El Registro ha sido editado correctamente!",
+					showConfirmButton: true,
+					confirmButtonText: "Cerrar"
+
+				}).then(function(result){
+
+					if(result.value){
+					
+						window.location = "empleados";
+
+					}
+
+				});
+			}
+			else{
+				alert("No pudo editarse el registro");
+				location.reload();
+			}
+	    	
+
+	    }
+
+	})
+	
+}
 /*=============================================
 ELIMINAR DESCUENTO O DEVENGO
 =============================================*/

@@ -55,7 +55,37 @@ class ModeloParentescos{
 	}
 
 	
+/*=============================================
+	EDITAR REGISTRO
+=============================================*/
 
+	static public function mdlEditarParentescos($tabla, $datos){
+	
+		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET parentesco = :parentesco, nombre = :nombre, edad = :edad, con_vida = :con_vida, direccion = :direccion, telefono = :telefono WHERE id = :id");
+
+		$stmt -> bindParam(":parentesco", $datos["parentesco"], PDO::PARAM_STR);
+		$stmt -> bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
+        $stmt -> bindParam(":edad", $datos["edad"], PDO::PARAM_STR);
+        $stmt -> bindParam(":con_vida", $datos["con_vida"], PDO::PARAM_STR);
+        $stmt -> bindParam(":direccion", $datos["direccion"], PDO::PARAM_STR);
+        $stmt -> bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
+		$stmt -> bindParam(":id", $datos["id"], PDO::PARAM_STR);
+
+		if($stmt -> execute()){
+
+			return "ok";
+		
+		}else{
+
+			return "error";	
+
+		}
+
+		$stmt -> close();
+
+		$stmt = null;
+
+	}
 	
 
 	
