@@ -463,6 +463,24 @@ function getContent() {
                   </div>
 
 
+                   
+                  <div class="form-group">
+                      <label for="" class="">Cuentas de Ventas</label> 
+                      <div class="">
+                        <input type="text" id="editarcuentas_ventas"  class="form-control nit" name="editarcuentas_ventas" >
+                      </div>
+                  </div>
+
+                  
+                   
+                  <div class="form-group">
+                      <label for="" class="">CXC</label> 
+                      <div class="">
+                        <input type="text" id="editarcxc"  class="form-control nit" name="editarcxc" >
+                      </div>
+                  </div>
+
+
                   <a class="btn btn-success" href="diasferiados">Agregar Dia Feriado</a>
                   <table class="table">
                     <thead>

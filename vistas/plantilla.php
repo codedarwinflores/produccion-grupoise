@@ -516,6 +516,9 @@ CUERPO DOCUMENTO
          $_GET["ruta"] == "imprimirficha" ||
          $_GET["ruta"] == "candidatos" ||
          $_GET["ruta"] == "contratacion" ||
+         $_GET["ruta"] == "fichapolicia" ||
+         $_GET["ruta"] == "pdffichapolicia" ||
+         $_GET["ruta"] == "fichadactilar" ||
          $_GET["ruta"] == "salir"){
 
         include "modulos/".$_GET["ruta"].".php";

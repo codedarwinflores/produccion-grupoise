@@ -2356,7 +2356,7 @@ MODAL PARENTESCO
           <div class="box-body">
 
           <form role="form" method="post" enctype="multipart/form-data">
-          <label for="" style="width: 100%;font-size: large;text-align: center;color: #3c388b;">FORMULARIO DE INGRESO DE NUEVO PARIENTE</label> 
+          <label for="">FORMULARIO DE INGRESO DE NUEVO PARIENTE</label> 
             <!-- ENTRADA PARA SELECCIONAR TIPO DOCUMENTO -->
             <input type="hidden" name="idEmpleadoParentesco" id="idEmpleadoParentesco" value="">
             <div class="form-group">
@@ -2491,7 +2491,7 @@ MODAL DESCUENTOS
           <div class="box-body">
 
           <form role="form" method="post" enctype="multipart/form-data">
-          <label for="" style="width: 100%;font-size: large;text-align: center;color: #3c388b;">FORMULARIO DE INGRESO DE NUEVO DEVENGO O DESCUENTO</label> 
+          <label for="">FORMULARIO DE INGRESO DE NUEVO DEVENGO O DESCUENTO</label> 
             <!-- ENTRADA PARA SELECCIONAR TIPO DOCUMENTO -->
             <input type="hidden" name="idEmpleadoDescuento" id="idEmpleadoDescuento" value="">
            
@@ -2602,7 +2602,7 @@ MODAL SEMINARIO
           <div class="box-body">
 
           <form role="form" method="post" enctype="multipart/form-data">
-          <label for="" style="width: 100%;font-size: large;text-align: center;color: #3c388b;">FORMULARIO DE NUEVO SEMINARIO</label> 
+          <label for="">FORMULARIO DE NUEVO SEMINARIO</label> 
             <!-- ENTRADA PARA SELECCIONAR TIPO DOCUMENTO -->
             <input type="hidden" name="idEmpleadoSeminario" id="idEmpleadoSeminario" value="">
            

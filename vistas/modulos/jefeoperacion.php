@@ -203,16 +203,28 @@ MODAL AGREGAR
                     <span class="input-group-addon"><i class="fa fa-users"></i></span>
                     <select name="nuevoid_empleado" id="" class="form-control input-lg " required>
                       <option value="">Seleccione Jefe de Operaciones</option>
-                    <?php
-                        $datos_mostrar = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
-                        foreach ($datos_mostrar as $key => $value){
-                    ?>
-                        <option value="<?php echo $value['id'] ?>">
-                          <?php echo $value["primer_nombre"].' '.$value["primer_apellido"] ?>
-                        </option>  
-                    <?php
-                        }
-                      ?>
+                      <?php
+                                   
+                                   function tblempleados() {
+                                     $query01 = "SELECT tbl_empleados.id as idempleado, tbl_empleados.* FROM tbl_empleados
+                                     INNER JOIN cargos_desempenados 
+                                     WHERE tbl_empleados.nivel_cargo = cargos_desempenados.id AND  cargos_desempenados.descripcion='Jefe de Operaciones'";
+                                     $sql = Conexion::conectar()->prepare($query01);
+                                     $sql->execute();			
+                                     return $sql->fetchAll();
+                                     }
+
+                                     $data01 = tblempleados();
+                                     foreach($data01 as $rowempleado) {
+                                   
+
+                                        echo "<option value='".$rowempleado["idempleado"]."' >".$rowempleado["primer_nombre"].' '.$rowempleado["segundo_nombre"].' '.$rowempleado["tercer_nombre"].' '.$rowempleado["primer_apellido"].' '.$rowempleado["segundo_apellido"].' '.$rowempleado["apellido_casada"]."</option>";
+                                  
+                                     }
+
+                                   ?>
+
+
                     </select>
                 </div>
             
@@ -672,16 +684,28 @@ MODAL EDITAR
                     <span class="input-group-addon"><i class="fa fa-users"></i></span>
                     <select name="editarid_empleado" id="editarid_empleado" class="form-control input-lg " required>
                       <option value="">Seleccione Jefe de Operaciones</option>
-                    <?php
-                        $datos_mostrar = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
-                        foreach ($datos_mostrar as $key => $value){
-                    ?>
-                        <option value="<?php echo $value['id'] ?>">
-                          <?php echo $value["primer_nombre"].' '.$value["primer_apellido"] ?>
-                        </option>  
-                    <?php
-                        }
-                      ?>
+                      <?php
+                                   
+                                   function tblempleadosmodificar() {
+                                     $query01 = "SELECT tbl_empleados.id as idempleado, tbl_empleados.* FROM tbl_empleados
+                                     INNER JOIN cargos_desempenados 
+                                     WHERE tbl_empleados.nivel_cargo = cargos_desempenados.id AND  cargos_desempenados.descripcion='Jefe de Operaciones'";
+                                     $sql = Conexion::conectar()->prepare($query01);
+                                     $sql->execute();			
+                                     return $sql->fetchAll();
+                                     }
+
+                                     $data01 = tblempleadosmodificar();
+                                     foreach($data01 as $rowempleado) {
+                                   
+
+                                        echo "<option value='".$rowempleado["idempleado"]."' >".$rowempleado["primer_nombre"].' '.$rowempleado["segundo_nombre"].' '.$rowempleado["tercer_nombre"].' '.$rowempleado["primer_apellido"].' '.$rowempleado["segundo_apellido"].' '.$rowempleado["apellido_casada"]."</option>";
+                                  
+                                     }
+
+                                   ?>
+
+
                     </select>
                 </div>
             

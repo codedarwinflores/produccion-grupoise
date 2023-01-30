@@ -193,6 +193,39 @@ $(".nuevaFotoDoc").change(function(){
 })
 
 
+/*=============================================
+SUBIENDO LA FOTO DE LICENCIA DE CONDUCIR
+=============================================*/
+$(".nuevaFotoLicCond").change(function(){
+	var imagen = this.files[0];	
+	/*=============================================
+  	VALIDAMOS EL FORMATO DE LA IMAGEN SEA JPG O PNG
+  	=============================================*/
+  	if(imagen["type"] != "image/jpeg" && imagen["type"] != "image/png"){
+  		$(".nuevaFotoLicCond").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen debe estar en formato JPG o PNG!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else if(imagen["size"] > 2000000){
+  		$(".nuevaFotoLicCond").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen no debe pesar más de 2MB!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else{
+  		var datosImagen = new FileReader;
+  		datosImagen.readAsDataURL(imagen);
+  		$(datosImagen).on("load", function(event){
+  			var rutaImagen = event.target.result;
+  			$(".previsualizarLicCond").attr("src", rutaImagen);
+  		})
+  	}
+})
 
 /*=============================================
 SUBIENDO LA FOTO DE NIT
@@ -330,7 +363,39 @@ $(".nuevaFotoSOLICITUD").change(function(){
 })
 
 
-
+/*=============================================
+SUBIENDO LA FOTO DE LA PARTIDA DE NACIMIENTO
+=============================================*/
+$(".nuevaFotoPARTIDA").change(function(){
+	var imagen = this.files[0];	
+	/*=============================================
+  	VALIDAMOS EL FORMATO DE LA IMAGEN SEA JPG O PNG
+  	=============================================*/
+  	if(imagen["type"] != "image/jpeg" && imagen["type"] != "image/png"){
+  		$(".nuevaFotoPARTIDA").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen debe estar en formato JPG o PNG!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else if(imagen["size"] > 2000000){
+  		$(".nuevaFotoPARTIDA").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen no debe pesar más de 2MB!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else{
+  		var datosImagen = new FileReader;
+  		datosImagen.readAsDataURL(imagen);
+  		$(datosImagen).on("load", function(event){
+  			var rutaImagen = event.target.result;
+  			$(".previsualizarPARTIDA").attr("src", rutaImagen);
+  		})
+  	}
+})
 
 
 /*=============================================
@@ -402,7 +467,74 @@ $(".nuevaFotoSOLVENCIAPNC").change(function(){
 })
 
 
+/*=============================================
+SUBIENDO LA FOTO DE CONSTANCIA PSYCO
+=============================================*/
+$(".nuevaFotoPSYCO").change(function(){
+	var imagen = this.files[0];	
+	/*=============================================
+  	VALIDAMOS EL FORMATO DE LA IMAGEN SEA JPG O PNG
+  	=============================================*/
+  	if(imagen["type"] != "image/jpeg" && imagen["type"] != "image/png"){
+  		$(".nuevaFotoPSYCO").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen debe estar en formato JPG o PNG!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else if(imagen["size"] > 2000000){
+  		$(".nuevaFotoPSYCO").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen no debe pesar más de 2MB!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else{
+  		var datosImagen = new FileReader;
+  		datosImagen.readAsDataURL(imagen);
+  		$(datosImagen).on("load", function(event){
+  			var rutaImagen = event.target.result;
+  			$(".previsualizarPSYCO").attr("src", rutaImagen);
+  		})
+  	}
+})
 
+
+/*=============================================
+SUBIENDO LA FOTO DE EXAMEN POLIGRAFICO
+=============================================*/
+$(".nuevaFotoPOLI").change(function(){
+	var imagen = this.files[0];	
+	/*=============================================
+  	VALIDAMOS EL FORMATO DE LA IMAGEN SEA JPG O PNG
+  	=============================================*/
+  	if(imagen["type"] != "image/jpeg" && imagen["type"] != "image/png"){
+  		$(".nuevaFotoPOLI").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen debe estar en formato JPG o PNG!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else if(imagen["size"] > 2000000){
+  		$(".nuevaFotoPOLI").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen no debe pesar más de 2MB!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else{
+  		var datosImagen = new FileReader;
+  		datosImagen.readAsDataURL(imagen);
+  		$(datosImagen).on("load", function(event){
+  			var rutaImagen = event.target.result;
+  			$(".previsualizarPOLI").attr("src", rutaImagen);
+  		})
+  	}
+})
 
 /*=============================================
 SUBIENDO LA FOTO DE HUELLAS DIGITALES
@@ -615,7 +747,12 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 			$("#editarTipoLicenciaConducir").html(respuesta["tipo_licencia_conducir"]);
 			$("#editarTipoLicenciaConducir").val(respuesta["tipo_licencia_conducir"]);
 
-			
+			if(respuesta["imagen_licencia_conducir"] != ""){
+				$(".previsualizarEditarLicCond").attr("src", respuesta["imagen_licencia_conducir"]);
+			}else{
+				$(".previsualizarEditarLicCond").attr("src", "vistas/img/usuarios/default/anonymous.png");
+			}
+            $("#fotoActualLicCond").val(respuesta["imagen_licencia_conducir"]);
 
 
 
@@ -780,7 +917,12 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 			}
             $("#fotoActualSOLICITUD").val(respuesta["imagen_solicitud"]);
 
-			
+			if(respuesta["imagen_partida_nacimiento"] != ""){
+				$(".previsualizarEditarPARTIDA").attr("src", respuesta["imagen_partida_nacimiento"]);
+			}else{
+				$(".previsualizarEditarPARTIDA").attr("src", "vistas/img/usuarios/default/anonymous.png");
+			}
+            $("#fotoActualPARTIDA").val(respuesta["imagen_partida_nacimiento"]);
 
 			if(respuesta["imagen_antecedentes_penales"] != ""){
 				$(".previsualizarEditarANTECEDENTES").attr("src", respuesta["imagen_antecedentes_penales"]);
@@ -826,7 +968,21 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 			}
 			
 
-			
+			if(respuesta["imagen_constancia_psicologica"] != ""){
+				$(".previsualizarEditarPSYCO").attr("src", respuesta["imagen_constancia_psicologica"]);
+			}else{
+				$(".previsualizarEditarPSYCO").attr("src", "vistas/img/usuarios/default/anonymous.png");
+			}
+            $("#fotoActualPSYCO").val(respuesta["imagen_constancia_psicologica"]);
+
+
+
+			if(respuesta["imagen_examen_poligrafico"] != ""){
+				$(".previsualizarEditarPOLI").attr("src", respuesta["imagen_examen_poligrafico"]);
+			}else{
+				$(".previsualizarEditarPOLI").attr("src", "vistas/img/usuarios/default/anonymous.png");
+			}
+            $("#fotoActualPOLI").val(respuesta["imagen_examen_poligrafico"]);
 
 			if(respuesta["imagen_huellas"] != ""){
 				$(".previsualizarEditarHUELLAS").attr("src", respuesta["imagen_huellas"]);
@@ -1112,60 +1268,7 @@ $( ".btnParentesco" ).click(function() {
 	})
 
 });
-/*=============================================
-EDITAR PARIENTE
-=============================================*/
 
-function editarPariente(idPariente){	
-	var datosParentesco = new FormData();
-	datosParentesco.append("bandera_editar", "editar");
-	datosParentesco.append("id_pariente", idPariente);
-	datosParentesco.append("parentesco", document.getElementById("editarParentesco"+idPariente).value);
-	datosParentesco.append("nombre", document.getElementById("editarNombreParentesco"+idPariente).value);
-	datosParentesco.append("edad", document.getElementById("editarEdadParentesco"+idPariente).value);
-	datosParentesco.append("con_vida", document.getElementById("editarConVidaParentesco"+idPariente).value);
-	datosParentesco.append("direccion", document.getElementById("editarDireccionParentesco"+idPariente).value);
-	datosParentesco.append("telefono", document.getElementById("editarTelefonoParentesco"+idPariente).value);
-	$.ajax({
-	    url:"ajax/empleados_parentesco.ajax.php",
-	    method:"POST",
-	    data: datosParentesco,
-	    cache: false,
-	    contentType: false,
-	    processData: false,
-	    dataType: "text",
-	    success:function(respuestaParentesco){
-			alert(respuestaParentesco);
-	    	if(respuestaParentesco =="0"){
-				//alert("Pariente eliminado correctamente");
-				swal({
-
-					type: "success",
-					title: "Pariente ha sido editado correctamente!",
-					showConfirmButton: true,
-					confirmButtonText: "Cerrar"
-
-				}).then(function(result){
-
-					if(result.value){
-					
-						window.location = "empleados";
-
-					}
-
-				});
-			}
-			else{
-				alert("Pariente no pudo editarse");
-				location.reload();
-			}
-	    	
-
-	    }
-
-	})
-	
-}
 
 /*=============================================
 ELIMINAR PARIENTE
@@ -1242,58 +1345,7 @@ $( ".btnDescuentos" ).click(function() {
 	
 
 });
-/*=============================================
-EDITAR DEVENGO O DESCUENTO
-=============================================*/
 
-function editarDD(idDD){	
-	var datosDD = new FormData();
-	datosDD.append("bandera_editar", "editar");
-	datosDD.append("id_descuento", idDD);
-	datosDD.append("id_tipo_devengo_descuento", document.getElementById("editarTipoDD"+idDD).value);
-	datosDD.append("valor", document.getElementById("editarValorDD"+idDD).value);
-	datosDD.append("fecha_caducidad", document.getElementById("editarFechaCaducidadDD"+idDD).value);
-	datosDD.append("referencia", document.getElementById("editarReferenciaDD"+idDD).value);	
-	$.ajax({
-	    url:"ajax/empleados_descuento.ajax.php",
-	    method:"POST",
-	    data: datosDD,
-	    cache: false,
-	    contentType: false,
-	    processData: false,
-	    dataType: "text",
-	    success:function(respuestaDescuento){
-			
-	    	if(respuestaDescuento =="0"){
-				//alert("Pariente eliminado correctamente");
-				swal({
-
-					type: "success",
-					title: "El Registro ha sido editado correctamente!",
-					showConfirmButton: true,
-					confirmButtonText: "Cerrar"
-
-				}).then(function(result){
-
-					if(result.value){
-					
-						window.location = "empleados";
-
-					}
-
-				});
-			}
-			else{
-				alert("No pudo editarse el registro");
-				location.reload();
-			}
-	    	
-
-	    }
-
-	})
-	
-}
 /*=============================================
 ELIMINAR DESCUENTO O DEVENGO
 =============================================*/
@@ -1525,6 +1577,7 @@ function poblarFormulario(idEmpleado){
 			$("#editarantecedente_policial").val(respuesta["antecedente_policial"]);
 			$("#editarCARGO0").val(respuesta["nivel_cargo"]);
 
+			
 
 
 
@@ -1671,7 +1724,12 @@ function poblarFormulario(idEmpleado){
 			$("#editarTipoLicenciaConducir").html(respuesta["tipo_licencia_conducir"]);
 			$("#editarTipoLicenciaConducir").val(respuesta["tipo_licencia_conducir"]);
 
-			
+			if(respuesta["imagen_licencia_conducir"] != ""){
+				$(".previsualizarEditarLicCond").attr("src", respuesta["imagen_licencia_conducir"]);
+			}else{
+				$(".previsualizarEditarLicCond").attr("src", "vistas/img/usuarios/default/anonymous.png");
+			}
+            $("#fotoActualLicCond").val(respuesta["imagen_licencia_conducir"]);
 
 
 
@@ -1836,7 +1894,12 @@ function poblarFormulario(idEmpleado){
 			}
             $("#fotoActualSOLICITUD").val(respuesta["imagen_solicitud"]);
 
-			
+			if(respuesta["imagen_partida_nacimiento"] != ""){
+				$(".previsualizarEditarPARTIDA").attr("src", respuesta["imagen_partida_nacimiento"]);
+			}else{
+				$(".previsualizarEditarPARTIDA").attr("src", "vistas/img/usuarios/default/anonymous.png");
+			}
+            $("#fotoActualPARTIDA").val(respuesta["imagen_partida_nacimiento"]);
 
 			if(respuesta["imagen_antecedentes_penales"] != ""){
 				$(".previsualizarEditarANTECEDENTES").attr("src", respuesta["imagen_antecedentes_penales"]);
@@ -1882,7 +1945,21 @@ function poblarFormulario(idEmpleado){
 			}
 			
 
-			
+			if(respuesta["imagen_constancia_psicologica"] != ""){
+				$(".previsualizarEditarPSYCO").attr("src", respuesta["imagen_constancia_psicologica"]);
+			}else{
+				$(".previsualizarEditarPSYCO").attr("src", "vistas/img/usuarios/default/anonymous.png");
+			}
+            $("#fotoActualPSYCO").val(respuesta["imagen_constancia_psicologica"]);
+
+
+
+			if(respuesta["imagen_examen_poligrafico"] != ""){
+				$(".previsualizarEditarPOLI").attr("src", respuesta["imagen_examen_poligrafico"]);
+			}else{
+				$(".previsualizarEditarPOLI").attr("src", "vistas/img/usuarios/default/anonymous.png");
+			}
+            $("#fotoActualPOLI").val(respuesta["imagen_examen_poligrafico"]);
 
 			if(respuesta["imagen_huellas"] != ""){
 				$(".previsualizarEditarHUELLAS").attr("src", respuesta["imagen_huellas"]);

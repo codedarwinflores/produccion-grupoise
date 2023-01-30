@@ -13,8 +13,8 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
 
 }
 //require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
-require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php"); 
-//require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
+/* require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php"); */
+require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
 
 
 
@@ -383,7 +383,18 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
 
 
 
-           
+            <div class="col-md-12" >                
+                <div class="col-md-12" >
+                    <!-- ENTRADA PARA SUBIR FOTO LICENCIA CONDUCIR-->
+                    <div class="form-group">              
+                        <div class="panel">SUBIR FOTO LICENCIA DE CONDUCIR</div>
+                        <input type="file" class="nuevaFotoLicCond" name="editarFotoLicCond">
+                        <p class="help-block">Peso máximo de la foto 2MB</p>
+                        <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditarLicCond" width="100px">
+                        <input type="hidden" name="fotoActualLicCond" id="fotoActualLicCond">
+                    </div>
+                </div> 
+            </div> 
 
             <div class="col-md-12" > 
                 <div class="col-md-12" > 
@@ -640,7 +651,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                 <div class="col-md-6" >
                     <!-- ENTRADA PARA TIENE LICENCIA TDA-->
                     <div class="form-group"> 
-                      Licencia de Portaci&oacute;n de Armas(LPA):             
+                      Licencia de Tenencia de Armas:             
                       <div class="input-group">              
                         <span class="input-group-addon"><i class="fa fa-users"></i></span> 
                         <select class="form-control input-lg" name="editarLicenciaTDA">                  
@@ -655,10 +666,10 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                 <div class="col-md-6" > 
                      <!-- ENTRADA PARA NUMERO LICENCIA TDA-->            
                     <div class="form-group">
-                    N&uacute;mero Licencia Portaci&oacute;n de Armas(LPA):              
+                    N&uacute;mero Licencia Tenencia de Armas:              
                       <div class="input-group">              
                         <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                        <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="editarNumeroLicenciaTDA" name="editarNumeroLicenciaTDA" value="" placeholder="Ingresar N&uacute;mero Licencia Portaci&oacute;n de Armas(LPA): ">
+                        <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="editarNumeroLicenciaTDA" name="editarNumeroLicenciaTDA" value="" placeholder="Ingresar N&uacute;mero Licencia Tenencia de Armas">
                       </div>
                     </div>
                 </div>               
@@ -669,7 +680,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                 <div class="col-md-6" >
                      <!-- ENTRADA PARA FECHA VENCIMIENTO LTA-->
                      <div class="form-group"> 
-                        Fecha vencimiento de Licencia de Portaci&oacute;n de Armas(LPA): 
+                        Fecha vencimiento de Licencia de Tenencia de Armas:
                         <div class="input-group">                  
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                             <input type="text" value="" class="calendario editarfecha_venLTA form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_venLTA" placeholder="Ingresar Fecha" id="mascarafecha_venLTA" readonly>
@@ -680,7 +691,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                 <div class="col-md-6" >
                      <!-- ENTRADA PARA SUBIR FOTO LICENCIA LTA-->
                     <div class="form-group">              
-                        <div class="panel">SUBIR FOTO LICENCIA PORTACION DE ARMAS</div>
+                        <div class="panel">SUBIR FOTO LICENCIA TENENCIA DE ARMAS</div>
                         <input type="file" class="nuevaFotoLicLTA" name="editarFotoLicLTA">
                         <p class="help-block">Peso máximo de la foto 2MB</p>
                         <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditarLicLTA" width="100px">
@@ -1098,7 +1109,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
 
             
             <div class="col-md-12" > 
-                <div class="col-md-12" >
+                <div class="col-md-6" >
                     <!-- ENTRADA PARA SUBIR DE SOLICITUD-->
                     <div class="form-group">              
                         <div class="panel">SUBIR FOTO DE SOLICITUD</div>
@@ -1108,7 +1119,16 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                         <input type="hidden" name="fotoActualSOLICITUD" id="fotoActualSOLICITUD">
                     </div>
                 </div>
-                               
+                <div class="col-md-6" > 
+                    <!-- ENTRADA PARA SUBIR FOTO  PARTIDA NACIMIENTO-->                    
+                    <div class="form-group">              
+                        <div class="panel">SUBIR FOTO DE PARTIDA DE NACIMIENTO</div>
+                        <input type="file" class="nuevaFotoPARTIDA" name="editarFotoPARTIDA">
+                        <p class="help-block">Peso máximo de la foto 2MB</p>
+                        <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditarPARTIDA" width="100px">
+                        <input type="hidden" name="fotoActualPARTIDA" id="fotoActualPARTIDA">
+                    </div>
+                </div>                
             </div>
 
             <!-- *********** -->
@@ -1275,9 +1295,27 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
 
             <!-- ***************************** -->
             <div class="col-md-12" >                
-                
-                
-                <div class="col-md-12" > 
+                <div class="col-md-4" > 
+                     <!-- ENTRADA PARA SUBIR CONSTANCIA PSYCOLOGICA -->
+                    <div class="form-group">              
+                        <div class="panel">SUBIR FOTO DE CONSTANCIA PSICOLOGICA</div>
+                        <input type="file" class="nuevaFotoPSYCO" name="editarFotoPSYCO">
+                        <p class="help-block">Peso máximo de la foto 2MB</p>
+                        <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditarPSYCO" width="100px">
+                        <input type="hidden" name="fotoActualPSYCO" id="fotoActualPSYCO">
+                    </div>
+                </div>
+                <div class="col-md-4" > 
+                    <!-- ENTRADA PARA SUBIR EXAMEN POLIGRAFICO -->
+                    <div class="form-group">              
+                        <div class="panel">SUBIR FOTO DE EXAMEN POLIGRAFICO</div>
+                        <input type="file" class="nuevaFotoPOLI" name="editarFotoPOLI">
+                        <p class="help-block">Peso máximo de la foto 2MB</p>
+                        <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditarPOLI" width="100px">
+                        <input type="hidden" name="fotoActualPOLI" id="fotoActualPOLI">
+                    </div>
+                </div>
+                <div class="col-md-4" > 
                     <!-- ENTRADA PARA SUBIR HUELLAS DIGITALES -->
                     <div class="form-group">              
                         <div class="panel">SUBIR FOTO DE HUELLAS DIGITALES</div>
@@ -1329,12 +1367,12 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                     CARGO:            
                       <div class="input-group">              
                         <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-                        <select class="form-control input-lg editarCARGO" name="editarCARGO"  id="editarCARGO" >
-                          <option id="editarCARGO" value="">Seleccione el Cargo</option>
+                        <select class="form-control input-lg editarCARGO" name="editarCARGO"  id="editarCARGO0" >
+                          <option  value="">Seleccione el Cargo</option>
                           <?php
                             $datos_mostrar_cargo = ControladorCargos::ctrMostrar($item, $valor);
                             foreach ($datos_mostrar_cargo as $key => $value){
-                              echo '<option value="'.$value["descripcion"].'">'.$value["descripcion"].'</option>';                     
+                              echo '<option value="'.$value["id"].'">'.$value["descripcion"].'</option>';                     
                             }
                           ?>
                         </select>
