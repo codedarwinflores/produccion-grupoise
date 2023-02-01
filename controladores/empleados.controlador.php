@@ -741,13 +741,13 @@ class ControladorEmpleados{
 							   "uniformeregalado_empleado" => $_POST["nuevouniformeregalado_empleado"],
 							   "fecha_vencimiento_lpa" => $_POST["nuevofecha_nuevofecha_venLTA"],
 
-							   "constancia_psicologica" => $_POST["nuevoconstancia_psicologica"],
-							   "nombre_psicologo" => $_POST["nuevonombre_psicologo"],
-							   "fecha_curso_ansp" => $_POST["nuevofecha_curso_ansp"],
-							   "numero_aprobacion_ansp" => $_POST["nuevonumero_aprobacion_ansp"],
-							   "examen_poligrafico" => $_POST["nuevoexamen_poligrafico"],
-							   "Fecha_poligrafico" => $_POST["nuevoFecha_poligrafico"],
-							   "antecedente_policial" => $_POST["nuevoantecedente_policial"]
+							   "constancia_psicologica" => ' ',
+							   "nombre_psicologo" => ' ',
+							   "fecha_curso_ansp" => ' ',
+							   "numero_aprobacion_ansp" => ' ',
+							   "examen_poligrafico" => ' ',
+							   "Fecha_poligrafico" => ' ',
+							   "antecedente_policial" => ' '
 
 
 

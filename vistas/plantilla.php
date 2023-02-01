@@ -106,6 +106,9 @@ session_start();
    .id{
     display: none;
    }
+   .ocultartodo{
+    display: none;
+   }
   </style>
 
 

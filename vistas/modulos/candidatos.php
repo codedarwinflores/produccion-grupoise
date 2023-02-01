@@ -80,7 +80,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
                         Primer Nombre:
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                            <input type="text" class="form-control input-lg nombre1" name="nuevoNombre" placeholder="Ingresar Primer Nombre" required>
+                            <input type="text" class="form-control input-lg nombre1" name="nuevoNombre" placeholder="Ingresar Primer Nombre" campo="">
                         </div>
                     </div>
                 </div>
@@ -113,7 +113,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
                          Primer Apellido:
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                            <input type="text" class="form-control input-lg apellido1" name="nuevoPrimerApellido" placeholder="Ingresar Primer Apellido" required>
+                            <input type="text" class="form-control input-lg apellido1" name="nuevoPrimerApellido" placeholder="Ingresar Primer Apellido" campo="">
                         </div>
                     </div>
                 </div>
@@ -123,7 +123,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
                         Segundo Apellido:
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                            <input type="text" class="form-control input-lg apellido2" name="nuevoSegundoApellido" placeholder="Ingresar Segundo Apellido" required>
+                            <input type="text" class="form-control input-lg apellido2" name="nuevoSegundoApellido" placeholder="Ingresar Segundo Apellido" campo="">
                         </div>
                     </div>
                 </div>
@@ -264,7 +264,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
                         Tipo Documento:
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa fa-drivers-license-o"></i></span> 
-                            <select class="form-control input-lg" name="nuevoTipoDocumento" required>                        
+                            <select class="form-control input-lg" name="nuevoTipoDocumento" campo="">                        
                                 <option value="">Seleccionar tipo de documento</option>
                                 <option value="DUI">DUI</option>
                                 <option value="Pasaporte">Pasaporte</option>
@@ -279,7 +279,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
                         N&uacute;mero Documento 
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-drivers-license-o"></i></span> 
-                            <input type="text" class="form-control input-lg input_dui duis numerodui"  nombres="" apellido1="" apellido2="" name="nuevoNumeroDocumento" id="nuevoNumeroDocumento" placeholder="Ingresar n&uacute;mero documento identidad" required>
+                            <input type="text" class="form-control input-lg input_dui duis numerodui"  nombres="" apellido1="" apellido2="" name="nuevoNumeroDocumento" id="nuevoNumeroDocumento" placeholder="Ingresar n&uacute;mero documento identidad" campo="">
                         </div>
                     </div>
                 </div>               
@@ -369,7 +369,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
 
 
             <div class="col-md-12" >                
-                <div class="col-md-12" >
+                <div class="col-md-12 ocultartodo" >
                     <!-- ENTRADA PARA SUBIR FOTO  DE LICENCIA-->
                     <div class="form-group">              
                         <div class="panel">SUBIR FOTO LICENCIA DE CONDUCIR</div>
@@ -1095,7 +1095,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
                         
                     </div>
                 </div>
-                <div class="col-md-6" > 
+                <div class="col-md-6 ocultartodo" > 
                     <!-- ENTRADA PARA SUBIR FOTO  PARTINA NACIMIENTO-->
                     <div class="form-group">              
                         <div class="panel">SUBIR FOTO DE LA PARTIDA DE NACIMIENTO</div>
@@ -1255,7 +1255,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
             -->
 
             <div class="col-md-12" >                
-                <div class="col-md-4" > 
+                <div class="col-md-4 ocultartodo" > 
                     <!-- ENTRADA PARA CONSTANCIA PSICOLOGICA -->
                     <div class="form-group">              
                     <div class="panel">SUBIR FOTO DE CONSTANCIA PSICOLOGICA</div>
@@ -1264,7 +1264,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
                     <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarPSYCO" width="100px">
                     </div>
                 </div>
-                <div class="col-md-4" > 
+                <div class="col-md-4 ocultartodo" > 
                     <!-- ENTRADA PARA EXAMEN POLIGRAFICO -->
                     <div class="form-group">              
                     <div class="panel">SUBIR FOTO DE EXAMEN POLIGRAFICO</div>
@@ -1308,7 +1308,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
                         Estado:             
                         <div class="input-group">              
                             <span class="input-group-addon"><i class="fa fa-circle"></i></span> 
-                            <select class="form-control input-lg" name="nuevoEstado" required>                  
+                            <select class="form-control input-lg" name="nuevoEstado" campo="">                  
                                 <option value="">Seleccionar estado</option>
                                 <option value="1">Solicitud</option>
                                 <option value="2">Contratado</option>
@@ -1324,7 +1324,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
                         CARGO:           
                         <div class="input-group">              
                             <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                            <select class="form-control input-lg" name="nuevoCARGO" id="nuevoCARGO" required>                  
+                            <select class="form-control input-lg" name="nuevoCARGO" id="nuevoCARGO" >                  
                                 <option value="">Seleccionar Cargo</option>
                                 <?php
                                 $datos_mostrar_cargo = ControladorCargos::ctrMostrar($item, $valor);
@@ -1382,7 +1382,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
                         Recomendado por:
                         <div class="input-group">           
                             <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                            <select class="form-control input-lg" name="nuevorecomendado_empleado" id="" required>                  
+                            <select class="form-control input-lg" name="nuevorecomendado_empleado" id="" >                  
                                 <option value="">Seleccionar Recomendado</option>
                                 <?php
                                     $datos_mostrar_cargo = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
@@ -1409,7 +1409,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
                         Documentación completa:
                         <div class="input-group">           
                             <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                            <select class="form-control input-lg" name="nuevodocumentacion_empleado" id="" required>                  
+                            <select class="form-control input-lg" name="nuevodocumentacion_empleado" id="" >                  
                                 <option value="">Seleccionar Documentación completa</option>
                                 <option value="Si">Si</option>
                                 <option value="No">No</option>
@@ -1427,7 +1427,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
                         ¿Tiene ANSP?:
                         <div class="input-group">           
                             <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                            <select class="form-control input-lg" name="nuevoansp_empleado" id="" required>                  
+                            <select class="form-control input-lg" name="nuevoansp_empleado" id="">                  
                                 <option value="">¿Tiene ANSP?</option>
                                 <option value="Si">Si</option>
                                 <option value="No">No</option>
@@ -1440,7 +1440,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
                         Uniforme regalado:
                         <div class="input-group">           
                             <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                            <select class="form-control input-lg" name="nuevouniformeregalado_empleado" id="" required>                  
+                            <select class="form-control input-lg" name="nuevouniformeregalado_empleado" id="" >                  
                                 <option value="">Uniforme regalado</option>
                                 <option value="Si">Si</option>
                                 <option value="No">No</option>

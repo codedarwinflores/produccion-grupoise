@@ -384,7 +384,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
 
 
             <div class="col-md-12" >                
-                <div class="col-md-12" >
+                <div class="col-md-12 ocultartodo" >
                     <!-- ENTRADA PARA SUBIR FOTO LICENCIA CONDUCIR-->
                     <div class="form-group">              
                         <div class="panel">SUBIR FOTO LICENCIA DE CONDUCIR</div>
@@ -1121,7 +1121,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
                 </div>
                 <div class="col-md-6" > 
                     <!-- ENTRADA PARA SUBIR FOTO  PARTIDA NACIMIENTO-->                    
-                    <div class="form-group">              
+                    <div class="form-group ocultartodo">              
                         <div class="panel">SUBIR FOTO DE PARTIDA DE NACIMIENTO</div>
                         <input type="file" class="nuevaFotoPARTIDA" name="editarFotoPARTIDA">
                         <p class="help-block">Peso máximo de la foto 2MB</p>
@@ -1295,7 +1295,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
 
             <!-- ***************************** -->
             <div class="col-md-12" >                
-                <div class="col-md-4" > 
+                <div class="col-md-4 ocultartodo" > 
                      <!-- ENTRADA PARA SUBIR CONSTANCIA PSYCOLOGICA -->
                     <div class="form-group">              
                         <div class="panel">SUBIR FOTO DE CONSTANCIA PSICOLOGICA</div>
@@ -1305,7 +1305,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
                         <input type="hidden" name="fotoActualPSYCO" id="fotoActualPSYCO">
                     </div>
                 </div>
-                <div class="col-md-4" > 
+                <div class="col-md-4 ocultartodo" > 
                     <!-- ENTRADA PARA SUBIR EXAMEN POLIGRAFICO -->
                     <div class="form-group">              
                         <div class="panel">SUBIR FOTO DE EXAMEN POLIGRAFICO</div>
