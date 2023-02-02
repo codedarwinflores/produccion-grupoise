@@ -120,5 +120,7 @@ $dompdf->render();
 $pdf = $dompdf->output();
 $filename = "carnet.pdf";
 file_put_contents($filename, $pdf);
-$dompdf->stream($filename);
+/* $dompdf->stream($filename); */
+$dompdf->stream($filename, array("Attachment" => false));
+
 ?>
