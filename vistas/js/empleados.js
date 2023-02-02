@@ -1135,7 +1135,7 @@ function editarPariente(idPariente){
 	    processData: false,
 	    dataType: "text",
 	    success:function(respuestaParentesco){
-			alert(respuestaParentesco);
+			//alert(respuestaParentesco);
 	    	if(respuestaParentesco =="0"){
 				//alert("Pariente eliminado correctamente");
 				swal({

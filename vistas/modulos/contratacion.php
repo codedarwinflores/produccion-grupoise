@@ -13,8 +13,8 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
 
 }
 //require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
-/* require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php"); */
-require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
+require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
+//require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
 
 
 
