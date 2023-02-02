@@ -80,7 +80,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
                         Primer Nombre:
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                            <input type="text" class="form-control input-lg nombre1" name="nuevoNombre" placeholder="Ingresar Primer Nombre" campo="">
+                            <input type="text" class="form-control input-lg nombre1" name="nuevoNombre" placeholder="Ingresar Primer Nombre" required>
                         </div>
                     </div>
                 </div>
@@ -113,7 +113,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
                          Primer Apellido:
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                            <input type="text" class="form-control input-lg apellido1" name="nuevoPrimerApellido" placeholder="Ingresar Primer Apellido" campo="">
+                            <input type="text" class="form-control input-lg apellido1" name="nuevoPrimerApellido" placeholder="Ingresar Primer Apellido" required>
                         </div>
                     </div>
                 </div>
@@ -123,7 +123,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
                         Segundo Apellido:
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                            <input type="text" class="form-control input-lg apellido2" name="nuevoSegundoApellido" placeholder="Ingresar Segundo Apellido" campo="">
+                            <input type="text" class="form-control input-lg apellido2" name="nuevoSegundoApellido" placeholder="Ingresar Segundo Apellido" required>
                         </div>
                     </div>
                 </div>
@@ -264,7 +264,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
                         Tipo Documento:
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa fa-drivers-license-o"></i></span> 
-                            <select class="form-control input-lg" name="nuevoTipoDocumento" campo="">                        
+                            <select class="form-control input-lg" name="nuevoTipoDocumento" required>                        
                                 <option value="">Seleccionar tipo de documento</option>
                                 <option value="DUI">DUI</option>
                                 <option value="Pasaporte">Pasaporte</option>
@@ -279,7 +279,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
                         N&uacute;mero Documento 
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-drivers-license-o"></i></span> 
-                            <input type="text" class="form-control input-lg input_dui duis numerodui"  nombres="" apellido1="" apellido2="" name="nuevoNumeroDocumento" id="nuevoNumeroDocumento" placeholder="Ingresar n&uacute;mero documento identidad" campo="">
+                            <input type="text" class="form-control input-lg input_dui duis numerodui"  nombres="" apellido1="" apellido2="" name="nuevoNumeroDocumento" id="nuevoNumeroDocumento" placeholder="Ingresar n&uacute;mero documento identidad" required>
                         </div>
                     </div>
                 </div>               
@@ -1308,7 +1308,7 @@ require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
                         Estado:             
                         <div class="input-group">              
                             <span class="input-group-addon"><i class="fa fa-circle"></i></span> 
-                            <select class="form-control input-lg" name="nuevoEstado" campo="">                  
+                            <select class="form-control input-lg" name="nuevoEstado" required>                  
                                 <option value="">Seleccionar estado</option>
                                 <option value="1">Solicitud</option>
                                 <option value="2">Contratado</option>
