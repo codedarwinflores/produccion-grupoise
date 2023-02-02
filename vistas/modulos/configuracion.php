@@ -203,16 +203,18 @@ function getContent() {
 
                       <?php
                         function getempleado() {
-                          $query = "SELECT * FROM tbl_empleados order by id desc limit 1";
+                          $query = "SELECT * FROM tbl_empleados where estado='2' order by id desc limit 1";
                           $sql = Conexion::conectar()->prepare($query);
                           $sql->execute();			
                           return $sql->fetchAll();
                         };
 
                         $data = getempleado();
+                        $datos="";
                         foreach($data as $row) {
-                          echo '<input type="number" value='.$row["id"].' id="editarultimo_empreado" onKeyPress="if(this.value.length==6) return false;" class="form-control" name="editarultimo_empreado"  step="0.01" >';
+                          $datos .=$row["id"];
                         }
+                        echo '<input type="number" value='.$datos.' id="editarultimo_empreado" onKeyPress="if(this.value.length==6) return false;" class="form-control" name="editarultimo_empreado"  step="0.01" >';
                         ?>
 
                       </div>

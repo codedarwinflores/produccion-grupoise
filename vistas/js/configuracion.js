@@ -39,14 +39,14 @@ if(validar=="1"){
 			$("#editarporcentaje_isss").val(respuesta["porcentaje_isss"]);
 			$("#editartope_isss").val(respuesta["tope_isss"]);
 			$("#editarsalario_minimo").val(respuesta["salario_minimo"]);
-			if(respuesta["ultimo_empreado"]==""){}
+			/* if(respuesta["ultimo_empreado"]==""){}
 			else{
 				$("#editarultimo_empreado").val(respuesta["ultimo_empreado"]);
-			}
-			if(respuesta["ultimo_proveedor"]==""){}
+			} */
+		/* 	if(respuesta["ultimo_proveedor"]==""){}
 			else{
 				$("#editarultimo_proveedor").val(respuesta["ultimo_proveedor"]);
-			}
+			} */
 			$("#editarnum_registro").val(respuesta["num_registro"]);
 			$("#editariva").val(respuesta["iva"]);
 
