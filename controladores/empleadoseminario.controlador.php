@@ -97,7 +97,8 @@ class ControladorEmpleadoSeminario{
 				$datos = array("id_empleado" => $_POST["idEmpleadoSeminario"],
                                "id_seminario" => $idCodAux[0],
 							   "codigo" => $idCodAux[1],					          
-                               "fecha_realizacion" => $_POST["nuevofecha_seminarior"]                              
+                               "fecha_realizacion" => $_POST["nuevofecha_seminarior"],
+							   "lugar_recibido" => $_POST["nuevoLugarSeminario"]                                 
                             );
                            // print_r($datos);
 				$respuesta = ModeloEmpleadoSeminarios::mdlIngresarEmpleadoSeminario($tabla, $datos);
@@ -128,6 +129,29 @@ class ControladorEmpleadoSeminario{
 
 
 				}	
+				else{
+					echo '<script>
+
+					swal({
+
+						type: "error",
+						title: "¡El Seminario no sido guardado correctamente",
+						showConfirmButton: true,
+						confirmButtonText: "Cerrar"
+
+					}).then(function(result){
+
+						if(result.value){
+						
+							window.location = "empleados";
+
+						}
+
+					});
+				
+
+					</script>';
+				}
 
 
 			

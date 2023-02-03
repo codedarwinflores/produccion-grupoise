@@ -2631,6 +2631,15 @@ MODAL SEMINARIO
                 <input type="text" value="" class="calendario nuevofecha_seminarior form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_seminarior" placeholder="Ingresar Fecha" readonly>
                 <input type="text" class="oficial_nuevofecha_seminarior" name="nuevofecha_seminarior" style="display: none;">
             </div>
+
+            <!-- LUGAR REALIZACION SEMINARIO   --> 
+            <div class="form-group">
+            Lugar Realizado:
+            <div class="input-group">           
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>                
+                <input type="text" class="form-control input-lg" name="nuevoLugarSeminario"  id="nuevoLugarSeminario">
+            </div>
+
           </div>
             
           

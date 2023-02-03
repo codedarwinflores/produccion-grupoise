@@ -76,12 +76,12 @@ $(".tablas").on("click", ".btnEditartipocelular", function(){
 		processData: false,
 		dataType: "json",
 		success: function(respuesta){
-			
+	
 			$("#editarid").val(respuesta["id"]);
-			$("#editaroperador").val(respuesta["operador"]);
-			$("#editartipocelular").val(respuesta["tipocelular"]);
-			$("#editarIMEI").val(respuesta["IMEI"]);
-			$("#editartipocelular_card").val(respuesta["tipocelular_card"]);
+			$("#editarcodigo").val(respuesta["codigo"]);
+			$("#editarnombre").val(respuesta["nombre"]);
+		/* 	$("#editarIMEI").val(respuesta["IMEI"]);
+			$("#editartipocelular_card").val(respuesta["tipocelular_card"]); */
 
 
 
