@@ -6,6 +6,14 @@ $(document).ready(function(){
 	$(".input_id").removeAttr("required");
 
 
+	$(".grupo_estado_radio").empty();
+	$('.grupo_estado_radio').append($('.s_estado'));
+
+	$(".grupoeditar_estado_radio").empty();
+	$('.grupoeditar_estado_radio').append($('.editar_s_estado'));
+
+	 
+
 
 
 	
@@ -151,6 +159,7 @@ $(".tablas").on("click", ".btnEditarradio", function(){
 			$("#editarcolor_radio").val(respuesta["color_radio"]);
 			$("#editarobservaciones").val(respuesta["observaciones"]);
 			$("#editarcodigo_radio").val(respuesta["codigo_radio"]);
+			$("#editarestado_radio").val(respuesta["estado_radio"]);
 			
 
 

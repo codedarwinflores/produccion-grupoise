@@ -1,6 +1,276 @@
 /* COLOCACION DE ICONOS */
 $(document).ready(function(){
 
+	 
+	$(".cgrupo_fax").attr("style","visibility:hidden; height:0;");
+	$(".clientes_input_fax").removeAttr("required");
+
+	/* ************************ */
+
+			$(".input_denominacion_cliente").removeAttr("required");
+			$(".input_denominacion_cliente").attr("readonly","readonly");
+
+			$(".input_nombre_representante_cliente").removeAttr("required");
+			$(".input_nombre_representante_cliente").attr("readonly","readonly");
+
+			$(".input_profecion_cliente").removeAttr("required");
+			$(".input_profecion_cliente").attr("readonly","readonly");
+
+			$(".input_domicilio_cliente").removeAttr("required");
+			$(".input_domicilio_cliente").attr("readonly","readonly");
+
+			$("#nuevodepartamento_representante_cliente").removeAttr("required");
+			$("#nuevodepartamento_representante_cliente").attr("disabled","disabled");
+
+			$(".input_dui_cliente").removeAttr("required");
+			$(".input_dui_cliente").attr("readonly","readonly");
+
+			$(".input_cargo_cliente").removeAttr("required");
+			$(".input_cargo_cliente").attr("readonly","readonly");
+
+			$(".input_vigencia_contrato").removeAttr("required");
+			$(".input_vigencia_contrato").attr("readonly","readonly");
+
+
+	/* ************************ */
+	$(".cgrupo_departamento_representante_cliente").empty();
+	$(".cgrupo_departamento_representante_cliente").append($(".departamento_legal_cliente"));
+
+	$(".ecgrupo_departamento_representante_cliente").empty();
+	$(".ecgrupo_departamento_representante_cliente").append($(".edepartamento_legal_cliente"));
+
+
+	$(".clientes_input_vigencia_contrato").attr("readonly","readonly");
+
+	$('#nuevoposee_contrato').on('change', function() {
+		var valor = $(this).val();
+		if(valor=="Si"){
+			$(".clientes_input_vigencia_contrato").removeAttr("readonly");
+		}
+		else{
+			$(".clientes_input_vigencia_contrato").attr("readonly","readonly");
+		}
+	  });
+
+	  $('#editarposee_contrato').on('change', function() {
+		var valor = $(this).val();
+		if(valor=="Si"){
+			$("#editarvigencia_contrato").removeAttr("readonly");
+		}
+		else{
+			$("#editarvigencia_contrato").attr("readonly","readonly");
+		}
+	  });
+
+
+
+	$(".input_estado_cliente").attr("type","hidden");
+	$(".input_estado_cliente").val("Activo");
+	$("#editarestado_cliente").val("Activo");
+
+	$( ".input_nombre" ).blur(function() {
+
+		var letra = $(this).val().charAt(0);
+
+		var obtenercodigo = letra;
+                   
+		/* *** */
+		
+			 var datos = "obtenercodigo="+obtenercodigo;
+
+			 $.ajax({
+			   url:"ajax/generar_codigo_cliente.ajax.php",
+			   method:"POST",
+			   data: datos,
+			   success:function(respuesta){
+			   
+				 /* alert(respuesta.replace(/["']/g, "")); */
+				 /* alert(respuesta); */
+			
+				 $(".clientes_input_codigo").val(letra+respuesta);
+				
+			   }
+
+			 })
+	  /* *** */
+	
+		
+	  });
+
+	  	$(".cgrupo_vendedor").empty();
+		$(".cgrupo_vendedor").append($(".empleadovendedor"));
+
+		
+		$(".ecgrupo_vendedor").empty();
+		$(".ecgrupo_vendedor").append($(".updateempleadovendedor"));
+
+		$(".vendedorselector").change(function () {	 
+			var valor=$(this).val();
+			
+		});
+
+
+		$(".cgrupo_dia_entrega_facturacion_cliente").empty();
+		$(".cgrupo_dia_entrega_facturacion_cliente").append($(".diaentrega"));
+
+		$(".ecgrupo_dia_entrega_facturacion_cliente").empty();
+		$(".ecgrupo_dia_entrega_facturacion_cliente").append($(".editardiaentrega"));
+
+
+
+		$(".cgrupo_dia_quedan_cliente").empty();
+		$(".cgrupo_dia_quedan_cliente").append($(".diaquedan0"));
+
+		$(".ecgrupo_dia_quedan_cliente").empty();
+		$(".ecgrupo_dia_quedan_cliente").append($(".ediaquedan0"));
+
+
+
+		/* ************* */
+		$(".cgrupo_dia_cobro_cliente").empty();
+		$(".cgrupo_dia_cobro_cliente").append($(".diacobro"));
+
+		$(".ecgrupo_dia_cobro_cliente").empty();
+		$(".ecgrupo_dia_cobro_cliente").append($(".ediacobro"));
+		/* ************* */
+
+		
+	  	/* *********LABEL*********** */
+		/*   $(".icono_dia_quedan_cliente").addClass("fa fa-file-excel-o");
+		  $(".input_dia_quedan_cliente").addClass("calendario");
+		  $(".input_dia_quedan_cliente").attr("placeholder","Ingresar Dia Quedan");
+		  var input_dia_quedan_cliente  = $(".input_dia_quedan_cliente").attr("placeholder");
+		  $(".clabel_dia_quedan_cliente").text(input_dia_quedan_cliente);
+ */
+
+		  	
+	  	/* *********LABEL*********** */
+		  $(".icono_dia_quedan_observacion_cliente").addClass("fa fa-file-excel-o");
+		  $(".input_dia_quedan_observacion_cliente").attr("placeholder","Ingresar Dia quedan Observación");
+		  var input_dia_quedan_observacion_cliente  = $(".input_dia_quedan_observacion_cliente").attr("placeholder");
+		  $(".clabel_dia_quedan_observacion_cliente").text(input_dia_quedan_observacion_cliente);
+
+		  /* *********LABEL*********** */
+		/*   $(".icono_dia_cobro_cliente").addClass("fa fa-file-excel-o");
+		  $(".input_dia_cobro_cliente").addClass("calendario");
+		  $(".input_dia_cobro_cliente").attr("placeholder","Ingresar Dia Cobro");
+		  var input_dia_cobro_cliente  = $(".input_dia_cobro_cliente").attr("placeholder");
+		  $(".clabel_dia_cobro_cliente").text(input_dia_cobro_cliente); */
+
+
+
+
+	  	/* *********LABEL*********** */
+		  $(".icono_nombre_representante_cliente").addClass("fa fa-file-excel-o")
+		  $(".input_nombre_representante_cliente").attr("placeholder","Ingresar Nombre Representante Legal");
+		  var input_nombre_representante_cliente  = $(".input_nombre_representante_cliente").attr("placeholder");
+		  $(".clabel_nombre_representante_cliente").text(input_nombre_representante_cliente);
+
+
+		/* *********LABEL*********** */
+		$(".icono_profecion_cliente").addClass("fa fa-file-excel-o")
+		$(".input_profecion_cliente").attr("placeholder","Ingresar profesión de representante legal");
+		var input_profecion_cliente  = $(".input_profecion_cliente").attr("placeholder");
+		$(".clabel_profecion_cliente").text(input_profecion_cliente);
+
+
+	
+		/* *********LABEL*********** */
+		$(".icono_domicilio_cliente").addClass("fa fa-file-excel-o")
+		$(".input_domicilio_cliente").attr("placeholder","Ingresar domicilio de representante legal ");
+		var input_domicilio_cliente  = $(".input_domicilio_cliente").attr("placeholder");
+		$(".clabel_domicilio_cliente").text(input_domicilio_cliente);
+
+
+			/* *********LABEL*********** */
+		$(".icono_departamento_representante_cliente").addClass("fa fa-file-excel-o")
+		$(".input_departamento_representante_cliente").attr("placeholder","Ingresar Departamento Representante Legal");
+		var input_departamento_representante_cliente  = $(".input_departamento_representante_cliente").attr("placeholder");
+		$(".clabel_departamento_representante_cliente").text(input_departamento_representante_cliente);
+	
+		/* *********LABEL*********** */
+		$(".icono_dui_cliente").addClass("fa fa-file-excel-o");
+		$(".input_dui_cliente").attr("placeholder","Ingresar DUI de representante legal");
+		$(".input_dui_cliente").addClass("duis");
+		var input_dui_cliente  = $(".input_dui_cliente").attr("placeholder");
+		$(".clabel_dui_cliente").text(input_dui_cliente);
+
+	/* *********LABEL*********** */
+	$(".icono_cargo_cliente").addClass("fa fa-file-excel-o")
+	$(".input_cargo_cliente").attr("placeholder","Ingresar cargo de representante legal");
+	var input_cargo_cliente  = $(".input_cargo_cliente").attr("placeholder");
+	$(".clabel_cargo_cliente").text(input_cargo_cliente);
+
+
+	/* *********LABEL*********** */
+	$(".icono_denominacion_cliente").addClass("fa fa-file-excel-o")
+	$(".input_denominacion_cliente").attr("placeholder","Ingresar Denominación Cliente");
+	var input_denominacion_cliente  = $(".input_denominacion_cliente").attr("placeholder");
+	$(".clabel_denominacion_cliente").text(input_denominacion_cliente);
+
+
+
+
+
+
+	
+	$("#nuevoposee_contrato").change(function(){
+		var posse_contrato =$(this).val();
+
+		if(posse_contrato=="Si"){
+
+			$(".input_denominacion_cliente").removeAttr("readonly");
+			$(".input_denominacion_cliente").attr("required","required");
+
+			$(".input_nombre_representante_cliente").removeAttr("readonly");
+			$(".input_nombre_representante_cliente").attr("required","required");
+
+			$(".input_profecion_cliente").removeAttr("readonly");
+			$(".input_profecion_cliente").attr("required","required");
+
+			$(".input_domicilio_cliente").removeAttr("readonly");
+			$(".input_domicilio_cliente").attr("required","required");
+
+			$("#nuevodepartamento_representante_cliente").removeAttr("disabled");
+			$("#nuevodepartamento_representante_cliente").attr("required","required");
+
+			$(".input_dui_cliente").removeAttr("readonly");
+			$(".input_dui_cliente").attr("required","required");
+
+			$(".input_cargo_cliente").removeAttr("readonly");
+			$(".input_cargo_cliente").attr("required","required");
+
+
+
+		}
+		else{
+			$(".input_denominacion_cliente").removeAttr("required");
+			$(".input_denominacion_cliente").attr("readonly","readonly");
+
+			$(".input_nombre_representante_cliente").removeAttr("required");
+			$(".input_nombre_representante_cliente").attr("readonly","readonly");
+
+			$(".input_profecion_cliente").removeAttr("required");
+			$(".input_profecion_cliente").attr("readonly","readonly");
+
+			$(".input_domicilio_cliente").removeAttr("required");
+			$(".input_domicilio_cliente").attr("readonly","readonly");
+
+			$("#nuevodepartamento_representante_cliente").removeAttr("required");
+			$("#nuevodepartamento_representante_cliente").attr("disabled","disabled");
+
+			$(".input_dui_cliente").removeAttr("required");
+			$(".input_dui_cliente").attr("readonly","readonly");
+
+			$(".input_cargo_cliente").removeAttr("required");
+			$(".input_cargo_cliente").attr("readonly","readonly");
+		}
+	});
+
+
+
+
+
 	var  texto= "Ingresar";
 
 	$(".input_id").removeAttr("required");;
@@ -37,8 +307,8 @@ $(document).ready(function(){
 	
 	$(".icono_nrc").addClass("fa  fa-id-card");
 	$(".input_nrc").attr("placeholder", texto+" NRC");
-	$(".input_nrc").get(0).type = 'number';
-	$("#editarnrc").get(0).type = 'number';
+	$(".input_nrc").get(0).type = 'text';
+	$("#editarnrc").get(0).type = 'text';
 
 	
 	$(".icono_nombre_registro").addClass("fa fa-id-card");
@@ -64,6 +334,28 @@ $(document).ready(function(){
 		var contribuyente = $(this).attr("contribuyente");
 		$(".input_contribuyente").val(contribuyente);
 		$(".myDropdown_clientes_contribuyente").css("display", "none");
+
+		if(contribuyente=="Si"){
+			$(".input_nrc").attr("required","required");
+			$(".input_nrc").removeAttr("readonly");
+
+			$(".input_nombre_registro").attr("required","required");
+			$(".input_nombre_registro").removeAttr("readonly");
+
+			$(".input_giro").attr("required","required");
+			$(".input_giro").removeAttr("readonly");
+
+		}
+		else{
+			$(".input_nrc").removeAttr("required");
+			$(".input_nrc").attr("readonly","readonly");
+
+			$(".input_nombre_registro").removeAttr("required");
+			$(".input_nombre_registro").attr("readonly","readonly");
+
+			$(".input_giro").removeAttr("required");
+			$(".input_giro").attr("readonly","readonly");
+		}
 		
 	});
 	
@@ -472,8 +764,88 @@ $(document).ready(function(){
 			  $(".ecgrupo_categoria_cliente").append($('#enc_categoria'));
 
 		  
+
+
+
+
+
+
+
+			  $("#editarposee_contrato").change(function(){
+		
+				var posse_contrato=$(this).val();
+			
+				if(posse_contrato=="Si"){
+		
+					$(".input_denominacion_cliente").removeAttr("readonly");
+					$(".input_denominacion_cliente").attr("required","required");
+		
+					$(".input_nombre_representante_cliente").removeAttr("readonly");
+					$(".input_nombre_representante_cliente").attr("required","required");
+		
+					$(".input_profecion_cliente").removeAttr("readonly");
+					$(".input_profecion_cliente").attr("required","required");
+		
+					$(".input_domicilio_cliente").removeAttr("readonly");
+					$(".input_domicilio_cliente").attr("required","required");
+		
+					$("#editardepartamento_representante_cliente").removeAttr("disabled");
+					$("#editardepartamento_representante_cliente").attr("required","required");
+		
+					$(".input_dui_cliente").removeAttr("readonly");
+					$(".input_dui_cliente").attr("required","required");
+		
+					$(".input_cargo_cliente").removeAttr("readonly");
+					$(".input_cargo_cliente").attr("required","required");
+
+					$(".input_vigencia_contrato").removeAttr("readonly");
+				
+		
+		
+				}
+				else{
+
+					$(".input_vigencia_contrato").removeAttr("required");
+					$(".input_vigencia_contrato").attr("readonly","readonly");
+
+
+					$(".input_denominacion_cliente").removeAttr("required");
+					$(".input_denominacion_cliente").attr("readonly","readonly");
+		
+					$(".input_nombre_representante_cliente").removeAttr("required");
+					$(".input_nombre_representante_cliente").attr("readonly","readonly");
+		
+					$(".input_profecion_cliente").removeAttr("required");
+					$(".input_profecion_cliente").attr("readonly","readonly");
+		
+					$(".input_domicilio_cliente").removeAttr("required");
+					$(".input_domicilio_cliente").attr("readonly","readonly");
+		
+					$("#editardepartamento_representante_cliente").removeAttr("required");
+					$("#editardepartamento_representante_cliente").attr("disabled","disabled");
+		
+					$(".input_dui_cliente").removeAttr("required");
+					$(".input_dui_cliente").attr("readonly","readonly");
+		
+					$(".input_cargo_cliente").removeAttr("required");
+					$(".input_cargo_cliente").attr("readonly","readonly");
+				}
+			});
+
+
             
+
+
+
+
+
+
  })
+
+
+ 
+
+
 
  function pasar_muni(){
 	$('.select_municipio').click(function(){
@@ -598,8 +970,60 @@ $(document).ready(function(){
     }
 
 
+	
+
+
+
 });
 
+
+		
+$(".tablas").on("click", ".desactivarcliente", function(){
+	var id = $(this).attr("idcontenido");
+	var estado = $(this).attr("estado");
+
+	 /*  ******** */
+	 var parametros = {
+		"id" : id,
+		"estado" : estado
+	};
+	$.ajax({
+			data:  parametros,
+			url:"ajax/desactivarcliente.ajax.php",
+			type:  'post',
+			success:  function (response) {
+			
+				location.reload();
+			}
+	});
+	/* ********* */
+
+
+});
+
+
+$(".tablas").on("click", ".activarcliente", function(){
+	var id = $(this).attr("idcontenido");
+	var estado = $(this).attr("estado");
+
+
+	 /*  ******** */
+	 var parametros = {
+		"id" : id,
+		"estado" : estado
+	};
+	$.ajax({
+			data:  parametros,
+			url:"ajax/desactivarcliente.ajax.php",
+			type:  'post',
+			success:  function (response) {
+				
+				location.reload();
+			}
+	});
+	/* ********* */
+
+});
 
 /*=============================================
 EDITAR 
@@ -607,6 +1031,10 @@ EDITAR
 $(".tablas").on("click", ".btnEditarclientes", function(){
 
 	
+	$(".ecgrupo_fax").attr("style","visibility:hidden; height:0;");
+	$(".clientes_input_fax").removeAttr("required");
+
+
 	var idclientes = $(this).attr("idclientes");
 	
 	var datos = new FormData();
@@ -623,6 +1051,14 @@ $(".tablas").on("click", ".btnEditarclientes", function(){
 		dataType: "json",
 		success: function(respuesta){
 			
+			if(respuesta["posee_contrato"]=="Si"){
+					$("#editarvigencia_contrato").removeAttr("readonly");
+				}
+				else{
+					$("#editarvigencia_contrato").attr("readonly","readonly");
+				}
+
+
 			$("#editarid").val(respuesta["clienteid"]);
 
 			var dateNEW = respuesta["fecha_apertura"];
@@ -647,6 +1083,32 @@ $(".tablas").on("click", ".btnEditarclientes", function(){
 			$("#editarnombre_registro").val(respuesta["nombre_registro"]);
 			$("#editargiro").val(respuesta["giro"]);
 			$("#editarcontribuyente").val(respuesta["contribuyente"]);
+
+
+
+			
+			if(respuesta["contribuyente"]=="No"){
+				$(".input_nrc").removeAttr("required");
+				$(".input_nrc").attr("readonly","readonly");
+
+				$(".input_nombre_registro").removeAttr("required");
+				$(".input_nombre_registro").attr("readonly","readonly");
+
+				$(".input_giro").removeAttr("required");
+				$(".input_giro").attr("readonly","readonly");
+			}
+
+
+
+			$("#editardia_quedan_cliente").val(respuesta["dia_quedan_cliente"]);
+			$("#editardia_quedan_observacion_cliente").val(respuesta["dia_quedan_observacion_cliente"]);
+			$("#editardia_cobro_cliente").val(respuesta["dia_cobro_cliente"]);
+			$("#editardia_entrega_facturacion_cliente").val(respuesta["dia_entrega_facturacion_cliente"]);
+
+
+
+
+
 			$("#editarclasificacion").val(respuesta["clasificacion"]);
 			$("#editartipo_cliente").val(respuesta["tipo_cliente"]);
 			$("#editarcorreo_electronico").val(respuesta["correo_electronico"]);
@@ -671,7 +1133,13 @@ $(".tablas").on("click", ".btnEditarclientes", function(){
 			$("#editarobservaciones").val(respuesta["observaciones"]);
 			$("#editarcuenta_contable").val(respuesta["cuenta_contable"]);
 
-			$("#editarvendedor").val(respuesta["vendedor"]);
+			$("#seleccionarvendedor").val(respuesta["vendedor"]);
+			$("#select2-editarvendedor-container").text(respuesta["vendedor"]);
+
+
+
+
+
 			$("#editarporcentaje_comision").val(respuesta["porcentaje_comision"]);
 			$("#editarvigencia_contrato").val(respuesta["vigencia_contrato"]);
 			$("#editarposee_contrato").val(respuesta["posee_contrato"]);
@@ -684,6 +1152,64 @@ $(".tablas").on("click", ".btnEditarclientes", function(){
 			$("#editartelefono_contacto_contable").val(respuesta["telefono_contacto_contable"]);
 			$("#editarcorreo_contacto_contable").val(respuesta["correo_contacto_contable"]);
 
+
+			$("#editarnombre_representante_cliente").val(respuesta["nombre_representante_cliente"]);
+			$("#editarprofecion_cliente").val(respuesta["profecion_cliente"]);
+			$("#editardomicilio_cliente").val(respuesta["domicilio_cliente"]);
+			$("#editardepartamento_representante_cliente").val(respuesta["departamento_representante_cliente"]);
+			$("#editardui_cliente").val(respuesta["dui_cliente"]);
+			$("#editarcargo_cliente").val(respuesta["cargo_cliente"]);
+			$("#editardenominacion_cliente").val(respuesta["denominacion_cliente"]);
+
+
+			if(respuesta["posee_contrato"]=="No"){
+				$(".input_denominacion_cliente").removeAttr("required");
+				$(".input_denominacion_cliente").attr("readonly","readonly");
+
+				$(".input_nombre_representante_cliente").removeAttr("required");
+				$(".input_nombre_representante_cliente").attr("readonly","readonly");
+
+				$(".input_profecion_cliente").removeAttr("required");
+				$(".input_profecion_cliente").attr("readonly","readonly");
+
+				$(".input_domicilio_cliente").removeAttr("required");
+				$(".input_domicilio_cliente").attr("readonly","readonly");
+
+				$("#editardepartamento_representante_cliente").removeAttr("required");
+				$("#editardepartamento_representante_cliente").attr("disabled","disabled");
+
+				$(".input_dui_cliente").removeAttr("required");
+				$(".input_dui_cliente").attr("readonly","readonly");
+
+				$(".input_cargo_cliente").removeAttr("required");
+				$(".input_cargo_cliente").attr("readonly","readonly");
+			}
+			else{
+
+				$(".input_denominacion_cliente").removeAttr("readonly");
+				$(".input_denominacion_cliente").attr("required","required");
+	
+				$(".input_nombre_representante_cliente").removeAttr("readonly");
+				$(".input_nombre_representante_cliente").attr("required","required");
+	
+				$(".input_profecion_cliente").removeAttr("readonly");
+				$(".input_profecion_cliente").attr("required","required");
+	
+				$(".input_domicilio_cliente").removeAttr("readonly");
+				$(".input_domicilio_cliente").attr("required","required");
+	
+				$("#editardepartamento_representante_cliente").removeAttr("disabled");
+				$("#editardepartamento_representante_cliente").attr("required","required");
+	
+				$(".input_dui_cliente").removeAttr("readonly");
+				$(".input_dui_cliente").attr("required","required");
+	
+				$(".input_cargo_cliente").removeAttr("readonly");
+				$(".input_cargo_cliente").attr("required","required");
+
+				$(".input_vigencia_contrato").removeAttr("readonly");
+
+			}
 			
 
 			

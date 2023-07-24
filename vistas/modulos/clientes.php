@@ -82,14 +82,15 @@ function getContent() {
             <th>Cuenta Contable</th>
             <th>Vendedor</th>
             <th>Porcentaje comisión</th>
-            <th> Vigencia del contrato</th>
             <th> ¿Posee Contrato?</th>
+            <th> Vigencia del contrato</th>
             <th> Tipo de servicio:</th>
             <th> Categoría</th>
             <th> Dui</th>
             <th> Contacto contable</th>
             <th> Teléfono contacto contable</th>
             <th> Correo electrónico contacto contable </th>
+            <th> Estado del Cliente </th>
             <th>Acciones</th>
  
           </tr> 
@@ -137,18 +138,37 @@ function getContent() {
                    <td>'.$value["cuenta_contable"].'</td>
                    <td>'.$value["vendedor"].'</td>
                    <td>'.$value["porcentaje_comision"].'</td>
-                   <td>'.$value["vigencia_contrato"].'</td>
                    <td>'.$value["posee_contrato"].'</td>
+                   <td>'.$value["vigencia_contrato"].'</td>
                    <td>'.$value["nombreservicio"].'</td>
                    <td>'.$value["categoria_cliente"].'</td>
                    <td>'.$value["dui"].'</td>
                    <td>'.$value["contacto_contable"].'</td>
                    <td>'.$value["telefono_contacto_contable"].'</td>
-                   <td>'.$value["correo_contacto_contable"].'</td>';
+                   <td>'.$value["correo_contacto_contable"].'</td>
+                   <td>'.$value["estado_cliente"].'</td>';
  
-                  
+                  if($value["estado_cliente"] == "Activar"){
+                    echo '<td>
  
-                   echo '<td>
+                    <div class="btn-group">
+                        
+                      <button class="btn btn-warning btnEditarclientes" idclientes="'.$value["clienteid"].'" data-toggle="modal" data-target="#modalEditarclientes"><i class="fa fa-pencil"></i></button>
+
+                      <button class="btn btn-danger btnEliminarclientes" idclientes="'.$value["clienteid"].'"  Codigo="'.$value["clientenombre"].'"><i class="fa fa-times"></i></button>
+
+                      
+                      <button estado="Desactivar" idcontenido="'.$value["clienteid"].'" class="btn btn-danger desactivarcliente">Desactivar</button>
+                      
+
+                    </div>  
+
+                  </td>
+
+                </tr>';
+                  }
+                  else{
+                    echo '<td>
  
                      <div class="btn-group">
                          
@@ -156,11 +176,18 @@ function getContent() {
  
                        <button class="btn btn-danger btnEliminarclientes" idclientes="'.$value["clienteid"].'"  Codigo="'.$value["clientenombre"].'"><i class="fa fa-times"></i></button>
  
+                       
+                       <button estado="Activar" idcontenido="'.$value["clienteid"].'" class="btn btn-success activarcliente">Activar</button>
+                       
+
                      </div>  
  
                    </td>
  
                  </tr>';
+                  }
+ 
+                   
          }
  
  
@@ -219,45 +246,7 @@ MODAL AGREGAR
             
             <input type="text" name="nuevofecha_apertura" id="fecha_apertura" class="fecha_apertura" style="display: none;">
 
-            <?php
-            
-              function ObtenerCorrelativo() {
-                global $nombretabla_clientes;
-                $query = "select id,codigo from $nombretabla_clientes order by id desc limit 1";
-                $sql = Conexion::conectar()->prepare($query);
-                $sql->execute();			
-                return $sql->fetchAll();
-              };
-
-            $correlativo="";
-             $data0 = ObtenerCorrelativo();
-             foreach($data0 as $row0) {
-              $numero = $row0['codigo'];
-              $quitarletra = substr($numero, 1);
-              $quitarceros = ltrim($quitarletra, "0"); 
-              $addnumber= $quitarceros+1;
-              $correlativo = sprintf("%04d",$addnumber);
-              
-              /* echo $correlativo; */
-              
-            }
-            if($correlativo == "")
-            {
-              $correlativo="0001";
-            }
-            $html="<script>";
-              $html.="$(document).ready(function(){";
-
-                $html .='$(".input_nombre").keydown(function(event){';
-
-                $html .="var letra = $(this).val().charAt(0);";
-                $html.="$('.input_codigo').val(letra+'".$correlativo."');";
-                $html.="});";
-              $html.="});";
-              $html.="</script>";
-              echo $html;
-          ?>
-
+      
           <?php 
              $data = getContent();
              foreach($data as $row) {
@@ -271,7 +260,7 @@ MODAL AGREGAR
               
                 <span class="input-group-addon"><i class="icono_<?php echo $row['Field'];?>"></i></span> 
 
-                <input type="text" class="form-control input-lg  input_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value=""  autocomplete="off" required tabla_validar="clientes" item_validar="codigo"> 
+                <input type="text" class="form-control input-lg  input_<?php echo $row['Field'];?> clientes_input_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value=""  autocomplete="off" required tabla_validar="clientes" item_validar="codigo"> 
 
               </div>
 
@@ -288,8 +277,91 @@ MODAL AGREGAR
           <?php
              }
           ?>
-             
 
+           <!-- dia  -->
+           <div class="diacobro">
+              <label for="">Seleccione día cobro</label>
+                <div>
+                  <select name="nuevodia_cobro_cliente" id="" class="form-control">
+                    <option value="">Seleccione día cobro</option>
+                    <option value="Lunes">Lunes</option>
+                    <option value="Martes">Martes</option>
+                    <option value="Miercoles">Miercoles</option>
+                    <option value="Jueves">Jueves</option>
+                    <option value="Viernes">Viernes</option>
+                    <option value="Sábado">Sábado</option>
+                    <option value="Domingo">Domingo</option>
+
+                  </select>
+                </div>
+             </div>
+
+
+            <!-- dia  -->
+            <div class="diaquedan0">
+              <label for="">Seleccione día quedan</label>
+                <div>
+                  <select name="nuevodia_quedan_cliente" id="" class="form-control">
+                    <option value="">Seleccione día quedan</option>
+                    <option value="Lunes">Lunes</option>
+                    <option value="Martes">Martes</option>
+                    <option value="Miercoles">Miercoles</option>
+                    <option value="Jueves">Jueves</option>
+                    <option value="Viernes">Viernes</option>
+                    <option value="Sábado">Sábado</option>
+                    <option value="Domingo">Domingo</option>
+
+                  </select>
+                </div>
+             </div>
+
+
+             
+             <!-- dia entrega facturacion -->
+             <div class="diaentrega">
+              <label for="">Seleccione dia de entrega de facturación</label>
+                <div>
+                  <select name="nuevodia_entrega_facturacion_cliente" id="" class="form-control">
+                    <option value="">Seleccione día de entrega facturación</option>
+                    <option value="Lunes">Lunes</option>
+                    <option value="Martes">Martes</option>
+                    <option value="Miercoles">Miercoles</option>
+                    <option value="Jueves">Jueves</option>
+                    <option value="Viernes">Viernes</option>
+                    <option value="Sábado">Sábado</option>
+                    <option value="Domingo">Domingo</option>
+
+                  </select>
+                </div>
+             </div>
+
+             <!-- ********* -->
+
+
+             <!-- vendedor*** -->
+             <?php
+                    function empleadovendedor() {
+                      $query = "select * from tbl_vendedor";
+                      $sql = Conexion::conectar()->prepare($query);
+                      $sql->execute();			
+                      return $sql->fetchAll();
+                    };
+                  $dataemnpleado = empleadovendedor();
+                ?>
+                <div class="empleadovendedor">
+                  <label for="">Seleccione Vendedor</label>
+                  <div class=" ">
+                    <select class="form-control mi-selector" name="nuevovendedor">
+                      <option value="">Seleccione Vendedor</option>
+                  <?php
+                    foreach($dataemnpleado as $row0) {
+                      echo "<option value='".$row0['nombre_vendedor']."'>".$row0['nombre_vendedor']."</option>";
+                    }
+                  ?>
+                  </select>
+                 </div>
+                </div>
+                <!-- ******* -->
              
           <!-- ***CONTRIBUYENTE -->
           <div id="contribuyente" class="dropdown-content myDropdown_clientes_contribuyente drop_contribuyente">
@@ -389,7 +461,7 @@ MODAL AGREGAR
               <label for="">¿Posee Contrato?</label>
              <div class="input-group" id="">
               <span class="input-group-addon"><i class="fa fa-server"></i></span> 
-              <select name="nuevoposee_contrato" id="" class="form-control input-lg" required>
+              <select name="nuevoposee_contrato" id="nuevoposee_contrato" class="form-control input-lg" required>
                 <option value="">¿Posee Contrato?</option>
                 <option value="Si">Si</option>
                 <option value="No">No</option>
@@ -401,23 +473,42 @@ MODAL AGREGAR
           
           <div class="c_servicio">
               <label for="">Seleccione Servicio</label>
-             <div class="input-group ">
-                <span class="input-group-addon"><i class="fa fa-users"></i></span>
-                <select name="nuevotipo_servicio" id="" class="form-control input-lg" required>
-                  <option value="">Seleccione Servicio</option>
-                <?php
-                    $datos_mostrar = ControladorServicios::ctrMostrar($item, $valor);
-                    foreach ($datos_mostrar as $key => $value){
-                ?>
-                <option value="<?php echo $value['id'] ?>"> <?php echo $value["nombre"] ?></option>  
-                <?php
-                    }
+              <div class="input-group ">
+                  <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                  <select name="nuevotipo_servicio" id="" class="form-control input-lg" required>
+                    <option value="">Seleccione Servicio</option>
+                  <?php
+                      $datos_mostrar = ControladorServicios::ctrMostrar($item, $valor);
+                      foreach ($datos_mostrar as $key => $value){
                   ?>
-                </select>
-            </div>
+                  <option value="<?php echo $value['id'] ?>"> <?php echo $value["nombre"] ?></option>  
+                  <?php
+                      }
+                    ?>
+                  </select>
+              </div>
             </div>
 
           <!-- ********* -->
+
+
+          <div class="departamento_legal_cliente">
+              <label for="">Seleccione Departamento representante legal </label>
+              <div class="input-group ">
+                  <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                  <select name="nuevodepartamento_representante_cliente" id="nuevodepartamento_representante_cliente" class="form-control input-lg" required>
+                    <option value="">Seleccione Departamento representante legal </option>
+                  <?php
+                      $datos_mostrar=Controladorcat_departamento::ctrMostrar($item, $valor);
+                      foreach ($datos_mostrar as $key => $value){
+                  ?>
+                  <option value="<?php echo $value['Nombre'] ?>"> <?php echo $value["Nombre"] ?></option>  
+                  <?php
+                      }
+                    ?>
+                  </select>
+              </div>
+            </div>
 
           
 
@@ -545,7 +636,7 @@ MODAL EDITAR
               
                 <span class="input-group-addon"><i class="icono_<?php echo $row['Field'];?>"></i></span> 
 
-                <input type="text" class="form-control input-lg  input_<?php echo $row['Field'];?>" id="editar<?php echo $row['Field'];?>" name="editar<?php echo $row['Field'];?>" placeholder="" value="" required autocomplete="off">
+                <input type="text" class="form-control input-lg  input_<?php echo $row['Field'];?>  clientes_input_<?php echo $row['Field'];?>" id="editar<?php echo $row['Field'];?>" name="editar<?php echo $row['Field'];?>" placeholder="" value="" required autocomplete="off">
 
               </div>
 
@@ -555,6 +646,91 @@ MODAL EDITAR
              }
           ?>
              
+
+             <!-- dia  -->
+           <div class="ediacobro">
+              <label for="">Seleccione día cobro</label>
+                <div>
+                  <select name="editardia_cobro_cliente" id="editardia_cobro_cliente" class="form-control">
+                    <option value="">Seleccione día cobro</option>
+                    <option value="Lunes">Lunes</option>
+                    <option value="Martes">Martes</option>
+                    <option value="Miercoles">Miercoles</option>
+                    <option value="Jueves">Jueves</option>
+                    <option value="Viernes">Viernes</option>
+                    <option value="Sábado">Sábado</option>
+                    <option value="Domingo">Domingo</option>
+
+                  </select>
+                </div>
+             </div>
+
+
+            <!-- dia  -->
+            <div class="ediaquedan0">
+              <label for="">Seleccione día quedan</label>
+                <div>
+                  <select name="editardia_quedan_cliente" id="editardia_quedan_cliente" class="form-control">
+                    <option value="">Seleccione día quedan</option>
+                    <option value="Lunes">Lunes</option>
+                    <option value="Martes">Martes</option>
+                    <option value="Miercoles">Miercoles</option>
+                    <option value="Jueves">Jueves</option>
+                    <option value="Viernes">Viernes</option>
+                    <option value="Sábado">Sábado</option>
+                    <option value="Domingo">Domingo</option>
+
+                  </select>
+                </div>
+             </div>
+
+
+             <!-- dia entrega facturacion -->
+             <div class="editardiaentrega">
+              <label for="">Seleccione dia de entrega de facturación</label>
+                <div>
+                  <select name="editardia_entrega_facturacion_cliente" id="editardia_entrega_facturacion_cliente" class="form-control">
+                    <option value="">Seleccione dia de entrega facturación</option>
+                    <option value="Lunes">Lunes</option>
+                    <option value="Martes">Martes</option>
+                    <option value="Miercoles">Miercoles</option>
+                    <option value="Jueves">Jueves</option>
+                    <option value="Viernes">Viernes</option>
+                    <option value="Sábado">Sábado</option>
+                    <option value="Domingo">Domingo</option>
+
+                  </select>
+                </div>
+             </div>
+
+             <!-- ********* -->
+
+             <!-- vendedor*** -->
+             <?php
+                    function empleadovendedorE() {
+                      $query = "select *from tbl_vendedor";
+                      $sql = Conexion::conectar()->prepare($query);
+                      $sql->execute();			
+                      return $sql->fetchAll();
+                    };
+                  $dataemnpleadoE = empleadovendedorE();
+                ?>
+                <div class="updateempleadovendedor">
+                  <label for="">Seleccione Vendedor</label>
+                  <div class=" ">
+                
+                    <select class="form-control mi-selector vendedorselector" name="editarvendedor" id="editarvendedor">
+                      <option value="" id="seleccionarvendedor">Seleccione Vendedor</option>
+                  <?php
+                    foreach($dataemnpleadoE as $row0) {
+                      echo "<option value='".$row0['nombre_vendedor']."'>".$row0['nombre_vendedor']."</option>";
+                    }
+                  ?>
+                  </select>
+                 </div>
+                </div>
+                <!-- ******* -->
+
 
 
              
@@ -691,6 +867,23 @@ MODAL EDITAR
 
         <!-- ********* -->
 
+        <div class="edepartamento_legal_cliente">
+              <label for="">Seleccione Departamento representante legal </label>
+              <div class="input-group ">
+                  <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                  <select name="editardepartamento_representante_cliente" id="editardepartamento_representante_cliente" class="form-control input-lg" required>
+                    <option value="">Seleccione Departamento representante legal </option>
+                  <?php
+                      $datos_mostrar=Controladorcat_departamento::ctrMostrar($item, $valor);
+                      foreach ($datos_mostrar as $key => $value){
+                  ?>
+                  <option value="<?php echo $value['Nombre'] ?>"> <?php echo $value["Nombre"] ?></option>  
+                  <?php
+                      }
+                    ?>
+                  </select>
+              </div>
+            </div>
         
 
         <!-- *** -->

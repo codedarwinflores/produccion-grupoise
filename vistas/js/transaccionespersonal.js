@@ -19,6 +19,7 @@ $(document).ready(function(){
 	$(".tipo_movimiento_personal").empty();
 	$(".devolucion").empty();
 	$(".numero_transaccion_personal").empty();
+	$(".cubrir_vacante").empty();
 
 
 
@@ -65,6 +66,7 @@ $(".tablas").on("click", ".btnEditartransaccionespersonal", function(){
 			$("#editartipo_movimiento_personal").val(respuesta["tipo_movimiento_personal"]);
 			$("#editardevolucion").val(respuesta["devolucion"]);
 			$("#editarnumero_transacción_personal").val(respuesta["numero_transacción_personal"]);
+			$("#editarcubrir_vacante").val(respuesta["cubrir_vacante"]);
 
 
 		}

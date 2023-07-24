@@ -1,0 +1,226 @@
+[11-Apr-2023 16:25:01 UTC] PHP Notice:  Undefined variable: cuenta in /home/armonico/grupoise-dev.bitacora.work/ajax/aumentohombres.ajax.php on line 17
+[11-Apr-2023 16:49:56 UTC] PHP Notice:  Undefined variable: cuenta in /home/armonico/grupoise-dev.bitacora.work/ajax/aumentohombres.ajax.php on line 17
+[11-Apr-2023 16:50:55 UTC] PHP Notice:  Undefined variable: cuenta in /home/armonico/grupoise-dev.bitacora.work/ajax/aumentohombres.ajax.php on line 17
+[11-Apr-2023 17:05:08 UTC] PHP Notice:  Undefined variable: cuenta in /home/armonico/grupoise-dev.bitacora.work/ajax/aumentohombres.ajax.php on line 17
+[11-Apr-2023 18:31:35 UTC] PHP Notice:  Undefined variable: cuenta in /home/armonico/grupoise-dev.bitacora.work/ajax/aumentohombres.ajax.php on line 17
+[11-Apr-2023 18:31:56 UTC] PHP Notice:  Undefined variable: cuenta in /home/armonico/grupoise-dev.bitacora.work/ajax/aumentohombres.ajax.php on line 17
+[16-Apr-2023 16:38:12 UTC] PHP Warning:  require_once(../controladores/transacciones_agente.controlador.php): failed to open stream: No such file or directory in /home/armonico/grupoise-dev.bitacora.work/ajax/transaccionagente.ajax.php on line 3
+[16-Apr-2023 16:38:12 UTC] PHP Fatal error:  require_once(): Failed opening required '../controladores/transacciones_agente.controlador.php' (include_path='.:/opt/alt/php72/usr/share/pear') in /home/armonico/grupoise-dev.bitacora.work/ajax/transaccionagente.ajax.php on line 3
+[16-Apr-2023 16:39:13 UTC] PHP Warning:  require_once(../controladores/transacciones_agente.controlador.php): failed to open stream: No such file or directory in /home/armonico/grupoise-dev.bitacora.work/ajax/transaccionagente.ajax.php on line 3
+[16-Apr-2023 16:39:13 UTC] PHP Fatal error:  require_once(): Failed opening required '../controladores/transacciones_agente.controlador.php' (include_path='.:/opt/alt/php72/usr/share/pear') in /home/armonico/grupoise-dev.bitacora.work/ajax/transaccionagente.ajax.php on line 3
+[16-Apr-2023 17:04:06 UTC] PHP Warning:  require_once(../controladores/transaccionesagente.controlador.php): failed to open stream: No such file or directory in /home/armonico/grupoise-dev.bitacora.work/ajax/transaccionagente.ajax.php on line 3
+[16-Apr-2023 17:04:06 UTC] PHP Fatal error:  require_once(): Failed opening required '../controladores/transaccionesagente.controlador.php' (include_path='.:/opt/alt/php72/usr/share/pear') in /home/armonico/grupoise-dev.bitacora.work/ajax/transaccionagente.ajax.php on line 3
+[19-Apr-2023 14:53:15 UTC] PHP Notice:  Undefined index: dias_ausencia_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 9
+[19-Apr-2023 14:53:15 UTC] PHP Notice:  Undefined index: horas_ausencia_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 10
+[19-Apr-2023 14:53:15 UTC] PHP Notice:  Undefined index: consulta_isss_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 11
+[19-Apr-2023 14:53:15 UTC] PHP Notice:  Undefined index: incapacidad_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 12
+[19-Apr-2023 14:53:15 UTC] PHP Notice:  Undefined index: ansp_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 13
+[19-Apr-2023 14:53:15 UTC] PHP Notice:  Undefined index: vacaciones_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 14
+[19-Apr-2023 14:53:15 UTC] PHP Notice:  Undefined index: permiso_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 15
+[19-Apr-2023 14:53:15 UTC] PHP Notice:  Undefined index: hora_normales_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 16
+[19-Apr-2023 14:53:15 UTC] PHP Notice:  Undefined index: tiempo_compensatorio_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 17
+[19-Apr-2023 14:53:15 UTC] PHP Notice:  Undefined index: recuperar_tiempo_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 18
+[19-Apr-2023 14:53:15 UTC] PHP Notice:  Undefined index: comodin_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 19
+[19-Apr-2023 14:53:15 UTC] PHP Notice:  Undefined index: cubierto_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 20
+[19-Apr-2023 14:53:15 UTC] PHP Notice:  Undefined index: nuevo_servicio_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 21
+[19-Apr-2023 14:53:15 UTC] PHP Notice:  Undefined index: fin_servicio_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 22
+[19-Apr-2023 14:53:15 UTC] PHP Notice:  Undefined index: ubicacion_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 23
+[19-Apr-2023 14:53:15 UTC] PHP Notice:  Undefined index: servicio_eventual_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 24
+[19-Apr-2023 14:53:15 UTC] PHP Notice:  Undefined index: inactivos_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 25
+[19-Apr-2023 14:53:15 UTC] PHP Notice:  Undefined index: activo_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 26
+[19-Apr-2023 14:53:15 UTC] PHP Notice:  Undefined index: liquidado_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 27
+[19-Apr-2023 14:53:15 UTC] PHP Notice:  Undefined index: inicial_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 28
+[19-Apr-2023 14:53:15 UTC] PHP Notice:  Undefined index: hora_extra_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 29
+[19-Apr-2023 14:53:15 UTC] PHP Notice:  Undefined index: vacante_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 30
+[19-Apr-2023 14:53:15 UTC] PHP Notice:  Undefined index: posicion_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 31
+[19-Apr-2023 14:53:15 UTC] PHP Notice:  Undefined index: fecha_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 32
+[19-Apr-2023 14:53:15 UTC] PHP Notice:  Undefined index: accion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 33
+[19-Apr-2023 14:59:36 UTC] PHP Notice:  Undefined index: horas_ausencia_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 10
+[19-Apr-2023 14:59:36 UTC] PHP Notice:  Undefined index: consulta_isss_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 11
+[19-Apr-2023 14:59:36 UTC] PHP Notice:  Undefined index: incapacidad_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 12
+[19-Apr-2023 14:59:36 UTC] PHP Notice:  Undefined index: ansp_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 13
+[19-Apr-2023 14:59:36 UTC] PHP Notice:  Undefined index: vacaciones_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 14
+[19-Apr-2023 14:59:36 UTC] PHP Notice:  Undefined index: permiso_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 15
+[19-Apr-2023 14:59:36 UTC] PHP Notice:  Undefined index: hora_normales_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 16
+[19-Apr-2023 14:59:36 UTC] PHP Notice:  Undefined index: tiempo_compensatorio_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 17
+[19-Apr-2023 14:59:36 UTC] PHP Notice:  Undefined index: recuperar_tiempo_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 18
+[19-Apr-2023 14:59:36 UTC] PHP Notice:  Undefined index: comodin_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 19
+[19-Apr-2023 14:59:36 UTC] PHP Notice:  Undefined index: cubierto_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 20
+[19-Apr-2023 14:59:36 UTC] PHP Notice:  Undefined index: nuevo_servicio_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 21
+[19-Apr-2023 14:59:36 UTC] PHP Notice:  Undefined index: fin_servicio_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 22
+[19-Apr-2023 14:59:36 UTC] PHP Notice:  Undefined index: ubicacion_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 23
+[19-Apr-2023 14:59:36 UTC] PHP Notice:  Undefined index: servicio_eventual_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 24
+[19-Apr-2023 14:59:36 UTC] PHP Notice:  Undefined index: inactivos_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 25
+[19-Apr-2023 14:59:36 UTC] PHP Notice:  Undefined index: activo_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 26
+[19-Apr-2023 14:59:36 UTC] PHP Notice:  Undefined index: liquidado_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 27
+[19-Apr-2023 14:59:36 UTC] PHP Notice:  Undefined index: inicial_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 28
+[19-Apr-2023 14:59:36 UTC] PHP Notice:  Undefined index: hora_extra_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 29
+[19-Apr-2023 14:59:36 UTC] PHP Notice:  Undefined index: vacante_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 30
+[19-Apr-2023 14:59:36 UTC] PHP Notice:  Undefined index: posicion_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 31
+[19-Apr-2023 14:59:36 UTC] PHP Notice:  Undefined index: fecha_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 32
+[19-Apr-2023 14:59:36 UTC] PHP Notice:  Undefined index: accion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 33
+[19-Apr-2023 16:15:57 UTC] PHP Notice:  Undefined variable: namecolumnas in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 101
+[19-Apr-2023 16:15:57 UTC] PHP Notice:  Undefined variable: namecampos in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 102
+[19-Apr-2023 16:48:37 UTC] PHP Notice:  Undefined variable: tabla in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 107
+[19-Apr-2023 16:48:37 UTC] PHP Notice:  Undefined variable: namecolumnas in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 107
+[19-Apr-2023 16:48:37 UTC] PHP Notice:  Undefined variable: namecampos in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 107
+[19-Apr-2023 16:48:37 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method PDOStatement::close() in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php:117
+Stack trace:
+#0 {main}
+  thrown in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 117
+[19-Apr-2023 16:49:15 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method PDOStatement::close() in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php:117
+Stack trace:
+#0 {main}
+  thrown in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 117
+[19-Apr-2023 19:45:25 UTC] PHP Recoverable fatal error:  Object of class PDOStatement could not be converted to string in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 167
+[19-Apr-2023 19:48:10 UTC] PHP Recoverable fatal error:  Object of class PDOStatement could not be converted to string in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 167
+[19-Apr-2023 19:54:46 UTC] PHP Warning:  PDOStatement::execute(): SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 170
+[19-Apr-2023 19:56:55 UTC] PHP Warning:  PDOStatement::execute(): SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 168
+[19-Apr-2023 20:02:38 UTC] PHP Fatal error:  Uncaught Error: Cannot pass parameter 2 by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php:165
+Stack trace:
+#0 {main}
+  thrown in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:13:43 UTC] PHP Notice:  Array to string conversion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 167
+[19-Apr-2023 20:14:47 UTC] PHP Notice:  Array to string conversion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 167
+[19-Apr-2023 20:18:01 UTC] PHP Notice:  Array to string conversion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 167
+[19-Apr-2023 20:18:59 UTC] PHP Fatal error:  Uncaught Error: Cannot pass parameter 2 by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php:164
+Stack trace:
+#0 {main}
+  thrown in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 164
+[19-Apr-2023 20:20:21 UTC] PHP Fatal error:  Uncaught Error: Cannot pass parameter 2 by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php:164
+Stack trace:
+#0 {main}
+  thrown in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 164
+[19-Apr-2023 20:40:04 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:04 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:04 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:04 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:04 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:04 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:04 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:04 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:04 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:04 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:04 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:04 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:04 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:04 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:04 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:04 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:04 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:04 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:04 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:04 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:04 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:04 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:04 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:04 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:04 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:04 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:04 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:21 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:21 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:21 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:21 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:21 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:21 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:21 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:21 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:21 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:21 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:21 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:21 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:21 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:21 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:21 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:21 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:21 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:21 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:21 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:21 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:21 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:21 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:21 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:21 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:21 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:21 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:40:21 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:43:15 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:43:15 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:43:15 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:43:15 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:43:15 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:43:15 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:43:15 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:43:15 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:43:15 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:43:15 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:43:15 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:43:15 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:43:15 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:43:15 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:43:15 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:43:15 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:43:15 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:43:15 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:43:15 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:43:15 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:43:15 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:43:15 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:43:15 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:43:15 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:43:15 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:43:15 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 20:43:15 UTC] PHP Notice:  Only variables should be passed by reference in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 165
+[19-Apr-2023 21:03:54 UTC] PHP Notice:  Undefined index: idempleado_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 8
+[19-Apr-2023 21:03:54 UTC] PHP Notice:  Undefined index: dias_ausencia_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 9
+[19-Apr-2023 21:03:54 UTC] PHP Notice:  Undefined index: horas_ausencia_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 10
+[19-Apr-2023 21:03:54 UTC] PHP Notice:  Undefined index: consulta_isss_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 11
+[19-Apr-2023 21:03:54 UTC] PHP Notice:  Undefined index: incapacidad_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 12
+[19-Apr-2023 21:03:54 UTC] PHP Notice:  Undefined index: ansp_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 13
+[19-Apr-2023 21:03:54 UTC] PHP Notice:  Undefined index: vacaciones_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 14
+[19-Apr-2023 21:03:54 UTC] PHP Notice:  Undefined index: permiso_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 15
+[19-Apr-2023 21:03:54 UTC] PHP Notice:  Undefined index: hora_normales_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 16
+[19-Apr-2023 21:03:54 UTC] PHP Notice:  Undefined index: tiempo_compensatorio_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 17
+[19-Apr-2023 21:03:54 UTC] PHP Notice:  Undefined index: recuperar_tiempo_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 18
+[19-Apr-2023 21:03:54 UTC] PHP Notice:  Undefined index: comodin_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 19
+[19-Apr-2023 21:03:54 UTC] PHP Notice:  Undefined index: cubierto_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 20
+[19-Apr-2023 21:03:54 UTC] PHP Notice:  Undefined index: nuevo_servicio_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 21
+[19-Apr-2023 21:03:54 UTC] PHP Notice:  Undefined index: fin_servicio_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 22
+[19-Apr-2023 21:03:54 UTC] PHP Notice:  Undefined index: ubicacion_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 23
+[19-Apr-2023 21:03:54 UTC] PHP Notice:  Undefined index: servicio_eventual_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 24
+[19-Apr-2023 21:03:54 UTC] PHP Notice:  Undefined index: inactivos_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 25
+[19-Apr-2023 21:03:54 UTC] PHP Notice:  Undefined index: activo_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 26
+[19-Apr-2023 21:03:54 UTC] PHP Notice:  Undefined index: liquidado_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 27
+[19-Apr-2023 21:03:54 UTC] PHP Notice:  Undefined index: inicial_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 28
+[19-Apr-2023 21:03:54 UTC] PHP Notice:  Undefined index: hora_extra_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 29
+[19-Apr-2023 21:03:54 UTC] PHP Notice:  Undefined index: vacante_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 30
+[19-Apr-2023 21:03:54 UTC] PHP Notice:  Undefined index: posicion_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 31
+[19-Apr-2023 21:03:54 UTC] PHP Notice:  Undefined index: fecha_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 32
+[19-Apr-2023 21:03:54 UTC] PHP Notice:  Undefined index: motivo_horas_extras in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 34
+[19-Apr-2023 21:04:21 UTC] PHP Notice:  Undefined index: idempleado_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 8
+[19-Apr-2023 21:04:21 UTC] PHP Notice:  Undefined index: dias_ausencia_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 9
+[19-Apr-2023 21:04:21 UTC] PHP Notice:  Undefined index: horas_ausencia_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 10
+[19-Apr-2023 21:04:21 UTC] PHP Notice:  Undefined index: consulta_isss_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 11
+[19-Apr-2023 21:04:21 UTC] PHP Notice:  Undefined index: incapacidad_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 12
+[19-Apr-2023 21:04:21 UTC] PHP Notice:  Undefined index: ansp_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 13
+[19-Apr-2023 21:04:21 UTC] PHP Notice:  Undefined index: vacaciones_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 14
+[19-Apr-2023 21:04:21 UTC] PHP Notice:  Undefined index: permiso_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 15
+[19-Apr-2023 21:04:21 UTC] PHP Notice:  Undefined index: hora_normales_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 16
+[19-Apr-2023 21:04:21 UTC] PHP Notice:  Undefined index: tiempo_compensatorio_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 17
+[19-Apr-2023 21:04:21 UTC] PHP Notice:  Undefined index: recuperar_tiempo_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 18
+[19-Apr-2023 21:04:21 UTC] PHP Notice:  Undefined index: comodin_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 19
+[19-Apr-2023 21:04:21 UTC] PHP Notice:  Undefined index: cubierto_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 20
+[19-Apr-2023 21:04:21 UTC] PHP Notice:  Undefined index: nuevo_servicio_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 21
+[19-Apr-2023 21:04:21 UTC] PHP Notice:  Undefined index: fin_servicio_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 22
+[19-Apr-2023 21:04:21 UTC] PHP Notice:  Undefined index: ubicacion_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 23
+[19-Apr-2023 21:04:21 UTC] PHP Notice:  Undefined index: servicio_eventual_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 24
+[19-Apr-2023 21:04:21 UTC] PHP Notice:  Undefined index: inactivos_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 25
+[19-Apr-2023 21:04:21 UTC] PHP Notice:  Undefined index: activo_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 26
+[19-Apr-2023 21:04:21 UTC] PHP Notice:  Undefined index: liquidado_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 27
+[19-Apr-2023 21:04:21 UTC] PHP Notice:  Undefined index: inicial_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 28
+[19-Apr-2023 21:04:21 UTC] PHP Notice:  Undefined index: hora_extra_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 29
+[19-Apr-2023 21:04:21 UTC] PHP Notice:  Undefined index: vacante_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 30
+[19-Apr-2023 21:04:21 UTC] PHP Notice:  Undefined index: posicion_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 31
+[19-Apr-2023 21:04:21 UTC] PHP Notice:  Undefined index: fecha_situacion in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 32
+[19-Apr-2023 21:04:21 UTC] PHP Notice:  Undefined index: motivo_horas_extras in /home/armonico/grupoise-dev.bitacora.work/ajax/situacion.ajax.php on line 34

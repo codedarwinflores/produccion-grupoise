@@ -255,6 +255,65 @@ require_once "modelos/extravios.modelo.php";
 require_once "controladores/uniformedescuento.controlador.php";
 require_once "modelos/uniformedescuento.modelo.php";
 
+
+/* **  vendedor *** */
+require_once "controladores/vendedor.controlador.php";
+require_once "modelos/vendedor.modelo.php";
+
+
+
+/* **  detalle ubicacion *** */
+require_once "controladores/detalleubicacion.controlador.php";
+require_once "modelos/detalleubicacion.modelo.php";
+
+
+/* **  detalle ubicacion *** */
+require_once "controladores/turnosubicacion.controlador.php";
+require_once "modelos/tunosubicacion.modelo.php";
+
+
+
+/* **  comentario ubicacion *** */
+require_once "controladores/comentario.controlador.php";
+require_once "modelos/comentario.modelo.php";
+
+/* **  agente ubicacion *** */
+require_once "controladores/agenteubicacion.controlador.php";
+require_once "modelos/agenteubicacion.modelo.php";
+
+
+
+/* **  devengo ubicacion *** */
+require_once "controladores/devengoubicacion.controlador.php";
+require_once "modelos/devengoubicacion.modelo.php";
+
+/* **  posicion ubicacion *** */
+require_once "controladores/posicionubicacion.controlador.php";
+require_once "modelos/posicionubicacion.modelo.php";
+
+
+/* **  posicion transaccionagente *** */
+require_once "controladores/transaccionagente.controlador.php";
+require_once "modelos/transaccionagente.modelo.php";
+
+
+/* **  posicion transaccionagente *** */
+require_once "controladores/tipohora.controlador.php";
+require_once "modelos/tipohora.modelo.php";
+
+
+/* **  posicion transaccionagente *** */
+require_once "controladores/coordinadorpatrulla.controlador.php";
+require_once "modelos/coordinadorpatrulla.modelo.php";
+
+/* **  posicion vacante *** */
+require_once "controladores/vacante.controlador.php";
+require_once "modelos/vacante.modelo.php";
+
+/* **  posicion vacante *** */
+require_once "controladores/recibo.controlador.php";
+require_once "modelos/recibo.modelo.php";
+
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();
 

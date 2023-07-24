@@ -1,3 +1,8 @@
+
+<?php
+    header('Content-Type: text/html; charset=ISO-8859-1');
+?>
+
 <?php
 
 
@@ -12,11 +17,14 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
   return;
 
 }
-//require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
-require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
+require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
+/* require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php"); */
+/* require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php"); */
+
 
 
 ?>
+
 <style>
 .topics tr { line-height: 14px; }
   </style>
@@ -54,7 +62,9 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
       <div class="box-body" id="impresion">
         
         <?php       
-        $db=Conexion2();       
+        
+        $db=Conexion2();   
+            
         $query=$db->query("SELECT * FROM tbl_empleados WHERE numero_documento_identidad='".$_POST["numDoc"]."' ");
         if(!$query){
             echo'<div class="error_ mensajes"><strong>Error</strong><br/>ERROR</div>';            
@@ -72,6 +82,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
             exit();
         }
         $rowcargo=$queryCargo->fetch_row();
+        
         //direccion
         //telefono
         //fecha_nacimiento
@@ -121,126 +132,164 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
         ?>
         <!--ENCABEZADO--> 
         <div class="col-md-12" align="left">              
-            <img src="/grupoise/vistas/img/plantilla/logo_original.png" style="width: 152px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label style="font-size: xx-large;">FICHA PERSONAL</label>
+          <!--   <img src="/grupoise/vistas/img/plantilla/logo_original.png" style="width: 152px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label style="font-size: xx-large;">FICHA PERSONAL</label> -->
+          <table>
+            <tr>
+              <td WIDTH="500"><label style="font-size: 20px; color:blue;">INVESTIGACIONES Y SEGURIDAD S.A. DE C.V.</label></td>
+              <td ><label style="font-size:20px;  color:blue;">FICHA PERSONAL</label></td>
+            </tr>
+          </table>
+          
         </div> 
 
         <!--FOTO--> 
-        <div class="col-md-12" align="left">              
-            <img src="<?php echo $row[56]?>" style="width: 100px;margin: 15px;border-style: solid;border-width: 1px;">
+        <div class="col-md-12" align="left">  
+          <?php
+       
+  /*         $fotoempleado = "../../".$row[56];
+          $imagenBase64empleado = "data:image/png;base64," . base64_encode(file_get_contents($fotoempleado)); */
+          ?>  
+        
+            
         </div> 
+<style>
+  td{
+    font-size: 12px;
+  }
+</style>
+        <table>
+          <tr>
+            <td WIDTH="900">
+        
+              <!-- ****** -->
+              <div class="col-md-12" align="left">   
+                    <table style="width: 100%;" >
+                      <!--NUMERO Y FECHA CONTRATACION--> 
+                      <tr    style="line-height: 25px">
+                        <td> <b>N&uacute;mero:<br><?php echo $row[0]?> </td>
+                        <td colspan="3"> <b>Fecha contrataci&oacute;n:<br> <?php echo $row[1]?></td>
+                      </tr>
 
-        <div class="col-md-12" align="left">   
-          <table style="width: 100%;" >
-            <!--NUMERO Y FECHA CONTRATACION--> 
-            <tr    style="line-height: 25px">
-              <td> <b>N&uacute;mero:</b><?php echo $row[0]?> </td>
-              <td colspan="3"> <b>Fecha contrataci&oacute;n:</b> <?php echo $row[1]?></td>
-            </tr>
+                      <!--NOMBRE, PRIMER APELLIDO SEGUNDOAPELLIDO-->  
+                      <tr style="line-height: 25px">
+                        <td> <b>Nombres:</b><br><?php echo $row[2]." ".$row[3]." ".$row[4]?> </td>
+                        <td> <b>Primer apellido:</b> <br><?php echo $row[5]?></td>
+                        <td colspan="2"> <b>Segundo apellido:</b> <br><?php echo $row[6]?></td>
+                      </tr>
 
-             <!--NOMBRE, PRIMER APELLIDO SEGUNDOAPELLIDO-->  
-            <tr style="line-height: 25px">
-              <td> <b>Nombres:</b><?php echo $row[2]." ".$row[3]." ".$row[4]?> </td>
-              <td> <b>Primer apellido:</b> <?php echo $row[5]?></td>
-              <td colspan="2"> <b>Segundo apellido:</b> <?php echo $row[6]?></td>
-            </tr>
+                      <!--CARGO Y DIRECCION-->
+                      <tr style="line-height: 25px">
+                        <td> <b>Cargo desempe&ntilde;ado:</b><br><?php echo $rowcargo[1]?> </td>
+                        <td colspan="3">  <b>Direcci&oacute;n:</b><br> <?php echo $row[10]?></td>
+                      </tr>
+                      <!--TELEFONO,FECHANAc, ESTADO CIVIL-->  
+                      <tr style="line-height: 25px">
+                        <td> <b>Tel&eacute;fono:</b><br><?php echo $row[13]?> </td>
+                        <td>  <b>Fecha de nacimiento:</b><br> <?php echo $row[31]?></td>
+                        <td colspan="2"> <b>Estado civil:</b><br> <?php echo $row[8]?></td>
+                      </tr>
+                    <!--DUI, NIt, NACIONALIDAD--> 
+                      <tr style="line-height: 25px">
+                        <td> <b>DUI:</b><br><?php echo $row[17]?> </td>
+                        <td>  <b>NIT:</b><br> <?php echo $row[25]?></td>
+                        <td colspan="2">  <b>Nacionalidad:</b><br><?php echo $row[30]?></td>
+                      </tr>
+                    <!--PESO, ESTARUTA, TIPO SANGRE,No ISSS--> 
+                    <tr style="line-height: 25px">
+                        <td> <b>Peso:</b><br><?php echo $row[35]?> lb </td>
+                        <td>   <b>Estatura:</b><br> <?php echo $row[36]?> m</td>
+                        <td>   <b>Tipo de sangre:</b><br> <?php echo $row[41]?></td>
+                        <td>  <b>No. ISSS:</b> <br><?php echo $row[13]?></td>
+                      </tr>
+                      <!--AFP, NUP, CERTIFICADO SEGURO VIDA--> 
+                      <tr style="line-height: 25px">
+                        <td> <b>AFP:</b><br><?php echo $rowafp[1]?> </td>
+                        <td>  <b>NUP:</b><br> <?php echo $row[27]?></td>
+                        <td colspan="2">  <b>Certificado seguro de vida:</b><br> N/D</td>
+                      </tr>
+                      <!--CABELLO,PIEL , TIPO LICENCIA CONDUCIR--> 
+                      <tr style="line-height: 25px">
+                        <td> <b>Cabello:</b><br><?php echo $row[39]?>  </td>
+                        <td>  <b>Piel:</b><br> <?php echo $row[37]?></td>
+                        <td colspan="2">  <b>Tipo licencia de conducir:</b><br><?php echo $row[22]?></td>
+                      </tr>
+                      <!--OJOS,CARA, RELIGION--> 
+                      <tr style="line-height: 25px">
+                        <td> <b>Ojos:</b><br><?php echo $row[38]?>  </td>
+                        <td> <b>Cara:</b><br> <?php echo $row[40]?></td>
+                        <td colspan="2">  <b>Religi&oacute;n:</b><br><?php echo $row[32]?></td>
+                      </tr>
+                      <!--SENALES ESPECIALES, PROFESION U OFICIO--> 
+                      <tr style="line-height: 25px">
+                        <td> <b>Se&ntilde;ales especiales:</b><?php echo $row[42]?> </td>
+                        <td colspan="3">  <b>Profesi&oacute;n/Oficio:</b><?php echo $row[28]?></td>
+                      </tr>
 
-            <!--CARGO Y DIRECCION-->
-            <tr style="line-height: 25px">
-              <td> <b>Cargo desempe&ntilde;ado:</b><?php echo $rowcargo[1]?> </td>
-              <td colspan="3">  <b>Direcci&oacute;n:</b> <?php echo $row[10]?></td>
-            </tr>
-            <!--TELEFONO,FECHANAc, ESTADO CIVIL-->  
-            <tr style="line-height: 25px">
-              <td> <b>Tel&eacute;fono:</b><?php echo $row[13]?> </td>
-              <td>  <b>Fecha de nacimiento:</b> <?php echo $row[32]?></td>
-              <td colspan="2"> <b>Estado civil:</b> <?php echo $row[8]?></td>
-            </tr>
-           <!--DUI, NIt, NACIONALIDAD--> 
-            <tr style="line-height: 25px">
-              <td> <b>DUI:</b><?php echo $row[17]?> </td>
-              <td>  <b>NIT:</b> <?php echo $row[25]?></td>
-              <td colspan="2">  <b>Nacionalidad:</b> <?php echo $row[30]?></td>
-            </tr>
-           <!--PESO, ESTARUTA, TIPO SANGRE,No ISSS--> 
-           <tr style="line-height: 25px">
-              <td> <b>Peso:</b><?php echo $row[36]?> lb </td>
-              <td>   <b>Estatura:</b> <?php echo $row[37]?> m</td>
-              <td>   <b>Tipo de sangre:</b> <?php echo $row[42]?></td>
-              <td>  <b>No. ISSS:</b> <?php echo $row[14]?></td>
-            </tr>
-            <!--AFP, NUP, CERTIFICADO SEGURO VIDA--> 
-            <tr style="line-height: 25px">
-              <td> <b>AFP:</b><?php echo $rowafp[2]?> </td>
-              <td>  <b>NUP:</b> <?php echo $row[28]?></td>
-              <td colspan="2">  <b>Certificado seguro de vida:</b> N/D</td>
-            </tr>
-            <!--CABELLO,PIEL , TIPO LICENCIA CONDUCIR--> 
-            <tr style="line-height: 25px">
-              <td> <b>Cabello:</b><?php echo $row[40]?>  </td>
-              <td>  <b>Piel:</b> <?php echo $row[38]?></td>
-              <td colspan="2">  <b>Tipo licencia de conducir:</b><?php echo $row[23]?></td>
-            </tr>
-             <!--OJOS,CARA, RELIGION--> 
-            <tr style="line-height: 25px">
-              <td> <b>Ojos:</b><?php echo $row[39]?>  </td>
-              <td> <b>Cara:</b> <?php echo $row[41]?></td>
-              <td colspan="2">  <b>Religi&oacute;n:</b><?php echo $row[33]?></td>
-            </tr>
-            <!--SENALES ESPECIALES, PROFESION U OFICIO--> 
-            <tr style="line-height: 25px">
-              <td> <b>Se&ntilde;ales especiales:</b><?php echo $row[43]?> </td>
-              <td colspan="3">  <b>Profesi&oacute;n/Oficio:</b> <?php echo $row[29]?></td>
-            </tr>
+                    <!--GRADO DE ESTUDIOS, LUGAR DONDE ESTUDIO--> 
+                      <tr style="line-height: 25px">
+                        <td> <b>Grado de estudios:</b><?php echo $row[33]?>  </td>
+                        <td colspan="3"> <b>Lugar donde estudi&oacute;:</b> <?php echo $row[34]?></td>
+                      </tr>
 
-           <!--GRADO DE ESTUDIOS, LUGAR DONDE ESTUDIO--> 
-            <tr style="line-height: 25px">
-              <td> <b>Grado de estudios:</b><?php echo $row[34]?>  </td>
-              <td colspan="3"> <b>Lugar donde estudi&oacute;:</b> <?php echo $row[35]?></td>
-            </tr>
+                    <!--Servicio militar--> 
+                    <tr style="line-height: 25px">             
+                      <td colspan="4"> <b>Servicio militar:</b><?php echo $row[46]?> </td>
+                    </tr>
+                    <tr style="line-height: 25px">
+                      <td> <b>Lugar:</b><br><?php echo $row[49]?> </td>
+                      <td> <b>Desde:</b><br> <?php echo $row[47]?></td>
+                      <td colspan="2">  <b>Hasta:</b><br> <?php echo $row[48]?></td>
+                    </tr>
+                    <tr style="line-height: 25px">
+                      <td> <b>Grado militar:</b><br><?php echo $row[50]?> </td>
+                      <td colspan="3">  <b>Motivo baja:</b><br><?php echo $row[51]?> </td>
+                    </tr>
 
-          <!--Servicio militar--> 
-          <tr style="line-height: 25px">             
-            <td colspan="4"> <b>Servicio militar:</b><?php echo $row[47]?> </td>
+                    <!--SOLVENCIA ANTECEDENTES POLICIALES [convertir]--> 
+                    <tr style="line-height: 25px">
+                      <td> <b>Solvencia antecedentes policiales:</b><br> N/D</td>
+                      <td colspan="3">  <b>Graduado ANSP:</b><br> <?php echo $row[54]?> <b>Fecha:</b> N/D  <b>Promoci&oacute;n:</b> N/D </td>
+                    </tr>
+
+                    <!--TRABAJO ANTERIOR--> 
+                    <tr style="line-height: 25px">
+                        <td>  <b>Trabajo anterior:</b><br><?php echo $row[56]?></td>
+                        <td>  <b>Tel&eacute;fono:</b><br> <?php echo $row[68]?></td>
+                        <td>   <b>Referencia:</b><br><?php echo $row[70]?></td>
+                        <td>  <b>Evaluaci&oacute;n:</b><br> <?php echo $row[71]?> </td>
+                      </tr>
+                    <!--TRABAJO ACTUAL--> 
+                    <tr style="line-height: 25px">
+                        <td> <b>Trabajo actual:</b><br><?php echo $row[58]?></td>
+                        <td>   <b>Tel&eacute;fono:</b><br> <?php echo $row[69]?> </td>
+                        <td>   <b>Referencia:</b><br><?php echo $row[72]?></td>
+                        <td> <b>Evaluaci&oacute;n:</b><br><?php echo $row[73]?> </td>
+                      </tr>
+                    <!--LICENCIA PARA USO ARMAS DE FUEGO--> 
+                    <tr style="line-height: 25px">
+                      <td>  <b>Licencia para el uso de armas de fuego:</b><br> <?php echo $row[43]?> </td>
+                      <td colspan="3">  <b>N&uacute;mero:</b> <br><?php echo $row[44]?> </td>
+                    </tr>
+
+
+                    </table>
+                  </div> 
+              <!-- ***** -->
+            </td>
+            <td>
+              <!-- ***** -->
+                <div class="col-md-12">
+                  <img src="<?php echo $row[55]?>" style="width: 100px;margin: 15px;border-style: solid;border-width: 1px;">
+                </div>
+                <div style="height: 700px;"></div>
+              <!-- ***** -->
+            </td>
           </tr>
-          <tr style="line-height: 25px">
-            <td> <b>Lugar:</b><?php echo $row[50]?> </td>
-            <td> <b>Desde:</b> <?php echo $row[48]?></td>
-            <td colspan="2">  <b>Hasta:</b> <?php echo $row[49]?></td>
-          </tr>
-          <tr style="line-height: 25px">
-            <td> <b>Grado militar:</b><?php echo $row[51]?> </td>
-            <td colspan="3">  <b>Motivo baja:</b><?php echo $row[52]?> </td>
-          </tr>
-
-           <!--SOLVENCIA ANTECEDENTES POLICIALES [convertir]--> 
-          <tr style="line-height: 25px">
-            <td> <b>Solvencia antecedentes policiales:</b> N/D</td>
-            <td colspan="3">  <b>Graduado ANSP:</b> <?php echo $row[54]?> <b>Fecha:</b> N/D  <b>Promoci&oacute;n:</b> N/D </td>
-          </tr>
-
-          <!--TRABAJO ANTERIOR--> 
-          <tr style="line-height: 25px">
-              <td>  <b>Trabajo anterior:</b><?php echo $row[57]?></td>
-              <td>  <b>Tel&eacute;fono:</b> <?php echo $row[69]?></td>
-              <td>   <b>Referencia:</b><?php echo $row[71]?></td>
-              <td>  <b>Evaluaci&oacute;n:</b> <?php echo $row[72]?> </td>
-            </tr>
-          <!--TRABAJO ACTUAL--> 
-          <tr style="line-height: 25px">
-              <td> <b>Trabajo actual:</b><?php echo $row[59]?></td>
-              <td>   <b>Tel&eacute;fono:</b> <?php echo $row[70]?> </td>
-              <td>   <b>Referencia:</b><?php echo $row[73]?></td>
-              <td> <b>Evaluaci&oacute;n:</b> <?php echo $row[74]?> </td>
-            </tr>
-          <!--LICENCIA PARA USO ARMAS DE FUEGO--> 
-          <tr style="line-height: 25px">
-            <td>  <b>Licencia para el uso de armas de fuego:</b> <?php echo $row[44]?> </td>
-            <td colspan="3">  <b>N&uacute;mero:</b> <?php echo $row[45]?> </td>
-          </tr>
+        </table>
+     
 
 
-          </table>
-        </div> 
+
       </div>
 
     </div>

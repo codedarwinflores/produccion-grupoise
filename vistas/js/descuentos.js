@@ -1,6 +1,74 @@
 /* COLOCACION DE ICONOS */
 $(document).ready(function(){
 
+
+	/* $("#nuevoisss_devengo").attr("disabled","disabled");
+	$("#nuevoafp_devengo").attr("disabled","disabled");
+	$("#nuevorenta_devengo").attr("disabled","disabled");
+
+	$("#editarisss_devengo").attr("disabled","disabled");
+	$("#editarafp_devengo").attr("disabled","disabled");
+	$("#editarrenta_devengo").attr("disabled","disabled"); */
+
+	
+	$("#nuevoisss_devengo").attr("style","visibility:hidden");
+	$("#nuevoafp_devengo").attr("style","visibility:hidden");
+	$("#nuevorenta_devengo").attr("style","visibility:hidden");
+
+	$("#editarisss_devengo").attr("style","visibility:hidden");
+	$("#editarafp_devengo").attr("style","visibility:hidden");
+	$("#editarrenta_devengo").attr("style","visibility:hidden");
+
+
+	$(".tipodescuento").change(function(){
+		var valor=$(this).val();
+		if(valor=="+Suma"){
+			$("#nuevoisss_devengo").removeAttr("style");
+			$("#nuevoafp_devengo").removeAttr("style");
+			$("#nuevorenta_devengo").removeAttr("style");
+
+			$("#editarisss_devengo").removeAttr("style");
+			$("#editarafp_devengo").removeAttr("style");
+			$("#editarrenta_devengo").removeAttr("style");
+		
+		}
+		else{
+			$("#nuevoisss_devengo").attr("style","visibility:hidden");
+			$("#nuevoafp_devengo").attr("style","visibility:hidden");
+			$("#nuevorenta_devengo").attr("style","visibility:hidden");
+		
+			$("#editarisss_devengo").attr("style","visibility:hidden");
+			$("#editarafp_devengo").attr("style","visibility:hidden");
+			$("#editarrenta_devengo").attr("style","visibility:hidden");
+
+			$("#nuevoisss_devengo").val("No");
+			$("#nuevoafp_devengo").val("No");
+			$("#nuevorenta_devengo").val("No");
+		
+			
+			$("#editarisss_devengo").val("No");
+			$("#editarafp_devengo").val("No");
+			$("#editarrenta_devengo").val("No");
+		}
+	});
+	/* **************** */
+	$(".descuentos_tipo").empty();
+	$(".descuentos_tipo").append($("#tipo_insert"));
+	$(".edescuentos_tipo").empty();
+	$(".edescuentos_tipo").append($("#etipo_insert"));
+
+	$(".descuentos_isss_devengo").empty();
+	$(".descuentos_afp_devengo").empty();
+	$(".descuentos_renta_devengo").empty();
+
+	$(".edescuentos_isss_devengo").empty();
+	$(".edescuentos_afp_devengo").empty();
+	$(".edescuentos_renta_devengo").empty();
+
+	/* ****************** */
+	$(".edescuentos_cargo_abono").attr("style","visibility:hidden; height:0;");
+	$(".descuentos_cargo_abono").attr("style","visibility:hidden; height:0;");
+
 	var  texto= "Ingresar";
 	$(".icono_codigo").addClass("fa fa-qrcode");
 	$(".input_codigo").attr("placeholder", texto+" Código");
@@ -38,6 +106,9 @@ $(".label_tipo").text(input_tipo);
 $(".label_cargo_abono").text(input_cargo_abono);
 $(".label_cuenta_contable").text(input_cuenta_contable);
 
+$('.descuentoinput_codigo').attr("maxlength","4");
+$('.edescuentoinput_codigo').attr("maxlength","4");
+
  })
 
 /*=============================================
@@ -69,6 +140,27 @@ $(".tablas").on("click", ".btnEditarDescuentos", function(){
 			$("#editartipo").val(respuesta["tipo"]);
 			$("#editarcargo_abono").val(respuesta["cargo_abono"]);
 			$("#editarcuenta_contable").val(respuesta["cuenta_contable"]);
+
+			$("#editarisss_devengo").val(respuesta["isss_devengo"]);
+			$("#editarafp_devengo").val(respuesta["afp_devengo"]);
+			$("#editarrenta_devengo").val(respuesta["renta_devengo"]);
+
+			if(respuesta["tipo"]=="+Suma"){
+
+				$("#editarisss_devengo").removeAttr("style");
+				$("#editarafp_devengo").removeAttr("style");
+				$("#editarrenta_devengo").removeAttr("style");
+			}
+			else{
+				
+			$("#nuevoisss_devengo").attr("style","visibility:hidden");
+			$("#nuevoafp_devengo").attr("style","visibility:hidden");
+			$("#nuevorenta_devengo").attr("style","visibility:hidden");
+		
+			$("#editarisss_devengo").attr("style","visibility:hidden");
+			$("#editarafp_devengo").attr("style","visibility:hidden");
+			$("#editarrenta_devengo").attr("style","visibility:hidden");
+			}
 
 
 		}

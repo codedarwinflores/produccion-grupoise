@@ -30,7 +30,11 @@ class Modelocelular{
 
 		if($item != null){
 
-			$stmt = Conexion::conectar()->prepare("SELECT celular.id as idcelular, celular.codigo as codigocelular , `descripcion`, `costo`, `numero`, `imei`, celular.sim as simcelular , `marca`, `modelo`, `color`, tarjetas_sim.id as idsim, `operador`, tarjetas_sim.sim as simtarjeta, `IMEI`, `sim_card`,tipo_celular.id as idtipocelular , tipo_celular.codigo as codigotipocelular, tipo_celular.nombre as nombretipocelular FROM `celular`, tarjetas_sim, tipo_celular WHERE celular.sim=tarjetas_sim.id and celular.tipocelular=tipo_celular.id and celular.id = :$item");
+/* 			$stmt = Conexion::conectar()->prepare("SELECT celular.id as idcelular, celular.codigo as codigocelular , `descripcion`, `costo`, `numero`, `imei`, celular.sim as simcelular , `marca`, `modelo`, `color`, tarjetas_sim.id as idsim, `operador`, tarjetas_sim.sim as simtarjeta, `IMEI`, `sim_card`,tipo_celular.id as idtipocelular , tipo_celular.codigo as codigotipocelular, tipo_celular.nombre as nombretipocelular, fecha_asignacion_celular, codigo_nombre_empleado_celular,plan_datos_celular, observacion_celular, `operador_celular`, `imei_celular` FROM `celular`, tarjetas_sim, tipo_celular WHERE celular.sim=tarjetas_sim.id and celular.tipocelular=tipo_celular.id and celular.id = :$item"); */
+
+			$stmt = Conexion::conectar()->prepare("SELECT celular.id as idcelular, celular.codigo as codigocelular , `descripcion`, `costo`, `numero`, celular.sim as simcelular , `marca`, `modelo`, `color`,tipo_celular.id as idtipocelular , tipo_celular.codigo as codigotipocelular, tipo_celular.nombre as nombretipocelular, fecha_asignacion_celular, codigo_nombre_empleado_celular,plan_datos_celular, observacion_celular, `operador_celular`, `imei_celular` 
+			FROM `celular`, tipo_celular 
+			WHERE celular.tipocelular=tipo_celular.id and celular.id = :$item");
 
 			$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
 
@@ -40,7 +44,12 @@ class Modelocelular{
 
 		}else{
 
-			$stmt = Conexion::conectar()->prepare("SELECT celular.id as idcelular, celular.codigo as codigocelular , `descripcion`, `costo`, `numero`, `imei`, celular.sim as simcelular , `marca`, `modelo`, `color`, tarjetas_sim.id as idsim, `operador`, tarjetas_sim.sim as simtarjeta, `IMEI`, `sim_card`,tipo_celular.id as idtipocelular , tipo_celular.codigo as codigotipocelular, tipo_celular.nombre as nombretipocelular FROM `celular`, tarjetas_sim, tipo_celular WHERE celular.sim=tarjetas_sim.id and celular.tipocelular=tipo_celular.id");
+			$stmt = Conexion::conectar()->prepare("SELECT celular.id as idcelular, celular.codigo as codigocelular , `descripcion`, `costo`, `numero`, celular.sim as simcelular , `marca`, `modelo`, `color`,tipo_celular.id as idtipocelular , tipo_celular.codigo as codigotipocelular, tipo_celular.nombre as nombretipocelular, fecha_asignacion_celular, codigo_nombre_empleado_celular,plan_datos_celular, observacion_celular, `operador_celular`, `imei_celular` 
+			FROM `celular`, tipo_celular 
+			WHERE celular.tipocelular=tipo_celular.id");
+
+
+		/* 	$stmt = Conexion::conectar()->prepare("SELECT celular.id as idcelular, celular.codigo as codigocelular , `descripcion`, `costo`, `numero`, `imei`, celular.sim as simcelular , `marca`, `modelo`, `color`, tarjetas_sim.id as idsim, `operador`, tarjetas_sim.sim as simtarjeta, `IMEI`, `sim_card`,tipo_celular.id as idtipocelular , tipo_celular.codigo as codigotipocelular, tipo_celular.nombre as nombretipocelular, fecha_asignacion_celular, codigo_nombre_empleado_celular,plan_datos_celular, observacion_celular, `operador_celular`, `imei_celular` FROM `celular`, tarjetas_sim, tipo_celular WHERE celular.sim=tarjetas_sim.id and celular.tipocelular=tipo_celular.id"); */
 
 			$stmt -> execute();
 

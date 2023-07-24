@@ -29,6 +29,8 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
         <a href="retiro" class="btn btn-warning">Listado de Empleados Inactivos</a>
         <a href="fichapolicia" class="btn btn-primary">Imprimir ficha policia nuevo ingreso</a>
         <a href="fichadactilar" class="btn btn-danger">Imprimir dactilar</a>
+        <a href="fichapersonal" class="btn btn-info">Imprimir Ficha Personal</a>
+        <a href="generarcontratados" class="btn btn-warning">Imprimir Contratados</a>
 
 
       </div>
@@ -101,7 +103,7 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
                     echo '<td><img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail" width="40px"></td>';
                   }
 
-                 echo '<td>'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["tercer_nombre"].' '.$value["primer_apellido"].' '.$value["segundo_apellido"].' '.$value["apellido_casada"]. '</td>';
+                 echo '<td>'.$value["codigo_empleado"].'-'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["tercer_nombre"].' '.$value["primer_apellido"].' '.$value["segundo_apellido"].' '.$value["apellido_casada"]. '</td>';
 
                   
 
@@ -116,31 +118,75 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
 
                   echo '
                   <td>
-
+                  
+                 
                     <div class="btn-group">
                         
-                      <button class="btn btn-warning btnEditarEmpleado"  idEmpleado="'.$value["id"].'" ><i class="fa fa-pencil"></i></button>                     
-                      <button class="btn btn-info btnImprimirImagenes"  style="background-color: #3c8dbc;"   empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-user"></i></button>
-                      <button class="btn btn-info btnParentesco"  style="background-color: #3c8dbc;" idEmpleado="'.$value["id"].'"  data-toggle="modal" data-target="#modalParentesco" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-users"></i></button> 
-                      <button class="btn btn-info btnDescuentos"  style="background-color: #3c8dbc;" idEmpleado="'.$value["id"].'"  data-toggle="modal" data-target="#modalDescuento" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-exchange"></i></button> 
-                      <button class="btn btn-info btnSeminarios"  style="background-color: #3c8dbc;" idEmpleado="'.$value["id"].'"  data-toggle="modal" data-target="#modalSeminario" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-trophy"></i></button> 
+                      <button class="btn btn-warning btnEditarEmpleado"  idEmpleado="'.$value["id"].'" ><i class="fa fa-pencil"></i></button>         
+                  
                       <button class="btn btn-danger btnEliminarEmpleado" idEmpleado="'.$value["id"].'" fotoEmpleado="'.$value["fotografia"].'" empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-times"></i></button>
-                      <button class="btn btn-info btnImprimirFicha"  style="background-color: #3c8dbc;"   empleado="'.$value["numero_documento_identidad"].'"><i class="fa fa-print"></i></button>
-                      <a href="regalo?id='.$value["id"].'" class="btn btn-success"><i class="fa  fa-gift"></i></a>
-                      <a href="uniformedescuento?id='.$value["id"].'" style="background-color:#C9E747 !important;" class="btn btn-success"><i class="fa fa-usd"></i></a>
 
-                      <a href="formretiro?id='.$value["id"].'" class="btn btn-danger" style="background-color: #800020 !important;"><i class="fa fa-info"></i></a>
-                      <a href="extravios?id='.$value["id"].'" class="btn btn-primary" style="background-color:#36454F !important;"><i class="fa   fa-balance-scale"></i></a>
 
-                      <a href="vistas/modulos/carnet.php?id='.$value["id"].'" class="btn btn-success" idempleado='.$value["id"].' target="_blank"><i class="fa fa-address-card"></i></a>
+                  
+                    
+
+                     
+                     
                       
-                      <a href="vistas/modulos/solicitudpnc.php?id='.$value["id"].'" class="btn btn-danger" idempleado='.$value["id"].' target="_blank"><i class="fa fa-file-word-o"></i></a>
                       
-                      <a href="vistas/modulos/contrato.php?id='.$value["id"].'" class="btn btn-primary" idempleado='.$value["id"].' target="_blank"><i class="fa fa-book"></i></a>
+                      
                       
 
 
-                    </div>  
+                    </div> 
+                    
+                    <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle"
+                            data-toggle="dropdown">
+                     Mas Opciones<span class="caret"></span>
+                    </button>
+                  
+                    <ul class="dropdown-menu" role="menu">
+                      <li>
+                        <button class="btn btn-info btnImprimirImagenes"  style="width: 100%; background-color: #3c8dbc;"   empleado="'.$value["numero_documento_identidad"].'">Imprimir Documentación</button>
+                      </li>
+                      <li>
+                        <button class="btn btn-info btnParentesco"  style="width: 100%; background-color: #3c8dbc;" idEmpleado="'.$value["id"].'"  data-toggle="modal" data-target="#modalParentesco" empleado="'.$value["numero_documento_identidad"].'">Familiares</button> 
+                      </li>
+                      <li>
+                      <button class="btn btn-info btnDescuentos"  style="width: 100%; background-color: #3c8dbc;" idEmpleado="'.$value["id"].'"  data-toggle="modal" data-target="#modalDescuento" empleado="'.$value["numero_documento_identidad"].'">Devengos y Descuentos</button>  
+                      </li>
+                      <li>
+                       <button class="btn btn-info btnSeminarios"  style="width: 100%; background-color: #3c8dbc;" idEmpleado="'.$value["id"].'"  data-toggle="modal" data-target="#modalSeminario" empleado="'.$value["numero_documento_identidad"].'">Seminarios</button> 
+                      </li>
+                      <li>
+                        <button class="btn btn-info btnImprimirFicha"  style="width: 100%; background-color: #3c8dbc;"   empleado="'.$value["numero_documento_identidad"].'">Imprimir Ficha</button>
+                      </li>
+                      <li>
+                        <a href="regalo?id='.$value["id"].'" class="btn btn-info" style="background-color: #3c8dbc; color:#fff;">Regalo Uniforme</a>
+                      </li>
+                      <li>
+                        <a href="uniformedescuento?id='.$value["id"].'" style="background-color: #3c8dbc; color:#fff;" class="btn btn-info">Descuento Uniforme</a>
+                      </li>
+                      <li>
+                         <a href="formretiro?id='.$value["id"].'" class="btn btn-info" style="background-color: #3c8dbc; color:#fff;">Formulario Retiro</a>
+                      </li>
+                      <li>
+                       <a href="extravios?id='.$value["id"].'" class="btn btn-info" style="background-color: #3c8dbc; color:#fff;">Extravios</a>
+                      </li>
+                      <li>
+                         <a href="vistas/modulos/carnet.php?id='.$value["id"].'" class="btn btn-info" idempleado='.$value["id"].' target="_blank" style="background-color: #3c8dbc; color:#fff;">Imprimir Carnet</a>
+                      </li>
+                      <li>
+                        <a href="vistas/modulos/solicitudpnc.php?id='.$value["id"].'" class="btn btn-info" idempleado='.$value["id"].' target="_blank" style="background-color: #3c8dbc; color:#fff;" >Solicitud PNC</a>
+                      </li>
+                      <li>
+                        
+                      <a href="vistas/modulos/contrato.php?id='.$value["id"].'" class="btn btn-info" idempleado='.$value["id"].' target="_blank" style="background-color: #3c8dbc; color:#fff;">Contrato</a>
+                      
+                      </li>
+                    </ul>
+                  </div>
 
                   </td>
 
@@ -2352,7 +2398,7 @@ MODAL PARENTESCO
         CUERPO DEL MODAL
         ======================================-->
         <div class="modal-body">
-          <div id="headerParentesco"></div>
+         
           <div class="box-body">
 
           <form role="form" method="post" enctype="multipart/form-data">
@@ -2392,10 +2438,10 @@ MODAL PARENTESCO
 
             <!-- ENTRADA PARA EL NOMBRE -->
              <div class="form-group">
-              <label for="">Ingresar Edad</label>
+              <label for="">Fecha Nacimiento</label>
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-building"></i></span> 
-                <input type="text" class="form-control input-lg" name="nuevoEdadParentesco" placeholder="Ingresar Edad"  required>
+                <input type="text" class="form-control input-lg calendario" name="nuevoEdadParentesco" placeholder="Ingresar Edad"  required readonly>
               </div>
             </div>
              <!-- ENTRADA PARA SELECCIONAR TIPO DOCUMENTO -->            
@@ -2429,6 +2475,8 @@ MODAL PARENTESCO
                       
           </div>
 
+       
+
         </div>
 
         <!--=====================================
@@ -2442,6 +2490,12 @@ MODAL PARENTESCO
           <button type="submit" class="btn btn-primary">Guardar Pariente</button>
 
         </div>
+        <div class="modal-body">
+
+        <div id="headerParentesco"></div>
+        </div>
+
+        
 
         <?php
 
@@ -2487,7 +2541,6 @@ MODAL DESCUENTOS
         CUERPO DEL MODAL
         ======================================-->
         <div class="modal-body">
-          <div id="headerEmpleadoDescuento"></div>
           <div class="box-body">
 
           <form role="form" method="post" enctype="multipart/form-data">
@@ -2508,6 +2561,19 @@ MODAL DESCUENTOS
                     }
                 ?>
                  
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="">Seleccionar Tipo:</label>             
+              <div class="input-group">              
+                <span class="input-group-addon"><i class="fa fa-users"></i></span> 
+                <select class="form-control input-lg" name="nuevotipodescuento" required>                  
+                  <option value="" >Seleccione una opci&oacute;n</option>  
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="Siempre">Siempre</option>
                 </select>
               </div>
             </div>
@@ -2555,6 +2621,11 @@ MODAL DESCUENTOS
 
         </div>
 
+        <div class="modal-body">
+        <div id="headerEmpleadoDescuento"></div>
+
+        </div>
+
         <?php
 
           $creardesc = new ControladorEmpleadoDescuento();
@@ -2598,7 +2669,7 @@ MODAL SEMINARIO
         CUERPO DEL MODAL
         ======================================-->
         <div class="modal-body">
-          <div id="headerEmpleadoSeminario"></div>
+       
           <div class="box-body">
 
           <form role="form" method="post" enctype="multipart/form-data">
@@ -2645,6 +2716,9 @@ MODAL SEMINARIO
           
                       
           </div>
+          <div class="box-body">
+          <div id="headerEmpleadoSeminario"></div>
+          </div>
 
         </div>
 
@@ -2687,3 +2761,4 @@ MODAL SEMINARIO
 
 
 <script src="vistas/js/validarempleado.js"></script>
+<script src="vistas/js/cargardevengos.js"></script>

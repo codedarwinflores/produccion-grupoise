@@ -82,7 +82,7 @@ class Modeloregalo{
 			return "ok";	
 
 		}else{
-
+			print_r($stmt->errorInfo());
 			return "error";
 		
 		}

@@ -247,6 +247,41 @@
 							<span>Personal Retirado</span>
 						</a>
 					</li>
+
+					<li>
+						<a href="vendedor">
+							<i class="fa fa-users"></i>
+							<span>Vendedor</span>
+						</a>
+					</li>
+
+					<li>
+						<a href="transaccionagente">
+							<i class="fa fa-users"></i>
+							<span>Movimiento Agente</span>
+						</a>
+					</li>
+
+					<li>
+						<a href="tipohora">
+							<i class="fa fa-clock-o"></i>
+							<span>Tipo Hora Extra</span>
+						</a>
+					</li>
+
+					<li>
+						<a href="situacion">
+							<i class="fa fa-flag"></i>
+							<span>Situación</span>
+						</a>
+					</li>
+
+					<li>
+						<a href="vacante">
+							<i class="fa fa-users"></i>
+							<span>Vacante</span>
+						</a>
+					</li>
 					
 
 
@@ -293,17 +328,11 @@
 			
 			<li class="treeview">
 				<a href="#">
-
 					<i class="fa  fa-address-book"></i>
-					
 					<span>Patrulla</span>
-					
 					<span class="pull-right-container">
-					
 						<i class="fa fa-angle-left pull-right"></i>
-
 					</span>
-
 				</a>
 
 				<ul class="treeview-menu">
@@ -397,6 +426,84 @@
 					</li>
 				</ul>
 				
+			</li>
+
+
+			<li class="treeview">
+				<a href="#">
+					<i class="fa  fa-address-book"></i>
+					<span>Planillas</span>
+					<span class="pull-right-container">
+						<i class="fa fa-angle-left pull-right"></i>
+					</span>
+				</a>
+
+				<ul class="treeview-menu">
+				
+					 <li>
+						<a href="planilladevengo">
+							<i class="fa  fa-address-book"></i>
+							<span>Planilla Anticipo</span>
+						</a>
+					</li>
+					<li>
+						<a href="planillavacacion">
+							<i class="fa  fa-address-book"></i>
+							<span>Planilla Vacación</span>
+						</a>
+					</li>
+					<li>
+						<a href="planillaaguinaldo">
+							<i class="fa  fa-address-book"></i>
+							<span>Planilla Aguinaldo</span>
+						</a>
+					</li>
+					<li>
+						<a href="planillagratifivaca">
+							<i class="fa  fa-address-book"></i>
+							<span>Planilla Gratificacion Vacacación</span>
+						</a>
+					</li>
+					<li>
+						<a href="planillaadmin">
+							<i class="fa  fa-address-book"></i>
+							<span>Planilla Administrativa</span>
+						</a>
+					</li>
+				</ul>
+				
+			</li>
+
+			<li class="treeview">	
+					<a href="#">
+						<i class="fa  fa-fax"></i>
+						<span>Kardex</span>
+						<span class="pull-right-container">
+							<i class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+					<ul class="treeview-menu">
+						<li>
+							<a href="kardex">
+								<i class="fa fa-fax"></i>
+								<span>Kardex</span>
+							</a>
+						</li>
+						<li>
+							<a href="transancionkardex">
+								<i class="fa fa-fax"></i>
+								<span>Transaccion Kardex</span>
+							</a>
+						</li>
+					</ul>		
+					
+				</li>
+				
+			<li>			
+				<a href="recibo">
+					<i class="fa fa-list-alt"></i>
+					<span>Recibos</span>
+				</a>
 			</li>
 			
 			';

@@ -2,6 +2,13 @@
 $(document).ready(function(){
 
 
+	$(".grupovehiculo_estado_vehiculo").empty();
+	$(".grupovehiculo_estado_vehiculo").append($(".s_estado_vehiculo"));
+
+	$(".egrupovehiculo_estado_vehiculo").empty();
+	$(".egrupovehiculo_estado_vehiculo").append($(".editar_s_estado_vehiculo"));
+
+
 	calendario();
 	var texto="Ingresar";
 
@@ -14,7 +21,7 @@ $(document).ready(function(){
 
 
 	$(".icono_serie").addClass("fa  fa-bandcamp");
-    $(".input_serie").attr("placeholder", texto+" No Serie");
+    $(".input_serie").attr("placeholder", texto+" Nombre de la Aseguradora");
 
 	$(".input_codigo_vehiculo").attr("readonly","readonly");
 
@@ -34,6 +41,29 @@ $(document).ready(function(){
 			  $(".label_serie").text(input_serie);
 
 			  $(".input_fecha_adquision").attr("readonly","readonly");
+
+
+			    /* *********LABEL*********** */
+				$(".icono_valor_asegurado").addClass("fa fa-file-excel-o")
+				$(".input_valor_asegurado ").attr("placeholder","Ingresar Valor Asegurado");
+				var input_valor_asegurado  = $(".input_valor_asegurado ").attr("placeholder");
+				$(".label_valor_asegurado").text(input_valor_asegurado);
+
+				/* *********LABEL*********** */
+				$(".icono_prima_seguro").addClass("fa fa-file-excel-o")
+				$(".input_prima_seguro").attr("placeholder","Ingresar  Prima Seguro");
+				var input_prima_seguro  = $(".input_prima_seguro").attr("placeholder");
+				$(".label_prima_seguro").text(input_prima_seguro);
+
+				/* *********LABEL*********** */
+				$(".icono_deducible").addClass("fa fa-file-excel-o")
+				$(".input_deducible").attr("placeholder","Ingresar Deducible");
+				var input_deducible  = $(".input_deducible").attr("placeholder");
+				$(".label_deducible").text(input_deducible);
+  
+	
+
+
 		  
 
 });
@@ -87,6 +117,7 @@ $(".tablas").on("click", ".btnEditarvehiculo", function(){
 			$("#editarcodigo_vehiculo").val(respuesta["codigo_vehiculo"]);
 			$("#editardescripcion_vehiculo").val(respuesta["descripcion_vehiculo"]);
 			$("#editarcosto_vehiculo").val(respuesta["costo_vehiculo"]);
+			$("#editarestado_vehiculo").val(respuesta["estado_vehiculo"]);
 
 
 				
@@ -102,6 +133,11 @@ $(".tablas").on("click", ".btnEditarvehiculo", function(){
 			$("#editarfecha_adquision2").val(respuesta["fecha_adquision"]);
 			$("#editarobservaciones").val(respuesta["observaciones"]);
 			$("#editarserie").val(respuesta["serie"]);
+
+			$("#editarvalor_asegurado").val(respuesta["valor_asegurado"]);
+			$("#editarprima_seguro").val(respuesta["prima_seguro"]);
+			$("#editardeducible").val(respuesta["deducible"]);
+
 
 			
 

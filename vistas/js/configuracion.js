@@ -2,6 +2,7 @@
 $(document).ready(function(){
 
 
+	
 
 var validar = $(".datos_vacios").val();
 
@@ -39,6 +40,11 @@ if(validar=="1"){
 			$("#editarporcentaje_isss").val(respuesta["porcentaje_isss"]);
 			$("#editartope_isss").val(respuesta["tope_isss"]);
 			$("#editarsalario_minimo").val(respuesta["salario_minimo"]);
+			$("#editarsalariominio2").val(respuesta["salariominio2"]);
+
+			$("#editardias_maximo_incapacidad").val(respuesta["dias_maximo_incapacidad"]);
+			$("#editarporcentaje_dias_incapacidad").val(respuesta["porcentaje_dias_incapacidad"]);
+
 			/* if(respuesta["ultimo_empreado"]==""){}
 			else{
 				$("#editarultimo_empreado").val(respuesta["ultimo_empreado"]);
@@ -76,6 +82,11 @@ if(validar=="1"){
 			$("#editarimpresion").val(respuesta["impresion"]);
 			$("#editardoctor").val(respuesta["doctor"]);
 			$("#editarpsicologo").val(respuesta["psicologo"]);
+			$("#editarcuentas_ventas").val(respuesta["cuentas_ventas"]);
+			$("#editarcxc").val(respuesta["cxc"]);
+			
+			$("#editargratificacion_vacacion").val(respuesta["gratificacion_vacacion"]);
+
 
 
 

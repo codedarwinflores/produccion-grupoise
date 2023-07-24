@@ -12,15 +12,64 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
   return;
 
 }
-//require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
-require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
-//require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php");
+require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
+/* require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php"); */
+/* require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php"); */
 
 
 
 ?>
 
+
+
 <div class="content-wrapper">
+
+<!-- ***********DATO DE CONFIGURACION -->
+                
+                      <?php
+                      function idcargo() {
+                       $query = "SELECT * FROM cargos_desempenados where descripcion='Agente de seguridad' ";
+                       $sql = Conexion::conectar()->prepare($query);
+                       $sql->execute();			
+                       return $sql->fetchAll();
+                      };
+                      $data = idcargo();
+                        foreach($data as $row) {
+                            echo "<input type='hidden' value='".$row["id"]."' class='idcargo' >";
+                        }
+?>
+
+
+<?php
+       function configuracion_inicial() {
+         $query = "SELECT * FROM configuracion";
+         $sql = Conexion::conectar()->prepare($query);
+         $sql->execute();			
+         return $sql->fetchAll();
+         };
+         $data = configuracion_inicial();
+         foreach($data as $row) {
+            $salario_minimo=$row["salario_minimo"]/2;
+            $salario_diario=$row["salario_minimo"]/$row["periodo_de_pago"];
+            $salario_hora=$row["salario_minimo"]/240;
+            $hora_diurna=$row["extra_diurna"];
+            $hora_nocturna=$row["extra_nocturna"];
+            $hora_diurna_domingo=$row["extra_dominical_diurna"];
+            $hora_nocturna_domingo=$row["extra_dominical_nocturna"];
+
+
+            echo "<input type='hidden' value='".$salario_minimo."' class='salario_minimo' >";
+            echo "<input type='hidden' value='".bcdiv($salario_diario, '1', 4)."' class='salario_diario' >";
+            echo "<input type='hidden' value='".bcdiv($salario_hora, '1', 4)."' class='salario_hora' >";
+            echo "<input type='hidden' value='".bcdiv($hora_diurna, '1', 4)."' class='hora_diurna' >";
+            echo "<input type='hidden' value='".bcdiv($hora_nocturna, '1', 4)."' class='hora_nocturna' >";
+            echo "<input type='hidden' value='".bcdiv($hora_diurna_domingo, '1', 4)."' class='hora_diurna_domingo' >";
+            echo "<input type='hidden' value='".bcdiv($hora_nocturna_domingo, '1', 4)."' class='hora_nocturna_domingo' >";
+        }
+   ?>
+
+
+<!-- **************** -->
 
         <section class="content">
 
@@ -50,6 +99,18 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
         <div class="col-md-12" align="left">              
             <form role="form" method="post" enctype="multipart/form-data">
 
+                     <?php
+                      function idconfiguracion() {
+                       $query = "SELECT * FROM configuracion";
+                       $sql = Conexion::conectar()->prepare($query);
+                       $sql->execute();			
+                       return $sql->fetchAll();
+                      };
+                      $data = idconfiguracion();
+                        foreach($data as $row) {
+                            echo "<input type='hidden' value='".$row["id"]."' name='editaridconfiguracion' class='editaridconfiguracion' >";
+                        }
+                     ?>
             
 
              <input type="hidden" name="idEmpleado" value="<?php echo $_POST["idEmpleado"]?>"> 
@@ -63,6 +124,26 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                 <hr style="margin-top: 0px;border-top: 1px solid #101010;"></hr>
             </div>
 
+            <!-- *********** -->
+
+            <div class="col-md-12" > 
+                    <!-- ENTRADA PARA SELECCIONAR ESTADO -->
+                    <div class="form-group">
+                      Estado:
+                      <div class="input-group">              
+                        <span class="input-group-addon"><i class="fa fa-users"></i></span> 
+                        <select class="form-control input-lg estadoempleado" name="editarEstado" campo="">                  
+                          <option value="" id="editarEstado"></option>           
+                          <option value="1">Solicitud</option>
+                          <option value="2">Contratado</option>
+                          <option value="3">Inactivo</option>
+                          <option value="4">Incapacitado</option>
+                        </select>
+                      </div>
+                    </div>
+                </div>
+
+            <!-- *********** -->
             <div class="col-md-12" > 
                 <!-- ENTRADA PARA SUBIR FOTO -->
                 <div class="form-group">              
@@ -83,7 +164,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                     Primer Nombre:
                     <div class="input-group">              
                       <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                      <input type="text" class="form-control input-lg" id="editarNombre" name="editarNombre" value="" required>
+                      <input type="text" class="form-control input-lg" id="editarNombre" name="editarNombre" value="" campo="">
                     </div>
                   </div>
                 </div>
@@ -116,7 +197,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                         Primer Apellido:
                         <div class="input-group">              
                           <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                          <input type="text" class="form-control input-lg" id="editarPrimerApellido" name="editarPrimerApellido" value="" required>
+                          <input type="text" class="form-control input-lg" id="editarPrimerApellido" name="editarPrimerApellido" value="" campo="">
                         </div>
                       </div>
                 </div>
@@ -126,17 +207,17 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                       Segundo Apellido:
                       <div class="input-group">              
                         <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                        <input type="text" class="form-control input-lg" id="editarSegundoApellido" name="editarSegundoApellido" value="" required>
+                        <input type="text" class="form-control input-lg" id="editarSegundoApellido" name="editarSegundoApellido" value="" campo="">
                       </div>
                     </div>
                 </div>
-                <div class="col-md-4" > 
+                <div class="col-md-4 apellidocasada" > 
                     <!-- ENTRADA PARA EL APELLIDO DE CASADA-->            
                     <div class="form-group">
                     Apellido Casada:
                       <div class="input-group">              
                         <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                        <input type="text" class="form-control input-lg" id="editarApellidoCasada" name="editarApellidoCasada" value="" >
+                        <input type="text" class="form-control input-lg apellido_casada" id="editarApellidoCasada" name="editarApellidoCasada" value="" >
                       </div>
                     </div>
                 </div>
@@ -167,7 +248,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                       Sexo:
                       <div class="input-group">              
                         <span class="input-group-addon"><i class="fa fa-users"></i></span>
-                        <select class="form-control input-lg" name="editarSexo">                  
+                        <select class="form-control input-lg camposexo" name="editarSexo">                  
                           <option value="" id="editarSexo"></option>             
                           <option value="Masculino">Masculino</option>
                           <option value="Femenino">Femenino</option>              
@@ -199,7 +280,8 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                     Departamento:            
                       <div class="input-group">              
                         <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-                        <select class="form-control input-lg" name="editarDepartamento"  >                  
+                        <input type="text" class="form-control" id="showdepa" readonly>
+                        <select class="form-control input-lg  mi-selector departamento" name="editarDepartamento"  >                  
                         <option id="editarDepartamento"></option>
                           <?php
                             $datos_mostrar_departamento = Controladorcat_departamento::ctrMostrar($item, $valor);
@@ -220,7 +302,9 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                       Municipio:             
                         <div class="input-group">              
                           <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-                          <select class="form-control input-lg" name="editarMunicipio"  >                  
+                        <input type="text" class="form-control" id="showmunicipio" readonly>
+
+                          <select class="form-control input-lg mi-selector municipios" name="editarMunicipio"  >                  
                           <option id="editarMunicipio"></option>
                           <?php
                               $datos_mostrar_municipio = Controladorcat_municipios::ctrMostrar($item, $valor);
@@ -248,7 +332,26 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                 <label style="font-size: xx-large;color: #f7af10;">Documentaci&oacute;n</label> 
                 <hr style="margin-top: 0px;border-top: 1px solid #101010;"></hr>
             </div>
-            <div class="col-md-12" > 
+
+
+            <div class="col-md-12">
+              <div class="col-md-12">
+              <div class="form-group"> 
+                      ¿Es pensionado?            
+                      <div class="input-group">              
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                       <select class="form-control input-lg pensionado_empleado" name="pensionado_empleado" id="pensionado_empleado">
+                              <option value="">¿Es pensionado?</option>
+                              <option value="Si">Si</option>
+                              <option value="No">No</option>
+                       </select>
+                      </div>
+                    </div>
+              </div>
+            </div>
+
+
+            <div class="col-md-12 ocultarisss" > 
                 <div class="col-md-6" > 
                     <!-- ENTRADA PARA EL NUMERO ISSS-->            
                     <div class="form-group"> 
@@ -272,6 +375,21 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
             </div>
 
 
+            <div class="col-md-12 ocultarisss" >                
+                <div class="col-md-12" >
+                       <!-- ENTRADA PARA SUBIR FOTO DIPLOMA ANSP-->
+                      <div class="form-group">              
+                          <div class="panel">Subir foto de ISSS</div>
+                          <input type="file" class="fotoisss" name="editarfotoisss">
+                          <p class="help-block">Peso máximo de la foto 2MB</p>
+                          <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarfotoisss" width="100px">
+                          <input type="hidden" name="editfotoisss" id="editfotoisss">
+                      </div>
+                    
+                </div> 
+            </div>
+
+
             <div class="col-md-12" > 
                 <div class="col-md-6" > 
                     <!-- ENTRADA PARA SELECCIONAR TIPO DOCUMENTO -->
@@ -279,10 +397,10 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                       Tipo de Documento:              
                       <div class="input-group">              
                         <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-                        <select class="form-control input-lg" name="editarTipoDocumento" required>                  
+                        <select class="form-control input-lg" name="editarTipoDocumento" campo="">                  
                           <option value="" id="editarTipoDocumento"></option>  
                           <option value="DUI">DUI</option>
-                          <option value="Pasaporte">DUI</option>
+                          <option value="Pasaporte">Pasaporte</option>
                           <option value="Carnet residente">Carnet residente</option>
                         </select>
                       </div>
@@ -294,7 +412,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                     N&uacute;mero Documento Identidad:
                       <div class="input-group">              
                         <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                        <input type="text" class="form-control input-lg input_dui duis"  id="editarNumeroDocumento" name="editarNumeroDocumento" value="" required>
+                        <input type="text" class="form-control input-lg input_dui duis"  id="editarNumeroDocumento" name="editarNumeroDocumento" value="" campo="">
                       </div>
                     </div>
                 </div>               
@@ -428,8 +546,8 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                       AFP:            
                         <div class="input-group">              
                           <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-                          <select class="form-control input-lg" name="editarAFP"  >                  
-                          <option id="editarAFP"></option>
+                          <select class="form-control input-lg" name="editarAFP"  id="editarAFPselect">                  
+                          <option id="editarAFP">Seleccione AFP</option>
                             <?php
                               $datos_mostrar_afp = ControladorAfp::ctrMostrarAfp($item, $valor);
                               foreach ($datos_mostrar_afp as $key => $value){
@@ -450,6 +568,20 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                       </div>
                     </div>
                 </div>               
+            </div>
+
+            <div class="col-md-12" >                
+                <div class="col-md-12" >
+                       <!-- ENTRADA PARA SUBIR FOTO DIPLOMA ANSP-->
+                      <div class="form-group">              
+                          <div class="panel">Subir foto de Carnet de AFP</div>
+                          <input type="file" class="carnetafp" name="editarcarnetafp">
+                          <p class="help-block">Peso máximo de la foto 2MB</p>
+                          <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarcarnetafp" width="100px">
+                          <input type="hidden" name="editcarnetafp" id="editcarnetafp">
+                      </div>
+                    
+                </div> 
             </div>
 
             <div class="col-md-12" >
@@ -500,8 +632,9 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                         Fecha Nacimiento:
                         <div class="input-group">                  
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                            <input type="text" value="" class="calendario editarfecha_nacimiento form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_nacimiento" placeholder="Ingresar Fecha" id="mascarafechanac" readonly>
-                            <input type="text" class="oficial_editarfecha_nacimiento" name="editarfecha_nacimiento" style="display: none;" id="editarfecha_nacimiento">
+                            <input type="text" value="" class="calendario editarfecha_nacimiento form-control input-lg capturarfechanac" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_nacimiento" placeholder="Ingresar Fecha" id="mascarafechanac" readonly>
+                            <input type="text" class="oficial_editarfecha_nacimiento " name="editarfecha_nacimiento" style="display: none;" id="editarfecha_nacimiento">
+                            <p style="color:red;" class="mostrarerror">ERROR. NO ES MAYOR A 18 AÑOS</p>
                         </div>
                       </div>
                 </div>
@@ -606,7 +739,12 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                       Cara:             
                         <div class="input-group">              
                           <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                          <input type="text"  class="form-control input-lg" id="editarCara" name="editarCara" value="" placeholder="Ingresar Cara">
+                          <select  class="form-control input-lg" id="editarCara" name="editarCara">
+                            <option value="">Seleccione Tipo de Cara</option>
+                            <option value="Redonda">Redonda</option>
+                            <option value="Ovalada">Ovalada</option>
+                          </select>
+
                         </div>
                     </div>
                 </div>
@@ -629,6 +767,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                           <option value="AB-">AB-</option>
                           <option value="O+">O+</option>
                           <option value="O-">O-</option>
+                          <option value="Pendiente">Pendiente</option>
                         </select>
                       </div>
                     </div>
@@ -651,7 +790,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                 <div class="col-md-6" >
                     <!-- ENTRADA PARA TIENE LICENCIA TDA-->
                     <div class="form-group"> 
-                      Licencia de Tenencia de Armas:             
+                      Licencia de portación de arma (LPA):             
                       <div class="input-group">              
                         <span class="input-group-addon"><i class="fa fa-users"></i></span> 
                         <select class="form-control input-lg" name="editarLicenciaTDA">                  
@@ -675,12 +814,39 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                 </div>               
             </div>
 
+            <div class="col-md-12" >                
+                <div class="col-md-12" >
+                       <!-- ENTRADA PARA SUBIR FOTO DIPLOMA ANSP-->
+                      <div class="form-group">              
+                          <div class="panel">Subir foto de Licencia de portación de arma (LPA)</div>
+                          <input type="file" class="imagenlpa" name="editarimagenlpa">
+                          <p class="help-block">Peso máximo de la foto 2MB</p>
+                          <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarimagenlpa" width="100px">
+                          <input type="hidden" name="editimagenlpa" id="editimagenlpa">
+                      </div>
+                    
+                </div> 
+            </div>
+
+            <div class="col-md-12" > 
+                <div class="col-md-12" >
+                     <!-- ENTRADA PARA SELECCIONAR SI TIENE LICENCIA D EARMAS-->          
+                    <div class="form-group"> 
+                        Licencia para uso de arma de fuego(LUAF):             
+                        <div class="input-group">              
+                            <span class="input-group-addon"><i class="fa fa-address-card"></i></span> 
+                            <input type="text" class="form-control input-lg" name="editarluaf" placeholder="Ingresar Licencia para uso de arma de fuego(LUAF)" id="editarluaf">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
             <div class="col-md-12" >
                 <div class="col-md-6" >
                      <!-- ENTRADA PARA FECHA VENCIMIENTO LTA-->
                      <div class="form-group"> 
-                        Fecha vencimiento de Licencia de Tenencia de Armas:
+                        Fecha vencimiento de Licencia de portación de arma (LPA):
                         <div class="input-group">                  
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                             <input type="text" value="" class="calendario editarfecha_venLTA form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_venLTA" placeholder="Ingresar Fecha" id="mascarafecha_venLTA" readonly>
@@ -688,7 +854,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                         </div>
                       </div>
                 </div>                 
-                <div class="col-md-6" >
+                <div class="col-md-6 ocultartodo" >
                      <!-- ENTRADA PARA SUBIR FOTO LICENCIA LTA-->
                     <div class="form-group">              
                         <div class="panel">SUBIR FOTO LICENCIA TENENCIA DE ARMAS</div>
@@ -710,7 +876,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                       Hizo Servicio Militar:             
                       <div class="input-group">              
                         <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-                        <select class="form-control input-lg" name="editarServicioMilitar">                  
+                        <select class="form-control input-lg serviciomilitar" name="editarServicioMilitar">                  
                           <option value="" id="editarServicioMilitar"></option>  
                           <option value="SI">SI</option>
                           <option value="NO">NO</option>                  
@@ -722,18 +888,18 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
 
             
             <div class="col-md-12" >                
-                <div class="col-md-4" > 
+                <div class="col-md-4 noservicio" > 
                     <!-- ENTRADA PARA FECHA INI SER MIL-->  
                     <div class="form-group"> 
                         Fecha Inicio Servicio Militar:
                         <div class="input-group">                  
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                            <input type="text" value="" class="calendario editarfecha_inism form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_inism" placeholder="Ingresar Fecha" id="mascarafechainism" readonly>
+                            <input type="text" value="" class="fechainicioservicio calendario editarfecha_inism form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_inism" placeholder="Ingresar Fecha" id="mascarafechainism" readonly>
                             <input type="text" class="oficial_editarfecha_inism" name="editarfecha_inism" style="display: none;" id="editarfecha_inism">
                         </div>
                       </div>
                 </div>
-                <div class="col-md-4" > 
+                <div class="col-md-4 noservicio" > 
                      <!-- ENTRADA PARA FECHA FIN SER MIL-->  
                     <div class="form-group"> 
                         Fecha Fin Servicio Militar:
@@ -744,7 +910,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                         </div>
                       </div>
                 </div>
-                <div class="col-md-4" > 
+                <div class="col-md-4 noservicio" > 
                     <!-- ENTRADA PARA LUGAR SERVICIO MILITAR-->            
                     <div class="form-group"> 
                     Lugar de Servicio Militar:             
@@ -758,7 +924,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
 
 
             <div class="col-md-12" > 
-                <div class="col-md-6" >
+                <div class="col-md-6 noservicio" >
                     <!-- ENTRADA PARA GRADO MILITAR-->            
                     <div class="form-group">  
                     Grado Militar:            
@@ -769,7 +935,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                       </div>
                 </div>
                 
-                <div class="col-md-6" > 
+                <div class="col-md-6 noservicio" > 
                     <!-- ENTRADA PARA MOTIVO BAJA-->            
                     <div class="form-group">   
                       MOtivo Baja:           
@@ -851,6 +1017,22 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                 <div class="col-md-12" >
                        <!-- ENTRADA PARA SUBIR FOTO DIPLOMA ANSP-->
                       <div class="form-group">              
+                          <div class="panel">Subir foto de Certificado del ANSP</div>
+                          <input type="file" class="fotoansp" name="editarfotoansp">
+                          <p class="help-block">Peso máximo de la foto 2MB</p>
+                          <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarfotoansp" width="100px">
+                          <input type="hidden" name="editfotoansp" id="editfotoansp">
+                      </div>
+                    
+                </div> 
+            </div>
+
+
+
+            <div class="col-md-12" >                
+                <div class="col-md-12" >
+                       <!-- ENTRADA PARA SUBIR FOTO DIPLOMA ANSP-->
+                      <div class="form-group">              
                           <div class="panel">SUBIR FOTO DIPLOMA ANSP</div>
                           <input type="file" class="nuevaFotoANSP" name="editarFotoANSP">
                           <p class="help-block">Peso máximo de la foto 2MB</p>
@@ -871,7 +1053,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                     Nombre Trabajo Anterior:             
                         <div class="input-group">              
                           <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                          <input type="text"  class="form-control input-lg" id="editarTrabajoAnterior" name="editarTrabajoAnterior" value="" placeholder="Ingresar Trabajo Anterior">
+                          <input type="text"  class="form-control input-lg " id="editarTrabajoAnterior" name="editarTrabajoAnterior" value="" placeholder="Ingresar Trabajo Anterior">
                         </div>
                       </div>
                 </div>
@@ -895,7 +1077,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                     N&uacute;mero de Tel&eacute;fono Trabajo Anterior:            
                       <div class="input-group">              
                         <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                        <input type="text"   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="editarNumTelTrabajoAnterior" name="editarNumTelTrabajoAnterior" value="" placeholder="Ingresar N&uacute;mero de Tel&eacute;fono Trabajo Anterior">
+                        <input type="text"   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg telefono" id="editarNumTelTrabajoAnterior" name="editarNumTelTrabajoAnterior" value="" placeholder="Ingresar N&uacute;mero de Tel&eacute;fono Trabajo Anterior">
                       </div>
                     </div>
                 </div>
@@ -984,7 +1166,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                       Ha sido Suspendido en Trabajos anteriores?              
                       <div class="input-group">              
                         <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-                        <select class="form-control input-lg" name="editarSuspendidoAnterior" >                  
+                        <select class="form-control input-lg suspendido" name="editarSuspendidoAnterior" >                  
                           <option value="" id="editarSuspendidoAnterior"></option>  
                           <option value="SI">SI</option>
                           <option value="NO">NO</option>                  
@@ -993,13 +1175,13 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                     </div>
                 </div>
                 
-                <div class="col-md-6" > 
+                <div class="col-md-6 nosuspendido" > 
                     <!-- ENTRADA PARA EMPRESA SUSPENDIO-->            
                     <div class="form-group">              
                     Empresa que lo Suspendi&oacute;   
                       <div class="input-group">              
                           <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                          <input type="text"  class="form-control input-lg" id="editarEmpresaSuspendio" name="editarEmpresaSuspendio" value="" placeholder="Ingresar Empresa que lo Suspendi&oacute;">
+                          <input type="text"  class="form-control input-lg empresasuspencion" id="editarEmpresaSuspendio" name="editarEmpresaSuspendio" value="" placeholder="Ingresar Empresa que lo Suspendi&oacute;">
                         </div>
                       </div>
                 </div>               
@@ -1007,25 +1189,25 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
 
 
             <div class="col-md-12" > 
-                <div class="col-md-6" >
+                <div class="col-md-6 nosuspendido" >
                     <!-- ENTRADA PARA FECHA SUSPENSION-->  
                     <div class="form-group"> 
                         Fecha Suspensi&oacute;n:
                         <div class="input-group">                  
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                            <input type="text" value="" class="calendario editarfecha_susp form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_susp" placeholder="Ingresar Fecha" id="mascarafechasusp" readonly>
+                            <input type="text" value="" class="calendario editarfecha_susp fechasuspencion form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_susp" placeholder="Ingresar Fecha" id="mascarafechasusp" readonly>
                             <input type="text" class="oficial_editarfecha_susp" name="editarfecha_susp" style="display: none;" id="editarfecha_susp">
                         </div>
                       </div>
                 </div>
                 
-                <div class="col-md-6" > 
+                <div class="col-md-6 nosuspendido" > 
                      <!-- ENTRADA PARA MOTIVO SUSPENSION-->            
                     <div class="form-group">  
                     Motivo Suspensi&oacute;n:            
                         <div class="input-group">              
                           <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                          <input type="text"  class="form-control input-lg" id="editarMotivoSuspension" name="editarMotivoSuspension" value="" placeholder="Ingresar Motivo Suspensi&oacute;n">
+                          <input type="text"  class="form-control input-lg motivosuspension" id="editarMotivoSuspension" name="editarMotivoSuspension" value="" placeholder="Ingresar Motivo Suspensi&oacute;n">
                         </div>
                       </div>
                 </div>               
@@ -1033,7 +1215,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
             
 
             <div class="col-md-12" >                
-                <div class="col-md-12" >
+                <div class="col-md-12 " >
                     <!-- ENTRADA PARA EXPERIENCI ALABORAL-->            
                   <div class="form-group">  
                     Experiencia Laboral:            
@@ -1046,7 +1228,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
             </div>
 
             <div class="col-md-12" >
-                <label style="font-size: xx-large;color: #f7af10;">Im&aacute;genes de documentos e informaci&oacute; complementaria</label> 
+                <label style="font-size: xx-large;color: #f7af10;">Im&aacute;genes de documentos e informaci&oacute;n complementaria</label> 
                 <hr style="margin-top: 0px;border-top: 1px solid #101010;"></hr>
             </div>
 
@@ -1109,14 +1291,14 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
 
             
             <div class="col-md-12" > 
-                <div class="col-md-6" >
+                <div class="col-md-6" style="display: none;">
                     <!-- ENTRADA PARA SUBIR DE SOLICITUD-->
                     <div class="form-group">              
                         <div class="panel">SUBIR FOTO DE SOLICITUD</div>
-                        <input type="file" class="nuevaFotoSOLICITUD" name="editarFotoSOLICITUD">
-                        <p class="help-block">Peso máximo de la foto 2MB</p>
+                        <input type="text" class="nuevaFotoSOLICITUD" name="editarFotoSOLICITUD">
+                      <!--   <p class="help-block">Peso máximo de la foto 2MB</p>
                         <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditarSOLICITUD" width="100px">
-                        <input type="hidden" name="fotoActualSOLICITUD" id="fotoActualSOLICITUD">
+                        <input type="hidden" name="fotoActualSOLICITUD" id="fotoActualSOLICITUD"> -->
                     </div>
                 </div>
                 <div class="col-md-6" > 
@@ -1289,6 +1471,21 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                         </div>
                     </div>
 
+                    <div class="col-md-12 esconfiable" > 
+                    <!-- ENTRADA PARA CONFIABLE-->
+                    <div class="form-group"> 
+                      Es Confiable?             
+                      <div class="input-group">              
+                        <span class="input-group-addon"><i class="fa fa-users"></i></span> 
+                        <select class="form-control input-lg " name="editarConfiable">                  
+                          <option value="" id="editarConfiable"></option>  
+                          <option value="SI">SI</option>
+                          <option value="NO">NO</option>                  
+                        </select>
+                      </div>
+                    </div>
+                </div>
+
             </div>
 
             
@@ -1331,33 +1528,51 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
             
            
             <div class="col-md-12" >
-                <div class="col-md-4" > 
-                    <!-- ENTRADA PARA CONFIABLE-->
-                    <div class="form-group"> 
-                      Es Confiable?             
-                      <div class="input-group">              
-                        <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-                        <select class="form-control input-lg" name="editarConfiable">                  
-                          <option value="" id="editarConfiable"></option>  
-                          <option value="SI">SI</option>
-                          <option value="NO">NO</option>                  
-                        </select>
-                      </div>
-                    </div>
-                </div>
+                
+                
+
                 <div class="col-md-4" > 
                     <!-- ENTRADA PARA SELECCIONAR ESTADO -->
                     <div class="form-group">
-                      Estado:
+                      Código Empleado:
                       <div class="input-group">              
-                        <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-                        <select class="form-control input-lg" name="editarEstado" required>                  
-                          <option value="" id="editarEstado"></option>           
-                          <option value="1">Solicitud</option>
-                          <option value="2">Contratado</option>
-                          <option value="3">Inactivo</option>
-                          <option value="4">Incapacitado</option>
-                        </select>
+                        <span class="input-group-addon"><i class="fa fa-qrcode"></i></span> 
+                        <input type="text" class="form-control input-lg" id="editarcodigo_empleado" 
+                        name="editarcodigo_empleado" readonly>
+
+                        
+                      <?php
+                        function getempleado() {
+                          $query = "SELECT * FROM tbl_empleados where estado='2' order by id desc limit 1";
+                          $sql = Conexion::conectar()->prepare($query);
+                          $sql->execute();			
+                          return $sql->fetchAll();
+                        };
+
+                        $data = getempleado();
+                        $datos="";
+                        $correlativo_dato="";
+                        foreach($data as $row) {
+                          $numero = $row["codigo_empleado"];
+                          $quitarceros = ltrim($numero, "0"); 
+                          if($quitarceros=="")
+                            {
+                              $addnumber=0+1;
+                            }
+                            else{
+                                    $addnumber = addslashes($quitarceros)+1;
+                            }
+                            $correlativo_numero = sprintf("%05d",$addnumber);
+                            $correlativo_dato=$correlativo_numero;
+                        /*   $datos .=$row["codigo_empleado"]; */
+                        }
+                        if($correlativo_dato=="")
+                          {
+                            $correlativo_dato="000001";
+                          }
+                        echo '<input type="hidden" value='.$correlativo_dato.'  class="form-control ultimoempleado"  readonly>';
+                        ?>
+
                       </div>
                     </div>
                 </div>
@@ -1378,7 +1593,48 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                         </select>
                       </div>
                     </div>
+
                 </div>                
+            </div>
+
+            <div class="col-md-12">
+
+                                  <?php
+                                    function trabajoactual() {
+                                    $query = "SELECT * FROM configuracion";
+                                    $sql = Conexion::conectar()->prepare($query);
+                                    $sql->execute();			
+                                    return $sql->fetchAll();
+                                    };
+                                    
+                                    $data = trabajoactual();
+                                    foreach($data as $row) {
+                                    echo "<input type='hidden' value='".$row["telefono"]."' class='configtelefono' >";
+                                    }
+                                    ?>
+
+               <div class="col-md-4" > 
+                      <!-- ENTRADA PARA SELECCIONAR ESTADO -->
+                      <div class="form-group">
+                        Número del Trabajo actual:
+                        <div class="input-group">              
+                          <span class="input-group-addon"><i class="fa fa-users"></i></span> 
+                          <input type="text" class="form-control input-lg" name="editarnumero_telefono_trabajo_actual" id="editarnumero_telefono_trabajo_actual" readonly>
+                        </div>
+                      </div>
+                </div>
+
+                <div class="col-md-4" > 
+                      <!-- ENTRADA PARA SELECCIONAR ESTADO -->
+                      <div class="form-group">
+                        Carnet Empleado:
+                        <div class="input-group">              
+                          <span class="input-group-addon"><i class="fa fa-users"></i></span> 
+                          <input type="text" class="form-control input-lg" name="editarcarnet_empleado" id="editarcarnet_empleado" readonly>
+                        </div>
+                      </div>
+                </div>
+
             </div>
            
             
@@ -1425,12 +1681,12 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                     Recomendado por:
                       <div class="input-group">           
                           <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                          <select class="form-control input-lg" name="editarrecomendado_empleado" id="editarrecomendado_empleado" required>                  
-                            <option value="">Seleccionar Recomendado</option>
+                          <select class="form-control input-lg mi-selector" name="editarrecomendado_empleado" id="editarrecomendado_empleado" campo="">                  
+                            <option value="" id="recomendado_val">Seleccionar Recomendado</option>
                             <?php
                               $datos_mostrar_cargo = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
                               foreach ($datos_mostrar_cargo as $key => $value){
-                                echo '<option value="'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["primer_apellido"].'">'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["primer_apellido"].'</option>';                     
+                                echo '<option value="'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["primer_apellido"].'">'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["primer_apellido"].' - '.$value["nivel_cargo"].'</option>';                     
                               }
                           ?>
                           </select>
@@ -1443,7 +1699,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                     Medio de contacto:
                       <div class="input-group">           
                           <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                          <input type="text" value="" class="form-control input-lg telefono" name="editarcontacto_empleado" id="editarcontacto_empleado" placeholder="Ingresar Medio de contacto">
+                          <input type="text" value="" class="form-control input-lg " name="editarcontacto_empleado" id="editarcontacto_empleado" placeholder="Ingresar Medio de contacto"  onKeyPress="if(this.value.length==40) return false;">
                       </div>
                     </div>
                 </div>
@@ -1453,7 +1709,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                     Documentación completa:
                       <div class="input-group">           
                           <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                          <select class="form-control input-lg" name="editardocumentacion_empleado" id="editardocumentacion_empleado" required>                  
+                          <select class="form-control input-lg" name="editardocumentacion_empleado" id="editardocumentacion_empleado" campo="">                  
                             <option value="">Seleccionar Documentación completa</option>
                             <option value="Si">Si</option>
                             <option value="No">No</option>
@@ -1467,12 +1723,12 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
            
 
             <div class="col-md-12" > 
-                <div class="col-md-6" >
+                <div class="col-md-6" style="visibility: hidden; height:0">
                   <div class="form-group">
                   ¿Tiene ANSP?:
                     <div class="input-group">           
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                        <select class="form-control input-lg" name="editaransp_empleado" id="editaransp_empleado" required>                  
+                        <select class="form-control input-lg" name="editaransp_empleado" id="editaransp_empleado" campo="">                  
                           <option value="">¿Tiene ANSP?</option>
                           <option value="Si">Si</option>
                           <option value="No">No</option>
@@ -1487,7 +1743,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                     Uniforme regalado:
                       <div class="input-group">           
                           <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                          <select class="form-control input-lg" name="editaruniformeregalado_empleado" id="editaruniformeregalado_empleado" required>                  
+                          <select class="form-control input-lg" name="editaruniformeregalado_empleado" id="editaruniformeregalado_empleado" campo="">                  
                             <option value="">Uniforme regalado</option>
                             <option value="Si">Si</option>
                             <option value="No">No</option>
@@ -1523,7 +1779,8 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                           Fecha de contrataci&oacute;n:
                           <div class="input-group">                  
                               <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                              <input type="text" value="" class="calendario editarfecha_contratacion form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_contratacion" placeholder="Ingresar Fecha" id="mascarafechacontratacion" readonly>
+                         
+                              <input type="text" value="" class="calendario editarfecha_contratacion form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="editarfecha_contratacion" placeholder="Ingresar Fecha" id="mascarafechacontratacion" readonly >
                               <input type="text" class="oficial_editarfecha_contratacion" name="editarfecha_contratacion" style="display: none;" id="editarfecha_contratacion">
                           </div>
                         </div>
@@ -1535,7 +1792,8 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                         Departamento :            
                         <div class="input-group">              
                           <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-                          <select class="form-control input-lg" name="editarDepartamentoEmpresa"  >                  
+                          <input type="text" id="showdepartamento" class="form-control" readonly="readonly">
+                          <select class="form-control input-lg mi-selector" name="editarDepartamentoEmpresa"  >                  
                           <option id="editarDepartamentoEmpresa"></option>
                             <?php
                               $datos_mostrar_departamento = ControladorDepartamentos::ctrMostrarDepartamentos($item, $valor);
@@ -1554,10 +1812,10 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                   <div class="form-group">
                        <!-- ENTRADA PARA PERIODO DE PAGO--> 
                        Per&iacute;odo de pago: 
-                        <select class="form-control input-lg" name="editarPeriodoPago"  >                  
-                          <option value="" id="editarPeriodoPago"></option>
-                          <option value="Quincenal">Quincenal</option>
-                          <option value="Mensual">Mensual</option>
+                        <select class="form-control input-lg" name="editarPeriodoPago" id="PeriodoPago" >                  
+                 <!--          <option value="" id="editarPeriodoPago"></option> -->
+                          <option value="015">015</option>
+                          <option value="030">030</option>
                         </select>
                   </div>
                 </div>
@@ -1568,7 +1826,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                           Horas normales de trabajo:
                           <div class="input-group">           
                               <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                              <input type="number"  min="0.01" step="0.01" class="form-control input-lg " name="editar_horas_normales_trabajo" id="editar_horas_normales_trabajo" placeholder="Ingresar horas">
+                              <input type="text"   class="form-control input-lg solonumero" name="editar_horas_normales_trabajo" id="editar_horas_normales_trabajo" placeholder="Ingresar horas"  onKeyPress="if(this.value.length==2) return false;" value="08">
                           </div>
                         </div>
                     </div>
@@ -1580,7 +1838,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                           Sueldo:
                           <div class="input-group">           
                               <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                              <input type="number"  min="0.01" step="0.01"  class="form-control input-lg " name="editar_sueldo" id="editar_sueldo" placeholder="Ingresar sueldo">
+                              <input type="number"  min="0.01" step="0.01"  class="form-control input-lg " name="editar_sueldo" id="editar_sueldo" placeholder="Ingresar sueldo" onKeyPress="if(this.value.length==6) return false;">
                           </div>
                         </div>
                     </div>
@@ -1596,7 +1854,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                           Sueldo diario:
                           <div class="input-group">           
                               <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                              <input type="number"  min="0.01" step="0.01" class="form-control input-lg " name="editar_sueldo_diario" id="editar_sueldo_diario" placeholder="Ingresar sueldo diario">
+                              <input type="number" step="any" class="form-control input-lg " name="editar_sueldo_diario" id="editar_sueldo_diario" placeholder="Ingresar sueldo diario" onKeyPress="if(this.value.length==7) return false;">
                           </div>
                         </div>
                   </div>
@@ -1608,7 +1866,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                           Salario por hora:
                           <div class="input-group">           
                               <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                              <input type="number"  min="0.01" step="0.01" class="form-control input-lg " name="editar_salario_por_hora" id="editar_salario_por_hora" placeholder="Ingresar salario por hora">
+                              <input type="number" step="any" class="form-control input-lg " name="editar_salario_por_hora" id="editar_salario_por_hora" placeholder="Ingresar salario por hora" onKeyPress="if(this.value.length==7) return false;">
                           </div>
                         </div>
                     </div>
@@ -1620,7 +1878,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                           Hora extra diurna:
                           <div class="input-group">           
                               <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                              <input type="number"  min="0.01" step="0.01"  class="form-control input-lg " name="editar_hora_extra_diurna" id="editar_hora_extra_diurna" placeholder="Ingresar hora extra diurna">
+                              <input type="number" step="any" class="form-control input-lg " name="editar_hora_extra_diurna" id="editar_hora_extra_diurna" placeholder="Ingresar hora extra diurna" onKeyPress="if(this.value.length==7) return false;">
                           </div>
                         </div>
                     </div>                      
@@ -1635,7 +1893,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                           Hora extra nocturna:
                           <div class="input-group">           
                               <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                              <input type="number"  min="0.01" step="0.01" class="form-control input-lg " name="editar_hora_extra_nocturna" id="editar_hora_extra_nocturna" placeholder="Ingresar hora extra nocturna">
+                              <input type="number" step="any" class="form-control input-lg " name="editar_hora_extra_nocturna" id="editar_hora_extra_nocturna" placeholder="Ingresar hora extra nocturna"  onKeyPress="if(this.value.length==7) return false;">
                           </div>
                         </div>
                   </div>
@@ -1644,10 +1902,10 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                     <div class="form-group">
                         <!-- ENTRADA PARA HX DOMINGO-->  
                         <div class="form-group"> 
-                          Hora extra domingo:
+                          Hora extra diurna domingo:
                           <div class="input-group">           
                               <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                              <input type="number"  min="0.01" step="0.01" class="form-control input-lg " name="editar_hora_extra_domingo" id="editar_hora_extra_domingo" placeholder="Ingresar hora extra domingo">
+                              <input type="number"  min="0.01" step="0.01" class="form-control input-lg " name="editar_hora_extra_domingo" id="editar_hora_extra_domingo" placeholder="Ingresar hora extra domingo"  onKeyPress="if(this.value.length==7) return false;">
                           </div>
                         </div>
                     </div>
@@ -1659,7 +1917,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                           Hora extra nocturna domingo:
                           <div class="input-group">           
                               <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                              <input type="number"  min="0.01" step="0.01"  class="form-control input-lg " name="editar_hora_extra_nocturna_domingo" id="editar_hora_extra_nocturna_domingo" placeholder="Ingresar hora extra nocturna domingo">
+                              <input type="number"  min="0.01" step="0.01"  class="form-control input-lg " name="editar_hora_extra_nocturna_domingo" id="editar_hora_extra_nocturna_domingo" placeholder="Ingresar hora extra nocturna domingo" onKeyPress="if(this.value.length==7) return false;">
                           </div>
                         </div>
                     </div>                      
@@ -1736,7 +1994,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                         <!-- ENTRADA PARA BANCO-->                         
                        <div class="form-group"> 
                           Banco:
-                          <select class="form-control input-lg editarBanco" name="editarBanco"  >                  
+                          <select class="form-control input-lg editarBanco" name="editarBanco" id="bancoempleado" >                  
                           <option id="editarBanco">Seleccione un Banco</option>
                             <?php
                               $datos_mostrar_banco = ControladorBancos::ctrMostrarBancos($item, $valor);
@@ -1763,7 +2021,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
             </div>
 
             <div class="col-md-12" >
-              <div class="col-md-4 jefeoperacion_empleado" id="divJOP" style="display: none;" > 
+              <div class="col-md-4 jefeoperacion_empleado" id="divJOP" > 
                   <!-- ENTRADA PARA JEFE OPERQACIONES A CARGO--> 
                   <div class="form-group" >
                     Jefe operaciones:
@@ -1776,14 +2034,16 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                                                       
                               function configuracion() {
                                     
-                                  $query = "SELECT * from tbl_empleados where nivel_cargo='Jefe de Operaciones'";
+                                  $query = "SELECT tbl_empleados.id as idempleado,  tbl_empleados.* FROM tbl_empleados
+                                  INNER JOIN cargos_desempenados 
+                                  WHERE cargos_desempenados.id = tbl_empleados.nivel_cargo and cargos_desempenados.descripcion='Jefe de Operaciones'";
                                   $sql = Conexion::conectar()->prepare($query);
                                   $sql->execute();			
                                   return $sql->fetchAll();
                                 };
                               $data = configuracion();
                               foreach($data as $value) {
-                               echo "<option value=".$value["id"].">".$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["primer_apellido"]."</option>";
+                               echo "<option value=".$value["idempleado"].">".$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["primer_apellido"]."</option>";
                               }
                             ?>
                           
@@ -1792,14 +2052,14 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
                       </div>
                     </div>  
                 </div>              
-                <div class="col-md-4" >
+                <div class="col-md-4" style="display: none;">
                     <!-- ENTRADA PARA IMAGEN CONTRATO-->
                     <div class="form-group">              
                         <div class="panel">SUBIR IMAGEN DE CONTRATO</div>
-                        <input type="file" class="nuevaFotoContra" name="editarFotoContra">
+                        <input type="text" class="nuevaFotoContra" name="editarFotoContra">
                         <p class="help-block">Peso máximo de la foto 2MB</p>
-                        <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditarContra" width="100px">
-                        <input type="hidden" name="fotoActualContra" id="fotoActualContra">
+                        <!-- <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditarContra" width="100px">
+                        <input type="hidden" name="fotoActualContra" id="fotoActualContra"> -->
                     </div>
                 </div> 
             </div>
@@ -1936,7 +2196,7 @@ require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
 
             <div class="modal-footer">
 
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
+                <a href="empleados" class="btn btn-default pull-left" data-dismiss="">Salir</a>
 
                 <button type="submit" class="btn btn-primary">Modificar empleado</button>
 

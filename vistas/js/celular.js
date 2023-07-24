@@ -1,62 +1,17 @@
 /* COLOCACION DE ICONOS */
 $(document).ready(function(){
 
-	var  texto= "Ingresar";
-
-	$(".input_id").removeAttr("required");
-
-	$(".grupocelular_operador").empty();
-	$('.grupocelular_operador').append($('#nuevooperador'));
-
-	$(".egrupocelular_operador").empty();
-	$('.egrupocelular_operador').append($('#editaroperadordiv'));
 
 
+
+	$(".empleadoseleccionar").change(function(){
+		var valor=$(this).val();
+		$(".codigo_nombre_empleado").val(valor);
 	
-	$(".icono_operador").addClass("fa fa-server");
-	$(".input_operador").attr("placeholder", texto+" Operador");
+});
 
 
-	
-	$(".icono_celular").addClass("fa fa-newspaper-o");
-	$(".input_celular").attr("placeholder", texto+" Celular");
-
-
-	$(".icono_costo").addClass("fa fa-money");
-	$(".input_costo").attr("placeholder", texto+" Costo");
-	
-
-	$(".input_costo").get(0).type = 'number';
-	$(".input_costo").attr("step", "0.01");
-	$("#editarcosto").get(0).type = 'number';
-	$("#editarcosto").attr("step", "0.01");
-
-	$(".icono_numero").addClass("fa fa-phone");
-	$(".input_numero").attr("placeholder", texto+" Numero");
-	$(".input_numero").addClass("telefono");
-
-
-	$(".grupocelular_tipocelular").empty();
-	$(".grupocelular_tipocelular").append($("#stipocelular"));
-
-
-
-	$(".grupocelular_sim").empty();
-	$(".grupocelular_sim").append($("#seleccionar_sim"));
-	$(".grupocelular_sim").append($(".operador_celular"));
-	$(".operador_celular").append($(".imei_celular"));
-
-
-
-	$(".egrupocelular_tipocelular").empty();
-	$(".egrupocelular_tipocelular").append($("#estipocelular"));
-
-	$(".egrupocelular_sim").empty();
-	$(".egrupocelular_sim").append($("#editar_sim_celular"));
-	$(".egrupocelular_sim").append($(".editar_operador"));
-	$(".editar_operador").append($(".editar_imei"));
-
-
+$("#nimei").removeAttr("readonly");
 
 	
               /* *********LABEL*********** */
@@ -90,6 +45,33 @@ $(document).ready(function(){
 			$('#eoperador').val(operador);
 			$('#eimei').val(imei);
 	   });
+
+
+	   	/* *********LABEL*********** */
+		   $(".icono_fecha_asignacion_celular").addClass("fa fa-file-excel-o")
+		   $(".input_fecha_asignacion_celular").attr("placeholder","Ingresar Fecha de Asignación Celular");
+		   $(".input_fecha_asignacion_celular").attr("readonly","readonly");
+		   $(".input_fecha_asignacion_celular").addClass("calendario");
+		   var input_fecha_asignacion_celular  = $(".input_fecha_asignacion_celular").attr("placeholder");
+		   $(".label_fecha_asignacion_celular").text(input_fecha_asignacion_celular);
+
+
+		    	/* *********LABEL*********** */
+				$(".grupocelular_codigo_nombre_empleado_celular").empty();
+				$(".grupocelular_codigo_nombre_empleado_celular").append($("#grupocelular_codigo_nombre_empleado_celular"));
+
+
+				/* *********LABEL*********** */
+				$(".egrupocelular_codigo_nombre_empleado_celular").empty();
+				$(".egrupocelular_codigo_nombre_empleado_celular").append($("#egrupocelular_codigo_nombre_empleado_celular"));
+
+		
+	   	/* *********LABEL*********** */
+		   $(".icono_plan_datos_celular").addClass("fa fa-file-excel-o")
+		   $(".input_plan_datos_celular").attr("placeholder","Ingresar Plan de datos Celular");
+		   var input_plan_datos_celular  = $(".input_plan_datos_celular").attr("placeholder");
+		   $(".label_plan_datos_celular").text(input_plan_datos_celular);
+
 		  
 
 		  
@@ -131,6 +113,57 @@ $(".tablas").on("click", ".btnEditarcelular", function(){
 			$("#editarmodelo").val(respuesta["modelo"]);
 			$("#editarcolor").val(respuesta["color"]);
 			$("#editartipocelular").val(respuesta["idtipocelular"]);
+
+			$("#editarfecha_asignacion_celular").val(respuesta["fecha_asignacion_celular"]);
+			$(".codigo_nombre_empleado").val(respuesta["codigo_nombre_empleado_celular"]);
+			
+			$("#editarplan_datos_celular").val(respuesta["plan_datos_celular"]);
+			$("#editarobservacion_celular").val(respuesta["observacion_celular"]);
+
+
+
+			$("#seleccionar_empleado_celular").attr("value",respuesta["codigo_nombre_empleado_celular"]);
+			$("#select2-editarcodigo_nombre_empleado_celular-container").text(respuesta["codigo_nombre_empleado_celular"]);
+
+
+			$("#editaroperador_celular").val(respuesta["operador_celular"]);
+			$("#editarimei_celular").val(respuesta["imei_celular"]);
+
+
+
+		}
+
+	});
+
+})
+
+
+/*=============================================
+detalle 
+=============================================*/
+$(".tablas").on("click", ".btndetalles", function(){
+
+	
+	var idcelular = $(this).attr("idcelular");
+	
+	var datos = new FormData();
+	datos.append("idcelular", idcelular);
+
+	$.ajax({
+
+		url:"ajax/celular.ajax.php",
+		method: "POST",
+		data: datos,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType: "json",
+		success: function(respuesta){
+			
+
+			$(".fecha_asignacion").text("Fecha de Asignación: "+respuesta["fecha_asignacion_celular"]);
+			$(".codigo_nombre_empleado").text("Código y Nombre de Empleado: "+respuesta["codigo_nombre_empleado_celular"]);
+			$(".plan_datos").text("Plan de Datos: "+respuesta["plan_datos_celular"]);
 
 
 

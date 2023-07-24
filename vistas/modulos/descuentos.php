@@ -12,7 +12,7 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
 
 }
 
-$Nombre_del_Modulo="Descuentos";
+$Nombre_del_Modulo="Devengo o Descuento";
 
 /* CAPTURAR NOMBRE COLUMNAS*/
 
@@ -87,6 +87,8 @@ function getContent() {
 
                       <button class="btn btn-danger btnEliminarDescuentos" idDescuentos="'.$value["id"].'"  Codigo="'.$value["codigo"].'"><i class="fa fa-times"></i></button>
 
+                      <a href="devengoubicacion?id='.$value["id"].'" class="btn btn-primary" >Asignar Ubicacón</a>
+
                     </div>  
 
                   </td>
@@ -142,22 +144,79 @@ MODAL AGREGAR
             <div class="box-body">
 
             <!-- ENTRADA PARA CAMPOS  -->
-
                 <?php 
                 $data = getContent();
                 foreach($data as $row) {             
                     ?>
-                    <div class="form-group <?php echo $row['Field'];?>">
+                    <div class="form-group <?php echo $row['Field'];?> descuentos_<?php echo $row['Field'];?>">
                         <label for="" class="label_<?php echo $row['Field'];?>"></label>
                         <div class="input-group">
                             <span class="input-group-addon"><i class="icono_<?php echo $row['Field'];?>"></i></span> 
-                            <input type="text" class="form-control input-lg input_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value="" tabla_validar="tbl_devengo_descuento" item_validar="codigo">
+                            <input type="text" class="form-control input-lg input_<?php echo $row['Field'];?> descuentoinput_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value="" tabla_validar="tbl_devengo_descuento" item_validar="codigo">
                         </div>
                     </div>
                     <?php
                     }
                     ?>
-        </div>
+
+
+                  <div id="tipo_insert">
+                    <div class="form-group">
+                      <label for="">Ingresar Tipo</label>
+                      <div class="input-group">
+                        <span class="input-group-addon"><i></i></span>
+                        <select class="form-control tipodescuento" name="nuevotipo" id="nuevotipo">
+                          <option value="">Seleccione Tipo</option>
+                          <option value="+Suma">+Suma</option>
+                          <option value="-Resta">-Resta</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- **************** -->
+                  <div id="isss_select">
+                    <div class="form-group">
+                      <label for="">ISSS</label>
+                      <div class="input-group">
+                        <span class="input-group-addon"><i></i></span>
+                        <select class="form-control" name="nuevoisss_devengo" id="nuevoisss_devengo">
+                          <option value="">Seleccione ISSS</option>
+                          <option value="Si">Si</option>
+                          <option value="No">No</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- **************** -->
+                  <div id="afp_select">
+                    <div class="form-group">
+                      <label for="">AFP</label>
+                      <div class="input-group">
+                        <span class="input-group-addon"><i></i></span>
+                        <select class="form-control" name="nuevoafp_devengo" id="nuevoafp_devengo">
+                          <option value="">Seleccione AFP</option>
+                          <option value="Si">Si</option>
+                          <option value="No">No</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- **************** -->
+                  <div id="renta_select">
+                    <div class="form-group">
+                      <label for="">Renta</label>
+                      <div class="input-group">
+                        <span class="input-group-addon"><i></i></span>
+                        <select class="form-control" name="nuevorenta_devengo" id="nuevorenta_devengo">
+                          <option value="">Seleccione Renta</option>
+                          <option value="Si">Si</option>
+                          <option value="No">No</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- **************** -->
+            </div>
 
     </div>
 
@@ -232,14 +291,14 @@ MODAL EDITAR
              $data = getContent();
              foreach($data as $row) {
            ?>
-            <div class="form-group <?php echo $row['Field'];?>">
+            <div class="form-group <?php echo $row['Field'];?> edescuentos_<?php echo $row['Field'];?>">
             <label for="" class="label_<?php echo $row['Field'];?>"></label>
               
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="icono_<?php echo $row['Field'];?>"></i></span> 
 
-                <input type="text" class="form-control input-lg input_<?php echo $row['Field'];?>" name="editar<?php echo $row['Field'];?>" id="editar<?php echo $row['Field'];?>" placeholder="" value="">
+                <input type="text" class="form-control input-lg input_<?php echo $row['Field'];?> edescuentoinput_<?php echo $row['Field'];?>" name="editar<?php echo $row['Field'];?>" id="editar<?php echo $row['Field'];?>" placeholder="" value="">
 
               </div>
 
@@ -249,7 +308,63 @@ MODAL EDITAR
              }
           ?>
              
+             <div id="etipo_insert">
+                    <div class="form-group">
+                      <label for="">Ingresar Tipo</label>
+                      <div class="input-group">
+                        <span class="input-group-addon"><i></i></span>
+                        <select class="form-control tipodescuento" name="editartipo" id="editartipo">
+                          <option value="">Seleccione Tipo</option>
+                          <option value="+Suma">+Suma</option>
+                          <option value="-Resta">-Resta</option>
+                        </select>
+                      </div>
+                    </div>
+              </div>
 
+            <!-- **************** -->
+            <div id="isss_select">
+                    <div class="form-group">
+                      <label for="">ISSS</label>
+                      <div class="input-group">
+                        <span class="input-group-addon"><i></i></span>
+                        <select class="form-control" name="editarisss_devengo" id="editarisss_devengo">
+                          <option value="">Seleccione ISSS</option>
+                          <option value="Si">Si</option>
+                          <option value="No">No</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- **************** -->
+                  <div id="afp_select">
+                    <div class="form-group">
+                      <label for="">AFP</label>
+                      <div class="input-group">
+                        <span class="input-group-addon"><i></i></span>
+                        <select class="form-control" name="editarafp_devengo" id="editarafp_devengo">
+                          <option value="">Seleccione AFP</option>
+                          <option value="Si">Si</option>
+                          <option value="No">No</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- **************** -->
+                  <div id="renta_select">
+                    <div class="form-group">
+                      <label for="">Renta</label>
+                      <div class="input-group">
+                        <span class="input-group-addon"><i></i></span>
+                        <select class="form-control" name="editarrenta_devengo" id="editarrenta_devengo">
+                          <option value="">Seleccione Renta</option>
+                          <option value="Si">Si</option>
+                          <option value="No">No</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- **************** -->
 
 
           </div>

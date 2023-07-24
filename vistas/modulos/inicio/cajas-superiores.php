@@ -484,7 +484,6 @@
 </div>
 
 <div class="col-lg-3 col-xs-6">
-
   <div class="small-box " style="background-color: #222d32eb;color: #ffb002;">    
     <div class="inner">    
       <p>Clientes</p>    
@@ -496,8 +495,26 @@
       Más info <i class="fa fa-arrow-circle-right"></i>    
     </a>
   </div>
-
 </div>
+
+<!-- ************** -->
+
+<div class="col-lg-3 col-xs-6">
+  <div class="small-box " style="background-color: #222d32eb;color: #ffb002;">    
+    <div class="inner">    
+      <p>Vendedores</p>    
+    </div>    
+    <div class="icon">      
+      <i class="fa fa-users"></i>    
+    </div>    
+    <a href="vendedor" class="small-box-footer">      
+      Más info <i class="fa fa-arrow-circle-right"></i>    
+    </a>
+  </div>
+</div>
+
+<!-- ************* -->
+
 <div class="col-lg-3 col-xs-6">
 
   <div class="small-box " style="background-color: #222d32eb;color: #ffb002;">    

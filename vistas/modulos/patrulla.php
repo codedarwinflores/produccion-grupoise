@@ -95,6 +95,8 @@ function getContent() {
                             <button class="btn btn-danger btnEliminarpatrulla" idpatrulla="'.$value["idpatrulla"].'"  Codigo="'.$value["codigo_patrulla"].'"><i class="fa fa-times"></i></button>
 
                             <a href="administrarpatrulla?id='.$value["idpatrulla"].'" class="btn btn-primary "><i class="fa fa-eye"></i></a>
+
+                            <a href="coordinadorpatrulla?id='.$value["idpatrulla"].'" class="btn btn-success "><i class="fa fa-users"></i></a>
       
                           </div>  
       

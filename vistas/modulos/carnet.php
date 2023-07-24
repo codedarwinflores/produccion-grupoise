@@ -59,34 +59,34 @@ $imagenBase64empleado = "data:image/png;base64," . base64_encode(file_get_conten
 </table>
 <table>
     <tr>
-        <td style="width: 98px;"></td>
+        <td style="width: 60px;"></td>
         <td></td>
-        <td><span style="font-size: 30px;"><?php echo $value["primer_nombre"].' '.$value["primer_apellido"]?></span></td>
+        <td><span style="font-size: 30px;"><?php echo $value["primer_apellido"].' '.$value["segundo_apellido"]?></span></td>
     </tr>
 </table>
 <table>
     <tr>
-        <td style="width: 110px;"></td>
+        <td style="width: 70px;"></td>
         <td></td>
-        <td><span style="font-size: 20px;"><?php echo $value["nivel_cargo"]?></span></td>
+        <td><span style="font-size: 20px;"><?php echo $value["primer_nombre"].' '.$value["primer_apellido"]?></span></td>
     </tr>
     <tr>
-        <td style="width: 110px;"></td>
+        <td style="width: 70px;"></td>
         <td><span style="font-size: 15px;">DUI:</span></td>
         <td><span style="font-size: 15px;"><?php echo $value["numero_documento_identidad"]?></span></td>
     </tr>
     <tr>
-        <td style="width: 110px;"></td>
+        <td style="width: 70px;"></td>
         <td><span style="font-size: 15px;">LUAF:</span></td>
-        <td><span style="font-size: 15px;"><?php echo $value["numero_documento_identidad"]?></span></td>
+        <td><span style="font-size: 15px;"><?php echo $value["luaf"]?></span></td>
     </tr>
 </table>
 <br>
 <table>
     <tr>
-        <td style="width: 60px;"></td>
+        <td style="width: 50px;"></td>
         <td align="center">
-            <span style="color:blueviolet; font-size:20px">
+            <span style="color:#000; font-size:20px">
                 EN CASO DE EMERGENCIAS
                 <br>
                 AVISAR AL 2245-1900

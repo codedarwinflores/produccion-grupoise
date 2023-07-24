@@ -31,32 +31,34 @@
   .dropdown-content span:hover {background-color: #ddd;}
   
   .drop_contribuyente{
-    top: 25% !important;
+    top: 11% !important;
+    /* top: 15% !important; */
+
     /* top: 36% !important; */
     /* min-width: 30%;
     left: 35% !important; */
   }
 
   .drop_clasificacion{
-    top: 26% !important;
+    top: 16% !important;
     /* min-width: 30%;
     left: 67% !important; */
   }
 
   .drop_tipo_cliente{
-    top: 26% !important;
+    top: 15% !important;
     /* min-width: 30%;
     left: 3% !important; */
   }
 
   .drop_pais{
-    top: 51% !important;
+    top: 38% !important;
     /* min-width: 30%;
     left: 35% !important; */
   }
 
   .drop_departamento{
-    top: 53% !important;
+    top: 39% !important;
     /* min-width: 30%;
     left: 67% !important; */
     height: 210px;
@@ -65,7 +67,7 @@
 
   
   .drop_municipio{
-    top: 56% !important;
+    top: 40% !important;
     /* min-width: 30%;
     left: 3% !important; */
     height: 210px;

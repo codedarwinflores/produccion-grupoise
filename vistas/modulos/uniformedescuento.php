@@ -43,7 +43,7 @@ function getContent() {
               </button>
           </div>
           <div class="col-md-6" align="right">
-              <a href="empleados" class="btn btn-primary">Volver</a>
+              <a href="empleados" class="btn btn-danger">Volver</a>
           </div>
         </div>
 

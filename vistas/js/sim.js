@@ -1,6 +1,10 @@
 /* COLOCACION DE ICONOS */
 $(document).ready(function(){
 
+
+	$(".gruposim_observacion_tarjeta").empty();
+	$(".egruposim_observacion_tarjeta").empty();
+
 	var  texto= "Ingresar";
 
 	$(".input_id").removeAttr("required");
@@ -82,6 +86,7 @@ $(".tablas").on("click", ".btnEditarsim", function(){
 			$("#editarsim").val(respuesta["sim"]);
 			$("#editarIMEI").val(respuesta["IMEI"]);
 			$("#editarsim_card").val(respuesta["sim_card"]);
+			$("#editarobservacion_tarjeta").val(respuesta["observacion_tarjeta"]);
 
 
 

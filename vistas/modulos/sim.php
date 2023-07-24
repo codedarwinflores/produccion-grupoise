@@ -58,6 +58,7 @@ function getContent() {
             <th>SIM</th>
             <th>IMEI</th>
             <th>SIM CARD</th>
+            <th>Observación</th>
             <th>Acciones</th>
  
           </tr> 
@@ -80,7 +81,8 @@ function getContent() {
                    <td>'.$value["operador"].'</td>
                    <td>'.$value["sim"].'</td>
                    <td>'.$value["IMEI"].'</td>
-                   <td>'.$value["sim_card"].'</td>';
+                   <td>'.$value["sim_card"].'</td>
+                   <td>'.$value["observacion_tarjeta"].'</td>';
  
                   
  
@@ -171,6 +173,14 @@ MODAL AGREGAR
           <?php
              }
           ?>
+
+          <div class="form-group observacion_tarjeta  ">
+              <label for="" class="label_observacion_tarjeta">Ingresar Observaciones</label> 
+              <div class="input-group">
+                <span class="input-group-addon"><i class="icono_observacion_tarjeta"></i></span> 
+                <input type="text" class="form-control input-lg input_observacion_tarjeta" name="nuevoobservacion_tarjeta" id="nuevoobservacion_tarjeta" placeholder="Ingresar Observaciones" value="" autocomplete="off" required="">
+              </div>
+            </div>
              
 
             <!--  <div id="nuevooperador">
@@ -294,6 +304,16 @@ MODAL EDITAR
           <?php
              }
           ?>
+
+          
+
+            <div class="form-group observacion_tarjeta  ">
+              <label for="" class="label_observacion_tarjeta">Ingresar Observaciones</label> 
+              <div class="input-group">
+                <span class="input-group-addon"><i class="icono_observacion_tarjeta"></i></span> 
+                <input type="text" class="form-control input-lg input_observacion_tarjeta" name="editarobservacion_tarjeta" id="editarobservacion_tarjeta" placeholder="Ingresar Observaciones" value="" autocomplete="off" required="">
+              </div>
+            </div>
            <!-- <div id="editaroperadordiv">
              <label for="" class="">Seleccione Operador</label> 
             

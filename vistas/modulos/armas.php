@@ -71,6 +71,9 @@ function getContent() {
             <th>Lugar Adquisición</th>
             <th>Precio Costo</th>
             <th>Estado</th>
+            <th>Cantidad</th>
+            <th>Carnet</th>
+            <th>Observación</th>
             <th>Acciones</th>
  
           </tr> 
@@ -105,7 +108,10 @@ function getContent() {
                    <td>'.$value["tipo_municion"].'</td>
                    <td>'.$value["lugar_adquisicion"].'</td>
                    <td>'.$value["precio_costo"].'</td>
-                   <td>'.$value["estado"].'</td>';
+                   <td>'.$value["estado"].'</td>
+                   <td>'.$value["cantidad_armas"].'</td>
+                   <td>'.$value["carnet_armas"].'</td>
+                   <td>'.$value["observacion_armas"].'</td>';
  
                   
  
@@ -322,25 +328,21 @@ MODAL AGREGAR
            ?>
            
            <div class="form-group farmagrupo_<?php echo $row['Field'];?> "> </div>
-
             <div class="form-group grupo_<?php echo $row['Field'];?> armagrupo_<?php echo $row['Field'];?> <?php echo $row['Field'];?>">
               <label for="" class="label_<?php echo $row['Field'];?>"></label> 
-              
               <div class="input-group">
-              
                 <span class="input-group-addon"><i class="icono_<?php echo $row['Field'];?>"></i></span> 
-
                 <input type="text" class="form-control input-lg input_<?php echo $row['Field'];?> armasinput_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value="" autocomplete="off" required tabla_validar="tbl_armas" item_validar="codigo">
-
               </div>
-
             </div>
 
           <?php
              }
           ?>
 
-                              
+
+
+       
         <!-- <div class="s_idempresa">
             <label for="">Seleccione Empresa</label>
             <div class="input-group ">
@@ -359,6 +361,31 @@ MODAL AGREGAR
             </div>
       </div> -->
 
+      <div class="s_familia_arma">
+          <label for="">Seleccione Familia</label>
+            <div class="input-group ">
+                <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                <select name="nuevoid_familia" id="" class="form-control input-lg" required>
+                  <option value="">Seleccione Familia</option>
+                  <?php
+                            function familia() {
+                              $query = "SELECT `id`, `codigo`, `nombre`, `correrlativo` FROM `tbl_familia` WHERE nombre LIKE 'armas%';";
+                              $sql = Conexion::conectar()->prepare($query);
+                              $sql->execute();			
+                              return $sql->fetchAll();
+                            };
+                          $data0 = familia();
+                          foreach($data0 as $value) {
+                            ?>
+                             <option value="<?php echo $value['id'] ?>" codigo="<?php echo $value['codigo'] ?>"><?php echo $value["nombre"] ?></option>  
+                            <?php
+                                }
+                              ?>
+                </select>
+            </div>
+        </div>
+
+
             <div class="s_idtipoarma">
               <label for="">Seleccione Tipo Arma</label>
                 <div class="input-group ">
@@ -373,29 +400,17 @@ MODAL AGREGAR
                     <?php
                         }
                       ?>
+                      
                     </select>
                 </div>
             </div>
 
-        <div class="s_familia_arma">
-          <label for="">Seleccione Familia</label>
-            <div class="input-group ">
-                <span class="input-group-addon"><i class="fa fa-users"></i></span>
-                <select name="nuevoid_familia" id="" class="form-control input-lg" required>
-                  <option value="">Seleccione Familia</option>
-                <?php
-                    $datos_mostrar = Controladorfamilia::ctrMostrar($item, $valor);
-                    foreach ($datos_mostrar as $key => $value){
-                ?>
-                    <option value="<?php echo $value['id'] ?>"><?php echo $value["nombre"] ?></option>  
-                <?php
-                    }
-                  ?>
-                </select>
-            </div>
-        </div>
+            <!-- ********* -->
 
-        <?php
+
+        
+
+            <?php
                     function clasificacionnuevo() {
                       $query = "select * from ajustes where name_table='tbl_armas' and accion='nuevo'
                       ";
@@ -409,6 +424,35 @@ MODAL AGREGAR
                   }
                 ?>
 
+<!-- **************** -->
+
+       
+
+            <div class="form-group cantidad_de_armas">
+              <label for="" class="label_cantidad_armas">Ingresar Cantidad</label> 
+              <div class="input-group">
+                <span class="input-group-addon"><i class="icono_cantidad_armas"></i></span> 
+                <input type="text" class="form-control input-lg input_cantidad_armas armasinput_cantidad_armas" name="nuevocantidad_armas" id="nuevocantidad_armas" placeholder="Ingresar Cantidad" value="" autocomplete="off" required=""  maxlength="4">
+              </div>
+            </div>
+
+
+            <div class="form-group">
+              <label for="" class="label_carnet_armas">Ingresar Carnet</label> 
+              <div class="input-group">
+                <span class="input-group-addon"><i class="icono_carnet_armas"></i></span> 
+                <input type="text" class="form-control input-lg input_carnet_armas armasinput_carnet_armas" name="nuevocarnet_armas" id="nuevocarnet_armas" placeholder="Ingresar Carnet" value="" autocomplete="off" required="" maxlength="20">
+              </div>
+            </div>
+
+            <div class="form-group ">
+              <label for="" class="label_observacion_armas">Ingresar Observaciones</label> 
+              <div class="input-group">
+                <span class="input-group-addon"><i class="icono_observacion_armas"></i></span> 
+                <input type="text" class="form-control input-lg input_observacion_armas armasinput_observacion_armas" name="nuevoobservacion_armas" id="nuevoobservacion_armas" placeholder="Ingresar Observaciones" value="" autocomplete="off" required="" >
+              </div>
+            </div>
+<!-- ******************** -->
 
          <!--  <div class="s_matricula_tipo">
             <label for="">Seleccione Tipo Matricula</label>
@@ -564,6 +608,38 @@ MODAL EDITAR
           ?>
              
 
+
+      
+
+           
+
+
+          <div class="form-group ecantidad_de_armas">
+              <label for="" class="label_cantidad_armas">Ingresar Cantidad</label> 
+              <div class="input-group">
+                <span class="input-group-addon"><i class="icono_cantidad_armas"></i></span> 
+                <input type="text" class="form-control input-lg input_cantidad_armas armasinput_cantidad_armas" name="editarcantidad_armas" id="editarcantidad_armas" placeholder="Ingresar Cantidad" value="" autocomplete="off" required=""  maxlength="4">
+              </div>
+            </div>
+
+
+            <div class="form-group">
+              <label for="" class="label_carnet_armas">Ingresar Carnet</label> 
+              <div class="input-group">
+                <span class="input-group-addon"><i class="icono_carnet_armas"></i></span> 
+                <input type="text" class="form-control input-lg input_carnet_armas armasinput_carnet_armas" name="editarcarnet_armas" id="editarcarnet_armas" placeholder="Ingresar Carnet" value="" autocomplete="off" required="" maxlength="20">
+              </div>
+            </div>
+
+            <div class="form-group ">
+              <label for="" class="label_observacion_armas">Ingresar Observaciones</label> 
+              <div class="input-group">
+                <span class="input-group-addon"><i class="icono_observacion_armas"></i></span> 
+                <input type="text" class="form-control input-lg input_observacion_armas armasinput_observacion_armas" name="editarobservacion_armas" id="editarobservacion_armas" placeholder="Ingresar Observaciones" value="" autocomplete="off" required="" >
+              </div>
+            </div>
+          <!-- ******************** -->
+
              <!-- **** -->
              <!-- <div class="s_idempresa_editar">
               <label for="" class="">Seleccione Empresa</label> 
@@ -612,14 +688,20 @@ MODAL EDITAR
                     <span class="input-group-addon"><i class="fa fa-users"></i></span>
                     <select name="editarid_familia" id="editarid_familia" class="form-control input-lg" required>
                       <option value="">Seleccione Familia</option>
-                    <?php
-                        $datos_mostrar = Controladorfamilia::ctrMostrar($item, $valor);
-                        foreach ($datos_mostrar as $key => $value){
-                    ?>
-                        <option value="<?php echo $value['id'] ?>"><?php echo $value["nombre"] ?></option>  
-                    <?php
-                        }
-                      ?>
+                      <?php
+                            function familia2() {
+                              $query = "SELECT `id`, `codigo`, `nombre`, `correrlativo` FROM `tbl_familia` WHERE nombre LIKE 'armas%';";
+                              $sql = Conexion::conectar()->prepare($query);
+                              $sql->execute();			
+                              return $sql->fetchAll();
+                            };
+                          $data0 = familia2();
+                          foreach($data0 as $value) {
+                            ?>
+                             <option value="<?php echo $value['id'] ?>" codigo="<?php echo $value['codigo'] ?>"><?php echo $value["nombre"] ?></option>  
+                            <?php
+                                }
+                              ?>
                     </select>
                 </div>
             </div>

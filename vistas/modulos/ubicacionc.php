@@ -36,10 +36,11 @@ function getContent() {
       <div class="box-header with-border">
   
         <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarubicacionc">
-          
           Agregar <?php echo $Nombre_del_Modulo;?>
-
         </button>
+
+        <a href="cambiarcoordinador" class="btn btn-success">Cambiar Coordinador</a>
+        <a href="reporteaumento" class="btn btn-warning">Reporte de aumento y disminución</a>
 
       </div>
 
@@ -82,15 +83,22 @@ function getContent() {
             <th>Observaciones</th>
             <th>Última Fecha de Inventario</th>
             <th>Hombres Autorizados</th>
-            <th>Tipo documento</th>
-            <th>Forma Pago</th>
-            <th>Concepto</th>
-            <th>¿No suma HS?</th>
+            <!-- <th>Tipo documento</th> -->
+           <!--  <th>Forma Pago</th> -->
+           <!--  <th>Concepto</th>
+            <th>¿No suma HS?</th> -->
             <th>¿Tine PON?</th>
-            <th>BONO POR LABORAR EN UNIDAD ESPECIAL</th>
-            <th>BONO POR TRABAJAR 12 HORAS</th>
+            <th>BONO </th>
+            <th>BONO POR 12HRS</th>
             <th>¿SE LE FACTURA?</th>
             <th>Zona</th>
+            <th>Estado del Cliente</th>
+            <th>Turno eventual</th>
+            <th>¿Criterio? </th>
+            <th>¿Calcula comodín? </th>
+            <th>¿Comodín de unidad? </th>
+            <th>¿Comodín de base? </th>
+            <th>¿NO aparece reporte de equipos? </th>
             <th>Acciones</th>
  
           </tr> 
@@ -108,6 +116,14 @@ function getContent() {
  
         foreach ($bancos as $key => $value){
           
+          $coordinador="<a href='asignarcoordinador?id=".$value["idubicacionc"]."' class='btn btn-warning' >Asignar</a>";
+
+          if($value["id_coordinador_zona"]==0){
+            
+          }
+          else{
+            $coordinador=$value["id_coordinador_zona"];
+          }
            echo ' <tr>
                    <td>'.($key+1).'</td>
                    <td>'.$value["id_cliente"].'</td>
@@ -115,7 +131,7 @@ function getContent() {
                    <td>'.$value["codigo_cliente"].'</td>
                    <td>'.$value["codigo_ubicacion"].'</td>
                    <td>'.$value["facturar"].'</td>
-                   <td>'.$value["id_coordinador_zona"].'</td>
+                   <td>'.$coordinador.'</td>
                    <td>'.$value["nombre_ubicacion"].'</td>
                    <td>'.$value["latitude"].'</td>
                    <td>'.$value["longitude"].'</td>
@@ -138,15 +154,18 @@ function getContent() {
                    <td>'.$value["observaciones_generales"].'</td>
                    <td>'.$value["fecha_ultimo_inventario"].'</td>
                    <td>'.$value["hombres_autorizados"].'</td>
-                   <td>'.$value["tipo_documento"].'</td>
-                   <td>'.$value["forma_pago"].'</td>
-                   <td>'.$value["concepto"].'</td>
-                   <td>'.$value["sumahs"].'</td>
                    <td>'.$value["tienepon"].'</td>
                    <td>'.$value["bono_unidad"].'</td>
                    <td>'.$value["bono_horas"].'</td>
                    <td>'.$value["selefactura"].'</td>
-                   <td>'.$value["zonaubicacion"].'</td>';
+                   <td>'.$value["zonaubicacion"].'</td>
+                   <td>'.$value["estado_cliente_ubicacion"].'</td>
+                   <td>'.$value["turno_eventual"].'</td>
+                   <td>'.$value["criterio_ubicacionc"].'</td>
+                   <td>'.$value["calcula_comodin_ubicacionc"].'</td>
+                   <td>'.$value["comodin_unidad_ubicacionc"].'</td>
+                   <td>'.$value["comodin_base_ubicacionc"].'</td>
+                   <td>'.$value["reporte_equipo_ubicacionc"].'</td>';
                    
  
                   
@@ -158,7 +177,15 @@ function getContent() {
                        <button class="btn btn-warning btnEditarubicacionc" idubicacionc="'.$value["idubicacionc"].'" data-toggle="modal" data-target="#modalEditarubicacionc"><i class="fa fa-pencil"></i></button>
  
                        <button class="btn btn-danger btnEliminarubicacionc" idubicacionc="'.$value["idubicacionc"].'"  Codigo="'.$value["codigo_cliente"].'"><i class="fa fa-times"></i></button>
- 
+
+                       <a href="aumentarhombres?id='.$value["idubicacionc"].'" class="btn btn-info">Administrar Hombres Autorizados</a>
+                       <a href="historialdetalle?id='.$value["idubicacionc"].'" class="btn btn-success">Historial</a>
+                       <a href="posicionubicacion?id='.$value["idubicacionc"].'" class="btn btn-primary">Posición</a>
+                   
+                       <a href="agenteubicacion?id='.$value["idubicacionc"].'" class="btn btn-primary">Consultar Empleados</a>
+
+
+
                      </div>  
  
                    </td>
@@ -292,6 +319,9 @@ MODAL AGREGAR
 
             <!-- ENTRADA PARA CAMPOS  -->
 
+
+            <!-- ****************** -->
+
           <?php 
              $data = getContent();
              foreach($data as $row) {
@@ -306,14 +336,8 @@ MODAL AGREGAR
                 <span class="input-group-addon"><i class="icono_<?php echo $row['Field'];?>"></i></span> 
 
                 <input type="text" class="form-control input-lg nuevoubicacioninput_<?php echo $row['Field'];?>  ubicacioninput_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value="" autocomplete="off" required>
-
               </div>
-
             </div>
-
-
-
-
           <?php
              }
           ?>
@@ -381,29 +405,7 @@ MODAL AGREGAR
                 </div>
              </div>
  -->
-             
-             <div id="">
-                <label for="" class="">Concepto</label>
-                <div class="input-group" >
-                  <span class="input-group-addon"><i class="fa fa-bars"></i></span> 
-                  <textarea name="nuevoconcepto" id="" cols="30" rows="10" class="form-control input-lg"></textarea>
-                </div>
-             </div>
-
-             
-             <div id="">
-                <label for="" class="">¿No suma HS?</label>
-                <div class="input-group" >
-                  <span class="input-group-addon"><i class="fa fa-list-ol"></i></span> 
-                  <select name="nuevosumahs" id="" class="form-control input-lg" required>
-                    <option value="">¿No suma HS?</option>
-                    <option value="Si">Si</option>
-                    <option value="No">No</option>
-                  </select>
-                </div>
-             </div>
-
-             <div id="spon">
+          <div id="spon">
                 <label for="" class="">¿TIENE PON?</label>
                 <div class="input-group" >
                   <span class="input-group-addon"><i class="fa fa-server"></i></span> 
@@ -419,23 +421,11 @@ MODAL AGREGAR
              <br>
              <div id="spon">
                   <div class="mitad">
-                    <label for="" class="">BONO POR LABORAR EN UNIDAD ESPECIAL</label>
+                    <label for="" class="">Bono:</label>
                   </div>
                   <div class="mitad">
                     <div class="" >
-                        <div class="form-check mitad center">
-                          <input class="form-check-input" type="checkbox" value="SI" id="sibonounidad">
-                          <label class="form-check-label" for="flexCheckDefault">
-                            SI
-                          </label>
-                        </div>
-                        <div class="form-check mitad center">
-                          <input class="form-check-input" type="checkbox" value="NO" id="nobonounidad">
-                          <label class="form-check-label" for="flexCheckChecked">
-                            NO
-                          </label>
-                        </div>
-                      <input type="hidden" name="nuevobono_unidad" id="nuevobono_unidad">
+                      <input type="text" class="form-control" name="nuevobono_unidad" id="nuevobono_unidad" oninput="validateNumber(this);" maxlength="5">
                     </div>
                   </div>
              </div>
@@ -444,28 +434,19 @@ MODAL AGREGAR
              <br>
              <div id="spon">
                   <div class="mitad">
-                    <label for="" class="">BONO POR TRABAJAR 12 HORAS</label>
+                    <label for="" class="">Bono por 12HRS</label>
                   </div>
                   <div class="mitad">
                     <div class="" >
-                        <div class="form-check mitad center">
-                          <input class="form-check-input" type="checkbox" value="SI" id="sibonohoras">
-                          <label class="form-check-label" for="flexCheckDefault">
-                            SI
-                          </label>
-                        </div>
-                        <div class="form-check mitad center">
-                          <input class="form-check-input" type="checkbox" value="NO" id="nobonohoras">
-                          <label class="form-check-label" for="flexCheckChecked">
-                            NO
-                          </label>
-                        </div>
-                      <input type="hidden" name="nuevobono_horas" id="nuevobono_horas">
+                      <input class="form-control" name="nuevobono_horas" id="nuevobono_horas" oninput="validateNumber(this);" maxlength="5">
                     </div>
                   </div>
              </div>
 
              <!-- *********** -->
+
+
+       
 
 
              <div id="sselefactura">
@@ -479,6 +460,102 @@ MODAL AGREGAR
                   </select>
                 </div>
              </div>
+
+
+             <!-- ****************** -->
+             <div id="">
+                <label for="" class="">Turno eventual</label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+                  <input type="text" class="form-control" name="nuevoturno_eventual" id="nuevoturno_eventual" placeholder="Turno Eventual" maxlength="3" oninput="validateNumber(this);">
+                </div>
+             </div>
+
+             <div id="">
+                <label for="" class="">¿Criterio?</label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+                  <select name="nuevocriterio_ubicacionc" id="nuevocriterio_ubicacionc" class="form-control input-lg" required>
+                    <option value="">¿Criterio?</option>
+                    <option value="SI">SI</option>
+                    <option value="NO">NO</option>
+                  </select>
+                </div>
+             </div>
+
+             <div id="">
+                <label for="" class="">¿Calcula comodín? </label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+                  <select name="nuevocalcula_comodin_ubicacionc" id="nuevocalcula_comodin_ubicacionc" class="form-control input-lg" required>
+                    <option value="">¿Calcula comodín? </option>
+                    <option value="SI">SI</option>
+                    <option value="NO">NO</option>
+                  </select>
+                </div>
+             </div>
+
+             <div id="">
+                <label for="" class="">¿Comodín de unidad? </label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+                  <select name="nuevocomodin_unidad_ubicacionc" id="nuevocomodin_unidad_ubicacionc" class="form-control input-lg" required>
+                    <option value="">¿Comodín de unidad? </option>
+                    <option value="SI">SI</option>
+                    <option value="NO">NO</option>
+                  </select>
+                </div>
+             </div>
+
+             <div id="">
+                <label for="" class="">¿Comodín de base? </label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+                  <select name="nuevocomodin_base_ubicacionc" id="nuevocomodin_base_ubicacionc" class="form-control input-lg" required>
+                    <option value="">¿Comodín de base? </option>
+                    <option value="SI">SI</option>
+                    <option value="NO">NO</option>
+                  </select>
+                </div>
+             </div>
+
+             <div id="">
+                <label for="" class="">¿No aparece reporte de equipos?  </label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+                  <select name="nuevoreporte_equipo_ubicacionc" id="nuevoreporte_equipo_ubicacionc" class="form-control input-lg" required>
+                    <option value="">¿NO aparece reporte de equipos? </option>
+                    <option value="SI">SI</option>
+                    <option value="NO">NO</option>
+                  </select>
+                </div>
+             </div>
+
+             <!-- *************** -->
+
+
+             <div id="concepto_ubicacion">
+                <label for="" class="">Concepto</label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-bars"></i></span> 
+                  <textarea name="nuevoconcepto" id="" cols="30" rows="10" class="form-control input-lg"></textarea>
+                </div>
+             </div>
+
+             
+             <div id="nosuma_ubicacion">
+                <label for="" class="">¿No suma HS?</label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-list-ol"></i></span> 
+                  <select name="nuevosumahs" id="nuevosumahs" class="form-control input-lg" required>
+                    <option value="">¿No suma HS?</option>
+                    <option value="Si">Si</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+             </div>
+
+            
 
 
 <!--              <div id="">
@@ -564,16 +641,30 @@ MODAL AGREGAR
             <!-- ****************** -->
 
 
-            <div class="coordinador">
+            <div class="coordinador" style="height: 0px;">
+              <input type="hidden" name="nuevoid_coordinador_zona" value="0">
+            </div>
+
+
+           <!--  <div class="coordinador">
                 <label for="">Seleccione ID coordinador de zona. :</label>
                 <div class="input-group ">
                     <span class="input-group-addon"><i class="fa fa-users"></i></span>
                     <select name="nuevoid_coordinador_zona" id="" class="form-control input-lg " required>
                       <option value="">Seleccione ID coordinador de zona. </option>
-                    <?php
-                        $datos_mostrar = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
-                        foreach ($datos_mostrar as $key => $value){
-                    ?>
+                      <?php 
+                                   function tblempleados() {
+                                     $query01 = "SELECT tbl_empleados.id as idempleado, tbl_empleados.* FROM tbl_empleados
+                                     INNER JOIN cargos_desempenados 
+                                     WHERE tbl_empleados.nivel_cargo = cargos_desempenados.id AND  cargos_desempenados.descripcion='COORDINADOR DE ZONA' ";
+                                     $sql = Conexion::conectar()->prepare($query01);
+                                     $sql->execute();			
+                                     return $sql->fetchAll();
+                                     }
+
+                                     $data01 = tblempleados();
+                                     foreach($data01 as $value) {
+                        ?>
                         <option value="<?php echo $value['id'] ?>">
                           <?php echo $value["primer_nombre"].' '.$value["primer_apellido"] ?>
                         </option>  
@@ -582,7 +673,7 @@ MODAL AGREGAR
                       ?>
                     </select>
                 </div>
-            </div>
+            </div> -->
           
             <!-- ********************* -->
 
@@ -657,7 +748,7 @@ MODAL EDITAR
 
     <div class="modal-content">
 
-      <form role="form" method="post" enctype="multipart/form-data">
+      <form role="form" method="post" enctype="multipart/form-data" id="formularioubicacioneditar">
 
         <!--=====================================
         CABEZA DEL MODAL
@@ -801,30 +892,6 @@ MODAL EDITAR
                 </div>
              </div> -->
 
-             
-             <div id="">
-                <label for="" class="">Concepto</label>
-                <div class="input-group" >
-                  <span class="input-group-addon"><i class="fa fa-bars"></i></span> 
-                  <textarea name="editarconcepto" id="editarconcepto" cols="30" rows="10" class="form-control input-lg"></textarea>
-                </div>
-             </div>
-
-             
-             <div id="">
-                <label for="" class="">¿No suma HS?</label>
-                <div class="input-group" >
-                  <span class="input-group-addon"><i class="fa fa-list-ol"></i></span> 
-                  <select name="editarsumahs" id="editarsumahs" class="form-control input-lg" required>
-                    <option value="">¿No suma HS?</option>
-                    <option value="Si">Si</option>
-                    <option value="No">No</option>
-                  </select>
-                </div>
-             </div>
-
-
-             
              <div id="spon">
                 <label for="" class="">¿TIENE PON?</label>
                 <div class="input-group" >
@@ -843,23 +910,12 @@ MODAL EDITAR
              <br>
              <div id="spon">
                   <div class="mitad">
-                    <label for="" class="">BONO POR LABORAR EN UNIDAD ESPECIAL</label>
+                    <label for="" class="">Bono</label>
                   </div>
                   <div class="mitad">
                     <div class="" >
-                        <div class="form-check mitad center">
-                          <input class="form-check-input" type="checkbox" value="SI" id="esibonounidad">
-                          <label class="form-check-label" for="flexCheckDefault">
-                            SI
-                          </label>
-                        </div>
-                        <div class="form-check mitad center">
-                          <input class="form-check-input" type="checkbox" value="NO" id="enobonounidad">
-                          <label class="form-check-label" for="flexCheckChecked">
-                            NO
-                          </label>
-                        </div>
-                      <input type="hidden" name="editarbono_unidad" id="editarbono_unidad" class="editarbono_unidad">
+                  
+                      <input type="text"  name="editarbono_unidad" id="editarbono_unidad" class="editarbono_unidad form-control" oninput="validateNumber(this);" maxlength="5">
                     </div>
                   </div>
              </div>
@@ -868,23 +924,11 @@ MODAL EDITAR
              <br>
              <div id="spon">
                   <div class="mitad">
-                    <label for="" class="">BONO POR TRABAJAR 12 HORAS</label>
+                    <label for="" class="">Bono por 12HRS</label>
                   </div>
                   <div class="mitad">
                     <div class="" >
-                        <div class="form-check mitad center">
-                          <input class="form-check-input" type="checkbox" value="SI" id="esibonohoras">
-                          <label class="form-check-label" for="flexCheckDefault">
-                            SI
-                          </label>
-                        </div>
-                        <div class="form-check mitad center">
-                          <input class="form-check-input" type="checkbox" value="NO" id="enobonohoras">
-                          <label class="form-check-label" for="flexCheckChecked">
-                            NO
-                          </label>
-                        </div>
-                      <input type="hidden" name="editarbono_horas" id="editarbono_horas" class="editarbono_horas">
+                      <input type="text"  name="editarbono_horas" id="editarbono_horas" class="editarbono_horas form-control" oninput="validateNumber(this);" maxlength="5">
                     </div>
                   </div>
              </div>
@@ -904,6 +948,106 @@ MODAL EDITAR
                 </div>
              </div>
 
+             
+
+  <!-- ****************** -->
+  <div id="">
+                <label for="" class="">Turno eventual</label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+                  <input type="text" class="form-control" name="editarturno_eventual" id="editarturno_eventual" placeholder="Turno Eventual" maxlength="3" oninput="validateNumber(this);">
+                </div>
+             </div>
+
+             <div id="">
+                <label for="" class="">¿Criterio?</label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+                  <select name="editarcriterio_ubicacionc" id="editarcriterio_ubicacionc" class="form-control input-lg" required>
+                    <option value="">¿Criterio?</option>
+                    <option value="SI">SI</option>
+                    <option value="NO">NO</option>
+                  </select>
+                </div>
+             </div>
+
+             <div id="">
+                <label for="" class="">¿Calcula comodín? </label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+                  <select name="editarcalcula_comodin_ubicacionc" id="editarcalcula_comodin_ubicacionc" class="form-control input-lg" required>
+                    <option value="">¿Calcula comodín? </option>
+                    <option value="SI">SI</option>
+                    <option value="NO">NO</option>
+                  </select>
+                </div>
+             </div>
+
+             <div id="">
+                <label for="" class="">¿Comodín de unidad? </label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+                  <select name="editarcomodin_unidad_ubicacionc" id="editarcomodin_unidad_ubicacionc" class="form-control input-lg" required>
+                    <option value="">¿Comodín de unidad? </option>
+                    <option value="SI">SI</option>
+                    <option value="NO">NO</option>
+                  </select>
+                </div>
+             </div>
+
+             <div id="">
+                <label for="" class="">¿Comodín de base? </label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+                  <select name="editarcomodin_base_ubicacionc" id="editarcomodin_base_ubicacionc" class="form-control input-lg" required>
+                    <option value="">¿Comodín de base? </option>
+                    <option value="SI">SI</option>
+                    <option value="NO">NO</option>
+                  </select>
+                </div>
+             </div>
+
+             <div id="">
+                <label for="" class="">¿No aparece reporte de equipos?  </label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+                  <select name="editarreporte_equipo_ubicacionc" id="editarreporte_equipo_ubicacionc" class="form-control input-lg" required>
+                    <option value="">¿NO aparece reporte de equipos? </option>
+                    <option value="SI">SI</option>
+                    <option value="NO">NO</option>
+                  </select>
+                </div>
+             </div>
+
+             <!-- *************** -->
+
+
+             
+             
+             <div id="editar_concepto_ubicacion">
+                <label for="" class="">Concepto</label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-bars"></i></span> 
+                  <textarea name="editarconcepto" id="editarconcepto" cols="30" rows="10" class="form-control input-lg"></textarea>
+                </div>
+             </div>
+
+             
+             <div id="editar_nosuma_ubicacion">
+                <label for="" class="">¿No suma HS?</label>
+                <div class="input-group" >
+                  <span class="input-group-addon"><i class="fa fa-list-ol"></i></span> 
+                  <select name="editarsumahs" id="editarsumahs" class="form-control input-lg">
+                    <option value="">¿No suma HS?</option>
+                    <option value="Si">Si</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+             </div>
+
+
+             
+             
 
              <!-- <div id="">
                 <label for="" class="">Seleccione la Zona</label>
@@ -1039,8 +1183,17 @@ MODAL EDITAR
                     <select name="editarid_coordinador_zona" id="editarid_coordinador_zona" class="form-control input-lg " required>
                       <option value="">Seleccione ID coordinador de zona. </option>
                     <?php
-                        $datos_mostrar = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
-                        foreach ($datos_mostrar as $key => $value){
+                            function tblempleados2() {
+                              $query01 = "SELECT tbl_empleados.id as idempleado, tbl_empleados.* FROM tbl_empleados
+                              INNER JOIN cargos_desempenados 
+                              WHERE tbl_empleados.nivel_cargo = cargos_desempenados.id AND  cargos_desempenados.descripcion='COORDINADOR DE ZONA' ";
+                              $sql = Conexion::conectar()->prepare($query01);
+                              $sql->execute();			
+                              return $sql->fetchAll();
+                              }
+
+                              $data01 = tblempleados2();
+                              foreach($data01 as $value) {
                     ?>
                         <option value="<?php echo $value['id'] ?>">
                           <?php echo $value["primer_nombre"].' '.$value["primer_apellido"] ?>
@@ -1057,6 +1210,8 @@ MODAL EDITAR
 
         </div>
 
+        <input type="hidden" id="nombreuduario" value="<?php  echo $_SESSION["nombre"]; ?>">
+
         <!--=====================================
         PIE DEL MODAL
         ======================================-->
@@ -1065,7 +1220,7 @@ MODAL EDITAR
 
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
 
-          <button type="submit" class="btn btn-primary">Modificar <?php echo $Nombre_del_Modulo?></button>
+          <button type="submit" class="btn btn-primary modificarbono">Modificar <?php echo $Nombre_del_Modulo?></button>
 
         </div>
 
@@ -1083,6 +1238,8 @@ MODAL EDITAR
   </div>
 
 </div>
+
+
 
 <?php
 

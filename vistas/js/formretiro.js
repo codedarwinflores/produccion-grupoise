@@ -15,7 +15,10 @@ $(document).ready(function(){
 			url:"ajax/formretiro.ajax.php",
 			type:  'post',
 			success:  function (response) {
-				$(".input_nombre_retiro").val(response);
+				var nombre = response.split('/')[0];
+				var fechacontrata = response.split('/')[1];
+				$(".input_nombre_retiro").val(nombre);
+				$(".input_fecha_contratacion_retiro").val(fechacontrata);
 			}
 	});
 	/* ********* */

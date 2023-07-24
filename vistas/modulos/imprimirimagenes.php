@@ -7,9 +7,12 @@ if($_SESSION["perfil"] == "Especial"){
 }
 
 //obtener los datos maestros 
-//require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
+require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
 
-require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
+/* require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php"); */
+
+/* require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php"); */
+
 
 if(isset($_POST["numDoc"])){
 
@@ -27,19 +30,20 @@ if(isset($_POST["numDoc"])){
 	}
 	$row=$query->fetch_row();
 
-    $img_empleado=$row[56];
+    $img_empleado=$row[55];
 	$img_documento_identidad=$row[18];
-	$img_licencia_conducir=$row[24];
-	$img_nit=$row[26];
-	$img_licencia_tenencia_armas=$row[46];
-	$img_diploma_ansp=$row[55];
-	$img_solicitud=$row[76];
+	$img_licencia_conducir=$row[22];
+	$img_nit=$row[25];
+	$img_licencia_tenencia_armas=$row[45];
+	$img_diploma_ansp=$row[54];
+	$img_solicitud=$row[75];
 	$img_partida_nacimiento=$row[77];
-	$img_antecedentes_penales=$row[78];
-	$img_solvencia_pnc=$row[80];
-	$img_constancia_psico=$row[82];
-	$img_examen_pol=$row[83];
-	$img_huellas=$row[85];
+	$img_antecedentes_penales=$row[76];
+	$img_solvencia_pnc=$row[78];
+	$img_constancia_psico=$row[116];
+	$img_examen_pol=$row[82];
+	$img_huellas=$row[81];
+	
 
 }
 else{
@@ -120,6 +124,519 @@ function imprimirOrden(divaimprimir)
 			
 		</div>
 		<div class="row">
+			<hr>
+	<div class="col-md-12">
+		
+			<table class="table">
+				<?php
+				function tblempleados() {
+					$query01 = "SELECT * FROM tbl_empleados WHERE numero_documento_identidad='".$_POST["numDoc"]."' ";
+					$sql = Conexion::conectar()->prepare($query01);
+					$sql->execute();			
+					return $sql->fetchAll();
+					}
+
+					$data01 = tblempleados();
+					foreach($data01 as $rowempleado) {
+				?>
+					<tr>
+						<td>
+							<?php
+							if($rowempleado["imagen_solvencia_pnc"]=="")
+							{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" columna="imagen_solvencia_pnc">
+									<label class="form-check-label" >
+										Solvencia de la Policia
+									</label>
+									
+								</div>
+							<?php	
+							}else{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" checked columna="imagen_solvencia_pnc">
+									<label class="form-check-label" >
+										Solvencia de la Policia
+									</label>
+								</div>
+							<?php
+							}
+							?>
+							
+						</td>
+						<td>
+							<?php
+							if($rowempleado["imagen_documento_identidad"]=="")
+							{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" columna="imagen_documento_identidad">
+									<label class="form-check-label" >
+										Fotocopia de DUI
+									</label>
+									
+								</div>
+							<?php	
+							}else{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" checked columna="imagen_documento_identidad">
+									<label class="form-check-label" >
+										Fotocopia de DUI
+									</label>
+								</div>
+							<?php
+							}
+							?>
+							
+						</td>
+						<td>
+							<?php
+							if($rowempleado["imagen_huellas"]=="")
+							{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" columna="imagen_huellas">
+									<label class="form-check-label" >
+										Huellas
+									</label>
+									
+								</div>
+							<?php	
+							}else{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" checked columna="imagen_huellas">
+									<label class="form-check-label" >
+										Huellas
+									</label>
+								</div>
+							<?php
+							}
+							?>
+							
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							<?php
+							if($rowempleado["imagen_solvencia_pnc"]=="")
+							{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" columna="imagen_solvencia_pnc">
+									<label class="form-check-label" >
+										Examen poligrafico<!-- --pendiente -->
+									</label>
+									
+								</div>
+							<?php	
+							}else{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" checked columna="imagen_solvencia_pnc">
+									<label class="form-check-label" >
+									Examen poligrafico<!-- --pendiente -->
+									</label>
+								</div>
+							<?php
+							}
+							?>
+							
+						</td>
+						<td>
+							<?php
+							if($rowempleado["imagen_nit"]=="")
+							{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" columna="imagen_nit">
+									<label class="form-check-label" >
+										Fotocopia del NIT
+									</label>
+									
+								</div>
+							<?php	
+							}else{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" checked columna="imagen_nit">
+									<label class="form-check-label" >
+										Fotocopia del NIT
+									</label>
+								</div>
+							<?php
+							}
+							?>
+							
+						</td>
+						<td>
+							<?php
+							if($rowempleado["imagen_huellas"]=="")
+							{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" columna="imagen_huellas">
+									<label class="form-check-label" >
+										Seguro de Vida <!-- --PENDIENTE -->
+									</label>
+									
+								</div>
+							<?php	
+							}else{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" checked columna="imagen_huellas">
+									<label class="form-check-label" >
+										Seguro de Vida <!-- --PENDIENTE -->
+									</label>
+								</div>
+							<?php
+							}
+							?>
+							
+						</td>
+					</tr>
+					
+					<tr>
+						<td>
+							<?php
+							if($rowempleado["imagen_solvencia_pnc"]=="")
+							{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" columna="imagen_solvencia_pnc">
+									<label class="form-check-label" >
+										Constancia Medica<!-- --pendiente -->
+									</label>
+									
+								</div>
+							<?php	
+							}else{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" checked columna="imagen_solvencia_pnc">
+									<label class="form-check-label" >
+									Constancia Medica<!-- --pendiente -->
+									</label>
+								</div>
+							<?php
+							}
+							?>
+							
+						</td>
+						<td>
+							<?php
+							if($rowempleado["fotoisss"]=="")
+							{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" columna="fotoisss">
+									<label class="form-check-label" >
+									Tarjeta del ISSS
+									</label>
+									
+								</div>
+							<?php	
+							}else{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" checked columna="fotoisss">
+									<label class="form-check-label" >
+									Tarjeta del ISSS
+									</label>
+								</div>
+							<?php
+							}
+							?>
+							
+						</td>
+						<td>
+							<?php
+							if($rowempleado["imagen_huellas"]=="")
+							{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" columna="imagen_huellas">
+									<label class="form-check-label" >
+										Solicitud de Empleo <!-- --PENDIENTE -->
+									</label>
+									
+								</div>
+							<?php	
+							}else{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" checked columna="imagen_huellas">
+									<label class="form-check-label" >
+										Solicitud de Empleo <!-- --PENDIENTE -->
+									</label>
+								</div>
+							<?php
+							}
+							?>
+							
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							<?php
+							if($rowempleado["constancia_psicologica"]=="")
+							{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" columna="constancia_psicologica">
+									<label class="form-check-label" >
+										Constancia Psicologica
+									</label>
+									
+								</div>
+							<?php	
+							}else{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" checked columna="constancia_psicologica">
+									<label class="form-check-label" >
+									Constancia Psicologica
+									</label>
+								</div>
+							<?php
+							}
+							?>
+							
+						</td>
+						<td>
+							<?php
+							if($rowempleado["carnetafp"]=="")
+							{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" columna="carnetafp">
+									<label class="form-check-label" >
+										AFP
+									</label>
+									
+								</div>
+							<?php	
+							}else{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" checked columna="carnetafp">
+									<label class="form-check-label" >
+										AFP
+									</label>
+								</div>
+							<?php
+							}
+							?>
+							
+						</td>
+						<td>
+							<?php
+							if($rowempleado["imagen_solicitud"]=="")
+							{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" columna="imagen_solicitud">
+									<label class="form-check-label" >
+										Contrato Firmado
+									</label>
+									
+								</div>
+							<?php	
+							}else{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" checked columna="imagen_solicitud">
+									<label class="form-check-label" >
+										Contrato Firmado 
+									</label>
+								</div>
+							<?php
+							}
+							?>
+							
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							<?php
+							if($rowempleado["licencia_conducir"]=="")
+							{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" columna="licencia_conducir">
+									<label class="form-check-label" >
+										Licencia de Conducir
+									</label>
+									
+								</div>
+							<?php	
+							}else{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" checked columna="licencia_conducir">
+									<label class="form-check-label" >
+									Licencia de Conducir
+									</label>
+								</div>
+							<?php
+							}
+							?>
+							
+						</td>
+						<td>
+							<?php
+							if($rowempleado["carnetafp"]=="")
+							{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" columna="carnetafp">
+									<label class="form-check-label" >
+										Curso de la Academia <!-- Pendiente -->
+									</label>
+									
+								</div>
+							<?php	
+							}else{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" checked columna="carnetafp">
+									<label class="form-check-label" >
+										Curso de la Academia <!-- Pendiente -->
+									</label>
+								</div>
+							<?php
+							}
+							?>
+							
+						</td>
+					</tr>
+
+
+					<tr>
+						<td>
+							<?php
+							if($rowempleado["imagen_antecedentes_penales"]=="")
+							{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" columna="imagen_antecedentes_penales">
+									<label class="form-check-label" >
+										Antecedente Penales
+									</label>
+									
+								</div>
+							<?php	
+							}else{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" checked columna="imagen_antecedentes_penales">
+									<label class="form-check-label" >
+										Antecedente Penales
+									</label>
+								</div>
+							<?php
+							}
+							?>
+							
+						</td>
+						<td>
+							<?php
+							if($rowempleado["carnetafp"]=="")
+							{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" columna="carnetafp">
+									<label class="form-check-label" >
+										Original de Partida de Nac. <!-- Pendiente -->
+									</label>
+									
+								</div>
+							<?php	
+							}else{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" checked columna="carnetafp">
+									<label class="form-check-label" >
+										Original de Partida de Nac. <!-- Pendiente -->
+									</label>
+								</div>
+							<?php
+							}
+							?>
+							
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							<?php
+							if($rowempleado["imagen_antecedentes_penales"]=="")
+							{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" columna="imagen_antecedentes_penales">
+									<label class="form-check-label" >
+										Certificados <!-- pendiente -->
+									</label>
+									
+								</div>
+							<?php	
+							}else{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" checked columna="imagen_antecedentes_penales">
+									<label class="form-check-label" >
+										Certificados <!-- pendiente -->
+									</label>
+								</div>
+							<?php
+							}
+							?>
+							
+						</td>
+						<td>
+							<?php
+							if($rowempleado["carnetafp"]=="")
+							{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" columna="carnetafp">
+									<label class="form-check-label" >
+										Licencia de Portación de Arma <!-- --pendiente -->
+									</label>
+									
+								</div>
+							<?php	
+							}else{
+							?>
+								<div class="form-check">
+									<input class="form-check-input mostrarimagen" type="checkbox" value="" id="" checked columna="carnetafp">
+									<label class="form-check-label" >
+										Licencia de Portación de Arma <!-- --pendiente -->
+									</label>
+								</div>
+							<?php
+							}
+							?>
+							
+						</td>
+					</tr>
+
+				<?php
+				}
+				?>
+			</table>
+	
+		<br>
+		<br>
+	</div>
 			<hr>
 			<div class="col-lg-2 col-xs-2" style="font-size: large;text-align: -webkit-center;">
 				<table>
@@ -539,3 +1056,50 @@ MODAL IMPRIMIR  FOTOGRAFIA
   </div>
 </div>
 
+
+
+
+<!--=====================================
+MODAL modificar imagen
+======================================-->
+<div id="modificarimagen" class="modal fade" role="dialog">  
+  <div class="modal-dialog">
+    <div class="modal-content">
+		<!--=====================================
+        CABEZA DEL MODAL
+        ======================================-->
+        <div class="modal-header" style="background:#3c8dbc; color:white">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Subir archivo</h4>
+        </div>
+        <!--=====================================
+        CUERPO DEL MODAL
+        ======================================-->
+        <div class="modal-body">
+          <div class="box-body">
+            <!-- ENTRADA PARA CAMPOS  -->
+
+			<form id="formudata" role="form" method="post" enctype= 'multipart/form-data'>
+
+				<div class="">
+								<label>Subir Archivo</label>
+								<input type="file" class="form-control fotos" name="fotos">
+								<input type="hidden" class="nombre_columna" name="nombre_columna">
+								<input type="hidden" class="iddato" name="iddato" value="<?php echo $_POST["numDoc"]?>">
+								<br>
+								<div class="btn btn-primary subirimagen">Guardar</div>
+				</div>
+			</form>
+			
+          </div>
+        </div>
+        <!--=====================================
+        PIE DEL MODAL
+        ======================================-->
+        <div class="modal-footer">
+      <!--     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
+          <button type="submit" class="btn btn-primary" onclick="imprimirOrden('fotoEmpleado')">Imprimir </button> -->
+        </div> 
+    </div>
+  </div>
+</div>

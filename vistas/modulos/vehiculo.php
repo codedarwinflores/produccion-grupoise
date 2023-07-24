@@ -73,7 +73,11 @@ function getContent() {
             <th>Costo</th>
             <th>Fecha de adquisición</th>
             <th>Observaciones</th>
-            <th>No Serie</th>
+            <th>Nombre de Aseguradora</th>
+            <th>Valor asegurado</th>
+            <th>Prima del seguro</th>
+            <th>Deducible</th>
+            <th>Estado</th>
             <th>Acciones</th>
  
           </tr> 
@@ -110,7 +114,12 @@ function getContent() {
                    <td>'.$value["costo_vehiculo"].'</td>
                    <td>'.$value["fecha_adquision"].'</td>
                    <td>'.$value["observaciones"].'</td>
-                   <td>'.$value["serie"].'</td>';
+                   <td>'.$value["serie"].'</td>
+                   <td>'.$value["valor_asegurado"].'</td>
+                   <td>'.$value["prima_seguro"].'</td>
+                   
+                   <td>'.$value["deducible"].'</td>
+                   <td>'.$value["estado_vehiculo"].'</td>';
  
                   
  
@@ -292,6 +301,25 @@ MODAL AGREGAR
              }
           ?>
 
+
+          <!-- ****** -->
+
+          <div class="s_estado_vehiculo">
+              <label for="">Seleccione Estado</label>
+                <div class="input-group ">
+                    <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                    <select name="nuevoestado_vehiculo" id="nuevoestado_vehiculo" class="form-control input-lg" required>
+                      <option value="">Seleccione Estado</option>
+                      <option value="Activo">Activo</option>
+                      <option value="Inactivo">Inactivo</option>
+                    </select>
+                </div>
+            </div>
+
+
+             <!-- ****** -->
+
+
             <input type="hidden" name="nuevofecha_adquision" id="" class="fecha_adquisiondate">
 
              
@@ -327,14 +355,20 @@ MODAL AGREGAR
                 <span class="input-group-addon"><i class="fa fa-users"></i></span>
                 <select name="nuevoid_familia" id="" class="form-control input-lg" required>
                   <option value="">Seleccione Familia</option>
-                <?php
-                    $datos_mostrar = Controladorfamilia::ctrMostrar($item, $valor);
-                    foreach ($datos_mostrar as $key => $value){
-                ?>
-                    <option value="<?php echo $value['id'] ?>"><?php echo $value["nombre"] ?></option>  
-                <?php
-                    }
-                  ?>
+                  <?php
+                            function familia() {
+                              $query = "SELECT `id`, `codigo`, `nombre`, `correrlativo` FROM `tbl_familia` WHERE nombre LIKE 'vehi%';";
+                              $sql = Conexion::conectar()->prepare($query);
+                              $sql->execute();			
+                              return $sql->fetchAll();
+                            };
+                          $data0 = familia();
+                          foreach($data0 as $value) {
+                            ?>
+                             <option value="<?php echo $value['id'] ?>" codigo="<?php echo $value['codigo'] ?>"><?php echo $value["nombre"] ?></option>  
+                            <?php
+                                }
+                              ?>
                 </select>
             </div>
             </div>
@@ -449,6 +483,24 @@ MODAL EDITAR
              }
           ?>
 
+          <!-- ****** -->
+
+          <div class="editar_s_estado_vehiculo">
+              <label for="">Seleccione Estado</label>
+                <div class="input-group ">
+                    <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                    <select name="editarestado_vehiculo" id="editarestado_vehiculo" class="form-control input-lg" required>
+                      <option value="">Seleccione Estado</option>
+                      <option value="Activo">Activo</option>
+                      <option value="Inactivo">Inactivo</option>
+                    </select>
+                </div>
+            </div>
+
+
+             <!-- ****** -->
+
+
 
               <input type="hidden" name="editarfecha_adquision" id="editarfecha_adquision2" class="efecha_adquisiondate">
 
@@ -485,14 +537,20 @@ MODAL EDITAR
                 <span class="input-group-addon"><i class="fa fa-users"></i></span>
                 <select name="editarid_familia" id="editarid_familia" class="form-control input-lg" required>
                   <option value="">Seleccione Familia</option>
-                <?php
-                    $datos_mostrar = Controladorfamilia::ctrMostrar($item, $valor);
-                    foreach ($datos_mostrar as $key => $value){
-                ?>
-                    <option value="<?php echo $value['id'] ?>"><?php echo $value["nombre"] ?></option>  
-                <?php
-                    }
-                  ?>
+                  <?php
+                            function familia2() {
+                              $query = "SELECT `id`, `codigo`, `nombre`, `correrlativo` FROM `tbl_familia` WHERE nombre LIKE 'vehi%';";
+                              $sql = Conexion::conectar()->prepare($query);
+                              $sql->execute();			
+                              return $sql->fetchAll();
+                            };
+                          $data0 = familia2();
+                          foreach($data0 as $value) {
+                            ?>
+                             <option value="<?php echo $value['id'] ?>" codigo="<?php echo $value['codigo'] ?>"><?php echo $value["nombre"] ?></option>  
+                            <?php
+                                }
+                              ?>
                 </select>
             </div>
             </div>

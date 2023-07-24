@@ -17,7 +17,9 @@ function getContent() {
 
 			$nombre=$row["primer_nombre"].' '.$row["segundo_nombre"].' '.$row["tercer_nombre"].' '.$row["primer_apellido"].' '.$row["segundo_apellido"].' '.$row["apellido_casada"];
 
-			echo $nombre;
+			$fechacontratacion=$row["fecha_contratacion"];
+
+			echo $nombre."/".$fechacontratacion;
 
 		}
 

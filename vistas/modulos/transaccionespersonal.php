@@ -58,6 +58,7 @@ function getContent() {
             <th>Nombre</th>
             <th>Tipo de Movimiento</th>
             <th>¿Requiere devolución de uniforme?</th>
+            <th>¿Cubrir Vacante?</th>
             <th>Acciones</th>
  
           </tr> 
@@ -80,7 +81,8 @@ function getContent() {
                    <td>'.$value["codigo"].'</td>
                    <td>'.$value["nombre"].'</td>
                    <td>'.$value["tipo_movimiento_personal"].'</td>
-                   <td>'.$value["devolucion"].'</td>';
+                   <td>'.$value["devolucion"].'</td>
+                   <td>'.$value["cubrir_vacante"].'</td>';
  
                   
  
@@ -232,6 +234,19 @@ MODAL AGREGAR
              </div>
 
 
+             <div id="">
+             <label for="" class="">¿Cubrir vacante? </label> 
+             <div class="input-group" >
+              <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+              <select name="nuevocubrir_vacante" id="" class="form-control input-lg" required>
+                <option value="">¿Cubrir vacante? </option>
+                <option value="Si">Si</option>
+                <option value="No">No</option>
+              </select>
+             </div>
+             </div>
+
+
              <!-- <div id="">
              <label for="" class="">Seleccione Tipo de Movimiento</label> 
              <div class="input-group" >
@@ -370,6 +385,20 @@ MODAL EDITAR
               </select>
              </div>
              </div>
+
+
+             <div id="">
+             <label for="" class="">¿Cubrir vacante? </label> 
+             <div class="input-group" >
+              <span class="input-group-addon"><i class="fa fa-server"></i></span> 
+              <select name="editarcubrir_vacante" id="editarcubrir_vacante" class="form-control input-lg" required>
+                <option value="">¿Cubrir vacante? </option>
+                <option value="Si">Si</option>
+                <option value="No">No</option>
+              </select>
+             </div>
+             </div>
+
 
 
 

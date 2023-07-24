@@ -17,19 +17,22 @@ class ModeloEmpleadoDescuentos{
             id_tipo_devengo_descuento,
             valor,
             fecha_caducidad,
-            referencia
+            referencia,
+			tipodescuento
             ) VALUES (
             :id_empleado,
             :id_tipo_devengo_descuento,
             :valor,
             :fecha_caducidad,
-            :referencia
+            :referencia,
+			:tipodescuento
             )");
         $stmt->bindParam(":id_empleado", $datos["id_empleado"], PDO::PARAM_INT);
 		$stmt->bindParam(":id_tipo_devengo_descuento", $datos["id_tipo_devengo_descuento"], PDO::PARAM_INT);
 		$stmt->bindParam(":valor", $datos["valor"], PDO::PARAM_STR);
         $stmt->bindParam(":fecha_caducidad", $datos["fecha_caducidad"], PDO::PARAM_STR);
 		$stmt->bindParam(":referencia", $datos["referencia"], PDO::PARAM_STR);
+		$stmt->bindParam(":tipodescuento", $datos["tipodescuento"], PDO::PARAM_STR);
 
         
 

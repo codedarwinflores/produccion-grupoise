@@ -111,14 +111,14 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
   
         <div class="row">
           <div class="col-md-6" >
-              <a href="empleados" class="btn btn-primary">Volver</a>
+              <a href="empleados" class="btn btn-danger">Volver</a>
           </div>
           <div class="col-md-12">
             <br>
           </div>
           <div class="col-md-5">
             <label>Patrulla</label>
-            <select name="" class="form-control" id="patrulla">
+            <select name="" class="form-control mi-selector" id="patrulla">
               <option value="">Seleccione la Patrulla</option>
               <?php                    
                         function patrulla() {
@@ -137,7 +137,7 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
           </div>
           <div class="col-md-5">
             <label>Ubicación</label>
-            <select name="" class="form-control" id="ubicacion">
+            <select name="" class="form-control mi-selector" id="ubicacion">
               <option value="">Seleccione la Ubicación</option>
                 <?php                    
                           function ubicacion() {

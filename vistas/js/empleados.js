@@ -1,6 +1,405 @@
 
+
+$(function () {
+	
+});
+
+/* ****CAPTURO LA FECHA ACTUAL */
+const today = new Date();
+const yyyy = today.getFullYear();
+let mm = today.getMonth() + 1; // Months start at 0!
+let dd = today.getDate();
+
+if (dd < 10) dd = '0' + dd;
+if (mm < 10) mm = '0' + mm;
+
+const formattedToday = dd + '-' + mm + '-' + yyyy;
+const formatosql = yyyy + '-' + mm + '-' +dd ;
+/* **************** */
+
+
 /* COLOCACION DE ICONOS */
 $(document).ready(function(){
+
+
+	$(".ocultarisss").attr("style","visibility:hidden; height:0");
+
+	$('.pensionado_empleado').on('change', function() {
+		var valor= $(this).val();
+		if(valor=="Si"){
+			$(".ocultarisss").attr("style","visibility:hidden; height:0");
+		}
+		else{
+			$(".ocultarisss").attr("style","visibility:visible; height:100");
+		}
+
+	})
+	
+				
+	var valor_estado= $('.estadoempleado option:selected').text();
+
+	if(valor_estado=="Contratado"){
+		/* ***************************** */
+		var nuevocodigo=$(".ultimoempleado").val();
+		$("#editarcodigo_empleado").val(nuevocodigo);
+		/* ***************************** */
+	}
+
+
+	$('.mostrarimagen').on( 'click', function() {
+		var nombrecolumna=$(this).attr("columna");
+		$(".nombre_columna").val(nombrecolumna);
+		$("#modificarimagen").modal("show");
+	});
+
+
+
+
+
+
+	$('.subirimagen').on( 'click', function() {
+/* 			alert("h");
+		var formData = new FormData($("#formudata"));
+		$.ajax({
+			 url: 'ajax/actualizarempleado.ajax.php',
+			 type: "post",
+			 data: formData,
+			 success: function(response) {alert(response)}
+		})
+ */
+	
+
+
+
+			/* var data = new FormData(document.getElementById('formudata')); */
+
+			/* alert('0.505089');
+			$.ajax({
+		
+				type: 'POST',
+				url: 'ajax/actualizarempleado.ajax.php',
+				data: $('#formudata').serialize(),
+				dataType: 'json',
+				success: function(data){
+					alert(data)
+			
+				}
+			}); */
+		
+
+		
+/* 		var imagen= $(".fotos").val();
+		var nombre_columna =$(".nombre_columna").val();
+		var iddato=$(".iddato").val();
+		alert(imagen);
+
+		var parametros = {
+			"fotos" : imagen,
+			"nombre_columna" : nombre_columna,
+			"iddato" : iddato
+		
+		}; */
+
+		var data = new FormData($("#formudata")[0]);
+
+		$.ajax({
+				
+				url:"ajax/actualizarempleado.ajax.php",
+				type:  'post',
+				data:  data,
+				processData: false,
+				contentType: false
+			}).done(function(respuesta){
+				location.reload();
+				})
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+$(".mostrarerror").attr("style","display:none;");
+/* CALCULO LA FECHA CUMPLEAÑOS */
+function calculateAge(birthday) {
+    var birthday_arr = birthday.split("-");
+    var birthday_date = new Date(birthday_arr[2], birthday_arr[1] - 1, birthday_arr[0]);
+    var ageDifMs = Date.now() - birthday_date.getTime();
+    var ageDate = new Date(ageDifMs);
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+}
+/* ****************** */
+
+
+
+
+
+
+$('#bancoempleado').on('change', function() {
+
+	var valor1= this.value;
+	if(valor1=="BANCO AGRICOLA")
+	{
+		$("#editar_numero_cuenta").mask('0000-00000-0', {reverse: true});
+	}
+	if($.trim(valor1)=="BANCO CUSCATLAN")
+	{
+		/* alert($.trim(valor1)); */
+		$("#editar_numero_cuenta").mask('000-000-00-000000-0', {reverse: true});
+
+	}
+
+  });
+
+
+
+
+$('#editarAFPselect').on('change', function() {
+
+	var valor1= this.value;
+
+
+
+	if(valor1==""){}
+	else{
+		$("#editar_descontar_afp").val("SI");
+		$("#editar_descontar_afp").text("SI");
+	};
+/* 	var valor =  $('select[name="editarCARGO"] option:selected').text() */
+
+var valor2 = $('#editarAFPselect>option:selected').text();
+if(valor2=="CONFIA"){
+	$("#editarNumeroNup").val("");
+$("#editarNumeroNup").attr("maxlength","12");
+}
+if(valor2=="CRECER"){
+	$("#editarNumeroNup").val("");
+$("#editarNumeroNup").attr("maxlength","12");
+	
+}
+if(valor2=="IPSFA"){
+	$("#editarNumeroNup").val("");
+$("#editarNumeroNup").attr("maxlength","8");
+	
+}
+if(valor2=="ISSS"){
+	$("#editarNumeroNup").val("");
+$("#editarNumeroNup").attr("maxlength","12");
+	
+}
+
+
+  });
+
+
+$( "#editar_sueldo" ).blur(function() {
+	var valor_inicial= $(this).val();
+	var periodo=$("#PeriodoPago").val();
+	var horas_trabajo=$("#editar_horas_normales_trabajo").val();
+	var salario_diario= valor_inicial/ Number(periodo);
+/* 	var salario_hora= valor_inicial/240; */
+	var salario_hora= salario_diario/horas_trabajo;
+
+			/* $("#editar_sueldo_diario").val(salario_diario.toFixed(2));
+			$("#editar_salario_por_hora").val(salario_hora.toFixed(2)); */
+			$("#editar_sueldo_diario").val(salario_diario);
+			$("#editar_salario_por_hora").val(salario_hora);
+
+	// tu codigo ajax va dentro de esta function...
+  });
+
+  
+$('#PeriodoPago').on('change', function() {
+
+	var valor_inicial= $("#editar_sueldo").val();
+	var periodo=$(this).val();
+	var salario_diario= valor_inicial/periodo;
+	var salario_hora= valor_inicial/240;
+
+	$("#editar_sueldo_diario").val(salario_diario);
+	$("#editar_salario_por_hora").val(salario_hora);
+
+});
+
+$('#editarCARGO0').on('change', function() {
+	var valor =  $('select[name="editarCARGO"] option:selected').text()
+	
+	if(valor=="Agente de seguridad"){
+
+		$(".jefeoperacion_empleado").attr("style","display:block");
+
+
+			var salario_minimo=$(".salario_minimo").val();
+            var salario_diario=$(".salario_diario").val();
+            var salario_hora=$(".salario_hora").val();
+            var hora_diurna=$(".hora_diurna").val();
+            var hora_nocturna=$(".hora_nocturna").val();
+            var hora_diurna_domingo=$(".hora_diurna_domingo").val();
+            var hora_nocturna_domingo=$(".hora_nocturna_domingo").val();
+
+
+			$("#editar_sueldo").val(salario_minimo);
+			$("#editar_sueldo_diario").val(salario_diario);
+			$("#editar_salario_por_hora").val(salario_hora);
+			$("#editar_hora_extra_diurna").val(hora_diurna);
+			$("#editar_hora_extra_nocturna").val(hora_nocturna);
+			$("#editar_hora_extra_domingo").val(hora_diurna_domingo);
+			$("#editar_hora_extra_nocturna_domingo").val(hora_nocturna_domingo);
+
+
+
+	}
+	else{
+
+			$("#editar_sueldo").val("");
+			$("#editar_sueldo_diario").val("");
+			$("#editar_salario_por_hora").val("");
+
+		
+		$(".jefeoperacion_empleado").attr("style","display:none");
+	
+		/* alert("hola"); */
+		var hora_diurna=$(".hora_diurna").val();
+		var hora_nocturna=$(".hora_nocturna").val();
+		var hora_diurna_domingo=$(".hora_diurna_domingo").val();
+		var hora_nocturna_domingo=$(".hora_nocturna_domingo").val();
+		$("#editar_hora_extra_diurna").val(hora_diurna);
+		$("#editar_hora_extra_nocturna").val(hora_nocturna);
+		$("#editar_hora_extra_domingo").val(hora_diurna_domingo);
+		$("#editar_hora_extra_nocturna_domingo").val(hora_nocturna_domingo);
+			/* $("#editar_sueldo").val("");
+			$("#editar_sueldo_diario").val("");
+			$("#editar_salario_por_hora").val("");
+			$("#editar_hora_extra_diurna").val("");
+			$("#editar_hora_extra_nocturna").val("");
+			$("#editar_hora_extra_domingo").val("");
+			$("#editar_hora_extra_nocturna_domingo").val(""); */
+	}
+  });
+
+  /* ************* */
+
+	  $(".capturarfechanac").blur(function(){
+		$( "#ic__datepicker-3" ).click(function() {
+			var valor = $(".capturarfechanac").val();
+			if(calculateAge(valor)>=18)
+			{
+				$(".mostrarerror").attr("style","display:none;");
+
+				/* *********** */
+
+					$(".editarfecha_ingreso").val(formattedToday);
+					$(".oficial_editarfecha_ingreso").val(formatosql);
+
+					var telefonoactual=$(".configtelefono").val();
+					$("#editarnumero_telefono_trabajo_actual").val(telefonoactual);
+
+					var codigoempleado =$("#editarcodigo_empleado").val();
+				
+
+					/* ****CAPTURO LA FECHA NACIMIENTO */
+
+					var value = $("#editarfecha_nacimiento").val();
+					var anio = new Date(value).getFullYear();
+					var mes = new Date(value).getMonth()+ 1;
+					if (mes < 10) mes = '0' + mes;
+
+					anio = anio.toString().substr(-2);
+
+					$("#editarcarnet_empleado").val(codigoempleado+mes+anio);
+
+				/* ***************** */
+			}
+			else{
+				$(".mostrarerror").attr("style","display:block; color:red;");
+				$(".capturarfechanac").val("");
+			}
+		  });
+		});
+
+	/* **************** */
+
+	$('.estadoempleado').on('change', function() {
+		var valor = this.value ;
+		if(valor=="2"){
+
+			var nuevocodigo=$(".ultimoempleado").val();
+			$("#editarcodigo_empleado").val(nuevocodigo);
+
+			$(".editarfecha_ingreso").val(formattedToday);
+			$(".oficial_editarfecha_ingreso").val(formatosql);
+
+			var telefonoactual=$(".configtelefono").val();
+			$("#editarnumero_telefono_trabajo_actual").val(telefonoactual);
+
+			var codigoempleado =$("#editarcodigo_empleado").val();
+
+			/* ****CAPTURO LA FECHA NACIMIENTO */
+
+			var value = $("#editarfecha_nacimiento").val();
+			var anio = new Date(value).getFullYear();
+			var mes = new Date(value).getMonth()+ 1;
+			if (mes < 10) mes = '0' + mes;
+
+			anio = anio.toString().substr(-2);
+			
+			$("#editarcarnet_empleado").val(codigoempleado+mes+anio);
+			
+			/* **************** */
+
+
+		
+		}
+		if(valor=="1"){
+			$("#editarcodigo_empleado").val("");
+			$(".editarfecha_ingreso").val("");
+			$(".oficial_editarfecha_ingreso").val("");
+
+			$("#editarnumero_telefono_trabajo_actual").val("");
+			$("#editarcarnet_empleado").val("");
+
+
+
+
+
+		}
+	  });
+
+	/* *************** */
+
+	$('.editarexamen_poligrafico').on('change', function() {
+		var valor = this.value ;
+		if(valor=="SI"){
+
+			$(".esconfiable").attr("style","display:block;");
+		}
+		if(valor=="NO"){
+			$(".esconfiable").attr("style","display:none;");
+
+		}
+	  });
+
+	  /* ************* */
+
+
+	$('.serviciomilitar').on('change', function() {
+		var valor = this.value ;
+		if(valor=="SI"){
+
+			$(".noservicio").attr("style","display:block;");
+		}
+		if(valor=="NO"){
+			$(".noservicio").attr("style","display:none;");
+
+		}
+	  });
 
 
 
@@ -12,6 +411,45 @@ $(document).ready(function(){
 		}
 		if(valor=="NO"){
 			$(".editarnombre_psicologo").attr("style","display:none;");
+
+		}
+	  });
+
+	/*   *************** */
+
+	$('.camposexo').on('change', function() {
+		var valor = this.value ;
+		if(valor=="Masculino"){
+
+			$(".apellido_casada").val("");
+			$(".apellido_casada").attr("readonly","readonly");
+		}
+		else{
+			$(".apellido_casada").removeAttr("readonly");
+			$(".apellidocasada").attr("style","display:block");
+
+		}
+	  });
+
+	/*   *************** */
+
+	
+	$('.suspendido').on('change', function() {
+		var valor = this.value ;
+		if(valor=="SI"){
+			$(".empresasuspencion").removeAttr("readonly");
+			$(".fechasuspencion").addClass("calendario");
+			$(".nosuspendido").attr("style","display:block");
+
+
+		}
+		if(valor=="NO"){
+		$(".empresasuspencion").attr("readonly","readonly");
+		$(".fechasuspencion").removeClass("calendario");
+		$(".nosuspendido").attr("style","display:none");
+
+
+
 
 		}
 	  });
@@ -60,13 +498,12 @@ $(document).ready(function(){
 		
 		if(valor=="Agente de Seguridad"){
 			 
-			$(".jefeoperacion_empleado").attr("style","display:block")
-
+	
 			/*  ******** */
 			 var parametros = {
 				"val" : ""
 			};
-			$.ajax({
+/* 			$.ajax({
 					data:  parametros,
 					url:"ajax/llenardinero.ajax.php",
 					type:  'post',
@@ -83,7 +520,7 @@ $(document).ready(function(){
 
 
 					}
-			});
+			}); */
 			/* ********* */
 			
 	
@@ -95,7 +532,7 @@ $(document).ready(function(){
 
 	  /* ***************** */
 	
-	  $('.editarBanco').on('change', function() {
+/* 	  $('.editarBanco').on('change', function() {
 		var valor = this.value;
 	
 		if(valor=="Banco Agricola"){
@@ -111,7 +548,7 @@ $(document).ready(function(){
 			$('.cuscatlan').mask('000-000-00-000000-0', {reverse: true});
 
 		}
-	  });
+	  }); */
 
 	  /* ***************** */
 
@@ -122,6 +559,151 @@ $(document).ready(function(){
 
 
 })
+
+
+/*=============================================
+SUBIENDO LA FOTO Licencia de portación de arma (LPA)
+=============================================*/
+$(".imagenlpa").change(function(){
+	var imagen = this.files[0];	
+	/*=============================================
+  	VALIDAMOS EL FORMATO DE LA IMAGEN SEA JPG O PNG
+  	=============================================*/
+  	if(imagen["type"] != "image/jpeg" && imagen["type"] != "image/png"){
+  		$(".imagenlpa").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen debe estar en formato JPG o PNG!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else if(imagen["size"] > 2000000){
+  		$(".imagenlpa").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen no debe pesar más de 2MB!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else{
+  		var datosImagen = new FileReader;
+  		datosImagen.readAsDataURL(imagen);
+  		$(datosImagen).on("load", function(event){
+  			var rutaImagen = event.target.result;
+  			$(".previsualizarimagenlpa").attr("src", rutaImagen);
+  		})
+  	}
+})
+
+
+/*=============================================
+SUBIENDO LA FOTO b.	Carnet de AFP
+=============================================*/
+$(".carnetafp").change(function(){
+	var imagen = this.files[0];	
+	/*=============================================
+  	VALIDAMOS EL FORMATO DE LA IMAGEN SEA JPG O PNG
+  	=============================================*/
+  	if(imagen["type"] != "image/jpeg" && imagen["type"] != "image/png"){
+  		$(".carnetafp").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen debe estar en formato JPG o PNG!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else if(imagen["size"] > 2000000){
+  		$(".carnetafp").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen no debe pesar más de 2MB!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else{
+  		var datosImagen = new FileReader;
+  		datosImagen.readAsDataURL(imagen);
+  		$(datosImagen).on("load", function(event){
+  			var rutaImagen = event.target.result;
+  			$(".previsualizarcarnetafp").attr("src", rutaImagen);
+  		})
+  	}
+})
+
+
+/*=============================================
+SUBIENDO LA FOTO c.	ISSS
+=============================================*/
+$(".fotoisss").change(function(){
+	var imagen = this.files[0];	
+	/*=============================================
+  	VALIDAMOS EL FORMATO DE LA IMAGEN SEA JPG O PNG
+  	=============================================*/
+  	if(imagen["type"] != "image/jpeg" && imagen["type"] != "image/png"){
+  		$(".fotoisss").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen debe estar en formato JPG o PNG!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else if(imagen["size"] > 2000000){
+  		$(".fotoisss").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen no debe pesar más de 2MB!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else{
+  		var datosImagen = new FileReader;
+  		datosImagen.readAsDataURL(imagen);
+  		$(datosImagen).on("load", function(event){
+  			var rutaImagen = event.target.result;
+  			$(".previsualizarfotoisss").attr("src", rutaImagen);
+  		})
+  	}
+})
+
+
+/*=============================================
+SUBIENDO LA FOTO d.	Certificado del ANSP
+=============================================*/
+$(".fotoansp").change(function(){
+	var imagen = this.files[0];	
+	/*=============================================
+  	VALIDAMOS EL FORMATO DE LA IMAGEN SEA JPG O PNG
+  	=============================================*/
+  	if(imagen["type"] != "image/jpeg" && imagen["type"] != "image/png"){
+  		$(".fotoansp").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen debe estar en formato JPG o PNG!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else if(imagen["size"] > 2000000){
+  		$(".fotoansp").val("");
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen no debe pesar más de 2MB!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+  	}else{
+  		var datosImagen = new FileReader;
+  		datosImagen.readAsDataURL(imagen);
+  		$(datosImagen).on("load", function(event){
+  			var rutaImagen = event.target.result;
+  			$(".previsualizarfotoansp").attr("src", rutaImagen);
+  		})
+  	}
+})
+
+
+
+
+
 
 /*=============================================
 SUBIENDO LA FOTO DEL EMPLEADO
@@ -226,6 +808,7 @@ $(".nuevaFotoNIT").change(function(){
   			$(".previsualizarNIT").attr("src", rutaImagen);
   		})
   	}
+	
 })
 /*=============================================
 SUBIENDO LA FOTO DE LICENCIA TENENCIA ARMAS
@@ -498,7 +1081,11 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 			$("#editarpantalon_empleado").val(respuesta["pantalon_empleado"]);
 			$("#editarcamisa_empleado").val(respuesta["camisa_empleado"]);
 			$("#editarzapatos_empleado").val(respuesta["zapatos_empleado"]);
-			$("#editarrecomendado_empleado").val(respuesta["recomendado_empleado"]);
+
+			$("#recomendado_val").val(respuesta["recomendado_empleado"]);
+			$("#select2-editarrecomendado_empleado-container").text(respuesta["recomendado_empleado"]);
+
+
 			$("#editarcontacto_empleado").val(respuesta["contacto_empleado"]);
 			$("#editardocumentacion_empleado").val(respuesta["documentacion_empleado"]);
 			$("#editaransp_empleado").val(respuesta["ansp_empleado"]);
@@ -522,7 +1109,9 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 				success: function(respuestaDep){	
 					myArray = respuestaDep.split(",");		
 					$("#editarDepartamento").html(myArray[1]);
-					$("#editarDepartamento").val(myArray[0]);				
+					$("#editarDepartamento").val(myArray[0]);		
+					
+				
 				}
 			});
 
@@ -545,6 +1134,8 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 					myArray = respuestaMun.split(",");
 					$("#editarMunicipio").html(myArray[1]);
 					$("#editarMunicipio").val(respuesta["id_municipio"]);
+
+					
 					
 				}
 			});
@@ -905,11 +1496,16 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 })
 
 
+$(".departamento").on('change', function() {
+	poblarMuni();
+});
+
+
 /*=============================================
 CAMBIO DE DEPARTAMENTO POBLAR MUNICIPIO
 =============================================*/
 function poblarMuni(){
-	iddepartamento = document.getElementById("nuevoDepartamento").value;
+	iddepartamento = $(".departamento").val();
 	/* LLENAR MUNICIPIO */
 	var datos = new FormData();
 	datos.append("idmunicipios", iddepartamento);
@@ -923,13 +1519,13 @@ function poblarMuni(){
 		dataType: "json",
 		success: function(respuesta){
 			
-			$('#nuevoMunicipio').empty();			
+			$('.municipios').empty();			
 			myArray = respuesta.split(";");
 			var arrayLength = myArray.length;
 			for (var i = 0; i < arrayLength; i++) {
 				idName = myArray[i].split(",");
 				//alert(idName[1]);
-				$('#nuevoMunicipio').append($('<option>', { 
+				$('.municipios').append($('<option>', { 
 					value: idName[0],
 					text : idName[1]
 				}));
@@ -1107,6 +1703,12 @@ $( ".btnParentesco" ).click(function() {
 	    	
 	    	document.getElementById("headerParentesco").innerHTML = respuestaParentesco;
 
+			$('.editarEdadParentesco').addClass('calendario');
+
+			$(".calendario").ionDatePicker({
+				lang: "es"
+			   });
+
 	    }
 
 	})
@@ -1214,34 +1816,11 @@ function eliminarPariente(idPariente){
 	})
 }
 
-$( ".btnDescuentos" ).click(function() {
-	//asignar el valor al hidden del form parentesco
-	var idEmpleadoDescuento = $(this).attr("idEmpleado");	
-	document.getElementById("idEmpleadoDescuento").value = idEmpleadoDescuento; 
-	
-	//mostrar los datos generales de empleado con ajax
-	//tambien traer los parientes ya registrados en <html>
-	
-	var datosEmpleadoDescuento = new FormData();
-	datosEmpleadoDescuento.append("id_empleado", idEmpleadoDescuento);
-	$.ajax({
-	    url:"ajax/empleados_descuento.ajax.php",
-	    method:"POST",
-	    data: datosEmpleadoDescuento,
-	    cache: false,
-	    contentType: false,
-	    processData: false,
-	    dataType: "text",
-	    success:function(respuestaEmpleadosDescuento){
-	    	
-	    	document.getElementById("headerEmpleadoDescuento").innerHTML = respuestaEmpleadosDescuento;
 
-	    }
 
-	})
-	
 
-});
+
+
 /*=============================================
 EDITAR DEVENGO O DESCUENTO
 =============================================*/
@@ -1254,6 +1833,9 @@ function editarDD(idDD){
 	datosDD.append("valor", document.getElementById("editarValorDD"+idDD).value);
 	datosDD.append("fecha_caducidad", document.getElementById("editarFechaCaducidadDD"+idDD).value);
 	datosDD.append("referencia", document.getElementById("editarReferenciaDD"+idDD).value);	
+	datosDD.append("referencia", document.getElementById("editarReferenciaDD"+idDD).value);
+	datosDD.append("tipodescuento", document.getElementById("editartipodescuento"+idDD).value);	
+
 	$.ajax({
 	    url:"ajax/empleados_descuento.ajax.php",
 	    method:"POST",
@@ -1524,6 +2106,140 @@ function poblarFormulario(idEmpleado){
 			$("#editarFecha_poligrafico").val(respuesta["Fecha_poligrafico"]);
 			$("#editarantecedente_policial").val(respuesta["antecedente_policial"]);
 			$("#editarCARGO0").val(respuesta["nivel_cargo"]);
+			$("#editarcodigo_empleado").val(respuesta["codigo_empleado"]);
+			$("#editarluaf").val(respuesta["luaf"]);
+			$("#pensionado_empleado").val(respuesta["pensionado_empleado"]);
+
+
+
+
+			if(respuesta["pensionado_empleado"]=="Si"){
+				$(".ocultarisss").attr("style","visibility:hidden; height:0");
+			}
+			else{
+				$(".ocultarisss").attr("style","visibility:visible; height:100");
+			}
+
+
+
+			
+			if(respuesta["fotoansp"] != ""){
+				$(".previsualizarfotoansp").attr("src", respuesta["fotoansp"]);
+			}else{
+				$(".previsualizarfotoansp").attr("src", "vistas/img/usuarios/default/anonymous.png");
+			}
+
+
+
+			if(respuesta["fotoisss"] != ""){
+				$(".previsualizarfotoisss").attr("src", respuesta["fotoisss"]);
+			}else{
+				$(".previsualizarfotoisss").attr("src", "vistas/img/usuarios/default/anonymous.png");
+			}
+
+			if(respuesta["imagenlpa"] != ""){
+				$(".previsualizarimagenlpa").attr("src", respuesta["imagenlpa"]);
+			}else{
+				$(".previsualizarimagenlpa").attr("src", "vistas/img/usuarios/default/anonymous.png");
+			}
+
+			if(respuesta["carnetafp"] != ""){
+				$(".previsualizarcarnetafp").attr("src", respuesta["carnetafp"]);
+			}else{
+				$(".previsualizarcarnetafp").attr("src", "vistas/img/usuarios/default/anonymous.png");
+			}
+
+
+
+			/* $("#editarnumero_telefono_trabajo_actual").val(respuesta["numero_telefono_trabajo_actual"]); */
+			$("#editarcarnet_empleado").val(respuesta["carnet_empleado"]);
+			if(respuesta["sexo"]=="Masculino"){
+				$(".apellidocasada").attr("style","display:none");
+			}
+			else{
+				$(".apellidocasada").attr("style","display:block");
+			}
+
+			$("#editar_sueldo").val(respuesta["sueldo"]);
+			$("#editar_sueldo_diario").val(respuesta["sueldo_diario"]);
+			$("#editar_salario_por_hora").val(respuesta["salario_por_hora"]);
+			$("#editar_hora_extra_diurna").val(respuesta["hora_extra_diurna"]);
+			$("#editar_hora_extra_nocturna").val(respuesta["hora_extra_nocturna"]);
+			$("#editar_hora_extra_domingo").val(respuesta["hora_extra_domingo"]);
+			$("#editar_hora_extra_nocturna_domingo").val(respuesta["hora_extra_nocturna_domingo"]);
+
+
+			if(respuesta["idconfiguracion"]==null)
+			{
+				
+		
+				/* var hora_diurna=$(".hora_diurna").val();
+				var hora_nocturna=$(".hora_nocturna").val();
+				var hora_diurna_domingo=$(".hora_diurna_domingo").val();
+				var hora_nocturna_domingo=$(".hora_nocturna_domingo").val();
+				$("#editar_hora_extra_diurna").val(hora_diurna);
+				$("#editar_hora_extra_nocturna").val(hora_nocturna);
+				$("#editar_hora_extra_domingo").val(hora_diurna_domingo);
+				$("#editar_hora_extra_nocturna_domingo").val(hora_nocturna_domingo); */
+			}
+			else{
+
+			/* 	var idcargo=$(".idcargo").val();
+				if(respuesta["nivel_cargo"]==idcargo){
+
+
+					var salario_minimo=$(".salario_minimo").val();
+					var salario_diario=$(".salario_diario").val();
+					var salario_hora=$(".salario_hora").val();
+					var hora_diurna=$(".hora_diurna").val();
+					var hora_nocturna=$(".hora_nocturna").val();
+					var hora_diurna_domingo=$(".hora_diurna_domingo").val();
+					var hora_nocturna_domingo=$(".hora_nocturna_domingo").val();
+
+					$("#editar_sueldo").val(salario_minimo);
+					$("#editar_sueldo_diario").val(salario_diario);
+					$("#editar_salario_por_hora").val(salario_hora);
+					$("#editar_hora_extra_diurna").val(hora_diurna);
+					$("#editar_hora_extra_nocturna").val(hora_nocturna);
+					$("#editar_hora_extra_domingo").val(hora_diurna_domingo);
+					$("#editar_hora_extra_nocturna_domingo").val(hora_nocturna_domingo);
+				}
+				else{ */
+
+
+
+/* 					$("#editar_hora_extra_diurna").val(respuesta["hora_extra_diurna"]);
+					$("#editar_hora_extra_nocturna").val(respuesta["hora_extra_nocturna"]);
+					$("#editar_hora_extra_domingo").val(respuesta["hora_extra_domingo"]);
+					$("#editar_hora_extra_nocturna_domingo").val(respuesta["hora_extra_nocturna_domingo"]); */
+			/* 		var hora_diurna=$(".hora_diurna").val();
+					var hora_nocturna=$(".hora_nocturna").val();
+					var hora_diurna_domingo=$(".hora_diurna_domingo").val();
+					var hora_nocturna_domingo=$(".hora_nocturna_domingo").val(); */
+		
+
+				/* 	
+				}
+ */
+				
+
+			}
+
+
+
+			var dato = respuesta["servicio_militar"];
+			if(dato == "NO"){
+				$(".noservicio").attr("style","display:none;");
+			}
+
+			if(respuesta["estado"] == 2 ){
+				var telefonoactual=$(".configtelefono").val();
+				$("#editarnumero_telefono_trabajo_actual").val(telefonoactual);
+            }
+
+
+			
+
 
 
 
@@ -1578,7 +2294,10 @@ function poblarFormulario(idEmpleado){
 				success: function(respuestaDep){	
 					myArray = respuestaDep.split(",");		
 					$("#editarDepartamento").html(myArray[1]);
-					$("#editarDepartamento").val(myArray[0]);				
+					$("#editarDepartamento").val(myArray[0]);	
+					
+					var texto = $('#editarDepartamento').text();
+					$("#showdepa").val(texto);
 				}
 			});
 
@@ -1601,6 +2320,10 @@ function poblarFormulario(idEmpleado){
 					myArray = respuestaMun.split(",");
 					$("#editarMunicipio").html(myArray[1]);
 					$("#editarMunicipio").val(respuesta["id_municipio"]);
+
+
+					var texto = $('#editarMunicipio').text();
+					$("#showmunicipio").val(texto);
 					
 				}
 			});
@@ -1973,11 +2696,33 @@ function poblarFormulario(idEmpleado){
 			var m = formattedDate.getMonth(); m += 1;
 			m += 1; // javascript months are 0-11 
 			var y = formattedDate.getFullYear();
-			if(isNaN(d)){				
+			if(isNaN(d)){	
+				
+				var d = new Date();
+				var month = d.getMonth()+1;
+				var day = d.getDate();
+				var output = ((''+day).length<2 ? '0' : '') + day  + '-' +
+					((''+month).length<2 ? '0' : '') + month + '-'+ d.getFullYear();
+
+				var output02 = d.getFullYear() + '-' +
+					((''+month).length<2 ? '0' : '') + month + '-' +
+					((''+day).length<2 ? '0' : '') + day;
+
+			
+					$("#mascarafechacontratacion").val(output);
+					$("#editarfecha_contratacion").val(output02);
+				
+
+
 			}
 			else{
-				$("#mascarafechacontratacion").val(respuesta["fecha_contratacion"]);
-				$("#editarfecha_contratacion").val(respuesta["fecha_contratacion"]);
+				
+			
+					$("#mascarafechacontratacion").val(respuesta["fecha_contratacion"]);
+					$("#editarfecha_contratacion").val(respuesta["fecha_contratacion"]);
+				
+
+			
 			}
 
 
@@ -1993,26 +2738,40 @@ function poblarFormulario(idEmpleado){
 				contentType: false,
 				processData: false,
 				dataType:"json",
-				success:function(respuestaDEPARTAMENTO){					
+				success:function(respuestaDEPARTAMENTO){		
+				
 					$("#editarDepartamentoEmpresa").html(respuestaDEPARTAMENTO[2]);
-					$("#editarDepartamentoEmpresa").val(respuestaDEPARTAMENTO[0]);								 
+					$("#editarDepartamentoEmpresa").val(respuestaDEPARTAMENTO[0]);		
+					
+					var texto = $('#editarDepartamentoEmpresa').text();
+					$("#showdepartamento").val(texto);
 				}
 			})
+
+			if(respuesta["periodo_pago"]==""){
 			
-			$("#editarPeriodoPago").val(respuesta["periodo_pago"]);
-			$("#editarPeriodoPago").html(respuesta["periodo_pago"]);
+				$("#PeriodoPago").val("015");
+				/* $("#PeriodoPago").html("015"); */
+			}
+			else{
+				var convertir=respuesta["periodo_pago"];
+
+				if(convertir=="15"){
+					convertir="015";
+				}
+			
+				if(convertir=="30"){
+					convertir="030";
+				}
+
+				$("#PeriodoPago").val(convertir);
+
+			/* 	$("#PeriodoPago").html(respuesta["periodo_pago"]); */
+			}
+
 
 			$("#editar_horas_normales_trabajo").val(respuesta["horas_normales_trabajo"]);
 
-			$("#editar_sueldo").val(respuesta["sueldo"]);
-
-			$("#editar_sueldo_diario").val(respuesta["sueldo_diario"]);
-			$("#editar_salario_por_hora").val(respuesta["salario_por_hora"]);
-			$("#editar_hora_extra_diurna").val(respuesta["hora_extra_diurna"]);
-
-			$("#editar_hora_extra_nocturna").val(respuesta["hora_extra_nocturna"]);
-			$("#editar_hora_extra_domingo").val(respuesta["hora_extra_domingo"]);
-			$("#editar_hora_extra_nocturna_domingo").val(respuesta["hora_extra_nocturna_domingo"]);
 
 			//BUSCAR EL NOMBRE DEL TIPO PORTACIOND E ARMA SEGUN ID			
 			var datosTPA = new FormData();

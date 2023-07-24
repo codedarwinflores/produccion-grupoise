@@ -1,6 +1,44 @@
 /* COLOCACION DE ICONOS */
 $(document).ready(function(){
 
+
+
+
+	/* ********************** */
+
+
+	$('#nuevoregalo_prenda').on('change', function() {
+		var valor =  $('option:selected', this).attr("descripcion");
+	
+		$(".regalo_input_descripcion").val(valor);
+	
+	  });
+
+	/* ********************** */
+	
+	$('#editarregalo_prenda2').on('change', function() {
+		var valor =$('option:selected', this).attr("descripcion");
+		$("#editardescripcion").val(valor);
+	
+	  });
+
+	  
+	$(".regalo_input_descripcion").attr("readonly","readonly");
+	$("#editardescripcion").attr("readonly","readonly");
+
+	if($(".regalo_input_precio").val()==""){
+		$(".regalo_input_precio").val("0.00");
+	}
+	if($("#editarprecio").val()==""){
+		$("#editarprecio").val("0.00");
+	}
+
+	
+
+
+
+
+
 	var  texto= "Ingresar";
 
 	$(".input_id").removeAttr("required");

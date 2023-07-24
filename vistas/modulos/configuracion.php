@@ -135,7 +135,7 @@ function getContent() {
                   <div class="form-group">
                       <label for="" class="">Extra Diurna</label> 
                       <div class="">
-                        <input type="number" id="editarextra_diurna" onKeyPress="if(this.value.length==4) return false;" class="form-control" name="editarextra_diurna"  step="0.01">
+                        <input type="text" id="editarextra_diurna"  class="form-control horas" name="editarextra_diurna"  >
                       </div>
                   </div>
 
@@ -143,7 +143,7 @@ function getContent() {
                   <div class="form-group">
                       <label for="" class="">Extra Nocturna</label> 
                       <div class="">
-                        <input type="number" id="editarextra_nocturna" onKeyPress="if(this.value.length==4) return false;" class="form-control" name="editarextra_nocturna"  step="0.01">
+                        <input type="text" id="editarextra_nocturna" class="form-control horas" name="editarextra_nocturna" >
                       </div>
                   </div>
 
@@ -151,14 +151,14 @@ function getContent() {
                   <div class="form-group">
                       <label for="" class="">Extra Dominical Diurna</label> 
                       <div class="">
-                        <input type="number" id="editarextra_dominical_diurna" onKeyPress="if(this.value.length==4) return false;" class="form-control" name="editarextra_dominical_diurna"  step="0.01">
+                        <input type="text" id="editarextra_dominical_diurna"  class="form-control horas" name="editarextra_dominical_diurna"  >
                       </div>
                   </div>
                   
                   <div class="form-group">
                       <label for="" class="">Extra Dominical Nocturna</label> 
                       <div class="">
-                        <input type="number" id="editarextra_dominical_nocturna" onKeyPress="if(this.value.length==4) return false;" class="form-control" name="editarextra_dominical_nocturna"  step="0.01">
+                        <input type="text" id="editarextra_dominical_nocturna"  class="form-control horas" name="editarextra_dominical_nocturna" >
                       </div>
                   </div>
 
@@ -188,9 +188,30 @@ function getContent() {
                       </div>
                   </div>
 
-                  
+                  <div class="form-group">
+                      <label for="" class="">Dias maximo de pago incapacidad</label> 
+                      <div class="">
+                        <input type="number" id="editardias_maximo_incapacidad" onKeyPress="if(this.value.length==6) return false;" class="form-control" name="editardias_maximo_incapacidad"  step="0.01">
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label for="" class="">Porcentaje dias incapacidad</label> 
+                      <div class="">
+                        <input type="number" id="editarporcentaje_dias_incapacidad" onKeyPress="if(this.value.length==6) return false;" class="form-control" name="editarporcentaje_dias_incapacidad"  step="0.01">
+                      </div>
+                  </div>
+
                   <div class="form-group">
                       <label for="" class="">Salario Minimo</label> 
+                      <div class="">
+                        <input type="number" id="editarsalariominio2" onKeyPress="if(this.value.length==6) return false;" class="form-control" name="editarsalariominio2"  step="0.01">
+                      </div>
+                  </div>
+
+                  
+                  <div class="form-group">
+                      <label for="" class="">Salario Minimo a usar en solicitudes</label> 
                       <div class="">
                         <input type="number" id="editarsalario_minimo" onKeyPress="if(this.value.length==6) return false;" class="form-control" name="editarsalario_minimo"  step="0.01">
                       </div>
@@ -214,7 +235,7 @@ function getContent() {
                         foreach($data as $row) {
                           $datos .=$row["id"];
                         }
-                        echo '<input type="number" value='.$datos.' id="editarultimo_empreado" onKeyPress="if(this.value.length==6) return false;" class="form-control" name="editarultimo_empreado"  step="0.01" >';
+                        echo '<input type="number" value='.$datos.' id="editarultimo_empreado" onKeyPress="if(this.value.length==6) return false;" class="form-control" name="editarultimo_empreado"  step="0.01" readonly>';
                         ?>
 
                       </div>
@@ -235,7 +256,7 @@ function getContent() {
 
                         $data = getproveedor();
                         foreach($data as $row) {
-                          echo '<input type="number" value="'.$row["codigo"].'" id="editarultimo_proveedor" onKeyPress="if(this.value.length==6) return false;" class="form-control" name="editarultimo_proveedor"  step="0.01">';
+                          echo '<input type="number" value="'.$row["codigo"].'" id="editarultimo_proveedor" onKeyPress="if(this.value.length==6) return false;" class="form-control" name="editarultimo_proveedor"  step="0.01" readonly>';
                         }
                         ?>
                         
@@ -246,7 +267,7 @@ function getContent() {
                   <div class="form-group">
                       <label for="" class="">Numero Registro</label> 
                       <div class="">
-                        <input type="number" id="editarnum_registro" onKeyPress="if(this.value.length==4) return false;" class="form-control" name="editarnum_registro"  step="0.01">
+                        <input type="text" id="editarnum_registro"  class="form-control nrcs" name="editarnum_registro">
                       </div>
                   </div>
 
@@ -358,7 +379,7 @@ function getContent() {
 
                   
                   
-                  <div class="form-group">
+                  <div class="form-group" style="display: none;">
                       <label for="" class="">Registro NRC</label> 
                       <div class="">
                         <input type="text" id="editarregistro"  class="form-control " name="editarregistro"   onKeyPress="if(this.value.length==12) return false;"  >
@@ -395,7 +416,7 @@ function getContent() {
                   <div class="form-group">
                       <label for="" class="">Horas Extras</label> 
                       <div class="">
-                        <input type="number" id="editarh_extra"  class="form-control" name="editarh_extra"  onKeyPress="if(this.value.length==5) return false;"  step="0.01" >
+                        <input type="text" id="editarh_extra"  class="form-control horas" name="editarh_extra"  onKeyPress="if(this.value.length==6) return false;"   >
                       </div>
                   </div>
                   
@@ -412,7 +433,7 @@ function getContent() {
                   <div class="form-group">
                       <label for="" class="">Clave</label> 
                       <div class="">
-                        <input type="text" id="editarclave"  class="form-control" name="editarclave"  onKeyPress="if(this.value.length==12) return false;"   >
+                        <input type="password" id="editarclave"  class="form-control" name="editarclave"  onKeyPress="if(this.value.length==12) return false;"   >
                       </div>
                   </div>
 
@@ -479,6 +500,13 @@ function getContent() {
                       <label for="" class="">CXC</label> 
                       <div class="">
                         <input type="text" id="editarcxc"  class="form-control nit" name="editarcxc" >
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label for="" class="">Grafiticación por Vacación</label> 
+                      <div class="">
+                        <input type="text" id="editargratificacion_vacacion" oninput="validateNumber(this);" class="form-control " name="editargratificacion_vacacion" >
                       </div>
                   </div>
 

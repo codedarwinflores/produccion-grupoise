@@ -16,13 +16,38 @@ $mes = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto"
 require_once "../../modelos/conexion.php";        
 function empleado() {
     global $idempleado;
-    $query = "SELECT * FROM `tbl_empleados` where id = $idempleado";
+    $query = "SELECT tbl_empleados.id as idempleado,  tbl_empleados.*, cargos_desempenados.id as idcargos, descripcion, cargos_desempenados.* FROM `tbl_empleados`
+     INNER JOIN cargos_desempenados 
+     WHERE tbl_empleados.nivel_cargo = cargos_desempenados.id
+     and tbl_empleados.id = $idempleado";
     $sql = Conexion::conectar()->prepare($query);
     $sql->execute();			
     return $sql->fetchAll();
   };
 $data = empleado();
 foreach($data as $value) {
+
+   
+       
+    $d = $value["fecha_contratacion"];
+ 
+
+    function dia($fecha) {
+        $dias = array('Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado');
+        $dia = $dias[date('w', strtotime($fecha))];
+        return $dia;
+    }
+    function obtenerFechaEnLetra($fecha){
+        $dia= dia($fecha);
+        $num = date("j", strtotime($fecha));
+        $anno = date("Y", strtotime($fecha));
+        $mes = array('enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre');
+        $mes = $mes[(date('m', strtotime($fecha))*1)-1];
+        return $dia.', '.$num.' de '.$mes.' del '.$anno;
+    }
+    
+    obtenerFechaEnLetra($d);
+
 ?>
 
 
@@ -35,97 +60,105 @@ foreach($data as $value) {
     </div>
     <!-- ******** -->
     <div style="width: 50%; float:left;" align="left">
-        <span style="font-size: 12px;">GENERALES DEL TRABAJADOR</span>
+        <span style="font-size: 12px; font-weight: bold;">GENERALES DEL TRABAJADOR</span>
         <br>
-        <span style="font-size: 12px;">
-            NOMBRE:<?php echo $value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["tercer_nombre"].' '.$value["primer_apellido"].' '.$value["segundo_apellido"].' '.$value["apellido_casada"] ?>
+        <span style="font-size: 12px;  ">
+            <span style="font-weight: bold;">NOMBRE:</span><?php echo $value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["tercer_nombre"].' '.$value["primer_apellido"].' '.$value["segundo_apellido"].' '.$value["apellido_casada"] ?>
         </span>
         <br>
         <span style="font-size: 12px;">
-            SEXO: <?php echo $value["sexo"] ?>
+        <span style="font-weight: bold;">SEXO:</span>  <?php echo $value["sexo"] ?>
         </span>
         <br>
         <span style="font-size: 12px;">
-        EDAD: <?php echo $value["sexo"] ?>
+        <span style="font-weight: bold;">EDAD:</span> <?php echo $value["sexo"] ?>
         </span>
         <br>
         <span style="font-size: 12px;">
-        ESTADO CIVIL: <?php echo $value["estado_civil"] ?>
+        <span style="font-weight: bold;">ESTADO CIVIL:</span> <?php echo $value["estado_civil"] ?>
         </span>
         <br>
         <span style="font-size: 12px;">
-        PROFESION U OFICIO: <?php echo $value["profesion_oficio"] ?>
+        <span style="font-weight: bold;">PROFESION U OFICIO:</span> <?php echo $value["profesion_oficio"] ?>
         </span>
         <br>
         <span style="font-size: 12px;">
-        DOMICILIO: <?php echo $value["direccion"] ?>
+        <span style="font-weight: bold;">DOMICILIO:</span> <?php echo $value["direccion"] ?>
         </span>
         <br>
         <span style="font-size: 12px;">
-        NACIONALIDAD: <?php echo $value["nacionalidad"] ?>
+        <span style="font-weight: bold;">NACIONALIDAD:</span> <?php echo $value["nacionalidad"] ?>
         </span>
         <br>
         <span style="font-size: 12px;">
-        DUI No: <?php echo $value["numero_documento_identidad"] ?>
+        <span style="font-weight: bold;">DUI No:</span> <?php echo $value["numero_documento_identidad"] ?>
         </span>
         <br>
         <span style="font-size: 12px;">
-        EXPEDIDO EN: <?php echo $value["fecha_expedicion_documento"] ?>
+        <span style="font-weight: bold;">EXPEDIDO EN:</span> <?php echo $value["fecha_expedicion_documento"] ?>
         </span>
         <br>
         <span style="font-size: 12px;">
-        OTROS DATOS DE IDENTIFICACION : <?php echo $value["sexo"] ?>
+        <span style="font-weight: bold;">OTROS DATOS DE IDENTIFICACION :</span> <?php echo $value["sexo"] ?>
+        </span>
+        <br>
+        <span style="font-size: 12px;">
+            
         </span>
         <br>
         <span style="font-size: 12px;">
             
         </span>
     </div>
-    <div style="width: 50%; float:left;" align="right">
-        <span style="font-size: 12px;">GENERALES DEL CONTRATANTE PATRONAL</span>
+    <div style="width: 50%; float:left;" align="left">
+        <span style="font-size: 12px; font-weight: bold;">GENERALES DEL CONTRATANTE PATRONAL</span>
         <br>
         <span style="font-size: 12px;">
-            NOMBRE:
+        <span style="font-weight: bold;">NOMBRE:</span> VLADIMIR ROBERTO MARIO ABRAHAM IGLESIAS
         </span>
         <br>
         <span style="font-size: 12px;">
-            SEXO:
+        <span style="font-weight: bold;"> SEXO:</span>    MASCULINO
         </span>
         <br>
         <span style="font-size: 12px;">
-        EDAD:
+        <span style="font-weight: bold;">EDAD:</span> 63 AÑOS
         </span>
         <br>
         <span style="font-size: 12px;">
-        ESTADO CIVIL:
+        <span style="font-weight: bold;">ESTADO CIVIL:</span> CASADO
         </span>
         <br>
         <span style="font-size: 12px;">
-        PROFESION U OFICIO:
+        <span style="font-weight: bold;">PROFESION U OFICIO:</span> ADMINISTRADOR
         </span>
         <br>
         <span style="font-size: 12px;">
-        DOMICILIO:
+        <span style="font-weight: bold;">DOMICILIO:</span> ANTIGUO CUSCATLAN, LA LIBERTAD
         </span>
         <br>
         <span style="font-size: 12px;">
-        NACIONALIDAD:
+        <span style="font-weight: bold;">RESIDENCIA:</span> BOSQUES DE SANTA ELENA QUEZALTEPEQUE PASAJE LOS LAURELES No. 23
         </span>
         <br>
         <span style="font-size: 12px;">
-        DUI No:
+        <span style="font-weight: bold;">NACIONALIDAD:</span> SALVADOREÑA
         </span>
         <br>
         <span style="font-size: 12px;">
-        EXPEDIDO EN:
+        <span style="font-weight: bold;">DUI No:</span>  02445939-4
         </span>
         <br>
         <span style="font-size: 12px;">
-        OTROS DATOS DE IDENTIFICACION :
+        <span style="font-weight: bold;">EXPEDIDO EN:</span> ANTIGUO CUSCATLAN, LA LIBERTAD, 09/10/2002 05/07/2010
         </span>
         <br>
         <span style="font-size: 12px;">
-        ACTIVIDAD ECONOMICA DE LA EMPRESA:
+        <span style="font-weight: bold;">OTROS DATOS DE IDENTIFICACION :</span>
+        </span>
+        <br>
+        <span style="font-size: 12px;">
+        <span style="font-weight: bold;">ACTIVIDAD ECONOMICA DE LA EMPRESA:</span> SERVICIOS DESEGURIDAD
         </span>
     </div>
     <div style="width: 100%; clear:both">
@@ -136,7 +169,7 @@ foreach($data as $value) {
         <br>
         <br>
         NOSOTROS: Vladimir Roberto Mario Abraham Iglesias en representación de la Sociedad INVESTIGACIONES Y SEGURIDAD,
-            SOCIEDAD ANÓNIMA DE CAPITAL VARIABLE, que se abrevia ISE, S.A. DE C.V., y *********EMPLEADO****************
+            SOCIEDAD ANÓNIMA DE CAPITAL VARIABLE, que se abrevia ISE, S.A. DE C.V., y <?php echo $value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["tercer_nombre"].' '.$value["primer_apellido"].' '.$value["segundo_apellido"].' '.$value["apellido_casada"] ?>
             de las generales expresadas, convenimos en celebrar Contrato Individual de Trabajo
             sujeto a las estipulaciones siguientes:
 
@@ -153,12 +186,13 @@ foreach($data as $value) {
 
             1º CLASE DE TRABAJO O SERVICIO:
             <br><br>
-            La persona trabajadora se obliga a prestar sus servicios al patrono como, **JEFE DE OPERACIONES**
-            además de las obligaciones que le impongan las leyes laborales y sus reglamos, el Reglamento Interno de Trabajo, Código de ética y demás legislaciones de la Sociedad; tendrá como obligaciones propias de su cargo: **Prestar el Servicio de Seguridad** con Eficiencia y colabora con las demás actividades que le sean solicitadas, siempre y cuando seanrelacionadas con el desempeño de sus labores.
+            La persona trabajadora se obliga a prestar sus servicios al patrono como, <?php echo $value["descripcion"] ?> además de las obligaciones que le impongan las leyes laborales y sus reglamos, el Reglamento Interno de Trabajo, Código de ética y demás legislaciones de la Sociedad; tendrá como obligaciones propias de su cargo: Prestar  el Servicio de Seguridad  con Eficiencia y colabora con las demás actividades que le sean solicitadas, siempre y cuando seanrelacionadas con el desempeño de sus labores.
             <br>
             <br>
+
+       
             2º DURACION DEL CONTRATO Y TIEMPO DE SERVICIOS: <br><br>
-            El presente contrato se celebra por tiempo Indefinido a partir del día ***DOS DE ENERO DE DOS MIL DIECISEIS**
+            El presente contrato se celebra por tiempo Indefinido a partir del día <!-- ***DOS DE ENERO DE DOS MIL DIECISEIS** --><?php   echo obtenerFechaEnLetra($d); ?>
             fecha desde la cual la persona trabajadora presta servicios al patrono sin que la relación laboral se haya disuelto. Queda
             estipulado para la persona trabajadora de nuevo ingreso que los primeros treinta días serán de prueba y dentro de estetermino, las partes podrá dar por terminado el Contrato, sin expresión de causa ni responsabilidad alguna.
             <br><br>
@@ -174,10 +208,10 @@ foreach($data as $value) {
             Día sábado de 8:00 am, a 12:00 m<br>
             Semana Laboral 44 horas.<br><br>
             Únicamente podrán ejecutarse trabajos extraordinarios cuando sean pactados de común acuerdo entre el Patrono oRepresentante Legal o la persona asignada por éstos y la persona trabajadora.
-            <br><br><br><br><br><br><br><br><br><br><br>
+            <br><br><br><br><br><br><br><br><br><br><br><br><br>
             5º SALARIO FORMA, PERIODO Y LUGAR DE SU PAGO:<br><br>
-            El salario que recibirá la persona trabajadora, por sus servicios será de **NOVECIENTOS 00/100 DOLARES
-            DE LOS ESTADOS UNIDOS DE AMÉRICA ( $900.00 ) MENSUALES**, los cuales serán cancelados en dos cuotasmensuales de ***CUATROCIENTOS CINCUENTA 00/100 DOLARES** los días quince y treinta de cada mes. El salario sepagará en moneda de curso legal, dicho pago se depositará quincenalmente en su cuenta bancaria. La operación de pago
+            El salario que recibirá la persona trabajadora, por sus servicios será de  <?php echo $value["sueldo"]+ $value["sueldo"] ?>
+            DE LOS ESTADOS UNIDOS DE AMÉRICA ( $<?php echo $value["sueldo"]+ $value["sueldo"] ?> ) MENSUALES, los cuales serán cancelados en dos cuotasmensuales de $<?php echo $value["sueldo"] ?> 00/100 DOLARES los días quince y treinta de cada mes. El salario sepagará en moneda de curso legal, dicho pago se depositará quincenalmente en su cuenta bancaria. La operación de pago
             principiará y se continuará sin interrupción, salvo caso fortuito o fuerza mayor, a más tardar dentro de las dos horas siguientes a la terminación de la jornada de trabajo correspondiente a la fecha respectiva. . Únicamente se admitirá reclamodespués de pagada la planilla o el día hábil siguiente.
             <br><br>
             6º HERRAMIENTAS Y MATERIALES:<br><br>
@@ -193,23 +227,24 @@ foreach($data as $value) {
                 <th width="100" >NOMBRES</th>
                 <th width="100" >APELLIDOS</th>
                 <th width="100" >EDAD</th>
-                <th width="100" >DIRECCION</th>
+                <th width="230" >DIRECCION</th>
                 </tr>
+
                 <tr>
                     <th height="10" ></th>
-                    <th  height="10"></th>
-                    <th  height="10"></th>
-                    <th  height="10"></th>
-                </tr>
-                <tr>
                     <th height="10" ></th>
-                    <th  height="10"></th>
                     <th  height="10"></th>
                     <th  height="10"></th>
                 </tr>
                 <tr>
                     <th height="10" ></th>
+                    <th height="10" ></th>
                     <th  height="10"></th>
+                    <th  height="10"></th>
+                </tr>
+                <tr>
+                    <th height="10" ></th>
+                    <th height="10" ></th>
                     <th  height="10"></th>
                     <th  height="10"></th>
                 </tr>
@@ -230,8 +265,7 @@ foreach($data as $value) {
         
     <span style="text-align: center; font-size:12px">
     <br><br>
-        En fe de la cual firmamos el presente documento por triplicado en: San Salvador, <br>al dia
-        ******UNO DE DICIEMBRE DE DOS MIL VEINTE Y DOS****** <br><br>
+        En fe de la cual firmamos el presente documento por triplicado en: San Salvador, <br><?php   echo obtenerFechaEnLetra($d); ?> <br><br>
         </span>
     </div>
     <div style="width: 100%; clear:both">

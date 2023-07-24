@@ -1,6 +1,30 @@
 /* COLOCACION DE ICONOS */
 $(document).ready(function(){
 
+
+	/* $(".grupo_descripcion_arma").empty();
+	$(".grupo_descripcion_arma").append($(".descripcion_arma")); */
+/* 	$(".grupo_editar_descripcion_arma").empty();
+	$(".grupo_editar_descripcion_arma").append($(".edescripcion_arma"));
+ */
+
+
+	$(".input_descripcion_arma").attr("placeholder","Ingresar Descripción");
+	$(".label_descripcion_arma").text($(".input_descripcion_arma").attr("placeholder"));
+
+	$(".grupo_cantidad_armas").empty();
+	$(".grupo_cantidad_armas").append($(".cantidad_de_armas"));
+
+
+	$(".grupo_carnet_armas").empty();
+	$(".grupo_observacion_armas").empty();
+
+	$(".grupo_editar_cantidad_armas").empty();
+	$(".grupo_editar_cantidad_armas").append($(".ecantidad_de_armas"));
+
+	$(".grupo_editar_carnet_armas").empty();
+	$(".grupo_editar_observacion_armas").empty();
+
 	var  texto= "Ingresar";
 
 	$(".input_id").removeAttr("required");
@@ -234,6 +258,11 @@ $(".tablas").on("click", ".btnEditararmas", function(){
 			$("#editarcolor").val(respuesta["color"]);
 			$("#editarnumero_matricula").val(respuesta["numero_matricula"]);
 
+			$("#editarcantidad_armas").val(respuesta["cantidad_armas"]);
+			$("#editarcarnet_armas").val(respuesta["carnet_armas"]);
+			$("#editarobservacion_armas").val(respuesta["observacion_armas"]);
+
+
 
 
 			var dateNEW2 = respuesta["fecha_vencimiento"];
@@ -257,6 +286,8 @@ $(".tablas").on("click", ".btnEditararmas", function(){
 			$("#editarprecio_costo").val(respuesta["precio_costo"]);
 			$("#editarestado").val(respuesta["estado"]);
 			
+
+			$("#editardescripcion_arma").val(respuesta["descripcion_arma"]);
 
 			if($("#editartipo_municion").val() == null)
 			{

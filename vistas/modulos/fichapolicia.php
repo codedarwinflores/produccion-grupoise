@@ -23,7 +23,7 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
     <div class="box">
 
       <div class="box-header with-border">
-        <a href="empleados" class="btn btn-primary">Volver</a>
+        <a href="empleados" class="btn btn-danger">Volver</a>
       </div>
 
       <div class="box-body">
@@ -33,7 +33,7 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
                             <div class="col-md-12">
                                     <div class="form-group">
                                     <label for="exampleInputEmail1">Agente</label>
-                                    <select name="agente" class="form-control" >
+                                    <select name="agente" class="form-control mi-selector" >
                                         <option value="*"> Seleccionar Agente</option>
                                         <?php
                                         function agente() {
@@ -94,13 +94,13 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
                                     </div>
                                     <div class="col-md-6">
                                         <label for="exampleInputEmail1">DUI</label>
-                                        <input type="text" value="<?php echo $dui; ?>" class="calendario  form-control" name="dui"  placeholder="Ingresar DUI">
+                                        <input type="text" value="<?php echo $dui; ?>" class="  form-control" name="dui"  placeholder="Ingresar DUI">
                                     </div>
                                     <br>
                                     <br>
                                     <div class="col-md-12">
                                         <label for="exampleInputEmail1">Impresión tomada por</label>
-                                        <input type="text" value="<?php echo $tomadapor; ?>" class="calendario  form-control" name="tomadapor"  placeholder="">
+                                        <input type="text" value="<?php echo $tomadapor; ?>" class="  form-control" name="tomadapor"  placeholder="">
                                     </div>
                                     
                                     <div class="col-md-12">

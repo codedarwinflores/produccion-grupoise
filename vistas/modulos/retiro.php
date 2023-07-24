@@ -36,14 +36,16 @@ function getContent() {
       <div class="box-header with-border">
   
       <div class="row">
+      <div class="col-md-6" align="left">
+            <a href="empleados" class="btn btn-danger">Volver</a>
+        </div>
+
         <div class="col-md-6">
           <!-- <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarretiro">
             Agregar <?php echo $Nombre_del_Modulo;?>
           </button> -->
         </div>
-        <div class="col-md-6" align="right">
-            <a href="empleados" class="btn btn-primary">Volver</a>
-        </div>
+        
 
       </div>
         

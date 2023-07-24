@@ -56,19 +56,17 @@ function getContent() {
           <tr>
             
             <th style="width:10px">#</th>
-            
-            <th>Familia</th>
-            <th>Descripción</th>
-            <th>Número Serie</th>
             <th>Tipo de otro equipo</th>
             <th>Código</th>
             <th>Descripción</th>
+            <th>Número Serie</th>
             <th>Costo</th>
             <th>Modelo</th>
             <th>Color </th>
-            
             <th>Fecha de adquisición</th>
             <th>Observaciones</th>
+            <th>Lugar de adquisición</th>
+            <th>Estado</th>
             <th>Acciones</th>
  
           </tr> 
@@ -88,18 +86,17 @@ function getContent() {
           
            echo ' <tr>
                    <td>'.($key+1).'</td>
-                   <td>'.$value["nombrefamilia"].'</td>
+                   <td>'.$value["nombretipo"].'</td>
+                   <td>'.$value["codigo_equipo"].'</td>
                    <td>'.$value["descripcion"].'</td>
                    <td>'.$value["numero_serie"].'</td>
-                   <td>'.$value["codigo_equipo"].'</td>
-                   <td>'.$value["descripcion_equipo"].'</td>
                    <td>'.$value["costo_equipo"].'</td>
                    <td>'.$value["modelo_equipo"].'</td>
                    <td>'.$value["color_equipo"].'</td>
-                   <td>'.$value["nombretipo"].'</td>
-                   
                    <td>'.$value["fecha_adquisicion"].'</td>
-                   <td>'.$value["observaciones"].'</td>';
+                   <td>'.$value["observaciones"].'</td>
+                   <td>'.$value["lugar_adquisicion"].'</td>
+                   <td>'.$value["estado_otros_equipos"].'</td>';
  
                   
  
@@ -224,7 +221,7 @@ MODAL AGREGAR
               
                 <span class="input-group-addon"><i class="icono_<?php echo $row['Field'];?>"></i></span> 
 
-                <input type="text" class="form-control input-lg input_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value="" autocomplete="off" required tabla_validar="tbl_otros_equipos" item_validar="codigo_equipo">
+                <input type="text" class="form-control input-lg input_<?php echo $row['Field'];?> equipo_input_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value="" autocomplete="off" tabla_validar="tbl_otros_equipos" item_validar="codigo_equipo">
 
               </div>
 
@@ -243,7 +240,25 @@ MODAL AGREGAR
           ?>
              
 
-             <input type="hidden" name="nuevofecha_adquisicion" id="" class="fecha_adquisiondate">
+
+             <!-- ****** -->
+
+             <div class="s_estado_otros_equipos">
+              <label for="">Seleccione Estado</label>
+                <div class="input-group ">
+                    <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                    <select name="nuevoestado_otros_equipos" id="nuevoestado_otros_equipos" class="form-control input-lg" required>
+                      <option value="">Seleccione Estado</option>
+                      <option value="Activo">Activo</option>
+                      <option value="Inactivo">Inactivo</option>
+                    </select>
+                </div>
+            </div>
+
+
+             <!-- ****** -->
+
+          <input type="hidden" name="nuevofecha_adquisicion" id="" class="fecha_adquisiondate">
 
 
           <input type="text" name="nuevoid_familia" class="input_id_familia_1" style="display: none;">
@@ -416,7 +431,7 @@ MODAL EDITAR
               
                 <span class="input-group-addon"><i class="icono_<?php echo $row['Field'];?>"></i></span> 
 
-                <input type="text" class="form-control input-lg input_<?php echo $row['Field'];?>" name="editar<?php echo $row['Field'];?>" id="editar<?php echo $row['Field'];?>" placeholder="" value="" autocomplete="off" required>
+                <input type="text" class="form-control input-lg input_<?php echo $row['Field'];?> einput_<?php echo $row['Field'];?> editarequipo_input_<?php echo $row['Field'];?>" name="editar<?php echo $row['Field'];?>" id="editar<?php echo $row['Field'];?>" placeholder="" value="" autocomplete="off" >
  
               </div>
 
@@ -426,6 +441,23 @@ MODAL EDITAR
              }
           ?>
              
+
+               <!-- ****** -->
+
+               <div class="editar_s_estado_otros_equipos">
+              <label for="">Seleccione Estado</label>
+                <div class="input-group ">
+                    <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                    <select name="editarestado_otros_equipos" id="editarestado_otros_equipos" class="form-control input-lg" required>
+                      <option value="">Seleccione Estado</option>
+                      <option value="Activo">Activo</option>
+                      <option value="Inactivo">Inactivo</option>
+                    </select>
+                </div>
+            </div>
+
+
+             <!-- ****** -->
 
 
              <input type="hidden" name="editarfecha_adquisicion" id="editarfecha_adquisicion2" class="fecha_adquisiondate">

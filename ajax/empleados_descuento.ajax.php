@@ -1,7 +1,9 @@
 <?php
 
-//require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
-require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
+require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php"); /* SERVIDOR */
+/* require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php"); */
+/* require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php"); */
+
 $db=Conexion2();
 
 
@@ -23,8 +25,11 @@ else if(isset($_POST["bandera_editar"])){
 	$id_descuento= $_POST["id_descuento"];
 	$id_tipo_devengo_descuento=$_POST["id_tipo_devengo_descuento"];
 	$valor=$_POST["valor"];
-	$fecha_caducidad=$_POST["fecha_caducidad"];
+	/* $fecha_caducidad=$_POST["fecha_caducidad"]; */
+	$fecha_caducidad = date("Y-m-d", strtotime($_POST["fecha_caducidad"]));
 	$referencia=$_POST["referencia"];
+	$tipodescuento=$_POST["tipodescuento"];
+
 	
 
 	
@@ -33,7 +38,9 @@ else if(isset($_POST["bandera_editar"])){
 	  id_tipo_devengo_descuento = $id_tipo_devengo_descuento,	  
 	  valor = '$valor',
 	  fecha_caducidad = '$fecha_caducidad',
-	  referencia = '$referencia'
+	  referencia = '$referencia',
+	  tipodescuento = '$tipodescuento'
+
 	 
 	 WHERE id = $id_descuento" );			 
 	if(!$queryEditar){		
@@ -96,7 +103,23 @@ else{//Mostrar Pariente
 						</div>
         			</div>
 		';
+
+
 		$cadenaDetalle = $cadenaDetalle.''.$selectDD.'
+
+		<div class="form-group">
+		<label for="">Seleccionar Tipo:</label>             
+		<div class="input-group">              
+		  <span class="input-group-addon"><i class="fa fa-users"></i></span> 
+		  <select class="form-control input-lg" name="editartipodescuento'.$rowDetalle[0].'"  id="editartipodescuento'.$rowDetalle[0].'" required>                  
+			<option value="'.$rowDetalle[6].'" >'.$rowDetalle[6].'</option>  
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="Siempre">Siempre</option>
+		  </select>
+		</div>
+	  </div>
+
 		<div class="form-group">
 			<label for="">Valor:</label>            
             <div class="input-group">                
@@ -108,7 +131,7 @@ else{//Mostrar Pariente
 			<label for="">Fecha Caducidad:</label>
 			<div class="input-group">                  
 				<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-				<input type="text" class="form-control input-lg " value="'.$rowDetalle[4].'" name="editarFechaCaducidadDD'.$rowDetalle[0].'"  id="editarFechaCaducidadDD'.$rowDetalle[0].'" placeholder="Ingresar fecha" required >
+				<input type="text" class="form-control input-lg calendario" value="'.$rowDetalle[4].'" name="editarFechaCaducidadDD'.$rowDetalle[0].'"  id="editarFechaCaducidadDD'.$rowDetalle[0].'" placeholder="Ingresar fecha" data-lang="es" data-years="2010-2060" data-format="DD-MM-YYYY" required readonly>
 			</div>
 		</div>
 		<div class="form-group"> 

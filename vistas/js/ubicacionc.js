@@ -1,9 +1,569 @@
 /* COLOCACION DE ICONOS */
 $(document).ready(function(){
 
+
+
+	var anterior_aumentar=$("#anterior_aumentar").val();
+	var actual_hombre=$("#actual_hombre").val();
+	var hombres_autorizados=$("#hombres_autorizados").val();
+	var numerohombresautorizados=$("#numerohombresautorizados").val();
+	if(anterior_aumentar==""){
+		$("#anterior_aumentar").val(hombres_autorizados);
+	}
+	if(actual_hombre==""){
+		$("#actual_hombre").val(hombres_autorizados);
+
+	}
+	if(numerohombresautorizados==0){
+		$("#numerohombresautorizados").val(hombres_autorizados);
+	}
+
+	$(".nuevoubicacioninput_hombres_autorizados").removeAttr("required");
+	$(".ubicacioncgrupo_hombres_autorizados").attr("style","visibility:hidden; height:0;");
+
+	$(".nuevoubicacioninput_zona").removeAttr("required");
+	$(".ubicacioncgrupo_zona").attr("style","visibility:hidden; height:0;");
+
+	
+
+
+	$( ".numerohombres" ).blur(function() {
+		var valor = $(this).val();
+		var preciohombre = $(".preciohombre").val();
+		var suma= parseFloat(valor)*parseFloat(preciohombre);
+		$(".valorhombre").val(suma);
+
+	  });
+
+	  $( ".preciohombre" ).blur(function() {
+		var valor = $(this).val();
+		var preciohombre = $(".numerohombres").val();
+		var suma= parseFloat(valor)*parseFloat(preciohombre);
+		$(".valorhombre").val(suma);
+
+		
+	  });
+
+	  /* ************** */
+	  $( ".enumerohombres" ).blur(function() {
+		var valor = $(this).val();
+		var preciohombre = $(".epreciohombre").val();
+		var suma= parseFloat(valor)*parseFloat(preciohombre);
+		$(".evalorhombre").val(suma);
+
+		var actualhombre= $("#numerodehombresactual").val();
+		var numerodehombres= $("#numerodehombres").val();
+		var sumarhombres=parseFloat(valor)+parseFloat(numerodehombres);
+		
+
+
+
+	  });
+
+	  $( ".epreciohombre" ).blur(function() {
+		var valor = $(this).val();
+		var preciohombre = $(".enumerohombres").val();
+		var suma= parseFloat(valor)*parseFloat(preciohombre);
+		$(".evalorhombre").val(suma);
+
+	
+		
+	  });
+
+
+
+
+	var v24hrcache = $("#v24hrcache").val();
+	var v12hdecache = $("#v12hdecache").val();
+	var v12hd6cache = $("#v12hd6cache").val();
+	var v12hn6cache = $("#v12hn6cache").val();
+	var v12hd7cache = $("#v12hd7cache").val();
+	var v12hn7cache = $("#v12hn7cache").val();
+	var vextraordinariocache = $("#vextraordinariocache").val();
+	var vseptimocache = $("#vseptimocache").val();
+	var vturnos_comodincache = $("#vturnos_comodincache").val();
+	var vnotascache = $("#vnotascache").val();
+	var vidubicacioncache = $("#vidubicacioncache").val();
+
+	/* ********** */
+	if(v24hrcache==""){
+		$("#nuevo24hr").val("0");
+	}else{
+		$("#nuevo24hr").val(v24hrcache);
+	}
+	
+	/* ********** */
+	if(v12hdecache==""){
+		$("#nuevo12hde").val("0");
+	}else{
+		$("#nuevo12hde").val(v12hdecache);
+	}
+		/* ********** */
+	if(v12hd6cache==""){
+		$("#nuevo12hd6").val("0");
+	}else{
+		$("#nuevo12hd6").val(v12hd6cache);
+	}
+		/* ********** */
+	if(v12hn6cache==""){
+		$("#nuevo12hn6").val("0");
+	}else{
+		$("#nuevo12hn6").val(v12hn6cache);
+	}
+		/* ********** */
+	if(v12hd7cache==""){
+		$("#nuevo12hd7").val("0");
+	}else{
+		$("#nuevo12hd7").val(v12hd7cache);
+	}
+		/* ********** */
+	if(v12hn7cache==""){
+		$("#nuevo12hn7").val("0");
+	}else{
+		$("#nuevo12hn7").val(v12hn7cache);
+	}
+		/* ********** */
+	if(vextraordinariocache==""){
+		$("#nuevoextraordinario").val("0");
+	}else{
+		$("#nuevoextraordinario").val(vextraordinariocache);
+	}
+		/* ********** */
+	if(vseptimocache==""){
+		$("#nuevoseptimo").val("0");
+	}else{
+		$("#nuevoseptimo").val(vseptimocache);
+	}
+		/* ********** */
+	if(vturnos_comodincache==""){
+		$("#nuevoturnos_comodin").val("0");
+	}else{
+		$("#nuevoturnos_comodin").val(vturnos_comodincache);
+	}
+		/* ********** */
+	if(vnotascache==""){
+		$("#nuevonotas").val("0");
+	}else{
+		$("#nuevonotas").val(vnotascache);
+	}
+		/* ********** */
+
+		
+
+	var date = new Date();
+    var fecha =  ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) +'-' +((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' + date.getFullYear();
+	var dt = new Date();
+	var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+
+	$("#fecha_aumentar").val(fecha);
+	$("#hora_aumentar").val(time);
+
+	$( "#aumentar_hombres" ).blur(function() {
+		var valor = $(this).val();
+		var valoranterior=$("#anterior_aumentar").val();
+		if(valoranterior==""){
+			valoranterior=0;
+		}
+		var calcular= parseFloat(valoranterior)+parseFloat(valor);
+		$("#actual_hombre").val(calcular);
+	  });
+
+	  $( "#disminuye_hombres" ).blur(function() {
+		var valor = $(this).val();
+		var valoranterior=$("#anterior_aumentar").val();
+		if(valoranterior==""){
+			valoranterior=0;
+		}
+		var calcular= valoranterior-valor;
+		$("#actual_hombre").val(calcular);
+	  });
+
+/* ************* */
+
+$(".irpanel1").click(function () {    
+	$(".panel1").attr("style","display:block");
+	$(".panel2").attr("style","display:none");
+});
+$(".irpanel2").click(function () {  
+
+	$(".panel1").attr("style","display:none");
+	$(".panel2").attr("style","display:block");
+});
+
+/* ********************** */
+$(".guardar_aumento").click(function () {    
+
+	$("#nuevoturnos_comodin").val("0");
+	var valornumerohombres= $("#actual_hombre").val();
+	$("#numerohombresautorizados").val(valornumerohombres);
+
+	if($("#anterior_aumentar").val()==""){
+		$("#anterior_aumentar").val($("#aumentar_hombres").val());
+	}
+	else{
+		$("#anterior_aumentar").val($("#actual_hombre").val());
+
+	}
+	var fecha_aumentar = $("#fecha_aumentar").val();
+	var hora_aumentar = $("#hora_aumentar").val();
+	var anterior_aumentar = $("#anterior_aumentar").val();
+	var aumentar_hombres = $("#aumentar_hombres").val();
+	var disminuye_hombres = $("#disminuye_hombres").val();
+	var actual_hombre = $("#actual_hombre").val();
+	var idubicacion_aumento = $("#idubicacion_aumento").val();
+	var cuanta_registro = $("#cuanta_registro").val();
+	var idubicacion_turno=$("#idubicacion_turno").val();
+
+	/*  ******** */
+	var parametros = {
+	   "fecha_aumentar" : fecha_aumentar,
+	   "hora_aumentar" : hora_aumentar,
+	   "anterior_aumentar" : anterior_aumentar,
+	   "aumentar_hombres" : aumentar_hombres,
+	   "disminuye_hombres" : disminuye_hombres,
+	   "actual_hombre" : actual_hombre,
+	   "idubicacion_aumento" : idubicacion_aumento,
+	   "cuanta_registro" : cuanta_registro,
+
+   };
+   $.ajax({
+		   data:  parametros,
+		   url:"ajax/aumentohombres.ajax.php",
+		   type:  'post',
+		   success:  function (response) {
+			
+			if(response="Si"){
+				
+
+				swal({
+					type: "success",
+					title: "Guardado Correctamente",
+					showConfirmButton: true,
+					confirmButtonText: "Cerrar",
+					closeOnConfirm: false
+					}).then(function(result) {
+							  if (result.value) {
+
+								/* $(".panel1").attr("style","display:none");
+								$(".panel2").attr("style","display:block");
+								$(".panel3").attr("style","display:none"); */
+								window.location.href ="turnos?id="+idubicacion_turno;
+							  }
+						  })
+
+
+			
+
+			}
+			else{
+
+				swal({
+					type: "warning",
+					title: "ERROR. No se a Guardado",
+					showConfirmButton: true,
+					confirmButtonText: "Cerrar",
+					closeOnConfirm: false
+					}).then(function(result) {
+							  if (result.value) {
+
+								$(".panel1").attr("style","display:block");
+								$(".panel2").attr("style","display:none");
+								$(".panel3").attr("style","display:none");
+
+							  }
+						  })
+
+			
+			}
+		   }
+   });
+   /* ********* */
+})
+/* ************* */
+
+/* *****************TURNOS***** */
+$(".guardar_turnos").click(function () {    
+
+	var valornumerohombres= $("#numerohombresautorizados").val();
+	
+
+
+	var nuevo24hr = $("#nuevo24hr").val();
+	var nuevo12hde = $("#nuevo12hde").val();
+	var nuevo12hd6 = $("#nuevo12hd6").val();
+	var nuevo12hn6 = $("#nuevo12hn6").val();
+	var nuevo12hd7 = $("#nuevo12hd7").val();
+	var nuevo12hn7 = $("#nuevo12hn7").val();
+	var nuevoextraordinario = $("#nuevoextraordinario").val();
+	var nuevoseptimo = $("#nuevoseptimo").val();
+	var nuevoturnos_comodin = $("#nuevoturnos_comodin").val();
+	var nuevonotas = $("#nuevonotas").val();
+	var idubicacion_turno = $("#idubicacion_turno").val();
+	var id = $("#idcache").val();
+
+	
+	if(nuevoturnos_comodin < valornumerohombres){
+
+		swal({
+			type: "warning",
+			title: "El numero de comodin debe de ser igual al Numero de Hombres Autorizados",
+			showConfirmButton: true,
+			confirmButtonText: "Cerrar",
+			closeOnConfirm: false
+			}).then(function(result) {
+					  if (result.value) {
+
+						
+
+					  }
+				  })
+
+
+	
+	}
+	else{
+
+				/*  ******** */
+				var parametros = {
+				"nuevo24hr" : nuevo24hr,
+				"nuevo12hde" : nuevo12hde,
+				"nuevo12hd6" : nuevo12hd6,
+				"nuevo12hn6" : nuevo12hn6,
+				"nuevo12hd7" : nuevo12hd7,
+				"nuevo12hn7" : nuevo12hn7,
+				"nuevoextraordinario" : nuevoextraordinario,
+				"nuevoseptimo" : nuevoseptimo,
+				"nuevoturnos_comodin" : nuevoturnos_comodin,
+				"nuevonotas" : nuevonotas,
+				"idubicacion_turno" : idubicacion_turno,
+				"id" : id,
+
+			};
+			$.ajax({
+					data:  parametros,
+					url:"ajax/administrarturnos.ajax.php",
+					type:  'post',
+					success:  function (response) {
+						if(response="Si"){
+
+							swal({
+								type: "success",
+								title: "Guardado Correctamente",
+								showConfirmButton: true,
+								confirmButtonText: "Cerrar",
+								closeOnConfirm: false
+								}).then(function(result) {
+										  if (result.value) {
+			
+											window.location.href ="detalleubicacion?id="+idubicacion_turno;
+
+			
+										  }
+									  })
+
+									  
+
+						
+
+						}
+						else{
+
+							swal({
+								type: "warning",
+								title: "ERROR. No se a Guardado",
+								showConfirmButton: true,
+								confirmButtonText: "Cerrar",
+								closeOnConfirm: false
+								}).then(function(result) {
+										  if (result.value) {
+			
+											$(".panel1").attr("style","display:none");
+											$(".panel2").attr("style","display:block");
+											$(".panel3").attr("style","display:none");
+			
+										  }
+									  })
+
+									  
+
+							
+							
+						}
+					}
+			});
+			/* ********* */
+	}
+})
+/* ************* */
+
+$('#patrulla').on('change', function() {
+	var valor = $(this).val();
+
+	 /*  ******** */
+	 var parametros = {
+		"valor" : valor
+	};
+	$.ajax({
+			data:  parametros,
+			url:"ajax/cargarcoordinador.ajax.php",
+			type:  'post',
+			success:  function (response) {
+				$("#coordinador_selecion").empty();
+				$("#coordinador_selecion").append(response);
+			
+			}
+	});
+	/* ********* */
+  });
+
+
+
+	$('#coordinadoractual').on('change', function() {
+		var valor = $(this).val();
+
+		 /*  ******** */
+		 var parametros = {
+			"valor" : valor
+		};
+		$.ajax({
+				data:  parametros,
+				url:"ajax/cargarubicacion.ajax.php",
+				type:  'post',
+				success:  function (response) {
+					$("#ubicaciones").empty();
+					$("#ubicaciones").append(response);
+				
+				}
+		});
+		/* ********* */
+	  });
+/* ********************** */
+$(".guardarasignacion").click(function () {    
+
+	var idpatrulla = $("#patrulla").val();
+	var idubiacion = $("#idubicaciones_coordinador").val();
+	var idcoordinador = $("#coordinador_selecion").val();
+
+
+
+	/*  ******** */
+	var parametros = {
+	   "idpatrulla" : idpatrulla,
+	   "idubiacion" : idubiacion,
+	   "idcoordinador" : idcoordinador
+   };
+   $.ajax({
+		   data:  parametros,
+		   url:"ajax/asignarcoordinador.ajax.php",
+		   type:  'post',
+		   success:  function (response) {
+			
+			swal({
+
+				type: "success",
+				title: "Asignado con Exito",
+				showConfirmButton: true,
+				confirmButtonText: "Cerrar"
+
+			}).then(function(result){
+
+				if(result.value){
+				
+					window.location="ubicacionc";
+				}
+
+			});
+		
+		   }
+   });
+   /* ********* */
+})
+
+
+$(".guardarcoordinador").click(function () {    
+
+	var coordinadoractual = $("#coordinadoractual").val();
+	var ubicacion = $("#ubicaciones").val();
+	var coordinadornuevo = $("#coordinadornuevo").val();
+
+
+
+	/*  ******** */
+	var parametros = {
+	   "coordinadoractual" : coordinadoractual,
+	   "ubicacion" : ubicacion,
+	   "coordinadornuevo" : coordinadornuevo
+   };
+   $.ajax({
+		   data:  parametros,
+		   url:"ajax/cambiarcoordinador.ajax.php",
+		   type:  'post',
+		   success:  function (response) {
+			 location.reload();
+		   }
+   });
+   /* ********* */
+})
+/* *********************** */
+	$(".ubicacioncgrupo_turno_eventual").empty();
+	$(".ubicacioncgrupo_criterio_ubicacionc").empty();
+	$(".ubicacioncgrupo_calcula_comodin_ubicacionc").empty();
+	$(".ubicacioncgrupo_comodin_unidad_ubicacionc").empty();
+	$(".ubicacioncgrupo_comodin_base_ubicacionc").empty();
+	$(".ubicacioncgrupo_reporte_equipo_ubicacionc").empty();
+
+	
+	$(".eubicacioncgrupo_turno_eventual").empty();
+	$(".eubicacioncgrupo_criterio_ubicacionc").empty();
+	$(".eubicacioncgrupo_calcula_comodin_ubicacionc").empty();
+	$(".eubicacioncgrupo_comodin_unidad_ubicacionc").empty();
+	$(".eubicacioncgrupo_comodin_base_ubicacionc").empty();
+	$(".eubicacioncgrupo_reporte_equipo_ubicacionc").empty();
+
+
 	var  texto= "Ingresar";
 
 	$(".ubicacioninput_id").removeAttr("required");
+
+	$(".nuevoubicacioninput_estado_cliente_ubicacion").attr("type","hidden");
+	$(".nuevoubicacioninput_estado_cliente_ubicacion").val("Activo");
+	$("#editarestado_cliente_ubicacion").val("Activo");
+	$("#editarestado_cliente_ubicacion").attr("type","hidden");
+	$(".ubicacioncgrupo_estado_cliente_ubicacion").attr("style","height:0");
+	$(".eubicacioncgrupo_estado_cliente_ubicacion").attr("style","height:0");
+
+
+
+
+
+	
+	$(".modificarbono").click(function () {    
+
+		var bono = $("#editarbono_unidad").val();
+		var codigo = $("#editarcodigo_ubicacion").val();
+		var usuario = $("#nombreuduario").val();
+		var id = $("#editarid").val();
+		 /*  ******** */
+		 var parametros = {
+			"bono" : bono,
+			"codigo" : codigo,
+			"usuario" : usuario,
+			"id" : id
+		};
+		$.ajax({
+				data:  parametros,
+				url:"ajax/modificacionbono.ajax.php",
+				type:  'post',
+				success:  function (response) {
+				
+				}
+		});
+		/* ********* */
+
+
+		});
+
+
 
 	/* $(".eubicacioncgrupo_id_cliente").css("visibility","hidden"); */
 
@@ -17,6 +577,46 @@ $(document).ready(function(){
 		return false;
 	} */
 	modificacioninicial();
+
+
+	
+
+
+	/* ******** */
+	$("#tipodocumento_ubicacion").attr("style","visibility:hidden; height:0;");
+	$("#nuevotipo_documento").removeAttr("required");
+	$("#editartipodocumento_ubicacion").attr("style","visibility:hidden; height:0;");
+	$("#editartipo_documento").removeAttr("required");
+	/* ********** */
+
+		/* ******** */
+		$("#formpago_ubicacion").attr("style","visibility:hidden; height:0;");
+		$("#nuevoforma_pago").removeAttr("required");
+		$("#editar_formpago_ubicacion").attr("style","visibility:hidden; height:0;");
+		$("#editarforma_pago").removeAttr("required");
+		/* ********** */
+
+/* ******** */
+$("#nosuma_ubicacion").attr("style","visibility:hidden; height:0;");
+$("#nuevosumahs").removeAttr("required");
+$("#editar_nosuma_ubicacion").attr("style","visibility:hidden; height:0;");
+$("#editarsumahs").removeAttr("required");
+/* ********** */
+
+
+/* ******** */
+$("#concepto_ubicacion").attr("style","visibility:hidden; height:0;");
+$("#editar_concepto_ubicacion").attr("style","visibility:hidden; height:0;");
+/* ********** */
+
+	/* ******** */
+	$("#tipodocumento_ubicacion").attr("style","visibility:hidden;  height:0;");
+	$("#nuevotipo_documento").removeAttr("required");
+	$("#editartipodocumento_ubicacion").attr("style","visibility:hidden;  height:0;");
+	$("#editartipo_documento").removeAttr("required");
+	/* ********** */
+
+
 	
 	$(".icono_codigo_cliente").addClass("fa fa-qrcode");
    $(".ubicacioninput_codigo_cliente").attr("placeholder", texto+" Código Cliente");
@@ -297,6 +897,9 @@ $(document).ready(function(){
 
 
 
+
+
+
  function modificacioninicial(){
 	
 	$(".ubicacioninput_email_contacto").get(0).type = 'email';
@@ -480,6 +1083,23 @@ EDITAR
 =============================================*/
 $(".tablas").on("click", ".btnEditarubicacionc", function(){
 
+
+		
+
+
+
+	$(".ubicacioninput_zona").removeAttr("required");
+	$(".eubicacioncgrupo_zona").attr("style","visibility:hidden; height:0;");
+
+	$("#editarhombres_autorizados").removeAttr("required");
+	$(".eubicacioncgrupo_hombres_autorizados").attr("style","visibility:hidden; height:0;");
+
+
+	$(".ubicacioninput_estado_cliente_ubicacion").removeAttr("required");
+	$("#editartipo_documento").removeAttr("required");
+	$("#editarforma_pago").removeAttr("required");
+	$("#editarzonaubicacion").removeAttr("required");
+
 	
 			  /* editar*************** */
 
@@ -536,6 +1156,16 @@ $(".tablas").on("click", ".btnEditarubicacionc", function(){
 	$("#editarbono_horas").val(respuesta["bono_horas"]);
 	$("#editarselefactura").val(respuesta["selefactura"]);
 	$("#editarzonaubicacion").val(respuesta["zonaubicacion"]);
+
+
+	$("#editarturno_eventual").val(respuesta["turno_eventual"]);
+	$("#editarcriterio_ubicacionc").val(respuesta["criterio_ubicacionc"]);
+	$("#editarcalcula_comodin_ubicacionc").val(respuesta["calcula_comodin_ubicacionc"]);
+	$("#editarcomodin_unidad_ubicacionc").val(respuesta["comodin_unidad_ubicacionc"]);
+	$("#editarcomodin_base_ubicacionc").val(respuesta["comodin_base_ubicacionc"]);
+	$("#editarreporte_equipo_ubicacionc").val(respuesta["reporte_equipo_ubicacionc"]);
+
+
 
 	if(respuesta["bono_horas"] == "SI"){
 		$("#esibonohoras").prop('checked', true); 

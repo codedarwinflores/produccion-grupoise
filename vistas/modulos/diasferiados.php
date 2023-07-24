@@ -146,18 +146,13 @@ MODAL AGREGAR
 
             <!-- ENTRADA PARA CAMPOS  -->
 
-            <div class="form-group">
-              <label for="" class="">Numero Dias</label> 
-              <div class="">
-                <input type="text" class="form-control input-lg" name="nuevonum_dias" placeholder="" value="" autocomplete="off" required>
-              </div>
-            </div>
+            
 
             
             <div class="form-group">
               <label for="" class="">Fecha Desde:</label> 
               <div class="">
-                <input type="text" class="form-control input-lg calendario" name="nuevofecha_desde" placeholder="" value="" autocomplete="off" data-lang="es" data-years="1600-2060" data-format="DD-MM-YYYY"  required>
+                <input type="text" class="form-control input-lg calendario fechainicialdias" name="nuevofecha_desde" placeholder="" value="" autocomplete="off" data-lang="es" data-years="1600-2060" data-format="DD-MM-YYYY"  required>
               </div>
             </div>
             
@@ -165,10 +160,17 @@ MODAL AGREGAR
             <div class="form-group">
               <label for="" class="">Fecha Hasta:</label> 
               <div class="">
-                <input type="text" class="form-control input-lg calendario" name="nuevofecha_hasta" placeholder="" value="" autocomplete="off" data-lang="es" data-years="1600-2060" data-format="DD-MM-YYYY"  required>
+                <input type="text" class="form-control input-lg calendario fechafinaldias" name="nuevofecha_hasta" placeholder="" value="" autocomplete="off" data-lang="es" data-years="1600-2060" data-format="DD-MM-YYYY"  required>
               </div>
             </div>
 
+
+            <div class="form-group">
+              <label for="" class="">Numero Dias</label> 
+              <div class="">
+                <input type="text" class="form-control input-lg numerodias" name="nuevonum_dias" placeholder="" value="" autocomplete="off" required readonly="readonly">
+              </div>
+            </div>
 
 
           </div>
@@ -242,19 +244,13 @@ MODAL EDITAR
  
             <!-- ENTRADA PARA CAMPOS  -->
 
+         
             <input type="hidden" name="editarid" id="editarid">
-            <div class="form-group">
-              <label for="" class="">Numero Dias</label> 
-              <div class="">
-                <input type="text" class="form-control input-lg" name="editarnum_dias" id="editarnum_dias" placeholder="" value="" autocomplete="off" required>
-              </div>
-            </div>
-
             
             <div class="form-group">
               <label for="" class="">Fecha Desde:</label> 
               <div class="">
-                <input type="text" class="form-control input-lg calendario" name="editarfecha_desde" id="editarfecha_desde" placeholder="" value="" autocomplete="off" data-lang="es" data-years="1600-2060" data-format="DD-MM-YYYY"  required>
+                <input type="text" class="form-control input-lg calendario editarfechainicialdias" name="editarfecha_desde" id="editarfecha_desde" placeholder="" value="" autocomplete="off" data-lang="es" data-years="1600-2060" data-format="DD-MM-YYYY"  required>
               </div>
             </div>
             
@@ -262,9 +258,17 @@ MODAL EDITAR
             <div class="form-group">
               <label for="" class="">Fecha Hasta:</label> 
               <div class="">
-                <input type="text" class="form-control input-lg calendario" name="editarfecha_hasta" id="editarfecha_hasta" placeholder="" value="" autocomplete="off" data-lang="es" data-years="1600-2060" data-format="DD-MM-YYYY"  required>
+                <input type="text" class="form-control input-lg calendario editarfechafinaldias" name="editarfecha_hasta" id="editarfecha_hasta" placeholder="" value="" autocomplete="off" data-lang="es" data-years="1600-2060" data-format="DD-MM-YYYY"  required>
               </div>
             </div>
+
+            <div class="form-group">
+              <label for="" class="">Numero Dias</label> 
+              <div class="">
+                <input type="text" class="form-control input-lg" name="editarnum_dias" id="editarnum_dias" placeholder="" value="" autocomplete="off" required readonly="readonly">
+              </div>
+            </div>
+
 
 
           </div>

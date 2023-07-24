@@ -5,6 +5,18 @@ $(document).ready(function(){
 
 	$(".input_id").removeAttr("required");
 
+	/* ************ */
+
+	$(".bicicleta_grupo_estado_bicicleta").empty();
+	$('.bicicleta_grupo_estado_bicicleta').append($('.s_estado_bicicleta'));
+
+	$(".bicicleta_grupoeditar_estado_bicicleta").empty();
+	$('.bicicleta_grupoeditar_estado_bicicleta').append($('.editar_s_estado_bicicleta'));
+
+
+	/* ************ */
+
+
 	
 	$(".icono_fecha_adquisicion").addClass("fa  fa-calendar");
     $(".input_fecha_adquisicion").attr("placeholder", texto+" Fecha de adquisición");
@@ -139,9 +151,13 @@ $(".tablas").on("click", ".btnEditarbicicleta", function(){
 			var day = date.toLocaleString("default", { day: "2-digit" });
 			var formattedDate = day + "-" + month + "-" + year;
 
+			
 			$("#editarfecha_adquisicion").val(formattedDate);
 			
-			$("#editarfecha_adquisicion2").val(respuesta["fecha_adquision"]);
+			
+			$("#editarfecha_adquisicion2").val(respuesta["fecha_adquisicion"]);
+
+
 			$("#editarobservaciones").val(respuesta["observaciones"]);
 			$("#editarserie").val(respuesta["serie"]);
 
@@ -149,6 +165,7 @@ $(".tablas").on("click", ".btnEditarbicicleta", function(){
 			$("#editarcosto_bicicleta").val(respuesta["costo_bicicleta"]);
 			$("#editarmodelo_bicicleta").val(respuesta["modelo_bicicleta"]);
 			$("#editarcolor_bicicleta").val(respuesta["color_bicicleta"]);
+			$("#editarestado_bicicleta").val(respuesta["estado_bicicleta"]);
 
 
 

@@ -94,7 +94,8 @@ class ControladorEmpleadoDescuento{
 							   "id_tipo_devengo_descuento" => $_POST["nuevoIdDescuento"],
 					           "valor" => $_POST["nuevoValor"],
                                "fecha_caducidad" => $_POST["nuevofecha_caducidad"],
-                               "referencia" => $_POST["nuevoReferencia"]
+                               "referencia" => $_POST["nuevoReferencia"],
+							   "tipodescuento" => $_POST["nuevotipodescuento"]
                               
                             );
 				$respuesta = ModeloEmpleadoDescuentos::mdlIngresarEmpleadoDescuento($tabla, $datos);

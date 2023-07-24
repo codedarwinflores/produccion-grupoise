@@ -1,7 +1,7 @@
 <?php
 
-//require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
-require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");  
+require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
+/* require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");   */
 $db=Conexion2();
 
 

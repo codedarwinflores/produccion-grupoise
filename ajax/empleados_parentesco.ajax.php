@@ -1,7 +1,9 @@
 <?php
 
-//require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
-require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php");
+require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
+/* require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php"); */
+/* require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php"); */
+
 $db=Conexion2();
 
 
@@ -108,10 +110,10 @@ else{//Mostrar Pariente
 			</div>            
         </div>
 		<div class="form-group">
-			<label for="">Edad:</label>            
+			<label for="">Fecha Nacimiento:</label>            
             <div class="input-group">                
 				<span class="input-group-addon"><i class="fa fa-users"></i></span>  
-				<input type="text" class="form-control input-lg " value="'.$rowDetalle[4].'" name="editarEdadParentesco'.$rowDetalle[0].'" id="editarEdadParentesco'.$rowDetalle[0].'"  placeholder="Ingresar Edad" required >
+				<input type="text" class="form-control input-lg editarEdadParentesco" value="'.$rowDetalle[4].'" name="editarEdadParentesco'.$rowDetalle[0].'" id="editarEdadParentesco'.$rowDetalle[0].'"  placeholder="Ingresar Fecha Nacimiento" data-lang="es" data-years="1600-2060" data-format="DD-MM-YYYY"  required readonly>
 			</div>            
         </div>
 		<div class="form-group">
@@ -151,12 +153,15 @@ else{//Mostrar Pariente
 		
 		
 		';
+
+		
 		
 
 		
 
 		
 	}
+
 	echo $cadenaMaestro.$cadenaDetalle;	
 
 }

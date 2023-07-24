@@ -4,6 +4,7 @@ session_start();
 
 ?>
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -143,11 +144,19 @@ $(document).ready(function() {
   $( ".doscaracter" ).blur(function() {
     if ( $(this).val().trim().length > 0 ) {}
     else {
-      alert("El campo contiene espacios y está vacío");
+      /* alert("El campo contiene espacios y está vacío"); */
+      var $myNewElement = $('<p class="showmensaje">El campo contiene espacios y está vacío</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+      
       $(this).val("");
     }
     if($(this).val().trim().length < 2){
-      alert("Por favor complete el campo");
+     /*  alert("Por favor complete el campo"); */
+     var $myNewElement = $('<p class="showmensaje">Por favor complete el campo</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+
       $(this).val("");
     }
   });
@@ -157,11 +166,19 @@ $(document).ready(function() {
  $( ".trescaracter" ).blur(function() {
     if ( $(this).val().trim().length > 0 ) {}
     else {
-      alert("El campo contiene espacios y está vacío");
+      /* alert("El campo contiene espacios y está vacío"); */
+    var $myNewElement = $('<p class="showmensaje">El campo contiene espacios y está vacío</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+
       $(this).val("");
     }
     if($(this).val().trim().length < 3){
-      alert("Por favor complete el campo");
+      /* alert("Por favor complete el campo"); */
+      var $myNewElement = $('<p class="showmensaje">Por favor complete el campo</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+
       $(this).val("");
     }
   });
@@ -170,11 +187,19 @@ $(document).ready(function() {
  $( ".cuatrocaracter" ).blur(function() {
     if ( $(this).val().trim().length > 0 ) {}
     else {
-      alert("El campo contiene espacios y está vacío");
+     /*  alert("El campo contiene espacios y está vacío"); */
+     var $myNewElement = $('<p class="showmensaje">El campo contiene espacios y está vacío</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+
       $(this).val("");
     }
     if($(this).val().trim().length < 4){
-      alert("Por favor complete el campo");
+     /*  alert("Por favor complete el campo"); */
+     var $myNewElement = $('<p class="showmensaje">Por favor complete el campo</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+
       $(this).val("");
     }
   });
@@ -183,11 +208,17 @@ $(document).ready(function() {
  $( ".servicios_codigo" ).blur(function() {
     if ( $(this).val().trim().length > 0 ) {}
     else {
-      alert("El campo contiene espacios y está vacío");
+      /* alert("El campo contiene espacios y está vacío"); */
+      var $myNewElement = $('<p class="showmensaje">El campo contiene espacios y está vacío</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
       $(this).val("");
     }
     if($(this).val().trim().length < 2){
-      alert("Por favor complete el campo");
+    /*   alert("Por favor complete el campo"); */
+    var $myNewElement = $('<p class="showmensaje">Por favor complete el campo</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
       $(this).val("");
     }
   });
@@ -197,11 +228,18 @@ $(document).ready(function() {
  $( ".seminarios_codigo" ).blur(function() {
     if ( $(this).val().trim().length > 0 ) {}
     else {
-      alert("El campo contiene espacios y está vacío");
+      /* alert("El campo contiene espacios y está vacío"); */
+      var $myNewElement = $('<p class="showmensaje">El campo contiene espacios y está vacío</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
       $(this).val("");
     }
     if($(this).val().trim().length < 4){
-      alert("Por favor complete el campo");
+    /*   alert("Por favor complete el campo"); */
+    var $myNewElement = $('<p class="showmensaje">Por favor complete el campo</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+
       $(this).val("");
     }
   });
@@ -210,11 +248,20 @@ $(document).ready(function() {
  $( ".planilla_codigo" ).blur(function() {
     if ( $(this).val().trim().length > 0 ) {}
     else {
-      alert("El campo contiene espacios y está vacío");
+     /*  alert("El campo contiene espacios y está vacío"); */
+     var $myNewElement = $('<p class="showmensaje">El campo contiene espacios y está vacío</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+
+
       $(this).val("");
     }
     if($(this).val().trim().length < 2){
-      alert("Por favor complete el campo");
+     /*  alert("Por favor complete el campo"); */
+     var $myNewElement = $('<p class="showmensaje">Por favor complete el campo</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+
       $(this).val("");
     }
   });
@@ -223,11 +270,19 @@ $(document).ready(function() {
  $( ".familia_codigo" ).blur(function() {
     if ( $(this).val().trim().length > 0 ) {}
     else {
-      alert("El campo contiene espacios y está vacío");
+      /* alert("El campo contiene espacios y está vacío"); */
+      var $myNewElement = $('<p class="showmensaje">El campo contiene espacios y está vacío</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+
       $(this).val("");
     }
     if($(this).val().trim().length < 4){
-      alert("Por favor complete el campo");
+     /*  alert("Por favor complete el campo"); */
+     var $myNewElement = $('<p class="showmensaje">Por favor complete el campo</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+
       $(this).val("");
     }
   });
@@ -236,11 +291,19 @@ $(document).ready(function() {
  $( ".tipoarma_input_codigo" ).blur(function() {
     if ( $(this).val().trim().length > 0 ) {}
     else {
-      alert("El campo contiene espacios y está vacío");
+     /*  alert("El campo contiene espacios y está vacío"); */
+     var $myNewElement = $('<p class="showmensaje">El campo contiene espacios y está vacío</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+
       $(this).val("");
     }
     if($(this).val().trim().length < 4){
-      alert("Por favor complete el campo");
+      /* alert("Por favor complete el campo"); */
+      var $myNewElement = $('<p class="showmensaje">Por favor complete el campo</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+
       $(this).val("");
     }
   });
@@ -249,11 +312,19 @@ $(document).ready(function() {
  $( ".tiporadio_codigo" ).blur(function() {
     if ( $(this).val().trim().length > 0 ) {}
     else {
-      alert("El campo contiene espacios y está vacío");
+      /* alert("El campo contiene espacios y está vacío"); */
+      var $myNewElement = $('<p class="showmensaje">El campo contiene espacios y está vacío</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+
       $(this).val("");
     }
     if($(this).val().trim().length < 4){
-      alert("Por favor complete el campo");
+     /*  alert("Por favor complete el campo"); */
+     var $myNewElement = $('<p class="showmensaje">Por favor complete el campo</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+
       $(this).val("");
     }
   });
@@ -262,11 +333,19 @@ $(document).ready(function() {
  $( ".tipovehiculo_input_codigo" ).blur(function() {
     if ( $(this).val().trim().length > 0 ) {}
     else {
-      alert("El campo contiene espacios y está vacío");
+     /*  alert("El campo contiene espacios y está vacío"); */
+     var $myNewElement = $('<p class="showmensaje">El campo contiene espacios y está vacío</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+     
       $(this).val("");
     }
     if($(this).val().trim().length < 4){
-      alert("Por favor complete el campo");
+     /*  alert("Por favor complete el campo"); */
+     var $myNewElement = $('<p class="showmensaje">Por favor complete el campo</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+
       $(this).val("");
     }
   });
@@ -275,11 +354,20 @@ $(document).ready(function() {
  $( ".binput_codigo" ).blur(function() {
     if ( $(this).val().trim().length > 0 ) {}
     else {
-      alert("El campo contiene espacios y está vacío");
+      /* alert("El campo contiene espacios y está vacío"); */
+      var $myNewElement = $('<p class="showmensaje">El campo contiene espacios y está vacío</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+
       $(this).val("");
     }
     if($(this).val().trim().length < 4){
-      alert("Por favor complete el campo");
+      /* alert("Por favor complete el campo"); */
+      var $myNewElement = $('<p class="showmensaje">Por favor complete el campo</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+
+
       $(this).val("");
     }
   });
@@ -288,11 +376,19 @@ $(document).ready(function() {
  $( ".tipootrosequipos_codigo" ).blur(function() {
     if ( $(this).val().trim().length > 0 ) {}
     else {
-      alert("El campo contiene espacios y está vacío");
+     /*  alert("El campo contiene espacios y está vacío"); */
+     var $myNewElement = $('<p class="showmensaje">El campo contiene espacios y está vacío</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+
       $(this).val("");
     }
     if($(this).val().trim().length < 4){
-      alert("Por favor complete el campo");
+      /* alert("Por favor complete el campo"); */
+      var $myNewElement = $('<p class="showmensaje">Por favor complete el campo</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+
       $(this).val("");
     }
   });
@@ -301,11 +397,20 @@ $(document).ready(function() {
  $( ".celular_codigo" ).blur(function() {
     if ( $(this).val().trim().length > 0 ) {}
     else {
-      alert("El campo contiene espacios y está vacío");
+     /*  alert("El campo contiene espacios y está vacío"); */
+     var $myNewElement = $('<p class="showmensaje">El campo contiene espacios y está vacío</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+
       $(this).val("");
     }
     if($(this).val().trim().length < 4){
-      alert("Por favor complete el campo");
+     /*  alert("Por favor complete el campo"); */
+     var $myNewElement = $('<p class="showmensaje">Por favor complete el campo</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+
+
       $(this).val("");
     }
   });
@@ -314,11 +419,20 @@ $(document).ready(function() {
  $( ".transequipo_codigo" ).blur(function() {
     if ( $(this).val().trim().length > 0 ) {}
     else {
-      alert("El campo contiene espacios y está vacío");
+    /*   alert("El campo contiene espacios y está vacío"); */
+
+    var $myNewElement = $('<p class="showmensaje">El campo contiene espacios y está vacío</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+
       $(this).val("");
     }
     if($(this).val().trim().length < 2){
-      alert("Por favor complete el campo");
+     // alert("Por favor complete el campo");
+     var $myNewElement = $('<p class="showmensaje">Por favor complete el campo</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+
       $(this).val("");
     }
   });
@@ -327,11 +441,21 @@ $(document).ready(function() {
  $( ".personalinput_codigo" ).blur(function() {
     if ( $(this).val().trim().length > 0 ) {}
     else {
-      alert("El campo contiene espacios y está vacío");
+      //alert("El campo contiene espacios y está vacío");
+      var $myNewElement = $('<p class="showmensaje">El campo contiene espacios y está vacío</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+
       $(this).val("");
     }
     if($(this).val().trim().length < 2){
-      alert("Por favor complete el campo");
+      //alert("Por favor complete el campo");
+
+      var $myNewElement = $('<p class="showmensaje">Por favor complete el campo</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+
+
       $(this).val("");
     }
   });
@@ -340,11 +464,18 @@ $(document).ready(function() {
  $( ".portacion_codigo" ).blur(function() {
     if ( $(this).val().trim().length > 0 ) {}
     else {
-      alert("El campo contiene espacios y está vacío");
+      //alert("El campo contiene espacios y está vacío");
+      var $myNewElement = $('<p class="showmensaje">El campo contiene espacios y está vacío</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+
       $(this).val("");
     }
     if($(this).val().trim().length < 2){
-      alert("Por favor complete el campo");
+      //alert("Por favor complete el campo");
+      var $myNewElement = $('<p class="showmensaje">Por favor complete el campo</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
       $(this).val("");
     }
   });
@@ -353,11 +484,17 @@ $(document).ready(function() {
  $( ".input_codigo_patrulla" ).blur(function() {
     if ( $(this).val().trim().length > 0 ) {}
     else {
-      alert("El campo contiene espacios y está vacío");
+      //alert("El campo contiene espacios y está vacío");
+      var $myNewElement = $('<p class="showmensaje">El campo contiene espacios y está vacío</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
       $(this).val("");
     }
     if($(this).val().trim().length < 2){
-      alert("Por favor complete el campo");
+      //alert("Por favor complete el campo");
+      var $myNewElement = $('<p class="showmensaje">Por favor complete el campo</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
       $(this).val("");
     }
   });
@@ -367,11 +504,19 @@ $(document).ready(function() {
  $( ".cargos_nivel" ).blur(function() {
     if ( $(this).val().trim().length > 0 ) {}
     else {
-      alert("El campo contiene espacios y está vacío");
+      //alert("El campo contiene espacios y está vacío");
+      var $myNewElement = $('<p class="showmensaje">El campo contiene espacios y está vacío</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+
       $(this).val("");
     }
     if($(this).val().trim().length < 3){
-      alert("Por favor complete el campo");
+      //alert("Por favor complete el campo");
+      var $myNewElement = $('<p class="showmensaje">Por favor complete el campo</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
+      
       $(this).val("");
     }
   });
@@ -381,23 +526,35 @@ $(document).ready(function() {
  $( ".isr_codigo" ).blur(function() {
     if ( $(this).val().trim().length > 0 ) {}
     else {
-      alert("El campo contiene espacios y está vacío");
+      //alert("El campo contiene espacios y está vacío");
+      var $myNewElement = $('<p class="showmensaje">El campo contiene espacios y está vacío</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
       $(this).val("");
     }
     if($(this).val().trim().length < 3){
-      alert("Por favor complete el campo");
-      $(this).val("");
+     // alert("Por favor complete el campo");
+     var $myNewElement = $('<p class="showmensaje">Por favor complete el campo</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement); 
+     $(this).val("");
     }
   });
 
   $( ".input_correlativo_lista" ).blur(function() {
     if ( $(this).val().trim().length > 0 ) {}
     else {
-      alert("El campo contiene espacios y está vacío");
+      //alert("El campo contiene espacios y está vacío");
+      var $myNewElement = $('<p class="showmensaje">El campo contiene espacios y está vacío</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement);
       $(this).val("");
     }
     if($(this).val().trim().length < 5){
-      alert("Por favor complete el campo");
+      //alert("Por favor complete el campo");
+      var $myNewElement = $('<p class="showmensaje">Por favor complete el campo</p>');
+     $(".showmensaje").remove();
+     $(this).after($myNewElement); 
       $(this).val("");
     }
   });
@@ -522,6 +679,57 @@ CUERPO DOCUMENTO
          $_GET["ruta"] == "fichapolicia" ||
          $_GET["ruta"] == "pdffichapolicia" ||
          $_GET["ruta"] == "fichadactilar" ||
+         $_GET["ruta"] == "vendedor" ||
+         $_GET["ruta"] == "detalleubicacion" ||
+         $_GET["ruta"] == "historialdetalle" ||
+         $_GET["ruta"] == "turnosubicacion" ||
+         $_GET["ruta"] == "consultabono" ||
+         $_GET["ruta"] == "comentario" ||
+         $_GET["ruta"] == "agenteubicacion" ||
+         $_GET["ruta"] == "devengoubicacion" ||
+         $_GET["ruta"] == "historialcelular" ||
+         $_GET["ruta"] == "cambiarcoordinador" ||
+         $_GET["ruta"] == "aumentarhombres" ||
+         $_GET["ruta"] == "posicionubicacion" ||
+         $_GET["ruta"] == "reporteaumento" ||
+         $_GET["ruta"] == "transaccionagente" ||
+         $_GET["ruta"] == "tipohora" ||
+         $_GET["ruta"] == "situacion" ||
+         $_GET["ruta"] == "coordinadorpatrulla" ||
+         $_GET["ruta"] == "asignarcoordinador" ||
+         $_GET["ruta"] == "vacante" ||
+         $_GET["ruta"] == "planilladevengo" ||
+         $_GET["ruta"] == "nuevaplanilladevengo" ||
+         $_GET["ruta"] == "planillavacacion" ||
+         $_GET["ruta"] == "nuevaplanillavacacion" ||
+         $_GET["ruta"] == "historialvacante" ||
+         $_GET["ruta"] == "turnos" ||
+         $_GET["ruta"] == "planillaaguinaldo" ||
+         $_GET["ruta"] == "nuevaplanillaaguinaldo" ||
+         $_GET["ruta"] == "nuevaplanillagratifivaca" ||
+         $_GET["ruta"] == "planillagratifivaca" ||
+         $_GET["ruta"] == "recibo" ||
+         $_GET["ruta"] == "kardex" ||
+         $_GET["ruta"] == "transancionkardex" ||
+         $_GET["ruta"] == "detalletransancionkardex" ||
+         $_GET["ruta"] == "historialkardex" ||
+         $_GET["ruta"] == "planillaadmin" ||
+         $_GET["ruta"] == "nuevaplanillaadmin" ||
+         $_GET["ruta"] == "fichapersonal" ||
+         $_GET["ruta"] == "generarcontratados" ||
+         $_GET["ruta"] == "reportecontratados" ||
+
+
+
+         
+
+
+         
+         
+
+         
+         
+         
          $_GET["ruta"] == "salir"){
 
         include "modulos/".$_GET["ruta"].".php";
@@ -610,6 +818,18 @@ CUERPO DOCUMENTO
 
 <script src="vistas/js/dias_feriados.js"></script>
 <script src="vistas/js/retiro.js"></script>
+<script src="vistas/js/vendedor.js"></script>
+<script src="vistas/js/detalleubicacion.js"></script>
+<script src="vistas/js/turnosubicacion.js"></script>
+<script src="vistas/js/comentario.js"></script>
+<script src="vistas/js/agenteubicacion.js"></script>
+<script src="vistas/js/devengoubicacion.js"></script>
+<script src="vistas/js/posicionubicacion.js"></script>
+<script src="vistas/js/transaccionagente.js"></script>
+<script src="vistas/js/tipohora.js"></script>
+<script src="vistas/js/coordinadorpatrulla.js"></script>
+<script src="vistas/js/vacante.js"></script>
+<script src="vistas/js/recibo.js"></script>
 
 
 <script>
@@ -640,6 +860,8 @@ $(function(){
         $('.mi-selector').select2();
     });
 
+  
+
     /* $(".calendario").attr("readonly","readonly"); */
 
     $(".calendario").keydown(function(e){
@@ -653,6 +875,22 @@ $(function(){
 
 
 });
+
+
+/* **********validar decimmal******** */
+var validNumber = new RegExp(/^\d*\.?\d*$/);
+var lastValid = document.getElementById("test1").value;
+function validateNumber(elem) {
+  if (validNumber.test(elem.value)) {
+    lastValid = elem.value;
+  } else {
+    elem.value = lastValid;
+  }
+}
+
+/* poner este en el input */
+/* oninput="validateNumber(this);" */
+/* ************************************ */
 </script>
 
 

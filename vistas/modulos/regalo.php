@@ -45,7 +45,7 @@ function getContent() {
               </button>
           </div>
           <div class="col-md-6" align="right">
-              <a href="empleados" class="btn btn-primary">Volver</a>
+              <a href="empleados" class="btn btn-danger">Volver</a>
           </div>
         </div>
 
@@ -153,13 +153,13 @@ MODAL AGREGAR
             <label for="">Seleccione Equipo</label>
             <div class="input-group ">
                 <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
-                <select name="nuevoregalo_prenda" id="" class="form-control input-lg" required>
+                <select name="nuevoregalo_prenda" id="nuevoregalo_prenda" class="form-control input-lg" required>
                   <option value="">Seleccione Equipo</option>
                 <?php
                     $datos_mostrar = Controladorequipos::ctrMostrar($item, $valor);
                     foreach ($datos_mostrar as $key => $value){
                 ?>
-                    <option value="<?php echo $value['codigo_equipo'] ?>"><?php echo $value["codigo_equipo"] ?></option>  
+                    <option value="<?php echo $value['codigo_equipo'] ?>" descripcion="<?php echo $value['descripcion'] ?>"><?php echo $value["codigo_equipo"] ?></option>  
                 <?php
                     }
                   ?>
@@ -273,7 +273,7 @@ MODAL EDITAR
                     $datos_mostrar = Controladorequipos::ctrMostrar($item, $valor);
                     foreach ($datos_mostrar as $key => $value){
                 ?>
-                    <option value="<?php echo $value['codigo_equipo'] ?>"><?php echo $value["codigo_equipo"] ?></option>  
+                    <option value="<?php echo $value['codigo_equipo'] ?>"  descripcion="<?php echo $value['descripcion'] ?>"> <?php echo $value["codigo_equipo"] ?></option>  
                 <?php
                     }
                   ?>

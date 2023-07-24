@@ -6,6 +6,11 @@ $(document).ready(function(){
 	$('.nits').mask('0000-000000-000-0', {reverse: true});
 	$('.nrcs').mask('0000000', {reverse: true});
 	$('.duis').mask('00000000-0', {reverse: true});
+	$('.horas').mask('0.0000', {reverse: true});
+	$('.nrcs').mask('00000-0', {reverse: true});
+	$('.tiempo').mask('00:00', {reverse: true});
+
+	
 
 
 

@@ -581,6 +581,13 @@
                         var newDate = dateNEW.split("-").reverse().join("-");
                         $(".editar_fecha_ingreso").val(newDate);
                     }
+                    else if(x=="fecha_adquisionbe"){
+                        var dateNEW = $('#editarfecha_adquisicion').val();
+                        /* alert(dateNEW); */
+
+                        var newDate = dateNEW.split("-").reverse().join("-");
+                        $(".fecha_adquisiondate").val(newDate);
+                    }
                     else if(x=="fechavence"){
                         
                     var dateNEW = $('#editarfecha_vencimiento').val();
