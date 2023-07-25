@@ -135,7 +135,16 @@ $dompdf = new DOMPDF();
 $dompdf->loadHtml(ob_get_clean());
 $dompdf->render();
 $pdf = $dompdf->output();
+$filename = "Reporte Anticipo.pdf";
+file_put_contents($filename, $pdf);
+/* $dompdf->stream($filename); */
+$dompdf->stream($filename, array("Attachment" => false));
+/* use Dompdf\Dompdf;
+$dompdf = new DOMPDF();
+$dompdf->loadHtml(ob_get_clean());
+$dompdf->render();
+$pdf = $dompdf->output();
 $filename = "ejemplo.pdf";
 file_put_contents($filename, $pdf);
-$dompdf->stream($filename);
+$dompdf->stream($filename); */
 ?>

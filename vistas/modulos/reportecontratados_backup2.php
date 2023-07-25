@@ -350,11 +350,14 @@ thead {
 
 <?php
 
+$filename = "vistas/modulos/reportecontratados.txt";
+$text = "";
 $fecha_actual = date("d/m/Y");
+
+
  /* ****CABEZA**** */
- 
- $styles0 = array( 'font-size'=>10,'font-style'=>'bold', 'widths'=>'100px');
- $styles1 = array( 'font-size'=>10,'font-style'=>'bold', 'halign'=>'center', 'halign'=>'center', 'border'=>'left,right,top,bottom', 'widths'=>'100');
+ $text .= str_pad("", 200)."  ".str_pad("*** INGRESOS/EGRESOS ***", 10 )."\n";
+ $text .= str_pad($fechadesde, 0)." ".str_pad($fechahasta, 198 )." ".str_pad("INGRESOS", 10 )."\n";
 
  $styles8 = array(['halign'=>'center'],['halign'=>'center'],['halign'=>'center'],['halign'=>'center'],['halign'=>'center'],['halign'=>'center'],['halign'=>'center'],['halign'=>'center'],['halign'=>'center'],['halign'=>'center'],['halign'=>'center'],['halign'=>'center'],['halign'=>'center'],['halign'=>'center'],['halign'=>'center'],['halign'=>'center'],['halign'=>'center'],['halign'=>'center'],['halign'=>'center'],['halign'=>'center'],['halign'=>'center']);
 
@@ -406,8 +409,8 @@ $fecha_actual = date("d/m/Y");
 );
 $header2 = array(
 );
-$header2[$fechadesde.' ']='string';
-$header2[$fechahasta.'  ']='string';
+$header2[$fechadesde]='string';
+$header2[$fechahasta]='string';
 $header2['                ']='string';
 $header2['              ']='string';
 $header2['            ']='string';
@@ -417,11 +420,14 @@ $header2['         ']='string';
 $header2['        ']='string';
 $header2['       ']='string';
 $header2['INGRESOS']='string';
+
 /* ************** */
 
+
+
 /* *******CUERPO***** */
-$writer = new XLSXWriter();                                            /*1,2, 3,  4 ,5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21*/  
-$writer->writeSheetHeader('Sheet1', $header0,$col_options = ['widths'=>[20,80,10,10,10,20,20,20,80,20,30,20,10,50,10,20,10,30,50,50,50]]);
+$writer = new XLSXWriter();
+$writer->writeSheetHeader('Sheet1', $header0,$col_options = ['widths'=>[20,20,10,10,10,10,10,10,10,10,30]]);
 $writer->writeSheetHeader('Sheet1', $header1,$styles8);
 $writer->writeSheetHeader('Sheet1', $header2,$styles8);
 
@@ -432,6 +438,8 @@ foreach($data_departamento as $row_departamento) {
     $header3 = array();
     $header3[$row_departamento["codigo"]]='string';
     $header3[$row_departamento["nombre"]]='string';
+
+        
     $header4 = array(
         'No.'=>'string',//text
         'NOMBRE'=>'string',//text
@@ -455,10 +463,39 @@ foreach($data_departamento as $row_departamento) {
         'CUENTA'=>'string',
         'MOTIVO'=>'string',
     );
-    $writer->writeSheetHeader('Sheet1', $header3,$styles1);
-    $writer->writeSheetHeader('Sheet1', $header4,$styles0);
+
+    $writer->writeSheetHeader('Sheet1', $header3, $col_options = ['widths'=>[10,20,30,40]]);
+    $writer->writeSheetHeader('Sheet1', $header4, $col_options = ['widths'=>[10,20,30,40]]);
 
 
+
+     $text .= str_pad("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", 30)."\n";
+     $text .= str_pad($row_departamento["codigo"], 0)."-".str_pad($row_departamento["nombre"], 10 )."\n";
+     $text .= str_pad("No.", 10)." ".
+              str_pad("NOMBRE", 50 )." ".
+              str_pad("SUELDO", 10 )." ".
+              str_pad("TRANSP. ", 10 )." ".
+              str_pad("U. ESP", 10 )." ".
+              str_pad("F.INGRESO", 20 )." ".
+              str_pad("F.CONT.", 20 )." ".
+              str_pad("F.RETIRO", 10 )." ".
+              str_pad("UBICACION", 60 )." ".
+              str_pad("F. UBICACION", 25 )." ".
+              str_pad("D.U.I", 20 )." ".
+              str_pad("NUP", 20 )." ".
+              str_pad("AFP", 20 )." ".
+              str_pad("TIPO DE EMPLEADO", 30 )." ".
+              str_pad("EDAD", 10 )." ".
+              str_pad("NACIMIENTO", 20 )." ".
+              str_pad("ISSS", 20 )." ".
+              str_pad("NIT", 20 )." ".
+              str_pad("BANCO", 20 )." ".
+              str_pad("CUENTA", 20 )." ".
+              str_pad("MOTIVO", 20 )."\n";
+
+     $text .= str_pad("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", 30)."\n";
+
+  
     $data_empleado;
     $iddepartamento=$row_departamento["id"];
     if($fechadesde=="" || $fechahasta=="")
@@ -470,7 +507,9 @@ foreach($data_departamento as $row_departamento) {
              $data_empleado = empleados_fecha($iddepartamento,$fechadesde,$fechahasta,$colum_reportado_a_pnc,$columna_tipoagente);
         }
 
+
     foreach($data_empleado as $row_empleado) {
+
         $data_ubicacion = ubicacion($row_empleado["codigo_empleado"]);
         $nombre_ubicacion="";
         $codigo_ubicacion="";
@@ -479,6 +518,7 @@ foreach($data_departamento as $row_departamento) {
          $nombre_ubicacion.=$row_ubicacion["nombre_ubicacion"];
          $codigo_ubicacion.=$row_ubicacion["codigo_cliente"];
          $bono_unidad_esp.=$row_ubicacion["bonos"];
+
         }
         if(empty($nombre_ubicacion)){
             $nombre_ubicacion="******";
@@ -491,11 +531,13 @@ foreach($data_departamento as $row_departamento) {
         if(empty($fecha_ubicacion)){
             $fecha_ubicacion="******";
         }
-        $data_devengo_descuentos = devengos($row_empleado["id"]);
-        $info_devengo="";
-        foreach($data_devengo_descuentos as $row_devengo) {
-                $info_devengo.=$row_devengo["valor"];
-        }
+
+
+                     $data_devengo_descuentos = devengos($row_empleado["id"]);
+                        $info_devengo="";
+                        foreach($data_devengo_descuentos as $row_devengo) {
+                         $info_devengo.=$row_devengo["valor"];
+                        }
 
         
         $data_cargos_desempenados = cargos_desempenados($row_empleado["nivel_cargo"]);
@@ -515,6 +557,8 @@ foreach($data_departamento as $row_departamento) {
         if(empty($banco)){
             $banco="******";
         }
+
+
         $data_devengo = tbl_empleados_devengos_descuentos($row_empleado["id"],'64');
         $sinuniforme="";
         foreach($data_devengo as $row_devengo) {
@@ -525,49 +569,39 @@ foreach($data_departamento as $row_departamento) {
         }else{
             $sinuniforme="/CON UNIFORME";
         }
+
+
+        
+
         $nacimiento = new DateTime($row_empleado["fecha_nacimiento"]);
         $ahora = new DateTime(date("Y-m-d"));
         $diferencia = $ahora->diff($nacimiento);
         $edad= $diferencia->format("%y");
-        /* variables */
-        $codigo_empleado =$row_empleado["codigo_empleado"];
-        $nombreempleado=$row_empleado["primer_nombre"]." ".$row_empleado["segundo_nombre"]." ".$row_empleado["tercer_nombre"]." ".$row_empleado["primer_apellido"]." ".$row_empleado["segundo_apellido"].$sinuniforme;
-        $sueldo_que_devenga =$row_empleado["sueldo_que_devenga"];
-        $fecha_ingreso=$row_empleado["fecha_ingreso"];
-        $fecha_contratacion=$row_empleado["fecha_contratacion"];
-        $numero_documento_identidad=$row_empleado["numero_documento_identidad"];
-        $nup =$row_empleado["nup"];
-        $codigo_afp =$row_empleado["codigo_afp"];
-        $fecha_nacimiento =$row_empleado["fecha_nacimiento"];
-        $numero_isss =$row_empleado["numero_isss"];
-        $nit =$row_empleado["nit"];
-        $numero_cuenta =$row_empleado["numero_cuenta"];
-        /* ********* */
 
-        $row_empleado = array();
-        $row_empleado[$codigo_empleado]='string';
-        $row_empleado[$nombreempleado]='string';
-        $row_empleado[$sueldo_que_devenga.' ']='string';
-        $row_empleado[$info_devengo]='string';
-        $row_empleado[$bono_unidad_esp.'  ']='string';
-        $row_empleado[$fecha_ingreso.' ']='string';
-        $row_empleado[$fecha_contratacion.'  ']='string';
-        $row_empleado["F.RETIRO"]='string';
-        $row_empleado[$nombre_ubicacion]='string';
-        $row_empleado[$fecha_ubicacion]='string';
-        $row_empleado[$numero_documento_identidad]='string';
-        $row_empleado[$nup]='string';
-        $row_empleado[$codigo_afp]='string';
-        $row_empleado[$nivel_cargo]='string';
-        $row_empleado[$edad]='string';
-        $row_empleado[$fecha_nacimiento]='string';
-        $row_empleado[$numero_isss]='string';
-        $row_empleado[$nit]='string';
-        $row_empleado[$banco]='string';
-        $row_empleado[$numero_cuenta]='string';
-        $row_empleado["MOTIVO"]='string';
-        $writer->writeSheetHeader('Sheet1', $row_empleado);
-    
+
+        $nombreempleado=$row_empleado["primer_nombre"]." ".$row_empleado["segundo_nombre"]." ".$row_empleado["tercer_nombre"]." ".$row_empleado["primer_apellido"]." ".$row_empleado["segundo_apellido"].$sinuniforme;
+
+        $text .= str_pad($row_empleado["codigo_empleado"], 10)." ".
+              str_pad($nombreempleado, 50 )." ".
+              str_pad($row_empleado["sueldo_que_devenga"], 10 )." ".
+              str_pad($info_devengo, 10 )." ".
+              str_pad($bono_unidad_esp, 10 )." ".
+              str_pad($row_empleado["fecha_ingreso"], 20 )." ".
+              str_pad($row_empleado["fecha_contratacion"], 20 )." ".
+              str_pad("F.RETIRO", 10 )." ".
+              str_pad($nombre_ubicacion, 60 )." ".
+              str_pad($fecha_ubicacion, 25 )." ".
+              str_pad($row_empleado["numero_documento_identidad"], 20 )." ".
+              str_pad($row_empleado["nup"], 20 )." ".
+              str_pad($row_empleado["codigo_afp"], 20 )." ".
+              str_pad($nivel_cargo, 30 )." ".
+              str_pad($edad, 10 )." ".
+              str_pad($row_empleado["fecha_nacimiento"], 20 )." ".
+              str_pad($row_empleado["numero_isss"], 20 )." ".
+              str_pad($row_empleado["nit"], 20 )." ".
+              str_pad($banco, 20 )." ".
+              str_pad($row_empleado["numero_cuenta"], 20 )." ".
+              str_pad("MOTIVO", 20 )."\n";
 
   }
 
@@ -577,6 +611,9 @@ foreach($data_departamento as $row_departamento) {
 
 $writer->writeToFile('vistas/modulos/Reporte_Contratados.xlsx');
 
+$fh = fopen($filename, "w") or die("Could not open log file.");
+fwrite($fh, $text) or die("Could not write file!");
+fclose($fh);
 ?>
 
         </div>
@@ -586,7 +623,6 @@ $writer->writeToFile('vistas/modulos/Reporte_Contratados.xlsx');
 
 <script>
     $(document).ready(function(){
-        
   //Código que se ejecutará al cargar la página
         $(".cargareporte").text("REPORTE GENERADO");
         $(".cargareporte").attr("style","color:green;");

@@ -932,7 +932,6 @@ $mes = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto"
                 </div>
 
                 <div style="height: 20px;"></div>
-
                 <!-- ************UNA HOJA************ -->
                 <?php } ?>
 

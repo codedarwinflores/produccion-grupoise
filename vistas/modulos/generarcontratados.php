@@ -74,8 +74,14 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
                                     <select name="empleados" class="form-control mi-selector" >
                                         <option value="*"> Seleccionar Empleados</option>
                                         <?php
-                                            $data = agente();
-                                            foreach($data as $value) {
+                                         function empleados() {
+                                             $query = "SELECT * FROM `tbl_empleados`order by id ASC";
+                                             $sql = Conexion::conectar()->prepare($query);
+                                             $sql->execute();			
+                                             return $sql->fetchAll();
+                                             };
+                                             $data_empleado = empleados();
+                                             foreach($data_empleado as $value) {
                                             echo "<option value=".$value["id"].">".$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["primer_apellido"]."</option>";
                                             }
                                         ?>
