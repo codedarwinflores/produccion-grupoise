@@ -33,28 +33,17 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
             <a href="fichadactilar" class="btn btn-danger">Imprimir dactilar</a>
             <a href="fichapersonal" class="btn btn-info">Imprimir Ficha Personal</a>
             <a href="generarcontratados" class="btn btn-warning">Imprimir Contratados</a>
-            <!-- AGREGAR BOTON DE IMPRIMIR -->
 
-            <div class="dropdown" style="display: inline-block;">
-              <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                <i class="fa fa-file-excel-o"></i>
-                <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu " aria-labelledby="dropdownMenu1">
-                <li><a href="javascript:();" onclick="imprimir('xlsx')"><i class="bg-success fa fa-file-excel-o"></i> .xlsx</a></li>
-                <li><a href="javascript:();" onclick="imprimir('xls')"><i class="bg-success fa fa-file-excel-o"></i> .xls</a></li>
-                <li><a href="javascript:();" onclick="imprimir('csv')"><i class="bg-success fa fa-file-excel-o"></i> .csv</a></li>
-
-              </ul>
-            </div>
 
           </div>
         </div>
       </div>
 
       <div class="box-body">
-
-        <table class="table table-bordered table-striped dt-responsive tablas" width="100%">
+        <!-- <div id="respuesta"></div>
+        <div id="tableEmpleadoTodos">
+        </div> -->
+        <table class="table table-bordered table-striped dt-responsive tablas" id="example" width="100%">
 
           <thead>
 
@@ -63,7 +52,7 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
               <th style="width:10px">#</th>
               <th>Foto</th>
               <th>Nombre completo</th>
-
+              <th>Nivel</th>
               <th>Documento</th>
 
               <th>Estado</th>
@@ -80,55 +69,62 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
             $item = null;
             $valor = null;
 
-            $empleados = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
 
+
+
+            $empleados = ModeloEmpleados::mdlMostrarEmpleados("tbl_empleados", $item, $valor);
+            $badge = "dark";
             foreach ($empleados as $key => $value) {
 
               //REPRESENTANDO EL ESTADO DEBERIA SER DESDE XML
               if ($value["estado"] == 1) {
                 $nombreEstado = "Solicitud";
+                $badge = "dark";
               } else if ($value["estado"] == 2) {
                 $nombreEstado = "Contratado";
+                $badge = "success";
               } else if ($value["estado"] == 3) {
                 $nombreEstado = "Inactivo";
+                $badge = "danger";
               } else if ($value["estado"] == 4) {
                 $nombreEstado = "Incapacitado";
+                $badge = "warning";
               } else {
                 $nombreEstado = "Error";
+                $badge = "defaul";
               }
 
-              if ($value["estado"] == 3) {
-
-                echo "inactivo";
-              } else {
 
 
-                /* ******* */
-                echo ' <tr>
+
+              /* ******* */
+              echo ' <tr>
 
                   <td>' . ($key + 1) . '</td>';
 
 
-                if ($value["fotografia"] != "") {
-                  echo '<td><img src="' . $value["fotografia"] . '" class="img-thumbnail" width="40px"></td>';
-                } else {
-                  echo '<td><img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail" width="40px"></td>';
-                }
+              if ($value["fotografia"] != "") {
+                echo '<td><img src="' . $value["fotografia"] . '" class="img-thumbnail" width="40px"></td>';
+              } else {
+                echo '<td><img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail" width="40px"></td>';
+              }
 
-                echo '<td>' . $value["codigo_empleado"] . '-' . $value["primer_nombre"] . ' ' . $value["segundo_nombre"] . ' ' . $value["tercer_nombre"] . ' ' . $value["primer_apellido"] . ' ' . $value["segundo_apellido"] . ' ' . $value["apellido_casada"] . '</td>';
-
-
-
-
-                echo '<td>' . $value["documento_identidad"] . ': ' . $value["numero_documento_identidad"] . '</td>';
+              echo '<td>' . $value["codigo_empleado"] . '-' . $value["primer_nombre"] . ' ' . $value["segundo_nombre"] . ' ' . $value["tercer_nombre"] . ' ' . $value["primer_apellido"] . ' ' . $value["segundo_apellido"] . ' ' . $value["apellido_casada"] . '</td>';
 
 
 
+              echo '<td>' . $value["nivel_cargo"] . '</td>';
+
+              echo '<td>' . $value["documento_identidad"] . ': ' . $value["numero_documento_identidad"] . '</td>';
 
 
-                echo '<td>' . $nombreEstado . '</td>';
 
-                echo '
+
+
+
+              echo '<td><label class="badge btn-' . $badge . '">' . $nombreEstado . '</label></td>';
+
+              echo '
                   <td>
                   
                  
@@ -137,17 +133,6 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
                       <button class="btn btn-warning btnEditarEmpleado"  idEmpleado="' . $value["id"] . '" ><i class="fa fa-pencil"></i></button>         
                   
                       <button class="btn btn-danger btnEliminarEmpleado" idEmpleado="' . $value["id"] . '" fotoEmpleado="' . $value["fotografia"] . '" empleado="' . $value["numero_documento_identidad"] . '"><i class="fa fa-times"></i></button>
-
-
-                  
-                    
-
-                     
-                     
-                      
-                      
-                      
-                      
 
 
                     </div> 
@@ -204,9 +189,9 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
 
                 </tr>';
 
-                /* ******* */
-              }
+              /* ******* */
             }
+
 
 
             ?>
@@ -214,6 +199,7 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
           </tbody>
 
         </table>
+
 
       </div>
 
@@ -2769,11 +2755,7 @@ MODAL SEMINARIO
   $borrarEmpleado->ctrBorrarEmpleado();
 
   ?>
-  <script>
-    function imprimir(param) {
-      window.open('./vistas/modulos/reportesexcel/reporteempleado.php?typeReport=' + param, '_self');
-    }
-  </script>
+
 
   <script src="vistas/js/validarempleado.js"></script>
   <script src="vistas/js/cargardevengos.js"></script>

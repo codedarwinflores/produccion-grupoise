@@ -2,59 +2,81 @@
 
 require_once "conexion.php";
 
-class ModeloEmpleados{
+class ModeloEmpleados
+{
+
+
+	/* AGREGAR CONSULTAS PERSONALIZADAS */
+
+	/* Función para mostrar los empleados */
+	static public function mostrarEmpleadoDb($campos, $tabla, $condicion, $array)
+	{
+		try {
+			if (empty($condicion)) {
+				$stm = Conexion::conectar()->prepare("SELECT " . $campos . " FROM " . $tabla);
+				$stm->execute();
+			} else {
+				$stm = Conexion::conectar()->prepare("SELECT " . $campos . " FROM " . $tabla . " WHERE " . $condicion);
+				$stm->execute($array);
+			}
+
+			return $stm->fetchAll(PDO::FETCH_ASSOC);
+		} catch (Exception $e) {
+			die($e->getMessage());
+		}
+	}
 
 	/*=============================================
 	MOSTRAR EMPLEADOS
 	=============================================*/
 
-	static public function mdlMostrarEmpleados($tabla, $item, $valor){
+	static public function mdlMostrarEmpleados($tabla, $item, $valor)
+	{
 
-		if($item != null){
+		if ($item != null) {
 
 			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
 
-			$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
+			$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 
-			$stmt -> execute();
+			$stmt->execute();
 
-			return $stmt -> fetch();
-
-		}else{
+			return $stmt->fetch();
+		} else {
 
 			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
 
-			$stmt -> execute();
+			$stmt->execute();
 
-			return $stmt -> fetchAll();
-
+			return $stmt->fetchAll();
 		}
-		
 
-		$stmt -> close();
+
+		$stmt->close();
 
 		$stmt = null;
-
 	}
 
 	/*=============================================
 	REGISTRO DE EMPLEADOS
 	=============================================*/
 
-	
-	function getContent() {
+
+	function getContent()
+	{
 
 		$query = "SHOW COLUMNS FROM tbl_empleados";
 		$stmt = Conexion::conectar()->prepare($query);
-		$stmt->execute();			
+		$stmt->execute();
 		return $stmt->fetchAll();
-		
+
 		$stmt->close();
-		
+
 		$stmt = null;
 	}
 
-	static public function mdlIngresarEmpleado($tabla, $datos){
+	static public function mdlIngresarEmpleado($tabla, $datos)
+	{
 
 		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (primer_nombre, segundo_nombre, tercer_nombre, primer_apellido, segundo_apellido, apellido_casada, estado_civil, sexo, direccion, id_departamento, id_municipio, documento_identidad, numero_documento_identidad, telefono, numero_isss, nombre_segun_isss, lugar_expedicion_documento, fecha_expedicion_documento, fecha_vencimiento_documento, licencia_conducir, tipo_licencia_conducir, nit, imagen_nit, codigo_afp, nup, profesion_oficio, nacionalidad, lugar_nacimiento, fecha_nacimiento, religion, grado_estudio, plantel, peso, estatura, piel, ojos, cabello, cara, tipo_sangre, senales_especiales, licencia_tenencia_armas, numero_licencia_tenencia_armas, imagen_licencia_tenencia_armas, servicio_militar, fecha_servicio_inicio, fecha_servicio_fin, lugar_servicio, grado_militar, motivo_baja, ex_pnc, curso_ansp, imagen_diploma_ansp, trabajo_anterior, sueldo_que_devengo, trabajo_actual, sueldo_que_devenga, suspendido_trabajo_anterior, empresa_suspendio, motivo_suspension, fecha_suspension, experiencia_laboral, razon_trabajar_en_ise, numero_personas_dependientes, observaciones, telefono_trabajo_anterior, telefono_trabajo_actual, referencia_anterior, evaluacion_anterior, referencia_actual, evaluacion_actual, info_verificada, imagen_solicitud, imagen_antecedentes_penales, fecha_vencimiento_antecedentes_penales, imagen_solvencia_pnc, fecha_vencimiento_solvencia_pnc, imagen_huellas, confiable, estado, nivel_cargo, fotografia, imagen_documento_identidad, pantalon_empleado, camisa_empleado, zapatos_empleado, recomendado_empleado, contacto_empleado, documentacion_empleado, ansp_empleado, uniformeregalado_empleado, fecha_vencimiento_lpa, constancia_psicologica, nombre_psicologo, fecha_curso_ansp,numero_aprobacion_ansp, examen_poligrafico, Fecha_poligrafico, antecedente_policial, luaf, imagenlpa, carnetafp, fotoisss, fotoansp, fecha_ingreso, fecha_contratacion, id_departamento_empresa, periodo_pago, horas_normales_trabajo, sueldo, sueldo_diario, salario_por_hora, hora_extra_diurna, hora_extra_nocturna, hora_extra_domingo, hora_extra_nocturna_domingo, id_tipo_portacion, descontar_isss, descontar_afp, id_tipo_planilla, id_banco, numero_cuenta, anticipo, reportado_a_pnc, tipo_empleado, id_jefe_operaciones, idconfiguracion,pensionado_empleado ) VALUES ( :primer_nombre, :segundo_nombre, :tercer_nombre, :primer_apellido, :segundo_apellido, :apellido_casada, :estado_civil, :sexo, :direccion, :id_departamento, :id_municipio, :documento_identidad, :numero_documento_identidad, :telefono, :numero_isss, :nombre_segun_isss, :lugar_expedicion_documento, :fecha_expedicion_documento, :fecha_vencimiento_documento, :licencia_conducir, :tipo_licencia_conducir, :nit, :imagen_nit, :codigo_afp, :nup, :profesion_oficio, :nacionalidad, :lugar_nacimiento, :fecha_nacimiento, :religion, :grado_estudio, :plantel, :peso, :estatura, :piel, :ojos, :cabello, :cara, :tipo_sangre, :senales_especiales, :licencia_tenencia_armas, :numero_licencia_tenencia_armas, :imagen_licencia_tenencia_armas, :servicio_militar, :fecha_servicio_inicio, :fecha_servicio_fin, :lugar_servicio, :grado_militar, :motivo_baja, :ex_pnc, :curso_ansp, :imagen_diploma_ansp, :trabajo_anterior, :sueldo_que_devengo, :trabajo_actual, :sueldo_que_devenga, :suspendido_trabajo_anterior, :empresa_suspendio, :motivo_suspension, :fecha_suspension, :experiencia_laboral, :razon_trabajar_en_ise, :numero_personas_dependientes, :observaciones, :telefono_trabajo_anterior, :telefono_trabajo_actual, :referencia_anterior, :evaluacion_anterior, :referencia_actual, :evaluacion_actual, :info_verificada, :imagen_solicitud, :imagen_antecedentes_penales, :fecha_vencimiento_antecedentes_penales, :imagen_solvencia_pnc, :fecha_vencimiento_solvencia_pnc, :imagen_huellas, :confiable, :estado, :nivel_cargo, :fotografia, :imagen_documento_identidad, :pantalon_empleado, :camisa_empleado, :zapatos_empleado, :recomendado_empleado, :contacto_empleado, :documentacion_empleado, :ansp_empleado, :uniformeregalado_empleado, :fecha_vencimiento_lpa,:constancia_psicologica,:nombre_psicologo, :fecha_curso_ansp,:numero_aprobacion_ansp, :examen_poligrafico, :Fecha_poligrafico, :antecedente_policial, :luaf, :imagenlpa, :carnetafp, :fotoisss, :fotoansp, :fecha_ingreso, :fecha_contratacion, :id_departamento_empresa, :periodo_pago, :horas_normales_trabajo, :sueldo, :sueldo_diario, :salario_por_hora, :hora_extra_diurna, :hora_extra_nocturna, :hora_extra_domingo, :hora_extra_nocturna_domingo, :id_tipo_portacion, :descontar_isss, :descontar_afp, :id_tipo_planilla, :id_banco, :numero_cuenta, :anticipo, :reportado_a_pnc, :tipo_empleado, :id_jefe_operaciones, :idconfiguracion,:pensionado_empleado)");
 
@@ -74,14 +96,14 @@ class ModeloEmpleados{
 		$stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
 		$stmt->bindParam(":numero_isss", $datos["numero_isss"], PDO::PARAM_STR);
 		$stmt->bindParam(":nombre_segun_isss", $datos["nombre_segun_isss"], PDO::PARAM_STR);
-		$stmt->bindParam(":lugar_expedicion_documento", $datos["lugar_expedicion_documento"], PDO::PARAM_STR);		
-		$stmt->bindParam(":fecha_expedicion_documento", $datos["fecha_expedicion_documento"], PDO::PARAM_STR);		
+		$stmt->bindParam(":lugar_expedicion_documento", $datos["lugar_expedicion_documento"], PDO::PARAM_STR);
+		$stmt->bindParam(":fecha_expedicion_documento", $datos["fecha_expedicion_documento"], PDO::PARAM_STR);
 		$stmt->bindParam(":fecha_vencimiento_documento", $datos["fecha_vencimiento_documento"], PDO::PARAM_STR);
 		$stmt->bindParam(":licencia_conducir", $datos["licencia_conducir"], PDO::PARAM_STR);
 		$stmt->bindParam(":tipo_licencia_conducir", $datos["tipo_licencia_conducir"], PDO::PARAM_STR);
-/* 		$stmt->bindParam(":imagen_licencia_conducir", $datos["imagen_licencia_conducir"], PDO::PARAM_STR); */
+		/* 		$stmt->bindParam(":imagen_licencia_conducir", $datos["imagen_licencia_conducir"], PDO::PARAM_STR); */
 		$stmt->bindParam(":nit", $datos["nit"], PDO::PARAM_STR);
-		$stmt->bindParam(":imagen_nit", $datos["imagen_nit"], PDO::PARAM_STR);		
+		$stmt->bindParam(":imagen_nit", $datos["imagen_nit"], PDO::PARAM_STR);
 		$stmt->bindParam(":codigo_afp", $datos["codigo_afp"], PDO::PARAM_STR);
 		$stmt->bindParam(":nup", $datos["nup"], PDO::PARAM_STR);
 		$stmt->bindParam(":profesion_oficio", $datos["profesion_oficio"], PDO::PARAM_STR);
@@ -102,7 +124,7 @@ class ModeloEmpleados{
 		$stmt->bindParam(":licencia_tenencia_armas", $datos["licencia_tenencia_armas"], PDO::PARAM_STR);
 		$stmt->bindParam(":numero_licencia_tenencia_armas", $datos["numero_licencia_tenencia_armas"], PDO::PARAM_STR);
 		$stmt->bindParam(":imagen_licencia_tenencia_armas", $datos["imagen_licencia_tenencia_armas"], PDO::PARAM_STR);
-		$stmt->bindParam(":servicio_militar", $datos["servicio_militar"], PDO::PARAM_STR);		
+		$stmt->bindParam(":servicio_militar", $datos["servicio_militar"], PDO::PARAM_STR);
 		$stmt->bindParam(":fecha_servicio_inicio", $datos["fecha_servicio_inicio"], PDO::PARAM_STR);
 		$stmt->bindParam(":fecha_servicio_fin", $datos["fecha_servicio_fin"], PDO::PARAM_STR);
 		$stmt->bindParam(":lugar_servicio", $datos["lugar_servicio"], PDO::PARAM_STR);
@@ -117,7 +139,7 @@ class ModeloEmpleados{
 		$stmt->bindParam(":sueldo_que_devenga", $datos["sueldo_que_devenga"], PDO::PARAM_STR);
 		$stmt->bindParam(":suspendido_trabajo_anterior", $datos["suspendido_trabajo_anterior"], PDO::PARAM_STR);
 		$stmt->bindParam(":empresa_suspendio", $datos["empresa_suspendio"], PDO::PARAM_STR);
-		$stmt->bindParam(":motivo_suspension", $datos["motivo_suspension"], PDO::PARAM_STR);		
+		$stmt->bindParam(":motivo_suspension", $datos["motivo_suspension"], PDO::PARAM_STR);
 		$stmt->bindParam(":fecha_suspension", $datos["fecha_suspension"], PDO::PARAM_STR);
 		$stmt->bindParam(":experiencia_laboral", $datos["experiencia_laboral"], PDO::PARAM_STR);
 		$stmt->bindParam(":razon_trabajar_en_ise", $datos["razon_trabajar_en_ise"], PDO::PARAM_STR);
@@ -129,21 +151,21 @@ class ModeloEmpleados{
 		$stmt->bindParam(":evaluacion_anterior", $datos["evaluacion_anterior"], PDO::PARAM_STR);
 		$stmt->bindParam(":referencia_actual", $datos["referencia_actual"], PDO::PARAM_STR);
 		$stmt->bindParam(":evaluacion_actual", $datos["evaluacion_actual"], PDO::PARAM_STR);
-		$stmt->bindParam(":info_verificada", $datos["info_verificada"], PDO::PARAM_STR); 
-		$stmt->bindParam(":imagen_solicitud", $datos["imagen_solicitud"], PDO::PARAM_STR);		
-/* 		$stmt->bindParam(":imagen_partida_nacimiento", $datos["imagen_partida_nacimiento"], PDO::PARAM_STR); */		
-		$stmt->bindParam(":imagen_antecedentes_penales", $datos["imagen_antecedentes_penales"], PDO::PARAM_STR);		
-		$stmt->bindParam(":fecha_vencimiento_antecedentes_penales", $datos["fecha_vencimiento_antecedentes_penales"], PDO::PARAM_STR);		
-		$stmt->bindParam(":imagen_solvencia_pnc", $datos["imagen_solvencia_pnc"], PDO::PARAM_STR);				
-		$stmt->bindParam(":fecha_vencimiento_solvencia_pnc", $datos["fecha_vencimiento_solvencia_pnc"], PDO::PARAM_STR);	
-		/* $stmt->bindParam(":imagen_constancia_psicologica", $datos["imagen_constancia_psicologica"], PDO::PARAM_STR); */		
-	/* 	$stmt->bindParam(":imagen_examen_poligrafico", $datos["imagen_examen_poligrafico"], PDO::PARAM_STR);	 */	
+		$stmt->bindParam(":info_verificada", $datos["info_verificada"], PDO::PARAM_STR);
+		$stmt->bindParam(":imagen_solicitud", $datos["imagen_solicitud"], PDO::PARAM_STR);
+		/* 		$stmt->bindParam(":imagen_partida_nacimiento", $datos["imagen_partida_nacimiento"], PDO::PARAM_STR); */
+		$stmt->bindParam(":imagen_antecedentes_penales", $datos["imagen_antecedentes_penales"], PDO::PARAM_STR);
+		$stmt->bindParam(":fecha_vencimiento_antecedentes_penales", $datos["fecha_vencimiento_antecedentes_penales"], PDO::PARAM_STR);
+		$stmt->bindParam(":imagen_solvencia_pnc", $datos["imagen_solvencia_pnc"], PDO::PARAM_STR);
+		$stmt->bindParam(":fecha_vencimiento_solvencia_pnc", $datos["fecha_vencimiento_solvencia_pnc"], PDO::PARAM_STR);
+		/* $stmt->bindParam(":imagen_constancia_psicologica", $datos["imagen_constancia_psicologica"], PDO::PARAM_STR); */
+		/* 	$stmt->bindParam(":imagen_examen_poligrafico", $datos["imagen_examen_poligrafico"], PDO::PARAM_STR);	 */
 		$stmt->bindParam(":imagen_huellas", $datos["imagen_huellas"], PDO::PARAM_STR);
 		$stmt->bindParam(":confiable", $datos["confiable"], PDO::PARAM_STR);
 		$stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
 		$stmt->bindParam(":nivel_cargo", $datos["nivel_cargo"], PDO::PARAM_STR);
 		$stmt->bindParam(":fotografia", $datos["fotografia"], PDO::PARAM_STR);
-		$stmt -> bindParam(":imagen_documento_identidad", $datos["imagen_documento_identidad"], PDO::PARAM_STR);
+		$stmt->bindParam(":imagen_documento_identidad", $datos["imagen_documento_identidad"], PDO::PARAM_STR);
 		$stmt->bindParam(":pantalon_empleado", $datos["pantalon_empleado"], PDO::PARAM_STR);
 		$stmt->bindParam(":camisa_empleado", $datos["camisa_empleado"], PDO::PARAM_STR);
 		$stmt->bindParam(":zapatos_empleado", $datos["zapatos_empleado"], PDO::PARAM_STR);
@@ -196,36 +218,35 @@ class ModeloEmpleados{
 
 
 
-		
 
 
-		if($stmt->execute()){
-			
+
+		if ($stmt->execute()) {
+
 
 			print_r($datos);
 
 
-			return print_r($datos);	
-
-		}else{
+			return print_r($datos);
+		} else {
 			print_r($stmt->errorInfo());
 			return $stmt;
-		
 		}
 
 		$stmt->close();
-		
-		$stmt = null;
 
+		$stmt = null;
 	}
 
 	/*=============================================
 	EDITAR EMPLEADO
 	=============================================*/
 
-	static public function mdlEditarEmpleado($tabla, $datos){
-	
-		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET 
+	static public function mdlEditarEmpleado($tabla, $datos)
+	{
+
+		$stmt = Conexion::conectar()->prepare(
+			"UPDATE $tabla SET 
         primer_nombre = :primer_nombre,
 		segundo_nombre = :segundo_nombre,
 		tercer_nombre = :tercer_nombre,
@@ -360,29 +381,29 @@ class ModeloEmpleados{
 		pensionado_empleado =:pensionado_empleado
 
         WHERE id = :id"
-        );
+		);
 
-		$stmt -> bindParam(":primer_nombre", $datos["primer_nombre"], PDO::PARAM_STR);
-		$stmt -> bindParam(":segundo_nombre", $datos["segundo_nombre"], PDO::PARAM_STR);
-		$stmt -> bindParam(":tercer_nombre", $datos["tercer_nombre"], PDO::PARAM_STR);
-		$stmt -> bindParam(":primer_apellido", $datos["primer_apellido"], PDO::PARAM_STR);
-		$stmt -> bindParam(":segundo_apellido", $datos["segundo_apellido"], PDO::PARAM_STR);
-		$stmt -> bindParam(":apellido_casada", $datos["apellido_casada"], PDO::PARAM_STR);
-		$stmt -> bindParam(":estado_civil", $datos["estado_civil"], PDO::PARAM_STR);
-		$stmt -> bindParam(":sexo", $datos["sexo"], PDO::PARAM_STR);
-		$stmt -> bindParam(":direccion", $datos["direccion"], PDO::PARAM_STR);
+		$stmt->bindParam(":primer_nombre", $datos["primer_nombre"], PDO::PARAM_STR);
+		$stmt->bindParam(":segundo_nombre", $datos["segundo_nombre"], PDO::PARAM_STR);
+		$stmt->bindParam(":tercer_nombre", $datos["tercer_nombre"], PDO::PARAM_STR);
+		$stmt->bindParam(":primer_apellido", $datos["primer_apellido"], PDO::PARAM_STR);
+		$stmt->bindParam(":segundo_apellido", $datos["segundo_apellido"], PDO::PARAM_STR);
+		$stmt->bindParam(":apellido_casada", $datos["apellido_casada"], PDO::PARAM_STR);
+		$stmt->bindParam(":estado_civil", $datos["estado_civil"], PDO::PARAM_STR);
+		$stmt->bindParam(":sexo", $datos["sexo"], PDO::PARAM_STR);
+		$stmt->bindParam(":direccion", $datos["direccion"], PDO::PARAM_STR);
 		$stmt->bindParam(":id_departamento", $datos["id_departamento"], PDO::PARAM_INT);
 		$stmt->bindParam(":id_municipio", $datos["id_municipio"], PDO::PARAM_INT);
-		$stmt -> bindParam(":documento_identidad", $datos["documento_identidad"], PDO::PARAM_STR);
-		$stmt -> bindParam(":numero_documento_identidad", $datos["numero_documento_identidad"], PDO::PARAM_STR);
+		$stmt->bindParam(":documento_identidad", $datos["documento_identidad"], PDO::PARAM_STR);
+		$stmt->bindParam(":numero_documento_identidad", $datos["numero_documento_identidad"], PDO::PARAM_STR);
 		$stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
 		$stmt->bindParam(":numero_isss", $datos["numero_isss"], PDO::PARAM_STR);
 		$stmt->bindParam(":nombre_segun_isss", $datos["nombre_segun_isss"], PDO::PARAM_STR);
-		$stmt->bindParam(":lugar_expedicion_documento", $datos["lugar_expedicion_documento"], PDO::PARAM_STR);		
-		$stmt->bindParam(":fecha_expedicion_documento", $datos["fecha_expedicion_documento"], PDO::PARAM_STR);		
+		$stmt->bindParam(":lugar_expedicion_documento", $datos["lugar_expedicion_documento"], PDO::PARAM_STR);
+		$stmt->bindParam(":fecha_expedicion_documento", $datos["fecha_expedicion_documento"], PDO::PARAM_STR);
 		$stmt->bindParam(":fecha_vencimiento_documento", $datos["fecha_vencimiento_documento"], PDO::PARAM_STR);
 		$stmt->bindParam(":licencia_conducir", $datos["licencia_conducir"], PDO::PARAM_STR);
-		$stmt->bindParam(":tipo_licencia_conducir", $datos["tipo_licencia_conducir"], PDO::PARAM_STR); 
+		$stmt->bindParam(":tipo_licencia_conducir", $datos["tipo_licencia_conducir"], PDO::PARAM_STR);
 		/* $stmt->bindParam(":imagen_licencia_conducir", $datos["imagen_licencia_conducir"], PDO::PARAM_STR); */
 		$stmt->bindParam(":nit", $datos["nit"], PDO::PARAM_STR);
 		$stmt->bindParam(":imagen_nit", $datos["imagen_nit"], PDO::PARAM_STR);
@@ -390,7 +411,7 @@ class ModeloEmpleados{
 		$stmt->bindParam(":nup", $datos["nup"], PDO::PARAM_STR);
 		$stmt->bindParam(":profesion_oficio", $datos["profesion_oficio"], PDO::PARAM_STR);
 		$stmt->bindParam(":nacionalidad", $datos["nacionalidad"], PDO::PARAM_STR);
-		$stmt->bindParam(":lugar_nacimiento", $datos["lugar_nacimiento"], PDO::PARAM_STR);		
+		$stmt->bindParam(":lugar_nacimiento", $datos["lugar_nacimiento"], PDO::PARAM_STR);
 		$stmt->bindParam(":fecha_nacimiento", $datos["fecha_nacimiento"], PDO::PARAM_STR);
 		$stmt->bindParam(":religion", $datos["religion"], PDO::PARAM_STR);
 		$stmt->bindParam(":grado_estudio", $datos["grado_estudio"], PDO::PARAM_STR);
@@ -404,7 +425,7 @@ class ModeloEmpleados{
 		$stmt->bindParam(":tipo_sangre", $datos["tipo_sangre"], PDO::PARAM_STR);
 		$stmt->bindParam(":senales_especiales", $datos["senales_especiales"], PDO::PARAM_STR);
 		$stmt->bindParam(":licencia_tenencia_armas", $datos["licencia_tenencia_armas"], PDO::PARAM_STR);
-		$stmt->bindParam(":numero_licencia_tenencia_armas", $datos["numero_licencia_tenencia_armas"], PDO::PARAM_STR); 
+		$stmt->bindParam(":numero_licencia_tenencia_armas", $datos["numero_licencia_tenencia_armas"], PDO::PARAM_STR);
 		$stmt->bindParam(":imagen_licencia_tenencia_armas", $datos["imagen_licencia_tenencia_armas"], PDO::PARAM_STR);
 		$stmt->bindParam(":servicio_militar", $datos["servicio_militar"], PDO::PARAM_STR);
 		$stmt->bindParam(":fecha_servicio_inicio", $datos["fecha_servicio_inicio"], PDO::PARAM_STR);
@@ -433,21 +454,21 @@ class ModeloEmpleados{
 		$stmt->bindParam(":evaluacion_anterior", $datos["evaluacion_anterior"], PDO::PARAM_STR);
 		$stmt->bindParam(":referencia_actual", $datos["referencia_actual"], PDO::PARAM_STR);
 		$stmt->bindParam(":evaluacion_actual", $datos["evaluacion_actual"], PDO::PARAM_STR);
-		$stmt->bindParam(":info_verificada", $datos["info_verificada"], PDO::PARAM_STR);		
-		$stmt->bindParam(":imagen_solicitud", $datos["imagen_solicitud"], PDO::PARAM_STR);		
-		/* $stmt->bindParam(":imagen_partida_nacimiento", $datos["imagen_partida_nacimiento"], PDO::PARAM_STR); */		
+		$stmt->bindParam(":info_verificada", $datos["info_verificada"], PDO::PARAM_STR);
+		$stmt->bindParam(":imagen_solicitud", $datos["imagen_solicitud"], PDO::PARAM_STR);
+		/* $stmt->bindParam(":imagen_partida_nacimiento", $datos["imagen_partida_nacimiento"], PDO::PARAM_STR); */
 		$stmt->bindParam(":imagen_antecedentes_penales", $datos["imagen_antecedentes_penales"], PDO::PARAM_STR);
-		$stmt->bindParam(":fecha_vencimiento_antecedentes_penales", $datos["fecha_vencimiento_antecedentes_penales"], PDO::PARAM_STR);				
-		$stmt->bindParam(":imagen_solvencia_pnc", $datos["imagen_solvencia_pnc"], PDO::PARAM_STR);	
-		$stmt->bindParam(":fecha_vencimiento_solvencia_pnc", $datos["fecha_vencimiento_solvencia_pnc"], PDO::PARAM_STR);	
-		/* $stmt->bindParam(":imagen_constancia_psicologica", $datos["imagen_constancia_psicologica"], PDO::PARAM_STR); */		
-/* 		$stmt->bindParam(":imagen_examen_poligrafico", $datos["imagen_examen_poligrafico"], PDO::PARAM_STR);	 */	
+		$stmt->bindParam(":fecha_vencimiento_antecedentes_penales", $datos["fecha_vencimiento_antecedentes_penales"], PDO::PARAM_STR);
+		$stmt->bindParam(":imagen_solvencia_pnc", $datos["imagen_solvencia_pnc"], PDO::PARAM_STR);
+		$stmt->bindParam(":fecha_vencimiento_solvencia_pnc", $datos["fecha_vencimiento_solvencia_pnc"], PDO::PARAM_STR);
+		/* $stmt->bindParam(":imagen_constancia_psicologica", $datos["imagen_constancia_psicologica"], PDO::PARAM_STR); */
+		/* 		$stmt->bindParam(":imagen_examen_poligrafico", $datos["imagen_examen_poligrafico"], PDO::PARAM_STR);	 */
 		$stmt->bindParam(":imagen_huellas", $datos["imagen_huellas"], PDO::PARAM_STR);
 		$stmt->bindParam(":confiable", $datos["confiable"], PDO::PARAM_STR);
-		$stmt -> bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
+		$stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
 		$stmt->bindParam(":nivel_cargo", $datos["nivel_cargo"], PDO::PARAM_STR);
-        $stmt -> bindParam(":fotografia", $datos["fotografia"], PDO::PARAM_STR);
-		$stmt -> bindParam(":imagen_documento_identidad", $datos["imagen_documento_identidad"], PDO::PARAM_STR);
+		$stmt->bindParam(":fotografia", $datos["fotografia"], PDO::PARAM_STR);
+		$stmt->bindParam(":imagen_documento_identidad", $datos["imagen_documento_identidad"], PDO::PARAM_STR);
 		$stmt->bindParam(":pantalon_empleado", $datos["pantalon_empleado"], PDO::PARAM_STR);
 		$stmt->bindParam(":camisa_empleado", $datos["camisa_empleado"], PDO::PARAM_STR);
 		$stmt->bindParam(":zapatos_empleado", $datos["zapatos_empleado"], PDO::PARAM_STR);
@@ -470,114 +491,105 @@ class ModeloEmpleados{
 		$stmt->bindParam(":hora_extra_nocturna_domingo", $datos["hora_extra_nocturna_domingo"], PDO::PARAM_STR);
 		$stmt->bindParam(":id_tipo_portacion", $datos["id_tipo_portacion"], PDO::PARAM_INT);
 		$stmt->bindParam(":descontar_isss", $datos["descontar_isss"], PDO::PARAM_STR);
-		$stmt->bindParam(":descontar_afp", $datos["descontar_afp"], PDO::PARAM_STR); 
+		$stmt->bindParam(":descontar_afp", $datos["descontar_afp"], PDO::PARAM_STR);
 		$stmt->bindParam(":id_tipo_planilla", $datos["id_tipo_planilla"], PDO::PARAM_INT);
-		$stmt->bindParam(":id_banco", $datos["id_banco"], PDO::PARAM_INT);  
+		$stmt->bindParam(":id_banco", $datos["id_banco"], PDO::PARAM_INT);
 		$stmt->bindParam(":numero_cuenta", $datos["numero_cuenta"], PDO::PARAM_STR);
 		$stmt->bindParam(":anticipo", $datos["anticipo"], PDO::PARAM_STR);
 		$stmt->bindParam(":reportado_a_pnc", $datos["reportado_a_pnc"], PDO::PARAM_STR);
-		$stmt->bindParam(":tipo_empleado", $datos["tipo_empleado"], PDO::PARAM_STR);  
+		$stmt->bindParam(":tipo_empleado", $datos["tipo_empleado"], PDO::PARAM_STR);
 		$stmt->bindParam(":id_jefe_operaciones", $datos["id_jefe_operaciones"], PDO::PARAM_INT);
-		$stmt -> bindParam(":imagen_contrato", $datos["imagen_contrato"], PDO::PARAM_STR);
-		$stmt -> bindParam(":fecha_vencimiento_lpa", $datos["fecha_vencimiento_lpa"], PDO::PARAM_STR);
-		$stmt -> bindParam(":constancia_psicologica", $datos["constancia_psicologica"], PDO::PARAM_STR);
-		$stmt -> bindParam(":nombre_psicologo", $datos["nombre_psicologo"], PDO::PARAM_STR);
+		$stmt->bindParam(":imagen_contrato", $datos["imagen_contrato"], PDO::PARAM_STR);
+		$stmt->bindParam(":fecha_vencimiento_lpa", $datos["fecha_vencimiento_lpa"], PDO::PARAM_STR);
+		$stmt->bindParam(":constancia_psicologica", $datos["constancia_psicologica"], PDO::PARAM_STR);
+		$stmt->bindParam(":nombre_psicologo", $datos["nombre_psicologo"], PDO::PARAM_STR);
 
-		$stmt -> bindParam(":fecha_curso_ansp", $datos["fecha_curso_ansp"], PDO::PARAM_STR);
-		$stmt -> bindParam(":numero_aprobacion_ansp", $datos["numero_aprobacion_ansp"], PDO::PARAM_STR);
-		$stmt -> bindParam(":examen_poligrafico", $datos["examen_poligrafico"], PDO::PARAM_STR);
-		$stmt -> bindParam(":Fecha_poligrafico", $datos["Fecha_poligrafico"], PDO::PARAM_STR);
-		$stmt -> bindParam(":antecedente_policial", $datos["antecedente_policial"], PDO::PARAM_STR);
+		$stmt->bindParam(":fecha_curso_ansp", $datos["fecha_curso_ansp"], PDO::PARAM_STR);
+		$stmt->bindParam(":numero_aprobacion_ansp", $datos["numero_aprobacion_ansp"], PDO::PARAM_STR);
+		$stmt->bindParam(":examen_poligrafico", $datos["examen_poligrafico"], PDO::PARAM_STR);
+		$stmt->bindParam(":Fecha_poligrafico", $datos["Fecha_poligrafico"], PDO::PARAM_STR);
+		$stmt->bindParam(":antecedente_policial", $datos["antecedente_policial"], PDO::PARAM_STR);
 
-		$stmt -> bindParam(":codigo_empleado", $datos["codigo_empleado"], PDO::PARAM_STR);
-		$stmt -> bindParam(":numero_telefono_trabajo_actual", $datos["numero_telefono_trabajo_actual"], PDO::PARAM_STR);
+		$stmt->bindParam(":codigo_empleado", $datos["codigo_empleado"], PDO::PARAM_STR);
+		$stmt->bindParam(":numero_telefono_trabajo_actual", $datos["numero_telefono_trabajo_actual"], PDO::PARAM_STR);
 
-		$stmt -> bindParam(":carnet_empleado", $datos["carnet_empleado"], PDO::PARAM_STR);
+		$stmt->bindParam(":carnet_empleado", $datos["carnet_empleado"], PDO::PARAM_STR);
 
-		$stmt -> bindParam(":idconfiguracion", $datos["idconfiguracion"], PDO::PARAM_STR);
-		$stmt -> bindParam(":luaf", $datos["luaf"], PDO::PARAM_STR);
-		$stmt -> bindParam(":imagenlpa", $datos["imagenlpa"], PDO::PARAM_STR);
-		$stmt -> bindParam(":carnetafp", $datos["carnetafp"], PDO::PARAM_STR);
-		$stmt -> bindParam(":fotoisss", $datos["fotoisss"], PDO::PARAM_STR);
-		$stmt -> bindParam(":fotoansp", $datos["fotoansp"], PDO::PARAM_STR);
-		$stmt -> bindParam(":pensionado_empleado", $datos["pensionado_empleado"], PDO::PARAM_STR);
-
-
+		$stmt->bindParam(":idconfiguracion", $datos["idconfiguracion"], PDO::PARAM_STR);
+		$stmt->bindParam(":luaf", $datos["luaf"], PDO::PARAM_STR);
+		$stmt->bindParam(":imagenlpa", $datos["imagenlpa"], PDO::PARAM_STR);
+		$stmt->bindParam(":carnetafp", $datos["carnetafp"], PDO::PARAM_STR);
+		$stmt->bindParam(":fotoisss", $datos["fotoisss"], PDO::PARAM_STR);
+		$stmt->bindParam(":fotoansp", $datos["fotoansp"], PDO::PARAM_STR);
+		$stmt->bindParam(":pensionado_empleado", $datos["pensionado_empleado"], PDO::PARAM_STR);
 
 
 
-		$stmt -> bindParam(":id", $datos["id"], PDO::PARAM_INT);
 
 
-	
-		if($stmt -> execute()){
+		$stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
+
+
+
+		if ($stmt->execute()) {
 			//print_r($stmt->errorInfo());
 			return "ok";
-		
-		}else{
+		} else {
 			print_r($stmt->errorInfo());
-			return "error";	
-
+			return "error";
 		}
 
-		$stmt -> close();
+		$stmt->close();
 
 		$stmt = null;
-
 	}
 
 	/*=============================================
 	ACTUALIZAR EMPLEADO
 	=============================================*/
 
-	static public function mdlActualizarEmpleado($tabla, $item1, $valor1, $item2, $valor2){
+	static public function mdlActualizarEmpleado($tabla, $item1, $valor1, $item2, $valor2)
+	{
 
 		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET $item1 = :$item1 WHERE $item2 = :$item2");
 
-		$stmt -> bindParam(":".$item1, $valor1, PDO::PARAM_STR);
-		$stmt -> bindParam(":".$item2, $valor2, PDO::PARAM_STR);
+		$stmt->bindParam(":" . $item1, $valor1, PDO::PARAM_STR);
+		$stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_STR);
 
-		if($stmt -> execute()){
+		if ($stmt->execute()) {
 
 			return "ok";
-		
-		}else{
+		} else {
 
-			return "error";	
-
+			return "error";
 		}
 
-		$stmt -> close();
+		$stmt->close();
 
 		$stmt = null;
-
 	}
 
 	/*=============================================
 	BORRAR EMPLEADO
 	=============================================*/
 
-	static public function mdlBorrarEmpleado($tabla, $datos){
+	static public function mdlBorrarEmpleado($tabla, $datos)
+	{
 
 		$stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id = :id");
 
-		$stmt -> bindParam(":id", $datos, PDO::PARAM_INT);
+		$stmt->bindParam(":id", $datos, PDO::PARAM_INT);
 
-		if($stmt -> execute()){
+		if ($stmt->execute()) {
 
 			return "ok";
-		
-		}else{
+		} else {
 
-			return "error";	
-
+			return "error";
 		}
 
-		$stmt -> close();
+		$stmt->close();
 
 		$stmt = null;
-
-
 	}
-
 }
