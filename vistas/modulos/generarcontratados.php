@@ -61,7 +61,7 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
                   <select name="departamento2" id="departamento2" class="form-control mi-selector">
                     <option value="*"> Seleccionar Departamentos</option>
                     <?php
-                    $data = agente("desc");
+                    $data = agente("asc");
                     foreach ($data as $value) {
                       echo "<option value=" . $value["id"] . ">" . $value["codigo"] . '-' . $value["nombre"] . "</option>";
                     }
@@ -79,7 +79,7 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
                     <?php
                     function empleados()
                     {
-                      $query = "SELECT * FROM `tbl_empleados`order by id ASC";
+                      $query = "SELECT * FROM `tbl_empleados`order by id DESC";
                       $sql = Conexion::conectar()->prepare($query);
                       $sql->execute();
                       return $sql->fetchAll();
