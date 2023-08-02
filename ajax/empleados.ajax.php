@@ -180,7 +180,7 @@ if (isset($_GET['consult'])) {
 						$badge = "defaul";
 					}
 
-
+					$ubicacionEmpleado = ubicacion_empleado($value["codigo_empleado"]);
 
 				?>
 					<tr>
@@ -194,8 +194,8 @@ if (isset($_GET['consult'])) {
 						<td><?php echo $value["fecha_ingreso"] ?></td>
 						<td><?php echo $value["fecha_contratacion"] ?></td>
 						<td>F.RETIRO</td>
-						<td><?php echo "ub" ?></td>
-						<td><?php echo "fec" ?></td>
+						<td><?php echo $ubicacionEmpleado['ubicaciont']; ?></td>
+						<td><?php echo $ubicacionEmpleado['fechat']; ?></td>
 						<td><?php echo $value["numero_documento_identidad"] ?></td>
 						<td><?php echo $value["nup"] ?></td>
 						<td><?php echo $value["codigo_afp"] ?></td>
@@ -306,44 +306,7 @@ if (isset($_GET['consult'])) {
 		$depa1 = $_POST["departamento1"];
 		$depa2 = $_POST["departamento2"];
 		if ($depa1 === "*" && $depa2 === "*") {
-
-			/* FILTRAR SOLO POR EL EMPLEADO */
-			$campos = "tbemp.*,  transacc.idagente_transacciones_agente,
-						transacc.fecha_transacciones_agente,
-						transacc.nueva_ubicacion_transacciones_agente,
-						bank.codigo AS codigo_bank,
-						bank.nombre AS nombre_bank,
-						cargo.id AS cargo_id,
-						cargo.descripcion AS descripcion,
-						d_emp.id AS empresa_id,
-						d_emp.nombre AS nombre_empresa";
-
-			$tabla = " tbl_empleados tbemp
-						INNER JOIN (
-							SELECT
-								idagente_transacciones_agente,
-								MAX(fecha_transacciones_agente) AS max_fecha
-							FROM
-								transacciones_agente
-							GROUP BY
-								idagente_transacciones_agente
-						) max_transacc ON tbemp.codigo_empleado = max_transacc.idagente_transacciones_agente
-						INNER JOIN transacciones_agente transacc ON tbemp.codigo_empleado = transacc.idagente_transacciones_agente AND transacc.fecha_transacciones_agente = max_transacc.max_fecha
-						INNER JOIN `bancos` bank ON tbemp.id_banco = bank.id
-						INNER JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id
-						INNER JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id ORDER BY tbemp.primer_nombre ASC, tbemp.primer_apellido ASC";
-
-
-			$condicion = "";
-			$array = [];
-			$cont = 0;
-			crearTablaEmpleados(
-				$cont,
-				$campos,
-				$tabla,
-				$condicion,
-				$array
-			);
+			# code...
 		} else {
 
 			if ($depa1 != "*" && $depa2 === "*") {

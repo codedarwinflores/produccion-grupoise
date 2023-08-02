@@ -7,9 +7,9 @@ class Conexion
 	{
 
 		$link = new PDO(
-			"mysql:host=localhost;dbname=u900482437_grupoise",
-			"u900482437_user_grupoise",
-			"4LXTbS22w!Iy"
+			"mysql:host=localhost;dbname=grupoiseserver",
+			"root",
+			""
 		);
 
 		/* $link = new PDO("mysql:host=localhost;dbname=armonico_grupoise",
