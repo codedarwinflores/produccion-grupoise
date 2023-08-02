@@ -154,6 +154,7 @@ if (isset($_GET['consult'])) {
 			<tbody>
 
 				<?php
+				include_once "../modelos/conexion.php";
 				require_once "../controladores/empleados.controlador.php";
 				require_once "../modelos/empleados.modelo.php";
 
