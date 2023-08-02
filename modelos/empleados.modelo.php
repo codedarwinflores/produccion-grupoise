@@ -20,7 +20,7 @@ class ModeloEmpleados
 				$stm->execute($array);
 			}
 
-			return $stm->fetchAll(PDO::FETCH_ASSOC);
+			return $stm->fetchAll();
 		} catch (Exception $e) {
 			die($e->getMessage());
 		}

@@ -68,8 +68,9 @@ if (isset($_POST["validarEmpleado"])) {
 
 
 /* EMPLEADOS AJAX VIEW API */
-include_once "../modelos/conexion.php";
+
 if (isset($_GET['consult'])) {
+	include_once "../modelos/conexion.php";
 
 	function ubicacion_empleado($codigo)
 	{
