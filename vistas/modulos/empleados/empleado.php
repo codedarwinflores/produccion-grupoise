@@ -34,8 +34,10 @@
 
         <?php
 
-        $empleadoBuscar = new ModeloEmpleados();
-        $empleados = $empleadoBuscar->mostrarEmpleadoDb($campos, $tabla, $condicion, $array);
+        $stm = "SELECT " . $campos . " FROM " . $tabla . " WHERE " . $condicion;
+        $sqlquery = Conexion::conectar()->prepare($stm);
+        $sqlquery->execute();
+        $empleados = $sqlquery->fetchAll();
         $contEmp = 0;
         $badge = "dark";
         foreach ($empleados as $key => $value) {

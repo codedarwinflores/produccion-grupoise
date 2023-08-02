@@ -70,12 +70,10 @@ if (isset($_POST["validarEmpleado"])) {
 /* EMPLEADOS AJAX VIEW API */
 
 if (isset($_GET['consult'])) {
-	include_once "../modelos/conexion.php";
+	require_once "../modelos/conexion.php";
 
 	function ubicacion_empleado($codigo)
 	{
-
-
 		if (!empty($codigo)) {
 			# code...
 
