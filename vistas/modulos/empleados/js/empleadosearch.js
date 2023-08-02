@@ -21,7 +21,7 @@ function cargar() {
 
   $("#loader").fadeIn("slow");
   $.ajax({
-    type: "GET",
+    type: "POST",
     data: datos,
     url: "./ajax/empleados.ajax.php?consult=true",
     beforeSend: function (objeto) {
@@ -63,3 +63,15 @@ function imprimir(param) {
     "_self"
   );
 }
+
+$("#departamento1")
+  .select2()
+  .change(function (e) {
+    $("#empleados").select2("val", "*");
+  });
+
+$("#departamento2")
+  .select2()
+  .change(function (e) {
+    $("#empleados").select2("val", "*");
+  });

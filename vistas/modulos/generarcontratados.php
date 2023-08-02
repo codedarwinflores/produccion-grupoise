@@ -86,7 +86,7 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
                     };
                     $data_empleado = empleados();
                     foreach ($data_empleado as $value) {
-                      echo "<option value=" . $value["id"] . ">" . $value["numero_documento_identidad"] . " - " . $value["primer_nombre"] . ' ' . $value["segundo_nombre"] . ' ' . $value["primer_apellido"] . "</option>";
+                      echo "<option value=" . $value["id"] . ">" . $value["numero_documento_identidad"] . " - " . $value["primer_nombre"] . ' ' . $value["segundo_nombre"] . ' '  . $value["tercer_nombre"] . ' ' . $value["primer_apellido"] . ' ' . $value["segundo_apellido"] . "</option>";
                     }
                     ?>
                   </select>

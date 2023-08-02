@@ -1,5 +1,7 @@
 <?php
 
+
+
 require_once "../controladores/empleados.controlador.php";
 require_once "../modelos/empleados.modelo.php";
 
@@ -71,14 +73,16 @@ if (isset($_POST["validarEmpleado"])) {
 
 if (isset($_GET['consult'])) {
 
+
+	//INCLUIR CONEXION
+	include_once "../modelos/conexion.php";
+
+	/* FUNCION PARA UBICAR LA UBICACIÓN DEL EMPLEADO */
 	function ubicacion_empleado($codigo)
 	{
 
-		include_once "../modelos/conexion.php";
 		if (!empty($codigo)) {
-			# code...
 
-			include_once "../modelos/conexion.php";
 			$query = "SELECT tbemp.primer_nombre, tbemp.codigo_empleado, tbemp.primer_apellido, transacc.idagente_transacciones_agente, transacc.fecha_transacciones_agente, transacc.nueva_ubicacion_transacciones_agente FROM `tbl_empleados` tbemp INNER JOIN `transacciones_agente` transacc ON tbemp.codigo_empleado = transacc.idagente_transacciones_agente WHERE tbemp.codigo_empleado = " . $codigo . " and transacc.fecha_transacciones_agente = ( SELECT MAX(fecha_transacciones_agente) FROM transacciones_agente WHERE idagente_transacciones_agente = tbemp.codigo_empleado );";
 			$sql = Conexion::conectar()->prepare($query);
 			$sql->execute();
@@ -96,15 +100,64 @@ if (isset($_GET['consult'])) {
 			$response = array('fechat' => "***", 'ubicaciont' => "***");
 	};
 
-	function edad($fecha)
+
+	function fechaRetiroEmpleado($idEmpleado)
 	{
-		$nacimiento = new DateTime($fecha);
-		$ahora = new DateTime(date("Y-m-d"));
-		$diferencia = $ahora->diff($nacimiento);
-		$edad = $diferencia->format("%y");
-		return $edad;
+
+		if (!empty($idEmpleado) && $idEmpleado != null) {
+
+			$query = "SELECT max(fecha_retiro) as fecha_retiro FROM `retiro` where idempleado_retiro=" . intval($idEmpleado);
+			$sql = Conexion::conectar()->prepare($query);
+			$sql->execute();
+			$datos = $sql->fetch(PDO::FETCH_ASSOC);
+
+			$fecha = $datos['fecha_retiro'];
+			if ($fecha != null || !empty($fecha)) {
+				return $fecha;
+			}
+		}
+
+		return "***";
 	}
 
+
+	function transpDevengo($idEmpleado)
+	{
+
+		if (!empty($idEmpleado) && $idEmpleado != null) {
+
+			$query = "SELECT * FROM `tbl_empleados_devengos_descuentos` WHERE id_empleado = " . $idEmpleado . " and tipodescuento=2;";
+			$sql = Conexion::conectar()->prepare($query);
+			$sql->execute();
+			$datos = $sql->fetch(PDO::FETCH_ASSOC);
+
+			if ($datos) {
+				$tipoDescuento = $datos['tipodescuento'];
+				$valor = $datos['valor'];
+
+				return ("Tipo: " . $tipoDescuento . " $ " . $valor);
+			}
+		}
+
+		return "***";
+	}
+
+	/* CALCULAR EDAD DEL EMPLEADO */
+	function edad($fecha)
+	{
+		if (!empty($fecha)) {
+			$nacimiento = new DateTime($fecha);
+			$ahora = new DateTime(date("Y-m-d"));
+			$diferencia = $ahora->diff($nacimiento);
+			$edad = $diferencia->format("%y");
+			return $edad;
+		}
+
+		return 0;
+	}
+
+
+	/* FUNCIÓN PARA IMPRIMIR LOS DEPARTAMENTOS DE LA EMPRESA */
 	function departamentos($depa1, $depa2)
 	{
 		$stm = "SELECT * FROM `departamentos_empresa` where id between " . $depa1 . " and " . $depa2;
@@ -116,6 +169,7 @@ if (isset($_GET['consult'])) {
 
 
 
+	/* IMPRIMI TABLA DE ACUERDO A LA CONSULTA ENVIADA */
 
 	function crearTablaEmpleados($cont, $campos, $tabla, $condicion, $array)
 	{
@@ -192,11 +246,11 @@ if (isset($_GET['consult'])) {
 						<td><?php echo $value["reportado_a_pnc"] ?></td>
 						<td><?php echo $value["primer_nombre"] . ' ' . $value["segundo_nombre"] . ' ' . $value["tercer_nombre"] . ' ' . $value["primer_apellido"] . ' ' . $value["segundo_apellido"] . ' ' . $value["apellido_casada"] . "Uniforme" ?></td>
 						<td><?php echo $value["sueldo_que_devenga"] ?></td>
-						<td><?php echo "Info_devengo"; ?></td>
+						<td><?php echo transpDevengo($value["id"]); ?></td>
 						<td><?php echo "Bono Unidad" ?></td>
 						<td><?php echo $value["fecha_ingreso"] ?></td>
 						<td><?php echo $value["fecha_contratacion"] ?></td>
-						<td>F.RETIRO</td>
+						<td><?php echo fechaRetiroEmpleado($value["id"]); ?></td>
 						<td><?php echo $ubicacionEmpleado['ubicaciont']; ?></td>
 						<td><?php echo $ubicacionEmpleado['fechat']; ?></td>
 						<td><?php echo $value["numero_documento_identidad"] ?></td>
@@ -265,11 +319,11 @@ if (isset($_GET['consult'])) {
 	/* FILTRAR POR DEPARTAMENTOS */
 	$departamento1 = "";
 	$departamento2 = "";
-	if (isset($_GET["empleados"]) && is_numeric($_GET["empleados"]) && !empty($_GET["empleados"])) {
+	if (isset($_POST["empleados"]) && is_numeric($_POST["empleados"]) && !empty($_POST["empleados"])) {
 		/* FILTRAR SOLO POR EL EMPLEADO */
-		$campos = "tbemp.*, cargo.id,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id,d_emp.nombre as nombre_empresa ";
+		$campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa ";
 		$tabla = " `tbl_empleados` tbemp INNER JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id INNER JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id INNER JOIN `bancos` bank ON tbemp.id_banco = bank.id ";
-		$condicion = " tbemp.id=" . $_GET['empleados'] . " order by primer_nombre asc, primer_apellido asc";
+		$condicion = " tbemp.id=" . $_POST['empleados'] . " order by primer_nombre asc, primer_apellido asc";
 		$array = [];
 		$cont = 0;
 		crearTablaEmpleados(
@@ -280,10 +334,10 @@ if (isset($_GET['consult'])) {
 			$array
 		);
 	} else	if (
-		isset($_GET["departamento1"]) && isset($_GET["departamento2"]) && !empty($_GET["departamento1"]) && !empty($_GET["departamento2"] && $_GET["departamento1"] != "*" && $_GET["departamento2"] != "*")
+		isset($_POST["departamento1"]) && isset($_POST["departamento2"]) && !empty($_POST["departamento1"]) && !empty($_POST["departamento2"] && $_POST["departamento1"] != "*" && $_POST["departamento2"] != "*")
 	) {
-		$depa1 = $_GET["departamento1"];
-		$depa2 = $_GET["departamento2"];
+		$depa1 = $_POST["departamento1"];
+		$depa2 = $_POST["departamento2"];
 
 		$departamentos = departamentos($depa1, $depa2);
 
@@ -293,7 +347,7 @@ if (isset($_GET['consult'])) {
 		foreach ($departamentos as $depa) {
 			echo "<div class='well'><h4><strong>Departamento: <span class='text-primary'>" . $depa['nombre'] . "</span></strong></h4></div>";
 			/* select tbemp.*, cargo.id,cargo.descripcion FROM `tbl_empleados` tbemp inner join cargos_desempenados cargo on tbemp.nivel_cargo=cargo.id; */
-			$campos = "tbemp.*, cargo.id,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id,d_emp.nombre as nombre_empresa ";
+			$campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa ";
 			$tabla = " `tbl_empleados` tbemp INNER JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id INNER JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id INNER JOIN `bancos` bank ON tbemp.id_banco = bank.id ";
 			$condicion = " tbemp.id_departamento_empresa=" . $depa['id'] . " order by primer_nombre asc, primer_apellido asc";
 			$array = [];
@@ -305,12 +359,12 @@ if (isset($_GET['consult'])) {
 
 
 		/* CONDICIÓN SOLO POR UN DEPARTAMENTO */
-	} else if ($_GET["departamento1"] === "*" || $_GET["departamento2"] === "*") {
+	} else if ($_POST["departamento1"] === "*" || $_POST["departamento2"] === "*") {
 
 
 
-		$depa1 = $_GET["departamento1"];
-		$depa2 = $_GET["departamento2"];
+		$depa1 = $_POST["departamento1"];
+		$depa2 = $_POST["departamento2"];
 		if ($depa1 === "*" && $depa2 === "*") {
 			# code...
 		} else {
@@ -328,7 +382,7 @@ if (isset($_GET['consult'])) {
 			foreach ($departamentos as $depa) {
 				echo "<div class='well'><h4><strong>Departamento: <span class='text-primary'>" . $depa['nombre'] . "</span></strong></h4></div>";
 				/* select tbemp.*, cargo.id,cargo.descripcion FROM `tbl_empleados` tbemp inner join cargos_desempenados cargo on tbemp.nivel_cargo=cargo.id; */
-				$campos = "tbemp.*, cargo.id,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id,d_emp.nombre as nombre_empresa ";
+				$campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa ";
 				$tabla = " `tbl_empleados` tbemp INNER JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id INNER JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id INNER JOIN `bancos` bank ON tbemp.id_banco = bank.id ";
 				$condicion = " tbemp.id_departamento_empresa=" . $depa['id'] . " order by primer_nombre asc, primer_apellido asc";
 				$array = [];
