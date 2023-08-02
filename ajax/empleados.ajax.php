@@ -262,11 +262,11 @@ if (isset($_GET['consult'])) {
 	/* FILTRAR POR DEPARTAMENTOS */
 	$departamento1 = "";
 	$departamento2 = "";
-	if (isset($_POST["empleados"]) && is_numeric($_POST["empleados"]) && !empty($_POST["empleados"])) {
+	if (isset($_GET["empleados"]) && is_numeric($_GET["empleados"]) && !empty($_GET["empleados"])) {
 		/* FILTRAR SOLO POR EL EMPLEADO */
 		$campos = "tbemp.*, cargo.id,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id,d_emp.nombre as nombre_empresa ";
 		$tabla = " `tbl_empleados` tbemp INNER JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id INNER JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id INNER JOIN `bancos` bank ON tbemp.id_banco = bank.id ";
-		$condicion = " tbemp.id=" . $_POST['empleados'] . " order by primer_nombre asc, primer_apellido asc";
+		$condicion = " tbemp.id=" . $_GET['empleados'] . " order by primer_nombre asc, primer_apellido asc";
 		$array = [];
 		$cont = 0;
 		crearTablaEmpleados(
@@ -277,10 +277,10 @@ if (isset($_GET['consult'])) {
 			$array
 		);
 	} else	if (
-		isset($_POST["departamento1"]) && isset($_POST["departamento2"]) && !empty($_POST["departamento1"]) && !empty($_POST["departamento2"] && $_POST["departamento1"] != "*" && $_POST["departamento2"] != "*")
+		isset($_GET["departamento1"]) && isset($_GET["departamento2"]) && !empty($_GET["departamento1"]) && !empty($_GET["departamento2"] && $_GET["departamento1"] != "*" && $_GET["departamento2"] != "*")
 	) {
-		$depa1 = $_POST["departamento1"];
-		$depa2 = $_POST["departamento2"];
+		$depa1 = $_GET["departamento1"];
+		$depa2 = $_GET["departamento2"];
 
 		$departamentos = departamentos($depa1, $depa2);
 
@@ -299,12 +299,12 @@ if (isset($_GET['consult'])) {
 		}
 
 		/* CONDICIÓN SOLO POR UN DEPARTAMENTO */
-	} else if ($_POST["departamento1"] === "*" || $_POST["departamento2"] === "*") {
+	} else if ($_GET["departamento1"] === "*" || $_GET["departamento2"] === "*") {
 
 
 
-		$depa1 = $_POST["departamento1"];
-		$depa2 = $_POST["departamento2"];
+		$depa1 = $_GET["departamento1"];
+		$depa2 = $_GET["departamento2"];
 		if ($depa1 === "*" && $depa2 === "*") {
 			# code...
 		} else {

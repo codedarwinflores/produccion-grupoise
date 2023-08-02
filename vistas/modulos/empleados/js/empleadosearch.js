@@ -21,7 +21,7 @@ function cargar() {
 
   $("#loader").fadeIn("slow");
   $.ajax({
-    type: "POST",
+    type: "GET",
     data: datos,
     url: "./ajax/empleados.ajax.php?consult=true",
     beforeSend: function (objeto) {
