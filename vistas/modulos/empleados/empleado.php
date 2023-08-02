@@ -34,10 +34,8 @@
 
         <?php
 
-        $stm = "SELECT " . $campos . " FROM " . $tabla . " WHERE " . $condicion;
-        $sqlquery = Conexion::conectar()->prepare($stm);
-        $sqlquery->execute();
-        $empleados = $sqlquery->fetchAll();
+
+        $empleados = empleadosMostrar($depa['id']);
         $contEmp = 0;
         $badge = "dark";
         foreach ($empleados as $key => $value) {

@@ -112,6 +112,20 @@ if (isset($_GET['consult'])) {
 		return $sqlquery->fetchAll();
 	}
 
+	function empleadosMostrar($id)
+	{
+		/* select tbemp.*, cargo.id,cargo.descripcion FROM `tbl_empleados` tbemp inner join cargos_desempenados cargo on tbemp.nivel_cargo=cargo.id; */
+		$campos = "tbemp.*, cargo.id,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id,d_emp.nombre as nombre_empresa ";
+		$tabla = " `tbl_empleados` tbemp INNER JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id INNER JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id INNER JOIN `bancos` bank ON tbemp.id_banco = bank.id ";
+		$condicion = " tbemp.id_departamento_empresa=" . $id . " order by primer_nombre asc, primer_apellido asc";
+		$array = [];
+
+		$stm = "SELECT " . $campos . " FROM " . $tabla . " WHERE " . $condicion;
+		$sqlquery = Conexion::conectar()->prepare($stm);
+		$sqlquery->execute();
+		return $sqlquery->fetchAll();
+	}
+
 
 ?>
 
@@ -144,11 +158,7 @@ if (isset($_GET['consult'])) {
 
 		foreach ($departamentos as $depa) {
 			echo "<div class='well'><h4><strong>Departamento: <span class='text-primary'>" . $depa['nombre'] . "</span></strong></h4></div>";
-			/* select tbemp.*, cargo.id,cargo.descripcion FROM `tbl_empleados` tbemp inner join cargos_desempenados cargo on tbemp.nivel_cargo=cargo.id; */
-			$campos = "tbemp.*, cargo.id,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id,d_emp.nombre as nombre_empresa ";
-			$tabla = " `tbl_empleados` tbemp INNER JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id INNER JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id INNER JOIN `bancos` bank ON tbemp.id_banco = bank.id ";
-			$condicion = " tbemp.id_departamento_empresa=" . $depa['id'] . " order by primer_nombre asc, primer_apellido asc";
-			$array = [];
+
 
 			include('../vistas/modulos/empleados/empleado.php');
 			$cont++;
@@ -180,12 +190,6 @@ if (isset($_GET['consult'])) {
 			foreach ($departamentos as $depa) {
 				echo "<div class='well'><h4><strong>Departamento: <span class='text-primary'>" . $depa['nombre'] . "</span></strong></h4></div>";
 				/* select tbemp.*, cargo.id,cargo.descripcion FROM `tbl_empleados` tbemp inner join cargos_desempenados cargo on tbemp.nivel_cargo=cargo.id; */
-				$campos = "tbemp.*, cargo.id,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id,d_emp.nombre as nombre_empresa ";
-				$tabla = " `tbl_empleados` tbemp INNER JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id INNER JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id INNER JOIN `bancos` bank ON tbemp.id_banco = bank.id ";
-				$condicion = " tbemp.id_departamento_empresa=" . $depa['id'] . " order by primer_nombre asc, primer_apellido asc";
-				$array = [];
-
-
 
 				include_once('../vistas/modulos/empleados/empleado.php');
 				$cont++;
