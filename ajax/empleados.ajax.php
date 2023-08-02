@@ -68,17 +68,17 @@ if (isset($_POST["validarEmpleado"])) {
 
 
 /* EMPLEADOS AJAX VIEW API */
-
+include_once "../modelos/conexion.php";
 if (isset($_GET['consult'])) {
 
 	function ubicacion_empleado($codigo)
 	{
 
-		include_once "../modelos/conexion.php";
+
 		if (!empty($codigo)) {
 			# code...
 
-			include_once "../modelos/conexion.php";
+
 			$query = "SELECT tbemp.primer_nombre, tbemp.codigo_empleado, tbemp.primer_apellido, transacc.idagente_transacciones_agente, transacc.fecha_transacciones_agente, transacc.nueva_ubicacion_transacciones_agente FROM `tbl_empleados` tbemp INNER JOIN `transacciones_agente` transacc ON tbemp.codigo_empleado = transacc.idagente_transacciones_agente WHERE tbemp.codigo_empleado = " . $codigo . " and transacc.fecha_transacciones_agente = ( SELECT MAX(fecha_transacciones_agente) FROM transacciones_agente WHERE idagente_transacciones_agente = tbemp.codigo_empleado );";
 			$sql = Conexion::conectar()->prepare($query);
 			$sql->execute();
