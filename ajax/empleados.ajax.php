@@ -73,10 +73,12 @@ if (isset($_GET['consult'])) {
 
 	function ubicacion_empleado($codigo)
 	{
-		if (!empty($codigo)) {
-			# code...
 
-			include_once "../modelos/conexion.php";
+		include_once "../modelos/conexion.php";
+		if (!empty($codigo)) {
+
+
+
 			$query = "SELECT tbemp.primer_nombre, tbemp.codigo_empleado, tbemp.primer_apellido, transacc.idagente_transacciones_agente, transacc.fecha_transacciones_agente, transacc.nueva_ubicacion_transacciones_agente FROM `tbl_empleados` tbemp INNER JOIN `transacciones_agente` transacc ON tbemp.codigo_empleado = transacc.idagente_transacciones_agente WHERE tbemp.codigo_empleado = " . $codigo . " and transacc.fecha_transacciones_agente = ( SELECT MAX(fecha_transacciones_agente) FROM transacciones_agente WHERE idagente_transacciones_agente = tbemp.codigo_empleado );";
 			$sql = Conexion::conectar()->prepare($query);
 			$sql->execute();
@@ -154,12 +156,15 @@ if (isset($_GET['consult'])) {
 			<tbody>
 
 				<?php
-				include_once "../modelos/conexion.php";
-				require_once "../controladores/empleados.controlador.php";
-				require_once "../modelos/empleados.modelo.php";
 
-				$empleadoBuscar = new ModeloEmpleados();
-				$empleados = $empleadoBuscar->mostrarEmpleadoDb($campos, $tabla, $condicion, $array);
+				include_once "../modelos/conexion.php";
+				$stm = "SELECT " . $campos . " FROM " . $tabla . " WHERE " . $condicion;
+				$sqlquery = Conexion::conectar()->prepare($stm);
+				$sqlquery->execute();
+				$empleados = $sqlquery->fetchAll();
+
+				/* $empleadoBuscar = new ModeloEmpleados();
+				$empleados = $empleadoBuscar->mostrarEmpleadoDb($campos, $tabla, $condicion, $array); */
 				$contEmp = 0;
 				$badge = "dark";
 				foreach ($empleados as $key => $value) {
@@ -288,6 +293,7 @@ if (isset($_GET['consult'])) {
 
 		$cont = 0;
 
+
 		foreach ($departamentos as $depa) {
 			echo "<div class='well'><h4><strong>Departamento: <span class='text-primary'>" . $depa['nombre'] . "</span></strong></h4></div>";
 			/* select tbemp.*, cargo.id,cargo.descripcion FROM `tbl_empleados` tbemp inner join cargos_desempenados cargo on tbemp.nivel_cargo=cargo.id; */
@@ -299,6 +305,8 @@ if (isset($_GET['consult'])) {
 			crearTablaEmpleados($cont, $campos, $tabla, $condicion, $array);
 			$cont++;
 		}
+
+
 
 		/* CONDICIÓN SOLO POR UN DEPARTAMENTO */
 	} else if ($_GET["departamento1"] === "*" || $_GET["departamento2"] === "*") {
