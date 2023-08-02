@@ -167,6 +167,7 @@ if (isset($_GET['consult'])) {
 				$empleados = $empleadoBuscar->mostrarEmpleadoDb($campos, $tabla, $condicion, $array); */
 				$contEmp = 0;
 				$badge = "dark";
+				printf(json_encode($empleados));
 				foreach ($empleados as $key => $value) {
 					$contEmp++;
 					//REPRESENTANDO EL ESTADO DEBERIA SER DESDE XML
