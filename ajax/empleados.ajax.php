@@ -155,7 +155,7 @@ if (isset($_GET['consult'])) {
 
 				<?php
 
-				$empleadoBuscar = null;
+
 				$empleadoBuscar = new ModeloEmpleados();
 				$empleados = $empleadoBuscar->mostrarEmpleadoDb($campos, $tabla, $condicion, $array);
 				$contEmp = 0;
@@ -327,8 +327,10 @@ if (isset($_GET['consult'])) {
 				$condicion = " tbemp.id_departamento_empresa=" . $depa['id'] . " order by primer_nombre asc, primer_apellido asc";
 				$array = [];
 
-				crearTablaEmpleados($cont, $campos, $tabla, $condicion, $array);
+
+
 				$cont++;
+				crearTablaEmpleados($cont, $campos, $tabla, $condicion, $array);
 			}
 		}
 	}
