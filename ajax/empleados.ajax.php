@@ -101,6 +101,32 @@ if (isset($_GET['consult'])) {
 	};
 
 
+	/* SACAR EL BONO DE ACUERDO A LA UBICACIÓN DEL EMPLEADO */
+	function bonoEmpleado($codUbicacion)
+	{
+		$bono = 0.00;
+		if ($codUbicacion != "" && !empty($codUbicacion)) {
+
+			$separada = explode("-", $codUbicacion);
+			$codigo_u = $separada[0];
+			/* SELECT tbl_clientes_ubicaciones.id AS idubicacionc, `id_cliente`, `codigo_cliente`, clientes.id AS idcliente, clientes.nombre AS nombrecliente, bono_unidad, codigo_ubicacion, estado_cliente_ubicacion FROM `tbl_clientes_ubicaciones`, clientes WHERE clientes.id = tbl_clientes_ubicaciones.id_cliente and codigo_ubicacion='A0002003' */
+
+
+			$query = "SELECT tbl_clientes_ubicaciones.id AS idubicacionc, `id_cliente`, `codigo_cliente`, clientes.id AS idcliente, clientes.nombre AS nombrecliente, bono_unidad, codigo_ubicacion, estado_cliente_ubicacion FROM `tbl_clientes_ubicaciones`, clientes WHERE clientes.id = tbl_clientes_ubicaciones.id_cliente and codigo_ubicacion='" . $codigo_u . "'";
+			$sql = Conexion::conectar()->prepare($query);
+			$sql->execute();
+			$data = $sql->fetch(PDO::FETCH_ASSOC);
+			if ($data) {
+				$bono_unidad = $data['bono_unidad'];
+				return "$ " . $bono_unidad;
+			}
+		}
+
+
+		return $bono;
+	}
+
+
 	function fechaRetiroEmpleado($idEmpleado)
 	{
 
@@ -244,10 +270,10 @@ if (isset($_GET['consult'])) {
 						<th><?php echo $value["codigo_empleado"] ?></th>
 						<td><label class="badge btn-<?php echo $badge ?>"><?php echo $nombreEstado ?></label></td>
 						<td><?php echo $value["reportado_a_pnc"] ?></td>
-						<td><?php echo $value["primer_nombre"] . ' ' . $value["segundo_nombre"] . ' ' . $value["tercer_nombre"] . ' ' . $value["primer_apellido"] . ' ' . $value["segundo_apellido"] . ' ' . $value["apellido_casada"] . "Uniforme" ?></td>
+						<td><?php echo $value["primer_nombre"] . ' ' . $value["segundo_nombre"] . ' ' . $value["tercer_nombre"] . ' ' . $value["primer_apellido"] . ' ' . $value["segundo_apellido"] . ' ' . $value["apellido_casada"] ?></td>
 						<td><?php echo $value["sueldo_que_devenga"] ?></td>
 						<td><?php echo transpDevengo($value["id"]); ?></td>
-						<td><?php echo "Bono Unidad" ?></td>
+						<td><?php echo bonoEmpleado($ubicacionEmpleado['ubicaciont']); ?></td>
 						<td><?php echo $value["fecha_ingreso"] ?></td>
 						<td><?php echo $value["fecha_contratacion"] ?></td>
 						<td><?php echo fechaRetiroEmpleado($value["id"]); ?></td>
@@ -263,7 +289,8 @@ if (isset($_GET['consult'])) {
 						<td><?php echo $value["nit"] ?></td>
 						<td><?php echo $value["codigo_bank"] . "-" . $value["nombre_bank"] ?></td>
 						<td><?php echo $value["numero_cuenta"] ?></td>
-						<td>************</td>
+						<td>**</td>
+
 					</tr>
 
 				<?php
