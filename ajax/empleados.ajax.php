@@ -97,7 +97,7 @@ if (isset($_GET['consult'])) {
 		}
 
 		return
-			$response = array('fechat' => "***", 'ubicaciont' => "***");
+			$response = array('fechat' => "- - -", 'ubicaciont' => "- - -");
 	};
 
 
@@ -106,7 +106,7 @@ if (isset($_GET['consult'])) {
 	{
 		$bono = 0.00;
 		if ($codUbicacion != "" && !empty($codUbicacion)) {
-
+			$bono = 0.0;
 			$separada = explode("-", $codUbicacion);
 			$codigo_u = $separada[0];
 			/* SELECT tbl_clientes_ubicaciones.id AS idubicacionc, `id_cliente`, `codigo_cliente`, clientes.id AS idcliente, clientes.nombre AS nombrecliente, bono_unidad, codigo_ubicacion, estado_cliente_ubicacion FROM `tbl_clientes_ubicaciones`, clientes WHERE clientes.id = tbl_clientes_ubicaciones.id_cliente and codigo_ubicacion='A0002003' */
@@ -118,12 +118,12 @@ if (isset($_GET['consult'])) {
 			$data = $sql->fetch(PDO::FETCH_ASSOC);
 			if ($data) {
 				$bono_unidad = $data['bono_unidad'];
-				return "$ " . $bono_unidad;
+				return "$ " . number_format($bono_unidad, 2);
 			}
 		}
 
 
-		return $bono;
+		return "$ " . number_format($bono, 2);
 	}
 
 
@@ -132,21 +132,54 @@ if (isset($_GET['consult'])) {
 
 		if (!empty($idEmpleado) && $idEmpleado != null) {
 
-			$query = "SELECT max(fecha_retiro) as fecha_retiro FROM `retiro` where idempleado_retiro=" . intval($idEmpleado);
+			$query = "SELECT max(fecha_retiro) as fecha_retiro,motivo_inactivo FROM `retiro` where idempleado_retiro=" . intval($idEmpleado);
 			$sql = Conexion::conectar()->prepare($query);
 			$sql->execute();
 			$datos = $sql->fetch(PDO::FETCH_ASSOC);
 
 			$fecha = $datos['fecha_retiro'];
+			$motivo = $datos['motivo_inactivo'];
 			if ($fecha != null || !empty($fecha)) {
-				return $fecha;
+
+				$response = array("fecha_retiro" => $fecha, "motivo_inactivo" => $motivo);
+				return $response;
 			}
 		}
 
-		return "***";
+		$response = array("fecha_retiro" => "- - -", "motivo_inactivo" => "- - -");
+
+		return $response;
 	}
 
 
+	function ConsultarUniforme($idEmpleado)
+	{
+
+		if (!empty($idEmpleado) && $idEmpleado != null) {
+
+			/* UNIFORME DESCUENTO */
+			$query = "SELECT COUNT(codigo_empleado_descuento) as cant_empleados FROM `uniformedescuento` WHERE codigo_empleado_descuento=" . $idEmpleado;
+			$sql = Conexion::conectar()->prepare($query);
+			$sql->execute();
+			$unidescuento = $sql->fetch(PDO::FETCH_ASSOC);
+
+			/* UNIFORME REGALO */
+			$queryy = "SELECT COUNT(idempleado) as cant_empleado FROM `regalo` WHERE idempleado =" . $idEmpleado;
+			$sqll = Conexion::conectar()->prepare($queryy);
+			$sqll->execute();
+			$uniregalo = $sqll->fetch(PDO::FETCH_ASSOC);
+
+			if ($unidescuento || $uniregalo) {
+				if ($unidescuento['cant_empleados'] > 0 || $uniregalo['cant_empleado'] > 0) {
+					return "SI";
+				}
+			}
+		}
+
+		return "NO";
+	}
+
+	/* CAMPO TRANS.p */
 	function transpDevengo($idEmpleado)
 	{
 
@@ -165,7 +198,7 @@ if (isset($_GET['consult'])) {
 			}
 		}
 
-		return "***";
+		return "- - -";
 	}
 
 	/* CALCULAR EDAD DEL EMPLEADO */
@@ -200,14 +233,27 @@ if (isset($_GET['consult'])) {
 	function crearTablaEmpleados($cont, $campos, $tabla, $condicion, $array)
 	{
 ?>
+		<script>
+			$(document).ready(function() {
+				$('.examples<?php echo $cont ?>').DataTable({
 
+					"order": [
+						[2, "asc"]
+					],
+					"lengthMenu": [
+						[5, 10, 25, 50, 100, -1],
+						[5, 10, 25, 50, 100, "All"]
+					],
+				});
+			});
+		</script>
 		<table class="table table-bordered table-striped dt-responsive examples<?php echo $cont ?>" width="100%">
 
 			<thead class="bg-info">
 				<tr>
 					<th>No.</th>
 					<th>Estado</th>
-					<th>Report Arma</th>
+					<th>UNIFORME</th>
 					<th>NOMBRE</th>
 					<th>SUELDO</th>
 					<th width="200">TRANSP.</th>
@@ -264,19 +310,20 @@ if (isset($_GET['consult'])) {
 					}
 
 					$ubicacionEmpleado = ubicacion_empleado($value["codigo_empleado"]);
+					$retiro_datos = fechaRetiroEmpleado($value["id"]);
 
 				?>
 					<tr>
 						<th><?php echo $value["codigo_empleado"] ?></th>
 						<td><label class="badge btn-<?php echo $badge ?>"><?php echo $nombreEstado ?></label></td>
-						<td><?php echo $value["reportado_a_pnc"] ?></td>
+						<td><?php echo ConsultarUniforme($value["id"]) ?></td>
 						<td><?php echo $value["primer_nombre"] . ' ' . $value["segundo_nombre"] . ' ' . $value["tercer_nombre"] . ' ' . $value["primer_apellido"] . ' ' . $value["segundo_apellido"] . ' ' . $value["apellido_casada"] ?></td>
-						<td><?php echo $value["sueldo_que_devenga"] ?></td>
+						<td><?php echo "$ " . $value["sueldo_que_devenga"] ?></td>
 						<td><?php echo transpDevengo($value["id"]); ?></td>
 						<td><?php echo bonoEmpleado($ubicacionEmpleado['ubicaciont']); ?></td>
 						<td><?php echo $value["fecha_ingreso"] ?></td>
 						<td><?php echo $value["fecha_contratacion"] ?></td>
-						<td><?php echo fechaRetiroEmpleado($value["id"]); ?></td>
+						<td><?php echo $retiro_datos['fecha_retiro'] ?></td>
 						<td><?php echo $ubicacionEmpleado['ubicaciont']; ?></td>
 						<td><?php echo $ubicacionEmpleado['fechat']; ?></td>
 						<td><?php echo $value["numero_documento_identidad"] ?></td>
@@ -289,7 +336,8 @@ if (isset($_GET['consult'])) {
 						<td><?php echo $value["nit"] ?></td>
 						<td><?php echo $value["codigo_bank"] . "-" . $value["nombre_bank"] ?></td>
 						<td><?php echo $value["numero_cuenta"] ?></td>
-						<td>**</td>
+						<td><?php echo $retiro_datos['motivo_inactivo'] ?></td>
+
 
 					</tr>
 
@@ -320,19 +368,7 @@ if (isset($_GET['consult'])) {
 
 		</table>
 
-		<script>
-			$(document).ready(function() {
-				$('.examples<?php echo $cont ?>').DataTable({
-					"order": [
-						[2, "asc"]
-					],
-					"lengthMenu": [
-						[5, 10, 25, 50, 100, -1],
-						[5, 10, 25, 50, 100, "All"]
-					]
-				});
-			});
-		</script>
+
 
 	<?php
 	}
