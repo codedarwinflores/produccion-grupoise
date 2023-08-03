@@ -26,7 +26,7 @@ function cargar() {
     url: "./ajax/empleados.ajax.php?consult=true",
     beforeSend: function (objeto) {
       $("#loader").html(
-        "<h3><strong>¡Espere un momento!</strong></h3><h5><strong> Filtrando información...  </strong></h5><img src='./vistas/modulos/empleados/js/gif.gif' width='12%'>"
+        "<h3><strong>¡Espere un momento!</strong></h3><h5><strong> Filtrando varios registros...  </strong></h5><img src='./vistas/modulos/empleados/js/gif.gif' width='12%'>"
       );
     },
     success: function (data) {

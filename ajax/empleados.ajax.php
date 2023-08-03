@@ -76,6 +76,23 @@ if (isset($_GET['consult'])) {
 
 	//INCLUIR CONEXION
 	include_once "../modelos/conexion.php";
+	if (isset($_POST['tipoagente'])) {
+		if ($_POST['tipoagente'] == 2) {
+			$estado_emp = "tbemp.estado IN (2)";
+		} else if ($_POST['tipoagente'] == 3) {
+			$estado_emp = "tbemp.estado IN (3)";
+		} else {
+			$estado_emp = "tbemp.estado IN (2,3)";
+		}
+	}
+	if (isset($_POST['reportado_a_pnc'])) {
+		$reporte = $_POST['reportado_a_pnc'];
+		if ($reporte == "Si" || $reporte == "No" && !empty($reporte)) {
+			$repotePnc = "and reportado_a_pnc='" . $reporte . "'";
+		} else {
+			$repotePnc = "";
+		}
+	}
 
 	/* FUNCION PARA UBICAR LA UBICACIÓN DEL EMPLEADO */
 	function ubicacion_empleado($codigo)
@@ -253,7 +270,7 @@ if (isset($_GET['consult'])) {
 				<tr>
 					<th>No.</th>
 					<th>Estado</th>
-					<th>UNIFORME</th>
+					<th>UNIFORME / REPORTE ARMA</th>
 					<th>NOMBRE</th>
 					<th>SUELDO</th>
 					<th width="200">TRANSP.</th>
@@ -316,7 +333,7 @@ if (isset($_GET['consult'])) {
 					<tr>
 						<th><?php echo $value["codigo_empleado"] ?></th>
 						<td><label class="badge btn-<?php echo $badge ?>"><?php echo $nombreEstado ?></label></td>
-						<td><?php echo ConsultarUniforme($value["id"]) ?></td>
+						<td><?php echo ConsultarUniforme($value["id"]) . "/" . $value['reportado_a_pnc'] ?></td>
 						<td><?php echo $value["primer_nombre"] . ' ' . $value["segundo_nombre"] . ' ' . $value["tercer_nombre"] . ' ' . $value["primer_apellido"] . ' ' . $value["segundo_apellido"] . ' ' . $value["apellido_casada"] ?></td>
 						<td><?php echo "$ " . $value["sueldo_que_devenga"] ?></td>
 						<td><?php echo transpDevengo($value["id"]); ?></td>
@@ -424,12 +441,22 @@ if (isset($_GET['consult'])) {
 		/* CONDICIÓN SOLO POR UN DEPARTAMENTO */
 	} else if ($_POST["departamento1"] === "*" || $_POST["departamento2"] === "*") {
 
-
-
 		$depa1 = $_POST["departamento1"];
 		$depa2 = $_POST["departamento2"];
 		if ($depa1 === "*" && $depa2 === "*") {
-			# code...
+			/* FILTRAR TODOS */
+			$campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa ";
+			$tabla = " `tbl_empleados` tbemp INNER JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id INNER JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id INNER JOIN `bancos` bank ON tbemp.id_banco = bank.id ";
+			$condicion = " " . $estado_emp . " " . $repotePnc . " order by primer_nombre asc, primer_apellido asc";
+			$array = [];
+			$cont = 0;
+			crearTablaEmpleados(
+				$cont,
+				$campos,
+				$tabla,
+				$condicion,
+				$array
+			);
 		} else {
 
 			if ($depa1 != "*" && $depa2 === "*") {
