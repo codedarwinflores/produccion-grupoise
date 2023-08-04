@@ -101,8 +101,10 @@ if (isset($_GET['consult'])) {
 				$fechasFiltrar = " and ret.fecha_retiro" . $fechasFiltrar;
 			}
 		} else {
+			if (!empty($fechadesde) && !empty($fechahasta)) {
+				$fechasFiltrar = " and tbemp.fecha_contratacion" . $fechasFiltrar . "or ret.fecha_retiro" . $fechasFiltrar;
+			}
 			$estado_emp = "tbemp.estado IN (2,3)";
-			$fechasFiltrar = "";
 		}
 	}
 	if (isset($_POST['reportado_a_pnc'])) {
