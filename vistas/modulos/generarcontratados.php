@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('America/El_Salvador');
 
 if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
 
@@ -10,6 +11,16 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
 
   return;
 }
+
+
+
+/* $fecha_actual = new DateTime();
+ $fecha_inicio = clone $fecha_actual;
+$fecha_inicio->modify('-1 month'); 
+
+$primerDiaMes = $fecha_actual->format('Y-m-01');
+$ultimoDiaMes = $fecha_actual->format('Y-m-t');
+ */
 
 ?>
 <div class="content-wrapper">
@@ -28,7 +39,7 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
         <h3><strong>Búsqueda</strong></h3>
         <div class="row ">
 
-          <form action="javascript:void()" id="form_empleados" method="GET">
+          <form action="javascript:void()" id="form_empleados" method="POST" autocomplete="off">
 
             <div class="col-md-12">
 
@@ -96,14 +107,14 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
               <div class="col-md-2">
                 <div class="form-group">
                   <label for="">Fecha desde</label>
-                  <input type="text" class="form-control calendario" name="fechadesde" id="fechadesde" data-lang="es" data-format="DD-MM-YYYY" readonly>
+                  <input type="date" class="form-control" value="" name="fechadesde" id="fechadesde">
                 </div>
               </div>
 
               <div class="col-md-2">
                 <div class="form-group">
                   <label for="">Fecha hasta</label>
-                  <input type="text" class="form-control calendario" name="fechahasta" id="fechahasta" data-lang="es" data-format="DD-MM-YYYY" readonly>
+                  <input type="date" class="form-control" name="fechahasta" value="" id="fechahasta">
                 </div>
               </div>
 
@@ -175,7 +186,9 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
           </div>
 
         </div><!--//container-fluid-->
-        <div id="loader" style="font-weight: bold; top:40vh; position: absolute; text-align: center;z-index: 9999;  width: 100%; display:none;"></div>
+        <div id="loader" style="padding:20px; font-weight: bold; width:35%;height: auto;
+  top: 40%;
+  left: 30%; font-size: 8px !important; position: fixed; text-align: center;z-index: 9999;  display:none;"></div>
         <div id="verTabla">
         </div>
 

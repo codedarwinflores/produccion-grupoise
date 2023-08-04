@@ -69,30 +69,54 @@ if (isset($_POST["validarEmpleado"])) {
 }
 
 
-/* EMPLEADOS AJAX VIEW API */
 
+
+/* EMPLEADOS AJAX VIEW */
 if (isset($_GET['consult'])) {
 
 
 	//INCLUIR CONEXION
 	include_once "../modelos/conexion.php";
+	$fechasFiltrar = "";
+
+	if (isset($_POST['fechadesde']) || isset($_POST['fechahasta'])) {
+		$fechadesde = $_POST['fechadesde'];
+		$fechahasta = $_POST['fechahasta'];
+
+		if (!empty($fechadesde) && !empty($fechahasta)) {
+			$fechasFiltrar = " BETWEEN '" . $fechadesde . "' AND '" . $fechahasta . "'";
+		}
+	}
+
+
 	if (isset($_POST['tipoagente'])) {
 		if ($_POST['tipoagente'] == 2) {
 			$estado_emp = "tbemp.estado IN (2)";
+			if (!empty($fechadesde) && !empty($fechahasta)) {
+				$fechasFiltrar = " and tbemp.fecha_contratacion" . $fechasFiltrar;
+			}
 		} else if ($_POST['tipoagente'] == 3) {
 			$estado_emp = "tbemp.estado IN (3)";
+			if (!empty($fechadesde) && !empty($fechahasta)) {
+				$fechasFiltrar = " and ret.fecha_retiro" . $fechasFiltrar;
+			}
 		} else {
 			$estado_emp = "tbemp.estado IN (2,3)";
+			$fechasFiltrar = "";
 		}
 	}
 	if (isset($_POST['reportado_a_pnc'])) {
 		$reporte = $_POST['reportado_a_pnc'];
 		if ($reporte == "Si" || $reporte == "No" && !empty($reporte)) {
-			$repotePnc = "and reportado_a_pnc='" . $reporte . "'";
+			$repotePnc = "tbemp.reportado_a_pnc='" . $reporte . "'";
 		} else {
-			$repotePnc = "";
+			$repotePnc = "tbemp.reportado_a_pnc IN('SI','NO','')";
 		}
 	}
+
+	/* 	echo $fechasFiltrar; */
+
+
 
 	/* FUNCION PARA UBICAR LA UBICACIÓN DEL EMPLEADO */
 	function ubicacion_empleado($codigo)
@@ -144,31 +168,7 @@ if (isset($_GET['consult'])) {
 	}
 
 
-	function fechaRetiroEmpleado($idEmpleado)
-	{
-
-		if (!empty($idEmpleado) && $idEmpleado != null) {
-
-			$query = "SELECT max(fecha_retiro) as fecha_retiro,motivo_inactivo FROM `retiro` where idempleado_retiro=" . intval($idEmpleado);
-			$sql = Conexion::conectar()->prepare($query);
-			$sql->execute();
-			$datos = $sql->fetch(PDO::FETCH_ASSOC);
-
-			$fecha = $datos['fecha_retiro'];
-			$motivo = $datos['motivo_inactivo'];
-			if ($fecha != null || !empty($fecha)) {
-
-				$response = array("fecha_retiro" => $fecha, "motivo_inactivo" => $motivo);
-				return $response;
-			}
-		}
-
-		$response = array("fecha_retiro" => "- - -", "motivo_inactivo" => "- - -");
-
-		return $response;
-	}
-
-
+	/* CONSULTAR UNIFORE */
 	function ConsultarUniforme($idEmpleado)
 	{
 
@@ -327,7 +327,7 @@ if (isset($_GET['consult'])) {
 					}
 
 					$ubicacionEmpleado = ubicacion_empleado($value["codigo_empleado"]);
-					$retiro_datos = fechaRetiroEmpleado($value["id"]);
+
 
 				?>
 					<tr>
@@ -340,7 +340,7 @@ if (isset($_GET['consult'])) {
 						<td><?php echo bonoEmpleado($ubicacionEmpleado['ubicaciont']); ?></td>
 						<td><?php echo $value["fecha_ingreso"] ?></td>
 						<td><?php echo $value["fecha_contratacion"] ?></td>
-						<td><?php echo $retiro_datos['fecha_retiro'] ?></td>
+						<td><?php echo !empty($value['fecha_retiro']) ? $value['fecha_retiro'] : "- - -" ?></td>
 						<td><?php echo $ubicacionEmpleado['ubicaciont']; ?></td>
 						<td><?php echo $ubicacionEmpleado['fechat']; ?></td>
 						<td><?php echo $value["numero_documento_identidad"] ?></td>
@@ -353,7 +353,7 @@ if (isset($_GET['consult'])) {
 						<td><?php echo $value["nit"] ?></td>
 						<td><?php echo $value["codigo_bank"] . "-" . $value["nombre_bank"] ?></td>
 						<td><?php echo $value["numero_cuenta"] ?></td>
-						<td><?php echo $retiro_datos['motivo_inactivo'] ?></td>
+						<td><?php echo !empty($value['motivo_inactivo']) ? $value['motivo_inactivo'] : "- - -" ?></td>
 
 
 					</tr>
@@ -401,8 +401,11 @@ if (isset($_GET['consult'])) {
 	$departamento2 = "";
 	if (isset($_POST["empleados"]) && is_numeric($_POST["empleados"]) && !empty($_POST["empleados"])) {
 		/* FILTRAR SOLO POR EL EMPLEADO */
-		$campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa ";
-		$tabla = " `tbl_empleados` tbemp INNER JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id INNER JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id INNER JOIN `bancos` bank ON tbemp.id_banco = bank.id ";
+		$campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa,ret.fecha_retiro, ret.motivo_inactivo";
+
+
+		$tabla = " `tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco = bank.id LEFT JOIN retiro ret ON tbemp.id = ret.idempleado_retiro";
+
 		$condicion = " tbemp.id=" . $_POST['empleados'] . " order by primer_nombre asc, primer_apellido asc";
 		$array = [];
 		$cont = 0;
@@ -427,9 +430,12 @@ if (isset($_GET['consult'])) {
 		foreach ($departamentos as $depa) {
 			echo "<div class='well'><h4><strong>Departamento: <span class='text-primary'>" . $depa['nombre'] . "</span></strong></h4></div>";
 			/* select tbemp.*, cargo.id,cargo.descripcion FROM `tbl_empleados` tbemp inner join cargos_desempenados cargo on tbemp.nivel_cargo=cargo.id; */
-			$campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa ";
-			$tabla = " `tbl_empleados` tbemp INNER JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id INNER JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id INNER JOIN `bancos` bank ON tbemp.id_banco = bank.id ";
-			$condicion = " tbemp.id_departamento_empresa=" . $depa['id'] . " order by primer_nombre asc, primer_apellido asc";
+			$campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo";
+
+
+			$tabla = " `tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco = bank.id LEFT JOIN retiro ret ON tbemp.id = ret.idempleado_retiro";
+
+			$condicion = " tbemp.id_departamento_empresa=" . $depa['id'] . " and " . $estado_emp . "and " . $repotePnc . $fechasFiltrar . " order by primer_nombre asc, primer_apellido asc";
 			$array = [];
 
 			crearTablaEmpleados($cont, $campos, $tabla, $condicion, $array);
@@ -445,9 +451,11 @@ if (isset($_GET['consult'])) {
 		$depa2 = $_POST["departamento2"];
 		if ($depa1 === "*" && $depa2 === "*") {
 			/* FILTRAR TODOS */
-			$campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa ";
-			$tabla = " `tbl_empleados` tbemp INNER JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id INNER JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id INNER JOIN `bancos` bank ON tbemp.id_banco = bank.id ";
-			$condicion = " " . $estado_emp . " " . $repotePnc . " order by primer_nombre asc, primer_apellido asc";
+			$campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo ";
+
+			$tabla = " `tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco = bank.id LEFT JOIN retiro ret ON tbemp.id = ret.idempleado_retiro";
+
+			$condicion = " " . $estado_emp . "and " . $repotePnc . $fechasFiltrar . " order by primer_nombre asc, primer_apellido asc";
 			$array = [];
 			$cont = 0;
 			crearTablaEmpleados(
@@ -472,9 +480,9 @@ if (isset($_GET['consult'])) {
 			foreach ($departamentos as $depa) {
 				echo "<div class='well'><h4><strong>Departamento: <span class='text-primary'>" . $depa['nombre'] . "</span></strong></h4></div>";
 				/* select tbemp.*, cargo.id,cargo.descripcion FROM `tbl_empleados` tbemp inner join cargos_desempenados cargo on tbemp.nivel_cargo=cargo.id; */
-				$campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa ";
-				$tabla = " `tbl_empleados` tbemp INNER JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id INNER JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id INNER JOIN `bancos` bank ON tbemp.id_banco = bank.id ";
-				$condicion = " tbemp.id_departamento_empresa=" . $depa['id'] . " order by primer_nombre asc, primer_apellido asc";
+				$campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo";
+				$tabla = " `tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco = bank.id LEFT JOIN retiro ret ON tbemp.id = ret.idempleado_retiro";
+				$condicion = " tbemp.id_departamento_empresa=" . $depa['id'] . " and " . $estado_emp . "and " . $repotePnc . $fechasFiltrar . " order by primer_nombre asc, primer_apellido asc";
 				$array = [];
 
 

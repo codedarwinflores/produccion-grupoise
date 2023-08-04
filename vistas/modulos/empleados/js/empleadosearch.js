@@ -26,13 +26,14 @@ function cargar() {
     url: "./ajax/empleados.ajax.php?consult=true",
     beforeSend: function (objeto) {
       $("#loader").html(
-        "<h3><strong>¡Espere un momento!</strong></h3><h5><strong> Filtrando varios registros...  </strong></h5><img src='./vistas/modulos/empleados/js/gif.gif' width='12%'>"
+        `<div style='background-color:#F4D03F; padding:20px; border-radius: 50px;'>
+        <h4><strong>¡Espere un momento!</strong></h4><h6><strong> Filtrando los registros...  </strong></h6><img src='./vistas/modulos/empleados/js/gif.gif' width='50%'></div>`
       );
     },
     success: function (data) {
       $("#verTabla").html(data).fadeIn("slow");
       $("#loader").html("");
-      mensaje("info", "check", "Bien Hecho", "Mostrando Datos");
+      mensaje("success", "check", "Bien Hecho", "Mostrando Datos");
       ocultarMensaje("#mensaje");
     },
   });
