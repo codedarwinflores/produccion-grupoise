@@ -65,7 +65,7 @@ function imprimir(param) {
     "./vistas/modulos/reportesexcel/reporteempleado.php?typeReport=" +
       param +
       url,
-    "_target"
+    "_self"
   );
 }
 
