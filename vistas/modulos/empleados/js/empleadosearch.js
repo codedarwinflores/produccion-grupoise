@@ -1,15 +1,7 @@
-cargar();
+/* cargar(); */
 
 function cargar() {
-  let datos = {
-    departamento1: $("#departamento1").val(),
-    departamento2: $("#departamento2").val(),
-    empleados: $("#empleados").val(),
-    fechadesde: $("#fechadesde").val(),
-    fechahasta: $("#fechahasta").val(),
-    reportado_a_pnc: $("#reportado_a_pnc").val(),
-    tipoagente: $("#tipoagente").val(),
-  };
+  let datos = datosReporte();
   let auxiliar = 0;
   if (datos.departamento1 > datos.departamento2) {
     auxiliar = datos.departamento1;
@@ -59,9 +51,21 @@ function ocultarMensaje(id) {
 }
 
 function imprimir(param) {
+  let datos = datosReporte();
+  let url = "";
+
+  url += "&departamento1=" + datos.departamento1;
+  url += "&departamento2=" + datos.departamento2;
+  url += "&empleados=" + datos.empleados;
+  url += "&fechadesde=" + datos.fechadesde;
+  url += "&fechahasta" + datos.fechahasta;
+  url += "&reportado_a_pnc=" + datos.reportado_a_pnc;
+  url += "&tipoagente=" + datos.tipoagente;
   window.open(
-    "./vistas/modulos/reportesexcel/reporteempleado.php?typeReport=" + param,
-    "_self"
+    "./vistas/modulos/reportesexcel/reporteempleado.php?typeReport=" +
+      param +
+      url,
+    "_target"
   );
 }
 
@@ -76,3 +80,16 @@ $("#departamento2")
   .change(function (e) {
     $("#empleados").select2("val", "*");
   });
+
+function datosReporte() {
+  let datos = {
+    departamento1: $("#departamento1").val(),
+    departamento2: $("#departamento2").val(),
+    empleados: $("#empleados").val(),
+    fechadesde: $("#fechadesde").val(),
+    fechahasta: $("#fechahasta").val(),
+    reportado_a_pnc: $("#reportado_a_pnc").val(),
+    tipoagente: $("#tipoagente").val(),
+  };
+  return datos;
+}

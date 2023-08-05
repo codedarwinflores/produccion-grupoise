@@ -144,9 +144,12 @@ $ultimoDiaMes = $fecha_actual->format('Y-m-t');
 
 
               <div class="col-md-12">
-                <button type="submit" onclick="cargar();" class="btn btn-info"><span class="fa fa-search-plus"></span> Filtrar</button>
-                &nbsp;<button type="reset" class="btn btn-default" onclick="limpiar()"><span class="fa fa-eraser"></span> Limpiar</button>
-
+                <div class="pull-left">
+                  <button type="submit" onclick="cargar();" class="btn btn-info"><span class="fa fa-search-plus"></span> Filtrar</button>
+                </div>
+                <div class="pull-right">
+                  &nbsp;<button type="reset" class="btn btn-default" onclick="limpiar()"><span class="fa fa-eraser"></span> Limpiar</button>
+                </div>
               </div>
 
             </div>
@@ -161,7 +164,7 @@ $ultimoDiaMes = $fecha_actual->format('Y-m-t');
           <div class="row">
             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 text-center">
               <div class="pull-left">
-                <h3><strong class="text-info">Litado de Empleados</strong></h3><!-- AGREGAR BOTON DE IMPRIMIR -->
+                <h3><strong class="text-info">👆Filtrar Empleados</strong></h3><!-- AGREGAR BOTON DE IMPRIMIR -->
               </div>
             </div>
             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 text-center">

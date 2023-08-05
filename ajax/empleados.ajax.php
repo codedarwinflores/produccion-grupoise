@@ -238,10 +238,23 @@ if (isset($_GET['consult'])) {
 	/* FUNCIÓN PARA IMPRIMIR LOS DEPARTAMENTOS DE LA EMPRESA */
 	function departamentos($depa1, $depa2)
 	{
-		$stm = "SELECT * FROM `departamentos_empresa` where id between " . $depa1 . " and " . $depa2;
+		if (is_numeric($depa1) && $depa2 == "uno") {
+			$stm = "SELECT tblemp.primer_nombre, d_emp.codigo,d_emp.nombre FROM tbl_empleados tblemp LEFT JOIN departamentos_empresa d_emp ON tblemp.id_departamento_empresa = d_emp.id WHERE tblemp.id = " . $depa1;
+		} else if (is_numeric($depa1) && is_numeric($depa2)) {
+			$stm = "SELECT * FROM `departamentos_empresa` where id between " . $depa1 . " and " . $depa2;
+		} else {
+			$stm = "SELECT d_emp.id,d_emp.codigo, d_emp.nombre, COUNT(tblemp.id) AS cantidad_empleados FROM departamentos_empresa d_emp INNER JOIN tbl_empleados tblemp ON d_emp.id = tblemp.id_departamento_empresa GROUP BY d_emp.codigo, d_emp.nombre HAVING COUNT(tblemp.id) > 0 ";
+		}
+
 		$sqlquery = Conexion::conectar()->prepare($stm);
 		$sqlquery->execute();
-		return $sqlquery->fetchAll();
+
+		if (is_numeric($depa1) && $depa2 == "uno") {
+			return $sqlquery->fetch(PDO::FETCH_ASSOC);
+		} else {
+
+			return $sqlquery->fetchAll();
+		}
 	}
 
 
@@ -403,6 +416,9 @@ if (isset($_GET['consult'])) {
 	$departamento2 = "";
 	if (isset($_POST["empleados"]) && is_numeric($_POST["empleados"]) && !empty($_POST["empleados"])) {
 		/* FILTRAR SOLO POR EL EMPLEADO */
+		$cont = 0;
+		$departamento = departamentos($_POST['empleados'], "uno");
+		echo "<div class='well'><h4><strong>Departamento: <span class='text-primary'>" . strval($departamento['codigo']) . " - " . $departamento['nombre'] . "</span></strong></h4></div>";
 		$campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa,ret.fecha_retiro, ret.motivo_inactivo";
 
 
@@ -410,7 +426,7 @@ if (isset($_GET['consult'])) {
 
 		$condicion = " tbemp.id=" . $_POST['empleados'] . " order by primer_nombre asc, primer_apellido asc";
 		$array = [];
-		$cont = 0;
+		$cont++;
 		crearTablaEmpleados(
 			$cont,
 			$campos,
@@ -421,8 +437,8 @@ if (isset($_GET['consult'])) {
 	} else	if (
 		isset($_POST["departamento1"]) && isset($_POST["departamento2"]) && !empty($_POST["departamento1"]) && !empty($_POST["departamento2"] && $_POST["departamento1"] != "*" && $_POST["departamento2"] != "*")
 	) {
-		$depa1 = $_POST["departamento1"];
-		$depa2 = $_POST["departamento2"];
+		$depa1 = intval($_POST["departamento1"]);
+		$depa2 = intval($_POST["departamento2"]);
 
 		$departamentos = departamentos($depa1, $depa2);
 
@@ -430,7 +446,7 @@ if (isset($_GET['consult'])) {
 
 
 		foreach ($departamentos as $depa) {
-			echo "<div class='well'><h4><strong>Departamento: <span class='text-primary'>" . $depa['nombre'] . "</span></strong></h4></div>";
+			echo "<div class='well'><h4><strong>Departamento: <span class='text-primary'>" . $depa['codigo'] . " - " . $depa['nombre'] . "</span></strong></h4></div>";
 			/* select tbemp.*, cargo.id,cargo.descripcion FROM `tbl_empleados` tbemp inner join cargos_desempenados cargo on tbemp.nivel_cargo=cargo.id; */
 			$campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo";
 
@@ -443,32 +459,38 @@ if (isset($_GET['consult'])) {
 			crearTablaEmpleados($cont, $campos, $tabla, $condicion, $array);
 			$cont++;
 		}
-
-
-
-		/* CONDICIÓN SOLO POR UN DEPARTAMENTO */
 	} else if ($_POST["departamento1"] === "*" || $_POST["departamento2"] === "*") {
 
 		$depa1 = $_POST["departamento1"];
 		$depa2 = $_POST["departamento2"];
 		if ($depa1 === "*" && $depa2 === "*") {
-			/* FILTRAR TODOS */
-			$campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo ";
 
-			$tabla = " `tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco = bank.id LEFT JOIN retiro ret ON tbemp.id = ret.idempleado_retiro";
+			$departamentos = departamentos("todos", "todos");
 
-			$condicion = " " . $estado_emp . "and " . $repotePnc . $fechasFiltrar . " order by primer_nombre asc, primer_apellido asc";
-			$array = [];
 			$cont = 0;
-			crearTablaEmpleados(
-				$cont,
-				$campos,
-				$tabla,
-				$condicion,
-				$array
-			);
+
+
+			foreach ($departamentos as $depa) {
+				echo "<div class='well'><h4><strong>Departamento: <span class='text-primary'>" . $depa['codigo'] . " - " . $depa['nombre'] . "</span></strong></h4></div>";
+				/* FILTRAR TODOS */
+				$campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo ";
+
+				$tabla = " `tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco = bank.id LEFT JOIN retiro ret ON tbemp.id = ret.idempleado_retiro";
+
+				$condicion = " tbemp.id_departamento_empresa=" . $depa['id'] . " and " . $estado_emp . "and " . $repotePnc . $fechasFiltrar . " order by primer_nombre asc, primer_apellido asc";
+				$array = [];
+				$cont++;
+				crearTablaEmpleados(
+					$cont,
+					$campos,
+					$tabla,
+					$condicion,
+					$array
+				);
+			}
 		} else {
 
+			/* CONDICIÓN SOLO POR UN DEPARTAMENTO */
 			if ($depa1 != "*" && $depa2 === "*") {
 				$depa2 = $depa1;
 			} else if ($depa1 === "*" && $depa2 != "*") {
@@ -476,11 +498,9 @@ if (isset($_GET['consult'])) {
 			}
 
 			$departamentos = departamentos($depa1, $depa2);
-
 			$cont = 0;
-
 			foreach ($departamentos as $depa) {
-				echo "<div class='well'><h4><strong>Departamento: <span class='text-primary'>" . $depa['nombre'] . "</span></strong></h4></div>";
+				echo "<div class='well'><h4><strong>Departamento: <span class='text-primary'>" . $depa['codigo'] . " - " . $depa['nombre'] . "</span></strong></h4></div>";
 				/* select tbemp.*, cargo.id,cargo.descripcion FROM `tbl_empleados` tbemp inner join cargos_desempenados cargo on tbemp.nivel_cargo=cargo.id; */
 				$campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo";
 				$tabla = " `tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco = bank.id LEFT JOIN retiro ret ON tbemp.id = ret.idempleado_retiro";
