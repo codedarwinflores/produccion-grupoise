@@ -58,6 +58,7 @@ function imprimir(param) {
     datos.departamento1 = datos.departamento2;
     datos.departamento2 = auxiliar;
   }
+
   let url = "";
   mensaje(
     "warning",

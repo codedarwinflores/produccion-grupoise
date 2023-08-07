@@ -121,7 +121,6 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
         return "$ " . number_format($bono, 2);
     }
 
-
     /* CONSULTAR UNIFORE */
     function ConsultarUniforme($idEmpleado)
     {
@@ -149,6 +148,9 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
 
         return "NO";
     }
+
+
+
 
     /* CAMPO TRANS.p */
     function transpDevengo($idEmpleado)
@@ -223,6 +225,8 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
             return $sqlquery->fetchAll();
         }
     }
+
+
 
     /* FiN FUNCIONES */
     /* __________________________________________________________________________ */
@@ -388,6 +392,7 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
     $spreadsheet->getActiveSheet()->getColumnDimension('T')->setWidth(15);
     $spreadsheet->getActiveSheet()->getColumnDimension('U')->setWidth(20);
     $spreadsheet->getActiveSheet()->getColumnDimension('V')->setWidth(12);
+    $spreadsheet->getActiveSheet()->getColumnDimension('W')->setWidth(12);
 
 
     /* OBTENER DATOS */
@@ -438,9 +443,10 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
             ->setCellValue('S' . $filaHeadeTable, "Banco")
             ->setCellValue('T' . $filaHeadeTable, "Cuenta")
             ->setCellValue('U' . $filaHeadeTable, "M. Retiro")
-            ->setCellValue('V' . $filaHeadeTable, "Estado");
+            ->setCellValue('V' . $filaHeadeTable, "Estado")
+            ->setCellValue('W' . $filaHeadeTable, "Uniforme");
         //set font style and background color
-        $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':V' . $filaHeadeTable . '')->applyFromArray($tableHead);
+        $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':W' . $filaHeadeTable . '')->applyFromArray($tableHead);
 
         $campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa,ret.fecha_retiro, ret.motivo_inactivo";
 
@@ -487,15 +493,16 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
                     ->setCellValue('S' . $row, $employee["codigo_bank"] . "-" . $employee["nombre_bank"])
                     ->setCellValue('T' . $row, $employee["numero_cuenta"])
                     ->setCellValue('U' . $row, !empty($employee['motivo_inactivo']) ? $employee['motivo_inactivo'] : "- - -")
-                    ->setCellValue('V' . $row, ($employee["estado"] == 1) ? "Solicitud" : (($employee["estado"] == 2) ? "Contratado" : (($employee["estado"] == 3) ? "Inactivo" : (($employee["estado"] == 4) ? "Incapacitado" : "Error"))));
+                    ->setCellValue('V' . $row, ($employee["estado"] == 1) ? "Solicitud" : (($employee["estado"] == 2) ? "Contratado" : (($employee["estado"] == 3) ? "Inactivo" : (($employee["estado"] == 4) ? "Incapacitado" : "Error"))))
+                    ->setCellValue('W' . $row, ConsultarUniforme($employee["id"]));
 
                 //set row style
                 if ($row % 2 == 0) {
                     //even row
-                    $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':V' . $row)->applyFromArray($evenRow);
+                    $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':W' . $row)->applyFromArray($evenRow);
                 } else {
                     //odd row
-                    $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':V' . $row)->applyFromArray($oddRow);
+                    $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':W' . $row)->applyFromArray($oddRow);
                 }
 
 
@@ -583,9 +590,10 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
                 ->setCellValue('S' . $filaHeadeTable, "Banco")
                 ->setCellValue('T' . $filaHeadeTable, "Cuenta")
                 ->setCellValue('U' . $filaHeadeTable, "M. Retiro")
-                ->setCellValue('V' . $filaHeadeTable, "Estado");
+                ->setCellValue('V' . $filaHeadeTable, "Estado")
+                ->setCellValue('W' . $filaHeadeTable, "Uniforme");
             //set font style and background color
-            $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':V' . $filaHeadeTable . '')->applyFromArray($tableHead);
+            $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':W' . $filaHeadeTable . '')->applyFromArray($tableHead);
 
             $campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo";
 
@@ -627,15 +635,16 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
                         ->setCellValue('S' . $row, $employee["codigo_bank"] . "-" . $employee["nombre_bank"])
                         ->setCellValue('T' . $row, $employee["numero_cuenta"])
                         ->setCellValue('U' . $row, !empty($employee['motivo_inactivo']) ? $employee['motivo_inactivo'] : "- - -")
-                        ->setCellValue('V' . $row, ($employee["estado"] == 1) ? "Solicitud" : (($employee["estado"] == 2) ? "Contratado" : (($employee["estado"] == 3) ? "Inactivo" : (($employee["estado"] == 4) ? "Incapacitado" : "Error"))));
+                        ->setCellValue('V' . $row, ($employee["estado"] == 1) ? "Solicitud" : (($employee["estado"] == 2) ? "Contratado" : (($employee["estado"] == 3) ? "Inactivo" : (($employee["estado"] == 4) ? "Incapacitado" : "Error"))))
+                        ->setCellValue('W' . $row, ConsultarUniforme($employee["id"]));
 
                     //set row style
                     if ($row % 2 == 0) {
                         //even row
-                        $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':V' . $row)->applyFromArray($evenRow);
+                        $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':W' . $row)->applyFromArray($evenRow);
                     } else {
                         //odd row
-                        $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':V' . $row)->applyFromArray($oddRow);
+                        $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':W' . $row)->applyFromArray($oddRow);
                     }
 
 
@@ -731,9 +740,10 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
                     ->setCellValue('S' . $filaHeadeTable, "Banco")
                     ->setCellValue('T' . $filaHeadeTable, "Cuenta")
                     ->setCellValue('U' . $filaHeadeTable, "M. Retiro")
-                    ->setCellValue('V' . $filaHeadeTable, "Estado");
+                    ->setCellValue('V' . $filaHeadeTable, "Estado")
+                    ->setCellValue('W' . $filaHeadeTable, "Uniforme");
                 //set font style and background color
-                $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':V' . $filaHeadeTable . '')->applyFromArray($tableHead);
+                $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':W' . $filaHeadeTable . '')->applyFromArray($tableHead);
 
                 /* CONSULTA */
                 $campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo ";
@@ -775,15 +785,16 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
                             ->setCellValue('S' . $row, $employee["codigo_bank"] . "-" . $employee["nombre_bank"])
                             ->setCellValue('T' . $row, $employee["numero_cuenta"])
                             ->setCellValue('U' . $row, !empty($employee['motivo_inactivo']) ? $employee['motivo_inactivo'] : "- - -")
-                            ->setCellValue('V' . $row, ($employee["estado"] == 1) ? "Solicitud" : (($employee["estado"] == 2) ? "Contratado" : (($employee["estado"] == 3) ? "Inactivo" : (($employee["estado"] == 4) ? "Incapacitado" : "Error"))));
+                            ->setCellValue('V' . $row, ($employee["estado"] == 1) ? "Solicitud" : (($employee["estado"] == 2) ? "Contratado" : (($employee["estado"] == 3) ? "Inactivo" : (($employee["estado"] == 4) ? "Incapacitado" : "Error"))))
+                            ->setCellValue('W' . $row, ConsultarUniforme($employee["id"]));
 
                         //set row style
                         if ($row % 2 == 0) {
                             //even row
-                            $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':V' . $row)->applyFromArray($evenRow);
+                            $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':W' . $row)->applyFromArray($evenRow);
                         } else {
                             //odd row
-                            $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':V' . $row)->applyFromArray($oddRow);
+                            $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':W' . $row)->applyFromArray($oddRow);
                         }
 
 
@@ -878,9 +889,10 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
                     ->setCellValue('S' . $filaHeadeTable, "Banco")
                     ->setCellValue('T' . $filaHeadeTable, "Cuenta")
                     ->setCellValue('U' . $filaHeadeTable, "M. Retiro")
-                    ->setCellValue('V' . $filaHeadeTable, "Estado");
+                    ->setCellValue('V' . $filaHeadeTable, "Estado")
+                    ->setCellValue('W' . $filaHeadeTable, "Uniforme");
                 //set font style and background color
-                $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':V' . $filaHeadeTable . '')->applyFromArray($tableHead);
+                $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':W' . $filaHeadeTable . '')->applyFromArray($tableHead);
                 $campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo";
                 $tabla = " `tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco = bank.id LEFT JOIN retiro ret ON tbemp.id = ret.idempleado_retiro";
                 $condicion = " tbemp.id_departamento_empresa=" . $depa['id'] . " and " . $estado_emp . "and " . $repotePnc . $fechasFiltrar . " order by primer_nombre asc, primer_apellido asc";
@@ -919,15 +931,16 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
                             ->setCellValue('S' . $row, $employee["codigo_bank"] . "-" . $employee["nombre_bank"])
                             ->setCellValue('T' . $row, $employee["numero_cuenta"])
                             ->setCellValue('U' . $row, !empty($employee['motivo_inactivo']) ? $employee['motivo_inactivo'] : "- - -")
-                            ->setCellValue('V' . $row, ($employee["estado"] == 1) ? "Solicitud" : (($employee["estado"] == 2) ? "Contratado" : (($employee["estado"] == 3) ? "Inactivo" : (($employee["estado"] == 4) ? "Incapacitado" : "Error"))));
+                            ->setCellValue('V' . $row, ($employee["estado"] == 1) ? "Solicitud" : (($employee["estado"] == 2) ? "Contratado" : (($employee["estado"] == 3) ? "Inactivo" : (($employee["estado"] == 4) ? "Incapacitado" : "Error"))))
+                            ->setCellValue('W' . $row, ConsultarUniforme($employee["id"]));
 
                         //set row style
                         if ($row % 2 == 0) {
                             //even row
-                            $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':V' . $row)->applyFromArray($evenRow);
+                            $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':W' . $row)->applyFromArray($evenRow);
                         } else {
                             //odd row
-                            $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':V' . $row)->applyFromArray($oddRow);
+                            $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':W' . $row)->applyFromArray($oddRow);
                         }
 
 

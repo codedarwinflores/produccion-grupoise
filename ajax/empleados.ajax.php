@@ -234,21 +234,6 @@ if (isset($_GET['consult'])) {
 		return 0;
 	}
 
-	/* CALCULAR EDAD DEL EMPLEADO */
-	function diasContratado($fechaContrato, $fechaRetiro)
-	{
-		if (!empty($fechaContrato) && !empty($fechaRetiro)) {
-			$fecha1 = new DateTime($fechaContrato); // Fecha inicial
-			$fecha2 = new DateTime($fechaRetiro); // Fecha final
-
-			$intervalo = $fecha1->diff($fecha2);
-			$dias = $intervalo->days;
-			return $dias;
-		}
-
-		return 0;
-	}
-
 
 	/* FUNCIÓN PARA IMPRIMIR LOS DEPARTAMENTOS DE LA EMPRESA */
 	function departamentos($depa1, $depa2)
@@ -530,17 +515,6 @@ if (isset($_GET['consult'])) {
 		}
 	}
 
-
-
-
-
-	?>
-
-
-
-
-
-<?php
 
 
 }
