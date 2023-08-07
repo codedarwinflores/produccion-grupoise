@@ -46,19 +46,26 @@ function mensaje(tipoalert, icono, titulo, mensaje) {
 
 function ocultarMensaje(id) {
   setTimeout(function () {
-    $(id).fadeOut(2500);
-  }, 3000);
+    $(id).fadeOut(3500);
+  }, 3500);
 }
 
 function imprimir(param) {
+  $("#mensaje").fadeIn("slow");
   let datos = datosReporte();
   let url = "";
-
+  mensaje(
+    "warning",
+    "warning",
+    "Exportando Resultados: ",
+    "¡Espere un momento, por favor! Por la cantidad de registros, es probable que tarde unos segundos"
+  );
+  ocultarMensaje("#mensaje");
   url += "&departamento1=" + datos.departamento1;
   url += "&departamento2=" + datos.departamento2;
   url += "&empleados=" + datos.empleados;
   url += "&fechadesde=" + datos.fechadesde;
-  url += "&fechahasta" + datos.fechahasta;
+  url += "&fechahasta=" + datos.fechahasta;
   url += "&reportado_a_pnc=" + datos.reportado_a_pnc;
   url += "&tipoagente=" + datos.tipoagente;
   window.open(
