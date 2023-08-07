@@ -541,10 +541,7 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
     ) {
         $depa1 = intval($_GET["departamento1"]);
         $depa2 = intval($_GET["departamento2"]);
-        if ($depa1 > $depa2) {
-            $depa1  = $depa2;
-            $depa2  = $depa1;
-        }
+
 
         $departamentos = departamentos($depa1, $depa2);
 

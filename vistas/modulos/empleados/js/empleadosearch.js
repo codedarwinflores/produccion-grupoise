@@ -53,6 +53,11 @@ function ocultarMensaje(id) {
 function imprimir(param) {
   $("#mensaje").fadeIn("slow");
   let datos = datosReporte();
+  if (datos.departamento1 > datos.departamento2) {
+    auxiliar = datos.departamento1;
+    datos.departamento1 = datos.departamento2;
+    datos.departamento2 = auxiliar;
+  }
   let url = "";
   mensaje(
     "warning",
