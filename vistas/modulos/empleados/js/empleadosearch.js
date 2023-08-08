@@ -1,5 +1,4 @@
 /* cargar(); */
-
 function cargar() {
   let datos = datosReporte();
   let auxiliar = 0;
@@ -95,6 +94,9 @@ $("#departamento2")
   });
 
 function datosReporte() {
+  let checkbox = $("#rrhh");
+  let rrhumanos = checkbox.is(":checked") ? checkbox.val() : "";
+  /*   alert(rrhumanos); */
   let datos = {
     departamento1: $("#departamento1").val(),
     departamento2: $("#departamento2").val(),
@@ -103,6 +105,7 @@ function datosReporte() {
     fechahasta: $("#fechahasta").val(),
     reportado_a_pnc: $("#reportado_a_pnc").val(),
     tipoagente: $("#tipoagente").val(),
+    rrhh: rrhumanos,
   };
   return datos;
 }

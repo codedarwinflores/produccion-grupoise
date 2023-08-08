@@ -58,6 +58,8 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
             $estado_emp = "tbemp.estado IN (2,3)";
             $estado_ingresos = "Ingresos/Egresos";
         }
+
+        $_estado = $_GET['tipoagente'];
     }
     if (isset($_GET['reportado_a_pnc'])) {
         $reporte = $_GET['reportado_a_pnc'];
@@ -378,14 +380,14 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
     $spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(15);
     $spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(15);
     $spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(15);
-    $spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(6);
+    $spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(35);
     $spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(15);
     $spreadsheet->getActiveSheet()->getColumnDimension('K')->setWidth(15);
     $spreadsheet->getActiveSheet()->getColumnDimension('L')->setWidth(15);
     $spreadsheet->getActiveSheet()->getColumnDimension('M')->setWidth(15);
     $spreadsheet->getActiveSheet()->getColumnDimension('N')->setWidth(15);
     $spreadsheet->getActiveSheet()->getColumnDimension('O')->setWidth(15);
-    $spreadsheet->getActiveSheet()->getColumnDimension('P')->setWidth(15);
+    $spreadsheet->getActiveSheet()->getColumnDimension('P')->setWidth(25);
     $spreadsheet->getActiveSheet()->getColumnDimension('Q')->setWidth(15);
     $spreadsheet->getActiveSheet()->getColumnDimension('R')->setWidth(20);
     $spreadsheet->getActiveSheet()->getColumnDimension('S')->setWidth(20);
@@ -393,6 +395,7 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
     $spreadsheet->getActiveSheet()->getColumnDimension('U')->setWidth(20);
     $spreadsheet->getActiveSheet()->getColumnDimension('V')->setWidth(12);
     $spreadsheet->getActiveSheet()->getColumnDimension('W')->setWidth(12);
+    $spreadsheet->getActiveSheet()->getColumnDimension('X')->setWidth(12);
 
 
     /* OBTENER DATOS */
@@ -423,32 +426,33 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
         //header text
         $spreadsheet->getActiveSheet()
             ->setCellValue('A' . $filaHeadeTable, "N°")
-            ->setCellValue('B' . $filaHeadeTable, "Nombres")
-            ->setCellValue('C' . $filaHeadeTable, "Sueldo")
-            ->setCellValue('D' . $filaHeadeTable, "Transp")
+            ->setCellValue('B' . $filaHeadeTable, "NOMBRES")
+            ->setCellValue('C' . $filaHeadeTable, "SUELDO")
+            ->setCellValue('D' . $filaHeadeTable, "TRANSP.")
             ->setCellValue('E' . $filaHeadeTable, "U. ESP")
-            ->setCellValue('F' . $filaHeadeTable, "F. Ingreso")
-            ->setCellValue('G' . $filaHeadeTable, "F. Cont")
-            ->setCellValue('H' . $filaHeadeTable, "F. Retiro")
-            ->setCellValue('I' . $filaHeadeTable, "Días")
-            ->setCellValue('J' . $filaHeadeTable, "Ubicación")
-            ->setCellValue('K' . $filaHeadeTable, "F. Ubicación")
-            ->setCellValue('L' . $filaHeadeTable, "D.U.I")
-            ->setCellValue('M' . $filaHeadeTable, "AFP")
-            ->setCellValue('N' . $filaHeadeTable, "Tipo Empleado")
-            ->setCellValue('O' . $filaHeadeTable, "Edad")
-            ->setCellValue('P' . $filaHeadeTable, "F. Nacimiento")
-            ->setCellValue('Q' . $filaHeadeTable, "ISS")
-            ->setCellValue('R' . $filaHeadeTable, "NIT")
-            ->setCellValue('S' . $filaHeadeTable, "Banco")
-            ->setCellValue('T' . $filaHeadeTable, "Cuenta")
-            ->setCellValue('U' . $filaHeadeTable, "M. Retiro")
-            ->setCellValue('V' . $filaHeadeTable, "Estado")
-            ->setCellValue('W' . $filaHeadeTable, "Uniforme");
+            ->setCellValue('F' . $filaHeadeTable, "F. INGRESO")
+            ->setCellValue('G' . $filaHeadeTable, "F. CONTRATO")
+            ->setCellValue('H' . $filaHeadeTable, "F. RETIRO")
+            ->setCellValue('I' . $filaHeadeTable, "UBICACIÓN")
+            ->setCellValue('J' . $filaHeadeTable, "F. UBICACIÓN")
+            ->setCellValue('K' . $filaHeadeTable, "DUI")
+            ->setCellValue('L' . $filaHeadeTable, "DÍAS")
+            ->setCellValue('M' . $filaHeadeTable, "NUP")
+            ->setCellValue('N' . $filaHeadeTable, "AFP")
+            ->setCellValue('O' . $filaHeadeTable, "MOTIVO RETIRO")
+            ->setCellValue('P' . $filaHeadeTable, "TIPO DE EMPLEADO")
+            ->setCellValue('Q' . $filaHeadeTable, "EDAD")
+            ->setCellValue('R' . $filaHeadeTable, "NACIMIENTO")
+            ->setCellValue('S' . $filaHeadeTable, "ISSS")
+            ->setCellValue('T' . $filaHeadeTable, "NIT")
+            ->setCellValue('U' . $filaHeadeTable, "BANCO")
+            ->setCellValue('V' . $filaHeadeTable, "CUENTA")
+            ->setCellValue('W' . $filaHeadeTable, "MOTIVO")
+            ->setCellValue('X' . $filaHeadeTable, "CON UNIFORME");
         //set font style and background color
-        $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':W' . $filaHeadeTable . '')->applyFromArray($tableHead);
+        $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':X' . $filaHeadeTable . '')->applyFromArray($tableHead);
 
-        $campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa,ret.fecha_retiro, ret.motivo_inactivo";
+        $campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa,ret.fecha_retiro, ret.motivo_inactivo,ret.observaciones_retiro";
 
 
         $tabla = " `tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco = bank.id LEFT JOIN retiro ret ON tbemp.id = ret.idempleado_retiro";
@@ -480,29 +484,30 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
                     ->setCellValue('F' . $row, $employee['fecha_ingreso'])
                     ->setCellValue('G' . $row, $employee['fecha_contratacion'])
                     ->setCellValue('H' . $row, !empty($employee['fecha_retiro']) ? $employee['fecha_retiro'] : "- - -")
-                    ->setCellValue('I' . $row, diasContratado($employee['fecha_contratacion'], $employee['fecha_retiro']))
-                    ->setCellValue('J' . $row, $ubicacionEmpleado['ubicaciont'])
-                    ->setCellValue('K' . $row, $ubicacionEmpleado['fechat'])
-                    ->setCellValue('L' . $row, $employee['numero_documento_identidad'])
+                    ->setCellValue('I' . $row, $ubicacionEmpleado['ubicaciont'])
+                    ->setCellValue('J' . $row, $ubicacionEmpleado['fechat'])
+                    ->setCellValue('K' . $row, $employee['numero_documento_identidad'])
+                    ->setCellValue('L' . $row, diasContratado($employee['fecha_contratacion'], $employee['fecha_retiro']))
                     ->setCellValue('M' . $row, $employee['nup'])
-                    ->setCellValue('N' . $row, $employee['descripcion'])
-                    ->setCellValue('O' . $row, edad($employee["fecha_nacimiento"]))
-                    ->setCellValue('P' . $row, $employee['fecha_nacimiento'])
-                    ->setCellValue('Q' . $row, $employee['numero_isss'])
-                    ->setCellValue('R' . $row, $employee['nit'])
-                    ->setCellValue('S' . $row, $employee["codigo_bank"] . "-" . $employee["nombre_bank"])
-                    ->setCellValue('T' . $row, $employee["numero_cuenta"])
-                    ->setCellValue('U' . $row, !empty($employee['motivo_inactivo']) ? $employee['motivo_inactivo'] : "- - -")
-                    ->setCellValue('V' . $row, ($employee["estado"] == 1) ? "Solicitud" : (($employee["estado"] == 2) ? "Contratado" : (($employee["estado"] == 3) ? "Inactivo" : (($employee["estado"] == 4) ? "Incapacitado" : "Error"))))
-                    ->setCellValue('W' . $row, ConsultarUniforme($employee["id"]));
+                    ->setCellValue('N' . $row, $employee['codigo_afp'])
+                    ->setCellValue('O' . $row, !empty($employee['motivo_inactivo']) ? $employee['motivo_inactivo'] : "- - -")
+                    ->setCellValue('P' . $row, $employee['descripcion'])
+                    ->setCellValue('Q' . $row, edad($employee["fecha_nacimiento"]))
+                    ->setCellValue('R' . $row, $employee['fecha_nacimiento'])
+                    ->setCellValue('S' . $row, $employee['numero_isss'])
+                    ->setCellValue('T' . $row, $employee['nit'])
+                    ->setCellValue('U' . $row, $employee["codigo_bank"] . "-" . $employee["nombre_bank"])
+                    ->setCellValue('V' . $row, $employee["numero_cuenta"])
+                    ->setCellValue('W' . $row, !empty($value['observaciones_retiro']) ? $value['observaciones_retiro'] : "- - -")
+                    ->setCellValue('X' . $row, ConsultarUniforme($employee["id"]));
 
                 //set row style
                 if ($row % 2 == 0) {
                     //even row
-                    $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':W' . $row)->applyFromArray($evenRow);
+                    $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':X' . $row)->applyFromArray($evenRow);
                 } else {
                     //odd row
-                    $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':W' . $row)->applyFromArray($oddRow);
+                    $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':X' . $row)->applyFromArray($oddRow);
                 }
 
 
@@ -521,6 +526,14 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
 
         $filaDep = $lastRow + 2;
         $filaHeadeTable = $lastRow + 4;
+
+        if ($_estado === "2") {
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(12);
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(15 - 1);
+            # code...
+        }
+
+
         if ($ext == "xlsx") {
             $writer = new Xlsx($spreadsheet);
             $final_filename = $filename . ".xlsx";
@@ -570,32 +583,33 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
             //header text
             $spreadsheet->getActiveSheet()
                 ->setCellValue('A' . $filaHeadeTable, "N°")
-                ->setCellValue('B' . $filaHeadeTable, "Nombres")
-                ->setCellValue('C' . $filaHeadeTable, "Sueldo")
-                ->setCellValue('D' . $filaHeadeTable, "Transp")
+                ->setCellValue('B' . $filaHeadeTable, "NOMBRES")
+                ->setCellValue('C' . $filaHeadeTable, "SUELDO")
+                ->setCellValue('D' . $filaHeadeTable, "TRANSP.")
                 ->setCellValue('E' . $filaHeadeTable, "U. ESP")
-                ->setCellValue('F' . $filaHeadeTable, "F. Ingreso")
-                ->setCellValue('G' . $filaHeadeTable, "F. Cont")
-                ->setCellValue('H' . $filaHeadeTable, "F. Retiro")
-                ->setCellValue('I' . $filaHeadeTable, "Días")
-                ->setCellValue('J' . $filaHeadeTable, "Ubicación")
-                ->setCellValue('K' . $filaHeadeTable, "F. Ubicación")
-                ->setCellValue('L' . $filaHeadeTable, "D.U.I")
-                ->setCellValue('M' . $filaHeadeTable, "AFP")
-                ->setCellValue('N' . $filaHeadeTable, "Tipo Empleado")
-                ->setCellValue('O' . $filaHeadeTable, "Edad")
-                ->setCellValue('P' . $filaHeadeTable, "F. Nacimiento")
-                ->setCellValue('Q' . $filaHeadeTable, "ISS")
-                ->setCellValue('R' . $filaHeadeTable, "NIT")
-                ->setCellValue('S' . $filaHeadeTable, "Banco")
-                ->setCellValue('T' . $filaHeadeTable, "Cuenta")
-                ->setCellValue('U' . $filaHeadeTable, "M. Retiro")
-                ->setCellValue('V' . $filaHeadeTable, "Estado")
-                ->setCellValue('W' . $filaHeadeTable, "Uniforme");
+                ->setCellValue('F' . $filaHeadeTable, "F. INGRESO")
+                ->setCellValue('G' . $filaHeadeTable, "F. CONTRATO")
+                ->setCellValue('H' . $filaHeadeTable, "F. RETIRO")
+                ->setCellValue('I' . $filaHeadeTable, "UBICACIÓN")
+                ->setCellValue('J' . $filaHeadeTable, "F. UBICACIÓN")
+                ->setCellValue('K' . $filaHeadeTable, "DUI")
+                ->setCellValue('L' . $filaHeadeTable, "DÍAS")
+                ->setCellValue('M' . $filaHeadeTable, "NUP")
+                ->setCellValue('N' . $filaHeadeTable, "AFP")
+                ->setCellValue('O' . $filaHeadeTable, "MOTIVO RETIRO")
+                ->setCellValue('P' . $filaHeadeTable, "TIPO DE EMPLEADO")
+                ->setCellValue('Q' . $filaHeadeTable, "EDAD")
+                ->setCellValue('R' . $filaHeadeTable, "NACIMIENTO")
+                ->setCellValue('S' . $filaHeadeTable, "ISSS")
+                ->setCellValue('T' . $filaHeadeTable, "NIT")
+                ->setCellValue('U' . $filaHeadeTable, "BANCO")
+                ->setCellValue('V' . $filaHeadeTable, "CUENTA")
+                ->setCellValue('W' . $filaHeadeTable, "MOTIVO")
+                ->setCellValue('X' . $filaHeadeTable, "CON UNIFORME");
             //set font style and background color
-            $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':W' . $filaHeadeTable . '')->applyFromArray($tableHead);
+            $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':X' . $filaHeadeTable . '')->applyFromArray($tableHead);
 
-            $campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo";
+            $campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo,ret.observaciones_retiro";
 
 
             $tabla = " `tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco = bank.id LEFT JOIN retiro ret ON tbemp.id = ret.idempleado_retiro";
@@ -622,32 +636,31 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
                         ->setCellValue('F' . $row, $employee['fecha_ingreso'])
                         ->setCellValue('G' . $row, $employee['fecha_contratacion'])
                         ->setCellValue('H' . $row, !empty($employee['fecha_retiro']) ? $employee['fecha_retiro'] : "- - -")
-                        ->setCellValue('I' . $row, diasContratado($employee['fecha_contratacion'], $employee['fecha_retiro']))
-                        ->setCellValue('J' . $row, $ubicacionEmpleado['ubicaciont'])
-                        ->setCellValue('K' . $row, $ubicacionEmpleado['fechat'])
-                        ->setCellValue('L' . $row, $employee['numero_documento_identidad'])
+                        ->setCellValue('I' . $row, $ubicacionEmpleado['ubicaciont'])
+                        ->setCellValue('J' . $row, $ubicacionEmpleado['fechat'])
+                        ->setCellValue('K' . $row, $employee['numero_documento_identidad'])
+                        ->setCellValue('L' . $row, diasContratado($employee['fecha_contratacion'], $employee['fecha_retiro']))
                         ->setCellValue('M' . $row, $employee['nup'])
-                        ->setCellValue('N' . $row, $employee['descripcion'])
-                        ->setCellValue('O' . $row, edad($employee["fecha_nacimiento"]))
-                        ->setCellValue('P' . $row, $employee['fecha_nacimiento'])
-                        ->setCellValue('Q' . $row, $employee['numero_isss'])
-                        ->setCellValue('R' . $row, $employee['nit'])
-                        ->setCellValue('S' . $row, $employee["codigo_bank"] . "-" . $employee["nombre_bank"])
-                        ->setCellValue('T' . $row, $employee["numero_cuenta"])
-                        ->setCellValue('U' . $row, !empty($employee['motivo_inactivo']) ? $employee['motivo_inactivo'] : "- - -")
-                        ->setCellValue('V' . $row, ($employee["estado"] == 1) ? "Solicitud" : (($employee["estado"] == 2) ? "Contratado" : (($employee["estado"] == 3) ? "Inactivo" : (($employee["estado"] == 4) ? "Incapacitado" : "Error"))))
-                        ->setCellValue('W' . $row, ConsultarUniforme($employee["id"]));
+                        ->setCellValue('N' . $row, $employee['codigo_afp'])
+                        ->setCellValue('O' . $row, !empty($employee['motivo_inactivo']) ? $employee['motivo_inactivo'] : "- - -")
+                        ->setCellValue('P' . $row, $employee['descripcion'])
+                        ->setCellValue('Q' . $row, edad($employee["fecha_nacimiento"]))
+                        ->setCellValue('R' . $row, $employee['fecha_nacimiento'])
+                        ->setCellValue('S' . $row, $employee['numero_isss'])
+                        ->setCellValue('T' . $row, $employee['nit'])
+                        ->setCellValue('U' . $row, $employee["codigo_bank"] . "-" . $employee["nombre_bank"])
+                        ->setCellValue('V' . $row, $employee["numero_cuenta"])
+                        ->setCellValue('W' . $row, !empty($value['observaciones_retiro']) ? $value['observaciones_retiro'] : "- - -")
+                        ->setCellValue('X' . $row, ConsultarUniforme($employee["id"]));
 
                     //set row style
                     if ($row % 2 == 0) {
                         //even row
-                        $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':W' . $row)->applyFromArray($evenRow);
+                        $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':X' . $row)->applyFromArray($evenRow);
                     } else {
                         //odd row
-                        $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':W' . $row)->applyFromArray($oddRow);
+                        $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':X' . $row)->applyFromArray($oddRow);
                     }
-
-
 
                     //increment row
                     $row++;
@@ -720,33 +733,34 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
                 //header text
                 $spreadsheet->getActiveSheet()
                     ->setCellValue('A' . $filaHeadeTable, "N°")
-                    ->setCellValue('B' . $filaHeadeTable, "Nombres")
-                    ->setCellValue('C' . $filaHeadeTable, "Sueldo")
-                    ->setCellValue('D' . $filaHeadeTable, "Transp")
+                    ->setCellValue('B' . $filaHeadeTable, "NOMBRES")
+                    ->setCellValue('C' . $filaHeadeTable, "SUELDO")
+                    ->setCellValue('D' . $filaHeadeTable, "TRANSP.")
                     ->setCellValue('E' . $filaHeadeTable, "U. ESP")
-                    ->setCellValue('F' . $filaHeadeTable, "F. Ingreso")
-                    ->setCellValue('G' . $filaHeadeTable, "F. Cont")
-                    ->setCellValue('H' . $filaHeadeTable, "F. Retiro")
-                    ->setCellValue('I' . $filaHeadeTable, "Días")
-                    ->setCellValue('J' . $filaHeadeTable, "Ubicación")
-                    ->setCellValue('K' . $filaHeadeTable, "F. Ubicación")
-                    ->setCellValue('L' . $filaHeadeTable, "D.U.I")
-                    ->setCellValue('M' . $filaHeadeTable, "AFP")
-                    ->setCellValue('N' . $filaHeadeTable, "Tipo Empleado")
-                    ->setCellValue('O' . $filaHeadeTable, "Edad")
-                    ->setCellValue('P' . $filaHeadeTable, "F. Nacimiento")
-                    ->setCellValue('Q' . $filaHeadeTable, "ISS")
-                    ->setCellValue('R' . $filaHeadeTable, "NIT")
-                    ->setCellValue('S' . $filaHeadeTable, "Banco")
-                    ->setCellValue('T' . $filaHeadeTable, "Cuenta")
-                    ->setCellValue('U' . $filaHeadeTable, "M. Retiro")
-                    ->setCellValue('V' . $filaHeadeTable, "Estado")
-                    ->setCellValue('W' . $filaHeadeTable, "Uniforme");
+                    ->setCellValue('F' . $filaHeadeTable, "F. INGRESO")
+                    ->setCellValue('G' . $filaHeadeTable, "F. CONTRATO")
+                    ->setCellValue('H' . $filaHeadeTable, "F. RETIRO")
+                    ->setCellValue('I' . $filaHeadeTable, "UBICACIÓN")
+                    ->setCellValue('J' . $filaHeadeTable, "F. UBICACIÓN")
+                    ->setCellValue('K' . $filaHeadeTable, "DUI")
+                    ->setCellValue('L' . $filaHeadeTable, "DÍAS")
+                    ->setCellValue('M' . $filaHeadeTable, "NUP")
+                    ->setCellValue('N' . $filaHeadeTable, "AFP")
+                    ->setCellValue('O' . $filaHeadeTable, "MOTIVO RETIRO")
+                    ->setCellValue('P' . $filaHeadeTable, "TIPO DE EMPLEADO")
+                    ->setCellValue('Q' . $filaHeadeTable, "EDAD")
+                    ->setCellValue('R' . $filaHeadeTable, "NACIMIENTO")
+                    ->setCellValue('S' . $filaHeadeTable, "ISSS")
+                    ->setCellValue('T' . $filaHeadeTable, "NIT")
+                    ->setCellValue('U' . $filaHeadeTable, "BANCO")
+                    ->setCellValue('V' . $filaHeadeTable, "CUENTA")
+                    ->setCellValue('W' . $filaHeadeTable, "MOTIVO")
+                    ->setCellValue('X' . $filaHeadeTable, "CON UNIFORME");
                 //set font style and background color
-                $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':W' . $filaHeadeTable . '')->applyFromArray($tableHead);
+                $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':X' . $filaHeadeTable . '')->applyFromArray($tableHead);
 
                 /* CONSULTA */
-                $campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo ";
+                $campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo,ret.observaciones_retiro ";
 
                 $tabla = " `tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco = bank.id LEFT JOIN retiro ret ON tbemp.id = ret.idempleado_retiro";
 
@@ -772,29 +786,32 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
                             ->setCellValue('F' . $row, $employee['fecha_ingreso'])
                             ->setCellValue('G' . $row, $employee['fecha_contratacion'])
                             ->setCellValue('H' . $row, !empty($employee['fecha_retiro']) ? $employee['fecha_retiro'] : "- - -")
-                            ->setCellValue('I' . $row, diasContratado($employee['fecha_contratacion'], $employee['fecha_retiro']))
-                            ->setCellValue('J' . $row, $ubicacionEmpleado['ubicaciont'])
-                            ->setCellValue('K' . $row, $ubicacionEmpleado['fechat'])
-                            ->setCellValue('L' . $row, $employee['numero_documento_identidad'])
+                            ->setCellValue('I' . $row, $ubicacionEmpleado['ubicaciont'])
+                            ->setCellValue('J' . $row, $ubicacionEmpleado['fechat'])
+                            ->setCellValue('K' . $row, $employee['numero_documento_identidad'])
+                            ->setCellValue('L' . $row, diasContratado($employee['fecha_contratacion'], $employee['fecha_retiro']))
                             ->setCellValue('M' . $row, $employee['nup'])
-                            ->setCellValue('N' . $row, $employee['descripcion'])
-                            ->setCellValue('O' . $row, edad($employee["fecha_nacimiento"]))
-                            ->setCellValue('P' . $row, $employee['fecha_nacimiento'])
-                            ->setCellValue('Q' . $row, $employee['numero_isss'])
-                            ->setCellValue('R' . $row, $employee['nit'])
-                            ->setCellValue('S' . $row, $employee["codigo_bank"] . "-" . $employee["nombre_bank"])
-                            ->setCellValue('T' . $row, $employee["numero_cuenta"])
-                            ->setCellValue('U' . $row, !empty($employee['motivo_inactivo']) ? $employee['motivo_inactivo'] : "- - -")
-                            ->setCellValue('V' . $row, ($employee["estado"] == 1) ? "Solicitud" : (($employee["estado"] == 2) ? "Contratado" : (($employee["estado"] == 3) ? "Inactivo" : (($employee["estado"] == 4) ? "Incapacitado" : "Error"))))
-                            ->setCellValue('W' . $row, ConsultarUniforme($employee["id"]));
+                            ->setCellValue('N' . $row, $employee['codigo_afp'])
+                            ->setCellValue('O' . $row, !empty($employee['motivo_inactivo']) ? $employee['motivo_inactivo'] : "- - -")
+                            ->setCellValue('P' . $row, $employee['descripcion'])
+                            ->setCellValue('Q' . $row, edad($employee["fecha_nacimiento"]))
+                            ->setCellValue('R' . $row, $employee['fecha_nacimiento'])
+                            ->setCellValue('S' . $row, $employee['numero_isss'])
+                            ->setCellValue('T' . $row, $employee['nit'])
+                            ->setCellValue('U' . $row, $employee["codigo_bank"] . "-" . $employee["nombre_bank"])
+                            ->setCellValue('V' . $row, $employee["numero_cuenta"])
+                            ->setCellValue('W' . $row, !empty($value['observaciones_retiro']) ? $value['observaciones_retiro'] : "- - -")
+                            ->setCellValue('X' . $row, ConsultarUniforme($employee["id"]));
 
                         //set row style
-                        if ($row % 2 == 0) {
+                        if (
+                            $row % 2 == 0
+                        ) {
                             //even row
-                            $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':W' . $row)->applyFromArray($evenRow);
+                            $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':X' . $row)->applyFromArray($evenRow);
                         } else {
                             //odd row
-                            $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':W' . $row)->applyFromArray($oddRow);
+                            $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':X' . $row)->applyFromArray($oddRow);
                         }
 
 
@@ -869,31 +886,34 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
                 //header text
                 $spreadsheet->getActiveSheet()
                     ->setCellValue('A' . $filaHeadeTable, "N°")
-                    ->setCellValue('B' . $filaHeadeTable, "Nombres")
-                    ->setCellValue('C' . $filaHeadeTable, "Sueldo")
-                    ->setCellValue('D' . $filaHeadeTable, "Transp")
+                    ->setCellValue('B' . $filaHeadeTable, "NOMBRES")
+                    ->setCellValue('C' . $filaHeadeTable, "SUELDO")
+                    ->setCellValue('D' . $filaHeadeTable, "TRANSP.")
                     ->setCellValue('E' . $filaHeadeTable, "U. ESP")
-                    ->setCellValue('F' . $filaHeadeTable, "F. Ingreso")
-                    ->setCellValue('G' . $filaHeadeTable, "F. Cont")
-                    ->setCellValue('H' . $filaHeadeTable, "F. Retiro")
-                    ->setCellValue('I' . $filaHeadeTable, "Días")
-                    ->setCellValue('J' . $filaHeadeTable, "Ubicación")
-                    ->setCellValue('K' . $filaHeadeTable, "F. Ubicación")
-                    ->setCellValue('L' . $filaHeadeTable, "D.U.I")
-                    ->setCellValue('M' . $filaHeadeTable, "AFP")
-                    ->setCellValue('N' . $filaHeadeTable, "Tipo Empleado")
-                    ->setCellValue('O' . $filaHeadeTable, "Edad")
-                    ->setCellValue('P' . $filaHeadeTable, "F. Nacimiento")
-                    ->setCellValue('Q' . $filaHeadeTable, "ISS")
-                    ->setCellValue('R' . $filaHeadeTable, "NIT")
-                    ->setCellValue('S' . $filaHeadeTable, "Banco")
-                    ->setCellValue('T' . $filaHeadeTable, "Cuenta")
-                    ->setCellValue('U' . $filaHeadeTable, "M. Retiro")
-                    ->setCellValue('V' . $filaHeadeTable, "Estado")
-                    ->setCellValue('W' . $filaHeadeTable, "Uniforme");
+                    ->setCellValue('F' . $filaHeadeTable, "F. INGRESO")
+                    ->setCellValue('G' . $filaHeadeTable, "F. CONTRATO")
+                    ->setCellValue('H' . $filaHeadeTable, "F. RETIRO")
+                    ->setCellValue('I' . $filaHeadeTable, "UBICACIÓN")
+                    ->setCellValue('J' . $filaHeadeTable, "F. UBICACIÓN")
+                    ->setCellValue('K' . $filaHeadeTable, "DUI")
+                    ->setCellValue('L' . $filaHeadeTable, "DÍAS")
+                    ->setCellValue('M' . $filaHeadeTable, "NUP")
+                    ->setCellValue('N' . $filaHeadeTable, "AFP")
+                    ->setCellValue('O' . $filaHeadeTable, "MOTIVO RETIRO")
+                    ->setCellValue('P' . $filaHeadeTable, "TIPO DE EMPLEADO")
+                    ->setCellValue('Q' . $filaHeadeTable, "EDAD")
+                    ->setCellValue('R' . $filaHeadeTable, "NACIMIENTO")
+                    ->setCellValue('S' . $filaHeadeTable, "ISSS")
+                    ->setCellValue('T' . $filaHeadeTable, "NIT")
+                    ->setCellValue('U' . $filaHeadeTable, "BANCO")
+                    ->setCellValue('V' . $filaHeadeTable, "CUENTA")
+                    ->setCellValue('W' . $filaHeadeTable, "MOTIVO")
+                    ->setCellValue('X' . $filaHeadeTable, "CON UNIFORME");
                 //set font style and background color
-                $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':W' . $filaHeadeTable . '')->applyFromArray($tableHead);
-                $campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo";
+                $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':X' . $filaHeadeTable . '')->applyFromArray($tableHead);
+
+
+                $campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo,ret.observaciones_retiro";
                 $tabla = " `tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco = bank.id LEFT JOIN retiro ret ON tbemp.id = ret.idempleado_retiro";
                 $condicion = " tbemp.id_departamento_empresa=" . $depa['id'] . " and " . $estado_emp . "and " . $repotePnc . $fechasFiltrar . " order by primer_nombre asc, primer_apellido asc";
                 $array = [];
@@ -918,29 +938,30 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
                             ->setCellValue('F' . $row, $employee['fecha_ingreso'])
                             ->setCellValue('G' . $row, $employee['fecha_contratacion'])
                             ->setCellValue('H' . $row, !empty($employee['fecha_retiro']) ? $employee['fecha_retiro'] : "- - -")
-                            ->setCellValue('I' . $row, diasContratado($employee['fecha_contratacion'], $employee['fecha_retiro']))
-                            ->setCellValue('J' . $row, $ubicacionEmpleado['ubicaciont'])
-                            ->setCellValue('K' . $row, $ubicacionEmpleado['fechat'])
-                            ->setCellValue('L' . $row, $employee['numero_documento_identidad'])
+                            ->setCellValue('I' . $row, $ubicacionEmpleado['ubicaciont'])
+                            ->setCellValue('J' . $row, $ubicacionEmpleado['fechat'])
+                            ->setCellValue('K' . $row, $employee['numero_documento_identidad'])
+                            ->setCellValue('L' . $row, diasContratado($employee['fecha_contratacion'], $employee['fecha_retiro']))
                             ->setCellValue('M' . $row, $employee['nup'])
-                            ->setCellValue('N' . $row, $employee['descripcion'])
-                            ->setCellValue('O' . $row, edad($employee["fecha_nacimiento"]))
-                            ->setCellValue('P' . $row, $employee['fecha_nacimiento'])
-                            ->setCellValue('Q' . $row, $employee['numero_isss'])
-                            ->setCellValue('R' . $row, $employee['nit'])
-                            ->setCellValue('S' . $row, $employee["codigo_bank"] . "-" . $employee["nombre_bank"])
-                            ->setCellValue('T' . $row, $employee["numero_cuenta"])
-                            ->setCellValue('U' . $row, !empty($employee['motivo_inactivo']) ? $employee['motivo_inactivo'] : "- - -")
-                            ->setCellValue('V' . $row, ($employee["estado"] == 1) ? "Solicitud" : (($employee["estado"] == 2) ? "Contratado" : (($employee["estado"] == 3) ? "Inactivo" : (($employee["estado"] == 4) ? "Incapacitado" : "Error"))))
-                            ->setCellValue('W' . $row, ConsultarUniforme($employee["id"]));
+                            ->setCellValue('N' . $row, $employee['codigo_afp'])
+                            ->setCellValue('O' . $row, !empty($employee['motivo_inactivo']) ? $employee['motivo_inactivo'] : "- - -")
+                            ->setCellValue('P' . $row, $employee['descripcion'])
+                            ->setCellValue('Q' . $row, edad($employee["fecha_nacimiento"]))
+                            ->setCellValue('R' . $row, $employee['fecha_nacimiento'])
+                            ->setCellValue('S' . $row, $employee['numero_isss'])
+                            ->setCellValue('T' . $row, $employee['nit'])
+                            ->setCellValue('U' . $row, $employee["codigo_bank"] . "-" . $employee["nombre_bank"])
+                            ->setCellValue('V' . $row, $employee["numero_cuenta"])
+                            ->setCellValue('W' . $row, !empty($value['observaciones_retiro']) ? $value['observaciones_retiro'] : "- - -")
+                            ->setCellValue('X' . $row, ConsultarUniforme($employee["id"]));
 
                         //set row style
                         if ($row % 2 == 0) {
                             //even row
-                            $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':W' . $row)->applyFromArray($evenRow);
+                            $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':X' . $row)->applyFromArray($evenRow);
                         } else {
                             //odd row
-                            $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':W' . $row)->applyFromArray($oddRow);
+                            $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':X' . $row)->applyFromArray($oddRow);
                         }
 
 

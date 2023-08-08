@@ -79,6 +79,7 @@ if (isset($_GET['consult'])) {
 	include_once "../modelos/conexion.php";
 	$fechasFiltrar = "";
 
+	/* FECHAS */
 	if (isset($_POST['fechadesde']) || isset($_POST['fechahasta'])) {
 		$fechadesde = $_POST['fechadesde'];
 		$fechahasta = $_POST['fechahasta'];
@@ -88,6 +89,12 @@ if (isset($_GET['consult'])) {
 		}
 	}
 
+	$rrhh = "";
+	if (isset($_POST['rrhh'])) {
+		if (!empty($_POST['rrhh'])) {
+			$rrhh = $_POST['rrhh'];
+		}
+	}
 
 	if (isset($_POST['tipoagente'])) {
 		if ($_POST['tipoagente'] == 2) {
@@ -106,6 +113,8 @@ if (isset($_GET['consult'])) {
 			}
 			$estado_emp = "tbemp.estado IN (2,3)";
 		}
+
+		$_estado = $_POST['tipoagente'];
 	}
 	if (isset($_POST['reportado_a_pnc'])) {
 		$reporte = $_POST['reportado_a_pnc'];
@@ -213,7 +222,7 @@ if (isset($_GET['consult'])) {
 				$tipoDescuento = $datos['tipodescuento'];
 				$valor = $datos['valor'];
 
-				return ("Tipo: " . $tipoDescuento . " $ " . $valor);
+				return ("Tipo: " . $tipoDescuento);
 			}
 		}
 
@@ -229,6 +238,21 @@ if (isset($_GET['consult'])) {
 			$diferencia = $ahora->diff($nacimiento);
 			$edad = $diferencia->format("%y");
 			return $edad;
+		}
+
+		return 0;
+	}
+
+	/* CALCULAR EDAD DEL EMPLEADO */
+	function diasContratado($fechaContrato, $fechaRetiro)
+	{
+		if (!empty($fechaContrato) && !empty($fechaRetiro)) {
+			$fecha1 = new DateTime($fechaContrato); // Fecha inicial
+			$fecha2 = new DateTime($fechaRetiro); // Fecha final
+
+			$intervalo = $fecha1->diff($fecha2);
+			$dias = $intervalo->days;
+			return $dias;
 		}
 
 		return 0;
@@ -262,144 +286,180 @@ if (isset($_GET['consult'])) {
 
 	/* IMPRIMI TABLA DE ACUERDO A LA CONSULTA ENVIADA */
 
-	function crearTablaEmpleados($cont, $campos, $tabla, $condicion, $array)
+	function crearTablaEmpleados($cont, $campos, $tabla, $condicion, $array, $estado, $rrhh)
 	{
 ?>
-		<script>
+		<!-- <script>
 			$(document).ready(function() {
-				$('.examples<?php echo $cont ?>').DataTable({
-
-					"order": [
-						[2, "asc"]
-					],
-					"lengthMenu": [
-						[5, 10, 25, 50, 100, -1],
-						[5, 10, 25, 50, 100, "All"]
-					],
+				$(".exampless<?php echo $cont ?>").DataTable({
+					serverSide: true,
 				});
 			});
-		</script>
-		<table class="table table-bordered table-striped dt-responsive examples<?php echo $cont ?>" width="100%">
+		</script> -->
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped dt-responsive exampless<?php echo $cont ?> display responsive nowrap" width="100%">
 
-			<thead class="bg-info">
-				<tr>
-					<th>No.</th>
-					<th>Estado</th>
-					<th>UNIFORME / REPORTE ARMA</th>
-					<th>NOMBRE</th>
-					<th>SUELDO</th>
-					<th width="200">TRANSP.</th>
-					<th>U. ESP.</th>
-					<th width="150">F.INGRESO</th>
-					<th width="150">F.CONT.</th>
-					<th width="150">F.RETIRO</th>
-					<th width="200">UBICACION</th>
-					<th>F. UBICACION</th>
-					<th>D.U.I.</th>
-					<th>NUP</th>
-					<th>AFP</th>
-					<th>TIPO DE EMPLEADO</th>
-					<th>EDAD</th>
-					<th>NACIMIENTO</th>
-					<th>ISSS</th>
-					<th>NIT</th>
-					<th>BANCO</th>
-					<th>CUENTA</th>
-					<th>MOTIVO</th>
-
-				</tr>
-
-			</thead>
-
-			<tbody>
-
-				<?php
-
-
-
-				$empleadoBuscar = new ModeloEmpleados();
-				$empleados = $empleadoBuscar->mostrarEmpleadoDb($campos, $tabla, $condicion, $array);
-				$contEmp = 0;
-				$badge = "dark";
-				foreach ($empleados as $key => $value) {
-					$contEmp++;
-					//REPRESENTANDO EL ESTADO DEBERIA SER DESDE XML
-					if ($value["estado"] == 1) {
-						$nombreEstado = "Solicitud";
-						$badge = "dark";
-					} else if ($value["estado"] == 2) {
-						$nombreEstado = "Contratado";
-						$badge = "success";
-					} else if ($value["estado"] == 3) {
-						$nombreEstado = "Inactivo";
-						$badge = "danger";
-					} else if ($value["estado"] == 4) {
-						$nombreEstado = "Incapacitado";
-						$badge = "warning";
-					} else {
-						$nombreEstado = "Error";
-						$badge = "defaul";
-					}
-
-					$ubicacionEmpleado = ubicacion_empleado($value["codigo_empleado"]);
-
-
-				?>
+				<thead class="bg-info">
 					<tr>
-						<th><?php echo $value["codigo_empleado"] ?></th>
-						<td><label class="badge btn-<?php echo $badge ?>"><?php echo $nombreEstado ?></label></td>
-						<td><?php echo ConsultarUniforme($value["id"]) . "/" . $value['reportado_a_pnc'] ?></td>
-						<td><?php echo $value["primer_nombre"] . ' ' . $value["segundo_nombre"] . ' ' . $value["tercer_nombre"] . ' ' . $value["primer_apellido"] . ' ' . $value["segundo_apellido"] . ' ' . $value["apellido_casada"] ?></td>
-						<td><?php echo "$ " . $value["sueldo_que_devenga"] ?></td>
-						<td><?php echo transpDevengo($value["id"]); ?></td>
-						<td><?php echo bonoEmpleado($ubicacionEmpleado['ubicaciont']); ?></td>
-						<td><?php echo $value["fecha_ingreso"] ?></td>
-						<td><?php echo $value["fecha_contratacion"] ?></td>
-						<td><?php echo !empty($value['fecha_retiro']) ? $value['fecha_retiro'] : "- - -" ?></td>
-						<td><?php echo $ubicacionEmpleado['ubicaciont']; ?></td>
-						<td><?php echo $ubicacionEmpleado['fechat']; ?></td>
-						<td><?php echo $value["numero_documento_identidad"] ?></td>
-						<td><?php echo $value["nup"] ?></td>
-						<td><?php echo $value["codigo_afp"] ?></td>
-						<td><?php echo $value["descripcion"] ?></td>
-						<td><?php echo edad($value["fecha_nacimiento"]) ?></td>
-						<td><?php echo $value["fecha_nacimiento"] ?></td>
-						<td><?php echo $value["numero_isss"] ?></td>
-						<td><?php echo $value["nit"] ?></td>
-						<td><?php echo $value["codigo_bank"] . "-" . $value["nombre_bank"] ?></td>
-						<td><?php echo $value["numero_cuenta"] ?></td>
-						<td><?php echo !empty($value['motivo_inactivo']) ? $value['motivo_inactivo'] : "- - -" ?></td>
+						<th>No.</th>
+						<th>NOMBRES</th>
+						<th>SUELDO</th>
+						<th>TRANSP.</th>
+						<th>U. ESP.</th>
+						<th>F. INGRESO.</th>
+						<th>F. CONTRATO.</th>
+						<th>F. RETIRO.</th>
+						<th>UBICACIÓN.</th>
+						<th>F. UBICACIÓN</th>
+						<th>DUI</th>
+						<?php
+						if ($rrhh != "rrhh") {
+							if ($estado === "3" || $estado == "todos" || $estado == "") {
+								echo "<th>DÍAS</th>";
+							}
+						?>
 
+							<th>NUP</th>
+							<th>AFP</th>
+							<?php
+							if ($estado === "3" || $estado == "todos" || $estado == "") {
+								echo "	<th>M. RETIRO</th>";
+							}
+							?>
+
+							<th>TIPO EMPLEADO.</th>
+							<th>EDAD</th>
+							<th>NACIMIENTO</th>
+							<th>ISSS</th>
+							<th>NIT</th>
+							<th>BANCO</th>
+							<th>CUENTA</th>
+							<th>MOTIVO</th>
+							<th>CON UNIFORME</th>
+						<?php
+						} else {
+							echo '<th>Estado Actual</th>';
+						}
+						?>
 
 					</tr>
 
-				<?php
+				</thead>
+
+				<tbody>
+
+					<?php
+
+
+
+					$empleadoBuscar = new ModeloEmpleados();
+					$empleados = $empleadoBuscar->mostrarEmpleadoDb($campos, $tabla, $condicion, $array);
+					$contEmp = 0;
+					$badge = "dark";
+					foreach ($empleados as $key => $value) {
+						$contEmp++;
+						//REPRESENTANDO EL ESTADO DEBERIA SER DESDE XML
+						if ($value["estado"] == 1) {
+							$nombreEstado = "Solicitud";
+							$badge = "dark";
+						} else if ($value["estado"] == 2) {
+							$nombreEstado = "Contratado";
+							$badge = "success";
+						} else if ($value["estado"] == 3) {
+							$nombreEstado = "Inactivo";
+							$badge = "danger";
+						} else if ($value["estado"] == 4) {
+							$nombreEstado = "Incapacitado";
+							$badge = "warning";
+						} else {
+							$nombreEstado = "Error";
+							$badge = "defaul";
+						}
+
+						$ubicacionEmpleado = ubicacion_empleado($value["codigo_empleado"]);
+
+
+					?>
+						<tr>
+							<th><?php echo $value["codigo_empleado"] ?></th>
+							<td><?php echo $value["primer_nombre"] . ' ' . $value["segundo_nombre"] . ' ' . $value["tercer_nombre"] . ' ' . $value["primer_apellido"] . ' ' . $value["segundo_apellido"] . ' ' . $value["apellido_casada"] ?></td>
+							<td><?php echo "$ " . $value["sueldo_que_devenga"] ?></td>
+							<td><?php echo transpDevengo($value["id"]); ?></td>
+							<td><?php echo bonoEmpleado($ubicacionEmpleado['ubicaciont']); ?></td>
+							<td><?php echo $value["fecha_ingreso"] ?></td>
+							<td><?php echo $value["fecha_contratacion"] ?></td>
+							<td><?php echo !empty($value['fecha_retiro']) ? $value['fecha_retiro'] : "- - -" ?></td>
+							<td><?php echo $ubicacionEmpleado['ubicaciont']; ?></td>
+							<td><?php echo $ubicacionEmpleado['fechat']; ?></td>
+							<td><?php echo $value["numero_documento_identidad"] ?></td>
+							<?php
+
+							if ($rrhh != "rrhh") {
+								# code...
+
+								if ($estado === "3" || $estado == "todos" || $estado == "") {
+
+							?>
+									<td><?php echo diasContratado($value['fecha_contratacion'], $value['fecha_retiro']) ?></td>
+
+								<?php
+								}
+								?>
+								<td><?php echo $value["nup"] ?></td>
+								<td><?php echo $value["codigo_afp"] ?></td>
+								<?php
+								if ($estado === "3" || $estado == "todos" || $estado == "") {
+
+								?>
+									<td><?php echo !empty($value['motivo_inactivo']) ? $value['motivo_inactivo'] : "- - -" ?></td>
+								<?php
+								}
+								?>
+								<td><?php echo $value["descripcion"] ?></td>
+								<td><?php echo edad($value["fecha_nacimiento"]) ?></td>
+								<td><?php echo $value["fecha_nacimiento"] ?></td>
+								<td><?php echo $value["numero_isss"] ?></td>
+								<td><?php echo $value["nit"] ?></td>
+								<td><?php echo $value["codigo_bank"] . "-" . $value["nombre_bank"] ?></td>
+								<td><?php echo $value["numero_cuenta"] ?></td>
+
+								<td><?php echo !empty($value['observaciones_retiro']) ? $value['observaciones_retiro'] : "- - -" ?></td>
+								<td><?php echo ConsultarUniforme($value["id"]) ?></td>
+							<?php
+							} else {
+								echo '<td><label class="badge btn-' . $badge . '">' . $nombreEstado . '</label></td>';
+							}
+							?>
+
+						</tr>
+
+					<?php
 
 
 
 
-					/* ******* */
-				}
+						/* ******* */
+					}
 
 
 
-				?>
+					?>
 
-			</tbody>
-			<tfoot>
-				<tr>
-					<td colspan="3">
-						<h5><strong>Cantidad de Empleados:</strong></h5>
-					</td>
-					<td><button class="btn btn-primary" type="button">
-							<span class="badge"><?php echo $contEmp ?></span>
-						</button></td>
-					<td colspan="19"></td>
-				</tr>
-			</tfoot>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="3">
+							<h5><strong>Cantidad de Empleados:</strong></h5>
+						</td>
+						<td><button class="btn btn-primary" type="button">
+								<span class="badge"><?php echo $contEmp ?></span>
+							</button></td>
+						<td colspan="19"></td>
+					</tr>
+				</tfoot>
 
-		</table>
-
+			</table>
+		</div>
 
 
 	<?php
@@ -419,7 +479,7 @@ if (isset($_GET['consult'])) {
 		$cont = 0;
 		$departamento = departamentos($_POST['empleados'], "uno");
 		echo "<div class='well'><h4><strong>Departamento: <span class='text-primary'>" . strval($departamento['codigo']) . " - " . $departamento['nombre'] . "</span></strong></h4></div>";
-		$campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa,ret.fecha_retiro, ret.motivo_inactivo";
+		$campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa,ret.fecha_retiro, ret.motivo_inactivo, ret.observaciones_retiro";
 
 
 		$tabla = " `tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco = bank.id LEFT JOIN retiro ret ON tbemp.id = ret.idempleado_retiro";
@@ -432,7 +492,9 @@ if (isset($_GET['consult'])) {
 			$campos,
 			$tabla,
 			$condicion,
-			$array
+			$array,
+			$_estado,
+			$rrhh
 		);
 	} else	if (
 		isset($_POST["departamento1"]) && isset($_POST["departamento2"]) && !empty($_POST["departamento1"]) && !empty($_POST["departamento2"] && $_POST["departamento1"] != "*" && $_POST["departamento2"] != "*")
@@ -448,7 +510,7 @@ if (isset($_GET['consult'])) {
 		foreach ($departamentos as $depa) {
 			echo "<div class='well'><h4><strong>Departamento: <span class='text-primary'>" . $depa['codigo'] . " - " . $depa['nombre'] . "</span></strong></h4></div>";
 			/* select tbemp.*, cargo.id,cargo.descripcion FROM `tbl_empleados` tbemp inner join cargos_desempenados cargo on tbemp.nivel_cargo=cargo.id; */
-			$campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo";
+			$campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo, ret.observaciones_retiro";
 
 
 			$tabla = " `tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco = bank.id LEFT JOIN retiro ret ON tbemp.id = ret.idempleado_retiro";
@@ -456,7 +518,7 @@ if (isset($_GET['consult'])) {
 			$condicion = " tbemp.id_departamento_empresa=" . $depa['id'] . " and " . $estado_emp . "and " . $repotePnc . $fechasFiltrar . " order by primer_nombre asc, primer_apellido asc";
 			$array = [];
 
-			crearTablaEmpleados($cont, $campos, $tabla, $condicion, $array);
+			crearTablaEmpleados($cont, $campos, $tabla, $condicion, $array, $_estado, $rrhh);
 			$cont++;
 		}
 	} else if ($_POST["departamento1"] === "*" || $_POST["departamento2"] === "*") {
@@ -473,7 +535,7 @@ if (isset($_GET['consult'])) {
 			foreach ($departamentos as $depa) {
 				echo "<div class='well'><h4><strong>Departamento: <span class='text-primary'>" . $depa['codigo'] . " - " . $depa['nombre'] . "</span></strong></h4></div>";
 				/* FILTRAR TODOS */
-				$campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo ";
+				$campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo, ret.observaciones_retiro ";
 
 				$tabla = " `tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco = bank.id LEFT JOIN retiro ret ON tbemp.id = ret.idempleado_retiro";
 
@@ -485,7 +547,9 @@ if (isset($_GET['consult'])) {
 					$campos,
 					$tabla,
 					$condicion,
-					$array
+					$array,
+					$_estado,
+					$rrhh
 				);
 			}
 		} else {
@@ -502,7 +566,7 @@ if (isset($_GET['consult'])) {
 			foreach ($departamentos as $depa) {
 				echo "<div class='well'><h4><strong>Departamento: <span class='text-primary'>" . $depa['codigo'] . " - " . $depa['nombre'] . "</span></strong></h4></div>";
 				/* select tbemp.*, cargo.id,cargo.descripcion FROM `tbl_empleados` tbemp inner join cargos_desempenados cargo on tbemp.nivel_cargo=cargo.id; */
-				$campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo";
+				$campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo, ret.observaciones_retiro";
 				$tabla = " `tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco = bank.id LEFT JOIN retiro ret ON tbemp.id = ret.idempleado_retiro";
 				$condicion = " tbemp.id_departamento_empresa=" . $depa['id'] . " and " . $estado_emp . "and " . $repotePnc . $fechasFiltrar . " order by primer_nombre asc, primer_apellido asc";
 				$array = [];
@@ -510,11 +574,22 @@ if (isset($_GET['consult'])) {
 
 
 				$cont++;
-				crearTablaEmpleados($cont, $campos, $tabla, $condicion, $array);
+				crearTablaEmpleados($cont, $campos, $tabla, $condicion, $array, $_estado, $rrhh);
 			}
 		}
 	}
 
+
+
+
+
+	?>
+
+
+
+
+
+<?php
 
 
 }

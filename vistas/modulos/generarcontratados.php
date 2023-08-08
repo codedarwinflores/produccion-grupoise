@@ -145,7 +145,11 @@ $ultimoDiaMes = $fecha_actual->format('Y-m-t');
 
               <div class="col-md-12">
                 <div class="pull-left">
-                  <button type="submit" onclick="cargar();" class="btn btn-info"><span class="fa fa-search-plus"></span> Filtrar</button>
+                  <button type="submit" onclick="cargar();" style="margin-right: 15px;" class="btn btn-info"><span class="fa fa-search-plus"></span> Filtrar</button>
+                  <label for="rrhh" class="checkbox-inline">
+                    <input type="checkbox" id="rrhh" name="rrhh" value="rrhh">
+                    <strong>R.R.H.H</strong>
+                  </label>
                 </div>
                 <div class="pull-right">
                   &nbsp;<button type="reset" class="btn btn-default" onclick="limpiar()"><span class="fa fa-eraser"></span> Limpiar</button>
