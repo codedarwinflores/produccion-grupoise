@@ -11,6 +11,7 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use PhpOffice\PhpSpreadsheet\Writer\Csv;
+use PhpOffice\PhpSpreadsheet\Worksheet\ColumnIterator;
 
 if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
 
@@ -39,9 +40,9 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
     }
 
     $rrhh = "";
-    if (isset($_POST['rrhh'])) {
-        if (!empty($_POST['rrhh'])) {
-            $rrhh = $_POST['rrhh'];
+    if (isset($_GET['rrhh'])) {
+        if (!empty($_GET['rrhh'])) {
+            $rrhh = trim($_GET['rrhh']);
         }
     }
 
@@ -537,23 +538,30 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
         $filaDep = $lastRow + 2;
         $filaHeadeTable = $lastRow + 4;
 
-        if ($rrhh === "rrhh") {
-            $spreadsheet->getActiveSheet()->removeColumnByIndex(12);
-            $spreadsheet->getActiveSheet()->removeColumnByIndex(13);
-            $spreadsheet->getActiveSheet()->removeColumnByIndex(14);
-            $spreadsheet->getActiveSheet()->removeColumnByIndex(15);
-            $spreadsheet->getActiveSheet()->removeColumnByIndex(16);
-            $spreadsheet->getActiveSheet()->removeColumnByIndex(17);
-            $spreadsheet->getActiveSheet()->removeColumnByIndex(18);
-            $spreadsheet->getActiveSheet()->removeColumnByIndex(19);
-            $spreadsheet->getActiveSheet()->removeColumnByIndex(20);
-            $spreadsheet->getActiveSheet()->removeColumnByIndex(21);
-            $spreadsheet->getActiveSheet()->removeColumnByIndex(22);
-            $spreadsheet->getActiveSheet()->removeColumnByIndex(13);
-            $spreadsheet->getActiveSheet()->removeColumnByIndex(14);
+
+        if ($rrhh == "rrhh") {
+
+            // Definir el rango de columnas que deseas eliminar (por ejemplo, de L a X)
+            $columnStart = 'M';
+            $columnEnd = 'Y';
+
+            // Obtener el índice numérico de la columna de inicio y fin
+            $columnStartIndex = array_search($columnStart, range('A', 'Z'));
+            $columnEndIndex = array_search($columnEnd, range('A', 'Z'));
+
+            // Calcular la cantidad de columnas a eliminar
+            $columnsToDelete = $columnEndIndex - $columnStartIndex + 1;
+
+            // Obtener el rango de columnas a eliminar en formato A:B (por ejemplo)
+            $columnRangeToDelete = $columnStart . ':' . $columnEnd;
+
+            // Eliminar las columnas dentro del rango especificado
+            $spreadsheet->getActiveSheet()->removeColumnByIndex($columnStartIndex, $columnsToDelete);
+        } else {
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(25);
         }
 
-        if ($_estado === "2") {
+        if ($_estado === "2" && $rrhh != "rrhh") {
             $spreadsheet->getActiveSheet()->removeColumnByIndex(12);
             $spreadsheet->getActiveSheet()->removeColumnByIndex(15 - 1);
         }
@@ -632,7 +640,7 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
                 ->setCellValue('X' . $filaHeadeTable, "CON UNIFORME")
                 ->setCellValue('Y' . $filaHeadeTable, "ESTADO ACTUAL");
             //set font style and background color
-            $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':X' . $filaHeadeTable . '')->applyFromArray($tableHead);
+            $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':Y' . $filaHeadeTable . '')->applyFromArray($tableHead);
 
             $campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo,ret.observaciones_retiro";
 
@@ -708,23 +716,29 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
             $filaDep = $lastRow + 2;
             $filaHeadeTable = $lastRow + 4;
         }
-        if ($rrhh === "rrhh") {
-            $spreadsheet->getActiveSheet()->removeColumnByIndex(12);
-            $spreadsheet->getActiveSheet()->removeColumnByIndex(13);
-            $spreadsheet->getActiveSheet()->removeColumnByIndex(14);
-            $spreadsheet->getActiveSheet()->removeColumnByIndex(15);
-            $spreadsheet->getActiveSheet()->removeColumnByIndex(16);
-            $spreadsheet->getActiveSheet()->removeColumnByIndex(17);
-            $spreadsheet->getActiveSheet()->removeColumnByIndex(18);
-            $spreadsheet->getActiveSheet()->removeColumnByIndex(19);
-            $spreadsheet->getActiveSheet()->removeColumnByIndex(20);
-            $spreadsheet->getActiveSheet()->removeColumnByIndex(21);
-            $spreadsheet->getActiveSheet()->removeColumnByIndex(22);
-            $spreadsheet->getActiveSheet()->removeColumnByIndex(13);
-            $spreadsheet->getActiveSheet()->removeColumnByIndex(14);
+        if ($rrhh == "rrhh") {
+
+            // Definir el rango de columnas que deseas eliminar (por ejemplo, de L a X)
+            $columnStart = 'M';
+            $columnEnd = 'Y';
+
+            // Obtener el índice numérico de la columna de inicio y fin
+            $columnStartIndex = array_search($columnStart, range('A', 'Z'));
+            $columnEndIndex = array_search($columnEnd, range('A', 'Z'));
+
+            // Calcular la cantidad de columnas a eliminar
+            $columnsToDelete = $columnEndIndex - $columnStartIndex + 1;
+
+            // Obtener el rango de columnas a eliminar en formato A:B (por ejemplo)
+            $columnRangeToDelete = $columnStart . ':' . $columnEnd;
+
+            // Eliminar las columnas dentro del rango especificado
+            $spreadsheet->getActiveSheet()->removeColumnByIndex($columnStartIndex, $columnsToDelete);
+        } else {
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(25);
         }
 
-        if ($_estado === "2") {
+        if ($_estado === "2" && $rrhh != "rrhh") {
             $spreadsheet->getActiveSheet()->removeColumnByIndex(12);
             $spreadsheet->getActiveSheet()->removeColumnByIndex(15 - 1);
         }
@@ -884,24 +898,29 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
                 $filaHeadeTable = $lastRow + 4;
             }/* FIN DEL CUERPO DE DOCUMENTO EXCEL */
 
+            if ($rrhh == "rrhh") {
 
-            if ($rrhh === "rrhh") {
-                $spreadsheet->getActiveSheet()->removeColumnByIndex(12);
-                $spreadsheet->getActiveSheet()->removeColumnByIndex(13);
-                $spreadsheet->getActiveSheet()->removeColumnByIndex(14);
-                $spreadsheet->getActiveSheet()->removeColumnByIndex(15);
-                $spreadsheet->getActiveSheet()->removeColumnByIndex(16);
-                $spreadsheet->getActiveSheet()->removeColumnByIndex(17);
-                $spreadsheet->getActiveSheet()->removeColumnByIndex(18);
-                $spreadsheet->getActiveSheet()->removeColumnByIndex(19);
-                $spreadsheet->getActiveSheet()->removeColumnByIndex(20);
-                $spreadsheet->getActiveSheet()->removeColumnByIndex(21);
-                $spreadsheet->getActiveSheet()->removeColumnByIndex(22);
-                $spreadsheet->getActiveSheet()->removeColumnByIndex(13);
-                $spreadsheet->getActiveSheet()->removeColumnByIndex(14);
+                // Definir el rango de columnas que deseas eliminar (por ejemplo, de L a X)
+                $columnStart = 'M';
+                $columnEnd = 'Y';
+
+                // Obtener el índice numérico de la columna de inicio y fin
+                $columnStartIndex = array_search($columnStart, range('A', 'Z'));
+                $columnEndIndex = array_search($columnEnd, range('A', 'Z'));
+
+                // Calcular la cantidad de columnas a eliminar
+                $columnsToDelete = $columnEndIndex - $columnStartIndex + 1;
+
+                // Obtener el rango de columnas a eliminar en formato A:B (por ejemplo)
+                $columnRangeToDelete = $columnStart . ':' . $columnEnd;
+
+                // Eliminar las columnas dentro del rango especificado
+                $spreadsheet->getActiveSheet()->removeColumnByIndex($columnStartIndex, $columnsToDelete);
+            } else {
+                $spreadsheet->getActiveSheet()->removeColumnByIndex(25);
             }
 
-            if ($_estado === "2") {
+            if ($_estado === "2" && $rrhh != "rrhh") {
                 $spreadsheet->getActiveSheet()->removeColumnByIndex(12);
                 $spreadsheet->getActiveSheet()->removeColumnByIndex(15 - 1);
             }
@@ -979,7 +998,7 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
                     ->setCellValue('X' . $filaHeadeTable, "CON UNIFORME")
                     ->setCellValue('Y' . $filaHeadeTable, "ESTADO ACTUAL");
                 //set font style and background color
-                $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':X' . $filaHeadeTable . '')->applyFromArray($tableHead);
+                $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':Y' . $filaHeadeTable . '')->applyFromArray($tableHead);
 
 
                 $campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo,ret.observaciones_retiro";
@@ -1057,22 +1076,28 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
                 $filaDep = $lastRow + 2;
                 $filaHeadeTable = $lastRow + 4;
 
-                if ($rrhh === "rrhh") {
-                    $spreadsheet->getActiveSheet()->removeColumnByIndex(12);
-                    $spreadsheet->getActiveSheet()->removeColumnByIndex(13);
-                    $spreadsheet->getActiveSheet()->removeColumnByIndex(14);
-                    $spreadsheet->getActiveSheet()->removeColumnByIndex(15);
-                    $spreadsheet->getActiveSheet()->removeColumnByIndex(16);
-                    $spreadsheet->getActiveSheet()->removeColumnByIndex(17);
-                    $spreadsheet->getActiveSheet()->removeColumnByIndex(18);
-                    $spreadsheet->getActiveSheet()->removeColumnByIndex(19);
-                    $spreadsheet->getActiveSheet()->removeColumnByIndex(20);
-                    $spreadsheet->getActiveSheet()->removeColumnByIndex(21);
-                    $spreadsheet->getActiveSheet()->removeColumnByIndex(22);
-                    $spreadsheet->getActiveSheet()->removeColumnByIndex(13);
-                    $spreadsheet->getActiveSheet()->removeColumnByIndex(14);
+                if ($rrhh == "rrhh") {
+
+                    // Definir el rango de columnas que deseas eliminar (por ejemplo, de L a X)
+                    $columnStart = 'M';
+                    $columnEnd = 'Y';
+
+                    // Obtener el índice numérico de la columna de inicio y fin
+                    $columnStartIndex = array_search($columnStart, range('A', 'Z'));
+                    $columnEndIndex = array_search($columnEnd, range('A', 'Z'));
+
+                    // Calcular la cantidad de columnas a eliminar
+                    $columnsToDelete = $columnEndIndex - $columnStartIndex + 1;
+
+                    // Obtener el rango de columnas a eliminar en formato A:B (por ejemplo)
+                    $columnRangeToDelete = $columnStart . ':' . $columnEnd;
+
+                    // Eliminar las columnas dentro del rango especificado
+                    $spreadsheet->getActiveSheet()->removeColumnByIndex($columnStartIndex, $columnsToDelete);
+                } else {
+                    $spreadsheet->getActiveSheet()->removeColumnByIndex(25);
                 }
-                if ($_estado === "2") {
+                if ($_estado === "2" && $rrhh != "rrhh") {
                     $spreadsheet->getActiveSheet()->removeColumnByIndex(12);
                     $spreadsheet->getActiveSheet()->removeColumnByIndex(15 - 1);
                 }
