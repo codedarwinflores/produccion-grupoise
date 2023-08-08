@@ -38,6 +38,13 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
         }
     }
 
+    $rrhh = "";
+    if (isset($_POST['rrhh'])) {
+        if (!empty($_POST['rrhh'])) {
+            $rrhh = $_POST['rrhh'];
+        }
+    }
+
     if (isset($_GET['tipoagente'])) {
         if ($_GET['tipoagente'] == 2) {
             $estado_emp = "tbemp.estado IN (2)";
@@ -396,6 +403,7 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
     $spreadsheet->getActiveSheet()->getColumnDimension('V')->setWidth(12);
     $spreadsheet->getActiveSheet()->getColumnDimension('W')->setWidth(12);
     $spreadsheet->getActiveSheet()->getColumnDimension('X')->setWidth(12);
+    $spreadsheet->getActiveSheet()->getColumnDimension('Y')->setWidth(12);
 
 
     /* OBTENER DATOS */
@@ -448,9 +456,10 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
             ->setCellValue('U' . $filaHeadeTable, "BANCO")
             ->setCellValue('V' . $filaHeadeTable, "CUENTA")
             ->setCellValue('W' . $filaHeadeTable, "MOTIVO")
-            ->setCellValue('X' . $filaHeadeTable, "CON UNIFORME");
+            ->setCellValue('X' . $filaHeadeTable, "CON UNIFORME")
+            ->setCellValue('Y' . $filaHeadeTable, "ESTADO ACTUAL");
         //set font style and background color
-        $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':X' . $filaHeadeTable . '')->applyFromArray($tableHead);
+        $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':Y' . $filaHeadeTable . '')->applyFromArray($tableHead);
 
         $campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa,ret.fecha_retiro, ret.motivo_inactivo,ret.observaciones_retiro";
 
@@ -498,16 +507,17 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
                     ->setCellValue('T' . $row, $employee['nit'])
                     ->setCellValue('U' . $row, $employee["codigo_bank"] . "-" . $employee["nombre_bank"])
                     ->setCellValue('V' . $row, $employee["numero_cuenta"])
-                    ->setCellValue('W' . $row, !empty($value['observaciones_retiro']) ? $value['observaciones_retiro'] : "- - -")
-                    ->setCellValue('X' . $row, ConsultarUniforme($employee["id"]));
+                    ->setCellValue('W' . $row, !empty($employee['observaciones_retiro']) ? $employee['observaciones_retiro'] : "- - -")
+                    ->setCellValue('X' . $row, ConsultarUniforme($employee["id"]))
+                    ->setCellValue('Y' . $row, ($employee["estado"] == 1) ? "Solicitud" : (($employee["estado"] == 2) ? "Contratado" : (($employee["estado"] == 3) ? "Inactivo" : (($employee["estado"] == 4) ? "Incapacitado" : "Error"))));
 
                 //set row style
                 if ($row % 2 == 0) {
                     //even row
-                    $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':X' . $row)->applyFromArray($evenRow);
+                    $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':Y' . $row)->applyFromArray($evenRow);
                 } else {
                     //odd row
-                    $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':X' . $row)->applyFromArray($oddRow);
+                    $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':Y' . $row)->applyFromArray($oddRow);
                 }
 
 
@@ -527,12 +537,26 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
         $filaDep = $lastRow + 2;
         $filaHeadeTable = $lastRow + 4;
 
+        if ($rrhh === "rrhh") {
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(12);
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(13);
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(14);
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(15);
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(16);
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(17);
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(18);
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(19);
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(20);
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(21);
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(22);
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(13);
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(14);
+        }
+
         if ($_estado === "2") {
             $spreadsheet->getActiveSheet()->removeColumnByIndex(12);
             $spreadsheet->getActiveSheet()->removeColumnByIndex(15 - 1);
-            # code...
         }
-
 
         if ($ext == "xlsx") {
             $writer = new Xlsx($spreadsheet);
@@ -605,7 +629,8 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
                 ->setCellValue('U' . $filaHeadeTable, "BANCO")
                 ->setCellValue('V' . $filaHeadeTable, "CUENTA")
                 ->setCellValue('W' . $filaHeadeTable, "MOTIVO")
-                ->setCellValue('X' . $filaHeadeTable, "CON UNIFORME");
+                ->setCellValue('X' . $filaHeadeTable, "CON UNIFORME")
+                ->setCellValue('Y' . $filaHeadeTable, "ESTADO ACTUAL");
             //set font style and background color
             $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':X' . $filaHeadeTable . '')->applyFromArray($tableHead);
 
@@ -650,16 +675,17 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
                         ->setCellValue('T' . $row, $employee['nit'])
                         ->setCellValue('U' . $row, $employee["codigo_bank"] . "-" . $employee["nombre_bank"])
                         ->setCellValue('V' . $row, $employee["numero_cuenta"])
-                        ->setCellValue('W' . $row, !empty($value['observaciones_retiro']) ? $value['observaciones_retiro'] : "- - -")
-                        ->setCellValue('X' . $row, ConsultarUniforme($employee["id"]));
+                        ->setCellValue('W' . $row, !empty($employee['observaciones_retiro']) ? $employee['observaciones_retiro'] : "- - -")
+                        ->setCellValue('X' . $row, ConsultarUniforme($employee["id"]))
+                        ->setCellValue('Y' . $row, ($employee["estado"] == 1) ? "Solicitud" : (($employee["estado"] == 2) ? "Contratado" : (($employee["estado"] == 3) ? "Inactivo" : (($employee["estado"] == 4) ? "Incapacitado" : "Error"))));
 
                     //set row style
                     if ($row % 2 == 0) {
                         //even row
-                        $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':X' . $row)->applyFromArray($evenRow);
+                        $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':Y' . $row)->applyFromArray($evenRow);
                     } else {
                         //odd row
-                        $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':X' . $row)->applyFromArray($oddRow);
+                        $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':Y' . $row)->applyFromArray($oddRow);
                     }
 
                     //increment row
@@ -682,7 +708,26 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
             $filaDep = $lastRow + 2;
             $filaHeadeTable = $lastRow + 4;
         }
+        if ($rrhh === "rrhh") {
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(12);
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(13);
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(14);
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(15);
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(16);
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(17);
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(18);
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(19);
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(20);
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(21);
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(22);
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(13);
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(14);
+        }
 
+        if ($_estado === "2") {
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(12);
+            $spreadsheet->getActiveSheet()->removeColumnByIndex(15 - 1);
+        }
         if ($ext == "xlsx") {
             $writer = new Xlsx($spreadsheet);
             $final_filename = $filename . ".xlsx";
@@ -755,9 +800,10 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
                     ->setCellValue('U' . $filaHeadeTable, "BANCO")
                     ->setCellValue('V' . $filaHeadeTable, "CUENTA")
                     ->setCellValue('W' . $filaHeadeTable, "MOTIVO")
-                    ->setCellValue('X' . $filaHeadeTable, "CON UNIFORME");
+                    ->setCellValue('X' . $filaHeadeTable, "CON UNIFORME")
+                    ->setCellValue('Y' . $filaHeadeTable, "ESTADO ACTUAL");
                 //set font style and background color
-                $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':X' . $filaHeadeTable . '')->applyFromArray($tableHead);
+                $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':Y' . $filaHeadeTable . '')->applyFromArray($tableHead);
 
                 /* CONSULTA */
                 $campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo,ret.observaciones_retiro ";
@@ -800,18 +846,19 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
                             ->setCellValue('T' . $row, $employee['nit'])
                             ->setCellValue('U' . $row, $employee["codigo_bank"] . "-" . $employee["nombre_bank"])
                             ->setCellValue('V' . $row, $employee["numero_cuenta"])
-                            ->setCellValue('W' . $row, !empty($value['observaciones_retiro']) ? $value['observaciones_retiro'] : "- - -")
-                            ->setCellValue('X' . $row, ConsultarUniforme($employee["id"]));
+                            ->setCellValue('W' . $row, !empty($employee['observaciones_retiro']) ? $employee['observaciones_retiro'] : "- - -")
+                            ->setCellValue('X' . $row, ConsultarUniforme($employee["id"]))
+                            ->setCellValue('Y' . $row, ($employee["estado"] == 1) ? "Solicitud" : (($employee["estado"] == 2) ? "Contratado" : (($employee["estado"] == 3) ? "Inactivo" : (($employee["estado"] == 4) ? "Incapacitado" : "Error"))));
 
                         //set row style
                         if (
                             $row % 2 == 0
                         ) {
                             //even row
-                            $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':X' . $row)->applyFromArray($evenRow);
+                            $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':Y' . $row)->applyFromArray($evenRow);
                         } else {
                             //odd row
-                            $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':X' . $row)->applyFromArray($oddRow);
+                            $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':Y' . $row)->applyFromArray($oddRow);
                         }
 
 
@@ -837,6 +884,27 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
                 $filaHeadeTable = $lastRow + 4;
             }/* FIN DEL CUERPO DE DOCUMENTO EXCEL */
 
+
+            if ($rrhh === "rrhh") {
+                $spreadsheet->getActiveSheet()->removeColumnByIndex(12);
+                $spreadsheet->getActiveSheet()->removeColumnByIndex(13);
+                $spreadsheet->getActiveSheet()->removeColumnByIndex(14);
+                $spreadsheet->getActiveSheet()->removeColumnByIndex(15);
+                $spreadsheet->getActiveSheet()->removeColumnByIndex(16);
+                $spreadsheet->getActiveSheet()->removeColumnByIndex(17);
+                $spreadsheet->getActiveSheet()->removeColumnByIndex(18);
+                $spreadsheet->getActiveSheet()->removeColumnByIndex(19);
+                $spreadsheet->getActiveSheet()->removeColumnByIndex(20);
+                $spreadsheet->getActiveSheet()->removeColumnByIndex(21);
+                $spreadsheet->getActiveSheet()->removeColumnByIndex(22);
+                $spreadsheet->getActiveSheet()->removeColumnByIndex(13);
+                $spreadsheet->getActiveSheet()->removeColumnByIndex(14);
+            }
+
+            if ($_estado === "2") {
+                $spreadsheet->getActiveSheet()->removeColumnByIndex(12);
+                $spreadsheet->getActiveSheet()->removeColumnByIndex(15 - 1);
+            }
             if ($ext == "xlsx") {
                 $writer = new Xlsx($spreadsheet);
                 $final_filename = $filename . ".xlsx";
@@ -908,12 +976,14 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
                     ->setCellValue('U' . $filaHeadeTable, "BANCO")
                     ->setCellValue('V' . $filaHeadeTable, "CUENTA")
                     ->setCellValue('W' . $filaHeadeTable, "MOTIVO")
-                    ->setCellValue('X' . $filaHeadeTable, "CON UNIFORME");
+                    ->setCellValue('X' . $filaHeadeTable, "CON UNIFORME")
+                    ->setCellValue('Y' . $filaHeadeTable, "ESTADO ACTUAL");
                 //set font style and background color
                 $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':X' . $filaHeadeTable . '')->applyFromArray($tableHead);
 
 
                 $campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo,ret.observaciones_retiro";
+
                 $tabla = " `tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco = bank.id LEFT JOIN retiro ret ON tbemp.id = ret.idempleado_retiro";
                 $condicion = " tbemp.id_departamento_empresa=" . $depa['id'] . " and " . $estado_emp . "and " . $repotePnc . $fechasFiltrar . " order by primer_nombre asc, primer_apellido asc";
                 $array = [];
@@ -952,16 +1022,17 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
                             ->setCellValue('T' . $row, $employee['nit'])
                             ->setCellValue('U' . $row, $employee["codigo_bank"] . "-" . $employee["nombre_bank"])
                             ->setCellValue('V' . $row, $employee["numero_cuenta"])
-                            ->setCellValue('W' . $row, !empty($value['observaciones_retiro']) ? $value['observaciones_retiro'] : "- - -")
-                            ->setCellValue('X' . $row, ConsultarUniforme($employee["id"]));
+                            ->setCellValue('W' . $row, !empty($employee['observaciones_retiro']) ? $employee['observaciones_retiro'] : "- - -")
+                            ->setCellValue('X' . $row, ConsultarUniforme($employee["id"]))
+                            ->setCellValue('Y' . $row, ($employee["estado"] == 1) ? "Solicitud" : (($employee["estado"] == 2) ? "Contratado" : (($employee["estado"] == 3) ? "Inactivo" : (($employee["estado"] == 4) ? "Incapacitado" : "Error"))));
 
                         //set row style
                         if ($row % 2 == 0) {
                             //even row
-                            $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':X' . $row)->applyFromArray($evenRow);
+                            $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':Y' . $row)->applyFromArray($evenRow);
                         } else {
                             //odd row
-                            $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':X' . $row)->applyFromArray($oddRow);
+                            $spreadsheet->getActiveSheet()->getStyle('A' . $row . ':Y' . $row)->applyFromArray($oddRow);
                         }
 
 
@@ -985,6 +1056,26 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
 
                 $filaDep = $lastRow + 2;
                 $filaHeadeTable = $lastRow + 4;
+
+                if ($rrhh === "rrhh") {
+                    $spreadsheet->getActiveSheet()->removeColumnByIndex(12);
+                    $spreadsheet->getActiveSheet()->removeColumnByIndex(13);
+                    $spreadsheet->getActiveSheet()->removeColumnByIndex(14);
+                    $spreadsheet->getActiveSheet()->removeColumnByIndex(15);
+                    $spreadsheet->getActiveSheet()->removeColumnByIndex(16);
+                    $spreadsheet->getActiveSheet()->removeColumnByIndex(17);
+                    $spreadsheet->getActiveSheet()->removeColumnByIndex(18);
+                    $spreadsheet->getActiveSheet()->removeColumnByIndex(19);
+                    $spreadsheet->getActiveSheet()->removeColumnByIndex(20);
+                    $spreadsheet->getActiveSheet()->removeColumnByIndex(21);
+                    $spreadsheet->getActiveSheet()->removeColumnByIndex(22);
+                    $spreadsheet->getActiveSheet()->removeColumnByIndex(13);
+                    $spreadsheet->getActiveSheet()->removeColumnByIndex(14);
+                }
+                if ($_estado === "2") {
+                    $spreadsheet->getActiveSheet()->removeColumnByIndex(12);
+                    $spreadsheet->getActiveSheet()->removeColumnByIndex(15 - 1);
+                }
                 if ($ext == "xlsx") {
                     $writer = new Xlsx($spreadsheet);
                     $final_filename = $filename . ".xlsx";

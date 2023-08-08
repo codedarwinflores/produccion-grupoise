@@ -73,6 +73,7 @@ function imprimir(param) {
   url += "&fechahasta=" + datos.fechahasta;
   url += "&reportado_a_pnc=" + datos.reportado_a_pnc;
   url += "&tipoagente=" + datos.tipoagente;
+  url += "&rrhh=" + datos.rrhh;
   window.open(
     "./vistas/modulos/reportesexcel/reporteempleado.php?typeReport=" +
       param +
