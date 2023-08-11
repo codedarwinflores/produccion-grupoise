@@ -315,10 +315,14 @@ require_once "controladores/recibo.controlador.php";
 require_once "modelos/recibo.modelo.php";
 
 
-/*
+//TALLERES
 require_once "controladores/talleres.controlador.php";
 require_once "modelos/talleres.modelo.php";
- */
+
+//REPARACIONES
+require_once "controladores/reparaciones.controlador.php";
+require_once "modelos/reparaciones.modelo.php";
+
 
 
 $plantilla = new ControladorPlantilla();

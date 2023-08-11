@@ -1,14 +1,14 @@
 <aside class="main-sidebar">
 
-	 <section class="sidebar">
+	<section class="sidebar">
 
 		<ul class="sidebar-menu">
 
-		<?php
+			<?php
 
-		if($_SESSION["perfil"] == "Administrador"){
+			if ($_SESSION["perfil"] == "Administrador") {
 
-			echo '
+				echo '
 			<li >			
 				<a href="inicio">
 					<i class="fa fa-home"></i>
@@ -157,6 +157,18 @@
 						<a href="vehiculo">
 							<i class="fa fa-car"></i>
 							<span>Vehiculo</span>
+						</a>
+					</li>
+					<li>
+						<a href="talleres">
+							<i class="fa fa-building"></i>
+							<span>Talleres</span>
+						</a>
+					</li>
+					<li>
+						<a href="reparaciones">
+							<i class="fa fa-cogs"></i>
+							<span>Reparaciones</span>
 						</a>
 					</li>
 					<li>
@@ -507,22 +519,18 @@
 			</li>
 			
 			';
+			}
 
 
-				
 
-		}
 
-		
 
-		
 
-		
 
-		?>
+			?>
 
 		</ul>
 
-	 </section>
+	</section>
 
 </aside>
