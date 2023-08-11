@@ -314,7 +314,12 @@ require_once "modelos/vacante.modelo.php";
 require_once "controladores/recibo.controlador.php";
 require_once "modelos/recibo.modelo.php";
 
-$plantilla = new ControladorPlantilla();
-$plantilla -> ctrPlantilla();
 
-?>
+/*
+require_once "controladores/talleres.controlador.php";
+require_once "modelos/talleres.modelo.php";
+ */
+
+
+$plantilla = new ControladorPlantilla();
+$plantilla->ctrPlantilla();

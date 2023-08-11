@@ -51,17 +51,17 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
             $estado_emp = "tbemp.estado IN (2)";
             $estado_ingresos = "Ingresos";
             if (!empty($fechadesde) && !empty($fechahasta)) {
-                $fechasFiltrar = " and tbemp.fecha_contratacion" . $fechasFiltrar;
+                $fechasFiltrar = " and STR_TO_DATE(tbemp.fecha_contratacion, '%Y-%m-%d')" . $fechasFiltrar;
             }
         } else if ($_GET['tipoagente'] == 3) {
             $estado_emp = "tbemp.estado IN (3)";
             $estado_ingresos = "Egresos";
             if (!empty($fechadesde) && !empty($fechahasta)) {
-                $fechasFiltrar = " and ret.fecha_retiro" . $fechasFiltrar;
+                $fechasFiltrar = " and STR_TO_DATE(ret.fecha_retiro, '%Y-%m-%d')" . $fechasFiltrar;
             }
         } else {
             if (!empty($fechadesde) && !empty($fechahasta)) {
-                $fechasFiltrar = " and tbemp.fecha_contratacion" . $fechasFiltrar . "or ret.fecha_retiro" . $fechasFiltrar;
+                $fechasFiltrar = " and STR_TO_DATE(tbemp.fecha_contratacion, '%Y-%m-%d')" . $fechasFiltrar . "or STR_TO_DATE(ret.fecha_retiro, '%Y-%m-%d')" . $fechasFiltrar;
             }
             $estado_emp = "tbemp.estado IN (2,3)";
             $estado_ingresos = "Ingresos/Egresos";

@@ -95,21 +95,21 @@ if (isset($_GET['consult'])) {
 			$rrhh = $_POST['rrhh'];
 		}
 	}
-
+	/* STR_TO_DATE(CAMPO_DE_FECHA, '%d-%m-%Y') */
 	if (isset($_POST['tipoagente'])) {
 		if ($_POST['tipoagente'] == 2) {
 			$estado_emp = "tbemp.estado IN (2)";
 			if (!empty($fechadesde) && !empty($fechahasta)) {
-				$fechasFiltrar = " and tbemp.fecha_contratacion" . $fechasFiltrar;
+				$fechasFiltrar = " and STR_TO_DATE(tbemp.fecha_contratacion, '%Y-%m-%d')" . $fechasFiltrar;
 			}
 		} else if ($_POST['tipoagente'] == 3) {
 			$estado_emp = "tbemp.estado IN (3)";
 			if (!empty($fechadesde) && !empty($fechahasta)) {
-				$fechasFiltrar = " and ret.fecha_retiro" . $fechasFiltrar;
+				$fechasFiltrar = " and STR_TO_DATE(ret.fecha_retiro, '%Y-%m-%d')" . $fechasFiltrar;
 			}
 		} else {
 			if (!empty($fechadesde) && !empty($fechahasta)) {
-				$fechasFiltrar = " and tbemp.fecha_contratacion" . $fechasFiltrar . "or ret.fecha_retiro" . $fechasFiltrar;
+				$fechasFiltrar = " and STR_TO_DATE(tbemp.fecha_contratacion, '%Y-%m-%d')" . $fechasFiltrar . " or STR_TO_DATE(ret.fecha_retiro, '%Y-%m-%d')" . $fechasFiltrar;
 			}
 			$estado_emp = "tbemp.estado IN (2,3)";
 		}
@@ -280,8 +280,6 @@ if (isset($_GET['consult'])) {
 			return $sqlquery->fetchAll();
 		}
 	}
-
-
 
 
 	/* IMPRIMI TABLA DE ACUERDO A LA CONSULTA ENVIADA */

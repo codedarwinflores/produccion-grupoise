@@ -701,18 +701,8 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "fichapersonal" ||
         $_GET["ruta"] == "generarcontratados" ||
         $_GET["ruta"] == "reportecontratados" ||
-
-
-
-
-
-
-
-
-
-
-
-
+        $_GET["ruta"] == "talleres" ||
+        $_GET["ruta"] == "reparaciones" ||
         $_GET["ruta"] == "salir"
       ) {
 
