@@ -39,8 +39,6 @@ function getContent()
 </style>
 <div class="content-wrapper">
 
-
-
     <section class="content">
 
         <div class="box">
@@ -99,7 +97,7 @@ function getContent()
                         </button>
 
 
-                        <h4 class="nombre_vehiculo text-success"></h4>
+                        <h4 class="nombre_vehiculo text-success" id="nombre_vehiculo_mostrar"></h4>
 
                         <div id="cargarDatos">
                         </div>
@@ -130,7 +128,7 @@ MODAL AGREGAR
 
         <div class="modal-content">
 
-            <form role="form" method="post" enctype="multipart/form-data">
+            <form role="form" method="POST" id="saveform" enctype="multipart/form-data">
 
                 <!--=====================================
         CABEZA DEL MODAL
@@ -155,8 +153,8 @@ MODAL AGREGAR
                         <!-- ENTRADA PARA CAMPOS  -->
 
                         <h4 class="text-primary"><strong>Vehículo: <span id="name_vehiculo"></span></strong></h4>
-
-
+                        <input type="hidden" name="nuevoid" id="nuevoid" placeholder="" value="" autocomplete="off">
+                        <input type="hidden" id="nuevoidvehiculo_mante" name="nuevoidvehiculo_mante">
                         <div class="form-group col-md-4">
                             <label for="nuevofecha" class="">Fecha:</label>
                             <div class="input-group">
@@ -247,7 +245,7 @@ MODAL AGREGAR
                             <label for="nuevovalor_mvehi" class="">Valor:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                <input type="text" class="form-control" required name="nuevovalor_mvehi" id="nuevovalor_mvehi" placeholder="0.00">
+                                <input type="text" class="form-control" min="1" required name=" nuevovalor_mvehi" id="nuevovalor_mvehi" placeholder="0.00">
 
                             </div>
                         </div>
@@ -313,13 +311,6 @@ MODAL AGREGAR
 
                 </div>
 
-                <?php
-
-                $crear = new Controladortransacciones_agente();
-                $crear->ctrCrear();
-
-                ?>
-
             </form>
 
         </div>
@@ -332,13 +323,13 @@ MODAL AGREGAR
 MODAL EDITAR 
 ======================================-->
 
-<div id="modalEditartransacciones_agente" class="modal fade" role="dialog">
+<div id="modalEditarMantenimiento" class="modal fade" role="dialog">
 
     <div class="modal-dialog" style="width: 900px !important;">
 
         <div class="modal-content">
 
-            <form role="form" method="post" enctype="multipart/form-data">
+            <form role="form" method="POST" id="editarform" enctype="multipart/form-data">
 
                 <!--=====================================
         CABEZA DEL MODAL
@@ -348,7 +339,7 @@ MODAL EDITAR
 
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
 
-                    <h4 class="modal-title">Editar <?php echo $Nombre_del_Modulo ?></h4>
+                    <h4 class="modal-title">Editar <?php echo $Nombre_del_Modulo; ?></h4>
 
                 </div>
 
@@ -362,62 +353,36 @@ MODAL EDITAR
 
                         <!-- ENTRADA PARA CAMPOS  -->
 
-
-                        <h4 class="nombre_empleado"></h4>
-
-                        <!-- *************** -->
-
-                        <input type="hidden" class="form-control input-lg input_id" name="editarid" id="editarid" placeholder="" value="" autocomplete="off">
-
-                        <!-- *************** -->
-
-                        <input type="hidden" class="form-control input-lg input_idagente_transacciones_agente" name="editaridagente_transacciones_agente" id="editaridagente_transacciones_agente" placeholder="" value="">
-
-
-                        <!-- ******************** -->
-
-                        <div class="form-group   grupotransacciones_agente_fecha_transacciones_agente col-md-3">
-                            <label for="" class="">Ingresar Fecha</label>
+                        <h4 class="text-primary" id="vehiculo_mostrar"></h4>
+                        <input type="hidden" name="editarid" id="editarid" placeholder="" value="" autocomplete="off">
+                        <input type="hidden" id="editaridvehiculo_mante" name="editaridvehiculo_mante">
+                        <div class="form-group col-md-4">
+                            <label for="editarfecha" class="">Fecha:</label>
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="icono_fecha_transacciones_agente"></i></span>
-                                <input type="text" class="form-control input-lg input_fecha_transacciones_agente calendario" data-lang="es" data-years="1600-2060" data-format="DD-MM-YYYY" name="editarfecha_transacciones_agente" id="editarfecha_transacciones_agente" placeholder="Ingresar Fecha" value="" autocomplete="off" required="" readonly>
-                            </div>
-                        </div>
-                        <!-- ********************* -->
-                        <div class="form-group   grupotransacciones_agente_hora_transacciones_agente col-md-3">
-                            <label for="" class="">Hora</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="icono_hora_transacciones_agente"></i></span>
-                                <input type="text" class="form-control input-lg input_hora_transacciones_agente" name="editarhora_transacciones_agente" id="editarhora_transacciones_agente" placeholder="Ingresar Hora" value="" autocomplete="off" required="" readonly>
-                            </div>
-                        </div>
-
-                        <!-- ********************* -->
-
-
-                        <div class="form-group   grupofecha_movimiento_transacciones_agente col-md-5">
-                            <label for="" class="">Ingresar Fecha Movimiento</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class=""></i></span>
-                                <input type="text" class="form-control input-lg input_fecha_movimiento_transacciones_agente calendario" data-lang="es" data-years="1600-2060" data-format="DD-MM-YYYY" name="editarfecha_movimiento_transacciones_agente" id="editarfecha_movimiento_transacciones_agente" placeholder="Ingresar Fecha" value="" autocomplete="off" required="" readonly>
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input type="date" class="form-control " name="editarfecha" id="editarfecha" placeholder="Ingresar Fecha" autocomplete="off" required="" value="<?php echo date('Y-m-d') ?>">
                             </div>
                         </div>
                         <!-- ********************* -->
 
-                        <div class="form-group   grupotransacciones_agente_tipo_movimiento_transacciones_agente col-md-12">
-                            <label for="" class="">Tipo de Movimiento</label>
+
+
+                        <div class="form-group col-md-8">
+                            <label for="editaridempleado_mvehi">Empleado Encargado:</label>
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="icono_tipo_movimiento_transacciones_agente"></i></span>
+                                <span class="input-group-addon"><i class="fa fa-user-circle-o"></i></span>
 
-                                <select class="form-control input-lg input_tipo_movimiento_transacciones_agente mi-selector" name="editartipo_movimiento_transacciones_agente" id="editartipo_movimiento_transacciones_agente">
+                                <select class="form-control mi-selector" name="editaridempleado_mvehi" id="editaridempleado_mvehi" required>
 
-                                    <option value="" id="tipomovimiento">Seleccione Tipo Movimiento</option>
+                                    <option value="">Seleccione...</option>
                                     <?php
-                                    $datos_mostrar = Controladortransaccionespersonal::ctrMostrar($item, $valor);
+                                    $item = null;
+                                    $valor = null;
+                                    $datos_mostrar = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
                                     foreach ($datos_mostrar as $key => $value) {
                                     ?>
-                                        <option codigomovimiento="<?php echo $value['codigo'] ?>" value="<?php echo $value['codigo'] . '-' . $value['nombre'] . '-' . $value['tipo_movimiento_personal'] ?>">
-                                            <?php echo $value['codigo'] . '-' . $value['nombre'] . '-' . $value['tipo_movimiento_personal'] ?>
+                                        <option value="<?php echo $value['id']  ?>">
+                                            <?php echo $value['codigo_empleado'] . ' - ' . $value['primer_nombre'] . ' ' . $value['primer_nombre'] . ' ' . $value['tercer_nombre'] . ' ' . $value['primer_apellido'] . ' ' . $value['segundo_apellido'] . ' ' . $value['apellido_casada']  ?>
                                         </option>
                                     <?php
                                     }
@@ -428,23 +393,35 @@ MODAL EDITAR
 
                             </div>
                         </div>
+
                         <!-- ********************* -->
 
-
-
-                        <div class="form-group   grupotransacciones_agente_nueva_ubicacion_transacciones_agente col-md-6">
-                            <label for="" class="">Nueva Ubicación</label>
+                        <div class="form-group col-md-12">
+                            <label for="editardiagnostico_mvehi" class="">Diagnóstico:</label>
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="icono_nueva_ubicacion_transacciones_agente"></i></span>
+                                <span class="input-group-addon"><i class="fa fa-stethoscope"></i></span>
+                                <textarea class="form-control" name="editardiagnostico_mvehi" required id="editardiagnostico_mvehi" placeholder="Diagnóstico"></textarea>
 
-                                <select class="form-control input-lg input_nueva_ubicacion_transacciones_agente mi-selector" name="editarnueva_ubicacion_transacciones_agente" id="editarnueva_ubicacion_transacciones_agente">
-                                    <option value="" id="nuevaubicacion">Seleccione Nueva Ubicación</option>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group col-md-12">
+                            <label for="editaridreparacion_mvehi" class="">Reparación:</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-cog"></i></span>
+
+                                <select class="form-control mi-selector" required name="editaridreparacion_mvehi" id="editaridreparacion_mvehi">
+
+                                    <option value="">Seleccione...</option>
                                     <?php
-                                    $datos_mostrar = Controladorubicacionc::ctrMostrar($item, $valor);
+                                    $item = null;
+                                    $valor = null;
+                                    $datos_mostrar  = ControladorReparaciones::ctrMostrar($item, $valor);
                                     foreach ($datos_mostrar as $key => $value) {
                                     ?>
-                                        <option idubicacion="<?php echo $value['idubicacionc'] ?>" codigo="<?php echo $value['codigo_ubicacion'] ?>" value="<?php echo $value['codigo_ubicacion'] . '-' . $value['nombre_ubicacion'] ?>">
-                                            <?php echo $value['codigo_ubicacion'] . '-' . $value['nombre_ubicacion'] ?>
+                                        <option value="<?php echo $value['id']  ?>">
+                                            <?php echo $value['codigo_reparacion'] . ' - ' . $value['nombre_reparacion'] ?>
                                         </option>
                                     <?php
                                     }
@@ -452,204 +429,75 @@ MODAL EDITAR
 
                                 </select>
 
+
                             </div>
                         </div>
-                        <!-- ********************* -->
 
-
-                        <div class="form-group    col-md-6 grupoid_vacante_transacciones_agente" style="visibility:hidden;">
-                            <label for="" class="">Vacante</label>
+                        <div class="form-group col-md-4">
+                            <label for="editarkilometraje_mvehi" class="">Kilometraje:</label>
                             <div class="input-group">
-                                <span class="input-group-addon"><i class=""></i></span>
-                                <select class="form-control vacante_a_cubrir" name="editarid_vacante_transacciones_agente" id="editarid_vacante_transacciones_agente">
-
-                                </select>
+                                <span class="input-group-addon"><i class="fa fa-road"></i></span>
+                                <input type="text" class="form-control" name="editarkilometraje_mvehi" id="editarkilometraje_mvehi" placeholder="Kilometraje" required>
 
                             </div>
                         </div>
-                        <!-- ***************** -->
 
-                        <div class="form-group   grupotransacciones_agente_ubicacion_anterior_transacciones_agente col-md-12">
-                            <label for="" class="">Anterior Ubicación</label>
+                        <div class="form-group col-md-4">
+                            <label for="editarvalor_mvehi" class="">Valor:</label>
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="icono_ubicacion_anterior_transacciones_agente"></i></span>
-                                <input type="text" class="form-control input-lg input_ubicacion_anterior_transacciones_agente" name="editarubicacion_anterior_transacciones_agente" id="editarubicacion_anterior_transacciones_agente" placeholder="Anterior Ubicación" value="" autocomplete="off" readonly>
+                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                                <input type="text" class="form-control" min="1" required name="editarvalor_mvehi" id="editarvalor_mvehi" placeholder="0.00">
+
                             </div>
                         </div>
-                        <!-- ********************* -->
-
-                        <div class="form-group   grupotransacciones_agente_presento_incapacidad_transacciones_agente col-md-6">
-                            <label for="" class="">Presento Incapacidad?</label>
+                        <div class="form-group col-md-4">
+                            <label for="editartotal_mvehi" class="">Total:</label>
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="icono_presento_incapacidad_transacciones_agente"></i></span>
-                                <select class="form-control input-lg input_presento_incapacidad_transacciones_agente" name="editarpresento_incapacidad_transacciones_agente" id="editarpresento_incapacidad_transacciones_agente">
-                                    <option value="">Presento Incapacidad?</option>
-                                    <option value="Si">Si</option>
-                                    <option value="No">No</option>
-
-                                </select>
+                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                                <input type="text" class="form-control" required name="editartotal_mvehi" id="editartotal_mvehi" placeholder="0.00">
 
                             </div>
                         </div>
-                        <!-- ********************* -->
 
-
-
-                        <div class="form-group col-md-6">
-                            <label for="" class="">Seleccione Incapacidad</label>
+                        <div class="form-group col-md-4">
+                            <label for="editarfecha_pago_mvehi" class="">Fecha Pago:</label>
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="icono_ubicacion_anterior_transacciones_agente"></i></span>
-                                <select class="form-control input-lg incapacidad_select" name="editartipo_incapacidad_transacciones_agente" id="editartipo_incapacidad_transacciones_agente">
-                                    <option value="">Seleccione Incapacidad</option>
-                                    <option value="Inicial">Inicial</option>
-                                    <option value="Prorroga">Prorroga</option>
-                                </select>
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input type="date" class="form-control" name="editarfecha_pago_mvehi" id="editarfecha_pago_mvehi" placeholder="Fecha Pago" required>
+
                             </div>
                         </div>
 
-                        <!-- ********************* -->
-
-
-
-
-
-
-                        <div class="form-group ocultar  grupotransacciones_agente_fecha_desde_transacciones_agente col-md-4">
-                            <label for="" class="">Ingresar Desde</label>
+                        <div class="form-group col-md-4">
+                            <label for="editarfecha_ingreso_mvehi" class="">Fecha Ingreso:</label>
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="icono_fecha_desde_transacciones_agente"></i></span>
-                                <input type="text" class="form-control input-lg einput_fecha_desde_transacciones_agente calendario" name="editarfecha_desde_transacciones_agente" id="editarfecha_desde_transacciones_agente" placeholder="Ingresar Desde" value="" autocomplete="off" readonly>
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input type="date" class="form-control" name="editarfecha_ingreso_mvehi" id="editarfecha_ingreso_mvehi" placeholder="Fecha Ingreso" required>
+
                             </div>
                         </div>
-                        <!-- ********************* -->
-
-                        <div class="form-group ocultar  grupotransacciones_agente_fecha_hasta_transacciones_agente col-md-4">
-                            <label for="" class="">Ingresar Hasta</label>
+                        <div class="form-group col-md-4">
+                            <label for="editarfecha_salida_mvehi" class="">Fecha Salida:</label>
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="icono_fecha_hasta_transacciones_agente"></i></span>
-                                <input type="text" class="form-control input-lg einput_fecha_hasta_transacciones_agente calendario" name="editarfecha_hasta_transacciones_agente" id="editarfecha_hasta_transacciones_agente" placeholder="Ingresar Hasta" value="" autocomplete="off" readonly>
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input type="date" class="form-control" name="editarfecha_salida_mvehi" id="editarfecha_salida_mvehi" placeholder="Fecha Salida" required>
+
                             </div>
                         </div>
-                        <!-- ********************* -->
 
-
-
-                        <div class="form-group ocultar   col-md-4">
-                            <label for="" class="">Número Dias</label>
+                        <div class="form-group col-md-12">
+                            <label for="editarcomentario_mvehi" class="">Comentario:</label>
                             <div class="input-group">
-                                <span class="input-group-addon"><i class=""></i></span>
-                                <input type="text" class="form-control input-lg einput_numero_dias_transacciones_agente" name="editarnumero_dias_transacciones_agente" id="editarnumero_dias_transacciones_agente" placeholder="Número de dias" value="" autocomplete="off" readonly>
-                            </div>
-                        </div>
-
-                        <!-- ************************* -->
-
-
-
-
-                        <div class="form-group   grupotransacciones_agente_comentarios_transacciones_agente col-md-8">
-                            <label for="" class="">Comentario</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="icono_comentarios_transacciones_agente"></i></span>
-                                <input type="text" class="form-control input-lg input_comentarios_transacciones_agente" name="editarcomentarios_transacciones_agente" id="editarcomentarios_transacciones_agente" placeholder="" value="" autocomplete="off">
-                            </div>
-                        </div>
-                        <!-- ********************* -->
-
-
-
-                        <div class="form-group   grupotransacciones_agente_turno_transacciones_agente col-md-4">
-                            <label for="" class="">Seleccione Turno</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="icono_turno_transacciones_agente"></i></span>
-                                <select class="form-control input-lg input_turno_transacciones_agente" name="editarturno_transacciones_agente" id="editarturno_transacciones_agente">
-                                    <option value="">Seleccione Turno</option>
-                                    <option value="24h/r">24h/r</option>
-                                    <option value="24h/d5">24h/d5</option>
-                                    <option value="24h/d6">24h/d6</option>
-                                    <option value="24h/n6">24h/n6</option>
-                                    <option value="24h/d7">24h/d7</option>
-                                    <option value="24h/n7">24h/n7</option>
-                                    <option value="Septimo">Septimo</option>
-                                </select>
+                                <span class="input-group-addon"><i class="fa fa-comment"></i></span>
+                                <textarea class="form-control" name="editarcomentario_mvehi" id="editarcomentario_mvehi" placeholder="Comentario"></textarea>
 
                             </div>
                         </div>
 
-                        <div class="col-md-12">
-                            <hr>
+                        <div class="form-group col-md-12">
+                            <div id="mensajenuevoedit"></div>
                         </div>
-                        <div class="col-md-2">
-                            <br>
-                            <label for="">HORARIO DE TRABAJO</label>
-                        </div>
-
-                        <!-- ********************* -->
-                        <div class="form-group   grupotransacciones_agente_horario_desde_transacciones_agente col-md-3">
-                            <label for="" class="">Dia Desde</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="icono_horario_desde_transacciones_agente"></i></span>
-                                <select class="form-control input-lg input_horario_desde_transacciones_agente" name="editarhorario_desde_transacciones_agente" id="editarhorario_desde_transacciones_agente">
-                                    <option value="">Seleccionar Horario Desde</option>
-                                    <option value="Lunes">Lunes</option>
-                                    <option value="Martes">Martes</option>
-                                    <option value="Miercoles">Miercoles</option>
-                                    <option value="Jueves">Jueves</option>
-                                    <option value="Viernes">Viernes</option>
-                                    <option value="Sábado">Sábado</option>
-                                    <option value="Domingo">Domingo</option>
-                                </select>
-
-
-                            </div>
-                        </div>
-                        <!-- ********************* -->
-
-
-                        <div class="form-group   grupotransacciones_agente_horario_hasta_transacciones_agente col-md-3">
-                            <label for="" class="">Dia Hasta</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="icono_horario_hasta_transacciones_agente"></i></span>
-
-                                <select class="form-control input-lg input_horario_hasta_transacciones_agente" name="editarhorario_hasta_transacciones_agente" id="editarhorario_hasta_transacciones_agente">
-                                    <option value="">Seleccionar Horario Desde</option>
-                                    <option value="Lunes">Lunes</option>
-                                    <option value="Martes">Martes</option>
-                                    <option value="Miercoles">Miercoles</option>
-                                    <option value="Jueves">Jueves</option>
-                                    <option value="Viernes">Viernes</option>
-                                    <option value="Sábado">Sábado</option>
-                                    <option value="Domingo">Domingo</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- ************************ -->
-                        <div class="form-group   grupotransacciones_agente_horario_hasta_transacciones_agente col-md-2">
-                            <label for="" class="">Hora Desde</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="icono_horario_hasta_transacciones_agente"></i></span>
-                                <input type="text" class="form-control tiempo input-lg" name="editarhora_desde_transacciones_agente" id="editarhora_desde_transacciones_agente">
-                            </div>
-                        </div>
-
-                        <!-- ************************ -->
-
-                        <div class="form-group   grupotransacciones_agente_horario_hasta_transacciones_agente col-md-2">
-                            <label for="" class="">Hora Hasta</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="icono_horario_hasta_transacciones_agente"></i></span>
-                                <input type="text" class="form-control tiempo input-lg" name="editarhora_hasta_transacciones_agente" id="editarhora_hasta_transacciones_agente">
-                            </div>
-                        </div>
-
-                        <!-- ************************ -->
-
-
-
-
                     </div>
-
                 </div>
 
                 <!--=====================================
@@ -660,16 +508,9 @@ MODAL EDITAR
 
                     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
 
-                    <button type="submit" class="btn btn-primary guardarvacante">Modificar <?php echo $Nombre_del_Modulo ?></button>
+                    <button type="submit" class="btn btn-primary modificar">Modificar <?php echo $Nombre_del_Modulo ?></button>
 
                 </div>
-
-                <?php
-
-                $editar = new Controladortransacciones_agente();
-                $editar->ctrEditar();
-
-                ?>
 
             </form>
 
@@ -678,10 +519,3 @@ MODAL EDITAR
     </div>
 
 </div>
-
-<?php
-
-$borrar = new Controladortransacciones_agente();
-$borrar->ctrBorrar();
-
-?>
