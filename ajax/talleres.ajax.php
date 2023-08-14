@@ -56,9 +56,9 @@ if (isset($_POST["idtalleres"])) {
 VALIDAR NO REPETIR USUARIO
 =============================================*/
 
-if (isset($_POST["validarUsuario"])) {
+if (isset($_POST["validarnombre"])) {
 
-    $valUsuario = new AjaxUsuarios();
-    $valUsuario->validarUsuario = $_POST["validarUsuario"];
-    $valUsuario->ajaxValidarUsuario();
+    $valNombre = new Ajaxtalleres();
+    $valNombre->validartalleres = $_POST["validarnombre"];
+    $valNombre->ajaxValidartalleres();
 }

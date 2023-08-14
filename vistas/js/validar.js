@@ -142,7 +142,8 @@ $(".talleres_input_codigo_talleres").change(function () {
     success: function (respuesta) {
       /* alert(respuesta); */
 
-      if (respuesta.trim() > 0) {
+      if (respuesta.trim() == '"0"') {
+      } else {
         $(".talleres_input_codigo_talleres")
           .parent()
           .after(
@@ -177,7 +178,8 @@ $(".reparaciones_input_codigo_reparacion").change(function () {
     success: function (respuesta) {
       /* alert(respuesta); */
 
-      if (respuesta.trim() > 0) {
+      if (respuesta.trim() == '"0"') {
+      } else {
         $(".reparaciones_input_codigo_reparacion")
           .parent()
           .after(
