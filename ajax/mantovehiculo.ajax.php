@@ -72,12 +72,12 @@ WHERE vehimante.idvehiculo_mante='$valor1' ORDER BY vehimante.fecha DESC";
                 <th>Encargado</th>
                 <th>Reparación</th>
                 <th>Diagnóstico</th>
-                <th>Kilometraje</th>
+                <th>KM</th>
                 <th>Valor</th>
                 <th>Total</th>
-                <th>Fecha Pago</th>
-                <th>Fecha Ingreso</th>
-                <th>Fecha Salida</th>
+                <th>F. Pago</th>
+                <th>F. Ingreso</th>
+                <th>F. Salida</th>
                 <th>Comentario</th>
                 <th>Acciones</th>
             </tr>
@@ -98,7 +98,7 @@ WHERE vehimante.idvehiculo_mante='$valor1' ORDER BY vehimante.fecha DESC";
 			<td>' . $value["codigo_empleado"] . " - " . $value["primer_nombre"] . " " . $value["segundo_nombre"] . " " . $value["tercer_nombre"] . " " . $value["primer_apellido"] . " " . $value["segundo_apellido"] . " " . $value["apellido_casada"] . '</td>
 			<td>' . $value["codigo_reparacion"] . " - " . $value["nombre_reparacion"] . '</td>
 			<td>' . $value["diagnostico_mvehi"] . '</td>
-			<td>' . $value["kilometraje_mvehi"] . '</td>' . '</td>
+			<td>' . $value["kilometraje_mvehi"] . ' KM</td>' . '</td>
 			<td> $ ' . $value["valor_mvehi"] . '</td>
 			<td> $ ' . $value["total_mvehi"] . '</td>
 			<td>' . $value["fecha_pago_mvehi"] . '</td>
@@ -132,10 +132,10 @@ WHERE vehimante.idvehiculo_mante='$valor1' ORDER BY vehimante.fecha DESC";
                 <td colspan="5">
                     <h5><strong>Totales:</strong></h5>
                 </td>
-                <td><button class="btn" type="button">
+                <td><button class="btn btn-danger" type="button">
                         <span class="badge">$ <?php echo number_format($acumValor, 2); ?></span>
                     </button></td>
-                <td><button class="btn" type="button">
+                <td><button class="btn btn-info" type="button">
                         <span class="badge">$ <?php echo number_format($acumTotal, 2); ?></span>
                     </button></td>
                 <td colspan="5"></td>

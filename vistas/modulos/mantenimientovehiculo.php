@@ -91,6 +91,7 @@ function getContent()
                 </div>
                 <div class="col-md-9">
                     <div class="box-body">
+
                         <h4 class="text-info"><strong>Paso 2: Administrar Mantenimiento a Vehículo</strong></h4>
                         <button class="btn btn-primary agregarbtnmovimiento" data-toggle="modal" data-target="#modalAgregarMantenimientoVehiculo">
                             Agregar <?php echo $Nombre_del_Modulo; ?>
@@ -98,7 +99,6 @@ function getContent()
 
 
                         <h4 class="nombre_vehiculo text-success" id="nombre_vehiculo_mostrar"></h4>
-
                         <div id="cargarDatos">
                         </div>
 
@@ -128,7 +128,7 @@ MODAL AGREGAR
 
         <div class="modal-content">
 
-            <form role="form" method="POST" id="saveform" enctype="multipart/form-data">
+            <form role="form" method="POST" id="saveform" enctype="multipart/form-data" autocomplete="off">
 
                 <!--=====================================
         CABEZA DEL MODAL
@@ -236,7 +236,7 @@ MODAL AGREGAR
                             <label for="nuevokilometraje_mvehi" class="">Kilometraje:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-road"></i></span>
-                                <input type="text" class="form-control" name="nuevokilometraje_mvehi" id="nuevokilometraje_mvehi" placeholder="Kilometraje" required>
+                                <input type="text" class="form-control validarmoney" name="nuevokilometraje_mvehi" id="nuevokilometraje_mvehi" placeholder="0.0 km" required>
 
                             </div>
                         </div>
@@ -245,7 +245,7 @@ MODAL AGREGAR
                             <label for="nuevovalor_mvehi" class="">Valor:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                <input type="text" class="form-control" min="1" required name=" nuevovalor_mvehi" id="nuevovalor_mvehi" placeholder="0.00">
+                                <input type="text" class="form-control validarmoney" min="0" required placeholder="0.00" name=" nuevovalor_mvehi" id="nuevovalor_mvehi">
 
                             </div>
                         </div>
@@ -253,7 +253,7 @@ MODAL AGREGAR
                             <label for="nuevototal_mvehi" class="">Total:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                <input type="text" class="form-control" required name="nuevototal_mvehi" id="nuevototal_mvehi" placeholder="0.00">
+                                <input type="text" class="form-control validarmoney" required name="nuevototal_mvehi" id="nuevototal_mvehi" placeholder="0.00">
 
                             </div>
                         </div>
@@ -329,7 +329,7 @@ MODAL EDITAR
 
         <div class="modal-content">
 
-            <form role="form" method="POST" id="editarform" enctype="multipart/form-data">
+            <form role="form" method="POST" id="editarform" enctype="multipart/form-data" autocomplete="off">
 
                 <!--=====================================
         CABEZA DEL MODAL
@@ -437,7 +437,7 @@ MODAL EDITAR
                             <label for="editarkilometraje_mvehi" class="">Kilometraje:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-road"></i></span>
-                                <input type="text" class="form-control" name="editarkilometraje_mvehi" id="editarkilometraje_mvehi" placeholder="Kilometraje" required>
+                                <input type="text" class="form-control validarmoney" name="editarkilometraje_mvehi" id="editarkilometraje_mvehi" placeholder="0.0" required>
 
                             </div>
                         </div>
@@ -446,7 +446,7 @@ MODAL EDITAR
                             <label for="editarvalor_mvehi" class="">Valor:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                <input type="text" class="form-control" min="1" required name="editarvalor_mvehi" id="editarvalor_mvehi" placeholder="0.00">
+                                <input type="text" class="form-control validarmoney" min="0" required name="editarvalor_mvehi" id="editarvalor_mvehi" placeholder="0.00">
 
                             </div>
                         </div>
@@ -454,7 +454,7 @@ MODAL EDITAR
                             <label for="editartotal_mvehi" class="">Total:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                <input type="text" class="form-control" required name="editartotal_mvehi" id="editartotal_mvehi" placeholder="0.00">
+                                <input type="text" class="form-control validarmoney" required name="editartotal_mvehi" id="editartotal_mvehi" placeholder="0.00">
 
                             </div>
                         </div>

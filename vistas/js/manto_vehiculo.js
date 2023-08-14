@@ -238,6 +238,10 @@ $(document).ready(function () {
       });
     }
   });
+
+  $(".validarmoney").mask("#,##0.00", {
+    reverse: true,
+  });
 });
 
 /* CARGAR DATOS */
