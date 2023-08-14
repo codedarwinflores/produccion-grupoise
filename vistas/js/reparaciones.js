@@ -38,7 +38,7 @@ $(".tablas").on("click", ".btnEditarReparaciones", function () {
   datos.append("idreparaciones", idreparaciones);
 
   $.ajax({
-    url: "ajax/reparaciones.ajax.php",
+    url: "./ajax/reparaciones.ajax.php",
     method: "POST",
     data: datos,
     cache: false,
@@ -68,7 +68,7 @@ $("#nuevonombre_reparaciones").change(function () {
   datos.append("validarnombre", usuario);
 
   $.ajax({
-    url: "ajax/reparaciones.ajax.php",
+    url: "./ajax/reparaciones.ajax.php",
     method: "POST",
     data: datos,
     cache: false,

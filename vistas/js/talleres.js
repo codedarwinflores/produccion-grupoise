@@ -35,7 +35,7 @@ $(".tablas").on("click", ".btnEditartalleres", function () {
   datos.append("idtalleres", idtalleres);
 
   $.ajax({
-    url: "ajax/talleres.ajax.php",
+    url: "./ajax/talleres.ajax.php",
     method: "POST",
     data: datos,
     cache: false,
@@ -61,7 +61,7 @@ $("#nuevonombre_talleres").change(function () {
   datos.append("validarnombre", usuario);
 
   $.ajax({
-    url: "ajax/talleres.ajax.php",
+    url: "./ajax/talleres.ajax.php",
     method: "POST",
     data: datos,
     cache: false,
