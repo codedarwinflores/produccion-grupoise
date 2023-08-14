@@ -439,8 +439,6 @@ if (isset($_GET['consult'])) {
 						/* ******* */
 					}
 
-
-
 					?>
 
 				</tbody>

@@ -60,9 +60,9 @@ function getContent()
                         $item = null;
                         $valor = null;
 
-                        $bancos = ControladorReparaciones::ctrMostrar($item, $valor);
+                        $reparaciones = ControladorReparaciones::ctrMostrar($item, $valor);
 
-                        foreach ($bancos as $key => $value) {
+                        foreach ($reparaciones as $key => $value) {
 
                             echo ' <tr>
                    <td>' . ($key + 1) . '</td>
