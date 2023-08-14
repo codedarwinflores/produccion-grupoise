@@ -166,6 +166,12 @@
 						</a>
 					</li>
 					<li>
+						<a href="mantenimientovehiculo">
+							<i class="fa fa-ambulance"></i>
+							<span>Mtto. Vehículo</span>
+						</a>
+					</li>
+					<li>
 						<a href="reparaciones">
 							<i class="fa fa-cogs"></i>
 							<span>Reparaciones</span>
