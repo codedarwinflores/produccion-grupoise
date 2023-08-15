@@ -1,7 +1,7 @@
 $(document).ready(function () {
-  cargarDatos(0);
+  cargarDatosVehiculo(0);
 
-  $("#tablavehiculo tbody").on("click", ".campoid", function () {
+  $("#tablabicicleta tbody").on("click", ".campoid", function () {
     $(".agregarbtnmovimiento").removeAttr("disabled");
     /* if ($(this).hasClass("selectedd")) {
       // Deseleccionar
@@ -13,41 +13,43 @@ $(document).ready(function () {
     $(this).addClass("selectedd");
     /* } */
 
-    let datosvehiculo = $(this).attr("datosvehiculo");
-    $(".nombre_vehiculo").html("<strong>Vehículo: </strong>" + datosvehiculo);
-    $("#name_vehiculo").html(datosvehiculo);
+    let datosbicicleta = $(this).attr("datosbicicleta");
+    $(".nombre_bicicleta").html(
+      "<strong>Bicicleta: </strong>" + datosbicicleta
+    );
+    $("#name_bicicleta").html(datosbicicleta);
     /* PARAMTETRO VEHÍCULO */
-    let idvehiculo = $(this).attr("idvehiculo");
-    $("#nuevoidvehiculo_mante").val(idvehiculo);
-    cargarDatos(idvehiculo);
+    let idbicicleta = $(this).attr("idbicicleta");
+    $("#nuevoidbicicleta_mante").val(idbicicleta);
+    cargarDatosVehiculo(idbicicleta);
   });
 
-  $("#saveform").submit(function (e) {
+  $("#saveformbici").submit(function (e) {
     e.preventDefault();
     $("#mensajenuevo").show();
     var errores = "";
-    if ($("#nuevoidvehiculo_mante").val() == "") {
-      errores += "<strong><li>Selecciona un vehículo</li></strong>";
-      $("#nuevoidvehiculo_mante").focus();
+    if ($("#nuevoidbicicleta_mante").val() == "") {
+      errores += "<strong><li>Selecciona una Bicicleta</li></strong>";
+      $("#nuevoidbicicleta_mante").focus();
     }
     if ($("#nuevofecha").val() == "") {
       errores += "<strong><li>Fecha</li></strong>";
       $("#nuevofecha").focus();
     }
 
-    if ($("#nuevoidempleado_mvehi").val() == "") {
+    if ($("#nuevoidempleado_mbici").val() == "") {
       errores += "<strong><li>Selecciona un empleado</li></strong>";
-      $("#nuevoidempleado_mvehi").focus();
+      $("#nuevoidempleado_mbici").focus();
     }
 
-    if ($("#nuevodiagnostico_mvehi").val() == "") {
+    if ($("#nuevodiagnostico_mbici").val() == "") {
       errores += "<strong><li>Diagnóstico</li></strong>";
-      $("#nuevodiagnostico_mvehi").focus();
+      $("#nuevodiagnostico_mbici").focus();
     }
 
-    if ($("#nuevoidreparacion_mvehi").val() == "") {
+    if ($("#nuevoidreparacion_mbici").val() == "") {
       errores += "<strong><li>Reparación</li></strong>";
-      $("#nuevoidreparacion_mvehi").focus();
+      $("#nuevoidreparacion_mbici").focus();
     }
 
     if ($("#nuevoid_taller").val() == "") {
@@ -55,26 +57,21 @@ $(document).ready(function () {
       $("#nuevoid_taller").focus();
     }
 
-    if ($("#nuevokilometraje_mvehi").val() == "") {
-      errores += "<strong><li>Kilometraje</li></strong>";
-      $("#nuevokilometraje_mvehi").focus();
-    }
-
-    if ($("#nuevovalor_mvehi").val() == "") {
+    if ($("#nuevovalor_mbici").val() == "") {
       errores += "<strong><li>Valor</li></strong>";
-      $("#nuevovalor_mvehi").focus();
+      $("#nuevovalor_mbici").focus();
     }
-    if ($("#nuevofecha_pago_mvehi").val() == "") {
+    if ($("#nuevofecha_pago_mbici").val() == "") {
       errores += "<strong><li>Fecha Pago</li></strong>";
-      $("#nuevofecha_pago_mvehi").focus();
+      $("#nuevofecha_pago_mbici").focus();
     }
-    if ($("#nuevofecha_ingreso_mvehi").val() == "") {
+    if ($("#nuevofecha_ingreso_mbici").val() == "") {
       errores += "<strong><li>Fecha Ingreso</li></strong>";
-      $("#nuevofecha_ingreso_mvehi").focus();
+      $("#nuevofecha_ingreso_mbici").focus();
     }
-    if ($("#nuevofecha_salida_mvehi").val() == "") {
+    if ($("#nuevofecha_salida_mbici").val() == "") {
       errores += "<strong><li>Fecha Salida</li></strong>";
-      $("#nuevofecha_salida_mvehi").focus();
+      $("#nuevofecha_salida_mbici").focus();
     }
 
     if (errores != "") {
@@ -88,7 +85,7 @@ $(document).ready(function () {
       $(":submit").attr("disabled", true);
       $.ajax({
         type: "POST",
-        url: "./controladores/mante_vehiculo.controlador.php?action=save",
+        url: "./controladores/mante_bicicleta.controlador.php?action=save",
         data: parametros,
         cache: false,
         contentType: false,
@@ -112,8 +109,8 @@ $(document).ready(function () {
               "Datos almacenados correctamente"
             );
 
-            cargarDatos($("#nuevoidvehiculo_mante").val());
-            limpiar();
+            cargarDatosVehiculo($("#nuevoidbicicleta_mante").val());
+            limpiarbici();
 
             /*   document.getElementById("saveform").reset(); */
           } else {
@@ -134,58 +131,58 @@ $(document).ready(function () {
     }
   });
 
-  $("#editarform").submit(function (e) {
+  $("#editarformbici").submit(function (e) {
     e.preventDefault();
     $("#mensajenuevoedit").show();
     var errores = "";
-    if ($("#editaridvehiculo_mante").val() == "") {
-      errores += "<strong><li>Selecciona un vehículo</li></strong>";
-      $("#editaridvehiculo_mante").focus();
+    if ($("#editaridbicicleta_mante").val() == "") {
+      errores += "<strong><li>Selecciona una Bicicleta</li></strong>";
+      $("#editaridbicicleta_mante").focus();
     }
     if ($("#editarfecha").val() == "") {
       errores += "<strong><li>Fecha</li></strong>";
       $("#editarfecha").focus();
     }
 
-    if ($("#editaridempleado_mvehi").val() == "") {
+    if ($("#editaridempleado_mbici").val() == "") {
       errores += "<strong><li>Selecciona un empleado</li></strong>";
-      $("#editaridempleado_mvehi").focus();
+      $("#editaridempleado_mbici").focus();
     }
 
-    if ($("#editardiagnostico_mvehi").val() == "") {
+    if ($("#editardiagnostico_mbici").val() == "") {
       errores += "<strong><li>Diagnóstico</li></strong>";
-      $("#editardiagnostico_mvehi").focus();
+      $("#editardiagnostico_mbici").focus();
     }
 
-    if ($("#editaridreparacion_mvehi").val() == "") {
+    if ($("#editaridreparacion_mbici").val() == "") {
       errores += "<strong><li>Reparación</li></strong>";
-      $("#editaridreparacion_mvehi").focus();
+      $("#editaridreparacion_mbici").focus();
     }
 
     if ($("#editarid_taller").val() == "") {
       errores += "<strong><li>Seleccione un taller</li></strong>";
       $("#editarid_taller").focus();
     }
-    if ($("#editarkilometraje_mvehi").val() == "") {
+    if ($("#editarkilometraje_mbici").val() == "") {
       errores += "<strong><li>Kilometraje</li></strong>";
-      $("#editarkilometraje_mvehi").focus();
+      $("#editarkilometraje_mbici").focus();
     }
 
-    if ($("#editarvalor_mvehi").val() == "") {
+    if ($("#editarvalor_mbici").val() == "") {
       errores += "<strong><li>Valor</li></strong>";
-      $("#editarvalor_mvehi").focus();
+      $("#editarvalor_mbici").focus();
     }
-    if ($("#editarfecha_pago_mvehi").val() == "") {
+    if ($("#editarfecha_pago_mbici").val() == "") {
       errores += "<strong><li>Fecha Pago</li></strong>";
-      $("#editarfecha_pago_mvehi").focus();
+      $("#editarfecha_pago_mbici").focus();
     }
-    if ($("#editarfecha_ingreso_mvehi").val() == "") {
+    if ($("#editarfecha_ingreso_mbici").val() == "") {
       errores += "<strong><li>Fecha Ingreso</li></strong>";
-      $("#editarfecha_ingreso_mvehi").focus();
+      $("#editarfecha_ingreso_mbici").focus();
     }
-    if ($("#editarfecha_salida_mvehi").val() == "") {
+    if ($("#editarfecha_salida_mbici").val() == "") {
       errores += "<strong><li>Fecha Salida</li></strong>";
-      $("#editarfecha_salida_mvehi").focus();
+      $("#editarfecha_salida_mbici").focus();
     }
 
     if (errores != "") {
@@ -205,7 +202,7 @@ $(document).ready(function () {
       $(":submit").attr("disabled", true);
       $.ajax({
         type: "POST",
-        url: "./controladores/mante_vehiculo.controlador.php?edit=save",
+        url: "./controladores/mante_bicicleta.controlador.php?edit=save",
         data: parametros,
         cache: false,
         contentType: false,
@@ -229,7 +226,7 @@ $(document).ready(function () {
               "Datos modificados correctamente"
             );
 
-            cargarDatos($("#editaridvehiculo_mante").val());
+            cargarDatosVehiculo($("#editaridbicicleta_mante").val());
 
             /*   document.getElementById("saveform").reset(); */
           } else {
@@ -249,39 +246,34 @@ $(document).ready(function () {
       });
     }
   });
-
-  $(".validarmoney").mask("###0.00", {
-    reverse: true,
-  });
 });
 
 /* CARGAR DATOS */
-function cargarDatos(idvehiculo) {
+function cargarDatosVehiculo(idbicicleta) {
   let parametros = {
-    valor: idvehiculo,
+    valor: idbicicleta,
   };
   $.ajax({
     data: parametros,
-    url: "ajax/mantovehiculo.ajax.php",
+    url: "./ajax/mantobicicleta.ajax.php",
     type: "post",
     success: function (response) {
-      $("#cargarDatos").html(response).fadeIn("slow");
+      $("#cargarDatosBicicleta").html(response).fadeIn("slow");
     },
   });
 }
 
-function limpiar() {
-  $("#nuevoidreparacion_mvehi").val("").trigger("change");
-  $("#nuevoidempleado_mvehi").val("").trigger("change");
+function limpiarbici() {
+  $("#nuevoidreparacion_mbici").val("").trigger("change");
+  $("#nuevoidempleado_mbici").val("").trigger("change");
   $("#nuevoid_taller").val("").trigger("change");
-  $("#nuevodiagnostico_mvehi").val("");
-  $("#nuevokilometraje_mvehi").val("");
-  $("#nuevovalor_mvehi").val("");
-  $("#nuevototal_mvehi").val("");
-  $("#nuevofecha_pago_mvehi").val("");
-  $("#nuevofecha_ingreso_mvehi").val("");
-  $("#nuevofecha_salida_mvehi").val("");
-  $("#nuevocomentario_mvehi").val("");
+  $("#nuevodiagnostico_mbici").val("");
+  $("#nuevovalor_mbici").val("");
+  $("#nuevototal_mbici").val("");
+  $("#nuevofecha_pago_mbici").val("");
+  $("#nuevofecha_ingreso_mbici").val("");
+  $("#nuevofecha_salida_mbici").val("");
+  $("#nuevocomentario_mbici").val("");
 }
 
 function mensaje(id, tipoalert, icono, titulo, mensaje) {
@@ -299,7 +291,7 @@ function ocultarMensaje(id) {
   }, 3500);
 }
 
-function eliminarMantenimiento(id, idvehiculo) {
+function eliminarMantenimientoBici(id, idbicicleta) {
   swal({
     title: "¿Está seguro de borrar el registro?",
     text: "¡Si no lo está puede cancelar la accíón!",
@@ -313,7 +305,7 @@ function eliminarMantenimiento(id, idvehiculo) {
     if (result.value) {
       $.ajax({
         url:
-          "./controladores/mante_vehiculo.controlador.php?borrar=&id_mante=" +
+          "./controladores/mante_bicicleta.controlador.php?borrar=&id_mante=" +
           id,
         type: "GET",
         success: function (response) {
@@ -323,7 +315,7 @@ function eliminarMantenimiento(id, idvehiculo) {
               text: "Registro eliminado correctamente.",
               type: "success",
             });
-            cargarDatos(idvehiculo);
+            cargarDatos(idbicicleta);
           } else {
             swal({
               title: "Error",
@@ -337,37 +329,34 @@ function eliminarMantenimiento(id, idvehiculo) {
   });
 }
 
-function editarMantenimientoVehiculo(id) {
+function editarMantenimientoBici(id) {
   $.ajax({
-    url: "./ajax/mantovehiculo.ajax.php?editar=&id=" + id,
+    url: "./ajax/mantobicicleta.ajax.php?editar=&id=" + id,
     method: "POST",
     cache: false,
     contentType: false,
     processData: false,
     dataType: "json",
     success: function (respuesta) {
-      $("#vehiculo_mostrar").html($("#nombre_vehiculo_mostrar").html());
+      $("#bicicleta_mostrar").html($("#nombre_bicicleta_mostrar").html());
       $("#editarid").val(respuesta["id"]);
-      $("#editaridvehiculo_mante").val(respuesta["idvehiculo_mante"]);
+      $("#editaridbicicleta_mante").val(respuesta["idbicicleta_mante"]);
       $("#editarfecha").val(respuesta["fecha"]);
-      $("#editaridempleado_mvehi")
-        .val(respuesta["idempleado_mvehi"])
+      $("#editaridempleado_mbici")
+        .val(respuesta["idempleado_mbici"])
         .trigger("change");
-      $("#editardiagnostico_mvehi").val(respuesta["diagnostico_mvehi"]);
-      $("#editaridreparacion_mvehi")
-        .val(respuesta["idreparacion_mvehi"])
+      $("#editardiagnostico_mbici").val(respuesta["diagnostico_mbici"]);
+      $("#editaridreparacion_mbici")
+        .val(respuesta["idreparacion_mbici"])
         .trigger("change");
       $("#editarid_taller").val(respuesta["id_taller"]).trigger("change");
+      $("#editarvalor_mbici").val(respuesta["valor_mbici"]);
+      $("#editartotal_mbici").val(respuesta["total_mbici"]);
 
-      $("#editarkilometraje_mvehi").val(respuesta["kilometraje_mvehi"]);
-      $("#editarvalor_mvehi").val(respuesta["valor_mvehi"]);
-      $("#editartotal_mvehi").val(respuesta["total_mvehi"]);
-
-      $("#editarfecha_pago_mvehi").val(respuesta["fecha_pago_mvehi"]);
-      $("#editarfecha_ingreso_mvehi").val(respuesta["fecha_ingreso_mvehi"]);
-      $("#editarfecha_salida_mvehi").val(respuesta["fecha_salida_mvehi"]);
-
-      $("#editarcomentario_mvehi").val(respuesta["comentario_mvehi"]);
+      $("#editarfecha_pago_mbici").val(respuesta["fecha_pago_mbici"]);
+      $("#editarfecha_ingreso_mbici").val(respuesta["fecha_ingreso_mbici"]);
+      $("#editarfecha_salida_mbici").val(respuesta["fecha_salida_mbici"]);
+      $("#editarcomentario_mbici").val(respuesta["comentario_mbici"]);
     },
   });
 }

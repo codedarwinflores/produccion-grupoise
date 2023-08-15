@@ -11,7 +11,7 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
     return;
 }
 
-$Nombre_del_Modulo = "Mantenimiento Vehículo";
+$Nombre_del_Modulo = "Mantenimiento Arma";
 
 /* CAPTURAR NOMBRE COLUMNAS*/
 
@@ -33,7 +33,7 @@ function getContent()
     .selectedd {
         background: #C3F3FF !important;
         color: #000;
-        font-weight: 600;
+        font-weight: 700;
         cursor: pointer;
     }
 </style>
@@ -52,30 +52,33 @@ function getContent()
             <div class="row">
                 <div class="col-md-3">
                     <div class="box-body">
-                        <h4 class="text-info"><strong>Paso 1: Seleccione un Vehículo</strong></h4>
-                        <table class="table table-bordered table-striped dt-responsive tablas" id="tablavehiculo" width="100%">
+                        <h4 class="text-info"><strong>Paso 1: Seleccione un Arma</strong></h4>
+                        <table class="table table-bordered table-striped dt-responsive tablas" id="tablaarma" width="100%">
                             <thead>
                                 <tr>
                                     <th>Código</th>
+                                    <th>N° Serie</th>
                                     <th>Descripción</th>
-                                    <th>Marca</th>
+                                    <th>Tipo / Marca</th>
+                                    <th>N° Matrícula</th>
                                     <th>Modelo</th>
+                                    <th>Color</th>
                                 </tr>
-
                             </thead>
-
                             <tbody>
                                 <?php
                                 $modeloVehiculo  = new Modelovehiculo();
-
-                                $data0 = $modeloVehiculo::mostrarVehiculoDb("*", "tbl_vehiculos", "", "");
+                                $data0 = $modeloVehiculo::mostrarVehiculoDb("arma.*,tipoarma.codigo as codigoarma,tipoarma.nombre_tipo", "tbl_armas arma INNER JOIN tbl_tipos_de_armas tipoarma ON arma.id_tipo_arma=tipoarma.id", "", "");
                                 foreach ($data0 as $value) {
 
-                                    echo ' <tr class="campoid" datosvehiculo="' . $value["codigo_vehiculo"] . " " . $value["descripcion_vehiculo"] . '" idvehiculo="' . $value["id"] . '">
-                                    <td>' . $value["codigo_vehiculo"] . '</td>
-                                    <td>' . $value["descripcion_vehiculo"] . '</td>
-                                     <td>' . $value["marca"] . '</td>
-                                     <td>' . $value["modelo"] . '</td>';
+                                    echo ' <tr class="campoid" datosarma="' . $value["codigo"] . " - " . $value["numero_serie"] . " - " . $value["nombre_tipo"] . " / " . $value["marca"] . " - " . $value["modelo"] . " - " . $value["color"] . " - " . $value["numero_matricula"] . '" idarma="' . $value["id"] . '">
+                                    <th>' . $value["codigo"] . '</th>
+                                    <td>' . $value["numero_serie"] . '</td>
+                                     <td>' . $value["descripcion_arma"] . '</td>
+                                     <td>' . $value["nombre_tipo"] . " / " . $value["marca"] . '</td>
+                                     <td>' . $value["numero_matricula"] . '</td>
+                                     <td>' . $value["modelo"] . '</td>
+                                     <td>' . $value["color"] . '</td>';
                                     echo '</tr>';
                                 }
 
@@ -89,13 +92,13 @@ function getContent()
                 </div>
                 <div class="col-md-9">
                     <div class="box-body">
-                        <h4 class="text-info"><strong>Paso 2: Administrar Mantenimiento a Vehículo</strong></h4>
-                        <button class="btn btn-primary agregarbtnmovimiento" data-toggle="modal" data-target="#modalAgregarMantenimientoVehiculo">
+                        <h4 class="text-info"><strong>Paso 2: Administrar Mantenimiento Arma</strong></h4>
+                        <button class="btn btn-primary agregarbtnmovimiento" data-toggle="modal" data-target="#modalAgregarMantenimientoArma">
                             Agregar <?php echo $Nombre_del_Modulo; ?>
                         </button>
-                        <h4 class="nombre_vehiculo text-success" id="nombre_vehiculo_mostrar"></h4>
+                        <h4 class="nombre_arma text-success" id="nombre_arma_mostrar"></h4>
 
-                        <div id="cargarDatos">
+                        <div id="cargarDatosarma">
                         </div>
 
 
@@ -120,13 +123,13 @@ function getContent()
 MODAL AGREGAR 
 ======================================-->
 
-<div id="modalAgregarMantenimientoVehiculo" class="modal fade" role="dialog">
+<div id="modalAgregarMantenimientoArma" class="modal fade" role="dialog">
 
     <div class="modal-dialog" style="width: 900px !important;">
 
         <div class="modal-content">
 
-            <form role="form" method="POST" id="saveform" enctype="multipart/form-data" autocomplete="off">
+            <form role="form" method="POST" id="saveformarma" enctype="multipart/form-data" autocomplete="off">
 
                 <!--=====================================
         CABEZA DEL MODAL
@@ -150,26 +153,25 @@ MODAL AGREGAR
 
                         <!-- ENTRADA PARA CAMPOS  -->
 
-                        <h4 class="text-primary"><strong>Vehículo: <span id="name_vehiculo"></span></strong></h4>
+                        <h4 class="text-primary"><strong>Arma: <span id="name_arma"></span></strong></h4>
                         <input type="hidden" name="nuevoid" id="nuevoid" placeholder="" value="" autocomplete="off">
-                        <input type="hidden" id="nuevoidvehiculo_mante" name="nuevoidvehiculo_mante">
+                        <input type="hidden" id="nuevoidarma_mante" name="nuevoidarma_mante">
                         <div class="form-group col-md-4">
-                            <label for="nuevofecha" class="">Fecha:</label>
+                            <label for="nuevofecha_marma">Fecha:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                <input type="date" class="form-control " name="nuevofecha" id="nuevofecha" placeholder="Ingresar Fecha" autocomplete="off" required="" value="<?php echo date('Y-m-d') ?>">
+                                <input type="date" class="form-control " name="nuevofecha_marma" id="nuevofecha_marma" placeholder="Ingresar Fecha" autocomplete="off" required="" value="<?php echo date('Y-m-d') ?>">
                             </div>
                         </div>
                         <!-- ********************* -->
 
 
-
                         <div class="form-group col-md-8">
-                            <label for="nuevoidempleado_mvehi">Empleado Encargado:</label>
+                            <label for="nuevoidempleado_marma">Empleado Encargado:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-user-circle-o"></i></span>
 
-                                <select class="form-control mi-selector" name="nuevoidempleado_mvehi" id="nuevoidempleado_mvehi" required>
+                                <select class="form-control mi-selector" name="nuevoidempleado_marma" id="nuevoidempleado_marma" required>
 
                                     <option value="">Seleccione...</option>
                                     <?php
@@ -194,43 +196,16 @@ MODAL AGREGAR
                         <!-- ********************* -->
 
                         <div class="form-group col-md-12">
-                            <label for="nuevodiagnostico_mvehi" class="">Diagnóstico:</label>
+                            <label for="nuevodiagnostico_marma" class="">Diagnóstico:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-stethoscope"></i></span>
-                                <textarea class="form-control" name="nuevodiagnostico_mvehi" required id="nuevodiagnostico_mvehi" placeholder="Diagnóstico"></textarea>
+                                <textarea class="form-control" name="nuevodiagnostico_marma" required id="nuevodiagnostico_marma" placeholder="Diagnóstico"></textarea>
 
                             </div>
                         </div>
 
 
-                        <div class="form-group col-md-6">
-                            <label for="nuevoidreparacion_mvehi" class="">Reparación:</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-cog"></i></span>
-
-                                <select class="form-control mi-selector" required name="nuevoidreparacion_mvehi" id="nuevoidreparacion_mvehi">
-
-                                    <option value="">Seleccione...</option>
-                                    <?php
-                                    $item = null;
-                                    $valor = null;
-                                    $datos_mostrar  = ControladorReparaciones::ctrMostrar($item, $valor);
-                                    foreach ($datos_mostrar as $key => $value) {
-                                    ?>
-                                        <option value="<?php echo $value['id']  ?>">
-                                            <?php echo $value['codigo_reparacion'] . ' - ' . $value['nombre_reparacion'] ?>
-                                        </option>
-                                    <?php
-                                    }
-                                    ?>
-
-                                </select>
-
-
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-12">
                             <label for="nuevoid_taller" class="">Taller:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-cog"></i></span>
@@ -257,63 +232,56 @@ MODAL AGREGAR
                             </div>
                         </div>
 
-                        <div class="form-group col-md-4">
-                            <label for="nuevokilometraje_mvehi" class="">Kilometraje:</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-road"></i></span>
-                                <input type="text" class="form-control validarmoney" name="nuevokilometraje_mvehi" id="nuevokilometraje_mvehi" placeholder="0.0 km" required>
 
-                            </div>
-                        </div>
 
-                        <div class="form-group col-md-4">
-                            <label for="nuevovalor_mvehi" class="">Valor:</label>
+                        <div class="form-group col-md-6">
+                            <label for="nuevovalor_marma" class="">Valor:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                <input type="text" class="form-control validarmoney" min="0" required placeholder="0.00" name=" nuevovalor_mvehi" id="nuevovalor_mvehi">
+                                <input type="text" class="form-control validarmoney" min="0" required placeholder="0.00" name=" nuevovalor_marma" id="nuevovalor_marma">
 
                             </div>
                         </div>
-                        <div class="form-group col-md-4">
-                            <label for="nuevototal_mvehi" class="">Total:</label>
+                        <div class="form-group col-md-6">
+                            <label for="nuevototal_marma" class="">Total:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                <input type="text" class="form-control validarmoney" required name="nuevototal_mvehi" id="nuevototal_mvehi" placeholder="0.00">
+                                <input type="text" class="form-control validarmoney" required name="nuevototal_marma" id="nuevototal_marma" placeholder="0.00">
 
                             </div>
                         </div>
 
                         <div class="form-group col-md-4">
-                            <label for="nuevofecha_pago_mvehi" class="">Fecha Pago:</label>
+                            <label for="nuevofecha_pago_marma" class="">Fecha Pago:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                <input type="date" class="form-control" name="nuevofecha_pago_mvehi" id="nuevofecha_pago_mvehi" placeholder="Fecha Pago" required>
+                                <input type="date" class="form-control" name="nuevofecha_pago_marma" id="nuevofecha_pago_marma" placeholder="Fecha Pago" required>
 
                             </div>
                         </div>
 
                         <div class="form-group col-md-4">
-                            <label for="nuevofecha_ingreso_mvehi" class="">Fecha Ingreso:</label>
+                            <label for="nuevofecha_ingreso_marma" class="">Fecha Ingreso:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                <input type="date" class="form-control" name="nuevofecha_ingreso_mvehi" id="nuevofecha_ingreso_mvehi" placeholder="Fecha Ingreso" required>
+                                <input type="date" class="form-control" name="nuevofecha_ingreso_marma" id="nuevofecha_ingreso_marma" placeholder="Fecha Ingreso" required>
 
                             </div>
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="nuevofecha_salida_mvehi" class="">Fecha Salida:</label>
+                            <label for="nuevofecha_salida_marma" class="">Fecha Salida:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                <input type="date" class="form-control" name="nuevofecha_salida_mvehi" id="nuevofecha_salida_mvehi" placeholder="Fecha Salida" required>
+                                <input type="date" class="form-control" name="nuevofecha_salida_marma" id="nuevofecha_salida_marma" placeholder="Fecha Salida" required>
 
                             </div>
                         </div>
 
                         <div class="form-group col-md-12">
-                            <label for="" class="">Comentario:</label>
+                            <label for="nuevocomentario_marma" class="">Comentario:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-comment"></i></span>
-                                <textarea class="form-control" name="nuevocomentario_mvehi" id="nuevocomentario_mvehi" placeholder="Comentario"></textarea>
+                                <textarea class="form-control" name="nuevocomentario_marma" id="nuevocomentario_marma" placeholder="Comentario"></textarea>
 
                             </div>
                         </div>
@@ -354,7 +322,7 @@ MODAL EDITAR
 
         <div class="modal-content">
 
-            <form role="form" method="POST" id="editarform" enctype="multipart/form-data" autocomplete="off">
+            <form role="form" method="POST" id="editarformarma" enctype="multipart/form-data" autocomplete="off">
 
                 <!--=====================================
         CABEZA DEL MODAL
@@ -378,14 +346,14 @@ MODAL EDITAR
 
                         <!-- ENTRADA PARA CAMPOS  -->
 
-                        <h4 class="text-primary" id="vehiculo_mostrar"></h4>
+                        <h4 class="text-primary" id="arma_mostrar"></h4>
                         <input type="hidden" name="editarid" id="editarid" placeholder="" value="" autocomplete="off">
-                        <input type="hidden" id="editaridvehiculo_mante" name="editaridvehiculo_mante">
+                        <input type="hidden" id="editaridarma_mante" name="editaridarma_mante">
                         <div class="form-group col-md-4">
-                            <label for="editarfecha" class="">Fecha:</label>
+                            <label for="editarfecha_marma" class="">Fecha:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                <input type="date" class="form-control " name="editarfecha" id="editarfecha" placeholder="Ingresar Fecha" autocomplete="off" required="" value="<?php echo date('Y-m-d') ?>">
+                                <input type="date" class="form-control " name="editarfecha_marma" id="editarfecha_marma" placeholder="Ingresar Fecha" autocomplete="off" required="" value="<?php echo date('Y-m-d') ?>">
                             </div>
                         </div>
                         <!-- ********************* -->
@@ -393,11 +361,11 @@ MODAL EDITAR
 
 
                         <div class="form-group col-md-8">
-                            <label for="editaridempleado_mvehi">Empleado Encargado:</label>
+                            <label for="editaridempleado_marma">Empleado Encargado:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-user-circle-o"></i></span>
 
-                                <select class="form-control mi-selector" name="editaridempleado_mvehi" id="editaridempleado_mvehi" required>
+                                <select class="form-control mi-selector" name="editaridempleado_marma" id="editaridempleado_marma" required>
 
                                     <option value="">Seleccione...</option>
                                     <?php
@@ -422,43 +390,18 @@ MODAL EDITAR
                         <!-- ********************* -->
 
                         <div class="form-group col-md-12">
-                            <label for="editardiagnostico_mvehi" class="">Diagnóstico:</label>
+                            <label for="editardiagnostico_marma" class="">Diagnóstico:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-stethoscope"></i></span>
-                                <textarea class="form-control" name="editardiagnostico_mvehi" required id="editardiagnostico_mvehi" placeholder="Diagnóstico"></textarea>
+                                <textarea class="form-control" name="editardiagnostico_marma" required id="editardiagnostico_marma" placeholder="Diagnóstico"></textarea>
 
                             </div>
                         </div>
 
 
-                        <div class="form-group col-md-6">
-                            <label for="editaridreparacion_mvehi" class="">Reparación:</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-cog"></i></span>
-
-                                <select class="form-control mi-selector" required name="editaridreparacion_mvehi" id="editaridreparacion_mvehi">
-
-                                    <option value="">Seleccione...</option>
-                                    <?php
-                                    $item = null;
-                                    $valor = null;
-                                    $datos_mostrar  = ControladorReparaciones::ctrMostrar($item, $valor);
-                                    foreach ($datos_mostrar as $key => $value) {
-                                    ?>
-                                        <option value="<?php echo $value['id']  ?>">
-                                            <?php echo $value['codigo_reparacion'] . ' - ' . $value['nombre_reparacion'] ?>
-                                        </option>
-                                    <?php
-                                    }
-                                    ?>
-
-                                </select>
 
 
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-12">
                             <label for="editarid_taller" class="">Taller:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-cog"></i></span>
@@ -485,63 +428,55 @@ MODAL EDITAR
                             </div>
                         </div>
 
-                        <div class="form-group col-md-4">
-                            <label for="editarkilometraje_mvehi" class="">Kilometraje:</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-road"></i></span>
-                                <input type="text" class="form-control validarmoney" name="editarkilometraje_mvehi" id="editarkilometraje_mvehi" placeholder="0.0" required>
 
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            <label for="editarvalor_mvehi" class="">Valor:</label>
+                        <div class="form-group col-md-6">
+                            <label for="editarvalor_marma" class="">Valor:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                <input type="text" class="form-control validarmoney" min="0" required name="editarvalor_mvehi" id="editarvalor_mvehi" placeholder="0.00">
+                                <input type="text" class="form-control validarmoney" min="0" required name="editarvalor_marma" id="editarvalor_marma" placeholder="0.00">
 
                             </div>
                         </div>
-                        <div class="form-group col-md-4">
-                            <label for="editartotal_mvehi" class="">Total:</label>
+                        <div class="form-group col-md-6">
+                            <label for="editartotal_marma" class="">Total:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                <input type="text" class="form-control validarmoney" required name="editartotal_mvehi" id="editartotal_mvehi" placeholder="0.00">
+                                <input type="text" class="form-control validarmoney" required name="editartotal_marma" id="editartotal_marma" placeholder="0.00">
 
                             </div>
                         </div>
 
                         <div class="form-group col-md-4">
-                            <label for="editarfecha_pago_mvehi" class="">Fecha Pago:</label>
+                            <label for="editarfecha_pago_marma" class="">Fecha Pago:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                <input type="date" class="form-control" name="editarfecha_pago_mvehi" id="editarfecha_pago_mvehi" placeholder="Fecha Pago" required>
+                                <input type="date" class="form-control" name="editarfecha_pago_marma" id="editarfecha_pago_marma" placeholder="Fecha Pago" required>
 
                             </div>
                         </div>
 
                         <div class="form-group col-md-4">
-                            <label for="editarfecha_ingreso_mvehi" class="">Fecha Ingreso:</label>
+                            <label for="editarfecha_ingreso_marma" class="">Fecha Ingreso:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                <input type="date" class="form-control" name="editarfecha_ingreso_mvehi" id="editarfecha_ingreso_mvehi" placeholder="Fecha Ingreso" required>
+                                <input type="date" class="form-control" name="editarfecha_ingreso_marma" id="editarfecha_ingreso_marma" placeholder="Fecha Ingreso" required>
 
                             </div>
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="editarfecha_salida_mvehi" class="">Fecha Salida:</label>
+                            <label for="editarfecha_salida_marma" class="">Fecha Salida:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                <input type="date" class="form-control" name="editarfecha_salida_mvehi" id="editarfecha_salida_mvehi" placeholder="Fecha Salida" required>
+                                <input type="date" class="form-control" name="editarfecha_salida_marma" id="editarfecha_salida_marma" placeholder="Fecha Salida" required>
 
                             </div>
                         </div>
 
                         <div class="form-group col-md-12">
-                            <label for="editarcomentario_mvehi" class="">Comentario:</label>
+                            <label for="editarcomentario_marma" class="">Comentario:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-comment"></i></span>
-                                <textarea class="form-control" name="editarcomentario_mvehi" id="editarcomentario_mvehi" placeholder="Comentario"></textarea>
+                                <textarea class="form-control" name="editarcomentario_marma" id="editarcomentario_marma" placeholder="Comentario"></textarea>
 
                             </div>
                         </div>

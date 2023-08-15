@@ -1,7 +1,7 @@
 $(document).ready(function () {
-  cargarDatos(0);
+  cargarDatosArma(0);
 
-  $("#tablavehiculo tbody").on("click", ".campoid", function () {
+  $("#tablaarma tbody").on("click", ".campoid", function () {
     $(".agregarbtnmovimiento").removeAttr("disabled");
     /* if ($(this).hasClass("selectedd")) {
       // Deseleccionar
@@ -13,41 +13,36 @@ $(document).ready(function () {
     $(this).addClass("selectedd");
     /* } */
 
-    let datosvehiculo = $(this).attr("datosvehiculo");
-    $(".nombre_vehiculo").html("<strong>Vehículo: </strong>" + datosvehiculo);
-    $("#name_vehiculo").html(datosvehiculo);
+    let datosarma = $(this).attr("datosarma");
+    $(".nombre_arma").html("<strong>Arma: </strong>" + datosarma);
+    $("#name_arma").html(datosarma);
     /* PARAMTETRO VEHÍCULO */
-    let idvehiculo = $(this).attr("idvehiculo");
-    $("#nuevoidvehiculo_mante").val(idvehiculo);
-    cargarDatos(idvehiculo);
+    let idarma = $(this).attr("idarma");
+    $("#nuevoidarma_mante").val(idarma);
+    cargarDatosArma(idarma);
   });
 
-  $("#saveform").submit(function (e) {
+  $("#saveformarma").submit(function (e) {
     e.preventDefault();
     $("#mensajenuevo").show();
     var errores = "";
-    if ($("#nuevoidvehiculo_mante").val() == "") {
-      errores += "<strong><li>Selecciona un vehículo</li></strong>";
-      $("#nuevoidvehiculo_mante").focus();
+    if ($("#nuevoidarma_mante").val() == "") {
+      errores += "<strong><li>Selecciona un arma</li></strong>";
+      $("#nuevoidarma_mante").focus();
     }
-    if ($("#nuevofecha").val() == "") {
+    if ($("#nuevofecha_marma").val() == "") {
       errores += "<strong><li>Fecha</li></strong>";
-      $("#nuevofecha").focus();
+      $("#nuevofecha_marma").focus();
     }
 
-    if ($("#nuevoidempleado_mvehi").val() == "") {
+    if ($("#nuevoidempleado_marma").val() == "") {
       errores += "<strong><li>Selecciona un empleado</li></strong>";
-      $("#nuevoidempleado_mvehi").focus();
+      $("#nuevoidempleado_marma").focus();
     }
 
-    if ($("#nuevodiagnostico_mvehi").val() == "") {
+    if ($("#nuevodiagnostico_marma").val() == "") {
       errores += "<strong><li>Diagnóstico</li></strong>";
-      $("#nuevodiagnostico_mvehi").focus();
-    }
-
-    if ($("#nuevoidreparacion_mvehi").val() == "") {
-      errores += "<strong><li>Reparación</li></strong>";
-      $("#nuevoidreparacion_mvehi").focus();
+      $("#nuevodiagnostico_marma").focus();
     }
 
     if ($("#nuevoid_taller").val() == "") {
@@ -55,26 +50,21 @@ $(document).ready(function () {
       $("#nuevoid_taller").focus();
     }
 
-    if ($("#nuevokilometraje_mvehi").val() == "") {
-      errores += "<strong><li>Kilometraje</li></strong>";
-      $("#nuevokilometraje_mvehi").focus();
-    }
-
-    if ($("#nuevovalor_mvehi").val() == "") {
+    if ($("#nuevovalor_marma").val() == "") {
       errores += "<strong><li>Valor</li></strong>";
-      $("#nuevovalor_mvehi").focus();
+      $("#nuevovalor_marma").focus();
     }
-    if ($("#nuevofecha_pago_mvehi").val() == "") {
+    if ($("#nuevofecha_pago_marma").val() == "") {
       errores += "<strong><li>Fecha Pago</li></strong>";
-      $("#nuevofecha_pago_mvehi").focus();
+      $("#nuevofecha_pago_marma").focus();
     }
-    if ($("#nuevofecha_ingreso_mvehi").val() == "") {
+    if ($("#nuevofecha_ingreso_marma").val() == "") {
       errores += "<strong><li>Fecha Ingreso</li></strong>";
-      $("#nuevofecha_ingreso_mvehi").focus();
+      $("#nuevofecha_ingreso_marma").focus();
     }
-    if ($("#nuevofecha_salida_mvehi").val() == "") {
+    if ($("#nuevofecha_salida_marma").val() == "") {
       errores += "<strong><li>Fecha Salida</li></strong>";
-      $("#nuevofecha_salida_mvehi").focus();
+      $("#nuevofecha_salida_marma").focus();
     }
 
     if (errores != "") {
@@ -88,7 +78,7 @@ $(document).ready(function () {
       $(":submit").attr("disabled", true);
       $.ajax({
         type: "POST",
-        url: "./controladores/mante_vehiculo.controlador.php?action=save",
+        url: "./controladores/mante_arma.controlador.php?action=save",
         data: parametros,
         cache: false,
         contentType: false,
@@ -112,8 +102,8 @@ $(document).ready(function () {
               "Datos almacenados correctamente"
             );
 
-            cargarDatos($("#nuevoidvehiculo_mante").val());
-            limpiar();
+            cargarDatosArma($("#nuevoidarma_mante").val());
+            limpiararma();
 
             /*   document.getElementById("saveform").reset(); */
           } else {
@@ -134,58 +124,49 @@ $(document).ready(function () {
     }
   });
 
-  $("#editarform").submit(function (e) {
+  $("#editarformarma").submit(function (e) {
     e.preventDefault();
     $("#mensajenuevoedit").show();
     var errores = "";
-    if ($("#editaridvehiculo_mante").val() == "") {
-      errores += "<strong><li>Selecciona un vehículo</li></strong>";
-      $("#editaridvehiculo_mante").focus();
+    if ($("#editaridarma_mante").val() == "") {
+      errores += "<strong><li>Selecciona un Arma</li></strong>";
+      $("#editaridarma_mante").focus();
     }
-    if ($("#editarfecha").val() == "") {
+    if ($("#editarfecha_marma").val() == "") {
       errores += "<strong><li>Fecha</li></strong>";
-      $("#editarfecha").focus();
+      $("#editarfecha_marma").focus();
     }
 
-    if ($("#editaridempleado_mvehi").val() == "") {
+    if ($("#editaridempleado_marma").val() == "") {
       errores += "<strong><li>Selecciona un empleado</li></strong>";
-      $("#editaridempleado_mvehi").focus();
+      $("#editaridempleado_marma").focus();
     }
 
-    if ($("#editardiagnostico_mvehi").val() == "") {
+    if ($("#editardiagnostico_marma").val() == "") {
       errores += "<strong><li>Diagnóstico</li></strong>";
-      $("#editardiagnostico_mvehi").focus();
-    }
-
-    if ($("#editaridreparacion_mvehi").val() == "") {
-      errores += "<strong><li>Reparación</li></strong>";
-      $("#editaridreparacion_mvehi").focus();
+      $("#editardiagnostico_marma").focus();
     }
 
     if ($("#editarid_taller").val() == "") {
       errores += "<strong><li>Seleccione un taller</li></strong>";
       $("#editarid_taller").focus();
     }
-    if ($("#editarkilometraje_mvehi").val() == "") {
-      errores += "<strong><li>Kilometraje</li></strong>";
-      $("#editarkilometraje_mvehi").focus();
-    }
 
-    if ($("#editarvalor_mvehi").val() == "") {
+    if ($("#editarvalor_marma").val() == "") {
       errores += "<strong><li>Valor</li></strong>";
-      $("#editarvalor_mvehi").focus();
+      $("#editarvalor_marma").focus();
     }
-    if ($("#editarfecha_pago_mvehi").val() == "") {
+    if ($("#editarfecha_pago_marma").val() == "") {
       errores += "<strong><li>Fecha Pago</li></strong>";
-      $("#editarfecha_pago_mvehi").focus();
+      $("#editarfecha_pago_marma").focus();
     }
-    if ($("#editarfecha_ingreso_mvehi").val() == "") {
+    if ($("#editarfecha_ingreso_marma").val() == "") {
       errores += "<strong><li>Fecha Ingreso</li></strong>";
-      $("#editarfecha_ingreso_mvehi").focus();
+      $("#editarfecha_ingreso_marma").focus();
     }
-    if ($("#editarfecha_salida_mvehi").val() == "") {
+    if ($("#editarfecha_salida_marma").val() == "") {
       errores += "<strong><li>Fecha Salida</li></strong>";
-      $("#editarfecha_salida_mvehi").focus();
+      $("#editarfecha_salida_marma").focus();
     }
 
     if (errores != "") {
@@ -205,7 +186,7 @@ $(document).ready(function () {
       $(":submit").attr("disabled", true);
       $.ajax({
         type: "POST",
-        url: "./controladores/mante_vehiculo.controlador.php?edit=save",
+        url: "./controladores/mante_arma.controlador.php?edit=save",
         data: parametros,
         cache: false,
         contentType: false,
@@ -229,7 +210,7 @@ $(document).ready(function () {
               "Datos modificados correctamente"
             );
 
-            cargarDatos($("#editaridvehiculo_mante").val());
+            cargarDatosArma($("#editaridarma_mante").val());
 
             /*   document.getElementById("saveform").reset(); */
           } else {
@@ -249,39 +230,33 @@ $(document).ready(function () {
       });
     }
   });
-
-  $(".validarmoney").mask("###0.00", {
-    reverse: true,
-  });
 });
 
 /* CARGAR DATOS */
-function cargarDatos(idvehiculo) {
+function cargarDatosArma(idarma) {
   let parametros = {
-    valor: idvehiculo,
+    valor: idarma,
   };
   $.ajax({
     data: parametros,
-    url: "ajax/mantovehiculo.ajax.php",
+    url: "./ajax/mantoarma.ajax.php",
     type: "post",
     success: function (response) {
-      $("#cargarDatos").html(response).fadeIn("slow");
+      $("#cargarDatosarma").html(response).fadeIn("slow");
     },
   });
 }
 
-function limpiar() {
-  $("#nuevoidreparacion_mvehi").val("").trigger("change");
-  $("#nuevoidempleado_mvehi").val("").trigger("change");
+function limpiararma() {
+  $("#nuevoidempleado_marma").val("").trigger("change");
   $("#nuevoid_taller").val("").trigger("change");
-  $("#nuevodiagnostico_mvehi").val("");
-  $("#nuevokilometraje_mvehi").val("");
-  $("#nuevovalor_mvehi").val("");
-  $("#nuevototal_mvehi").val("");
-  $("#nuevofecha_pago_mvehi").val("");
-  $("#nuevofecha_ingreso_mvehi").val("");
-  $("#nuevofecha_salida_mvehi").val("");
-  $("#nuevocomentario_mvehi").val("");
+  $("#nuevodiagnostico_marma").val("");
+  $("#nuevovalor_marma").val("");
+  $("#nuevototal_marma").val("");
+  $("#nuevofecha_pago_marma").val("");
+  $("#nuevofecha_ingreso_marma").val("");
+  $("#nuevofecha_salida_marma").val("");
+  $("#nuevocomentario_marma").val("");
 }
 
 function mensaje(id, tipoalert, icono, titulo, mensaje) {
@@ -299,7 +274,7 @@ function ocultarMensaje(id) {
   }, 3500);
 }
 
-function eliminarMantenimiento(id, idvehiculo) {
+function eliminarMantenimientoArma(id, idarma) {
   swal({
     title: "¿Está seguro de borrar el registro?",
     text: "¡Si no lo está puede cancelar la accíón!",
@@ -313,8 +288,7 @@ function eliminarMantenimiento(id, idvehiculo) {
     if (result.value) {
       $.ajax({
         url:
-          "./controladores/mante_vehiculo.controlador.php?borrar=&id_mante=" +
-          id,
+          "./controladores/mante_arma.controlador.php?borrar=&id_mante=" + id,
         type: "GET",
         success: function (response) {
           if (response == "ok") {
@@ -323,7 +297,7 @@ function eliminarMantenimiento(id, idvehiculo) {
               text: "Registro eliminado correctamente.",
               type: "success",
             });
-            cargarDatos(idvehiculo);
+            cargarDatosArma(idarma);
           } else {
             swal({
               title: "Error",
@@ -337,37 +311,31 @@ function eliminarMantenimiento(id, idvehiculo) {
   });
 }
 
-function editarMantenimientoVehiculo(id) {
+function editarMantenimientoArma(id) {
   $.ajax({
-    url: "./ajax/mantovehiculo.ajax.php?editar=&id=" + id,
+    url: "./ajax/mantoarma.ajax.php?editar=&id=" + id,
     method: "POST",
     cache: false,
     contentType: false,
     processData: false,
     dataType: "json",
     success: function (respuesta) {
-      $("#vehiculo_mostrar").html($("#nombre_vehiculo_mostrar").html());
+      $("#arma_mostrar").html($("#nombre_arma_mostrar").html());
       $("#editarid").val(respuesta["id"]);
-      $("#editaridvehiculo_mante").val(respuesta["idvehiculo_mante"]);
-      $("#editarfecha").val(respuesta["fecha"]);
-      $("#editaridempleado_mvehi")
-        .val(respuesta["idempleado_mvehi"])
+      $("#editaridarma_mante").val(respuesta["idarma_mante"]);
+      $("#editarfecha_marma").val(respuesta["fecha_marma"]);
+      $("#editaridempleado_marma")
+        .val(respuesta["idempleado_marma"])
         .trigger("change");
-      $("#editardiagnostico_mvehi").val(respuesta["diagnostico_mvehi"]);
-      $("#editaridreparacion_mvehi")
-        .val(respuesta["idreparacion_mvehi"])
-        .trigger("change");
+      $("#editardiagnostico_marma").val(respuesta["diagnostico_marma"]);
       $("#editarid_taller").val(respuesta["id_taller"]).trigger("change");
+      $("#editarvalor_marma").val(respuesta["valor_marma"]);
+      $("#editartotal_marma").val(respuesta["total_marma"]);
 
-      $("#editarkilometraje_mvehi").val(respuesta["kilometraje_mvehi"]);
-      $("#editarvalor_mvehi").val(respuesta["valor_mvehi"]);
-      $("#editartotal_mvehi").val(respuesta["total_mvehi"]);
-
-      $("#editarfecha_pago_mvehi").val(respuesta["fecha_pago_mvehi"]);
-      $("#editarfecha_ingreso_mvehi").val(respuesta["fecha_ingreso_mvehi"]);
-      $("#editarfecha_salida_mvehi").val(respuesta["fecha_salida_mvehi"]);
-
-      $("#editarcomentario_mvehi").val(respuesta["comentario_mvehi"]);
+      $("#editarfecha_pago_marma").val(respuesta["fecha_pago_marma"]);
+      $("#editarfecha_ingreso_marma").val(respuesta["fecha_ingreso_marma"]);
+      $("#editarfecha_salida_marma").val(respuesta["fecha_salida_marma"]);
+      $("#editarcomentario_marma").val(respuesta["comentario_marma"]);
     },
   });
 }

@@ -148,6 +148,12 @@
 						</a>
 					</li>
 					<li>
+						<a href="mantenimientoarma">
+							<i class="fa fa-medkit"></i>
+							<span>Mtto. Armas</span>
+						</a>
+					</li>
+					<li>
 						<a href="tipovehiculo">
 							<i class="fa fa-sitemap"></i>
 							<span>Tipo Vehiculo</span>
@@ -160,15 +166,15 @@
 						</a>
 					</li>
 					<li>
-						<a href="talleres">
-							<i class="fa fa-building"></i>
-							<span>Talleres</span>
-						</a>
-					</li>
-					<li>
 						<a href="mantenimientovehiculo">
 							<i class="fa fa-ambulance"></i>
 							<span>Mtto. Vehículo</span>
+						</a>
+					</li>
+					<li>
+						<a href="talleres">
+							<i class="fa fa-building"></i>
+							<span>Talleres</span>
 						</a>
 					</li>
 					<li>
@@ -187,6 +193,12 @@
 						<a href="bicicleta">
 							<i class="fa fa-bicycle"></i>
 							<span>Bicicleta</span>
+						</a>
+					</li>
+					<li>
+						<a href="mantenimientobicicleta">
+							<i class="fa fa-yelp"></i>
+							<span>Mtto. Bicicleta</span>
 						</a>
 					</li>
 					<li>

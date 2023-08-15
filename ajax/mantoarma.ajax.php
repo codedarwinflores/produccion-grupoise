@@ -1,7 +1,7 @@
 <?php
 
 require_once "../modelos/conexion.php";
-require_once "../modelos/mante_vehiculo.modelo.php";
+require_once "../modelos/mante_arma.modelo.php";
 
 
 if (isset($_GET['editar'])) {
@@ -11,7 +11,7 @@ if (isset($_GET['editar'])) {
         $item = "id";
         $valor = $_GET['id'];
 
-        $respuesta = ModeloManteVehiculo::mdlMostrar("mante_vehiculo", $item, $valor);
+        $respuesta = ModeloManteArma::mdlMostrar("mante_arma", $item, $valor);
 
         echo json_encode($respuesta);
     }
@@ -24,10 +24,10 @@ if (isset($_POST["valor"])) {
     $valor = $_POST["valor"];
 
 
-    function tblvehiculos($valor1)
+    function tblarmas($valor1)
     {
         $query01 = "SELECT
-    vehimante.*,
+    arma.*,
     tblemp.codigo_empleado,
     tblemp.primer_nombre,
     tblemp.segundo_nombre,
@@ -35,25 +35,19 @@ if (isset($_POST["valor"])) {
     tblemp.primer_apellido,
     tblemp.segundo_apellido,
     tblemp.apellido_casada,
-    repa.codigo_reparacion,
-    repa.nombre_reparacion,
     taller.codigo_talleres,
     taller.nombre_talleres
 FROM
-    `mante_vehiculo` vehimante
+    `mante_arma` arma
 INNER JOIN tbl_empleados tblemp
-ON vehimante.idempleado_mvehi=tblemp.id
-INNER JOIN reparaciones repa
-ON vehimante.idreparacion_mvehi=repa.id
+ON arma.idempleado_marma=tblemp.id
 INNER JOIN talleres taller
-ON vehimante.id_taller=taller.id
-WHERE vehimante.idvehiculo_mante='$valor1' ORDER BY vehimante.fecha DESC";
+ON arma.id_taller=taller.id
+WHERE arma.idarma_mante='$valor1' ORDER BY arma.fecha_marma DESC";
         $sql = Conexion::conectar()->prepare($query01);
         $sql->execute();
         return $sql->fetchAll();
     }
-
-
 
 ?>
 
@@ -74,10 +68,8 @@ WHERE vehimante.idvehiculo_mante='$valor1' ORDER BY vehimante.fecha DESC";
             <tr>
                 <th>Fecha</th>
                 <th>Encargado</th>
-                <th>Reparación</th>
                 <th>Taller</th>
                 <th>Diagnóstico</th>
-                <th>KM</th>
                 <th>Valor</th>
                 <th>Total</th>
                 <th>F. Pago</th>
@@ -91,33 +83,31 @@ WHERE vehimante.idvehiculo_mante='$valor1' ORDER BY vehimante.fecha DESC";
         <tbody>
             <?php
 
-            $data01 = tblvehiculos($valor);
+            $data01 = tblarmas($valor);
 
             $acumTotal = 0;
             $acumValor = 0;
             foreach ($data01 as $value) {
-                $acumTotal += $value["total_mvehi"];
-                $acumValor += $value["valor_mvehi"];
+                $acumTotal += $value["total_marma"];
+                $acumValor += $value["valor_marma"];
                 echo ' <tr>
-			<td>' . date_format(date_create($value["fecha"]), "d-m-Y") . '</td>
+			<td>' . date_format(date_create($value["fecha_marma"]), "d-m-Y") . '</td>
 			<td>' . $value["codigo_empleado"] . " - " . $value["primer_nombre"] . " " . $value["segundo_nombre"] . " " . $value["tercer_nombre"] . " " . $value["primer_apellido"] . " " . $value["segundo_apellido"] . " " . $value["apellido_casada"] . '</td>
-			<td>' . $value["codigo_reparacion"] . " - " . $value["nombre_reparacion"] . '</td>
 			<td>' . $value["codigo_talleres"] . " - " . $value["nombre_talleres"] . '</td>
-			<td>' . $value["diagnostico_mvehi"] . '</td>
-			<td>' . $value["kilometraje_mvehi"] . ' KM</td>
-			<td> $ ' . $value["valor_mvehi"] . '</td>
-			<td> $ ' . $value["total_mvehi"] . '</td>
-			<td>' . date_format(date_create($value["fecha_pago_mvehi"]), "d-m-Y") . '</td>
-			<td>' . date_format(date_create($value["fecha_ingreso_mvehi"]), "d-m-Y") . '</td>
-			<td>' . date_format(date_create($value["fecha_salida_mvehi"]), "d-m-Y") . '</td>
-			<td>' . $value["comentario_mvehi"] . '</td>';
+			<td>' . $value["diagnostico_marma"] . '</td>
+			<td> $ ' . $value["valor_marma"] . '</td>
+			<td> $ ' . $value["total_marma"] . '</td>
+			<td>' . date_format(date_create($value["fecha_pago_marma"]), "d-m-Y") . '</td>
+			<td>' . date_format(date_create($value["fecha_ingreso_marma"]), "d-m-Y") . '</td>
+			<td>' . date_format(date_create($value["fecha_salida_marma"]), "d-m-Y") . '</td>
+			<td>' . $value["comentario_marma"] . '</td>';
                 echo '<td>
 
 			  <div class="btn-group">
 				  
-				<button class="btn btn-warning btnEditarMantenimiento" onclick="editarMantenimientoVehiculo(' . $value["id"] . ')" data-toggle="modal" data-target="#modalEditarMantenimiento"><i class="fa fa-pencil"></i></button>
+				<button class="btn btn-warning btnEditarMantenimiento" onclick="editarMantenimientoArma(' . $value["id"] . ')" data-toggle="modal" data-target="#modalEditarMantenimiento"><i class="fa fa-pencil"></i></button>
 
-				<button class="btn btn-danger" onclick="eliminarMantenimiento(' . $value["id"] . ',' . $value["idvehiculo_mante"] . ')"><i class="fa fa-times"></i></button>
+				<button class="btn btn-danger" onclick="eliminarMantenimientoArma(' . $value["id"] . ',' . $value["idarma_mante"] . ')"><i class="fa fa-times"></i></button>
 
 			  </div>  
 
@@ -132,7 +122,7 @@ WHERE vehimante.idvehiculo_mante='$valor1' ORDER BY vehimante.fecha DESC";
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="6">
+                <td colspan="4">
                     <h5><strong>Totales:</strong></h5>
                 </td>
                 <td><button class="btn" type="button">

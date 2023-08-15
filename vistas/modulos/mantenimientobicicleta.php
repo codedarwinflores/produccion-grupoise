@@ -11,7 +11,7 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
     return;
 }
 
-$Nombre_del_Modulo = "Mantenimiento Vehículo";
+$Nombre_del_Modulo = "Mantenimiento Bicicleta";
 
 /* CAPTURAR NOMBRE COLUMNAS*/
 
@@ -52,30 +52,27 @@ function getContent()
             <div class="row">
                 <div class="col-md-3">
                     <div class="box-body">
-                        <h4 class="text-info"><strong>Paso 1: Seleccione un Vehículo</strong></h4>
-                        <table class="table table-bordered table-striped dt-responsive tablas" id="tablavehiculo" width="100%">
+                        <h4 class="text-info"><strong>Paso 1: Seleccione una Bicicleta</strong></h4>
+                        <table class="table table-bordered table-striped dt-responsive tablas" id="tablabicicleta" width="100%">
                             <thead>
                                 <tr>
                                     <th>Código</th>
                                     <th>Descripción</th>
                                     <th>Marca</th>
-                                    <th>Modelo</th>
+                                    <th>N° Serie</th>
                                 </tr>
-
                             </thead>
-
                             <tbody>
                                 <?php
                                 $modeloVehiculo  = new Modelovehiculo();
-
-                                $data0 = $modeloVehiculo::mostrarVehiculoDb("*", "tbl_vehiculos", "", "");
+                                $data0 = $modeloVehiculo::mostrarVehiculoDb("*", "tbl_bicicleta", "", "");
                                 foreach ($data0 as $value) {
 
-                                    echo ' <tr class="campoid" datosvehiculo="' . $value["codigo_vehiculo"] . " " . $value["descripcion_vehiculo"] . '" idvehiculo="' . $value["id"] . '">
-                                    <td>' . $value["codigo_vehiculo"] . '</td>
-                                    <td>' . $value["descripcion_vehiculo"] . '</td>
+                                    echo ' <tr class="campoid" datosbicicleta="' . $value["codigo_bicicleta"] . " " . $value["descripcion_bicicleta"] . '" idbicicleta="' . $value["id"] . '">
+                                    <td>' . $value["codigo_bicicleta"] . '</td>
+                                    <td>' . $value["descripcion_bicicleta"] . '</td>
                                      <td>' . $value["marca"] . '</td>
-                                     <td>' . $value["modelo"] . '</td>';
+                                     <td>' . $value["numero_serie"] . '</td>';
                                     echo '</tr>';
                                 }
 
@@ -89,13 +86,13 @@ function getContent()
                 </div>
                 <div class="col-md-9">
                     <div class="box-body">
-                        <h4 class="text-info"><strong>Paso 2: Administrar Mantenimiento a Vehículo</strong></h4>
+                        <h4 class="text-info"><strong>Paso 2: Administrar Mantenimiento a Bicicleta</strong></h4>
                         <button class="btn btn-primary agregarbtnmovimiento" data-toggle="modal" data-target="#modalAgregarMantenimientoVehiculo">
                             Agregar <?php echo $Nombre_del_Modulo; ?>
                         </button>
-                        <h4 class="nombre_vehiculo text-success" id="nombre_vehiculo_mostrar"></h4>
+                        <h4 class="nombre_bicicleta text-success" id="nombre_bicicleta_mostrar"></h4>
 
-                        <div id="cargarDatos">
+                        <div id="cargarDatosBicicleta">
                         </div>
 
 
@@ -126,7 +123,7 @@ MODAL AGREGAR
 
         <div class="modal-content">
 
-            <form role="form" method="POST" id="saveform" enctype="multipart/form-data" autocomplete="off">
+            <form role="form" method="POST" id="saveformbici" enctype="multipart/form-data" autocomplete="off">
 
                 <!--=====================================
         CABEZA DEL MODAL
@@ -150,9 +147,9 @@ MODAL AGREGAR
 
                         <!-- ENTRADA PARA CAMPOS  -->
 
-                        <h4 class="text-primary"><strong>Vehículo: <span id="name_vehiculo"></span></strong></h4>
+                        <h4 class="text-primary"><strong>Vehículo: <span id="name_bicicleta"></span></strong></h4>
                         <input type="hidden" name="nuevoid" id="nuevoid" placeholder="" value="" autocomplete="off">
-                        <input type="hidden" id="nuevoidvehiculo_mante" name="nuevoidvehiculo_mante">
+                        <input type="hidden" id="nuevoidbicicleta_mante" name="nuevoidbicicleta_mante">
                         <div class="form-group col-md-4">
                             <label for="nuevofecha" class="">Fecha:</label>
                             <div class="input-group">
@@ -163,13 +160,12 @@ MODAL AGREGAR
                         <!-- ********************* -->
 
 
-
                         <div class="form-group col-md-8">
-                            <label for="nuevoidempleado_mvehi">Empleado Encargado:</label>
+                            <label for="nuevoidempleado_mbici">Empleado Encargado:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-user-circle-o"></i></span>
 
-                                <select class="form-control mi-selector" name="nuevoidempleado_mvehi" id="nuevoidempleado_mvehi" required>
+                                <select class="form-control mi-selector" name="nuevoidempleado_mbici" id="nuevoidempleado_mbici" required>
 
                                     <option value="">Seleccione...</option>
                                     <?php
@@ -194,21 +190,21 @@ MODAL AGREGAR
                         <!-- ********************* -->
 
                         <div class="form-group col-md-12">
-                            <label for="nuevodiagnostico_mvehi" class="">Diagnóstico:</label>
+                            <label for="nuevodiagnostico_mbici" class="">Diagnóstico:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-stethoscope"></i></span>
-                                <textarea class="form-control" name="nuevodiagnostico_mvehi" required id="nuevodiagnostico_mvehi" placeholder="Diagnóstico"></textarea>
+                                <textarea class="form-control" name="nuevodiagnostico_mbici" required id="nuevodiagnostico_mbici" placeholder="Diagnóstico"></textarea>
 
                             </div>
                         </div>
 
 
                         <div class="form-group col-md-6">
-                            <label for="nuevoidreparacion_mvehi" class="">Reparación:</label>
+                            <label for="nuevoidreparacion_mbici" class="">Reparación:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-cog"></i></span>
 
-                                <select class="form-control mi-selector" required name="nuevoidreparacion_mvehi" id="nuevoidreparacion_mvehi">
+                                <select class="form-control mi-selector" required name="nuevoidreparacion_mbici" id="nuevoidreparacion_mbici">
 
                                     <option value="">Seleccione...</option>
                                     <?php
@@ -257,63 +253,56 @@ MODAL AGREGAR
                             </div>
                         </div>
 
-                        <div class="form-group col-md-4">
-                            <label for="nuevokilometraje_mvehi" class="">Kilometraje:</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-road"></i></span>
-                                <input type="text" class="form-control validarmoney" name="nuevokilometraje_mvehi" id="nuevokilometraje_mvehi" placeholder="0.0 km" required>
 
-                            </div>
-                        </div>
 
-                        <div class="form-group col-md-4">
-                            <label for="nuevovalor_mvehi" class="">Valor:</label>
+                        <div class="form-group col-md-6">
+                            <label for="nuevovalor_mbici" class="">Valor:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                <input type="text" class="form-control validarmoney" min="0" required placeholder="0.00" name=" nuevovalor_mvehi" id="nuevovalor_mvehi">
+                                <input type="text" class="form-control validarmoney" min="0" required placeholder="0.00" name=" nuevovalor_mbici" id="nuevovalor_mbici">
 
                             </div>
                         </div>
-                        <div class="form-group col-md-4">
-                            <label for="nuevototal_mvehi" class="">Total:</label>
+                        <div class="form-group col-md-6">
+                            <label for="nuevototal_mbici" class="">Total:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                <input type="text" class="form-control validarmoney" required name="nuevototal_mvehi" id="nuevototal_mvehi" placeholder="0.00">
+                                <input type="text" class="form-control validarmoney" required name="nuevototal_mbici" id="nuevototal_mbici" placeholder="0.00">
 
                             </div>
                         </div>
 
                         <div class="form-group col-md-4">
-                            <label for="nuevofecha_pago_mvehi" class="">Fecha Pago:</label>
+                            <label for="nuevofecha_pago_mbici" class="">Fecha Pago:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                <input type="date" class="form-control" name="nuevofecha_pago_mvehi" id="nuevofecha_pago_mvehi" placeholder="Fecha Pago" required>
+                                <input type="date" class="form-control" name="nuevofecha_pago_mbici" id="nuevofecha_pago_mbici" placeholder="Fecha Pago" required>
 
                             </div>
                         </div>
 
                         <div class="form-group col-md-4">
-                            <label for="nuevofecha_ingreso_mvehi" class="">Fecha Ingreso:</label>
+                            <label for="nuevofecha_ingreso_mbici" class="">Fecha Ingreso:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                <input type="date" class="form-control" name="nuevofecha_ingreso_mvehi" id="nuevofecha_ingreso_mvehi" placeholder="Fecha Ingreso" required>
+                                <input type="date" class="form-control" name="nuevofecha_ingreso_mbici" id="nuevofecha_ingreso_mbici" placeholder="Fecha Ingreso" required>
 
                             </div>
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="nuevofecha_salida_mvehi" class="">Fecha Salida:</label>
+                            <label for="nuevofecha_salida_mbici" class="">Fecha Salida:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                <input type="date" class="form-control" name="nuevofecha_salida_mvehi" id="nuevofecha_salida_mvehi" placeholder="Fecha Salida" required>
+                                <input type="date" class="form-control" name="nuevofecha_salida_mbici" id="nuevofecha_salida_mbici" placeholder="Fecha Salida" required>
 
                             </div>
                         </div>
 
                         <div class="form-group col-md-12">
-                            <label for="" class="">Comentario:</label>
+                            <label for="nuevocomentario_mbici" class="">Comentario:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-comment"></i></span>
-                                <textarea class="form-control" name="nuevocomentario_mvehi" id="nuevocomentario_mvehi" placeholder="Comentario"></textarea>
+                                <textarea class="form-control" name="nuevocomentario_mbici" id="nuevocomentario_mbici" placeholder="Comentario"></textarea>
 
                             </div>
                         </div>
@@ -354,7 +343,7 @@ MODAL EDITAR
 
         <div class="modal-content">
 
-            <form role="form" method="POST" id="editarform" enctype="multipart/form-data" autocomplete="off">
+            <form role="form" method="POST" id="editarformbici" enctype="multipart/form-data" autocomplete="off">
 
                 <!--=====================================
         CABEZA DEL MODAL
@@ -378,9 +367,9 @@ MODAL EDITAR
 
                         <!-- ENTRADA PARA CAMPOS  -->
 
-                        <h4 class="text-primary" id="vehiculo_mostrar"></h4>
+                        <h4 class="text-primary" id="bicicleta_mostrar"></h4>
                         <input type="hidden" name="editarid" id="editarid" placeholder="" value="" autocomplete="off">
-                        <input type="hidden" id="editaridvehiculo_mante" name="editaridvehiculo_mante">
+                        <input type="hidden" id="editaridbicicleta_mante" name="editaridbicicleta_mante">
                         <div class="form-group col-md-4">
                             <label for="editarfecha" class="">Fecha:</label>
                             <div class="input-group">
@@ -393,11 +382,11 @@ MODAL EDITAR
 
 
                         <div class="form-group col-md-8">
-                            <label for="editaridempleado_mvehi">Empleado Encargado:</label>
+                            <label for="editaridempleado_mbici">Empleado Encargado:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-user-circle-o"></i></span>
 
-                                <select class="form-control mi-selector" name="editaridempleado_mvehi" id="editaridempleado_mvehi" required>
+                                <select class="form-control mi-selector" name="editaridempleado_mbici" id="editaridempleado_mbici" required>
 
                                     <option value="">Seleccione...</option>
                                     <?php
@@ -422,21 +411,21 @@ MODAL EDITAR
                         <!-- ********************* -->
 
                         <div class="form-group col-md-12">
-                            <label for="editardiagnostico_mvehi" class="">Diagnóstico:</label>
+                            <label for="editardiagnostico_mbici" class="">Diagnóstico:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-stethoscope"></i></span>
-                                <textarea class="form-control" name="editardiagnostico_mvehi" required id="editardiagnostico_mvehi" placeholder="Diagnóstico"></textarea>
+                                <textarea class="form-control" name="editardiagnostico_mbici" required id="editardiagnostico_mbici" placeholder="Diagnóstico"></textarea>
 
                             </div>
                         </div>
 
 
                         <div class="form-group col-md-6">
-                            <label for="editaridreparacion_mvehi" class="">Reparación:</label>
+                            <label for="editaridreparacion_mbici" class="">Reparación:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-cog"></i></span>
 
-                                <select class="form-control mi-selector" required name="editaridreparacion_mvehi" id="editaridreparacion_mvehi">
+                                <select class="form-control mi-selector" required name="editaridreparacion_mbici" id="editaridreparacion_mbici">
 
                                     <option value="">Seleccione...</option>
                                     <?php
@@ -485,63 +474,55 @@ MODAL EDITAR
                             </div>
                         </div>
 
-                        <div class="form-group col-md-4">
-                            <label for="editarkilometraje_mvehi" class="">Kilometraje:</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-road"></i></span>
-                                <input type="text" class="form-control validarmoney" name="editarkilometraje_mvehi" id="editarkilometraje_mvehi" placeholder="0.0" required>
 
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            <label for="editarvalor_mvehi" class="">Valor:</label>
+                        <div class="form-group col-md-6">
+                            <label for="editarvalor_mbici" class="">Valor:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                <input type="text" class="form-control validarmoney" min="0" required name="editarvalor_mvehi" id="editarvalor_mvehi" placeholder="0.00">
+                                <input type="text" class="form-control validarmoney" min="0" required name="editarvalor_mbici" id="editarvalor_mbici" placeholder="0.00">
 
                             </div>
                         </div>
-                        <div class="form-group col-md-4">
-                            <label for="editartotal_mvehi" class="">Total:</label>
+                        <div class="form-group col-md-6">
+                            <label for="editartotal_mbici" class="">Total:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                <input type="text" class="form-control validarmoney" required name="editartotal_mvehi" id="editartotal_mvehi" placeholder="0.00">
+                                <input type="text" class="form-control validarmoney" required name="editartotal_mbici" id="editartotal_mbici" placeholder="0.00">
 
                             </div>
                         </div>
 
                         <div class="form-group col-md-4">
-                            <label for="editarfecha_pago_mvehi" class="">Fecha Pago:</label>
+                            <label for="editarfecha_pago_mbici" class="">Fecha Pago:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                <input type="date" class="form-control" name="editarfecha_pago_mvehi" id="editarfecha_pago_mvehi" placeholder="Fecha Pago" required>
+                                <input type="date" class="form-control" name="editarfecha_pago_mbici" id="editarfecha_pago_mbici" placeholder="Fecha Pago" required>
 
                             </div>
                         </div>
 
                         <div class="form-group col-md-4">
-                            <label for="editarfecha_ingreso_mvehi" class="">Fecha Ingreso:</label>
+                            <label for="editarfecha_ingreso_mbici" class="">Fecha Ingreso:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                <input type="date" class="form-control" name="editarfecha_ingreso_mvehi" id="editarfecha_ingreso_mvehi" placeholder="Fecha Ingreso" required>
+                                <input type="date" class="form-control" name="editarfecha_ingreso_mbici" id="editarfecha_ingreso_mbici" placeholder="Fecha Ingreso" required>
 
                             </div>
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="editarfecha_salida_mvehi" class="">Fecha Salida:</label>
+                            <label for="editarfecha_salida_mbici" class="">Fecha Salida:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                <input type="date" class="form-control" name="editarfecha_salida_mvehi" id="editarfecha_salida_mvehi" placeholder="Fecha Salida" required>
+                                <input type="date" class="form-control" name="editarfecha_salida_mbici" id="editarfecha_salida_mbici" placeholder="Fecha Salida" required>
 
                             </div>
                         </div>
 
                         <div class="form-group col-md-12">
-                            <label for="editarcomentario_mvehi" class="">Comentario:</label>
+                            <label for="editarcomentario_mbici" class="">Comentario:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-comment"></i></span>
-                                <textarea class="form-control" name="editarcomentario_mvehi" id="editarcomentario_mvehi" placeholder="Comentario"></textarea>
+                                <textarea class="form-control" name="editarcomentario_mbici" id="editarcomentario_mbici" placeholder="Comentario"></textarea>
 
                             </div>
                         </div>
