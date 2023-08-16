@@ -748,6 +748,7 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "mantenimientovehiculo" ||
         $_GET["ruta"] == "mantenimientobicicleta" ||
         $_GET["ruta"] == "mantenimientoarma" ||
+        $_GET["ruta"] == "mantenimientoradio" ||
         $_GET["ruta"] == "salir"
       ) {
 
@@ -807,6 +808,7 @@ CUERPO DOCUMENTO
   <script src="vistas/js/manto_vehiculo.js"></script>
   <script src="vistas/js/manto_bicicleta.js"></script>
   <script src="vistas/js/manto_arma.js"></script>
+  <script src="vistas/js/manto_radio.js"></script>
   <script src="vistas/js/tipovehiculo.js"></script>
   <script src="vistas/js/tipobicicleta.js"></script>
   <script src="vistas/js/bicicleta.js"></script>

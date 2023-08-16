@@ -357,4 +357,3 @@ switch ($accion) {
 	default:
 		echo $accion."respuesta nula";
 }
-?>

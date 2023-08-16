@@ -69,7 +69,7 @@ function getContent()
                                 foreach ($data0 as $value) {
 
                                     echo ' <tr class="campoid" datosbicicleta="' . $value["codigo_bicicleta"] . " " . $value["descripcion_bicicleta"] . '" idbicicleta="' . $value["id"] . '">
-                                    <td>' . $value["codigo_bicicleta"] . '</td>
+                                    <th>' . $value["codigo_bicicleta"] . '</th>
                                     <td>' . $value["descripcion_bicicleta"] . '</td>
                                      <td>' . $value["marca"] . '</td>
                                      <td>' . $value["numero_serie"] . '</td>';

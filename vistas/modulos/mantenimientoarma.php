@@ -45,10 +45,7 @@ function getContent()
 
             <div class="box-header with-border">
 
-
-
             </div>
-
             <div class="row">
                 <div class="col-md-3">
                     <div class="box-body">
