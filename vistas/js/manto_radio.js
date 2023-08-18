@@ -23,18 +23,96 @@ $(document).ready(function () {
     cargarDatosRadio(idradio);
   });
 
-  /* SUMAR TOTAL RADIO */
-  $(".sumarTotal").on("keydown keyup", function () {
+  /* SUMAR TOTAL RADIO  NUEVO*/
+  $(".sumarTotalNuevo").on("keydown keyup", function () {
     let suma = 0;
 
-    $(".sumarTotal").each(function () {
+    $(".sumarTotalNuevo").each(function () {
       if (!isNaN(this.value) && this.value.length != 0) {
         suma += parseFloat($(this).val());
       }
     });
 
     $("#nuevototal_mradio").val(suma.toFixed(2));
+  });
+
+  /* SUMAR TOTAL RADIO  EDITAR*/
+  $(".sumarTotalEditar").on("keydown keyup", function () {
+    let suma = 0;
+
+    $(".sumarTotalEditar").each(function () {
+      if (!isNaN(this.value) && this.value.length != 0) {
+        suma += parseFloat($(this).val());
+      }
+    });
+
     $("#editartotal_mradio").val(suma.toFixed(2));
+  });
+
+  /* SACAR EL COSTO DE OBRA */
+  $("#nuevoid_equipo").on("change", function () {
+    let valor = $(this).val();
+
+    $.ajax({
+      url: "./ajax/mantoradio.ajax.php", // Ruta al script PHP que realizará la consulta a MySQL
+      type: "POST",
+      data: { equipos: valor },
+      success: function (response) {
+        if (response.codigo == "REPU") {
+          $("#nuevocosto_repuesto_mradio").val(response.costo_equipo);
+          $("#nuevocosto_obra_mradio").val("0.00");
+        } else {
+          $("#nuevocosto_repuesto_mradio").val("0.00");
+          $("#nuevocosto_obra_mradio").val(response.costo_equipo);
+        }
+
+        let suma = 0;
+
+        $(".sumarTotalNuevo").each(function () {
+          if (!isNaN(this.value) && this.value.length != 0) {
+            suma += parseFloat($(this).val());
+          }
+        });
+
+        $("#nuevototal_mradio").val(suma.toFixed(2));
+      },
+      error: function (xhr, status, error) {
+        console.error(error);
+      },
+    });
+  });
+
+  /* SACAR EL COSTO DE OBRA */
+  $("#editarid_equipo").on("change", function () {
+    let valor = $(this).val();
+
+    $.ajax({
+      url: "./ajax/mantoradio.ajax.php", // Ruta al script PHP que realizará la consulta a MySQL
+      type: "POST",
+      data: { equipos: valor },
+      success: function (response) {
+        if (response.codigo == "REPU") {
+          $("#editarcosto_repuesto_mradio").val(response.costo_equipo);
+          $("#editarcosto_obra_mradio").val("0.00");
+        } else {
+          $("#editarcosto_repuesto_mradio").val("0.00");
+          $("#editarcosto_obra_mradio").val(response.costo_equipo);
+        }
+
+        let suma = 0;
+
+        $(".sumarTotalEditar").each(function () {
+          if (!isNaN(this.value) && this.value.length != 0) {
+            suma += parseFloat($(this).val());
+          }
+        });
+
+        $("#editartotal_mradio").val(suma.toFixed(2));
+      },
+      error: function (xhr, status, error) {
+        console.error(error);
+      },
+    });
   });
 
   $("#saveformradio").submit(function (e) {
@@ -44,6 +122,12 @@ $(document).ready(function () {
     if ($("#nuevoidradio_mante").val() == "") {
       errores += "<strong><li>Selecciona un Radio</li></strong>";
       $("#nuevoidradio_mante").focus();
+    }
+
+    if ($("#nuevoid_equipo").val() == "") {
+      errores +=
+        "<strong><li>Selecciona un Equipo / Mano de Obra</li></strong>";
+      $("#nuevoid_equipo").focus();
     }
     if ($("#nuevofecha_mradio").val() == "") {
       errores += "<strong><li>Fecha</li></strong>";
@@ -258,7 +342,7 @@ function cargarDatosRadio(idarma) {
 }
 
 function limpiarRadio() {
-  /* $("#nuevoid_taller").val("").trigger("change"); */
+  $("#nuevoid_equipo").val("").trigger("change");
   $("#nuevodiagnostico_mradio").val("");
   $("#nuevocosto_obra_mradio").val("");
   $("#nuevocosto_repuesto_mradio").val("");
@@ -334,10 +418,7 @@ function editarMantenimientoRadio(id) {
 
       $("#editarfecha_mradio").val(respuesta["fecha_mradio"]);
       $("#editarcorrelativo_mradio").val(respuesta["correlativo_mradio"]);
-      /*   $("#editaridempleado_mradio")
-        .val(respuesta["idempleado_mradio"])
-        .trigger("change"); */
-
+      $("#editarid_equipo").val(respuesta["id_equipo"]).trigger("change");
       $("#editardiagnostico_mradio").val(respuesta["diagnostico_mradio"]);
       $("#editarcosto_obra_mradio").val(respuesta["costo_obra_mradio"]);
       $("#editarcosto_repuesto_mradio").val(respuesta["costo_repuesto_mradio"]);

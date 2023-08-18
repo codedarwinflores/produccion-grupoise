@@ -135,6 +135,18 @@
 							<span>Familia</span>
 						</a>
 					</li>
+						<li>
+						<a href="talleres">
+							<i class="fa fa-building"></i>
+							<span>Talleres</span>
+						</a>
+					</li>
+					<li>
+						<a href="reparaciones">
+							<i class="fa fa-cogs"></i>
+							<span>Reparaciones</span>
+						</a>
+					</li>
 					<li>
 						<a href="tipoarmas">
 							<i class="fa fa-sitemap"></i>
@@ -171,18 +183,7 @@
 							<span>Mtto. Vehículo</span>
 						</a>
 					</li>
-					<li>
-						<a href="talleres">
-							<i class="fa fa-building"></i>
-							<span>Talleres</span>
-						</a>
-					</li>
-					<li>
-						<a href="reparaciones">
-							<i class="fa fa-cogs"></i>
-							<span>Reparaciones</span>
-						</a>
-					</li>
+				
 					<li>
 						<a href="tipobicicleta">
 							<i class="fa fa-sitemap"></i>
@@ -211,6 +212,12 @@
 						<a href="radio">
 							<i class="fa fa-tty"></i>
 							<span>Radio</span>
+						</a>
+					</li>
+					<li>
+						<a href="mantenimientoradio">
+							<i class="fa fa-tty"></i>
+							<span>Mtto. Radio</span>
 						</a>
 					</li>
 					<li>

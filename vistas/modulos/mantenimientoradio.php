@@ -185,12 +185,38 @@ MODAL AGREGAR
                             </div>
                         </div>
 
+                        <div class="form-group col-md-12">
+                            <label for="nuevoid_equipo">Equipos:</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user-circle-o"></i></span>
+
+                                <select class="form-control mi-selector" name="nuevoid_equipo" id="nuevoid_equipo" required>
+
+                                    <option value="">Seleccione...</option>
+                                    <?php
+
+                                    $datos_mostrar = $modeloVehiculo::mostrarVehiculoDb("eq.id,eq.codigo_equipo,eq.descripcion_equipo,eq.descripcion,otro_eq.codigo,otro_eq.nombre", "tbl_otros_equipos eq INNER JOIN tipo_otros_equipos otro_eq on eq.tipo_equipos=otro_eq.id WHERE otro_eq.codigo = 'REPU' OR otro_eq.codigo = 'SERV'", "", "");
+                                    foreach ($datos_mostrar as $key => $value) {
+                                    ?>
+                                        <option value="<?php echo $value['id']  ?>">
+                                            <?php echo $value["codigo"] . " - " . $value['nombre'] . " - " . $value['codigo_equipo'] . ' - ' . $value['descripcion'] ?>
+                                        </option>
+                                    <?php
+                                    }
+                                    ?>
+
+                                </select>
+
+
+                            </div>
+                        </div>
+
 
                         <div class="form-group col-md-6">
                             <label for="nuevocosto_obra_mradio" class="">Costo Obra:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                <input type="text" class="form-control validarmoney sumarTotal" min="0" required placeholder="0.00" name=" nuevocosto_obra_mradio" id="nuevocosto_obra_mradio">
+                                <input type="text" class="form-control validarmoney sumarTotalNuevo" min="0" required placeholder="0.00" name=" nuevocosto_obra_mradio" readonly id="nuevocosto_obra_mradio">
 
                             </div>
                         </div>
@@ -198,7 +224,7 @@ MODAL AGREGAR
                             <label for="nuevocosto_repuesto_mradio" class="">Costo Repuesto:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                <input type="text" class="form-control validarmoney sumarTotal" required name="nuevocosto_repuesto_mradio" id="nuevocosto_repuesto_mradio" placeholder="0.00">
+                                <input type="text" class="form-control validarmoney sumarTotalNuevo" required name="nuevocosto_repuesto_mradio" id="nuevocosto_repuesto_mradio" readonly placeholder="0.00">
 
                             </div>
                         </div>
@@ -326,12 +352,37 @@ MODAL EDITAR
                             </div>
                         </div>
 
+                        <div class="form-group col-md-12">
+                            <label for="editarid_equipo">Equipos:</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user-circle-o"></i></span>
+
+                                <select class="form-control mi-selector" name="editarid_equipo" id="editarid_equipo" required>
+
+                                    <option value="">Seleccione...</option>
+                                    <?php
+
+                                    $datos_mostrar = $modeloVehiculo::mostrarVehiculoDb("eq.id,eq.codigo_equipo,eq.descripcion_equipo,eq.descripcion,otro_eq.codigo,otro_eq.nombre", "tbl_otros_equipos eq INNER JOIN tipo_otros_equipos otro_eq on eq.tipo_equipos=otro_eq.id WHERE otro_eq.codigo = 'REPU' OR otro_eq.codigo = 'SERV'", "", "");
+                                    foreach ($datos_mostrar as $key => $value) {
+                                    ?>
+                                        <option value="<?php echo $value['id']  ?>">
+                                            <?php echo $value["codigo"] . " - " . $value['nombre'] . " - " . $value['codigo_equipo'] . ' - ' . $value['descripcion'] ?>
+                                        </option>
+                                    <?php
+                                    }
+                                    ?>
+
+                                </select>
+
+
+                            </div>
+                        </div>
 
                         <div class="form-group col-md-6">
                             <label for="editarcosto_obra_mradio" class="">Costo Obra:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                <input type="text" class="form-control validarmoney sumarTotal" min="0" required placeholder="0.00" name=" editarcosto_obra_mradio" id="editarcosto_obra_mradio">
+                                <input type="text" class="form-control validarmoney sumarTotalEditar" readonly min="0" required placeholder="0.00" name=" editarcosto_obra_mradio" id="editarcosto_obra_mradio">
 
                             </div>
                         </div>
@@ -339,7 +390,7 @@ MODAL EDITAR
                             <label for="editarcosto_repuesto_mradio" class="">Costo Repuesto:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                <input type="text" class="form-control validarmoney sumarTotal" required name="editarcosto_repuesto_mradio" id="editarcosto_repuesto_mradio" placeholder="0.00">
+                                <input type="text" class="form-control validarmoney sumarTotalEditar" readonly required name="editarcosto_repuesto_mradio" id="editarcosto_repuesto_mradio" placeholder="0.00">
 
                             </div>
                         </div>
