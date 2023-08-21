@@ -74,7 +74,8 @@ $(document).ready(function () {
       method: "POST",
       data: datos,
       success: function (respuesta) {
-        alert(respuesta);
+        var numero = JSON.parse(respuesta);
+        /*     alert(numero); */
 
         if (numero > 0) {
           $(".reparaciones_input_codigo_reparacion")

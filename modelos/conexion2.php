@@ -5,9 +5,9 @@ function Conexion2()
 
 	/* $dbname='grupoise';  */
 	$dbhost = 'localhost';
-	$dbname = 'u900482437_grupoise';
-	$dbusr = 'u900482437_user_grupoise';
-	$dbpasw = '4LXTbS22w';
+	$dbname = 'grupoiseserver';
+	$dbusr = 'root';
+	$dbpasw = '';
 
 	/* $dbhost='localhost'; 
 	$dbname='armonico_grupoise'; 
