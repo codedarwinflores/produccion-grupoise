@@ -76,7 +76,7 @@ $(document).ready(function () {
       success: function (respuesta) {
         /* alert(respuesta); */
 
-        if (parseInt(respuesta) == 0) {
+        if (parseInt(respuesta) == "0") {
         } else {
           $(".reparaciones_input_codigo_reparacion")
             .parent()
