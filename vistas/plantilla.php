@@ -323,27 +323,6 @@ session_start();
         }
       });
 
-      /* REPARACIONES */
-      $(".reparaciones_input_codigo_reparacion").blur(function() {
-        if ($(this).val().trim().length > 0) {} else {
-          /*  alert("El campo contiene espacios y está vacío"); */
-          var $myNewElement = $('<p class="showmensaje">El campo contiene espacios y está vacío</p>');
-          $(".showmensaje").remove();
-          $(this).after($myNewElement);
-
-          $(this).val("");
-        }
-        if ($(this).val().trim().length < 4) {
-          /* alert("Por favor complete el campo"); */
-          var $myNewElement = $('<p class="showmensaje">Por favor complete el campo</p>');
-          $(".showmensaje").remove();
-          $(this).after($myNewElement);
-
-          $(this).val("");
-        }
-      });
-
-
       $(".tiporadio_codigo").blur(function() {
         if ($(this).val().trim().length > 0) {} else {
           /* alert("El campo contiene espacios y está vacío"); */
@@ -594,7 +573,6 @@ session_start();
       $(".familia_codigo").attr("maxlength", "4");
       $(".tipoarma_input_codigo").attr("maxlength", "4");
       $(".talleres_input_codigo_talleres").attr("maxlength", "4");
-      $(".reparaciones_input_codigo_reparacion").attr("maxlength", "4");
       $(".tiporadio_codigo").attr("maxlength", "4");
       $(".tipovehiculo_input_codigo").attr("maxlength", "4");
       $(".binput_codigo").attr("maxlength", "4");

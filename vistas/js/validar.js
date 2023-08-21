@@ -155,42 +155,6 @@ $(".talleres_input_codigo_talleres").change(function () {
     },
   });
 });
-/* REPARACIONES */
-$(".reparaciones_input_codigo_reparacion").change(function () {
-  $(".alert").remove();
-
-  var tabla_validar = $(this).attr("tabla_validar");
-  var item_validar = $(this).attr("item_validar");
-  var valor_validar = $(this).val();
-
-  var datos =
-    "tabla_validar=" +
-    tabla_validar +
-    "&item_validar=" +
-    item_validar +
-    "&valor_validar=" +
-    valor_validar;
-
-  $.ajax({
-    url: "ajax/validar.ajax.php",
-    method: "POST",
-    data: datos,
-    success: function (respuesta) {
-      /* alert(respuesta); */
-
-      if (respuesta.trim() == '"0"') {
-      } else {
-        $(".reparaciones_input_codigo_reparacion")
-          .parent()
-          .after(
-            '<div class="alert alert-warning">Este Dato ya existe en la base de datos</div>'
-          );
-
-        $(".reparaciones_input_codigo_reparacion").val("");
-      }
-    },
-  });
-});
 
 $(".tipovehiculo_input_codigo").change(function () {
   $(".alert").remove();

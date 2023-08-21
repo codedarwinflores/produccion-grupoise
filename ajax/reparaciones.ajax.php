@@ -30,7 +30,7 @@ class Ajaxreparaciones
 
     public $validarreparaciones;
 
-    public function ajaxValidartalleres()
+    public function ajaxValidarReparaciones()
     {
 
         $item = "nombre_reparacion";

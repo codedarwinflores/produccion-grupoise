@@ -49,7 +49,7 @@ function getContent()
             <div class="row">
                 <div class="col-md-3">
                     <div class="box-body">
-                        <h4 class="text-info"><strong>Paso 1: Seleccione un Arma</strong></h4>
+                        <h4 class="text-info"><strong>Paso 1: Seleccione un Radio</strong></h4>
                         <table class="table table-bordered table-striped dt-responsive tablas" id="tablaradio" width="100%">
                             <thead>
                                 <tr>
@@ -79,7 +79,6 @@ function getContent()
                                     echo '</tr>';
                                 }
 
-
                                 ?>
 
                             </tbody>
@@ -89,7 +88,7 @@ function getContent()
                 </div>
                 <div class="col-md-9">
                     <div class="box-body">
-                        <h4 class="text-info"><strong>Paso 2: Administrar Mantenimiento Arma</strong></h4>
+                        <h4 class="text-info"><strong>Paso 2: Administrar Mantenimiento Radio</strong></h4>
                         <button class="btn btn-primary agregarbtnmovimiento" data-toggle="modal" data-target="#modalAgregarMantenimientoRadio">
                             Agregar <?php echo $Nombre_del_Modulo; ?>
                         </button>
@@ -188,7 +187,7 @@ MODAL AGREGAR
                         <div class="form-group col-md-12">
                             <label for="nuevoid_equipo">Equipos:</label>
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-user-circle-o"></i></span>
+                                <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
 
                                 <select class="form-control mi-selector" name="nuevoid_equipo" id="nuevoid_equipo" required>
 
@@ -251,7 +250,7 @@ MODAL AGREGAR
                         <div class="form-group col-md-12">
                             <label for="nuevodescripcion" class="">Descripción:</label>
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-info-circle"></i></span>
+                                <span class="input-group-addon"><i class="fa fa-sticky-note-o"></i></span>
                                 <textarea class=" form-control" name="nuevodescripcion" id="nuevodescripcion" placeholder="Descripción" required></textarea>
 
                             </div>
@@ -355,7 +354,7 @@ MODAL EDITAR
                         <div class="form-group col-md-12">
                             <label for="editarid_equipo">Equipos:</label>
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-user-circle-o"></i></span>
+                                <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
 
                                 <select class="form-control mi-selector" name="editarid_equipo" id="editarid_equipo" required>
 
@@ -417,7 +416,7 @@ MODAL EDITAR
                         <div class="form-group col-md-12">
                             <label for="editardescripcion" class="">Descripción:</label>
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-info-circle"></i></span>
+                                <span class="input-group-addon"><i class="fa fa-sticky-note-o"></i></span>
                                 <textarea class=" form-control" name="editardescripcion" id="editardescripcion" placeholder="Descripción" required></textarea>
 
                             </div>
