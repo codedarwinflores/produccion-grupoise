@@ -74,8 +74,7 @@ $(document).ready(function () {
       method: "POST",
       data: datos,
       success: function (respuesta) {
-        let numero = parseInt(respuesta);
-        alert(numero);
+        alert(respuesta);
 
         if (numero > 0) {
           $(".reparaciones_input_codigo_reparacion")
