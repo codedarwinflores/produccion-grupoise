@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  cargarDatosVehiculo(0);
+  cargarDatosBicicleta(0);
 
   $("#tablabicicleta tbody").on("click", ".campoid", function () {
     $(".agregarbtnmovimiento").removeAttr("disabled");
@@ -21,7 +21,7 @@ $(document).ready(function () {
     /* PARAMTETRO VEHÍCULO */
     let idbicicleta = $(this).attr("idbicicleta");
     $("#nuevoidbicicleta_mante").val(idbicicleta);
-    cargarDatosVehiculo(idbicicleta);
+    cargarDatosBicicleta(idbicicleta);
   });
 
   $("#saveformbici").submit(function (e) {
@@ -109,7 +109,7 @@ $(document).ready(function () {
               "Datos almacenados correctamente"
             );
 
-            cargarDatosVehiculo($("#nuevoidbicicleta_mante").val());
+            cargarDatosBicicleta($("#nuevoidbicicleta_mante").val());
             limpiarbici();
 
             /*   document.getElementById("saveform").reset(); */
@@ -226,7 +226,7 @@ $(document).ready(function () {
               "Datos modificados correctamente"
             );
 
-            cargarDatosVehiculo($("#editaridbicicleta_mante").val());
+            cargarDatosBicicleta($("#editaridbicicleta_mante").val());
 
             /*   document.getElementById("saveform").reset(); */
           } else {
@@ -249,7 +249,7 @@ $(document).ready(function () {
 });
 
 /* CARGAR DATOS */
-function cargarDatosVehiculo(idbicicleta) {
+function cargarDatosBicicleta(idbicicleta) {
   let parametros = {
     valor: idbicicleta,
   };

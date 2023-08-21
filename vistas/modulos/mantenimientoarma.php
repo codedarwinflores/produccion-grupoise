@@ -64,8 +64,8 @@ function getContent()
                             </thead>
                             <tbody>
                                 <?php
-                                $modeloVehiculo  = new Modelovehiculo();
-                                $data0 = $modeloVehiculo::mostrarVehiculoDb("arma.*,tipoarma.codigo as codigoarma,tipoarma.nombre_tipo", "tbl_armas arma INNER JOIN tbl_tipos_de_armas tipoarma ON arma.id_tipo_arma=tipoarma.id", "", "");
+                                $Arma  = new ConsultasPersonalizadas();
+                                $data0 = $Arma::mostrarDatosDb("arma.*,tipoarma.codigo as codigoarma,tipoarma.nombre_tipo", "tbl_armas arma INNER JOIN tbl_tipos_de_armas tipoarma ON arma.id_tipo_arma=tipoarma.id", "", "");
                                 foreach ($data0 as $value) {
 
                                     echo ' <tr class="campoid" datosarma="' . $value["codigo"] . " - " . $value["numero_serie"] . " - " . $value["nombre_tipo"] . " / " . $value["marca"] . " - " . $value["modelo"] . " - " . $value["color"] . " - " . $value["numero_matricula"] . '" idarma="' . $value["id"] . '">

@@ -119,42 +119,6 @@ $(".tipoarma_input_codigo").change(function () {
     },
   });
 });
-/* TALLERES */
-$(".talleres_input_codigo_talleres").change(function () {
-  $(".alert").remove();
-
-  var tabla_validar = $(this).attr("tabla_validar");
-  var item_validar = $(this).attr("item_validar");
-  var valor_validar = $(this).val();
-
-  var datos =
-    "tabla_validar=" +
-    tabla_validar +
-    "&item_validar=" +
-    item_validar +
-    "&valor_validar=" +
-    valor_validar;
-
-  $.ajax({
-    url: "ajax/validar.ajax.php",
-    method: "POST",
-    data: datos,
-    success: function (respuesta) {
-      /* alert(respuesta); */
-
-      if (respuesta.trim() == '"0"') {
-      } else {
-        $(".talleres_input_codigo_talleres")
-          .parent()
-          .after(
-            '<div class="alert alert-warning">Este Dato ya existe en la base de datos</div>'
-          );
-
-        $(".talleres_input_codigo_talleres").val("");
-      }
-    },
-  });
-});
 
 $(".tipovehiculo_input_codigo").change(function () {
   $(".alert").remove();

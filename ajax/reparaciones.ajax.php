@@ -22,24 +22,6 @@ class Ajaxreparaciones
 
         echo json_encode($respuesta);
     }
-
-
-    /*=============================================
-	VALIDAR NO REPETIR 
-	=============================================*/
-
-    public $validarreparaciones;
-
-    public function ajaxValidarReparaciones()
-    {
-
-        $item = "nombre_reparacion";
-        $valor = $this->validarreparaciones;
-
-        $respuesta = ControladorReparaciones::ctrMostrar($item, $valor);
-
-        echo json_encode($respuesta);
-    }
 }
 
 /*=============================================
@@ -50,15 +32,4 @@ if (isset($_POST["idreparaciones"])) {
     $editar = new Ajaxreparaciones();
     $editar->idreparaciones = $_POST["idreparaciones"];
     $editar->ajaxEditarreparaciones();
-}
-
-/*=============================================
-VALIDAR NO REPETIR USUARIO
-=============================================*/
-
-if (isset($_POST["validarUsuario"])) {
-
-    $valUsuario = new AjaxUsuarios();
-    $valUsuario->validarUsuario = $_POST["validarUsuario"];
-    $valUsuario->ajaxValidarUsuario();
 }

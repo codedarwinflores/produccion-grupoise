@@ -22,24 +22,6 @@ class Ajaxtalleres
 
         echo json_encode($respuesta);
     }
-
-
-    /*=============================================
-	VALIDAR NO REPETIR 
-	=============================================*/
-
-    public $validartalleres;
-
-    public function ajaxValidartalleres()
-    {
-
-        $item = "nombre_talleres";
-        $valor = $this->validartalleres;
-
-        $respuesta = ControladorTalleres::ctrMostrar($item, $valor);
-
-        echo json_encode($respuesta);
-    }
 }
 
 /*=============================================
@@ -50,15 +32,4 @@ if (isset($_POST["idtalleres"])) {
     $editar = new Ajaxtalleres();
     $editar->idtalleres = $_POST["idtalleres"];
     $editar->ajaxEditartallleres();
-}
-
-/*=============================================
-VALIDAR NO REPETIR USUARIO
-=============================================*/
-
-if (isset($_POST["validarnombre"])) {
-
-    $valNombre = new Ajaxtalleres();
-    $valNombre->validartalleres = $_POST["validarnombre"];
-    $valNombre->ajaxValidartalleres();
 }

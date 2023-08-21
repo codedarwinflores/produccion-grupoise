@@ -323,6 +323,8 @@ require_once "modelos/talleres.modelo.php";
 require_once "controladores/reparaciones.controlador.php";
 require_once "modelos/reparaciones.modelo.php";
 
+//Consulta
+require_once "modelos/consultas.modelo.php";
 
 
 $plantilla = new ControladorPlantilla();

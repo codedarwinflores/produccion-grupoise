@@ -25,8 +25,6 @@ function getContent()
 };
 
 
-
-
 ?>
 
 <style>
@@ -66,9 +64,9 @@ function getContent()
 
                             <tbody>
                                 <?php
-                                $modeloVehiculo  = new Modelovehiculo();
+                                $Vehiculo  = new ConsultasPersonalizadas();
 
-                                $data0 = $modeloVehiculo::mostrarVehiculoDb("*", "tbl_vehiculos", "", "");
+                                $data0 = $Vehiculo::mostrarDatosDb("*", "tbl_vehiculos", "", "");
                                 foreach ($data0 as $value) {
 
                                     echo ' <tr class="campoid" datosvehiculo="' . $value["codigo_vehiculo"] . " " . $value["descripcion_vehiculo"] . '" idvehiculo="' . $value["id"] . '">
