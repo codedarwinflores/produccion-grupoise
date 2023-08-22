@@ -142,7 +142,7 @@ parse_str($components['query'], $results);
                       
                       function empleados()
                         {
-                          $query01 = "SELECT * FROM `tbl_empleados`";
+                          $query01 = "SELECT * FROM `tbl_empleados` ORDER BY id ASC";
                           $sql = Conexion::conectar()->prepare($query01);
                           $sql->execute();
                           return $sql->fetchAll();
@@ -150,7 +150,7 @@ parse_str($components['query'], $results);
                         $data01 = empleados();
                         foreach ($data01 as $value) {
                         ?>
-                        <option value="<?php echo $value["id"];?>"><?php echo $value["primer_nombre"].' '.$value["primer_apellido"]; ?></option>
+                        <option value="<?php echo $value["id"];?>"><?php echo $value["codigo_empleado"].'-'.$value["primer_nombre"].' '.$value["primer_apellido"]; ?></option>
                       <?php
                         }
                       ?>
@@ -168,7 +168,7 @@ parse_str($components['query'], $results);
                         $data01 = empleados();
                         foreach ($data01 as $value) {
                         ?>
-                        <option value="<?php echo $value["id"];?>"><?php echo $value["primer_nombre"].' '.$value["primer_apellido"]; ?></option>
+                        <option value="<?php echo $value["id"];?>"><?php echo $value["codigo_empleado"].'-'.$value["primer_nombre"].' '.$value["primer_apellido"]; ?></option>
                       <?php
                         }
                       ?>
@@ -589,7 +589,7 @@ parse_str($components['query'], $results);
 
           
 
-          <table class="table table-bordered table-striped dt-responsive tablas" width="100%">
+          <table class="table table-bordered table-striped dt-responsive tablas" width="100%" style="display: none;">
             <thead>
               <tr>
                 <th style="width:90px">Código</th>
@@ -860,6 +860,37 @@ parse_str($components['query'], $results);
 </div>
 
 
+<!-- ******** MODAL CARGA********** -->
 
+<div class="modal fade modal_carga" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body" align="center">
+        <img src="vistas/modulos/carga.gif" alt="">
+        <h5 class="datos_informacion">Guardando y Cargando los Datos</h5>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- **************************** -->
+
+
+<!-- ******** MODAL empleados********** -->
+
+<div class="modal fade modal_carga_empleados" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body" align="center">
+        <img src="vistas/modulos/carga.gif" alt="" width="90">
+        <h5 class="datos_informacion">Guardando y Cargando los Datos</h5><br>
+        <span class="cantidad_empleados_pro">Guardando y Cargando los Datos</span><br>
+        <span class="conteo_actual">Guardando y Cargando los Datos</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- **************************** -->
 
 <script src="vistas/js/planilladevengo.js"></script>

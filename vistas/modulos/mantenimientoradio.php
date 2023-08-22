@@ -28,7 +28,6 @@ function getContent()
 
 
 ?>
-
 <style>
     .selectedd {
         background: #C3F3FF !important;
@@ -64,8 +63,8 @@ function getContent()
                             </thead>
                             <tbody>
                                 <?php
-                                $modeloVehiculo  = new Modelovehiculo();
-                                $data0 = $modeloVehiculo::mostrarVehiculoDb("*", "tbl_radios", "", "");
+                                $Radio  = new ConsultasPersonalizadas();
+                                $data0 = $Radio::mostrarDatosDb("*", "tbl_radios", "", "");
                                 foreach ($data0 as $value) {
 
                                     echo ' <tr class="campoid" datosradio="' . $value["codigo_radio"] . " - " . $value["descripcion_radio"] . " - " . $value["numero_serie"] . " - " . $value["marca"] . " - " . $value["modelo_radio"] . " - " . $value["color_radio"] . '" idradio="' . $value["id"] . '">
@@ -194,7 +193,7 @@ MODAL AGREGAR
                                     <option value="">Seleccione...</option>
                                     <?php
 
-                                    $datos_mostrar = $modeloVehiculo::mostrarVehiculoDb("eq.id,eq.codigo_equipo,eq.descripcion_equipo,eq.descripcion,otro_eq.codigo,otro_eq.nombre", "tbl_otros_equipos eq INNER JOIN tipo_otros_equipos otro_eq on eq.tipo_equipos=otro_eq.id WHERE otro_eq.codigo = 'REPU' OR otro_eq.codigo = 'SERV'", "", "");
+                                    $datos_mostrar = $Radio::mostrarDatosDb("eq.id,eq.codigo_equipo,eq.descripcion_equipo,eq.descripcion,otro_eq.codigo,otro_eq.nombre", "tbl_otros_equipos eq INNER JOIN tipo_otros_equipos otro_eq on eq.tipo_equipos=otro_eq.id WHERE otro_eq.codigo = 'REPU' OR otro_eq.codigo = 'SERV'", "", "");
                                     foreach ($datos_mostrar as $key => $value) {
                                     ?>
                                         <option value="<?php echo $value['id']  ?>">
@@ -361,7 +360,7 @@ MODAL EDITAR
                                     <option value="">Seleccione...</option>
                                     <?php
 
-                                    $datos_mostrar = $modeloVehiculo::mostrarVehiculoDb("eq.id,eq.codigo_equipo,eq.descripcion_equipo,eq.descripcion,otro_eq.codigo,otro_eq.nombre", "tbl_otros_equipos eq INNER JOIN tipo_otros_equipos otro_eq on eq.tipo_equipos=otro_eq.id WHERE otro_eq.codigo = 'REPU' OR otro_eq.codigo = 'SERV'", "", "");
+                                    $datos_mostrar = $Radio::mostrarDatosDb("eq.id,eq.codigo_equipo,eq.descripcion_equipo,eq.descripcion,otro_eq.codigo,otro_eq.nombre", "tbl_otros_equipos eq INNER JOIN tipo_otros_equipos otro_eq on eq.tipo_equipos=otro_eq.id WHERE otro_eq.codigo = 'REPU' OR otro_eq.codigo = 'SERV'", "", "");
                                     foreach ($datos_mostrar as $key => $value) {
                                     ?>
                                         <option value="<?php echo $value['id']  ?>">

@@ -23,6 +23,8 @@ $components = parse_url($url);
 parse_str($components['query'], $results);
   $id= $results['id'];
   echo "<input type='hidden' class='idplanilladevengo_admin' value='".$id."'>";
+  echo "<input type='hidden' class='noprocesado' value='1'>";
+
 
   /* ********************* */
   function configuracion()
@@ -158,7 +160,7 @@ parse_str($components['query'], $results);
                       
                       function empleados()
                         {
-                          $query01 = "SELECT * FROM `tbl_empleados`";
+                          $query01 = "SELECT * FROM `tbl_empleados` ORDER BY id ASC";
                           $sql = Conexion::conectar()->prepare($query01);
                           $sql->execute();
                           return $sql->fetchAll();
@@ -166,7 +168,7 @@ parse_str($components['query'], $results);
                         $data01 = empleados();
                         foreach ($data01 as $value) {
                         ?>
-                        <option value="<?php echo $value["id"];?>"><?php echo $value["primer_nombre"].' '.$value["primer_apellido"]; ?></option>
+                        <option value="<?php echo $value["id"];?>"><?php echo $value["codigo_empleado"].'-'.$value["primer_nombre"].' '.$value["primer_apellido"]; ?></option>
                       <?php
                         }
                       ?>
@@ -184,7 +186,7 @@ parse_str($components['query'], $results);
                         $data01 = empleados();
                         foreach ($data01 as $value) {
                         ?>
-                        <option value="<?php echo $value["id"];?>"><?php echo $value["primer_nombre"].' '.$value["primer_apellido"]; ?></option>
+                        <option value="<?php echo $value["id"];?>"><?php echo $value["codigo_empleado"].'-'.$value["primer_nombre"].' '.$value["primer_apellido"]; ?></option>
                       <?php
                         }
                       ?>
@@ -233,13 +235,24 @@ parse_str($components['query'], $results);
                 <button class="btn btn-info nuevo_empleado" data-toggle="modal" data-target="#empleados">Agregar Empleado</button>
               </div>
 
+              <div class="col-md-12 ">
+                <?php if($id=='0'){
+
+                } else{?>
+                <a href="noprocesadosplanillas?id=<?php echo $id?>&estado=0" class="btn btn-danger" style="width:100%">Empleados no procesados</a>
+                <?php
+                  }
+                  ?>
+              </div>
+
             </div>
 
 
           <!-- ***************** -->
         </div>
 
-        <div class="col-md-7" style=" height: 600px; overflow: scroll; ">
+        <div class="col-md-1"></div>
+        <div class="col-md-6" style=" height: 600px; overflow: scroll; ">
           <!-- ***************** -->
             <div class="box-body">
               
@@ -251,9 +264,15 @@ parse_str($components['query'], $results);
             <div class="col-md-12">
             <div class="form-group"> <label>Empleado Seleccionado: <span id="nombreempleado"></span></label></div>
             </div>
-            <div class="col-md-4 ">
+            <div class="col-md-2">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Dias Trabajado:</label>
+                    <label for="exampleInputEmail1">D.Trabajado:</label>
+                    <input type="text" class=" form-control "  id="onlydias_trabajo" placeholder="Dias Trabajado" readonly>
+                  </div>
+              </div>
+            <div class="col-md-2">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">D.Planilla:</label>
                     <input type="text" class=" form-control " name="dias_trabajo_planilladevengo_admin" id="dias_trabajo_planilladevengo_admin" placeholder="Dias Trabajado" readonly>
                   </div>
               </div>
@@ -299,14 +318,14 @@ parse_str($components['query'], $results);
 
               <div class="col-md-3">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Hora Extra Diurna:</label>
+                    <label style="font-size: 11px;">Hora Extra Diurna:</label>
                     <input type="text" class=" form-control " name="hora_extra_diurna_planilladevengo_admin" id="hora_extra_diurna_planilladevengo_admin" placeholder="Hora Extra Diurna" calculo="calculo_extra_diurna" >
                     <input type="text" class="form-control calculo_extra_diurna" value="0" readonly>
                   </div>
               </div>
               <div class="col-md-3">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Hora Extra Nocturna:</label>
+                    <label style="font-size: 11px;">Hora Extra Nocturna:</label>
                     <input type="text" class=" form-control " name="hora_extra_nocturna_planilladevengo_admin" id="hora_extra_nocturna_planilladevengo_admin" placeholder="Hora Extra Nocturna" calculo="calculo_extra_nocturna" >
                     <input type="text" class="form-control calculo_extra_nocturna" value="0" readonly>
                   </div>
@@ -314,7 +333,7 @@ parse_str($components['query'], $results);
 
               <div class="col-md-3">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Hora Extra Domingo:</label>
+                    <label style="font-size: 11px;">Hora Extra Domingo:</label>
                     <input type="text" class=" form-control " name="hora_extra_domingo_planilladevengo_admin" id="hora_extra_domingo_planilladevengo_admin" placeholder="Hora Extra Domingo" calculo="calculo_extra_domingo" >
                     <input type="text" class="form-control calculo_extra_domingo" value="0" readonly>
 
@@ -323,7 +342,7 @@ parse_str($components['query'], $results);
 
               <div class="col-md-3">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Hora Extra Domi. Noctu.:</label>
+                    <label style="font-size: 10px;">Hora Extra Domi. Noctu.:</label>
                     <input type="text" class=" form-control " name="hora_extra_domingo_nocturna_planilladevengo_admin" id="hora_extra_domingo_nocturna_planilladevengo_admin" placeholder="Hora Extra Domingo Nocturna" calculo="calculo_extra_domingo_noctu" >
                     <input type="text" class="form-control calculo_extra_domingo_noctu" value="0" readonly>
 
@@ -461,7 +480,8 @@ parse_str($components['query'], $results);
               <div class="col-md-12">
                   <div class="form-group">
                     <label for="">Observación:</label>
-                    <input type="text" class="form-control " name="observacion_planilladevengo_admin" id="observacion_planilladevengo_admin" placeholder="Observación">
+                   <!--  <input type="text"> -->
+                    <textarea class="form-control " name="observacion_planilladevengo_admin" id="observacion_planilladevengo_admin" placeholder="Observación" cols="30" rows="10"></textarea>
                   </div>
               </div>
 
@@ -520,7 +540,7 @@ parse_str($components['query'], $results);
 <input type="hidden"  id="historial_periodo">
 <input type="hidden"  id="pensionado_empleado">
 <input type="hidden"  id="his_dias_trabajo_admin">
-<input type="hidden"  id="">
+<input type="hidden"  id="tienevacacion">
 <input type="hidden"  id="">
 <input type="hidden"  id="">
 
@@ -544,7 +564,7 @@ parse_str($components['query'], $results);
           <input type="hidden" name="descripcion_devengo_descuento_planilla" class="descripcion_devengo_descuento_planilla" id="descripcion_devengo_descuento_planilla">
 
             <div class="form-group col-md-12">
-              <label for="">Seleccionar Devengo o Descuento:</label>             
+              <label for="">Seleccionar Devengo :</label>             
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-users"></i></span> 
                 <select class="form-control input-lg tipo_devengo_descuento_planilla tipodevengo" name="tipo_devengo_descuento_planilla" id="tipo_devengo_descuento_planilla" required>                  
@@ -616,7 +636,59 @@ parse_str($components['query'], $results);
                         <input type="text" class="form-control input-lg valor_devengo_planilla" name="valor_devengo_planilla" id="valor_devengo_planilla">
                       </div>
             </div>
+
+            <!-- *********DIAS TRABAJADOS INCAPACIDAD -->
+            <div class="form-group col-md-6 dias_trabajados_inca" bis_skin_checked="1" style="visibility:hidden; height:0px">
+                      <label for="">Dias </label>
+                      <div class="input-group" bis_skin_checked="1">
+                        <span class="input-group-addon"><i></i></span>
+                        <input type="text" class="form-control input-lg dias_tra_inca_admin" name="dias_tra_inca_admin" id="dias_tra_inca_admin" >
+                      </div>
+            </div>
+            <div class="form-group col-md-6 dias_trabajados_inca" bis_skin_checked="1" style="visibility:hidden; height:0px">
+                      <label for="">Valor Dias </label>
+                      <div class="input-group" bis_skin_checked="1">
+                        <span class="input-group-addon"><i></i></span>
+                        <input type="text" class="form-control input-lg pago_dias_tra_inca_admin" name="pago_dias_tra_inca_admin" id="pago_dias_tra_inca_admin" >
+                      </div>
+            </div>
+          <!-- ******************** -->
           
+
+          <!-- *********DIAS  INCAPACIDAD -->
+          <div class="form-group col-md-6 diasincapacidad" bis_skin_checked="1" style="visibility:hidden; height:0px">
+                      <label for="">Dias </label>
+                      <div class="input-group" bis_skin_checked="1">
+                        <span class="input-group-addon"><i></i></span>
+                        <input type="text" class="form-control input-lg dias_incapacidad_admin" name="dias_incapacidad_admin" id="dias_incapacidad_admin" >
+                      </div>
+          </div>
+          <div class="form-group col-md-6 diasincapacidad" bis_skin_checked="1" style="visibility:hidden; height:0px">
+                      <label for="">Valor Dias </label>
+                      <div class="input-group" bis_skin_checked="1">
+                        <span class="input-group-addon"><i></i></span>
+                        <input type="text" class="form-control input-lg pago_dias_incapacidad_admin" name="pago_dias_incapacidad_admin" id="pago_dias_incapacidad_admin" >
+                      </div>
+          </div>
+          <!-- ******************** -->
+
+
+           <!-- *********DIAS FERIADOS -->
+            <div class="form-group col-md-6 ocultardiasferiados" bis_skin_checked="1" style="visibility:hidden; height:0px">
+                      <label for="">Dias Feriados</label>
+                      <div class="input-group" bis_skin_checked="1">
+                        <span class="input-group-addon"><i></i></span>
+                        <input type="text" class="form-control input-lg dias_Feriados" name="dias_Feriados" id="dias_Feriados">
+                      </div>
+            </div>
+            <div class="form-group col-md-6 ocultardiasferiados" bis_skin_checked="1" style="visibility:hidden; height:0px">
+                      <label for="">Valor Dias Feriados</label>
+                      <div class="input-group" bis_skin_checked="1">
+                        <span class="input-group-addon"><i></i></span>
+                        <input type="text" class="form-control input-lg valor_dias_Feriados" name="valor_dias_Feriados" id="valor_dias_Feriados" >
+                      </div>
+            </div>
+          <!-- ******************** -->
           <input type="hidden" name="porcentaje_isss_devengo_descuento_planilla" class="porcentaje_isss_devengo_descuento_planilla" id="porcentaje_isss_devengo_descuento_planilla">
           <input type="hidden" name="porcentaje_afp_devengo_descuento_planilla" class="porcentaje_afp_devengo_descuento_planilla" id="porcentaje_afp_devengo_descuento_planilla">
           <input type="hidden" name="porcentaje_renta_devengo_descuento_planilla" class="porcentaje_renta_devengo_descuento_planilla" id="porcentaje_renta_devengo_descuento_planilla">
@@ -633,7 +705,7 @@ parse_str($components['query'], $results);
 
           
 
-          <table class="table table-bordered table-striped dt-responsive tablas" width="100%">
+          <table class="table table-bordered table-striped dt-responsive tablas" width="100%" style="display: none;">
             <thead>
               <tr>
                 <th style="width:90px">Código</th>
@@ -712,7 +784,7 @@ parse_str($components['query'], $results);
 
 
             <div class="form-group col-md-12">
-              <label for="">Seleccionar Devengo o Descuento:</label>             
+              <label for="">Seleccionar Descuento:</label>             
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-users"></i></span> 
                 <select class="form-control input-lg tipo_devengo_descuento_planilla  tipodescuento" name="tipo_devengo_descuento_planilla" id="tipo_devengo_descuento_planilla" required>                  
@@ -784,6 +856,24 @@ parse_str($components['query'], $results);
                         <input type="text" class="form-control input-lg valor_devengo_planilla1" name="valor_devengo_planilla" id="valor_devengo_planilla">
                       </div>
             </div>
+
+
+             <!-- *********LLEGADAS TARDES -->
+             <div class="form-group col-md-6 ocultarhorasllegas" bis_skin_checked="1" style="visibility:hidden; height:0px">
+                      <label for="">Horas</label>
+                      <div class="input-group" bis_skin_checked="1">
+                        <span class="input-group-addon"><i></i></span>
+                        <input type="text" class="form-control input-lg horas_tardes" name="horas_tardes" id="horas_tardes">
+                      </div>
+            </div>
+            <div class="form-group col-md-6 ocultarhorasllegas" bis_skin_checked="1" style="visibility:hidden; height:0px">
+                      <label for="">Valor</label>
+                      <div class="input-group" bis_skin_checked="1">
+                        <span class="input-group-addon"><i></i></span>
+                        <input type="text" class="form-control input-lg precio_horas_tardes" name="precio_horas_tardes" id="precio_horas_tardes" >
+                      </div>
+            </div>
+          <!-- ******************** -->
           
           <input type="hidden" name="porcentaje_isss_devengo_descuento_planilla" class="porcentaje_isss_devengo_descuento_planilla" id="porcentaje_isss_devengo_descuento_planilla">
           <input type="hidden" name="porcentaje_afp_devengo_descuento_planilla" class="porcentaje_afp_devengo_descuento_planilla" id="porcentaje_afp_devengo_descuento_planilla">
@@ -801,7 +891,7 @@ parse_str($components['query'], $results);
 
           
 
-          <table class="table table-bordered table-striped dt-responsive tablas" width="100%">
+          <table class="table table-bordered table-striped dt-responsive tablas" width="100%" style="display: none;">
             <thead>
               <tr>
                 <th style="width:90px">Código</th>
@@ -923,11 +1013,31 @@ parse_str($components['query'], $results);
 <div class="modal fade modal_carga" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-     
-      <div class="modal-body">
-        <h5>Guardando y Cargando los Datos</h5>
+      <div class="modal-body" align="center">
+        <img src="vistas/modulos/carga.gif" alt="">
+        <h5 class="datos_informacion">Guardando y Cargando los Datos</h5>
       </div>
-     
+    </div>
+  </div>
+</div>
+
+<!-- **************************** -->
+
+<!-- ******** MODAL empleados********** -->
+
+<div class="modal fade modal_carga_empleados" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body" align="center">
+        <img src="vistas/modulos/carga.gif" alt="" width="90"><br>
+       <!--  <h5 class="datos_informacion">Guardando y Cargando los Datos</h5><br>
+        <span class="totalempleados">Guardando y Cargando los Datos</span><br>
+        <span class="cantidad_empleados_pro">Guardando y Cargando los Datos</span><br>
+        <span class="conteo_actual">Guardando y Cargando los Datos</span><br> -->
+        <span class="tiempoiniciado"></span><br>
+        <span class="tiempofinal"></span><br>
+         <a href="" class="btn btn-success irplanilla" style="display: none;">Ir a la planilla</a>
+      </div>
     </div>
   </div>
 </div>
@@ -938,3 +1048,4 @@ parse_str($components['query'], $results);
 
 
 <script src="vistas/js/planillaadmin.js"></script>
+

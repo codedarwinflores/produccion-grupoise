@@ -127,8 +127,6 @@ switch ($accion) {
 			$namecampos_situacion .= ":" . $row['Field'] . ",";
 		}
 		$stmt = Conexion::conectar()->prepare("INSERT INTO kardex(" . trim($namecolumnas_situacion, ",") . ") VALUES (" . trim($namecampos_situacion, ",") . ")");
-	
-		
 		foreach ($data as $row) {
 			$stmt->bindParam(":" . $row['Field'], $_POST["" . $row['Field'] . ""], PDO::PARAM_STR);
 		}
@@ -136,7 +134,6 @@ switch ($accion) {
 		/* ****************** */
 		/* CAPTURA NOMBRE DE LAS COLUMNAS Y CAMPOS DEL IMPUT */
 		$namecolumnas_situacion2 = "";
-
 		$data10 = getContent_insert_historial();
 		foreach ($data10 as $row) {
 			$namecolumnas_situacion2 .= $row['Field'] . ",";
@@ -306,6 +303,7 @@ switch ($accion) {
 		$preciotext=$_POST["preciotext"];/* -- */
 		$totaltext=$_POST["totaltext"];/* -- */
 		$totalglobal=$_POST["totalglobal"];/* -- */
+		$correlativo_numero=$_POST["correlativo_numero"];/* -- */
 
 
 		function infokardexhistorial($idregistro1)
@@ -351,6 +349,12 @@ switch ($accion) {
 		$query01 = "UPDATE historial_kardex SET cantidad_kardexh='$cantidadtext',precio_kardexh='$preciotext',subtotal_kardexh='$totaltext',total_kardexh='$totalglobal' WHERE id='$idregistro'";
 		echo $query01;
 			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+
+			
+		$query02 = "UPDATE historial_kardex SET total_kardexh='$totalglobal' WHERE correlativo_kardexh='$correlativo_numero'";
+		
+			$sql = Conexion::conectar()->prepare($query02);
 			$sql->execute();
 
 	
@@ -430,6 +434,63 @@ switch ($accion) {
 			$stmt = null;
 			/* ********************* */
 	
+	break;
+	case "validararmasubicacion":
+		$tabla=$_POST["tabla"];
+		$columna=$_POST["columna"];
+		$idubicacion=$_POST["idubicacion"];
+
+		function verificar($codigo1,$tabla1,$columna1)
+		{
+			$query01="SELECT*FROM $tabla1 where $columna1='$codigo1'";
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();	
+		};
+		
+		function consultar_situacion2($idubicacion1)
+		{
+			$query01="SELECT*FROM kardex where ubicacion_kardex='$idubicacion1' ";
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();	
+		};
+		$data01 = consultar_situacion2($idubicacion);
+		$numero_armas=0;
+		foreach ($data01 as $value) {
+			$codigos_armas=$value["equipo_kardex"];
+			/* --------------- */
+			$data_arma = verificar($codigos_armas,$tabla,$columna);
+			foreach ($data_arma as $value_arma){
+				$codigo1=$value_arma[$columna];
+				if($codigos_armas==$codigo1){
+					$numero_armas+=floor($value["cantidad_kardex"]);
+				}
+			}
+			/* --------------- */
+
+		}
+		echo $numero_armas;
+	break;
+	case "equipoubicacion":/* si el producto existe en la ubicacion */
+		$equipo=$_POST["equipo"];
+		$idubicacion_select=$_POST["idubicacion_select"];
+		function consultar_situacion2($idubicacion,$codigoequipo)
+		{
+			$query01="SELECT*FROM kardex where ubicacion_kardex='$idubicacion' and equipo_kardex='$codigoequipo'  and cantidad_kardex>'0' ";
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();	
+		};
+		$data01 = consultar_situacion2($idubicacion_select,$equipo);
+		$numero_armas=0;
+		foreach ($data01 as $value) {
+			$id=$value["id"];
+			/* --------------- */
+			$numero_armas.=$id;
+			/* --------------- */
+		}
+		echo $numero_armas;
 	break;
 	default:
 		echo $accion."respuesta nula";

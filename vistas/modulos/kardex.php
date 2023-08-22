@@ -24,6 +24,17 @@ $Nombre_del_Modulo="Kardex";
   return $sql->fetchAll();
 }; */
 
+
+/* $host= $_SERVER["HTTP_HOST"];
+$url= $_SERVER["REQUEST_URI"];
+$url = "http://" . $host . $url;
+$components = parse_url($url);
+parse_str($components['query'], $results);
+$tipo = $results['tipo'];
+echo "<input type='hidden' id='tipo_kardex_id' value='$tipo'/>"
+ */
+
+
 ?>
 <div class="content-wrapper">
 
@@ -34,13 +45,23 @@ $Nombre_del_Modulo="Kardex";
     <div class="box">
 
       <div class="box-header with-border">
-  
-        <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarabase">
-          
-          Administrar <?php echo $Nombre_del_Modulo;?>
 
+      
+      <label for="" class="">Administrar Kardex de:</label> 
+      <div class="input-group" bis_skin_checked="1">
+                <span class="input-group-addon"><i class=""></i></span> 
+                <select class="form-control input-lg " name="tipo_kardex" id="tipo_kardex">
+                  <option value="equipos">Equipos</option>
+                  <option value="armas">Armas</option>
+                  <option value="radios">Radio</option>
+                </select>
+      </div>
+      <br>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarabase">
+          Administrar <?php echo $Nombre_del_Modulo;?>
         </button>
 
+          
       </div>
 
       <div class="box-body">
@@ -58,9 +79,7 @@ $Nombre_del_Modulo="Kardex";
           </tr> 
  
          </thead>
- 
          <tbody>
- 
          <?php
             function kardex()
             {
@@ -231,7 +250,7 @@ MODAL AGREGAR
               </div>
             </div>
             <!-- ********************* -->
-            
+            <!-- ********************* -->
             <table class="table table-bordered table-striped dt-responsive " width="100%">
               <thead>
                 <tr>

@@ -155,7 +155,7 @@ parse_str($components['query'], $results);
                         $data01 = empleados();
                         foreach ($data01 as $value) {
                         ?>
-                        <option value="<?php echo $value["id"];?>"><?php echo $value["primer_nombre"].' '.$value["primer_apellido"]; ?></option>
+                        <option value="<?php echo $value["id"];?>"><?php echo $value["codigo_empleado"].'-'.$value["primer_nombre"].' '.$value["primer_apellido"]; ?></option>
                       <?php
                         }
                       ?>
@@ -173,7 +173,7 @@ parse_str($components['query'], $results);
                         $data01 = empleados();
                         foreach ($data01 as $value) {
                         ?>
-                        <option value="<?php echo $value["id"];?>"><?php echo $value["primer_nombre"].' '.$value["primer_apellido"]; ?></option>
+                        <option value="<?php echo $value["id"];?>"><?php echo $value["codigo_empleado"].'-'.$value["primer_nombre"].' '.$value["primer_apellido"]; ?></option>
                       <?php
                         }
                       ?>

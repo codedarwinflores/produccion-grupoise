@@ -3,13 +3,9 @@
 if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
 
   echo '<script>
-
     window.location = "inicio";
-
   </script>';
-
   return;
-
 }
 
 $Nombre_del_Modulo="Situación";
@@ -34,9 +30,6 @@ function getContent() {
     <div class="box">
 
       <div class="box-header with-border">
-  
-      
-
       </div>
 
       <div class="row">
@@ -47,10 +40,14 @@ function getContent() {
                 <option value="">Seleccione Empleado</option>
                 <?php
                     function obtenerempleado() {
+                      /* $query = "SELECT * FROM tbl_empleados AS empleado
+                                INNER JOIN
+                                cargos_desempenados AS cargos
+                                ON empleado.nivel_cargo = cargos.id and cargos.descripcion='Agente de seguridad'"; */
                       $query = "SELECT * FROM tbl_empleados AS empleado
                                 INNER JOIN
                                 cargos_desempenados AS cargos
-                                ON empleado.nivel_cargo = cargos.id and cargos.descripcion='Agente de seguridad'";
+                                ON empleado.nivel_cargo = cargos.id";
                       $sql = Conexion::conectar()->prepare($query);
                       $sql->execute();			
                       return $sql->fetchAll();
@@ -102,6 +99,7 @@ function getContent() {
                 <th>H.NOR</th>
                 <th>T.COMP</th>
                 <th>R.TIEMP</th>
+                <th>D. No Sueldo</th>
                 <th>Acciones</th>
 
                 </tr> 
@@ -158,7 +156,7 @@ MODAL AGREGAR
               <div class="box-dody">
 
                 <input type="hidden" id="id">
-                <input type="hidden" id="accion">
+                <input type="text" id="accion">
                 <input type="hidden" id="idempleado_situacion">
 
                 <!-- ****************** -->
@@ -177,6 +175,8 @@ MODAL AGREGAR
                       <th>H.NOR</th>
                       <th>T.COMP</th>
                       <th>R.TIEMP</th>
+                      <th>D. No Sueldo</th>
+
           
                     </tr> 
                   </thead>
@@ -195,6 +195,7 @@ MODAL AGREGAR
                       <td><input type="text" class="form-control inputtable activarmotivo" id="hora_normales_situacion" oninput="validateNumber(this);" autocomplete="off"></td>
                       <td><input type="text" class="form-control inputtable activarmotivo" id="tiempo_compensatorio_situacion" oninput="validateNumber(this);" autocomplete="off"></td>
                       <td><input type="text" class="form-control inputtable" id="recuperar_tiempo_situacion" oninput="validateNumber(this);" autocomplete="off"></td>
+                      <td><input type="text" class="form-control inputtable" id="dias_no_sueldo" oninput="validateNumber(this);" autocomplete="off"></td>
                     </tr>
                   </tbody>
                 </table>
@@ -215,10 +216,14 @@ MODAL AGREGAR
                     <label>Inicial</label>
                     <select  id="inicial_situacion" class="form-control">
                         <option value="">Seleccione opción</option>
-
                         <option value="Inicial">Inicial</option>
                         <option value="No">No</option>
                     </select>
+                  </div>
+
+                  <div class="form-group col-md-3 inicial_situacion">
+                    <label>Dias trabajados de incapacidad</label>
+                   <input type="text" class="form-control" id="dias_tra_incapacidad">
                   </div>
 
 
@@ -235,7 +240,7 @@ MODAL AGREGAR
                         };
                         $data01 = consultar_hora();
                         foreach($data01 as $value) {
-                          echo "<option ingreso_hora_tipohora='".$value["ingreso_hora_tipohora"]."'  cobrar_cliente_tipohora='".$value["cobrar_cliente_tipohora"]."'  solicitado_tipohora='".$value["solicitado_tipohora"]."' requiere_agente='".$value["requiere_agente_tipohora"]."' value='".$value["codigo_tipohora"]."-".$value["motivo_tipohora"]."'>".$value["codigo_tipohora"]."-".$value["motivo_tipohora"]." </option>";
+                          echo "<option descontar_tipohora='".$value["descontar_tipohora"]."' ingreso_hora_tipohora='".$value["ingreso_hora_tipohora"]."'  cobrar_cliente_tipohora='".$value["cobrar_cliente_tipohora"]."'  solicitado_tipohora='".$value["solicitado_tipohora"]."' requiere_agente='".$value["requiere_agente_tipohora"]."' value='".$value["codigo_tipohora"]."-".$value["motivo_tipohora"]."'>".$value["codigo_tipohora"]."-".$value["motivo_tipohora"]." </option>";
                         }
                         ?>
                     </select>
@@ -354,10 +359,11 @@ MODAL AGREGAR
                         <option value="" id="cubrir">Cubrir a</option>
                         <?php
                         function obtenerempleado_cubrir() {
-                          $query01 = "SELECT*FROM tbl_empleados AS empleado
+                          /* $query01 = "SELECT*FROM tbl_empleados AS empleado
                           INNER JOIN
                           cargos_desempenados AS cargos
-                          ON empleado.nivel_cargo = cargos.id and cargos.descripcion='Agente de seguridad'";
+                          ON empleado.nivel_cargo = cargos.id and cargos.descripcion='Agente de seguridad'"; */
+                          $query01 = "SELECT*FROM tbl_empleados ";
                            $sql = Conexion::conectar()->prepare($query01);
                            $sql->execute();			
                            return $sql->fetchAll();
@@ -422,8 +428,11 @@ MODAL AGREGAR
                         }
                         ?>
                     </select>
-                    <input type="hidden" class="idcliente_situacion" value="">
+                    <!-- maestros -->
+                    <input type="hidden" class="descontar_tipohora" value="">
                     <input type="hidden" class="nombrecliente_situacion" value="">
+                    <input type="hidden" class="nombrecliente_situacion" value="">
+
                   </div>
 
               </div>

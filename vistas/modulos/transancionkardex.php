@@ -34,6 +34,18 @@ $Nombre_del_Modulo="Kardex";
     <div class="box">
 
       <div class="box-header with-border">
+
+      
+      <label for="" class="">Administrar Kardex de:</label> 
+      <div class="input-group" bis_skin_checked="1">
+                <span class="input-group-addon"><i class=""></i></span> 
+                <select class="form-control input-lg " name="tipo_kardex" id="tipo_kardex_t">
+                  <option value="equipos">Equipos</option>
+                  <option value="armas">Armas</option>
+                  <option value="radios">Radio</option>
+                </select>
+      </div>
+      <br>
   
         <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarabase">
           

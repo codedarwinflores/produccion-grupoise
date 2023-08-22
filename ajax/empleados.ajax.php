@@ -95,21 +95,21 @@ if (isset($_GET['consult'])) {
 			$rrhh = $_POST['rrhh'];
 		}
 	}
-	/* STR_TO_DATE(CAMPO_DE_FECHA, '%d-%m-%Y') */
+
 	if (isset($_POST['tipoagente'])) {
 		if ($_POST['tipoagente'] == 2) {
 			$estado_emp = "tbemp.estado IN (2)";
 			if (!empty($fechadesde) && !empty($fechahasta)) {
-				$fechasFiltrar = " and STR_TO_DATE(tbemp.fecha_contratacion, '%Y-%m-%d')" . $fechasFiltrar;
+				$fechasFiltrar = " and tbemp.fecha_contratacion" . $fechasFiltrar;
 			}
 		} else if ($_POST['tipoagente'] == 3) {
 			$estado_emp = "tbemp.estado IN (3)";
 			if (!empty($fechadesde) && !empty($fechahasta)) {
-				$fechasFiltrar = " and STR_TO_DATE(ret.fecha_retiro, '%Y-%m-%d')" . $fechasFiltrar;
+				$fechasFiltrar = " and ret.fecha_retiro" . $fechasFiltrar;
 			}
 		} else {
 			if (!empty($fechadesde) && !empty($fechahasta)) {
-				$fechasFiltrar = " and STR_TO_DATE(tbemp.fecha_contratacion, '%Y-%m-%d')" . $fechasFiltrar . " or STR_TO_DATE(ret.fecha_retiro, '%Y-%m-%d')" . $fechasFiltrar;
+				$fechasFiltrar = " and tbemp.fecha_contratacion" . $fechasFiltrar . "or ret.fecha_retiro" . $fechasFiltrar;
 			}
 			$estado_emp = "tbemp.estado IN (2,3)";
 		}
@@ -265,7 +265,7 @@ if (isset($_GET['consult'])) {
 		if (is_numeric($depa1) && $depa2 == "uno") {
 			$stm = "SELECT tblemp.primer_nombre, d_emp.codigo,d_emp.nombre FROM tbl_empleados tblemp LEFT JOIN departamentos_empresa d_emp ON tblemp.id_departamento_empresa = d_emp.id WHERE tblemp.id = " . $depa1;
 		} else if (is_numeric($depa1) && is_numeric($depa2)) {
-			$stm = "SELECT * FROM `departamentos_empresa` where id between " . $depa1 . " and " . $depa2;
+			$stm = "SELECT * FROM `departamentos_empresa` where id between ".$depa1." and ".$depa2;
 		} else {
 			$stm = "SELECT d_emp.id,d_emp.codigo, d_emp.nombre, COUNT(tblemp.id) AS cantidad_empleados FROM departamentos_empresa d_emp INNER JOIN tbl_empleados tblemp ON d_emp.id = tblemp.id_departamento_empresa GROUP BY d_emp.codigo, d_emp.nombre HAVING COUNT(tblemp.id) > 0 ";
 		}
@@ -280,6 +280,8 @@ if (isset($_GET['consult'])) {
 			return $sqlquery->fetchAll();
 		}
 	}
+
+
 
 
 	/* IMPRIMI TABLA DE ACUERDO A LA CONSULTA ENVIADA */
@@ -439,6 +441,8 @@ if (isset($_GET['consult'])) {
 						/* ******* */
 					}
 
+
+
 					?>
 
 				</tbody>
@@ -564,7 +568,7 @@ if (isset($_GET['consult'])) {
 				/* select tbemp.*, cargo.id,cargo.descripcion FROM `tbl_empleados` tbemp inner join cargos_desempenados cargo on tbemp.nivel_cargo=cargo.id; */
 				$campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo, ret.observaciones_retiro";
 				$tabla = " `tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco = bank.id LEFT JOIN retiro ret ON tbemp.id = ret.idempleado_retiro";
-				$condicion = " tbemp.id_departamento_empresa=" . $depa['id'] . " and " . $estado_emp . "and " . $repotePnc . $fechasFiltrar . " order by primer_nombre asc, primer_apellido asc";
+				$condicion = " tbemp.id_departamento_empresa=".$depa['id']." and " . $estado_emp . "and " . $repotePnc . $fechasFiltrar . " order by primer_nombre asc, primer_apellido asc";
 				$array = [];
 
 

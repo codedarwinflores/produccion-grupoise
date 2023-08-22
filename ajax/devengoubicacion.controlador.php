@@ -182,6 +182,7 @@ class Controladordevengoubicacion{
 		if(isset($_POST["editarid"])){
 
 
+			$iddevengo=$_POST["editariddescuentodevengo"];
 
 			global $tabla_devengoubicacion;
 			global $namecolumnas_devengoubicacion;
@@ -208,9 +209,7 @@ class Controladordevengoubicacion{
 				$respuesta = Modelodevengoubicacion::mdlEditar($tabla_devengoubicacion, $datos);
 
 				if($respuesta == "ok"){
-
 					echo'<script>
-
 					swal({
 						  type: "success",
 						  title: "'.$Nombremodulo_mensaje_devengoubicacion.' ha sido editado correctamente",
@@ -219,7 +218,7 @@ class Controladordevengoubicacion{
 						  }).then(function(result) {
 									if (result.value) {
 
-										window.location = "'.$nombremodelo_devengoubicacion.'?id='.$_POST["nuevoiddescuentodevengo"].'";
+										window.location = "'.$nombremodelo_devengoubicacion.'?id='.$_POST["editariddescuentodevengo"].'";
 
 									}
 								})

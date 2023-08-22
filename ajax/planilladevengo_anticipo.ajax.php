@@ -116,6 +116,8 @@ switch ($accion) {
 		$descripcion_planilladevengo_anticipo = $_POST["descripcion_planilladevengo_anticipo"];
 
 
+
+
 		function consultar($e,$dia1,$dia2)
 		{
 			/* $query01="SELECT * FROM tbl_empleados 
@@ -128,9 +130,9 @@ switch ($accion) {
 			FROM `tbl_empleados` , tbl_empleados_devengos_descuentos,tbl_devengo_descuento , tbl_clientes_ubicaciones,tbl_ubicaciones_agentes_asignados
 			WHERE tbl_empleados.id=tbl_empleados_devengos_descuentos.id_empleado and tbl_devengo_descuento.id = tbl_empleados_devengos_descuentos.id_tipo_devengo_descuento and tbl_devengo_descuento.codigo='0022' and tbl_empleados_devengos_descuentos.valor is NOT null  and tbl_empleados.fecha_contratacion < '$e' and tbl_empleados.codigo_empleado=tbl_ubicaciones_agentes_asignados.codigo_agente and  tbl_ubicaciones_agentes_asignados.idubicacion_agente=tbl_clientes_ubicaciones.id"; */
 
-			$query01="SELECT DATE_FORMAT(DATE(NOW()), '%m-%d')as fecha_actual,DATE_FORMAT(tbl_empleados.fecha_contratacion, '%m-%d') as fechacontracion, tbl_empleados.id as idempleado, tbl_empleados.*, tbl_empleados_devengos_descuentos.* , tbl_devengo_descuento.*
+			$query01="SELECT DATE_FORMAT(DATE(NOW()), '%m-%d')as fecha_actual,DATE_FORMAT(tbl_empleados.fecha_contratacion, '%m-%d') as fechacontracion, tbl_empleados.id as idempleado, tbl_empleados.*, tbl_empleados_devengos_descuentos.* , tbl_devengo_descuento.*,tbl_devengo_descuento.id as iddevengo
 			FROM `tbl_empleados` , tbl_empleados_devengos_descuentos,tbl_devengo_descuento
-			WHERE tbl_empleados.id=tbl_empleados_devengos_descuentos.id_empleado and tbl_devengo_descuento.id = tbl_empleados_devengos_descuentos.id_tipo_devengo_descuento and tbl_devengo_descuento.codigo='0022' and tbl_empleados_devengos_descuentos.valor is NOT null  and tbl_empleados.fecha_contratacion < '$e'  GROUP by tbl_empleados.id";
+			WHERE tbl_empleados.id=tbl_empleados_devengos_descuentos.id_empleado and tbl_devengo_descuento.id = tbl_empleados_devengos_descuentos.id_tipo_devengo_descuento and tbl_devengo_descuento.codigo='0022' and tbl_empleados_devengos_descuentos.valor is NOT null  and tbl_empleados.fecha_contratacion < '$e' and estado='2'  GROUP by tbl_empleados.id ";
 		
 
 			/* echo $query01; */
@@ -157,6 +159,21 @@ switch ($accion) {
 		$values_consulta="";
 		$values_devengo="";
 		foreach ($data01 as $value) {
+
+
+			
+			$codigo_devengo_descuento_planilla=$value["codigo"];
+			$descripcion_devengo_descuento_planilla=$value["descripcion"];
+			$tipo_devengo_descuento_planilla=$value["iddevengo"];
+			$isss_devengo_devengo_descuento_planilla=$value["isss_devengo"];
+			$afp_devengo_devengo_descuento_planilla=$value["afp_devengo"];
+			$renta_devengo_devengo_descuento_planilla=$value["renta_devengo"];
+			$idempleado_devengo=$value["idempleado"];
+			$valor_devengo_planilla=$value["valor"];
+			$tipo_valor=$value["tipo"];
+			$codigo_planilla_devengo=$numero_planilladevengo_anticipo;
+
+			$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo'),";
 
 
 		
@@ -212,7 +229,10 @@ switch ($accion) {
 		if($registro == 0){
 
 			
-
+			$insertar_devengo="INSERT INTO `tbl_devengo_descuento_planilla`(`codigo_devengo_descuento_planilla`, `descripcion_devengo_descuento_planilla`, `tipo_devengo_descuento_planilla`, `isss_devengo_devengo_descuento_planilla`, `afp_devengo_devengo_descuento_planilla`, `renta_devengo_devengo_descuento_planilla`,`idempleado_devengo`, `valor_devengo_planilla`, `tipo_valor`, `codigo_planilla_devengo`) VALUES  ".trim($values_devengo, ",")."";
+			$sql_devengo = Conexion::conectar()->prepare($insertar_devengo);
+			$sql_devengo->execute();
+		
 
 			$insertar="INSERT INTO `planilladevengo_anticipo`(`numero_planilladevengo_anticipo`, `fecha_planilladevengo_anticipo`, `fecha_desde_planilladevengo_anticipo`, `fecha_hasta_planilladevengo_anticipo`, `descripcion_planilladevengo_anticipo`, `codigo_empleado_planilladevengo_anticipo`, `nombre_empleado_planilladevengo_anticipo`, `id_empleado_planilladevengo_anticipo`, `sueldo_planilladevengo_anticipo`,  `total_devengo_anticipo_planilladevengo_anticipo`, `total_liquidado_planilladevengo_anticipo`, `codigo_ubicacion_planilladevengo_anticipo`, `nombre_ubicacion_planilladevengo_anticipo`, `id_ubicacion_planilladevengo_anticipo`, `periodo_planilladevengo_anticipo`, `tipo_planilladevengo_anticipo`, `empleado_rango_desde`, `empleado_rango_hasta`) value ".trim($values_consulta, ",")."";
 			$sql = Conexion::conectar()->prepare($insertar);
@@ -924,7 +944,8 @@ switch ($accion) {
 		function consultar_situacion2($e,$x,$z)
 		{
 
-			$query01="SELECT  tbl_empleados_devengos_descuentos.id as idempleadodevengo, tbl_empleados_devengos_descuentos.* ,tbl_devengo_descuento.* FROM `tbl_empleados_devengos_descuentos`, tbl_devengo_descuento
+			$query01="SELECT  tbl_empleados_devengos_descuentos.id as idempleadodevengo, tbl_empleados_devengos_descuentos.* ,tbl_devengo_descuento.* 
+			FROM `tbl_empleados_devengos_descuentos`, tbl_devengo_descuento
 			where tbl_empleados_devengos_descuentos.id_tipo_devengo_descuento = tbl_devengo_descuento.id
 			and tbl_empleados_devengos_descuentos.id_empleado='$e' and tbl_devengo_descuento.tipo LIKE '%$x%' and tbl_empleados_devengos_descuentos.id_tipo_devengo_descuento=22";
 			
@@ -941,7 +962,9 @@ switch ($accion) {
 
 		function consultar_planilla($codigo1,$idempleados1,$codigo_planilla1)
 		{
-			$query01="SELECT `codigo_devengo_descuento_planilla`, `descripcion_devengo_descuento_planilla`, `tipo_devengo_descuento_planilla`, `isss_devengo_devengo_descuento_planilla`, `afp_devengo_devengo_descuento_planilla`, `renta_devengo_devengo_descuento_planilla`, `porcentaje_renta_devengo_descuento_planilla`, `porcentaje_isss_devengo_descuento_planilla`, `porcentaje_afp_devengo_descuento_planilla`, `idempleado_devengo`, `id`, `valor_devengo_planilla`, `tipo_valor`, `codigo_planilla_devengo` FROM `tbl_devengo_descuento_planilla` WHERE codigo_devengo_descuento_planilla='$codigo1' and idempleado_devengo='$idempleados1' and codigo_planilla_devengo='$codigo_planilla1' and descripcion_devengo_descuento_planilla='vacio'";
+			$query01="SELECT `codigo_devengo_descuento_planilla`, `descripcion_devengo_descuento_planilla`, `tipo_devengo_descuento_planilla`, `isss_devengo_devengo_descuento_planilla`, `afp_devengo_devengo_descuento_planilla`, `renta_devengo_devengo_descuento_planilla`, `porcentaje_renta_devengo_descuento_planilla`, `porcentaje_isss_devengo_descuento_planilla`, `porcentaje_afp_devengo_descuento_planilla`, `idempleado_devengo`, `id`, `valor_devengo_planilla`, `tipo_valor`, `codigo_planilla_devengo` 
+			FROM `tbl_devengo_descuento_planilla` 
+			WHERE codigo_devengo_descuento_planilla='$codigo1' and idempleado_devengo='$idempleados1' and codigo_planilla_devengo='$codigo_planilla1'";
 			echo $query01;
 			$sql = Conexion::conectar()->prepare($query01);
 			$sql->execute();
@@ -1195,6 +1218,62 @@ switch ($accion) {
 		$stmt->close();
 		$stmt = null;
 		/* ********************* */
+	break;
+	case "listadoempleados":
+		/* ************ */
+		$numero=$_POST["numero"];
+		function empleadosplanilla($numero1)
+		{
+		/* 	$query01 = "SELECT * FROM `planilladevengo_anticipo`  WHERE codigo_empleado_planilladevengo_anticipo='$e'"; */
+			$query01="SELECT tbl_empleados.id as id, planilladevengo_anticipo.*,tbl_empleados.* 
+			FROM `tbl_empleados`,planilladevengo_anticipo 
+			WHERE planilladevengo_anticipo.id_empleado_planilladevengo_anticipo=tbl_empleados.id and planilladevengo_anticipo.numero_planilladevengo_anticipo='$numero1'
+			group by tbl_empleados.id";
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			$outp = $sql->fetchAll();
+			echo json_encode($outp);
+			
+		};
+		$data01 = empleadosplanilla($numero);
+		$result = [];
+			/* ************ */
+	break;
+	case "listaidempleados":
+		/* ************ */
+		$idempleado=$_POST["idempleado"];
+		function empleadosplanilla($idempleado1)
+		{
+		/* 	$query01 = "SELECT * FROM `planilladevengo_anticipo`  WHERE codigo_empleado_planilladevengo_anticipo='$e'"; */
+			$query01="SELECT *FROM `tbl_empleados` WHERE tbl_empleados.id='$idempleado1' ";
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			$outp = $sql->fetchAll();
+			echo json_encode($outp);
+			
+		};
+		$data01 = empleadosplanilla($idempleado);
+		$result = [];
+			/* ************ */
+	break;
+	case "verificardatoingresado":
+		/* ************ */
+		$numero=$_POST["numero"];
+		$idempleado=$_POST["idempleado"];
+		function empleadosplanilla($numero1,$idempleado1)
+		{
+		/* 	$query01 = "SELECT * FROM `planilladevengo_anticipo`  WHERE codigo_empleado_planilladevengo_anticipo='$e'"; */
+			$query01="SELECT tbl_empleados.id as id, planilladevengo_anticipo.*,tbl_empleados.* FROM `tbl_empleados`,planilladevengo_anticipo WHERE planilladevengo_anticipo.id_empleado_planilladevengo_anticipo=tbl_empleados.id and planilladevengo_anticipo.numero_planilladevengo_anticipo='$numero1' and tbl_empleados.id='$idempleado1' group by tbl_empleados.id";
+			
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			$outp = $sql->fetchAll();
+			echo json_encode($outp);
+			
+		};
+		$data01 = empleadosplanilla($numero,$idempleado);
+		$result = [];
+			/* ************ */
 	break;
 	default:
 		echo $accion."respuesta nula";

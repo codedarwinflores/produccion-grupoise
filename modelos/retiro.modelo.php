@@ -117,6 +117,25 @@ class Modeloretiro{
 	
 		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET ".trim($namecolumnas,",")." WHERE id = :id");
 
+
+		/* ******************** */
+		$estado_retiro=$datos["estado_retiro"];
+		$fecha_contratacion_retiro=$datos["fecha_contratacion_retiro"];
+		$formateada = date("Y-m-d", strtotime($fecha_contratacion_retiro));
+		if($estado_retiro=="Activar"){
+			$estado_retiro="2";
+		}
+		else{
+			$estado_retiro="3";
+		}
+		$stmt01 = Conexion::conectar()->prepare("UPDATE tbl_empleados SET estado=$estado_retiro, fecha_contratacion='$formateada' where id=:idempleado_retiro");
+
+
+		$stmt01 -> bindParam(":idempleado_retiro", $datos["idempleado_retiro"], PDO::PARAM_STR);
+		$stmt01->execute();
+		/* ******************** */
+
+
 		foreach($data as $row) {
 			$stmt->bindParam(":".$row['Field'], $datos["".$row['Field'].""], PDO::PARAM_STR);	
 		}
@@ -124,7 +143,8 @@ class Modeloretiro{
 
 		if($stmt -> execute()){
 
-			return "ok";
+			return "ok";	
+
 		
 		}else{
 

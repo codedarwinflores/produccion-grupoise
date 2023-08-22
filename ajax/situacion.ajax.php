@@ -85,6 +85,7 @@ switch ($accion) {
 			<th>H.NOR</th>
 			<th>T.COMP</th>
 			<th>R.TIEMP</th>
+			<th>D. No Sueldo</th>
 			<th>Acciones</th>
 
 		  </tr> 
@@ -109,6 +110,7 @@ switch ($accion) {
 			<td>' . $value["hora_normales_situacion"] . '</td>
 			<td>' . $value["tiempo_compensatorio_situacion"] . '</td>
 			<td>' . $value["recuperar_tiempo_situacion"] . '</td>
+			<td>' . $value["dias_no_sueldo"] . '</td>
 			<td>
 			  <div class="btn-group">
 				<button class="btn btn-warning btnEditarsituacion" id="' . $value["id"] . '" data-toggle="modal" data-target="#modalAgregarsituacion"><i class="fa fa-pencil"></i></button>
@@ -122,7 +124,10 @@ switch ($accion) {
 		
 		function consultar_ubicacion2($x)
 		{
-			$query01 = "SELECT `id`, `idagente_transacciones_agente`, `fecha_transacciones_agente`, `hora_transacciones_agente`, `tipo_movimiento_transacciones_agente`, `nueva_ubicacion_transacciones_agente`, `ubicacion_anterior_transacciones_agente`, `fecha_desde_transacciones_agente`, `fecha_hasta_transacciones_agente`, `presento_incapacidad_transacciones_agente`, `comentarios_transacciones_agente`, `turno_transacciones_agente`, `horario_desde_transacciones_agente`, `horario_hasta_transacciones_agente` FROM `transacciones_agente` WHERE  idagente_transacciones_agente='$x'";
+			$query01 = "SELECT `id`, `idagente_transacciones_agente`, `fecha_transacciones_agente`, `hora_transacciones_agente`, `tipo_movimiento_transacciones_agente`, `nueva_ubicacion_transacciones_agente`, `ubicacion_anterior_transacciones_agente`, `fecha_desde_transacciones_agente`, `fecha_hasta_transacciones_agente`, `presento_incapacidad_transacciones_agente`, `comentarios_transacciones_agente`, `turno_transacciones_agente`, `horario_desde_transacciones_agente`, `horario_hasta_transacciones_agente` 
+			FROM `transacciones_agente` WHERE  idagente_transacciones_agente='$x' 
+			order by id desc
+			limit 1";
 			$sql = Conexion::conectar()->prepare($query01);
 			$sql->execute();
 			return $sql->fetchAll();
@@ -141,8 +146,17 @@ switch ($accion) {
 	case "insertar":
 		/* ****************** */
 		/* CAPTURA NOMBRE DE LAS COLUMNAS Y CAMPOS DEL IMPUT */
+		
 		$namecolumnas_situacion = "";
 		$namecampos_situacion = "";
+		$descontar_tipohora=$_POST["descontar_tipohora"];
+		$cubrir_situacion=$_POST["cubrir_situacion"];
+		$fecha_situacion=$_POST["fecha_situacion"];
+		$hora_extra_situacion=$_POST["hora_extra_situacion"];
+		$hora_normales_situacion=$_POST["hora_normales_situacion"];
+		$tiempo_compensatorio_situacion=$_POST["tiempo_compensatorio_situacion"];
+		$valor_hora_ausensia="";
+		
 
 		$data = getContent();
 		foreach ($data as $row) {
@@ -154,17 +168,35 @@ switch ($accion) {
 		foreach ($data as $row) {
 			$stmt->bindParam(":" . $row['Field'], $_POST["" . $row['Field'] . ""], PDO::PARAM_STR);
 		}
-		$respuesta = "";
+		$respuesta="";
 		if ($stmt->execute()) {
-			$respuesta = "ok";
-			return "ok";
+			$respuesta.="ok";
+			$codigo_empleado = explode("-", $cubrir_situacion);
+			$codigo_empleadoc=$codigo_empleado[0];
+			if($hora_extra_situacion>0 && $cubrir_situacion != ""){
+
+				if(!empty($hora_extra_situacion)){
+					$valor_hora_ausensia=$hora_extra_situacion;
+				}
+				if(!empty($hora_normales_situacion)){
+					$valor_hora_ausensia=$hora_normales_situacion;
+				}
+				if(!empty($tiempo_compensatorio_situacion)){
+					$valor_hora_ausensia=$tiempo_compensatorio_situacion;
+				}
+
+				$insertar_haus="INSERT INTO `situacion`(`horas_ausencia_situacion`, `fecha_situacion`, `idempleado_situacion`) VALUES  ('$valor_hora_ausensia','$fecha_situacion','$codigo_empleadoc')";
+				$sql_haus = Conexion::conectar()->prepare($insertar_haus);
+				$sql_haus->execute();
+			}
+			/* return "ok"; */
 		} else {
-			$respuesta = "error";
-			return "error";
+			$respuesta.="error";
+			/* return "error"; */
 		}
-		$stmt->close();
-		$stmt = null;
 		echo $respuesta;
+		/* $stmt->close(); */
+		$stmt = null;
 
 
 		/* ***************** */
@@ -175,6 +207,73 @@ switch ($accion) {
 
 		$namecolumnas_situacion = "";
 		$namecampos_situacion = "";
+
+		
+		$descontar_tipohora=$_POST["descontar_tipohora"];
+		$cubrir_situacion=$_POST["cubrir_situacion"];
+		$fecha_situacion=$_POST["fecha_situacion"];
+		$hora_extra_situacion=$_POST["hora_extra_situacion"];
+		$hora_normales_situacion=$_POST["hora_normales_situacion"];
+		$tiempo_compensatorio_situacion=$_POST["tiempo_compensatorio_situacion"];
+		$valor_hora_ausensia="";
+
+		
+		/* *************************** */
+		$codigo_empleado = explode("-", $cubrir_situacion);
+		$codigo_empleadoc=$codigo_empleado[0];
+		if($hora_extra_situacion>0 || $cubrir_situacion != ""){
+
+			function consultar_situacion($id1)
+			{
+				$query01="SELECT * FROM situacion WHERE id='$id1'";
+				
+				$sql = Conexion::conectar()->prepare($query01);
+				$sql->execute();
+				return $sql->fetchAll();
+			};
+			$data_planilla = consultar_situacion($id);
+			$fecha_anterior="";
+			$horas_ausencia_situacion_old="";
+			$empleado_cubrir="";
+			foreach ($data_planilla as $value) {
+				$fecha_anterior.=$value["fecha_situacion"];
+
+				if(!empty($value["hora_extra_situacion"])){
+					$horas_ausencia_situacion_old.=$value["hora_extra_situacion"];
+				}
+				if(!empty($value["hora_normales_situacion"])){
+					$horas_ausencia_situacion_old.=$value["hora_normales_situacion"];
+				}
+				if(!empty($value["tiempo_compensatorio_situacion"])){
+					$horas_ausencia_situacion_old.=$value["tiempo_compensatorio_situacion"];
+				}
+
+				$empleado_cubrir.=$value["cubrir_situacion"];
+			}
+
+			$codigo_empleado_old = explode("-", $empleado_cubrir);
+			$codigo_empleadoc_old=$codigo_empleado_old[0];
+
+			$eliminar_haus="DELETE FROM `situacion` WHERE horas_ausencia_situacion='$horas_ausencia_situacion_old' and fecha_situacion='$fecha_anterior' and idempleado_situacion='$codigo_empleadoc_old'";
+			echo $eliminar_haus;
+			$sql_haus = Conexion::conectar()->prepare($eliminar_haus);
+			$sql_haus->execute();
+
+
+			if(!empty($hora_extra_situacion)){
+				$valor_hora_ausensia=$hora_extra_situacion;
+			}
+			if(!empty($hora_normales_situacion)){
+				$valor_hora_ausensia=$hora_extra_situacion;
+			}
+			if(!empty($tiempo_compensatorio_situacion)){
+				$valor_hora_ausensia=$hora_extra_situacion;
+			}
+			$insertar_haus="INSERT INTO `situacion`(`horas_ausencia_situacion`, `fecha_situacion`, `idempleado_situacion`) VALUES  ('$valor_hora_ausensia','$fecha_situacion','$codigo_empleadoc')";
+			$sql_haus = Conexion::conectar()->prepare($insertar_haus);
+			$sql_haus->execute();
+		}
+		/* ****************************** */
 		$data = getContent();
 		$test = "";
 		foreach ($data as $row) {
@@ -183,9 +282,11 @@ switch ($accion) {
 		}
 
 		$query01 = "UPDATE situacion SET " . trim($test, ",") . " WHERE id LIKE $id";
-		echo $query01;
+		
 		$sql = Conexion::conectar()->prepare($query01);
 		$sql->execute();
+
+
 		return $sql->fetchAll();
 		$sql->close();
 		$sql = null;
@@ -199,6 +300,45 @@ switch ($accion) {
 
 		break;
 	case "eliminar":
+
+
+			function consultar_situacion($id1)
+			{
+				$query01="SELECT * FROM situacion WHERE id='$id1'";				
+				$sql = Conexion::conectar()->prepare($query01);
+				$sql->execute();
+				return $sql->fetchAll();
+			};
+			$data_planilla = consultar_situacion($id);
+			$fecha_anterior="";
+			$horas_ausencia_situacion_old="";
+			$empleado_cubrir="";
+			foreach ($data_planilla as $value) {
+				$fecha_anterior.=$value["fecha_situacion"];
+
+				if(!empty($value["hora_extra_situacion"])){
+					$horas_ausencia_situacion_old.=$value["hora_extra_situacion"];
+				}
+				if(!empty($value["hora_normales_situacion"])){
+					$horas_ausencia_situacion_old.=$value["hora_normales_situacion"];
+				}
+				if(!empty($value["tiempo_compensatorio_situacion"])){
+					$horas_ausencia_situacion_old.=$value["tiempo_compensatorio_situacion"];
+				}
+				$empleado_cubrir.=$value["cubrir_situacion"];
+			}
+
+			$codigo_empleado_old = explode("-", $empleado_cubrir);
+			$codigo_empleadoc_old=$codigo_empleado_old[0];
+
+			$eliminar_haus="DELETE FROM `situacion` WHERE horas_ausencia_situacion='$horas_ausencia_situacion_old' and fecha_situacion='$fecha_anterior' and idempleado_situacion='$codigo_empleadoc_old'";
+			echo $eliminar_haus;
+			$sql_haus = Conexion::conectar()->prepare($eliminar_haus);
+			$sql_haus->execute();
+
+
+		
+		/* ****************************** */
 		/* ********************* */
 		$query = "DELETE FROM `situacion` WHERE id=$id";
 		$stmt = Conexion::conectar()->prepare($query);
@@ -222,7 +362,7 @@ switch ($accion) {
 		$nombre_empleado="";
 		foreach ($data01 as $value) {
 			$nombre_empleado.=$value["idempleado_situacion"];
-			$datos .= $value["id"] . ',' . $value["idempleado_situacion"] . ',' . $value["dias_ausencia_situacion"] . ',' . $value["horas_ausencia_situacion"] . ',' . $value["consulta_isss_situacion"] . ',' . $value["incapacidad_situacion"] . ',' . $value["ansp_situacion"] . ',' . $value["vacaciones_situacion"] . ',' . $value["permiso_situacion"] . ',' . $value["hora_normales_situacion"] . ',' . $value["tiempo_compensatorio_situacion"] . ',' . $value["recuperar_tiempo_situacion"] . ',' . $value["comodin_situacion"] . ',' . $value["cubierto_situacion"] . ',' . $value["nuevo_servicio_situacion"] . ',' . $value["fin_servicio_situacion"] . ',' . $value["ubicacion_situacion"] . ',' . $value["servicio_eventual_situacion"] . ',' . $value["inactivos_situacion"] . ',' . $value["activo_situacion"] . ',' . $value["liquidado_situacion"] . ',' . $value["inicial_situacion"] . ',' . $value["hora_extra_situacion"] . ',' . $value["vacante_situacion"] . ',' . $value["posicion_situacion"] . ',' . $value["fecha_situacion"] . ',' . $value["motivo_horas_extras"] . ',' . $value["horas_no_cubiertas"]. ',' . $value["cubrir_situacion"]. ',' . $value["solicitado_situacion"]. ',' . $value["idcliente_situacion"].  ',' .$value["codigocliente_situacion"].  ',' .$value["nombrecliente_situacion"].  ',' .$value["hora_inicio_situacion"].  ',' .$value["hora_fin_situacion"].  ',' .$value["numero_planilla_admin"];
+			$datos .= $value["id"] . ',' . $value["idempleado_situacion"] . ',' . $value["dias_ausencia_situacion"] . ',' . $value["horas_ausencia_situacion"] . ',' . $value["consulta_isss_situacion"] . ',' . $value["incapacidad_situacion"] . ',' . $value["ansp_situacion"] . ',' . $value["vacaciones_situacion"] . ',' . $value["permiso_situacion"] . ',' . $value["hora_normales_situacion"] . ',' . $value["tiempo_compensatorio_situacion"] . ',' . $value["recuperar_tiempo_situacion"] . ',' . $value["comodin_situacion"] . ',' . $value["cubierto_situacion"] . ',' . $value["nuevo_servicio_situacion"] . ',' . $value["fin_servicio_situacion"] . ',' . $value["ubicacion_situacion"] . ',' . $value["servicio_eventual_situacion"] . ',' . $value["inactivos_situacion"] . ',' . $value["activo_situacion"] . ',' . $value["liquidado_situacion"] . ',' . $value["inicial_situacion"] . ',' . $value["hora_extra_situacion"] . ',' . $value["vacante_situacion"] . ',' . $value["posicion_situacion"] . ',' . $value["fecha_situacion"] . ',' . $value["motivo_horas_extras"] . ',' . $value["horas_no_cubiertas"]. ',' . $value["cubrir_situacion"]. ',' . $value["solicitado_situacion"]. ',' . $value["idcliente_situacion"].  ',' .$value["codigocliente_situacion"].  ',' .$value["nombrecliente_situacion"].  ',' .$value["hora_inicio_situacion"].  ',' .$value["hora_fin_situacion"].  ',' .$value["numero_planilla_admin"].  ',' .$value["dias_tra_incapacidad"].  ',' .$value["dias_no_sueldo"];
 		}
 
 		function consultar_ubicacion($x)

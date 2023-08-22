@@ -20,10 +20,7 @@ EDITAR
 =============================================*/
 $(".tablas").on("click", ".btnEditardevengoubicacion", function(){
 
-	
 	var iddevengoubicacion = $(this).attr("iddevengoubicacion");
-	
-	
 	var datos = new FormData();
 	datos.append("iddevengoubicacion", iddevengoubicacion);
 

@@ -219,7 +219,7 @@ class Controladordevengoubicacion{
 						  }).then(function(result) {
 									if (result.value) {
 
-										window.location = "'.$nombremodelo_devengoubicacion.'?id='.$_POST["nuevoiddescuentodevengo"].'";
+										window.location = "'.$nombremodelo_devengoubicacion.'?id='.$_POST["editariddescuentodevengo"].'";
 
 									}
 								})
@@ -265,7 +265,7 @@ class Controladordevengoubicacion{
 					  }).then(function(result) {
 								if (result.value) {
 
-								window.location = "'.$nombremodelo_devengoubicacion.'";
+								window.location = "'.$nombremodelo_devengoubicacion.'?id='.$_GET["Codigo"].'";
 
 								}
 							})

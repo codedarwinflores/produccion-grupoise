@@ -492,6 +492,14 @@ function cargardataempleados(){
 				
 				if(response.trim()!=""){
 					window.location = "nuevaplanilladevengo?id="+response;
+					/* $.ajax({
+						url:idempleados_one(numero_planilladevengo_anticipo),
+						success:function(){
+							
+						}
+					}); */
+
+					/* window.location = "nuevaplanilladevengo?id="+response; */
 				}
 				console.log(response);
 				$("#tabla_empleados").empty();
@@ -554,6 +562,188 @@ function cargardataempleados(){
 
 	}
 };
+
+/* GUARDA LOS CALCULOS EN LA PLANILLA POR CADA INDIVIDUO */
+var  ids_empleados=[];
+var idactualempleado="";
+var empleadotrabajando="";
+function idempleados_one(numero){
+	var dataString = 'accion01=listadoempleados'+'&numero='+numero;
+	$.ajax({
+		data: dataString,
+		url: "ajax/planilladevengo_anticipo.ajax.php",
+		type: 'post',
+		success: function (response) {
+		
+				datos = JSON.parse(response);
+				for (i = 0; i < datos.length; i++) {
+					
+					var dataFecha=datos[i].id;
+					var codigo_empleado=datos[i].codigo_empleado;
+					var objeto={id:dataFecha, codigo:codigo_empleado};
+					ids_empleados.push(objeto);
+				}
+				processArray();
+				$('.modal_carga').modal({backdrop: 'static', keyboard: true});
+				$('.modal_carga').modal('hide');
+				$('.modal_carga_empleados').modal({backdrop: 'static', keyboard: false});
+				$('.modal_carga_empleados').modal('show');
+		}
+	
+	})
+}
+var cuenta=0;
+async function  delayedLog(idempleado){
+		cuenta+=1;
+		$(".cantidad_empleados_pro").text("Empleados Procesados: "+cuenta);
+		$(".conteo_actual").text("Cantidad de empleados faltantes: "+ids_empleados.length)
+		/* CAPTURAR EMPLEADOS */
+			/* *********** */
+			var dataString = 'accion01=listaidempleados'+'&idempleado='+idempleado;
+			$.ajax({
+				data: dataString,
+				url: "ajax/planilladevengo_anticipo.ajax.php",
+				type: 'post',
+				success: function (response) {
+					var datos = JSON.parse(response);
+					for (i = 0; i < datos.length; i++) {
+					var dato_pensionado=datos[i].pensionado_empleado;
+					if(dato_pensionado==""){
+						dato_pensionado="No";
+					}
+					else{
+						dato_pensionado=datos[i].pensionado_empleado;
+					}
+
+					/* --------------------------- */
+					var codigo = datos[i].codigo_empleado;
+					var id = datos[i].id;
+					var nombre = datos[i].primer_nombre+" "+datos[i].segundo_nombre+" "+datos[i].tercer_nombre+" "+datos[i].primer_apellido+" "+datos[i].segundo_apellido+" "+datos[i].apellido_casada;
+					var sueldo = datos[i].sueldo;
+					var salario_por_hora = datos[i].salario_por_hora;
+					var hora_extra_diurna = datos[i].hora_extra_diurna;
+					var hora_extra_nocturna = datos[i].hora_extra_nocturna;
+					var hora_extra_domingo = datos[i].hora_extra_domingo;
+					var hora_extra_nocturna_domingo = datos[i].hora_extra_nocturna_domingo;
+					var pensionado_empleado = datos[i].dato_pensionado;
+					var fecha_contratacion = datos[i].fecha_contratacion;
+					var hr1 = moment(fecha_contratacion,'YYYY/MM/DD HH:mm:ss a').format('DD-MM-YYYY');
+					$("#fecha_contratacion").val(hr1);
+					var sueldo_diario = datos[i].sueldo_diario;
+					var votevalue = parseFloat(sueldo_diario);
+
+					$("#sueldo_diario").val(votevalue);
+					$("#txt_codigo").val(codigo);
+					$("#txt_idempleado").val(id);
+					$("#txt_nombre").val(nombre);
+					$("#txt_sueldo").val(sueldo);
+					$("#txt_salario_por_hora").val(salario_por_hora);
+					$("#salario_por_hora").val(salario_por_hora);
+					$("#hora_extra_diurna").val(hora_extra_diurna);
+					$("#hora_extra_nocturna").val(hora_extra_nocturna);
+					$("#hora_extra_domingo").val(hora_extra_domingo);
+					$("#hora_extra_nocturna_domingo").val(hora_extra_nocturna_domingo);
+					$("#nombreempleado").text(nombre);
+					$(".mostrar_devengo_anticipo").attr("sueldo",sueldo);
+					$(".valor_devengo_planilla").attr("idempleado",id);
+					$("#pensionado_empleado").val(pensionado_empleado);
+					valor_devengo_anticipo();
+					editar(codigo,id,nombre,sueldo);
+					calculos(id,sueldo);
+					setInterval(repetir(codigo,id,nombre,sueldo),600);
+					}
+				}
+			});
+		/* *********** */
+	
+}
+async function processArray() {
+	for (var i=0; i < 1; i++) {
+			idactualempleado=ids_empleados[i].id;
+			await delayedLog(ids_empleados[i].id);
+			$(".datos_informacion").text("Cargando datos de empleado: "+ids_empleados[i].codigo);
+	  }
+}
+let timeout;
+function varificarliquido(){
+	var numero=$("#numero_planilladevengo_anticipo").val();
+	/* PLANILLA */
+			/* *********** */
+			var dataString = 'accion01=verificardatoingresado'+'&numero='+numero+'&idempleado='+idactualempleado;
+			$.ajax({
+				data: dataString,
+				url: "ajax/planilladevengo_anticipo.ajax.php",
+				type: 'post',
+				success: function (response) {
+					console.log(response);
+					datos = JSON.parse(response);
+					var liquido=datos[0].total_liquidado_planilladevengo_anticipo;
+					var idempleado=datos[0].id_empleado_planilladevengo_anticipo;
+					empleadotrabajando=datos[0].id_empleado_planilladevengo_anticipo;
+					if(liquido==0){
+						
+						
+					}
+					else if(liquido==""){
+					
+						
+					}
+					else if(liquido=="NULL"){
+						
+						
+					}
+					else if(liquido=="NaN"){
+						
+						
+					}
+					else if(liquido=="0.00"){
+						/* recargararray(); */
+						
+
+					}
+					else if(liquido<="0"){
+						/* recargararray(); */
+					}
+					else if(!liquido){
+						/* recargararray(); */
+					}
+					else if(liquido>0){
+						recargararray();
+					}
+					timeout = setTimeout(function() {
+						if(idempleado==idactualempleado){
+							recargararray();
+							
+						}
+					  }, 4000); // 3000 milisegundos (3 segundos)
+
+				}
+			});
+			/* *********** */
+}
+function recargararray(){
+	ids_empleados = ids_empleados.filter(function(empleado) {
+		return empleado.id != idactualempleado; 
+	});
+	
+	if(ids_empleados.length>0){
+		/* processArray(); */
+		delayedLog(ids_empleados[0].id);
+		idactualempleado=ids_empleados[0].id;
+
+		clearTimeout(timeout);
+		timeout = setTimeout(function() {
+			console.log('Temporizador reiniciado y finalizado.');
+		}, 4000);
+	} 
+	if(!ids_empleados.length){
+		var numero=$("#numero_planilladevengo_anticipo").val();
+		window.location = "nuevaplanilladevengo?id="+numero;
+	}
+}
+/* ---------------------------------------------- */
+/* ---------------------------------------------- */
+/* ---------------------------------------------- */
 
 function cargardataempleados_anticipo(){
 
@@ -622,6 +812,10 @@ function cargardataempleados_anticipo(){
 
 				$(".tablas1").on("click", ".btnEditarabase", function(){
 					
+
+					$('.modal_carga').modal({backdrop: 'static', keyboard: false});
+					$('.modal_carga').modal('show');
+
 					$(this).removeClass("empleadoseleccionado");
 					
 					$(this).addClass("empleadoseleccionado");
@@ -721,7 +915,6 @@ function cargardataempleados_anticipo(){
 
 	}
 }
-
 
 function repetir(codigo,id,nombre,sueldo){
 	/* editar(codigo,id,nombre,sueldo); */
@@ -2176,7 +2369,15 @@ function calculo_horas(){
 
 
 $("#btnsumarhoras").click(function(){
-	calcular_afp_iss();
+	
+	$.ajax({
+		url:calcular_afp_iss(),
+		success:function(){
+			$('.modal_carga').modal('hide');
+			guardarplanillaoculto();
+		}
+	})
+
 })
 
 
@@ -2312,7 +2513,21 @@ function cargarporcentajes(idempleados){
 			$("#porcentaje_base1").val(porcentaje_base1);
 			$("#porcentaje_base2").val(porcentaje_base2);
 			$("#tasa_sobre_excedente").val(tasa_sobre_excedente);
-			calcular_afp_iss();
+
+				
+					$.ajax({
+						url:calcular_afp_iss(),
+						success:function(){
+							$('.modal_carga').modal('hide');
+							guardarplanillaoculto();
+							/* setTimeout(function(){varificarliquido()},2000); */
+
+							if(empleadotrabajando==idactualempleado){}
+							else{ /* varificarliquido(); */}
+							
+						}
+					})
+				
 			}
 	})
 }
@@ -2502,7 +2717,7 @@ function calcular_afp_iss(){
 	$("#total_liquidado_planilladevengo_anticipo").val(calculototalliquido.toFixed(2));
 	var totalliquido=$("#total_liquidado_planilladevengo_anticipo").val();/* --Total Liquido: */
 
-	guardarplanillaoculto();
+	/* guardarplanillaoculto(); */
 }
 
 

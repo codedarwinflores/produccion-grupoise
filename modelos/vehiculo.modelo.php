@@ -1,47 +1,23 @@
 <?php
 
 require_once "conexion.php";
-$namecolumnas = "";
-$namecampos = "";
-$nombretabla_vehiculo = "tbl_vehiculos";
-class Modelovehiculo
-{
-
-
-
-	/* AGREGAR CONSULTAS PERSONALIZADAS */
-
-	/* Función para mostrar los empleados */
-	static public function mostrarVehiculoDb($campos, $tabla, $condicion, $array)
-	{
-		try {
-			if (empty($condicion)) {
-				$stm = Conexion::conectar()->prepare("SELECT " . $campos . " FROM " . $tabla);
-				$stm->execute();
-			} else {
-				$stm = Conexion::conectar()->prepare("SELECT " . $campos . " FROM " . $tabla . " WHERE " . $condicion);
-				$stm->execute($array);
-			}
-
-			return $stm->fetchAll();
-		} catch (Exception $e) {
-			die($e->getMessage());
-		}
-	}
+$namecolumnas="";
+$namecampos="";
+$nombretabla_vehiculo="tbl_vehiculos";
+class Modelovehiculo{
 
 
 	/* CAPTURAR NOMBRE COLUMNAS*/
 
-	function getContent()
-	{
+	function getContent() {
 		global $nombretabla_vehiculo;
 		$query = "SHOW COLUMNS FROM $nombretabla_vehiculo";
 		$stmt = Conexion::conectar()->prepare($query);
-		$stmt->execute();
+		$stmt->execute();			
 		return $stmt->fetchAll();
-
+		
 		$stmt->close();
-
+		
 		$stmt = null;
 	}
 
@@ -50,154 +26,167 @@ class Modelovehiculo
 	MOSTRAR 
 	=============================================*/
 
-	static public function mdlMostrar($tabla, $item, $valor)
-	{
+	static public function mdlMostrar($tabla, $item, $valor){
 
-		if ($item != null) {
+		if($item != null){
 
 			$stmt = Conexion::conectar()->prepare("SELECT  tbl_vehiculos.id as idvehiculos , tbl_vehiculos.id_familia as familiavehiculo, `id_tipo_vehiculo`, `numero_chasis`, `numero_motor`, `capacidad`, `tiene_logotipo`, `tiene_nombre_entidad`, `marca`, `modelo`, `anio`, `placa`, `color`,  tbl_tipos_de_vehiculo.id as idtipovehiculo, tbl_tipos_de_vehiculo.codigo as codigovehiculo, `nombre_tipo` , tbl_familia.id as idfamiliaoriginal,  tbl_familia.nombre as nombrefamiliaoriginal, codigo_vehiculo, descripcion_vehiculo, costo_vehiculo,fecha_adquision,observaciones,serie,valor_asegurado,prima_seguro,deducible, estado_vehiculo
 			FROM `tbl_vehiculos`, tbl_tipos_de_vehiculo, tbl_familia
 			WHERE tbl_vehiculos.id_tipo_vehiculo = tbl_tipos_de_vehiculo.id and tbl_vehiculos.id and tbl_familia.id=tbl_vehiculos.id_familia and tbl_vehiculos.id = :$item");
 
-			$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+			$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
 
-			$stmt->execute();
+			$stmt -> execute();
 
-			return $stmt->fetch();
-		} else {
+			return $stmt -> fetch();
+
+		}else{
 
 			$stmt = Conexion::conectar()->prepare("SELECT  tbl_vehiculos.id as idvehiculos , tbl_vehiculos.id_familia as familiavehiculo, `id_tipo_vehiculo`, `numero_chasis`, `numero_motor`, `capacidad`, `tiene_logotipo`, `tiene_nombre_entidad`, `marca`, `modelo`, `anio`, `placa`, `color`,  tbl_tipos_de_vehiculo.id as idtipovehiculo, tbl_tipos_de_vehiculo.codigo as codigovehiculo, `nombre_tipo` , tbl_familia.id as idfamiliaoriginal,  tbl_familia.nombre as nombrefamiliaoriginal, codigo_vehiculo, descripcion_vehiculo, costo_vehiculo,fecha_adquision,observaciones,serie,valor_asegurado,prima_seguro,deducible, estado_vehiculo
 			FROM `tbl_vehiculos`, tbl_tipos_de_vehiculo, tbl_familia
 			WHERE tbl_vehiculos.id_tipo_vehiculo = tbl_tipos_de_vehiculo.id and tbl_vehiculos.id and tbl_familia.id=tbl_vehiculos.id_familia");
 
-			$stmt->execute();
+			$stmt -> execute();
 
-			return $stmt->fetchAll();
+			return $stmt -> fetchAll();
+
 		}
+		
 
-
-		$stmt->close();
+		$stmt -> close();
 
 		$stmt = null;
+
 	}
 
 	/*=============================================
 	INGRESAR REGISTRO
 	=============================================*/
 
-	static public function mdlIngresar($tabla, $datos)
-	{
+	static public function mdlIngresar($tabla, $datos){
 		global $namecolumnas;
 		global $namecampos;
-
-
+		
+		
 		/* CAPTURA NOMBRE DE LAS COLUMNAS Y CAMPOS DEL IMPUT */
 		$data = getContent();
-		foreach ($data as $row) {
-			$namecolumnas .= $row['Field'] . ",";
-			$namecampos .= ":" . $row['Field'] . ",";
+		foreach($data as $row) {
+			$namecolumnas.=$row['Field'].",";
+			$namecampos.=":".$row['Field'].",";
 		}
 
-		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(" . trim($namecolumnas, ",") . ") VALUES (" . trim($namecampos, ",") . ")");
+		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(".trim($namecolumnas,",").") VALUES (".trim($namecampos,",").")");
 
-		foreach ($data as $row) {
-			$stmt->bindParam(":" . $row['Field'], $datos["" . $row['Field'] . ""], PDO::PARAM_STR);
+		foreach($data as $row) {
+			$stmt->bindParam(":".$row['Field'], $datos["".$row['Field'].""], PDO::PARAM_STR);	
 		}
 
-		if ($stmt->execute()) {
+		if($stmt->execute()){
 
-			return "ok";
-		} else {
+			return "ok";	
+
+		}else{
 
 			return "error";
+		
 		}
 
 		$stmt->close();
-
+		
 		$stmt = null;
+
 	}
 
 	/*=============================================
 	EDITAR REGISTRO
 	=============================================*/
 
-	static public function mdlEditar($tabla, $datos)
-	{
+	static public function mdlEditar($tabla, $datos){
 		global $namecolumnas;
 		global $namecampos;
 
 		$data = getContent();
-		foreach ($data as $row) {
-			$namecolumnas .= $row['Field'] . "=" . ":" . $row['Field'] . ",";
+		foreach($data as $row) {
+			$namecolumnas.= $row['Field']."=".":".$row['Field'].",";
+			
 		}
+		
+	
+		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET ".trim($namecolumnas,",")." WHERE id = :id");
 
-
-		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET " . trim($namecolumnas, ",") . " WHERE id = :id");
-
-		foreach ($data as $row) {
-			$stmt->bindParam(":" . $row['Field'], $datos["" . $row['Field'] . ""], PDO::PARAM_STR);
+		foreach($data as $row) {
+			$stmt->bindParam(":".$row['Field'], $datos["".$row['Field'].""], PDO::PARAM_STR);	
 		}
+		
 
-
-		if ($stmt->execute()) {
+		if($stmt -> execute()){
 
 			return "ok";
-		} else {
+		
+		}else{
 
-			return "error";
+			return "error";	
+
 		}
 
-		$stmt->close();
+		$stmt -> close();
 
 		$stmt = null;
+
 	}
 
 	/*=============================================
 	ACTUALIZAR REGISTRO
 	=============================================*/
 
-	static public function mdlActualizar($tabla, $item1, $valor1, $item2, $valor2)
-	{
+	static public function mdlActualizar($tabla, $item1, $valor1, $item2, $valor2){
 
 		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET $item1 = :$item1 WHERE $item2 = :$item2");
 
-		$stmt->bindParam(":" . $item1, $valor1, PDO::PARAM_STR);
-		$stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_STR);
+		$stmt -> bindParam(":".$item1, $valor1, PDO::PARAM_STR);
+		$stmt -> bindParam(":".$item2, $valor2, PDO::PARAM_STR);
 
-		if ($stmt->execute()) {
+		if($stmt -> execute()){
 
 			return "ok";
-		} else {
+		
+		}else{
 
-			return "error";
+			return "error";	
+
 		}
 
-		$stmt->close();
+		$stmt -> close();
 
 		$stmt = null;
+
 	}
 
 	/*=============================================
 	BORRAR REGISTRO
 	=============================================*/
 
-	static public function mdlBorrar($tabla, $datos)
-	{
+	static public function mdlBorrar($tabla, $datos){
 
 		$stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id = :id");
 
-		$stmt->bindParam(":id", $datos, PDO::PARAM_INT);
+		$stmt -> bindParam(":id", $datos, PDO::PARAM_INT);
 
-		if ($stmt->execute()) {
+		if($stmt -> execute()){
 
 			return "ok";
-		} else {
+		
+		}else{
 
-			return "error";
+			return "error";	
+
 		}
 
-		$stmt->close();
+		$stmt -> close();
 
 		$stmt = null;
+
+
 	}
+
 }

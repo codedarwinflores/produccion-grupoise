@@ -315,10 +315,17 @@ require_once "controladores/recibo.controlador.php";
 require_once "modelos/recibo.modelo.php";
 
 
+/* **  ausenciadiasferiados *** */
+require_once "controladores/ausenciadiasferiados.controlador.php";
+require_once "modelos/ausenciadiasferiados.modelo.php";
+
+/* **  ausenciadiasferiados *** */
+require_once "controladores/movimientoequipo.controlador.php";
+require_once "modelos/movimientoequipo.modelo.php";
+
 //TALLERES
 require_once "controladores/talleres.controlador.php";
 require_once "modelos/talleres.modelo.php";
-
 //REPARACIONES
 require_once "controladores/reparaciones.controlador.php";
 require_once "modelos/reparaciones.modelo.php";
@@ -326,6 +333,7 @@ require_once "modelos/reparaciones.modelo.php";
 //Consulta
 require_once "modelos/consultas.modelo.php";
 
-
 $plantilla = new ControladorPlantilla();
-$plantilla->ctrPlantilla();
+$plantilla -> ctrPlantilla();
+
+?>

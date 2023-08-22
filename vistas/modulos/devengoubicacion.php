@@ -106,7 +106,7 @@ $idhistorial0 = $results['id'];
                          
                        <button class="btn btn-warning btnEditardevengoubicacion" iddevengoubicacion="'.$value["id"].'" data-toggle="modal" data-target="#modalEditardevengoubicacion"><i class="fa fa-pencil"></i></button>
  
-                       <button class="btn btn-danger btnEliminardevengoubicacion" iddevengoubicacion="'.$value["id"].'"><i class="fa fa-times"></i></button>
+                       <button class="btn btn-danger btnEliminardevengoubicacion" iddevengoubicacion="'.$value["id"].'" Codigo="'.$value["iddescuentodevengo"].'"><i class="fa fa-times"></i></button>
  
                      </div>  
  
@@ -204,6 +204,7 @@ MODAL AGREGAR
                   <option value="">Seleccione Periodo</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
+                  <option value="Siempre">Siempre</option>
                 </select>
               </div>
             </div>
@@ -339,6 +340,8 @@ MODAL EDITAR
                   <option value="">Seleccione Periodo</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
+                  <option value="Siempre">Siempre</option>
+
                 </select>
               </div>
             </div>

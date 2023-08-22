@@ -64,7 +64,12 @@ if ( isset($_POST["codigo_empleado_planilladevengo_admin"]) ) {
 			$accion="insertar";
 		}
 		else{
-			$accion="modificar";
+			if($accion!=""){
+				$accion="modificarexpres";
+			}
+			else{
+				$accion="modificar";
+			}
 		}
 		/* ********VALIDAR SI VA A AGREGAR O ACTUALIZAR************ */
 
@@ -84,6 +89,36 @@ function getContent()
 function getContent_insert()
 {
 	$query = "SHOW COLUMNS FROM planilladevengo_admin WHERE Field NOT IN ('id')";
+	$stmt = Conexion::conectar()->prepare($query);
+	$stmt->execute();
+	return $stmt->fetchAll();
+	$stmt->close();
+	$stmt = null;
+}
+function getContent_modificarexpres()
+{
+	$query = "SHOW COLUMNS FROM planilladevengo_admin WHERE Field NOT IN ('id') and Field NOT IN('numero_planilladevengo_admin')and Field NOT IN('fecha_planilladevengo_admin')and Field NOT IN('fecha_desde_planilladevengo_admin')and Field NOT IN('fecha_hasta_planilladevengo_admin')and 
+	Field NOT IN('descripcion_planilladevengo_admin')and 
+	Field NOT IN('dias_trabajo_planilladevengo_admin')and 
+	Field NOT IN('sueldo_planilladevengo_admin')and 
+	Field NOT IN('hora_extra_nocturna_planilladevengo_admin')and 
+	Field NOT IN('hora_extra_domingo_planilladevengo_admin')and 
+	Field NOT IN('hora_extra_domingo_nocturna_planilladevengo_admin')and 
+	Field NOT IN('observacion_planilladevengo_admin')AND
+	Field NOT IN('periodo_planilladevengo_admin')and
+	Field NOT IN('tipo_planilladevengo_admin')and
+	Field NOT IN('dias_incapacidad')and
+	Field NOT IN('empleado_rango_desde')and
+	Field NOT IN('empleado_rango_hasta')and
+	Field NOT IN('septimo_admin')and
+	Field NOT IN('dias_ausencia')and
+	Field NOT IN('his_dias_trabajo_admin')and
+	Field NOT IN('nombre_empleado_planilladevengo_admin')and
+	Field NOT IN('id_empleado_planilladevengo_admin')and
+	Field NOT IN('id_ubicacion_planilladevengo_admin')and
+	Field NOT IN('codigo_ubicacion_planilladevengo_admin')and
+	Field NOT IN('nombre_ubicacion_planilladevengo_admin')and
+	Field NOT IN('fecha_gratificacion_admin')";
 	$stmt = Conexion::conectar()->prepare($query);
 	$stmt->execute();
 	return $stmt->fetchAll();
@@ -117,10 +152,54 @@ switch ($accion) {
 
 		function situaciones($idempleado1,$fechadesde1,$fechahasta2) /* --SUMA DE DIAS AUSENCIA Y INCAPACIDAD */
 		{
+			$query01="SELECT sum(dias_ausencia_situacion) as sumaausencia, sum(incapacidad_situacion) as sumainca, sum(horas_ausencia_situacion) as sumahoraausencia, sum(hora_extra_situacion) as sumahoraextra, sum(dias_no_sueldo) as sumadias_no_sueldo FROM `situacion` WHERE  liquidado_situacion='No' and idempleado_situacion='$idempleado1'  and STR_TO_DATE(fecha_situacion, '%d-%m-%Y')  BETWEEN '$fechadesde1' AND '$fechahasta2' ";
+			/* echo $query01; */
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();
+		};
 
-			$query01="SELECT sum(dias_ausencia_situacion) as sumaausencia, sum(incapacidad_situacion) as sumainca
-					 FROM `situacion` 
-					 WHERE  liquidado_situacion='No' and idempleado_situacion='$idempleado1'  and STR_TO_DATE(fecha_situacion, '%d-%m-%Y')  BETWEEN '$fechadesde1' AND '$fechahasta2' ";
+		function situaciones_incapacidad($idempleado1,$fechadesde1,$fechahasta2) /* --SUMA DE DIAS AUSENCIA Y INCAPACIDAD */
+		{
+			$query01="SELECT sum(dias_ausencia_situacion) as sumaausencia, sum(incapacidad_situacion) as sumainca FROM `situacion` WHERE  liquidado_situacion='No' and idempleado_situacion='$idempleado1' and inicial_situacion='Inicial'  and STR_TO_DATE(fecha_situacion, '%d-%m-%Y')  BETWEEN '$fechadesde1' AND '$fechahasta2' ";
+			/* echo $query01; */
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();
+		};
+
+		function situaciones_dias_tra_inca($idempleado1,$fechadesde1,$fechahasta2) /* --SUMA DE DIAS AUSENCIA Y INCAPACIDAD */
+		{
+			$query01="SELECT sum(dias_tra_incapacidad) as sumadiastrabajados FROM `situacion` 
+					 WHERE  situacion.incapacidad_situacion !='' and liquidado_situacion='No' and idempleado_situacion='$idempleado1' and inicial_situacion='Inicial'  and STR_TO_DATE(fecha_situacion, '%d-%m-%Y')  BETWEEN '$fechadesde1' AND '$fechahasta2' ";
+			/* echo $query01; */
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();
+		};
+
+		function situaciones_horas($idempleado1,$fechadesde1,$fechahasta2) /* --Horas ausencia */
+		{
+			$query01="SELECT sum(horas_ausencia_situacion) as horas_ausencia_situacion  FROM `situacion` 
+					 WHERE  liquidado_situacion='No' and idempleado_situacion='$idempleado1'  and STR_TO_DATE(fecha_situacion, '%d-%m-%Y')  BETWEEN '$fechadesde1' AND '$fechahasta2'  and situacion.horas_ausencia_situacion !=''";
+			/* echo $query01; */
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();
+		};
+
+
+		function horas_cubiertar_extras($codigo_empleado1) /* --se busca horas ausencia que han sido cubiertas situaciones */
+		{
+			$query01="SELECT sum(hora_extra_situacion) as hora_extra_situacion FROM `situacion` WHERE cubrir_situacion LIKE '%$codigo_empleado1%' and situacion.hora_extra_situacion != ''";
+	
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();
+		};
+		function horas_cubiertar_normal($codigo_empleado1) /* --se busca horas ausencia que han sido cubiertas situaciones */
+		{
+			$query01="SELECT sum(hora_normales_situacion) as hora_normales_situacion FROM `situacion` WHERE cubrir_situacion LIKE '%$codigo_empleado1%' and situacion.hora_normales_situacion != ''";
 			/* echo $query01; */
 			$sql = Conexion::conectar()->prepare($query01);
 			$sql->execute();
@@ -130,9 +209,7 @@ switch ($accion) {
 		function recibo($idempleado1,$fechadesde1,$fechahasta2) /* -- */
 		{
 
-			$query01="SELECT `id`, `fecha_descuento_recibo`, `empleado_recibo`, `descuento_recibo`, `numero_recibo`, `valor_recibo`, `observacion_recibo`, `fecha_hecho_recibo`, `hora_hecho_recibo`, `numero_planilla_liquidado`, `liquidado_recibo`, `anular_recibo`, `user_recibo` 
-			FROM `recibos` 
-			WHERE liquidado_recibo='No' and anular_recibo='No' and anular_recibo='No' and empleado_recibo='$idempleado1'  and STR_TO_DATE(fecha_descuento_recibo, '%d-%m-%Y')  BETWEEN '$fechadesde1' AND '$fechahasta2' ";
+			$query01="SELECT `id`, `fecha_descuento_recibo`, `empleado_recibo`, `descuento_recibo`, `numero_recibo`, `valor_recibo`, `observacion_recibo`, `fecha_hecho_recibo`, `hora_hecho_recibo`, `numero_planilla_liquidado`, `liquidado_recibo`, `anular_recibo`, `user_recibo` FROM `recibos` WHERE liquidado_recibo='No' and anular_recibo='No' and anular_recibo='No' and empleado_recibo='$idempleado1'  and STR_TO_DATE(fecha_descuento_recibo, '%d-%m-%Y')  BETWEEN '$fechadesde1' AND '$fechahasta2' ";
 		
 			$sql = Conexion::conectar()->prepare($query01);
 			$sql->execute();
@@ -142,8 +219,7 @@ switch ($accion) {
 		function bonoubicacion($codigoempleado1) /* -- */
 		{
 
-			$query01="SELECT tbl_ubicaciones_agentes_asignados.id as idubicacionagente, tbl_clientes_ubicaciones.* FROM `tbl_ubicaciones_agentes_asignados`,tbl_clientes_ubicaciones 
-			WHERE tbl_ubicaciones_agentes_asignados.idubicacion_agente=tbl_clientes_ubicaciones.id and tbl_ubicaciones_agentes_asignados.codigo_agente='$codigoempleado1'  group by tbl_ubicaciones_agentes_asignados.codigo_agente";
+			$query01="SELECT tbl_ubicaciones_agentes_asignados.id as idubicacionagente, tbl_clientes_ubicaciones.* FROM `tbl_ubicaciones_agentes_asignados`,tbl_clientes_ubicaciones WHERE tbl_ubicaciones_agentes_asignados.idubicacion_agente=tbl_clientes_ubicaciones.id and tbl_ubicaciones_agentes_asignados.codigo_agente='$codigoempleado1'  group by tbl_ubicaciones_agentes_asignados.codigo_agente";
 			$sql = Conexion::conectar()->prepare($query01);
 			$sql->execute();
 			return $sql->fetchAll();
@@ -152,7 +228,8 @@ switch ($accion) {
 		
 		function bonopornofaltar($codigoempleado1) /* -- */
 		{
-			$query01="SELECT tbl_ubicaciones_agentes_asignados.id as idubicacionagente, tbl_devengo_ubicacion.* FROM `tbl_ubicaciones_agentes_asignados`,tbl_devengo_ubicacion WHERE tbl_ubicaciones_agentes_asignados.idubicacion_agente=tbl_devengo_ubicacion.idubicacion_devengo and tbl_ubicaciones_agentes_asignados.codigo_agente='$codigoempleado1' and periodo_devengo_ubicacion='2'  group by tbl_ubicaciones_agentes_asignados.codigo_agente";
+			$query01="SELECT tbl_ubicaciones_agentes_asignados.id as idubicacionagente, tbl_devengo_ubicacion.* FROM `tbl_ubicaciones_agentes_asignados`,tbl_devengo_ubicacion WHERE tbl_ubicaciones_agentes_asignados.idubicacion_agente=tbl_devengo_ubicacion.idubicacion_devengo and tbl_ubicaciones_agentes_asignados.codigo_agente='$codigoempleado1' group by tbl_ubicaciones_agentes_asignados.codigo_agente";
+	
 			$sql = Conexion::conectar()->prepare($query01);
 			$sql->execute();
 			return $sql->fetchAll();
@@ -161,8 +238,7 @@ switch ($accion) {
 		function data_situaciones($idempleado1,$fechadesde1,$fechahasta2) /* --ID DE REGISTROS A MODIFICAR */
 		{
 
-			$query01="SELECT*FROM `situacion` 
-					 WHERE  liquidado_situacion='No' and idempleado_situacion='$idempleado1'  and STR_TO_DATE(fecha_situacion, '%d-%m-%Y')  BETWEEN '$fechadesde1' AND '$fechahasta2' ";
+			$query01="SELECT*FROM `situacion` WHERE  liquidado_situacion='No' and idempleado_situacion='$idempleado1'  and STR_TO_DATE(fecha_situacion, '%d-%m-%Y')  BETWEEN '$fechadesde1' AND '$fechahasta2' ";
 			/* echo $query01; */
 			$sql = Conexion::conectar()->prepare($query01);
 			$sql->execute();
@@ -181,6 +257,16 @@ switch ($accion) {
 		};
 		/* *************** */
 
+		/* ******************** */
+		function devengo_anticipo($idempleado1)
+		{
+			$query01 = "SELECT * FROM `tbl_devengo_descuento_planilla` WHERE idempleado_devengo='$idempleado1' and codigo_devengo_descuento_planilla='0022' order by codigo_planilla_devengo DESC limit 1";
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();
+		};
+		/* *************** */
+
 		
 		/* ***Devegos y descuentos del empleado con tipo***** */
 		function consultar_devengo_empleado($periodo1,$fechadesde1,$fechahasta2,$idempleado1)
@@ -189,9 +275,7 @@ switch ($accion) {
 			FROM `tbl_empleados_devengos_descuentos` , tbl_devengo_descuento 
 			WHERE tipodescuento='$periodo1' and id_empleado='$idempleado1' and tbl_empleados_devengos_descuentos.id_tipo_devengo_descuento=tbl_devengo_descuento.id and  fecha_caducidad BETWEEN '$fechadesde1' AND '$fechahasta2'";
 			 */
-			$query01 = "SELECT tbl_empleados_devengos_descuentos.id AS id, `id_empleado`, `id_tipo_devengo_descuento`, `valor`, `fecha_caducidad`, `referencia`, `tipodescuento` ,tbl_devengo_descuento.*
-			FROM `tbl_empleados_devengos_descuentos` , tbl_devengo_descuento 
-			WHERE id_empleado='$idempleado1' and tbl_empleados_devengos_descuentos.id_tipo_devengo_descuento=tbl_devengo_descuento.id and  fecha_caducidad >= '$fechadesde1'";
+			$query01 = "SELECT tbl_empleados_devengos_descuentos.id AS id, `id_empleado`, `id_tipo_devengo_descuento`, `valor`, `fecha_caducidad`, `referencia`, `tipodescuento` ,tbl_devengo_descuento.* FROM `tbl_empleados_devengos_descuentos` , tbl_devengo_descuento WHERE id_empleado='$idempleado1' and tbl_empleados_devengos_descuentos.id_tipo_devengo_descuento=tbl_devengo_descuento.id and  fecha_caducidad >= '$fechadesde1'";
 			/* echo $query01; */
 			$sql = Conexion::conectar()->prepare($query01);
 			$sql->execute();
@@ -203,9 +287,7 @@ switch ($accion) {
 		/* ***Devegos y descuentos del empleado sin tipo***** */
 		function consultar_devengo_emple_sintipo($periodo1,$fechadesde1,$fechahasta2,$idempleado1)
 		{
-			$query01 = "SELECT tbl_empleados_devengos_descuentos.id AS id, `id_empleado`, `id_tipo_devengo_descuento`, `valor`, `fecha_caducidad`, `referencia`, `tipodescuento` ,tbl_devengo_descuento.*
-			FROM `tbl_empleados_devengos_descuentos` , tbl_devengo_descuento 
-			WHERE id_empleado='$idempleado1' and tbl_empleados_devengos_descuentos.id_tipo_devengo_descuento=tbl_devengo_descuento.id and  fecha_caducidad BETWEEN '$fechadesde1' AND '$fechahasta2'";
+			$query01 = "SELECT tbl_empleados_devengos_descuentos.id AS id, `id_empleado`, `id_tipo_devengo_descuento`, `valor`, `fecha_caducidad`, `referencia`, `tipodescuento` ,tbl_devengo_descuento.* FROM `tbl_empleados_devengos_descuentos` , tbl_devengo_descuento WHERE id_empleado='$idempleado1' and tbl_empleados_devengos_descuentos.id_tipo_devengo_descuento=tbl_devengo_descuento.id and  fecha_caducidad BETWEEN '$fechadesde1' AND '$fechahasta2'";
 			
 			$sql = Conexion::conectar()->prepare($query01);
 			$sql->execute();
@@ -238,7 +320,7 @@ switch ($accion) {
 			$dias_maximo_incapacidad=0;
 			$porcentaje_dias_incapacidad=0;
 			foreach ($data_configuracion as $valueconfig) {
-				$porcentaje_isss.=floor($valueconfig["porcentaje_isss"]);
+				$porcentaje_isss.=floatval($valueconfig["porcentaje_isss"]);
 				$tope_isss.=$valueconfig["tope_isss"];
 				$dias_maximo_incapacidad.=$valueconfig["dias_maximo_incapacidad"];
 				$porcentaje_dias_incapacidad.=$valueconfig["porcentaje_dias_incapacidad"];
@@ -249,9 +331,7 @@ switch ($accion) {
 		/* ************************ */
 		function isr($salario,$periodo)
 			{
-				$query01="SELECT isr.id as idisr, `codigo`, `nombre_rango`, `periodo_pago`, `salario_desde`, `salario_hasta`, `base_1`, `tasa_sobre_excedente`, `base_2`, periodo_de_pago.id as idperiodo 
-						FROM `isr`, periodo_de_pago 
-						WHERE isr.periodo_pago=periodo_de_pago.id and nombre_periodo='$periodo' and '$salario'>=salario_desde and '$salario'<=salario_hasta";
+				$query01="SELECT isr.id as idisr, `codigo`, `nombre_rango`, `periodo_pago`, `salario_desde`, `salario_hasta`, `base_1`, `tasa_sobre_excedente`, `base_2`, periodo_de_pago.id as idperiodo FROM `isr`, periodo_de_pago WHERE isr.periodo_pago=periodo_de_pago.id and nombre_periodo='$periodo' and '$salario'>=salario_desde and '$salario'<=salario_hasta";
 				
 				$sql = Conexion::conectar()->prepare($query01);
 				$sql->execute();
@@ -259,6 +339,53 @@ switch ($accion) {
 			};
 		/* ************************ */
 
+		/* ************************ */
+		function cargo_empleado($id1)
+			{
+				$query01="SELECT `id`, `descripcion`, `nivel`, `codigo_contable`, `personal_asignado`, `pago_feriados`, `calculo` FROM `cargos_desempenados` WHERE id='$id1'";
+				$sql = Conexion::conectar()->prepare($query01);
+				$sql->execute();
+				return $sql->fetchAll();
+			};
+		/* ************************ */
+
+		
+		/* ************************ */
+		function viatico_permanente($id_tipo_devengo1,$id_empleado1)
+			{
+				$query01="SELECT `id`, `id_empleado`, `id_tipo_devengo_descuento`, `valor`, `fecha_caducidad`, `referencia`, `tipodescuento` FROM `tbl_empleados_devengos_descuentos` WHERE id_empleado='$id_empleado1' and id_tipo_devengo_descuento='$id_tipo_devengo1'";
+			
+				$sql = Conexion::conectar()->prepare($query01);
+				$sql->execute();
+				return $sql->fetchAll();
+			};
+		/* ************************ */
+
+		
+		/* ************************ */
+		function dias_feriados()
+			{
+				$query01="SELECT `id`, `num_dias`, `fecha_desde`, `fecha_hasta` FROM `dias_feriados` ";
+				$sql = Conexion::conectar()->prepare($query01);
+				$sql->execute();
+				return $sql->fetchAll();
+			};
+		/* ************************ */
+
+		
+		/* ************************ */
+		function ausencia_dias_feriados($idempleado1)
+			{
+				$query01="SELECT `id`, `empleado_ausencia`, `fecha_feriado` FROM `ausenciadiasferiados` WHERE empleado_ausencia='$idempleado1' ";
+				
+				$sql = Conexion::conectar()->prepare($query01);
+				$sql->execute();
+				return $sql->fetchAll();
+			};
+		/* ************************ */
+
+
+		/* consulta maestra lista*/
 		function consultar($e,$dia1,$dia2)
 		{
 			/* $query01="SELECT * FROM tbl_empleados 
@@ -272,9 +399,8 @@ switch ($accion) {
 			WHERE tbl_empleados.id=tbl_empleados_devengos_descuentos.id_empleado and tbl_devengo_descuento.id = tbl_empleados_devengos_descuentos.id_tipo_devengo_descuento and tbl_devengo_descuento.codigo='0022' and tbl_empleados_devengos_descuentos.valor is NOT null  and tbl_empleados.fecha_contratacion < '$e' and tbl_empleados.codigo_empleado=tbl_ubicaciones_agentes_asignados.codigo_agente and  tbl_ubicaciones_agentes_asignados.idubicacion_agente=tbl_clientes_ubicaciones.id"; */
 
 			$query01="SELECT DATE_FORMAT(DATE(NOW()), '%m-%d')as fecha_actual,DATE_FORMAT(tbl_empleados.fecha_contratacion, '%m-%d') as fechacontracion, tbl_empleados.id as idempleado, tbl_empleados.*
-			FROM `tbl_empleados` ";
+			FROM `tbl_empleados` where estado='2' ";
 		
-
 			/* echo $query01; */
 			$sql = Conexion::conectar()->prepare($query01);
 			$sql->execute();
@@ -310,17 +436,42 @@ switch ($accion) {
 
 			/* *******suma de dias en SITUACION */
 				$codigo_empleado=$value["codigo_empleado"];
+				$idcargo_empleado=$value["nivel_cargo"];
+				$salario_empleado=$value["sueldo"];
+				$idempleado=$value["idempleado"];
+				$hora_extra_diurna=$value["hora_extra_diurna"];
+
+
 				$fechadesde02 = date("Y-m-d", strtotime($_POST["fechaperiodo1"]));
 				$mes = date("m", strtotime($_POST["fechaperiodo1"]));
 				$anio = date("Y", strtotime($_POST["fechaperiodo1"]));
 				$fecha_desde_format=$anio."-".$mes."-"."01";
 				$fechahasta02= date("Y-m-d", strtotime($_POST["fechaperiodo2"]));
+
 				$datasituacion = situaciones($codigo_empleado,$fecha_desde_format,$fechahasta02);
+				$datasituacion_inca = situaciones_incapacidad($codigo_empleado,$fecha_desde_format,$fechahasta02);
+				$datasituacion_dias_tra = situaciones_dias_tra_inca($codigo_empleado,$fecha_desde_format,$fechahasta02);
+
 				$dias_ausencia_situ="";
 				$dias_incapacidad_situ="";
+				$dias_tra_inca="";
+
+				$horas_ausencia="";
+				$horas_extras="";
+
 				foreach ($datasituacion as $valuesituacion) {
-					$dias_ausencia_situ.=$valuesituacion["sumaausencia"];
+					$dias_ausencia_situ.=floatval($valuesituacion["sumaausencia"])+floatval($valuesituacion["sumadias_no_sueldo"]);
+					/* $dias_incapacidad_situ.=$valuesituacion["sumainca"]; */
+					$horas_ausencia.=$valuesituacion["sumahoraausencia"];
+					$horas_extras.=$valuesituacion["sumahoraextra"];
+				}
+				/* situaciones incapacidad */
+				foreach ($datasituacion_inca as $valuesituacion) {
 					$dias_incapacidad_situ.=$valuesituacion["sumainca"];
+				}
+				/* situaciones dias trabajados de incapacidad */
+				foreach ($datasituacion_dias_tra as $valuesituacion) {
+					$dias_tra_inca.=$valuesituacion["sumadiastrabajados"];
 				}
 
 			/* **************************** */
@@ -348,9 +499,7 @@ switch ($accion) {
 				}
 				$comentario_obser="";
 				if(!empty($dias_ausen)){
-					$comentario_obser.="Fechas dias ausencia:".trim($fecha_ausencia, "-")."
-					
-					";
+					$comentario_obser.="Fechas dias ausencia:".trim($fecha_ausencia, "-")."\n";
 				}
 				if(!empty($dias_inca)){
 					$comentario_obser.="Fechas dias Incapacidad:".trim($fecha_incapacidad, "-");
@@ -361,7 +510,6 @@ switch ($accion) {
 
 			/* ********DEVENGO EMPLEADOS********* */
 
-				$idempleado=$value["idempleado"];
 				
 				$datadevengoempleado = consultar_devengo_empleado($periodo_planilladevengo_admin,$fecha_desde_format,$fechahasta02,$idempleado);
 				$valordevengoempleado="";
@@ -369,6 +517,7 @@ switch ($accion) {
 				$valorisss="";
 				$valorafp="";
 				$valorrenta="";
+				$viaticos_empleados="0";
 			
 				foreach ($datadevengoempleado as $valuesdevengoempleado) {
 					$tipodescuento=$valuesdevengoempleado["tipodescuento"];
@@ -380,15 +529,19 @@ switch ($accion) {
 						$renta=$valuesdevengoempleado["renta_devengo"];
 
 						if($isss=="Si"){
-							$valorisss=floor($valuesdevengoempleado["valor"]);
+							$valorisss=floatval($valuesdevengoempleado["valor"]);
 						}
 						if($afp=="Si"){
-							$valorafp=floor($valuesdevengoempleado["valor"]);
+							$valorafp=floatval($valuesdevengoempleado["valor"]);
 						}
 						if($renta=="Si"){
-							$valorrenta=floor($valuesdevengoempleado["valor"]);
+							$valorrenta=floatval($valuesdevengoempleado["valor"]);
 						}
 						$valordevengoempleado=$valuesdevengoempleado["valor"];
+						
+						if($iddevengo=="2"){
+							$viaticos_empleados.=$valuesdevengoempleado["valor"];
+						}
 					}
 				}
 
@@ -401,7 +554,6 @@ switch ($accion) {
 			$datetime1 = date_create($fechaEnvio);
 			$datetime2 = date_create($fechaActual);
 			$contador = date_diff($datetime1, $datetime2);
-
 			/* lunes-viernes */
 			$workingDays = 0;
 			$startTimestamp = strtotime($fechaEnvio);
@@ -409,23 +561,17 @@ switch ($accion) {
 			for ($i = $startTimestamp; $i <= $endTimestamp; $i = $i + (60 * 60 * 24)) {
 				if (date("N", $i) <= 5) $workingDays = $workingDays + 1;
 			}
-
 			/* *********** */
 			/* ****sabado-domingo */
 			$weekendDays = 0;
-			
 			$startTimestamp = strtotime($fechaEnvio);
 			$endTimestamp = strtotime($fechaActual);
 			for ($i = $startTimestamp; $i <= $endTimestamp; $i = $i + (60 * 60 * 24)) {
 				if (date("N", $i) > 5) $weekendDays = $weekendDays + 1;
 			}
 			/* ********** */
-			
-			$dias_trabajo= floor($workingDays)+floor($weekendDays);
-
-
+			$dias_trabajo= floatval($workingDays)+floatval($weekendDays);
 			$differenceFormat = '%a';
-
 			/* $dias_trabajo=$contador->format($differenceFormat); */
 			$tiempotrabajo="";
 			if($dias_trabajo>='15'){
@@ -438,14 +584,14 @@ switch ($accion) {
 			}
 		   
 			$sueldo_diario=floatval($value["sueldo_diario"]);
-			$dias_incapacidad=floor($dias_incapacidad_situ);
-			$dias_ausencia=floor($dias_ausencia_situ);
-		
+			$dias_incapacidad=floatval($dias_incapacidad_situ);
+			$dias_ausencia=floatval($dias_ausencia_situ);
+			$total_dias_trabajados = floatval($dias_trabajo_planilladevengo_admin)-$dias_incapacidad-$dias_ausencia;
 
-			$total_dias_trabajados = floor($dias_trabajo_planilladevengo_admin)-$dias_incapacidad-$dias_ausencia;
 			if($total_dias_trabajados<=0){
 				$total_dias_trabajados=0;
 			}
+			
 			$sueldo_total=$total_dias_trabajados*$sueldo_diario;
 			
 
@@ -470,7 +616,7 @@ switch ($accion) {
 			$data_afp = afp($tipo_afp);
 			$porcentaje_afp=0;
 				foreach ($data_afp as $valueafp) {
-					$porcentaje_afp.=floor($valueafp["porcentaje"]);
+					$porcentaje_afp.=floatval($valueafp["porcentaje"]);
 				}
 				/*--------------------------------  */
 
@@ -485,18 +631,18 @@ switch ($accion) {
 				$descuento_isss=0;
 				$descuento_afp=0;
 				if($pensionado_empleado=="Si"){
-					$renta_final=floor($valorrenta)+floor($sueldo_total);/* sujeto renta si  es pensionado */
+					$renta_final=floatval($valorrenta)+floatval($sueldo_total);/* sujeto renta si  es pensionado */
 	
 				}
 				else{
 					
-					$salario_isss=floor($valorisss)+$sueldo_total;/* sujeto iss */
-					$salario_afp=floor($valorafp)+$sueldo_total;/* sujeto afp */
+					$salario_isss=floatval($valorisss)+$sueldo_total;/* sujeto iss */
+					$salario_afp=floatval($valorafp)+$sueldo_total;/* sujeto afp */
 
 					$descuento_isss=$salario_isss*$calcularporcentaje_isss;/* descuento isss */
 					$descuento_afp=$salario_afp*$calcularporcentaje_afp;/* descuento afp */
 
-					$salario_renta=floor($valorrenta)+$sueldo_total;
+					$salario_renta=floatval($valorrenta)+$sueldo_total;
 					$sujeto_renta=$salario_renta-$descuento_isss-$descuento_afp;
 					$renta_final=$sujeto_renta;/* sujeto renta si no es pensionado */
 				}
@@ -507,9 +653,9 @@ switch ($accion) {
 				$porcentaje_base2=0;
 				$tasa_sobre_excedente=0;
 				foreach ($dataisr as $valueisr) {
-					$porcentaje_base1=floor($valueisr["base_1"]);
-					$porcentaje_base2=floor($valueisr["base_2"]);
-					$tasa_sobre_excedente=floor($valueisr["tasa_sobre_excedente"]);
+					$porcentaje_base1=floatval($valueisr["base_1"]);
+					$porcentaje_base2=floatval($valueisr["base_2"]);
+					$tasa_sobre_excedente=floatval($valueisr["tasa_sobre_excedente"]);
 				}
 
 				$porcentaje_tasa_excedente=$tasa_sobre_excedente/100;
@@ -521,7 +667,205 @@ switch ($accion) {
 			/* echo $porcentaje_isss.",".$porcentaje_afp.",".$porcentaje_base1.",".$porcentaje_base2.",".$tasa_sobre_excedente; */
 			/* **********************  */
 
+			/* VERIFICA LAS HORAS DE AUSENCIA CUBIERTAS O NO CUBIERTAS O SI FUERON CUBIERTAS DE MANERA DE HORA NORMAL*/
+			$horas_no_cubiertas="";
+			$horas_cubiertas_extras=0;
+			$horas_cubiertas_normal=0;
+			$total_horas_ausencia=0;
+			$suma_horas=0;
+			$total_horas_cubiertas_extras="";
+			$total_horas_cubiertas_normal="";
 
+
+			/* ----------HORAS EXTRAS------------------ */
+			$data_hora_cubi = horas_cubiertar_extras($codigo_empleado);	
+			foreach ($data_hora_cubi as $value_horas_cubi) {
+				$horas_cubiertas_extras= floatval($value_horas_cubi["hora_extra_situacion"]);
+				$total_horas_cubiertas_extras.=$value_horas_cubi["hora_extra_situacion"];
+			}
+			/* ----------HORAS NORMALES------------------ */
+			$data_hora_normales = horas_cubiertar_normal($codigo_empleado);	
+			foreach ($data_hora_normales as $value_horas_cubi) {
+				$horas_cubiertas_normal= floatval($value_horas_cubi["hora_normales_situacion"]);
+				$total_horas_cubiertas_normal.=$value_horas_cubi["hora_normales_situacion"];
+			}
+
+			/* ---------HORAS AUSENCIA TOTAL------------- */
+			$data_hora_aus = situaciones_horas($codigo_empleado,$fecha_desde_format,$fechahasta02);
+			foreach ($data_hora_aus as $value_horas_aus) {
+				$horas_ausencia_situacion = $value_horas_aus["horas_ausencia_situacion"];
+				$total_horas_ausencia .= $value_horas_aus["horas_ausencia_situacion"];
+			
+				/* --------------------- */
+
+			}
+
+
+			/* ------------------------------ */
+						/* HORAS EXTRAS CUBIERTAS DE AUSENCIAS */
+						if($total_horas_cubiertas_extras>0){
+
+												$datadevengo = consultar_devengo2("23");
+												$codigo_devengo="";
+												$descipcion_devengo="";
+												$isss_devengo="";
+												$afp_devengo="";
+												$renta_devengo="";
+												$id_devengo="";
+												$suma_resta="";
+												foreach ($datadevengo as $valuedevengo) {
+													$id_devengo.=$valuedevengo["id"];
+													$codigo_devengo.=$valuedevengo["codigo"];
+													$descipcion_devengo.=$valuedevengo["descripcion"];
+													$isss_devengo.=$valuedevengo["isss_devengo"];
+													$afp_devengo.=$valuedevengo["afp_devengo"];
+													$renta_devengo.=$valuedevengo["renta_devengo"];
+													$suma_resta.=$valuedevengo["tipo"];
+												}
+
+														$total_valor_horas_aus=floatval($hora_extra_diurna)*floatval($total_horas_cubiertas_extras);
+
+														$codigo_devengo_descuento_planilla=$codigo_devengo;
+														$descripcion_devengo_descuento_planilla=$descipcion_devengo;
+														$tipo_devengo_descuento_planilla=$id_devengo;
+														$isss_devengo_devengo_descuento_planilla=$isss_devengo;
+														$afp_devengo_devengo_descuento_planilla=$afp_devengo;
+														$renta_devengo_devengo_descuento_planilla=$renta_devengo;
+														$idempleado_devengo=$value["idempleado"];
+														$valor_devengo_planilla=$total_valor_horas_aus;
+														$tipo_valor=$suma_resta;
+														$codigo_planilla_devengo=$numero_planilladevengo_admin;
+														
+														$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','','','$total_horas_cubiertas_extras','$hora_extra_diurna'),";
+
+						}
+			/* ------------------------------ */
+
+				/* ------------------------------ */
+					/* HORAS NORMALES CUBIERTAS DE AUSENCIAS */
+					if($total_horas_cubiertas_normal>0){
+
+									$datadevengo = consultar_devengo2("23");
+									$codigo_devengo="";
+									$descipcion_devengo="";
+									$isss_devengo="";
+									$afp_devengo="";
+									$renta_devengo="";
+									$id_devengo="";
+									$suma_resta="";
+									foreach ($datadevengo as $valuedevengo) {
+										$id_devengo.=$valuedevengo["id"];
+										$codigo_devengo.=$valuedevengo["codigo"];
+										$descipcion_devengo.=$valuedevengo["descripcion"];
+										$isss_devengo.=$valuedevengo["isss_devengo"];
+										$afp_devengo.=$valuedevengo["afp_devengo"];
+										$renta_devengo.=$valuedevengo["renta_devengo"];
+										$suma_resta.=$valuedevengo["tipo"];
+									}
+
+									$sueldo_viatico=floatval($salario_empleado)+floatval($viaticos_empleados);
+									$sueldo_diario02=floatval($sueldo_viatico)/15;
+									$sueldo_dia_pagar=floatval($sueldo_diario02)/12;
+									
+									$total_valor_horas_aus=floatval($sueldo_dia_pagar)*floatval($total_horas_cubiertas_normal);
+								
+
+
+									$codigo_devengo_descuento_planilla=$codigo_devengo;
+									$descripcion_devengo_descuento_planilla=$descipcion_devengo;
+									$tipo_devengo_descuento_planilla=$id_devengo;
+									$isss_devengo_devengo_descuento_planilla=$isss_devengo;
+									$afp_devengo_devengo_descuento_planilla=$afp_devengo;
+									$renta_devengo_devengo_descuento_planilla=$renta_devengo;
+									$idempleado_devengo=$value["idempleado"];
+									$valor_devengo_planilla=$total_valor_horas_aus;
+									$tipo_valor=$suma_resta;
+									$codigo_planilla_devengo=$numero_planilladevengo_admin;
+
+									$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','','','$total_horas_cubiertas_normal','$sueldo_dia_pagar'),";
+									
+
+					}
+				/* ------------------------------ */
+
+			/* HORAS AUSENCIAS NO CUBIERTAS*/
+			$suma_horas=floatval($total_horas_cubiertas_extras)+floatval($total_horas_cubiertas_normal);
+			$horas_no_cubiertas=floatval($total_horas_ausencia)-floatval($suma_horas);
+				if($horas_no_cubiertas>0){
+						$datadevengo = consultar_devengo2("23");
+						$codigo_devengo="";
+						$descipcion_devengo="";
+						$isss_devengo="";
+						$afp_devengo="";
+						$renta_devengo="";
+						$id_devengo="";
+						$suma_resta="";
+						foreach ($datadevengo as $valuedevengo) {
+							$id_devengo.=$valuedevengo["id"];
+							$codigo_devengo.=$valuedevengo["codigo"];
+							$descipcion_devengo.=$valuedevengo["descripcion"];
+							$isss_devengo.=$valuedevengo["isss_devengo"];
+							$afp_devengo.=$valuedevengo["afp_devengo"];
+							$renta_devengo.=$valuedevengo["renta_devengo"];
+							$suma_resta.=$valuedevengo["tipo"];
+						}
+
+						$sueldo_viatico=floatval($salario_empleado)+floatval($viaticos_empleados);
+						$sueldo_diario02=floatval($sueldo_viatico)/15;
+						$sueldo_dia_pagar=floatval($sueldo_diario02)/12;
+						$total_valor_horas_aus=floatval($sueldo_dia_pagar)*floatval($horas_no_cubiertas);
+
+						$codigo_devengo_descuento_planilla=$codigo_devengo;
+						$descripcion_devengo_descuento_planilla=$descipcion_devengo;
+						$tipo_devengo_descuento_planilla=$id_devengo;
+						$isss_devengo_devengo_descuento_planilla=$isss_devengo;
+						$afp_devengo_devengo_descuento_planilla=$afp_devengo;
+						$renta_devengo_devengo_descuento_planilla=$renta_devengo;
+						$idempleado_devengo=$value["idempleado"];
+						$valor_devengo_planilla=$total_valor_horas_aus;
+						$tipo_valor=$suma_resta;
+						$codigo_planilla_devengo=$numero_planilladevengo_admin;
+
+						$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','','','$horas_no_cubiertas','$sueldo_dia_pagar'),";
+
+				}
+			/* --------------------- */
+
+			/* DIAS TRABAJADOS EN INCAPACIDAD */
+
+			if($dias_tra_inca>0){
+				$datadevengo = consultar_devengo2("31");
+				$codigo_devengo="";
+				$descipcion_devengo="";
+				$isss_devengo="";
+				$afp_devengo="";
+				$renta_devengo="";
+				$id_devengo="";
+				$suma_resta="";
+				foreach ($datadevengo as $valuedevengo) {
+					$id_devengo.=$valuedevengo["id"];
+					$codigo_devengo.=$valuedevengo["codigo"];
+					$descipcion_devengo.=$valuedevengo["descripcion"];
+					$isss_devengo.=$valuedevengo["isss_devengo"];
+					$afp_devengo.=$valuedevengo["afp_devengo"];
+					$renta_devengo.=$valuedevengo["renta_devengo"];
+					$suma_resta.=$valuedevengo["tipo"];
+				}
+				$valor_devengo_incapacidad=floatval($sueldo_diario)*floatval($dias_tra_inca);
+				
+				$codigo_devengo_descuento_planilla=$codigo_devengo;
+				$descripcion_devengo_descuento_planilla=$descipcion_devengo;
+				$tipo_devengo_descuento_planilla=$id_devengo;
+				$isss_devengo_devengo_descuento_planilla=$isss_devengo;
+				$afp_devengo_devengo_descuento_planilla=$afp_devengo;
+				$renta_devengo_devengo_descuento_planilla=$renta_devengo;
+				$idempleado_devengo=$value["idempleado"];
+				$valor_devengo_planilla=$valor_devengo_incapacidad;
+				$tipo_valor=$suma_resta;
+				$codigo_planilla_devengo=$numero_planilladevengo_admin;
+				$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','$dias_tra_inca','$sueldo_diario','','','',''),";
+			}
+			/* DIAS INCAPACIDAD */
 			if($dias_incapacidad>0){
 
 					$datadevengo = consultar_devengo2("33");
@@ -543,9 +887,10 @@ switch ($accion) {
 					}
 
 					$valor_devengo_incapacidad=0;
+					$sueldo_porcentaje=0;
 					if($dias_incapacidad>=$dias_maximo_incapacidad){
 						$sueldo_porcentaje=$sueldo_diario*$porcentaje_dias_incapacidad;
-						$valor_devengo_incapacidad=$dias_incapacidad*$dias_maximo_incapacidad;
+						$valor_devengo_incapacidad=$sueldo_porcentaje*$dias_maximo_incapacidad;
 
 					}
 					else{
@@ -564,11 +909,10 @@ switch ($accion) {
 					$tipo_valor=$suma_resta;
 					$codigo_planilla_devengo=$numero_planilladevengo_admin;
 
-					$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo'),";
+					$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','$dias_maximo_incapacidad','$sueldo_porcentaje','',''),";
 
 			}
 			
-
 			if(empty($iddevengo)){
 			}
 			else{
@@ -612,7 +956,7 @@ switch ($accion) {
 							$tipo_valor=$suma_resta;
 							$codigo_planilla_devengo=$numero_planilladevengo_admin;
 
-							$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo'),";
+							$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','','','',''),";
 
 						/* ************ */
 
@@ -623,12 +967,180 @@ switch ($accion) {
 			}
 
 
+			/* DEVENGO QUINCENAL PLANILLA ANTICIPO */
+
+			/* ************* */
+
+			$datadevengo_anticipo = devengo_anticipo($idempleado);
+			foreach ($datadevengo_anticipo as $valuedevengo_anticipo) {
+				$devengoquincenal=$valuedevengo_anticipo["valor_devengo_planilla"];
+				if($devengoquincenal>0){
+						/* ************* */
+						$datadevengo = consultar_devengo2('25');
+						$codigo_devengo="";
+						$descipcion_devengo="";
+						$isss_devengo="";
+						$afp_devengo="";
+						$renta_devengo="";
+						$id_devengo="";
+						$suma_resta="";
+						foreach ($datadevengo as $valuedevengo) {
+							$id_devengo.=$valuedevengo["id"];
+							$codigo_devengo.=$valuedevengo["codigo"];
+							$descipcion_devengo.=$valuedevengo["descripcion"];
+							$isss_devengo.=$valuedevengo["isss_devengo"];
+							$afp_devengo.=$valuedevengo["afp_devengo"];
+							$renta_devengo.=$valuedevengo["renta_devengo"];
+							$suma_resta.=$valuedevengo["tipo"];
+
+						}
+
+						
+						$codigo_devengo_descuento_planilla=$codigo_devengo;
+						$descripcion_devengo_descuento_planilla=$descipcion_devengo;
+						$tipo_devengo_descuento_planilla=$id_devengo;
+						$isss_devengo_devengo_descuento_planilla=$isss_devengo;
+						$afp_devengo_devengo_descuento_planilla=$afp_devengo;
+						$renta_devengo_devengo_descuento_planilla=$renta_devengo;
+						$idempleado_devengo=$value["idempleado"];
+						$valor_devengo_planilla=$devengoquincenal;
+						$tipo_valor=$suma_resta;
+						$codigo_planilla_devengo=$numero_planilladevengo_admin;
+						$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','','','',''),";
+
+					/* ************ */
+
+				}
+
+			}
+
+			
+			/* ************************************ */
+			/* DEVENGO POR DIAS FERIADOS TRABAJADOS */
+
+			$data_viatico_permanente= viatico_permanente('2',$idempleado);	
+			$valor_viatico_permanente="";		
+			foreach ($data_viatico_permanente as $value_viatico) {
+				$valor_viatico_permanente.=$value_viatico["valor"];		
+			}
+
+
+			/* ***** VALIDAR SI ESTAMOS EN EL MES DE DIAS FERIADOS Y BUSCAR SI EMPLEADO A ESTA AUSENTE EN LOS DIAS FERIADOS */
+			$data_ausencia_dias_feriados= ausencia_dias_feriados($idempleado);	
+			$restar_dias_feriados=0;	
+			$fecha_feriado_ausencia="";	
+			foreach ($data_ausencia_dias_feriados as $value_ausencia_dias_feriados) {
+				$fecha_feriado_ausencia.=$value_ausencia_dias_feriados["fecha_feriado"];	
+			}
+			
+			$data_dias_feriados= dias_feriados();	
+			foreach ($data_dias_feriados as $value_dias_feriados) {
+				$fecha_desde=$value_dias_feriados["fecha_desde"];		
+				$fecha_hasta=$value_dias_feriados["fecha_hasta"];	
+
+				$fecha_desde_mes=date("m", strtotime($fecha_desde));	
+				$fechaActual_mes = date("m", strtotime($fecha_planilladevengo_admin));
+				if($fechaActual_mes==$fecha_desde_mes){
+
+					$fecha_desde_mes_feriado=$value_dias_feriados["fecha_desde"];
+					$fecha_hasta_mes_feriado=$value_dias_feriados["fecha_hasta"];
+					$resultado_dias=0;
+					if ($fecha_feriado_ausencia >= $fecha_desde && $fecha_feriado_ausencia <= $fecha_hasta){
+						$resultado_dias=$resultado_dias+1;
+					}		
+					/* CONTAR LOS DIAS FERIADOS */
+					$feriado_desde= date("Y-m-d", strtotime($fecha_desde_mes_feriado));
+					$feriado_hasta = date("Y-m-d", strtotime($fecha_hasta_mes_feriado));
+					/* lunes-viernes */
+					$workingDays = 0;
+					$startTimestamp = strtotime($feriado_desde);
+					$endTimestamp = strtotime($feriado_hasta);
+					for ($i = $startTimestamp; $i <= $endTimestamp; $i = $i + (60 * 60 * 24)) {
+						if (date("N", $i) <= 5) $workingDays = $workingDays + 1;
+					}
+					/* *********** */
+					/* ****sabado-domingo */
+					$weekendDays = 0;
+					$startTimestamp = strtotime($feriado_desde);
+					$endTimestamp = strtotime($feriado_hasta);
+					for ($i = $startTimestamp; $i <= $endTimestamp; $i = $i + (60 * 60 * 24)) {
+						if (date("N", $i) > 5) $weekendDays = $weekendDays + 1;
+					}
+
+					$dias_festivos= floatval($workingDays)+floatval($weekendDays);
+					$restar_dias_feriados.=floatval($dias_festivos)-floatval($resultado_dias);
+					/* echo $restar_dias_feriados.'restar_dias_feriados'; */
+					/* *********************** */
+					
+				}
+				
+			}
+			/* ******************************************************** */
+
+			if($restar_dias_feriados>0){
+				
+					$data_cargo= cargo_empleado($idcargo_empleado);		
+					foreach ($data_cargo as $valu_cargo) {
+							$pago_feriados=$valu_cargo["pago_feriados"];
+							$calculo=$valu_cargo["calculo"];
+							if($pago_feriados=="Si"){
+								$ecuacion_dias=0;
+								$valordias=0;
+								if($calculo=="Sueldo+Tfijo"){
+									$salario_mas_viatico=floatval($salario_empleado)+floatval($valor_viatico_permanente);
+									$valordias=floatval($salario_mas_viatico)/15;
+									$ecuacion_dias=$valordias*floatval($restar_dias_feriados);
+								}
+								else{
+									$valordias=floatval($salario_empleado)/15;
+									$ecuacion_dias=floatval($valordias)*floatval($restar_dias_feriados);
+								}
+								/* ******************* */
+									$datadevengo = consultar_devengo2('0021');
+									$codigo_devengo="";
+									$descipcion_devengo="";
+									$isss_devengo="";
+									$afp_devengo="";
+									$renta_devengo="";
+									$id_devengo="";
+									$suma_resta="";
+									foreach ($datadevengo as $valuedevengo) {
+										$id_devengo.=$valuedevengo["id"];
+										$codigo_devengo.=$valuedevengo["codigo"];
+										$descipcion_devengo.=$valuedevengo["descripcion"];
+										$isss_devengo.=$valuedevengo["isss_devengo"];
+										$afp_devengo.=$valuedevengo["afp_devengo"];
+										$renta_devengo.=$valuedevengo["renta_devengo"];
+										$suma_resta.=$valuedevengo["tipo"];
+
+									}
+									$codigo_devengo_descuento_planilla=$codigo_devengo;
+									$descripcion_devengo_descuento_planilla=$descipcion_devengo;
+									$tipo_devengo_descuento_planilla=$id_devengo;
+									$isss_devengo_devengo_descuento_planilla=$isss_devengo;
+									$afp_devengo_devengo_descuento_planilla=$afp_devengo;
+									$renta_devengo_devengo_descuento_planilla=$renta_devengo;
+									$idempleado_devengo=$value["idempleado"];
+									$valor_devengo_planilla= bcdiv($ecuacion_dias, '1', 2);
+									$tipo_valor=$suma_resta;
+									$codigo_planilla_devengo=$numero_planilladevengo_admin;
+
+									$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','$restar_dias_feriados','$valordias','','','','','',''),";
+
+								/* ******************* */
+									
+							}
+					}
+			
+			}
+			/* ********************************************* */
+
 			/* *************BONO POR UBICACION*************** */
 				$databonoubicacion = bonoubicacion($codigo_empleado);			
 				foreach ($databonoubicacion as $valubonoubicacion) {
-					$bono=$valubonoubicacion["bonos"];
+						$bono=$valubonoubicacion["bonos"];
 					/* ******************* */
-					$datadevengo = consultar_devengo2('0061');
+						$datadevengo = consultar_devengo2('0061');
 						$codigo_devengo="";
 						$descipcion_devengo="";
 						$isss_devengo="";
@@ -657,7 +1169,7 @@ switch ($accion) {
 						$tipo_valor=$suma_resta;
 						$codigo_planilla_devengo=$numero_planilladevengo_admin;
 
-						$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo'),";
+						$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','','','',''),";
 
 					/* ******************* */
 				}
@@ -668,98 +1180,104 @@ switch ($accion) {
 			$databonopornofaltar = bonopornofaltar($codigo_empleado);			
 			foreach ($databonopornofaltar as $valubonopornofaltar) {
 				$bono=$valubonopornofaltar["valor_devengo_ubicacion"];
-
-				$fecha_planilladevengo_admin01 = date("Y-m-d", strtotime($fecha_planilladevengo_admin));
-				$fecha_gratificacion_admin= date("Y-m-d", strtotime($_POST["fecha_gratificacion_admin"]));
-				$datasituacion = situaciones($codigo_empleado,$fecha_gratificacion_admin,$fecha_planilladevengo_admin01);
-				$dias_ausencia_situ_bono="";
-				foreach ($datasituacion as $valuesituacion) {
-					$dias_ausencia_situ_bono.=$valuesituacion["sumaausencia"];
+				$periodo=$valubonopornofaltar["periodo_devengo_ubicacion"];
+				if($periodo=="Siempre"){
+					$periodo=$periodo_planilladevengo_admin;
 				}
-
-				if($tiempotrabajo=="viejo"){
-
-					if(empty($dias_ausencia_situ_bono)){
-						/* ******************* */
-						$datadevengo = consultar_devengo2('0020');
-						$codigo_devengo="";
-						$descipcion_devengo="";
-						$isss_devengo="";
-						$afp_devengo="";
-						$renta_devengo="";
-						$id_devengo="";
-						$suma_resta="";
-						foreach ($datadevengo as $valuedevengo) {
-							$id_devengo.=$valuedevengo["id"];
-							$codigo_devengo.=$valuedevengo["codigo"];
-							$descipcion_devengo.=$valuedevengo["descripcion"];
-							$isss_devengo.=$valuedevengo["isss_devengo"];
-							$afp_devengo.=$valuedevengo["afp_devengo"];
-							$renta_devengo.=$valuedevengo["renta_devengo"];
-							$suma_resta.=$valuedevengo["tipo"];
-
+				
+				if($periodo==$periodo_planilladevengo_admin){
+						$fecha_planilladevengo_admin01 = date("Y-m-d", strtotime($fecha_planilladevengo_admin));
+						$fecha_gratificacion_admin= date("Y-m-d", strtotime($_POST["fecha_gratificacion_admin"]));
+						$datasituacion = situaciones($codigo_empleado,$fecha_gratificacion_admin,$fecha_planilladevengo_admin01);
+						$dias_ausencia_situ_bono="vacio";
+						foreach ($datasituacion as $valuesituacion) {
+							$dias_ausencia_situ_bono.=$valuesituacion["sumaausencia"];
 						}
-						$codigo_devengo_descuento_planilla=$codigo_devengo;
-						$descripcion_devengo_descuento_planilla=$descipcion_devengo;
-						$tipo_devengo_descuento_planilla=$id_devengo;
-						$isss_devengo_devengo_descuento_planilla=$isss_devengo;
-						$afp_devengo_devengo_descuento_planilla=$afp_devengo;
-						$renta_devengo_devengo_descuento_planilla=$renta_devengo;
-						$idempleado_devengo=$value["idempleado"];
-						$valor_devengo_planilla= bcdiv($bono, '1', 2);
-						$tipo_valor=$suma_resta;
-						$codigo_planilla_devengo=$numero_planilladevengo_admin;
+						
+						if($tiempotrabajo=="viejo"){
 
-						$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo'),";
+							if($dias_ausencia_situ_bono=="vacio"){
+								/* ******************* */
+								$datadevengo = consultar_devengo2('0020');
+								$codigo_devengo="";
+								$descipcion_devengo="";
+								$isss_devengo="";
+								$afp_devengo="";
+								$renta_devengo="";
+								$id_devengo="";
+								$suma_resta="";
+								foreach ($datadevengo as $valuedevengo) {
+									$id_devengo.=$valuedevengo["id"];
+									$codigo_devengo.=$valuedevengo["codigo"];
+									$descipcion_devengo.=$valuedevengo["descripcion"];
+									$isss_devengo.=$valuedevengo["isss_devengo"];
+									$afp_devengo.=$valuedevengo["afp_devengo"];
+									$renta_devengo.=$valuedevengo["renta_devengo"];
+									$suma_resta.=$valuedevengo["tipo"];
 
-					 /* ******************* */
-					}
+								}
+								$codigo_devengo_descuento_planilla=$codigo_devengo;
+								$descripcion_devengo_descuento_planilla=$descipcion_devengo;
+								$tipo_devengo_descuento_planilla=$id_devengo;
+								$isss_devengo_devengo_descuento_planilla=$isss_devengo;
+								$afp_devengo_devengo_descuento_planilla=$afp_devengo;
+								$renta_devengo_devengo_descuento_planilla=$renta_devengo;
+								$idempleado_devengo=$value["idempleado"];
+								$valor_devengo_planilla= bcdiv($bono, '1', 2);
+								$tipo_valor=$suma_resta;
+								$codigo_planilla_devengo=$numero_planilladevengo_admin;
 
-				}
-
-				if($tiempotrabajo=="nuevo"){
-
-					if(empty($dias_ausencia_situ_bono)){
-
-						$calculobono=floor($bono)/30*floor($total_dias_trabajados);
-						/* ******************* */
-						$datadevengo = consultar_devengo2('0020');
-						$codigo_devengo="";
-						$descipcion_devengo="";
-						$isss_devengo="";
-						$afp_devengo="";
-						$renta_devengo="";
-						$id_devengo="";
-						$suma_resta="";
-						foreach ($datadevengo as $valuedevengo) {
-							$id_devengo.=$valuedevengo["id"];
-							$codigo_devengo.=$valuedevengo["codigo"];
-							$descipcion_devengo.=$valuedevengo["descripcion"];
-							$isss_devengo.=$valuedevengo["isss_devengo"];
-							$afp_devengo.=$valuedevengo["afp_devengo"];
-							$renta_devengo.=$valuedevengo["renta_devengo"];
-							$suma_resta.=$valuedevengo["tipo"];
-
+								$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','','','',''),";
+					 		/* ******************* */
+							}
 						}
-						$codigo_devengo_descuento_planilla=$codigo_devengo;
-						$descripcion_devengo_descuento_planilla=$descipcion_devengo;
-						$tipo_devengo_descuento_planilla=$id_devengo;
-						$isss_devengo_devengo_descuento_planilla=$isss_devengo;
-						$afp_devengo_devengo_descuento_planilla=$afp_devengo;
-						$renta_devengo_devengo_descuento_planilla=$renta_devengo;
-						$idempleado_devengo=$value["idempleado"];
-						$valor_devengo_planilla= bcdiv($calculobono, '1', 2);
-						$tipo_valor=$suma_resta;
-						$codigo_planilla_devengo=$numero_planilladevengo_admin;
 
-						$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo'),";
 
-					 /* ******************* */
-					}
+						if($tiempotrabajo=="nuevo"){
 
+							if($dias_ausencia_situ_bono=="vacio"){
+
+								$calculobono=floatval($bono)/30*floatval($total_dias_trabajados);
+								/* ******************* */
+								$datadevengo = consultar_devengo2('0020');
+								$codigo_devengo="";
+								$descipcion_devengo="";
+								$isss_devengo="";
+								$afp_devengo="";
+								$renta_devengo="";
+								$id_devengo="";
+								$suma_resta="";
+								foreach ($datadevengo as $valuedevengo) {
+									$id_devengo.=$valuedevengo["id"];
+									$codigo_devengo.=$valuedevengo["codigo"];
+									$descipcion_devengo.=$valuedevengo["descripcion"];
+									$isss_devengo.=$valuedevengo["isss_devengo"];
+									$afp_devengo.=$valuedevengo["afp_devengo"];
+									$renta_devengo.=$valuedevengo["renta_devengo"];
+									$suma_resta.=$valuedevengo["tipo"];
+
+								}
+								$codigo_devengo_descuento_planilla=$codigo_devengo;
+								$descripcion_devengo_descuento_planilla=$descipcion_devengo;
+								$tipo_devengo_descuento_planilla=$id_devengo;
+								$isss_devengo_devengo_descuento_planilla=$isss_devengo;
+								$afp_devengo_devengo_descuento_planilla=$afp_devengo;
+								$renta_devengo_devengo_descuento_planilla=$renta_devengo;
+								$idempleado_devengo=$value["idempleado"];
+								$valor_devengo_planilla= bcdiv($calculobono, '1', 2);
+								$tipo_valor=$suma_resta;
+								$codigo_planilla_devengo=$numero_planilladevengo_admin;
+
+							
+								$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','','','',''),";
+
+							/* ******************* */
+							}
+						}
 				}
+
 			}
-		/* ********************************************* */
+		 /* ********************************************* */
 
 			/* *********RECIBO DESCUENTO***************** */
 			$datarecibo = recibo($idempleado,$fecha_desde_format,$fechahasta02);
@@ -797,7 +1315,7 @@ switch ($accion) {
 						$tipo_valor=$suma_resta;
 						$codigo_planilla_devengo=$numero_planilladevengo_admin;
 
-						$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo'),";
+						$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','','','',''),";
 
 
 				/* ************************ */
@@ -806,11 +1324,9 @@ switch ($accion) {
 			/* ******************** */
 
 			$numero_planilladevengo_admin=$numero_planilladevengo_admin;
-
 			$fecha_planilladevengo_admin=$fecha_planilladevengo_admin;
 			$fecha_desde_planilladevengo_admin=$_POST["fechaperiodo1"];
 			$fecha_hasta_planilladevengo_admin=$_POST["fechaperiodo2"];
-
 			$descripcion_planilladevengo_admin=$descripcion_planilladevengo_admin;
 			$codigo_empleado_planilladevengo_admin=$value["codigo_empleado"];
 			$nombre_empleado_planilladevengo_admin=$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["tercer_nombre"].' '.$value["primer_apellido"].' '.$value["segundo_apellido"].' '.$value["apellido_casada"];
@@ -840,11 +1356,12 @@ switch ($accion) {
 			$sueldo_renta_planilladevengo_admin=  bcdiv($renta_final, '1', 2);
 			$sueldo_isss_planilladevengo_admin= bcdiv($salario_isss, '1', 2); 
 			$sueldo_afp_planilladevengo_admin=  bcdiv($salario_afp, '1', 2);
+			$hora_extra_diurna_planilladevengo_admin=$horas_extras;
 
 
 
 
-			$values_consulta.="('$numero_planilladevengo_admin','$fecha_planilladevengo_admin','$fecha_desde_planilladevengo_admin','$fecha_hasta_planilladevengo_admin','$descripcion_planilladevengo_admin','$codigo_empleado_planilladevengo_admin','$nombre_empleado_planilladevengo_admin','$id_empleado_planilladevengo_admin','$sueldo_planilladevengo_admin','$total_devengo_admin_planilladevengo_admin','$total_liquidado_planilladevengo_admin','$codigo_ubicacion_planilladevengo_admin','$nombre_ubicacion_planilladevengo_admin','$id_ubicacion_planilladevengo_admin','$periodo_planilladevengo_admin','$tipo_planilladevengo_admin','$empleado_rango_desde','$empleado_rango_hasta','$total_dias_trabajados','$dias_incapacidad','$dias_ausencia','$dias_trabajo_planilladevengo_admin','$descuento_isss_planilladevengo_admin','$descuento_afp_planilladevengo_admin','$descuento_renta_planilladevengo_admin','$sueldo_renta_planilladevengo_admin','$sueldo_isss_planilladevengo_admin','$sueldo_afp_planilladevengo_admin','$observacion_planilladevengo_admin','$fecha_gratificacion_admin'),";
+			$values_consulta.="('$numero_planilladevengo_admin','$fecha_planilladevengo_admin','$fecha_desde_planilladevengo_admin','$fecha_hasta_planilladevengo_admin','$descripcion_planilladevengo_admin','$codigo_empleado_planilladevengo_admin','$nombre_empleado_planilladevengo_admin','$id_empleado_planilladevengo_admin','$sueldo_planilladevengo_admin','$total_devengo_admin_planilladevengo_admin','$total_liquidado_planilladevengo_admin','$codigo_ubicacion_planilladevengo_admin','$nombre_ubicacion_planilladevengo_admin','$id_ubicacion_planilladevengo_admin','$periodo_planilladevengo_admin','$tipo_planilladevengo_admin','$empleado_rango_desde','$empleado_rango_hasta','$total_dias_trabajados','$dias_incapacidad','$dias_ausencia','$dias_trabajo_planilladevengo_admin','$descuento_isss_planilladevengo_admin','$descuento_afp_planilladevengo_admin','$descuento_renta_planilladevengo_admin','$sueldo_renta_planilladevengo_admin','$sueldo_isss_planilladevengo_admin','$sueldo_afp_planilladevengo_admin','$observacion_planilladevengo_admin','$fecha_gratificacion_admin','$hora_extra_diurna_planilladevengo_admin'),";
 
 			$datos_html .= ' <tr class="btnEditarabase" pensionado_empleado="'.$value["pensionado_empleado"].'" hora_extra_nocturna_domingo="'.$value["hora_extra_nocturna_domingo"].'"   hora_extra_domingo="'.$value["hora_extra_domingo"].'"  hora_extra_nocturna="'.$value["hora_extra_nocturna"].'" hora_extra_diurna="'.$value["hora_extra_diurna"].'"    salario_por_hora="'.$value["salario_por_hora"].'"  sueldo="'.$value["sueldo"].'"  idempleado="'.$value["idempleado"].'" codigo="'.$value["codigo_empleado"].'"  nombre="'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["tercer_nombre"].' '.$value["primer_apellido"].' '.$value["segundo_apellido"].' '.$value["apellido_casada"].'">
 			<td>'.$value["codigo_empleado"].'</td>
@@ -881,17 +1398,14 @@ switch ($accion) {
 			$sql_situacion->execute();
 
 			
-			$insertar_devengo="INSERT INTO `tbl_devengo_descuento_planilla_admin`(`codigo_devengo_descuento_planilla`, `descripcion_devengo_descuento_planilla`, `tipo_devengo_descuento_planilla`, `isss_devengo_devengo_descuento_planilla`, `afp_devengo_devengo_descuento_planilla`, `renta_devengo_devengo_descuento_planilla`,`idempleado_devengo`, `valor_devengo_planilla`, `tipo_valor`, `codigo_planilla_devengo`) VALUES  ".trim($values_devengo, ",")."";
-		
+			$insertar_devengo="INSERT INTO `tbl_devengo_descuento_planilla_admin`(`codigo_devengo_descuento_planilla`, `descripcion_devengo_descuento_planilla`, `tipo_devengo_descuento_planilla`, `isss_devengo_devengo_descuento_planilla`, `afp_devengo_devengo_descuento_planilla`, `renta_devengo_devengo_descuento_planilla`,`idempleado_devengo`, `valor_devengo_planilla`, `tipo_valor`, `codigo_planilla_devengo`,dias_Feriados,valor_dias_Feriados,dias_tra_inca_admin,pago_dias_tra_inca_admin,dias_incapacidad_admin,pago_dias_incapacidad_admin,horas_tardes,precio_horas_tardes) VALUES  ".trim($values_devengo, ",")."";
 			$sql_devengo = Conexion::conectar()->prepare($insertar_devengo);
 			$sql_devengo->execute();
 
 
-			$insertar="INSERT INTO `planilladevengo_admin`(`numero_planilladevengo_admin`, `fecha_planilladevengo_admin`, `fecha_desde_planilladevengo_admin`, `fecha_hasta_planilladevengo_admin`, `descripcion_planilladevengo_admin`, `codigo_empleado_planilladevengo_admin`, `nombre_empleado_planilladevengo_admin`, `id_empleado_planilladevengo_admin`, `sueldo_planilladevengo_admin`,  `total_devengo_admin_planilladevengo_admin`, `total_liquidado_planilladevengo_admin`, `codigo_ubicacion_planilladevengo_admin`, `nombre_ubicacion_planilladevengo_admin`, `id_ubicacion_planilladevengo_admin`, `periodo_planilladevengo_admin`, `tipo_planilladevengo_admin`, `empleado_rango_desde`, `empleado_rango_hasta`,dias_trabajo_planilladevengo_admin,dias_incapacidad,dias_ausencia,his_dias_trabajo_admin,descuento_isss_planilladevengo_admin,descuento_afp_planilladevengo_admin,descuento_renta_planilladevengo_admin,sueldo_renta_planilladevengo_admin,sueldo_isss_planilladevengo_admin,sueldo_afp_planilladevengo_admin,observacion_planilladevengo_admin,fecha_gratificacion_admin) value ".trim($values_consulta, ",")."";
+			$insertar="INSERT INTO `planilladevengo_admin`(`numero_planilladevengo_admin`, `fecha_planilladevengo_admin`, `fecha_desde_planilladevengo_admin`, `fecha_hasta_planilladevengo_admin`, `descripcion_planilladevengo_admin`, `codigo_empleado_planilladevengo_admin`, `nombre_empleado_planilladevengo_admin`, `id_empleado_planilladevengo_admin`, `sueldo_planilladevengo_admin`,  `total_devengo_admin_planilladevengo_admin`, `total_liquidado_planilladevengo_admin`, `codigo_ubicacion_planilladevengo_admin`, `nombre_ubicacion_planilladevengo_admin`, `id_ubicacion_planilladevengo_admin`, `periodo_planilladevengo_admin`, `tipo_planilladevengo_admin`, `empleado_rango_desde`, `empleado_rango_hasta`,dias_trabajo_planilladevengo_admin,dias_incapacidad,dias_ausencia,his_dias_trabajo_admin,descuento_isss_planilladevengo_admin,descuento_afp_planilladevengo_admin,descuento_renta_planilladevengo_admin,sueldo_renta_planilladevengo_admin,sueldo_isss_planilladevengo_admin,sueldo_afp_planilladevengo_admin,observacion_planilladevengo_admin,fecha_gratificacion_admin,hora_extra_diurna_planilladevengo_admin) value ".trim($values_consulta, ",")."";
 			$sql = Conexion::conectar()->prepare($insertar);
-
 			if ($sql->execute()) {
-
 				$data_planilla = consultar_planilla($numero_planilladevengo_admin);
 				$id="";
 				foreach ($data_planilla as $value) {
@@ -899,9 +1413,8 @@ switch ($accion) {
 					
 				}
 				echo $numero_planilladevengo_admin;
-				/* echo "OK"; */
 			} else {
-				/* echo "error"; */
+				
 			}
 			$sql = null;
 		}
@@ -909,21 +1422,66 @@ switch ($accion) {
 			/* echo $datos_html; */
 		}
 	break;
-
-	case "listaconempleado":
+	case "listaconempleado":/* principal */
 
 		$tipo_planilladevengo_admin = $_POST["tipo_planilladevengo_admin"];
 		$periodo_planilladevengo_admin = $_POST["periodo_planilladevengo_admin"];
 		$numero_planilladevengo_admin = $_POST["numero_planilladevengo_admin"];
 		$descripcion_planilladevengo_admin = $_POST["descripcion_planilladevengo_admin"];
 
+		
+		
 
 		function situaciones($idempleado1,$fechadesde1,$fechahasta2) /* --SUMA DE DIAS AUSENCIA Y INCAPACIDAD */
 		{
+			$query01="SELECT sum(dias_ausencia_situacion) as sumaausencia, sum(incapacidad_situacion) as sumainca, sum(horas_ausencia_situacion) as sumahoraausencia, sum(hora_extra_situacion) as sumahoraextra, sum(dias_no_sueldo) as sumadias_no_sueldo FROM `situacion` WHERE  liquidado_situacion='No' and idempleado_situacion='$idempleado1'  and STR_TO_DATE(fecha_situacion, '%d-%m-%Y')  BETWEEN '$fechadesde1' AND '$fechahasta2' ";
+			/* echo $query01; */
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();
+		};
 
-			$query01="SELECT sum(dias_ausencia_situacion) as sumaausencia, sum(incapacidad_situacion) as sumainca
-					 FROM `situacion` 
-					 WHERE  liquidado_situacion='No' and idempleado_situacion='$idempleado1'  and STR_TO_DATE(fecha_situacion, '%d-%m-%Y')  BETWEEN '$fechadesde1' AND '$fechahasta2' ";
+		function situaciones_incapacidad($idempleado1,$fechadesde1,$fechahasta2) /* --SUMA DE DIAS AUSENCIA Y INCAPACIDAD */
+		{
+			$query01="SELECT sum(dias_ausencia_situacion) as sumaausencia, sum(incapacidad_situacion) as sumainca FROM `situacion` WHERE  liquidado_situacion='No' and idempleado_situacion='$idempleado1' and inicial_situacion='Inicial'  and STR_TO_DATE(fecha_situacion, '%d-%m-%Y')  BETWEEN '$fechadesde1' AND '$fechahasta2' ";
+			/* echo $query01; */
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();
+		};
+
+		function situaciones_dias_tra_inca($idempleado1,$fechadesde1,$fechahasta2) /* --SUMA DE DIAS AUSENCIA Y INCAPACIDAD */
+		{
+			$query01="SELECT sum(dias_tra_incapacidad) as sumadiastrabajados FROM `situacion` 
+					 WHERE  situacion.incapacidad_situacion !='' and liquidado_situacion='No' and idempleado_situacion='$idempleado1' and inicial_situacion='Inicial'  and STR_TO_DATE(fecha_situacion, '%d-%m-%Y')  BETWEEN '$fechadesde1' AND '$fechahasta2' ";
+			/* echo $query01; */
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();
+		};
+
+		function situaciones_horas($idempleado1,$fechadesde1,$fechahasta2) /* --Horas ausencia */
+		{
+			$query01="SELECT sum(horas_ausencia_situacion) as horas_ausencia_situacion  FROM `situacion` 
+					 WHERE  liquidado_situacion='No' and idempleado_situacion='$idempleado1'  and STR_TO_DATE(fecha_situacion, '%d-%m-%Y')  BETWEEN '$fechadesde1' AND '$fechahasta2'  and situacion.horas_ausencia_situacion !=''";
+			/* echo $query01; */
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();
+		};
+
+
+		function horas_cubiertar_extras($codigo_empleado1) /* --se busca horas ausencia que han sido cubiertas situaciones */
+		{
+			$query01="SELECT sum(hora_extra_situacion) as hora_extra_situacion FROM `situacion` WHERE cubrir_situacion LIKE '%$codigo_empleado1%' and situacion.hora_extra_situacion != ''";
+	
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();
+		};
+		function horas_cubiertar_normal($codigo_empleado1) /* --se busca horas ausencia que han sido cubiertas situaciones */
+		{
+			$query01="SELECT sum(hora_normales_situacion) as hora_normales_situacion FROM `situacion` WHERE cubrir_situacion LIKE '%$codigo_empleado1%' and situacion.hora_normales_situacion != ''";
 			/* echo $query01; */
 			$sql = Conexion::conectar()->prepare($query01);
 			$sql->execute();
@@ -933,9 +1491,7 @@ switch ($accion) {
 		function recibo($idempleado1,$fechadesde1,$fechahasta2) /* -- */
 		{
 
-			$query01="SELECT `id`, `fecha_descuento_recibo`, `empleado_recibo`, `descuento_recibo`, `numero_recibo`, `valor_recibo`, `observacion_recibo`, `fecha_hecho_recibo`, `hora_hecho_recibo`, `numero_planilla_liquidado`, `liquidado_recibo`, `anular_recibo`, `user_recibo` 
-			FROM `recibos` 
-			WHERE liquidado_recibo='No' and anular_recibo='No' and  empleado_recibo='$idempleado1'  and STR_TO_DATE(fecha_descuento_recibo, '%d-%m-%Y')  BETWEEN '$fechadesde1' AND '$fechahasta2' ";
+			$query01="SELECT `id`, `fecha_descuento_recibo`, `empleado_recibo`, `descuento_recibo`, `numero_recibo`, `valor_recibo`, `observacion_recibo`, `fecha_hecho_recibo`, `hora_hecho_recibo`, `numero_planilla_liquidado`, `liquidado_recibo`, `anular_recibo`, `user_recibo` FROM `recibos` WHERE liquidado_recibo='No' and anular_recibo='No' and anular_recibo='No' and empleado_recibo='$idempleado1'  and STR_TO_DATE(fecha_descuento_recibo, '%d-%m-%Y')  BETWEEN '$fechadesde1' AND '$fechahasta2' ";
 		
 			$sql = Conexion::conectar()->prepare($query01);
 			$sql->execute();
@@ -945,9 +1501,7 @@ switch ($accion) {
 		function bonoubicacion($codigoempleado1) /* -- */
 		{
 
-			$query01="SELECT tbl_ubicaciones_agentes_asignados.id as idubicacionagente, tbl_clientes_ubicaciones.* FROM `tbl_ubicaciones_agentes_asignados`,tbl_clientes_ubicaciones 
-			WHERE tbl_ubicaciones_agentes_asignados.idubicacion_agente=tbl_clientes_ubicaciones.id and tbl_ubicaciones_agentes_asignados.codigo_agente='$codigoempleado1'  group by tbl_ubicaciones_agentes_asignados.codigo_agente";
-			
+			$query01="SELECT tbl_ubicaciones_agentes_asignados.id as idubicacionagente, tbl_clientes_ubicaciones.* FROM `tbl_ubicaciones_agentes_asignados`,tbl_clientes_ubicaciones WHERE tbl_ubicaciones_agentes_asignados.idubicacion_agente=tbl_clientes_ubicaciones.id and tbl_ubicaciones_agentes_asignados.codigo_agente='$codigoempleado1'  group by tbl_ubicaciones_agentes_asignados.codigo_agente";
 			$sql = Conexion::conectar()->prepare($query01);
 			$sql->execute();
 			return $sql->fetchAll();
@@ -956,7 +1510,8 @@ switch ($accion) {
 		
 		function bonopornofaltar($codigoempleado1) /* -- */
 		{
-			$query01="SELECT tbl_ubicaciones_agentes_asignados.id as idubicacionagente, tbl_devengo_ubicacion.* FROM `tbl_ubicaciones_agentes_asignados`,tbl_devengo_ubicacion WHERE tbl_ubicaciones_agentes_asignados.idubicacion_agente=tbl_devengo_ubicacion.idubicacion_devengo and tbl_ubicaciones_agentes_asignados.codigo_agente='$codigoempleado1' and periodo_devengo_ubicacion='2'  group by tbl_ubicaciones_agentes_asignados.codigo_agente";
+			$query01="SELECT tbl_ubicaciones_agentes_asignados.id as idubicacionagente, tbl_devengo_ubicacion.* FROM `tbl_ubicaciones_agentes_asignados`,tbl_devengo_ubicacion WHERE tbl_ubicaciones_agentes_asignados.idubicacion_agente=tbl_devengo_ubicacion.idubicacion_devengo and tbl_ubicaciones_agentes_asignados.codigo_agente='$codigoempleado1'  group by tbl_ubicaciones_agentes_asignados.codigo_agente";
+			
 			$sql = Conexion::conectar()->prepare($query01);
 			$sql->execute();
 			return $sql->fetchAll();
@@ -965,8 +1520,7 @@ switch ($accion) {
 		function data_situaciones($idempleado1,$fechadesde1,$fechahasta2) /* --ID DE REGISTROS A MODIFICAR */
 		{
 
-			$query01="SELECT*FROM `situacion` 
-					 WHERE  liquidado_situacion='No' and idempleado_situacion='$idempleado1'  and STR_TO_DATE(fecha_situacion, '%d-%m-%Y')  BETWEEN '$fechadesde1' AND '$fechahasta2' ";
+			$query01="SELECT*FROM `situacion` WHERE  liquidado_situacion='No' and idempleado_situacion='$idempleado1'  and STR_TO_DATE(fecha_situacion, '%d-%m-%Y')  BETWEEN '$fechadesde1' AND '$fechahasta2' ";
 			/* echo $query01; */
 			$sql = Conexion::conectar()->prepare($query01);
 			$sql->execute();
@@ -985,6 +1539,16 @@ switch ($accion) {
 		};
 		/* *************** */
 
+		/* ******************** */
+		function devengo_anticipo($idempleado1)
+		{
+			$query01 = "SELECT * FROM `tbl_devengo_descuento_planilla` WHERE idempleado_devengo='$idempleado1' and codigo_devengo_descuento_planilla='0022' order by codigo_planilla_devengo DESC limit 1";
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();
+		};
+		/* *************** */
+
 		
 		/* ***Devegos y descuentos del empleado con tipo***** */
 		function consultar_devengo_empleado($periodo1,$fechadesde1,$fechahasta2,$idempleado1)
@@ -993,9 +1557,7 @@ switch ($accion) {
 			FROM `tbl_empleados_devengos_descuentos` , tbl_devengo_descuento 
 			WHERE tipodescuento='$periodo1' and id_empleado='$idempleado1' and tbl_empleados_devengos_descuentos.id_tipo_devengo_descuento=tbl_devengo_descuento.id and  fecha_caducidad BETWEEN '$fechadesde1' AND '$fechahasta2'";
 			 */
-			$query01 = "SELECT tbl_empleados_devengos_descuentos.id AS id, `id_empleado`, `id_tipo_devengo_descuento`, `valor`, `fecha_caducidad`, `referencia`, `tipodescuento` ,tbl_devengo_descuento.*
-			FROM `tbl_empleados_devengos_descuentos` , tbl_devengo_descuento 
-			WHERE id_empleado='$idempleado1' and tbl_empleados_devengos_descuentos.id_tipo_devengo_descuento=tbl_devengo_descuento.id and  fecha_caducidad >= '$fechadesde1'";
+			$query01 = "SELECT tbl_empleados_devengos_descuentos.id AS id, `id_empleado`, `id_tipo_devengo_descuento`, `valor`, `fecha_caducidad`, `referencia`, `tipodescuento` ,tbl_devengo_descuento.* FROM `tbl_empleados_devengos_descuentos` , tbl_devengo_descuento WHERE id_empleado='$idempleado1' and tbl_empleados_devengos_descuentos.id_tipo_devengo_descuento=tbl_devengo_descuento.id and  fecha_caducidad >= '$fechadesde1'";
 			/* echo $query01; */
 			$sql = Conexion::conectar()->prepare($query01);
 			$sql->execute();
@@ -1007,9 +1569,7 @@ switch ($accion) {
 		/* ***Devegos y descuentos del empleado sin tipo***** */
 		function consultar_devengo_emple_sintipo($periodo1,$fechadesde1,$fechahasta2,$idempleado1)
 		{
-			$query01 = "SELECT tbl_empleados_devengos_descuentos.id AS id, `id_empleado`, `id_tipo_devengo_descuento`, `valor`, `fecha_caducidad`, `referencia`, `tipodescuento` ,tbl_devengo_descuento.*
-			FROM `tbl_empleados_devengos_descuentos` , tbl_devengo_descuento 
-			WHERE id_empleado='$idempleado1' and tbl_empleados_devengos_descuentos.id_tipo_devengo_descuento=tbl_devengo_descuento.id and  fecha_caducidad BETWEEN '$fechadesde1' AND '$fechahasta2'";
+			$query01 = "SELECT tbl_empleados_devengos_descuentos.id AS id, `id_empleado`, `id_tipo_devengo_descuento`, `valor`, `fecha_caducidad`, `referencia`, `tipodescuento` ,tbl_devengo_descuento.* FROM `tbl_empleados_devengos_descuentos` , tbl_devengo_descuento WHERE id_empleado='$idempleado1' and tbl_empleados_devengos_descuentos.id_tipo_devengo_descuento=tbl_devengo_descuento.id and  fecha_caducidad BETWEEN '$fechadesde1' AND '$fechahasta2'";
 			
 			$sql = Conexion::conectar()->prepare($query01);
 			$sql->execute();
@@ -1042,7 +1602,7 @@ switch ($accion) {
 			$dias_maximo_incapacidad=0;
 			$porcentaje_dias_incapacidad=0;
 			foreach ($data_configuracion as $valueconfig) {
-				$porcentaje_isss.=floor($valueconfig["porcentaje_isss"]);
+				$porcentaje_isss.=floatval($valueconfig["porcentaje_isss"]);
 				$tope_isss.=$valueconfig["tope_isss"];
 				$dias_maximo_incapacidad.=$valueconfig["dias_maximo_incapacidad"];
 				$porcentaje_dias_incapacidad.=$valueconfig["porcentaje_dias_incapacidad"];
@@ -1053,9 +1613,52 @@ switch ($accion) {
 		/* ************************ */
 		function isr($salario,$periodo)
 			{
-				$query01="SELECT isr.id as idisr, `codigo`, `nombre_rango`, `periodo_pago`, `salario_desde`, `salario_hasta`, `base_1`, `tasa_sobre_excedente`, `base_2`, periodo_de_pago.id as idperiodo 
-						FROM `isr`, periodo_de_pago 
-						WHERE isr.periodo_pago=periodo_de_pago.id and nombre_periodo='$periodo' and '$salario'>=salario_desde and '$salario'<=salario_hasta";
+				$query01="SELECT isr.id as idisr, `codigo`, `nombre_rango`, `periodo_pago`, `salario_desde`, `salario_hasta`, `base_1`, `tasa_sobre_excedente`, `base_2`, periodo_de_pago.id as idperiodo FROM `isr`, periodo_de_pago WHERE isr.periodo_pago=periodo_de_pago.id and nombre_periodo='$periodo' and '$salario'>=salario_desde and '$salario'<=salario_hasta";
+				
+				$sql = Conexion::conectar()->prepare($query01);
+				$sql->execute();
+				return $sql->fetchAll();
+			};
+		/* ************************ */
+
+		/* ************************ */
+		function cargo_empleado($id1)
+			{
+				$query01="SELECT `id`, `descripcion`, `nivel`, `codigo_contable`, `personal_asignado`, `pago_feriados`, `calculo` FROM `cargos_desempenados` WHERE id='$id1'";
+				$sql = Conexion::conectar()->prepare($query01);
+				$sql->execute();
+				return $sql->fetchAll();
+			};
+		/* ************************ */
+
+		
+		/* ************************ */
+		function viatico_permanente($id_tipo_devengo1,$id_empleado1)
+			{
+				$query01="SELECT `id`, `id_empleado`, `id_tipo_devengo_descuento`, `valor`, `fecha_caducidad`, `referencia`, `tipodescuento` FROM `tbl_empleados_devengos_descuentos` WHERE id_empleado='$id_empleado1' and id_tipo_devengo_descuento='$id_tipo_devengo1'";
+			
+				$sql = Conexion::conectar()->prepare($query01);
+				$sql->execute();
+				return $sql->fetchAll();
+			};
+		/* ************************ */
+
+		
+		/* ************************ */
+		function dias_feriados()
+			{
+				$query01="SELECT `id`, `num_dias`, `fecha_desde`, `fecha_hasta` FROM `dias_feriados` ";
+				$sql = Conexion::conectar()->prepare($query01);
+				$sql->execute();
+				return $sql->fetchAll();
+			};
+		/* ************************ */
+
+		
+		/* ************************ */
+		function ausencia_dias_feriados($idempleado1)
+			{
+				$query01="SELECT `id`, `empleado_ausencia`, `fecha_feriado` FROM `ausenciadiasferiados` WHERE empleado_ausencia='$idempleado1' ";
 				
 				$sql = Conexion::conectar()->prepare($query01);
 				$sql->execute();
@@ -1064,12 +1667,15 @@ switch ($accion) {
 		/* ************************ */
 
 
+
+
+		/* consulta maestra listaconempleado si filtramos por empleados */
 		function consultar($e,$dia1,$dia2,$empleado_rango_desde1,$empleado_rango_hasta1)
 		{
 			$query01="SELECT DATE_FORMAT(DATE(NOW()), '%m-%d')as fecha_actual,DATE_FORMAT(tbl_empleados.fecha_contratacion, '%m-%d') as fechacontracion, tbl_empleados.id as idempleado, tbl_empleados.*
 			FROM `tbl_empleados` 
 			WHERE tbl_empleados.id >= '$empleado_rango_desde1' and tbl_empleados.id <= '$empleado_rango_hasta1'GROUP by tbl_empleados.id";
-			/* echo $query01; */
+			
 			$sql = Conexion::conectar()->prepare($query01);
 			$sql->execute();
 			return $sql->fetchAll();
@@ -1096,226 +1702,324 @@ switch ($accion) {
 		$values_situacion="";
 		$id_situaciones="";
 		$idrecibo="";
+	
 		foreach ($data01 as $value) {
-		/* ----------------------------------------------------- */
 
-								/* *******suma de dias en SITUACION */
-								$codigo_empleado=$value["codigo_empleado"];
-								$fechadesde02 = date("Y-m-d", strtotime($_POST["fechaperiodo1"]));
-								$mes = date("m", strtotime($_POST["fechaperiodo1"]));
-								$anio = date("Y", strtotime($_POST["fechaperiodo1"]));
-								$fecha_desde_format=$anio."-".$mes."-"."01";
-								$fechahasta02= date("Y-m-d", strtotime($_POST["fechaperiodo2"]));
-								$datasituacion = situaciones($codigo_empleado,$fecha_desde_format,$fechahasta02);
-								$dias_ausencia_situ="";
-								$dias_incapacidad_situ="";
-								foreach ($datasituacion as $valuesituacion) {
-									$dias_ausencia_situ.=$valuesituacion["sumaausencia"];
-									$dias_incapacidad_situ.=$valuesituacion["sumainca"];
-								}
-				
-							/* **************************** */
-								/* REGISTROS A MODIFICAR DE SITUACIONES */
-								$data_situaciones2 = data_situaciones($codigo_empleado,$fecha_desde_format,$fechahasta02);
-								$fecha_ausencia="";
-								$fecha_incapacidad="";
-								$dias_ausen="";
-								$dias_inca="";
-								foreach ($data_situaciones2 as $valuedata_situacion) {
-									$iddata_situacion=$valuedata_situacion["id"];
-									$values_situacion.="";
-									$id_situaciones.="$iddata_situacion,";
-				
-									$dias_ausen.=$valuedata_situacion["dias_ausencia_situacion"];
-									$dias_inca.=$valuedata_situacion["incapacidad_situacion"];
-				
-							
-									if(!empty($valuedata_situacion["dias_ausencia_situacion"])){
-										$fecha_ausencia.=$valuedata_situacion["fecha_situacion"]."-";
-									}
-									if(!empty($valuedata_situacion["incapacidad_situacion"])){
-										$fecha_incapacidad.=$valuedata_situacion["fecha_situacion"]."-";
-									}
-								}
-								$comentario_obser="";
-								if(!empty($dias_ausen)){
-									$comentario_obser.="Fechas dias ausencia:".trim($fecha_ausencia, "-")."
-									
-									";
-								}
-								if(!empty($dias_inca)){
-									$comentario_obser.="Fechas dias Incapacidad:".trim($fecha_incapacidad, "-");
-									
-								}
-								$observacion=$comentario_obser;
-							/* **************************** */
-				
-							/* ********DEVENGO EMPLEADOS********* */
-				
-								$idempleado=$value["idempleado"];
-								
-								$datadevengoempleado = consultar_devengo_empleado($periodo_planilladevengo_admin,$fecha_desde_format,$fechahasta02,$idempleado);
-								$valordevengoempleado="";
-								$iddevengo="";
-								$valorisss="";
-								$valorafp="";
-								$valorrenta="";
-							
-								foreach ($datadevengoempleado as $valuesdevengoempleado) {
-									$tipodescuento=$valuesdevengoempleado["tipodescuento"];
-									if($tipodescuento==$periodo_planilladevengo_admin || $tipodescuento=="Siempre"){
-				
-										$iddevengo=$valuesdevengoempleado["id_tipo_devengo_descuento"];	
-										$isss=$valuesdevengoempleado["isss_devengo"];
-										$afp=$valuesdevengoempleado["afp_devengo"];
-										$renta=$valuesdevengoempleado["renta_devengo"];
-				
-										if($isss=="Si"){
-											$valorisss=floor($valuesdevengoempleado["valor"]);
-										}
-										if($afp=="Si"){
-											$valorafp=floor($valuesdevengoempleado["valor"]);
-										}
-										if($renta=="Si"){
-											$valorrenta=floor($valuesdevengoempleado["valor"]);
-										}
-										$valordevengoempleado=$valuesdevengoempleado["valor"];
-									}
-								}
-				
-						
-							/* ************************************* */
-				
-							/* ************************** */
-							$fechaEnvio= date("Y-m-d", strtotime($value["fecha_contratacion"]));
-							$fechaActual = date("Y-m-d", strtotime($fecha_planilladevengo_admin));
-							$datetime1 = date_create($fechaEnvio);
-							$datetime2 = date_create($fechaActual);
-							$contador = date_diff($datetime1, $datetime2);
-				
-							/* lunes-viernes */
-							$workingDays = 0;
-							$startTimestamp = strtotime($fechaEnvio);
-							$endTimestamp = strtotime($fechaActual);
-							for ($i = $startTimestamp; $i <= $endTimestamp; $i = $i + (60 * 60 * 24)) {
-								if (date("N", $i) <= 5) $workingDays = $workingDays + 1;
-							}
-				
-							/* *********** */
-							/* ****sabado-domingo */
-							$weekendDays = 0;
-							
-							$startTimestamp = strtotime($fechaEnvio);
-							$endTimestamp = strtotime($fechaActual);
-							for ($i = $startTimestamp; $i <= $endTimestamp; $i = $i + (60 * 60 * 24)) {
-								if (date("N", $i) > 5) $weekendDays = $weekendDays + 1;
-							}
-							/* ********** */
-							
-							$dias_trabajo= floor($workingDays)+floor($weekendDays);
-				
-				
-							$differenceFormat = '%a';
-				
-							/* $dias_trabajo=$contador->format($differenceFormat); */
-							$tiempotrabajo="";
-							if($dias_trabajo>='15'){
-								$dias_trabajo_planilladevengo_admin='15';
-								$tiempotrabajo="viejo";
-							}
-							else{
-								$dias_trabajo_planilladevengo_admin=$dias_trabajo;
-								$tiempotrabajo="nuevo";
-							}
-						
-							$sueldo_diario=floatval($value["sueldo_diario"]);
-							$dias_incapacidad=floor($dias_incapacidad_situ);
-							$dias_ausencia=floor($dias_ausencia_situ);
-						
-				
-							$total_dias_trabajados = floor($dias_trabajo_planilladevengo_admin)-$dias_incapacidad-$dias_ausencia;
-							if($total_dias_trabajados<=0){
-								$total_dias_trabajados=0;
-							}
-							$sueldo_total=$total_dias_trabajados*$sueldo_diario;
-							
-				
-							/* ********PORCENTAJES ISSS AFP RENTA****** */
-							$tipo_afp=$value["codigo_afp"];
-							$periodo_pago=$value["periodo_pago"];
-							if($periodo_pago=="015"){
-								$periodo_pago="quincenal";
-							}
-							if($periodo_pago=="15"){
-								$periodo_pago="quincenal";
-							}
-							if($periodo_pago=="030"){
-								$periodo_pago="Mensual";
-							}
-							if($periodo_pago=="30"){
-								$periodo_pago="Mensual";
-							}
-				
-							/* *********AFP******* */
-				
-							$data_afp = afp($tipo_afp);
-							$porcentaje_afp=0;
-								foreach ($data_afp as $valueafp) {
-									$porcentaje_afp.=floor($valueafp["porcentaje"]);
-								}
-								/*--------------------------------  */
-				
-									
-								$calcularporcentaje_afp=$porcentaje_afp/100;/* --afp */
-								$calcularporcentaje_isss=$porcentaje_isss/100;
-								$pensionado_empleado=$value["pensionado_empleado"];
-								$renta_final=0;
-								$salario_isss=0;
-								$salario_afp=0;
-				
-								$descuento_isss=0;
-								$descuento_afp=0;
-								if($pensionado_empleado=="Si"){
-									$renta_final=floor($valorrenta)+floor($sueldo_total);/* sujeto renta si  es pensionado */
+
+
+
+			/* *******suma de dias en SITUACION */
+				$codigo_empleado=$value["codigo_empleado"];
+				$idcargo_empleado=$value["nivel_cargo"];
+				$salario_empleado=$value["sueldo"];
+				$idempleado=$value["idempleado"];
+				$hora_extra_diurna=$value["hora_extra_diurna"];
+
+
+				$fechadesde02 = date("Y-m-d", strtotime($_POST["fechaperiodo1"]));
+				$mes = date("m", strtotime($_POST["fechaperiodo1"]));
+				$anio = date("Y", strtotime($_POST["fechaperiodo1"]));
+				$fecha_desde_format=$anio."-".$mes."-"."01";
+				$fechahasta02= date("Y-m-d", strtotime($_POST["fechaperiodo2"]));
+
+				$datasituacion = situaciones($codigo_empleado,$fecha_desde_format,$fechahasta02);
+				$datasituacion_inca = situaciones_incapacidad($codigo_empleado,$fecha_desde_format,$fechahasta02);
+				$datasituacion_dias_tra = situaciones_dias_tra_inca($codigo_empleado,$fecha_desde_format,$fechahasta02);
+
+				$dias_ausencia_situ="";
+				$dias_incapacidad_situ="";
+				$dias_tra_inca="";
+
+				$horas_ausencia="";
+				$horas_extras="";
+
+				foreach ($datasituacion as $valuesituacion) {
+					$dias_ausencia_situ.=floatval($valuesituacion["sumaausencia"])+floatval($valuesituacion["sumadias_no_sueldo"]);
+					/* $dias_incapacidad_situ.=$valuesituacion["sumainca"]; */
+					$horas_ausencia.=$valuesituacion["sumahoraausencia"];
+					$horas_extras.=$valuesituacion["sumahoraextra"];
+				}
+				/* situaciones incapacidad */
+				foreach ($datasituacion_inca as $valuesituacion) {
+					$dias_incapacidad_situ.=$valuesituacion["sumainca"];
+				}
+				/* situaciones dias trabajados de incapacidad */
+				foreach ($datasituacion_dias_tra as $valuesituacion) {
+					$dias_tra_inca.=$valuesituacion["sumadiastrabajados"];
+				}
+
+			/* **************************** */
+				/* REGISTROS A MODIFICAR DE SITUACIONES */
+				$data_situaciones2 = data_situaciones($codigo_empleado,$fecha_desde_format,$fechahasta02);
+				$fecha_ausencia="";
+				$fecha_incapacidad="";
+				$dias_ausen="";
+				$dias_inca="";
+				foreach ($data_situaciones2 as $valuedata_situacion) {
+					$iddata_situacion=$valuedata_situacion["id"];
+					$values_situacion.="";
+					$id_situaciones.="$iddata_situacion,";
+
+					$dias_ausen.=$valuedata_situacion["dias_ausencia_situacion"];
+					$dias_inca.=$valuedata_situacion["incapacidad_situacion"];
+
+			
+					if(!empty($valuedata_situacion["dias_ausencia_situacion"])){
+						$fecha_ausencia.=$valuedata_situacion["fecha_situacion"]."-";
+					}
+					if(!empty($valuedata_situacion["incapacidad_situacion"])){
+						$fecha_incapacidad.=$valuedata_situacion["fecha_situacion"]."-";
+					}
+				}
+				$comentario_obser="";
+				if(!empty($dias_ausen)){
+					$comentario_obser.="Fechas dias ausencia:".trim($fecha_ausencia, "-")."\n";
+				}
+				if(!empty($dias_inca)){
+					$comentario_obser.="Fechas dias Incapacidad:".trim($fecha_incapacidad, "-");
 					
-								}
-								else{
-									
-									$salario_isss=floor($valorisss)+$sueldo_total;/* sujeto iss */
-									$salario_afp=floor($valorafp)+$sueldo_total;/* sujeto afp */
+				}
+				$observacion=$comentario_obser;
+			/* **************************** */
+
+			/* ********DEVENGO EMPLEADOS********* */
+
 				
-									$descuento_isss=$salario_isss*$calcularporcentaje_isss;/* descuento isss */
-									$descuento_afp=$salario_afp*$calcularporcentaje_afp;/* descuento afp */
-				
-									$salario_renta=floor($valorrenta)+$sueldo_total;
-									$sujeto_renta=$salario_renta-$descuento_isss-$descuento_afp;
-									$renta_final=$sujeto_renta;/* sujeto renta si no es pensionado */
-								}
+				$datadevengoempleado = consultar_devengo_empleado($periodo_planilladevengo_admin,$fecha_desde_format,$fechahasta02,$idempleado);
+				$valordevengoempleado="";
+				$iddevengo="";
+				$valorisss="";
+				$valorafp="";
+				$valorrenta="";
+				$viaticos_empleados="0";
+			
+				foreach ($datadevengoempleado as $valuesdevengoempleado) {
+					$tipodescuento=$valuesdevengoempleado["tipodescuento"];
+					if($tipodescuento==$periodo_planilladevengo_admin || $tipodescuento=="Siempre"){
+
+						$iddevengo=$valuesdevengoempleado["id_tipo_devengo_descuento"];	
+						$isss=$valuesdevengoempleado["isss_devengo"];
+						$afp=$valuesdevengoempleado["afp_devengo"];
+						$renta=$valuesdevengoempleado["renta_devengo"];
+
+						if($isss=="Si"){
+							$valorisss=floatval($valuesdevengoempleado["valor"]);
+						}
+						if($afp=="Si"){
+							$valorafp=floatval($valuesdevengoempleado["valor"]);
+						}
+						if($renta=="Si"){
+							$valorrenta=floatval($valuesdevengoempleado["valor"]);
+						}
+						$valordevengoempleado=$valuesdevengoempleado["valor"];
+						
+						if($iddevengo=="2"){
+							$viaticos_empleados.=$valuesdevengoempleado["valor"];
+						}
+					}
+				}
+
+		
+			/* ************************************* */
+
+			/* ************************** */
+			$fechaEnvio= date("Y-m-d", strtotime($value["fecha_contratacion"]));
+			$fechaActual = date("Y-m-d", strtotime($fecha_planilladevengo_admin));
+			$datetime1 = date_create($fechaEnvio);
+			$datetime2 = date_create($fechaActual);
+			$contador = date_diff($datetime1, $datetime2);
+			/* lunes-viernes */
+			$workingDays = 0;
+			$startTimestamp = strtotime($fechaEnvio);
+			$endTimestamp = strtotime($fechaActual);
+			for ($i = $startTimestamp; $i <= $endTimestamp; $i = $i + (60 * 60 * 24)) {
+				if (date("N", $i) <= 5) $workingDays = $workingDays + 1;
+			}
+			/* *********** */
+			/* ****sabado-domingo */
+			$weekendDays = 0;
+			$startTimestamp = strtotime($fechaEnvio);
+			$endTimestamp = strtotime($fechaActual);
+			for ($i = $startTimestamp; $i <= $endTimestamp; $i = $i + (60 * 60 * 24)) {
+				if (date("N", $i) > 5) $weekendDays = $weekendDays + 1;
+			}
+			/* ********** */
+			$dias_trabajo= floatval($workingDays)+floatval($weekendDays);
+			$differenceFormat = '%a';
+			/* $dias_trabajo=$contador->format($differenceFormat); */
+			$tiempotrabajo="";
+			if($dias_trabajo>='15'){
+				$dias_trabajo_planilladevengo_admin='15';
+				$tiempotrabajo="viejo";
+			}
+			else{
+				$dias_trabajo_planilladevengo_admin=$dias_trabajo;
+				$tiempotrabajo="nuevo";
+			}
+		   
+			$sueldo_diario=floatval($value["sueldo_diario"]);
+			$dias_incapacidad=floatval($dias_incapacidad_situ);
+			$dias_ausencia=floatval($dias_ausencia_situ);
+			$total_dias_trabajados = floatval($dias_trabajo_planilladevengo_admin)-$dias_incapacidad-$dias_ausencia;
+
+			if($total_dias_trabajados<=0){
+				$total_dias_trabajados=0;
+			}
+			
+			$sueldo_total=$total_dias_trabajados*$sueldo_diario;
+			
+
+			/* ********PORCENTAJES ISSS AFP RENTA****** */
+			$tipo_afp=$value["codigo_afp"];
+			$periodo_pago=$value["periodo_pago"];
+			if($periodo_pago=="015"){
+				$periodo_pago="quincenal";
+			}
+			if($periodo_pago=="15"){
+				$periodo_pago="quincenal";
+			}
+			if($periodo_pago=="030"){
+				$periodo_pago="Mensual";
+			}
+			if($periodo_pago=="30"){
+				$periodo_pago="Mensual";
+			}
+
+			/* *********AFP******* */
+
+			$data_afp = afp($tipo_afp);
+			$porcentaje_afp=0;
+				foreach ($data_afp as $valueafp) {
+					$porcentaje_afp.=floatval($valueafp["porcentaje"]);
+				}
+				/*--------------------------------  */
+
 					
-							/* ********************* */
-								$dataisr = isr($renta_final,$periodo_pago);
-								$porcentaje_base1=0;
-								$porcentaje_base2=0;
-								$tasa_sobre_excedente=0;
-								foreach ($dataisr as $valueisr) {
-									$porcentaje_base1=floor($valueisr["base_1"]);
-									$porcentaje_base2=floor($valueisr["base_2"]);
-									$tasa_sobre_excedente=floor($valueisr["tasa_sobre_excedente"]);
-								}
-				
-								$porcentaje_tasa_excedente=$tasa_sobre_excedente/100;
-								$renta_menos_base2=$renta_final-$porcentaje_base2;
-								$tasa_por_exedente=$renta_menos_base2*$porcentaje_tasa_excedente;
-								$descuento_renta=$tasa_por_exedente+$porcentaje_base1;/* descuento renta */
-				
-				
-							/* echo $porcentaje_isss.",".$porcentaje_afp.",".$porcentaje_base1.",".$porcentaje_base2.",".$tasa_sobre_excedente; */
-							/* **********************  */
-				
-				
-							if($dias_incapacidad>0){
-				
-									$datadevengo = consultar_devengo2("33");
+				$calcularporcentaje_afp=$porcentaje_afp/100;/* --afp */
+				$calcularporcentaje_isss=$porcentaje_isss/100;
+				$pensionado_empleado=$value["pensionado_empleado"];
+				$renta_final=0;
+				$salario_isss=0;
+				$salario_afp=0;
+
+				$descuento_isss=0;
+				$descuento_afp=0;
+				if($pensionado_empleado=="Si"){
+					$renta_final=floatval($valorrenta)+floatval($sueldo_total);/* sujeto renta si  es pensionado */
+	
+				}
+				else{
+					
+					$salario_isss=floatval($valorisss)+$sueldo_total;/* sujeto iss */
+					$salario_afp=floatval($valorafp)+$sueldo_total;/* sujeto afp */
+
+					$descuento_isss=$salario_isss*$calcularporcentaje_isss;/* descuento isss */
+					$descuento_afp=$salario_afp*$calcularporcentaje_afp;/* descuento afp */
+
+					$salario_renta=floatval($valorrenta)+$sueldo_total;
+					$sujeto_renta=$salario_renta-$descuento_isss-$descuento_afp;
+					$renta_final=$sujeto_renta;/* sujeto renta si no es pensionado */
+				}
+	
+			/* ********************* */
+				$dataisr = isr($renta_final,$periodo_pago);
+				$porcentaje_base1=0;
+				$porcentaje_base2=0;
+				$tasa_sobre_excedente=0;
+				foreach ($dataisr as $valueisr) {
+					$porcentaje_base1=floatval($valueisr["base_1"]);
+					$porcentaje_base2=floatval($valueisr["base_2"]);
+					$tasa_sobre_excedente=floatval($valueisr["tasa_sobre_excedente"]);
+				}
+
+				$porcentaje_tasa_excedente=$tasa_sobre_excedente/100;
+				$renta_menos_base2=$renta_final-$porcentaje_base2;
+				$tasa_por_exedente=$renta_menos_base2*$porcentaje_tasa_excedente;
+				$descuento_renta=$tasa_por_exedente+$porcentaje_base1;/* descuento renta */
+
+
+			/* echo $porcentaje_isss.",".$porcentaje_afp.",".$porcentaje_base1.",".$porcentaje_base2.",".$tasa_sobre_excedente; */
+			/* **********************  */
+
+			/* VERIFICA LAS HORAS DE AUSENCIA CUBIERTAS O NO CUBIERTAS O SI FUERON CUBIERTAS DE MANERA DE HORA NORMAL*/
+			$horas_no_cubiertas="";
+			$horas_cubiertas_extras=0;
+			$horas_cubiertas_normal=0;
+			$total_horas_ausencia=0;
+			$suma_horas=0;
+			$total_horas_cubiertas_extras="";
+			$total_horas_cubiertas_normal="";
+
+
+			/* ----------HORAS EXTRAS------------------ */
+			$data_hora_cubi = horas_cubiertar_extras($codigo_empleado);	
+			foreach ($data_hora_cubi as $value_horas_cubi) {
+				$horas_cubiertas_extras= floatval($value_horas_cubi["hora_extra_situacion"]);
+				$total_horas_cubiertas_extras.=$value_horas_cubi["hora_extra_situacion"];
+			}
+			/* ----------HORAS NORMALES------------------ */
+			$data_hora_normales = horas_cubiertar_normal($codigo_empleado);	
+			foreach ($data_hora_normales as $value_horas_cubi) {
+				$horas_cubiertas_normal= floatval($value_horas_cubi["hora_normales_situacion"]);
+				$total_horas_cubiertas_normal.=$value_horas_cubi["hora_normales_situacion"];
+			}
+
+			/* ---------HORAS AUSENCIA TOTAL------------- */
+			$data_hora_aus = situaciones_horas($codigo_empleado,$fecha_desde_format,$fechahasta02);
+			foreach ($data_hora_aus as $value_horas_aus) {
+				$horas_ausencia_situacion = $value_horas_aus["horas_ausencia_situacion"];
+				$total_horas_ausencia .= $value_horas_aus["horas_ausencia_situacion"];
+			
+				/* --------------------- */
+
+			}
+
+
+			/* ------------------------------ */
+						/* HORAS EXTRAS CUBIERTAS DE AUSENCIAS */
+						if($total_horas_cubiertas_extras>0){
+
+												$datadevengo = consultar_devengo2("23");
+												$codigo_devengo="";
+												$descipcion_devengo="";
+												$isss_devengo="";
+												$afp_devengo="";
+												$renta_devengo="";
+												$id_devengo="";
+												$suma_resta="";
+												foreach ($datadevengo as $valuedevengo) {
+													$id_devengo.=$valuedevengo["id"];
+													$codigo_devengo.=$valuedevengo["codigo"];
+													$descipcion_devengo.=$valuedevengo["descripcion"];
+													$isss_devengo.=$valuedevengo["isss_devengo"];
+													$afp_devengo.=$valuedevengo["afp_devengo"];
+													$renta_devengo.=$valuedevengo["renta_devengo"];
+													$suma_resta.=$valuedevengo["tipo"];
+												}
+
+														$total_valor_horas_aus=floatval($hora_extra_diurna)*floatval($total_horas_cubiertas_extras);
+
+														$codigo_devengo_descuento_planilla=$codigo_devengo;
+														$descripcion_devengo_descuento_planilla=$descipcion_devengo;
+														$tipo_devengo_descuento_planilla=$id_devengo;
+														$isss_devengo_devengo_descuento_planilla=$isss_devengo;
+														$afp_devengo_devengo_descuento_planilla=$afp_devengo;
+														$renta_devengo_devengo_descuento_planilla=$renta_devengo;
+														$idempleado_devengo=$value["idempleado"];
+														$valor_devengo_planilla=$total_valor_horas_aus;
+														$tipo_valor=$suma_resta;
+														$codigo_planilla_devengo=$numero_planilladevengo_admin;
+														
+														$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','','','$total_horas_cubiertas_extras','$hora_extra_diurna'),";
+
+						}
+			/* ------------------------------ */
+
+				/* ------------------------------ */
+					/* HORAS NORMALES CUBIERTAS DE AUSENCIAS */
+					if($total_horas_cubiertas_normal>0){
+
+									$datadevengo = consultar_devengo2("23");
 									$codigo_devengo="";
 									$descipcion_devengo="";
 									$isss_devengo="";
@@ -1332,18 +2036,15 @@ switch ($accion) {
 										$renta_devengo.=$valuedevengo["renta_devengo"];
 										$suma_resta.=$valuedevengo["tipo"];
 									}
-				
-									$valor_devengo_incapacidad=0;
-									if($dias_incapacidad>=$dias_maximo_incapacidad){
-										$sueldo_porcentaje=$sueldo_diario*$porcentaje_dias_incapacidad;
-										$valor_devengo_incapacidad=$dias_incapacidad*$dias_maximo_incapacidad;
-				
-									}
-									else{
-										$sueldo_porcentaje=$sueldo_diario*$porcentaje_dias_incapacidad;
-										$valor_devengo_incapacidad=$sueldo_porcentaje*$dias_incapacidad;
-									}
-				
+
+									$sueldo_viatico=floatval($salario_empleado)+floatval($viaticos_empleados);
+									$sueldo_diario02=floatval($sueldo_viatico)/15;
+									$sueldo_dia_pagar=floatval($sueldo_diario02)/12;
+									
+									$total_valor_horas_aus=floatval($sueldo_dia_pagar)*floatval($total_horas_cubiertas_normal);
+								
+
+
 									$codigo_devengo_descuento_planilla=$codigo_devengo;
 									$descripcion_devengo_descuento_planilla=$descipcion_devengo;
 									$tipo_devengo_descuento_planilla=$id_devengo;
@@ -1351,302 +2052,598 @@ switch ($accion) {
 									$afp_devengo_devengo_descuento_planilla=$afp_devengo;
 									$renta_devengo_devengo_descuento_planilla=$renta_devengo;
 									$idempleado_devengo=$value["idempleado"];
-									$valor_devengo_planilla=$valor_devengo_incapacidad;
+									$valor_devengo_planilla=$total_valor_horas_aus;
 									$tipo_valor=$suma_resta;
 									$codigo_planilla_devengo=$numero_planilladevengo_admin;
-				
-									$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo'),";
-				
-							}
-							
-				
-							if(empty($iddevengo)){
-							}
-							else{
-								/* ******Datos del devengo********* */
-								foreach ($datadevengoempleado as $valuesdevengoempleado) {
-									$tipodescuento=$valuesdevengoempleado["tipodescuento"];
-									if($tipodescuento==$periodo_planilladevengo_admin || $tipodescuento=="Siempre"){
-										$iddevengo=$valuesdevengoempleado["id_tipo_devengo_descuento"];	
-										$valordevengoempleado=$valuesdevengoempleado["valor"];
-				
-										/* ************* */
-				
-											$datadevengo = consultar_devengo2($iddevengo);
-											$codigo_devengo="";
-											$descipcion_devengo="";
-											$isss_devengo="";
-											$afp_devengo="";
-											$renta_devengo="";
-											$id_devengo="";
-											$suma_resta="";
-											foreach ($datadevengo as $valuedevengo) {
-												$id_devengo.=$valuedevengo["id"];
-												$codigo_devengo.=$valuedevengo["codigo"];
-												$descipcion_devengo.=$valuedevengo["descripcion"];
-												$isss_devengo.=$valuedevengo["isss_devengo"];
-												$afp_devengo.=$valuedevengo["afp_devengo"];
-												$renta_devengo.=$valuedevengo["renta_devengo"];
-												$suma_resta.=$valuedevengo["tipo"];
-				
-											}
-				
-											
-											$codigo_devengo_descuento_planilla=$codigo_devengo;
-											$descripcion_devengo_descuento_planilla=$descipcion_devengo;
-											$tipo_devengo_descuento_planilla=$id_devengo;
-											$isss_devengo_devengo_descuento_planilla=$isss_devengo;
-											$afp_devengo_devengo_descuento_planilla=$afp_devengo;
-											$renta_devengo_devengo_descuento_planilla=$renta_devengo;
-											$idempleado_devengo=$value["idempleado"];
-											$valor_devengo_planilla=$valordevengoempleado;
-											$tipo_valor=$suma_resta;
-											$codigo_planilla_devengo=$numero_planilladevengo_admin;
-				
-											$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo'),";
-				
-										/* ************ */
-				
-				
-									}
-								}
-								/* **************************** */
-							}
-				
-				
-							/* *************BONO POR UBICACION*************** */
-								$databonoubicacion = bonoubicacion($codigo_empleado);			
-								foreach ($databonoubicacion as $valubonoubicacion) {
-									$bono=$valubonoubicacion["bonos"];
-									/* ******************* */
-									$datadevengo = consultar_devengo2('0061');
-										$codigo_devengo="";
-										$descipcion_devengo="";
-										$isss_devengo="";
-										$afp_devengo="";
-										$renta_devengo="";
-										$id_devengo="";
-										$suma_resta="";
-										foreach ($datadevengo as $valuedevengo) {
-											$id_devengo.=$valuedevengo["id"];
-											$codigo_devengo.=$valuedevengo["codigo"];
-											$descipcion_devengo.=$valuedevengo["descripcion"];
-											$isss_devengo.=$valuedevengo["isss_devengo"];
-											$afp_devengo.=$valuedevengo["afp_devengo"];
-											$renta_devengo.=$valuedevengo["renta_devengo"];
-											$suma_resta.=$valuedevengo["tipo"];
-				
-										}
-										$codigo_devengo_descuento_planilla=$codigo_devengo;
-										$descripcion_devengo_descuento_planilla=$descipcion_devengo;
-										$tipo_devengo_descuento_planilla=$id_devengo;
-										$isss_devengo_devengo_descuento_planilla=$isss_devengo;
-										$afp_devengo_devengo_descuento_planilla=$afp_devengo;
-										$renta_devengo_devengo_descuento_planilla=$renta_devengo;
-										$idempleado_devengo=$value["idempleado"];
-										$valor_devengo_planilla= bcdiv($bono, '1', 2);
-										$tipo_valor=$suma_resta;
-										$codigo_planilla_devengo=$numero_planilladevengo_admin;
-				
-										$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo'),";
-				
-									/* ******************* */
-								}
-							/* ********************************************* */
-				
-							
-							/* *************BONO POR NO FALTAR*************** */
-							$databonopornofaltar = bonopornofaltar($codigo_empleado);			
-							foreach ($databonopornofaltar as $valubonopornofaltar) {
-								$bono=$valubonopornofaltar["valor_devengo_ubicacion"];
-				
-								$fecha_planilladevengo_admin01 = date("Y-m-d", strtotime($fecha_planilladevengo_admin));
-								$fecha_gratificacion_admin= date("Y-m-d", strtotime($_POST["fecha_gratificacion_admin"]));
-								$datasituacion = situaciones($codigo_empleado,$fecha_gratificacion_admin,$fecha_planilladevengo_admin01);
-								$dias_ausencia_situ_bono="";
-								foreach ($datasituacion as $valuesituacion) {
-									$dias_ausencia_situ_bono.=$valuesituacion["sumaausencia"];
-								}
-				
-								if($tiempotrabajo=="viejo"){
-				
-									if(empty($dias_ausencia_situ_bono)){
-										/* ******************* */
-										$datadevengo = consultar_devengo2('0020');
-										$codigo_devengo="";
-										$descipcion_devengo="";
-										$isss_devengo="";
-										$afp_devengo="";
-										$renta_devengo="";
-										$id_devengo="";
-										$suma_resta="";
-										foreach ($datadevengo as $valuedevengo) {
-											$id_devengo.=$valuedevengo["id"];
-											$codigo_devengo.=$valuedevengo["codigo"];
-											$descipcion_devengo.=$valuedevengo["descripcion"];
-											$isss_devengo.=$valuedevengo["isss_devengo"];
-											$afp_devengo.=$valuedevengo["afp_devengo"];
-											$renta_devengo.=$valuedevengo["renta_devengo"];
-											$suma_resta.=$valuedevengo["tipo"];
-				
-										}
-										$codigo_devengo_descuento_planilla=$codigo_devengo;
-										$descripcion_devengo_descuento_planilla=$descipcion_devengo;
-										$tipo_devengo_descuento_planilla=$id_devengo;
-										$isss_devengo_devengo_descuento_planilla=$isss_devengo;
-										$afp_devengo_devengo_descuento_planilla=$afp_devengo;
-										$renta_devengo_devengo_descuento_planilla=$renta_devengo;
-										$idempleado_devengo=$value["idempleado"];
-										$valor_devengo_planilla= bcdiv($bono, '1', 2);
-										$tipo_valor=$suma_resta;
-										$codigo_planilla_devengo=$numero_planilladevengo_admin;
-				
-										$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo'),";
-				
-									/* ******************* */
-									}
-				
-								}
-				
-								if($tiempotrabajo=="nuevo"){
-				
-									if(empty($dias_ausencia_situ_bono)){
-				
-										$calculobono=floor($bono)/30*floor($total_dias_trabajados);
-										/* ******************* */
-										$datadevengo = consultar_devengo2('0020');
-										$codigo_devengo="";
-										$descipcion_devengo="";
-										$isss_devengo="";
-										$afp_devengo="";
-										$renta_devengo="";
-										$id_devengo="";
-										$suma_resta="";
-										foreach ($datadevengo as $valuedevengo) {
-											$id_devengo.=$valuedevengo["id"];
-											$codigo_devengo.=$valuedevengo["codigo"];
-											$descipcion_devengo.=$valuedevengo["descripcion"];
-											$isss_devengo.=$valuedevengo["isss_devengo"];
-											$afp_devengo.=$valuedevengo["afp_devengo"];
-											$renta_devengo.=$valuedevengo["renta_devengo"];
-											$suma_resta.=$valuedevengo["tipo"];
-				
-										}
-										$codigo_devengo_descuento_planilla=$codigo_devengo;
-										$descripcion_devengo_descuento_planilla=$descipcion_devengo;
-										$tipo_devengo_descuento_planilla=$id_devengo;
-										$isss_devengo_devengo_descuento_planilla=$isss_devengo;
-										$afp_devengo_devengo_descuento_planilla=$afp_devengo;
-										$renta_devengo_devengo_descuento_planilla=$renta_devengo;
-										$idempleado_devengo=$value["idempleado"];
-										$valor_devengo_planilla= bcdiv($calculobono, '1', 2);
-										$tipo_valor=$suma_resta;
-										$codigo_planilla_devengo=$numero_planilladevengo_admin;
-				
-										$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo'),";
-				
-									/* ******************* */
-									}
-				
-								}
-							}
-						/* ********************************************* */
-				
-							/* *********RECIBO DESCUENTO***************** */
-							$datarecibo = recibo($idempleado,$fecha_desde_format,$fechahasta02);
-							foreach ($datarecibo as $valuerecibo) {
-				
-								/* ************************ */
-								$iddevengo=$valuerecibo["descuento_recibo"];
-								$valorrecibo=$valuerecibo["valor_recibo"];
-								$idrecibo.=$valuerecibo["id"].",";
-										$datadevengo = consultar_devengo2($iddevengo);
-										$codigo_devengo="";
-										$descipcion_devengo="";
-										$isss_devengo="";
-										$afp_devengo="";
-										$renta_devengo="";
-										$id_devengo="";
-										$suma_resta="";
-										foreach ($datadevengo as $valuedevengo) {
-											$id_devengo.=$valuedevengo["id"];
-											$codigo_devengo.=$valuedevengo["codigo"];
-											$descipcion_devengo.=$valuedevengo["descripcion"];
-											$isss_devengo.=$valuedevengo["isss_devengo"];
-											$afp_devengo.=$valuedevengo["afp_devengo"];
-											$renta_devengo.=$valuedevengo["renta_devengo"];
-											$suma_resta.=$valuedevengo["tipo"];
-										}
-										$codigo_devengo_descuento_planilla=$codigo_devengo;
-										$descripcion_devengo_descuento_planilla=$descipcion_devengo;
-										$tipo_devengo_descuento_planilla=$id_devengo;
-										$isss_devengo_devengo_descuento_planilla=$isss_devengo;
-										$afp_devengo_devengo_descuento_planilla=$afp_devengo;
-										$renta_devengo_devengo_descuento_planilla=$renta_devengo;
-										$idempleado_devengo=$value["idempleado"];
-										$valor_devengo_planilla=$valorrecibo;
-										$tipo_valor=$suma_resta;
-										$codigo_planilla_devengo=$numero_planilladevengo_admin;
-				
-										$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo'),";
-				
-				
-								/* ************************ */
-								
-							}
-							/* ******************** */
-				
-							$numero_planilladevengo_admin=$numero_planilladevengo_admin;
-							$fecha_planilladevengo_admin=$fecha_planilladevengo_admin;
-							$fecha_desde_planilladevengo_admin=$_POST["fechaperiodo1"];
-							$fecha_hasta_planilladevengo_admin=$_POST["fechaperiodo2"];
-							$descripcion_planilladevengo_admin=$descripcion_planilladevengo_admin;
-							$codigo_empleado_planilladevengo_admin=$value["codigo_empleado"];
-							$nombre_empleado_planilladevengo_admin=$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["tercer_nombre"].' '.$value["primer_apellido"].' '.$value["segundo_apellido"].' '.$value["apellido_casada"];
-							$id_empleado_planilladevengo_admin=$value["idempleado"];
-							$sueldo_planilladevengo_admin=bcdiv($sueldo_total, '1', 2); ;
-							$sueldo="0";
-							$devengo="0";
-							$totaldevengo=$sueldo+$devengo;
-							$total_devengo_admin_planilladevengo_admin=$totaldevengo;
-							$total_liquidado_planilladevengo_admin=$totaldevengo;
-							$codigo_ubicacion_planilladevengo_admin="";
-							$nombre_ubicacion_planilladevengo_admin="";
-							$id_ubicacion_planilladevengo_admin="";
-							$periodo_planilladevengo_admin=$periodo_planilladevengo_admin;
-							$tipo_planilladevengo_admin=$tipo_planilladevengo_admin;
-							$empleado_rango_desde=$empleado_rango_desde;
-							$empleado_rango_hasta=$empleado_rango_hasta;
-							$observacion_planilladevengo_admin=$observacion;
-							$fecha_gratificacion_admin=$_POST["fecha_gratificacion_admin"];
-							/* ---------------- */
-							if($salario_isss>=$tope_isss){
-								$salario_isss=$salario_isss;
-							}
-							$descuento_isss_planilladevengo_admin=  bcdiv($descuento_isss, '1', 2); 
-							$descuento_afp_planilladevengo_admin=  bcdiv($descuento_afp, '1', 2); 
-							$descuento_renta_planilladevengo_admin=  bcdiv($descuento_renta, '1', 2);
-							$sueldo_renta_planilladevengo_admin=  bcdiv($renta_final, '1', 2);
-							$sueldo_isss_planilladevengo_admin= bcdiv($salario_isss, '1', 2); 
-							$sueldo_afp_planilladevengo_admin=  bcdiv($salario_afp, '1', 2);
-				
-				
-				
-				
-							$values_consulta.="('$numero_planilladevengo_admin','$fecha_planilladevengo_admin','$fecha_desde_planilladevengo_admin','$fecha_hasta_planilladevengo_admin','$descripcion_planilladevengo_admin','$codigo_empleado_planilladevengo_admin','$nombre_empleado_planilladevengo_admin','$id_empleado_planilladevengo_admin','$sueldo_planilladevengo_admin','$total_devengo_admin_planilladevengo_admin','$total_liquidado_planilladevengo_admin','$codigo_ubicacion_planilladevengo_admin','$nombre_ubicacion_planilladevengo_admin','$id_ubicacion_planilladevengo_admin','$periodo_planilladevengo_admin','$tipo_planilladevengo_admin','$empleado_rango_desde','$empleado_rango_hasta','$total_dias_trabajados','$dias_incapacidad','$dias_ausencia','$dias_trabajo_planilladevengo_admin','$descuento_isss_planilladevengo_admin','$descuento_afp_planilladevengo_admin','$descuento_renta_planilladevengo_admin','$sueldo_renta_planilladevengo_admin','$sueldo_isss_planilladevengo_admin','$sueldo_afp_planilladevengo_admin','$observacion_planilladevengo_admin','$fecha_gratificacion_admin'),";
-				
-							$datos_html .= ' <tr class="btnEditarabase" pensionado_empleado="'.$value["pensionado_empleado"].'" hora_extra_nocturna_domingo="'.$value["hora_extra_nocturna_domingo"].'"   hora_extra_domingo="'.$value["hora_extra_domingo"].'"  hora_extra_nocturna="'.$value["hora_extra_nocturna"].'" hora_extra_diurna="'.$value["hora_extra_diurna"].'"    salario_por_hora="'.$value["salario_por_hora"].'"  sueldo="'.$value["sueldo"].'"  idempleado="'.$value["idempleado"].'" codigo="'.$value["codigo_empleado"].'"  nombre="'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["tercer_nombre"].' '.$value["primer_apellido"].' '.$value["segundo_apellido"].' '.$value["apellido_casada"].'">
-							<td>'.$value["codigo_empleado"].'</td>
-							<td>'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["tercer_nombre"].' '.$value["primer_apellido"].' '.$value["segundo_apellido"].' '.$value["apellido_casada"].' </td>';
-							$datos_html .='<td><div class="btn btn-danger eliminarempleado" numero_planilla="'.$numero_planilladevengo_admin.'" idempleado="'.$value["idempleado"].'"><i class="fa fa-times"></i></div></td>';
-							$datos_html .= '</tr>';
-				
 
+									$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','','','$total_horas_cubiertas_normal','$sueldo_dia_pagar'),";
+									
 
-					
-					
-		/* ----------------------------------------------------- */
+					}
+				/* ------------------------------ */
+
+			/* HORAS AUSENCIAS NO CUBIERTAS*/
+			$suma_horas=floatval($total_horas_cubiertas_extras)+floatval($total_horas_cubiertas_normal);
+			$horas_no_cubiertas=floatval($total_horas_ausencia)-floatval($suma_horas);
+				if($horas_no_cubiertas>0){
+						$datadevengo = consultar_devengo2("23");
+						$codigo_devengo="";
+						$descipcion_devengo="";
+						$isss_devengo="";
+						$afp_devengo="";
+						$renta_devengo="";
+						$id_devengo="";
+						$suma_resta="";
+						foreach ($datadevengo as $valuedevengo) {
+							$id_devengo.=$valuedevengo["id"];
+							$codigo_devengo.=$valuedevengo["codigo"];
+							$descipcion_devengo.=$valuedevengo["descripcion"];
+							$isss_devengo.=$valuedevengo["isss_devengo"];
+							$afp_devengo.=$valuedevengo["afp_devengo"];
+							$renta_devengo.=$valuedevengo["renta_devengo"];
+							$suma_resta.=$valuedevengo["tipo"];
+						}
+
+						$sueldo_viatico=floatval($salario_empleado)+floatval($viaticos_empleados);
+						$sueldo_diario02=floatval($sueldo_viatico)/15;
+						$sueldo_dia_pagar=floatval($sueldo_diario02)/12;
+						$total_valor_horas_aus=floatval($sueldo_dia_pagar)*floatval($horas_no_cubiertas);
+
+						$codigo_devengo_descuento_planilla=$codigo_devengo;
+						$descripcion_devengo_descuento_planilla=$descipcion_devengo;
+						$tipo_devengo_descuento_planilla=$id_devengo;
+						$isss_devengo_devengo_descuento_planilla=$isss_devengo;
+						$afp_devengo_devengo_descuento_planilla=$afp_devengo;
+						$renta_devengo_devengo_descuento_planilla=$renta_devengo;
+						$idempleado_devengo=$value["idempleado"];
+						$valor_devengo_planilla=$total_valor_horas_aus;
+						$tipo_valor=$suma_resta;
+						$codigo_planilla_devengo=$numero_planilladevengo_admin;
+
+						$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','','','$horas_no_cubiertas','$sueldo_dia_pagar'),";
+
+				}
+			/* --------------------- */
+
+			/* DIAS TRABAJADOS EN INCAPACIDAD */
+
+			if($dias_tra_inca>0){
+				$datadevengo = consultar_devengo2("31");
+				$codigo_devengo="";
+				$descipcion_devengo="";
+				$isss_devengo="";
+				$afp_devengo="";
+				$renta_devengo="";
+				$id_devengo="";
+				$suma_resta="";
+				foreach ($datadevengo as $valuedevengo) {
+					$id_devengo.=$valuedevengo["id"];
+					$codigo_devengo.=$valuedevengo["codigo"];
+					$descipcion_devengo.=$valuedevengo["descripcion"];
+					$isss_devengo.=$valuedevengo["isss_devengo"];
+					$afp_devengo.=$valuedevengo["afp_devengo"];
+					$renta_devengo.=$valuedevengo["renta_devengo"];
+					$suma_resta.=$valuedevengo["tipo"];
+				}
+				$valor_devengo_incapacidad=floatval($sueldo_diario)*floatval($dias_tra_inca);
+				
+				$codigo_devengo_descuento_planilla=$codigo_devengo;
+				$descripcion_devengo_descuento_planilla=$descipcion_devengo;
+				$tipo_devengo_descuento_planilla=$id_devengo;
+				$isss_devengo_devengo_descuento_planilla=$isss_devengo;
+				$afp_devengo_devengo_descuento_planilla=$afp_devengo;
+				$renta_devengo_devengo_descuento_planilla=$renta_devengo;
+				$idempleado_devengo=$value["idempleado"];
+				$valor_devengo_planilla=$valor_devengo_incapacidad;
+				$tipo_valor=$suma_resta;
+				$codigo_planilla_devengo=$numero_planilladevengo_admin;
+				$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','$dias_tra_inca','$sueldo_diario','','','',''),";
 			}
+			/* DIAS INCAPACIDAD */
+			if($dias_incapacidad>0){
+
+					$datadevengo = consultar_devengo2("33");
+					$codigo_devengo="";
+					$descipcion_devengo="";
+					$isss_devengo="";
+					$afp_devengo="";
+					$renta_devengo="";
+					$id_devengo="";
+					$suma_resta="";
+					foreach ($datadevengo as $valuedevengo) {
+						$id_devengo.=$valuedevengo["id"];
+						$codigo_devengo.=$valuedevengo["codigo"];
+						$descipcion_devengo.=$valuedevengo["descripcion"];
+						$isss_devengo.=$valuedevengo["isss_devengo"];
+						$afp_devengo.=$valuedevengo["afp_devengo"];
+						$renta_devengo.=$valuedevengo["renta_devengo"];
+						$suma_resta.=$valuedevengo["tipo"];
+					}
+
+					$valor_devengo_incapacidad=0;
+					$sueldo_porcentaje=0;
+					if($dias_incapacidad>=$dias_maximo_incapacidad){
+						$sueldo_porcentaje=$sueldo_diario*$porcentaje_dias_incapacidad;
+						$valor_devengo_incapacidad=$sueldo_porcentaje*$dias_maximo_incapacidad;
+
+					}
+					else{
+						$sueldo_porcentaje=$sueldo_diario*$porcentaje_dias_incapacidad;
+						$valor_devengo_incapacidad=$sueldo_porcentaje*$dias_incapacidad;
+					}
+
+					$codigo_devengo_descuento_planilla=$codigo_devengo;
+					$descripcion_devengo_descuento_planilla=$descipcion_devengo;
+					$tipo_devengo_descuento_planilla=$id_devengo;
+					$isss_devengo_devengo_descuento_planilla=$isss_devengo;
+					$afp_devengo_devengo_descuento_planilla=$afp_devengo;
+					$renta_devengo_devengo_descuento_planilla=$renta_devengo;
+					$idempleado_devengo=$value["idempleado"];
+					$valor_devengo_planilla=$valor_devengo_incapacidad;
+					$tipo_valor=$suma_resta;
+					$codigo_planilla_devengo=$numero_planilladevengo_admin;
+
+					$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','$dias_maximo_incapacidad','$sueldo_porcentaje','',''),";
+
+			}
+			
+			if(empty($iddevengo)){
+			}
+			else{
+				/* ******Datos del devengo********* */
+				foreach ($datadevengoempleado as $valuesdevengoempleado) {
+					$tipodescuento=$valuesdevengoempleado["tipodescuento"];
+					if($tipodescuento==$periodo_planilladevengo_admin || $tipodescuento=="Siempre"){
+						$iddevengo=$valuesdevengoempleado["id_tipo_devengo_descuento"];	
+						$valordevengoempleado=$valuesdevengoempleado["valor"];
+
+						/* ************* */
+
+							$datadevengo = consultar_devengo2($iddevengo);
+							$codigo_devengo="";
+							$descipcion_devengo="";
+							$isss_devengo="";
+							$afp_devengo="";
+							$renta_devengo="";
+							$id_devengo="";
+							$suma_resta="";
+							foreach ($datadevengo as $valuedevengo) {
+								$id_devengo.=$valuedevengo["id"];
+								$codigo_devengo.=$valuedevengo["codigo"];
+								$descipcion_devengo.=$valuedevengo["descripcion"];
+								$isss_devengo.=$valuedevengo["isss_devengo"];
+								$afp_devengo.=$valuedevengo["afp_devengo"];
+								$renta_devengo.=$valuedevengo["renta_devengo"];
+								$suma_resta.=$valuedevengo["tipo"];
+
+							}
+
+							
+							$codigo_devengo_descuento_planilla=$codigo_devengo;
+							$descripcion_devengo_descuento_planilla=$descipcion_devengo;
+							$tipo_devengo_descuento_planilla=$id_devengo;
+							$isss_devengo_devengo_descuento_planilla=$isss_devengo;
+							$afp_devengo_devengo_descuento_planilla=$afp_devengo;
+							$renta_devengo_devengo_descuento_planilla=$renta_devengo;
+							$idempleado_devengo=$value["idempleado"];
+							$valor_devengo_planilla=$valordevengoempleado;
+							$tipo_valor=$suma_resta;
+							$codigo_planilla_devengo=$numero_planilladevengo_admin;
+
+							$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','','','',''),";
+
+						/* ************ */
+
+
+					}
+				}
+				/* **************************** */
+			}
+
+
+			/* DEVENGO QUINCENAL PLANILLA ANTICIPO */
+
+			/* ************* */
+
+			$datadevengo_anticipo = devengo_anticipo($idempleado);
+			foreach ($datadevengo_anticipo as $valuedevengo_anticipo) {
+				$devengoquincenal=$valuedevengo_anticipo["valor_devengo_planilla"];
+				if($devengoquincenal>0){
+						/* ************* */
+						$datadevengo = consultar_devengo2('25');
+						$codigo_devengo="";
+						$descipcion_devengo="";
+						$isss_devengo="";
+						$afp_devengo="";
+						$renta_devengo="";
+						$id_devengo="";
+						$suma_resta="";
+						foreach ($datadevengo as $valuedevengo) {
+							$id_devengo.=$valuedevengo["id"];
+							$codigo_devengo.=$valuedevengo["codigo"];
+							$descipcion_devengo.=$valuedevengo["descripcion"];
+							$isss_devengo.=$valuedevengo["isss_devengo"];
+							$afp_devengo.=$valuedevengo["afp_devengo"];
+							$renta_devengo.=$valuedevengo["renta_devengo"];
+							$suma_resta.=$valuedevengo["tipo"];
+
+						}
+
+						
+						$codigo_devengo_descuento_planilla=$codigo_devengo;
+						$descripcion_devengo_descuento_planilla=$descipcion_devengo;
+						$tipo_devengo_descuento_planilla=$id_devengo;
+						$isss_devengo_devengo_descuento_planilla=$isss_devengo;
+						$afp_devengo_devengo_descuento_planilla=$afp_devengo;
+						$renta_devengo_devengo_descuento_planilla=$renta_devengo;
+						$idempleado_devengo=$value["idempleado"];
+						$valor_devengo_planilla=$devengoquincenal;
+						$tipo_valor=$suma_resta;
+						$codigo_planilla_devengo=$numero_planilladevengo_admin;
+						$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','','','',''),";
+
+					/* ************ */
+
+				}
+
+			}
+
+			
+			/* ************************************ */
+			/* DEVENGO POR DIAS FERIADOS TRABAJADOS */
+
+			$data_viatico_permanente= viatico_permanente('2',$idempleado);	
+			$valor_viatico_permanente="";		
+			foreach ($data_viatico_permanente as $value_viatico) {
+				$valor_viatico_permanente.=$value_viatico["valor"];		
+			}
+
+
+			/* ***** VALIDAR SI ESTAMOS EN EL MES DE DIAS FERIADOS Y BUSCAR SI EMPLEADO A ESTA AUSENTE EN LOS DIAS FERIADOS */
+			$data_ausencia_dias_feriados= ausencia_dias_feriados($idempleado);	
+			$restar_dias_feriados=0;	
+			$fecha_feriado_ausencia="";	
+			foreach ($data_ausencia_dias_feriados as $value_ausencia_dias_feriados) {
+				$fecha_feriado_ausencia.=$value_ausencia_dias_feriados["fecha_feriado"];	
+			}
+			
+			$data_dias_feriados= dias_feriados();	
+			foreach ($data_dias_feriados as $value_dias_feriados) {
+				$fecha_desde=$value_dias_feriados["fecha_desde"];		
+				$fecha_hasta=$value_dias_feriados["fecha_hasta"];	
+
+				$fecha_desde_mes=date("m", strtotime($fecha_desde));	
+				$fechaActual_mes = date("m", strtotime($fecha_planilladevengo_admin));
+				if($fechaActual_mes==$fecha_desde_mes){
+
+					$fecha_desde_mes_feriado=$value_dias_feriados["fecha_desde"];
+					$fecha_hasta_mes_feriado=$value_dias_feriados["fecha_hasta"];
+					$resultado_dias=0;
+					if ($fecha_feriado_ausencia >= $fecha_desde && $fecha_feriado_ausencia <= $fecha_hasta){
+						$resultado_dias=$resultado_dias+1;
+					}		
+					/* CONTAR LOS DIAS FERIADOS */
+					$feriado_desde= date("Y-m-d", strtotime($fecha_desde_mes_feriado));
+					$feriado_hasta = date("Y-m-d", strtotime($fecha_hasta_mes_feriado));
+					/* lunes-viernes */
+					$workingDays = 0;
+					$startTimestamp = strtotime($feriado_desde);
+					$endTimestamp = strtotime($feriado_hasta);
+					for ($i = $startTimestamp; $i <= $endTimestamp; $i = $i + (60 * 60 * 24)) {
+						if (date("N", $i) <= 5) $workingDays = $workingDays + 1;
+					}
+					/* *********** */
+					/* ****sabado-domingo */
+					$weekendDays = 0;
+					$startTimestamp = strtotime($feriado_desde);
+					$endTimestamp = strtotime($feriado_hasta);
+					for ($i = $startTimestamp; $i <= $endTimestamp; $i = $i + (60 * 60 * 24)) {
+						if (date("N", $i) > 5) $weekendDays = $weekendDays + 1;
+					}
+
+					$dias_festivos= floatval($workingDays)+floatval($weekendDays);
+					$restar_dias_feriados.=floatval($dias_festivos)-floatval($resultado_dias);
+					/* echo $restar_dias_feriados.'restar_dias_feriados'; */
+					/* *********************** */
+					
+				}
+				
+			}
+			/* ******************************************************** */
+
+			if($restar_dias_feriados>0){
+				
+					$data_cargo= cargo_empleado($idcargo_empleado);		
+					foreach ($data_cargo as $valu_cargo) {
+							$pago_feriados=$valu_cargo["pago_feriados"];
+							$calculo=$valu_cargo["calculo"];
+							if($pago_feriados=="Si"){
+								$ecuacion_dias=0;
+								$valordias=0;
+								if($calculo=="Sueldo+Tfijo"){
+									$salario_mas_viatico=floatval($salario_empleado)+floatval($valor_viatico_permanente);
+									$valordias=floatval($salario_mas_viatico)/15;
+									$ecuacion_dias=$valordias*floatval($restar_dias_feriados);
+								}
+								else{
+									$valordias=floatval($salario_empleado)/15;
+									$ecuacion_dias=floatval($valordias)*floatval($restar_dias_feriados);
+								}
+								/* ******************* */
+									$datadevengo = consultar_devengo2('0021');
+									$codigo_devengo="";
+									$descipcion_devengo="";
+									$isss_devengo="";
+									$afp_devengo="";
+									$renta_devengo="";
+									$id_devengo="";
+									$suma_resta="";
+									foreach ($datadevengo as $valuedevengo) {
+										$id_devengo.=$valuedevengo["id"];
+										$codigo_devengo.=$valuedevengo["codigo"];
+										$descipcion_devengo.=$valuedevengo["descripcion"];
+										$isss_devengo.=$valuedevengo["isss_devengo"];
+										$afp_devengo.=$valuedevengo["afp_devengo"];
+										$renta_devengo.=$valuedevengo["renta_devengo"];
+										$suma_resta.=$valuedevengo["tipo"];
+
+									}
+									$codigo_devengo_descuento_planilla=$codigo_devengo;
+									$descripcion_devengo_descuento_planilla=$descipcion_devengo;
+									$tipo_devengo_descuento_planilla=$id_devengo;
+									$isss_devengo_devengo_descuento_planilla=$isss_devengo;
+									$afp_devengo_devengo_descuento_planilla=$afp_devengo;
+									$renta_devengo_devengo_descuento_planilla=$renta_devengo;
+									$idempleado_devengo=$value["idempleado"];
+									$valor_devengo_planilla= bcdiv($ecuacion_dias, '1', 2);
+									$tipo_valor=$suma_resta;
+									$codigo_planilla_devengo=$numero_planilladevengo_admin;
+
+									$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','$restar_dias_feriados','$valordias','','','','','',''),";
+
+								/* ******************* */
+									
+							}
+					}
+			
+			}
+			/* ********************************************* */
+
+			/* *************BONO POR UBICACION*************** */
+				$databonoubicacion = bonoubicacion($codigo_empleado);			
+				foreach ($databonoubicacion as $valubonoubicacion) {
+						$bono=$valubonoubicacion["bonos"];
+					/* ******************* */
+						$datadevengo = consultar_devengo2('0061');
+						$codigo_devengo="";
+						$descipcion_devengo="";
+						$isss_devengo="";
+						$afp_devengo="";
+						$renta_devengo="";
+						$id_devengo="";
+						$suma_resta="";
+						foreach ($datadevengo as $valuedevengo) {
+							$id_devengo.=$valuedevengo["id"];
+							$codigo_devengo.=$valuedevengo["codigo"];
+							$descipcion_devengo.=$valuedevengo["descripcion"];
+							$isss_devengo.=$valuedevengo["isss_devengo"];
+							$afp_devengo.=$valuedevengo["afp_devengo"];
+							$renta_devengo.=$valuedevengo["renta_devengo"];
+							$suma_resta.=$valuedevengo["tipo"];
+
+						}
+						$codigo_devengo_descuento_planilla=$codigo_devengo;
+						$descripcion_devengo_descuento_planilla=$descipcion_devengo;
+						$tipo_devengo_descuento_planilla=$id_devengo;
+						$isss_devengo_devengo_descuento_planilla=$isss_devengo;
+						$afp_devengo_devengo_descuento_planilla=$afp_devengo;
+						$renta_devengo_devengo_descuento_planilla=$renta_devengo;
+						$idempleado_devengo=$value["idempleado"];
+						$valor_devengo_planilla= bcdiv($bono, '1', 2);
+						$tipo_valor=$suma_resta;
+						$codigo_planilla_devengo=$numero_planilladevengo_admin;
+
+						$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','','','',''),";
+
+					/* ******************* */
+				}
+			/* ********************************************* */
+
+			
+			/* *************BONO POR NO FALTAR*************** */
+			$databonopornofaltar = bonopornofaltar($codigo_empleado);			
+			foreach ($databonopornofaltar as $valubonopornofaltar) {
+				$bono=$valubonopornofaltar["valor_devengo_ubicacion"];
+				$periodo=$valubonopornofaltar["periodo_devengo_ubicacion"];
+				if($periodo=="Siempre"){
+					$periodo=$periodo_planilladevengo_admin;
+				}
+				
+				if($periodo==$periodo_planilladevengo_admin){
+						$fecha_planilladevengo_admin01 = date("Y-m-d", strtotime($fecha_planilladevengo_admin));
+						$fecha_gratificacion_admin= date("Y-m-d", strtotime($_POST["fecha_gratificacion_admin"]));
+						$datasituacion = situaciones($codigo_empleado,$fecha_gratificacion_admin,$fecha_planilladevengo_admin01);
+						$dias_ausencia_situ_bono="vacio";
+						foreach ($datasituacion as $valuesituacion) {
+							$dias_ausencia_situ_bono.=$valuesituacion["sumaausencia"];
+						}
+						
+						if($tiempotrabajo=="viejo"){
+
+							if($dias_ausencia_situ_bono=="vacio"){
+								/* ******************* */
+								$datadevengo = consultar_devengo2('0020');
+								$codigo_devengo="";
+								$descipcion_devengo="";
+								$isss_devengo="";
+								$afp_devengo="";
+								$renta_devengo="";
+								$id_devengo="";
+								$suma_resta="";
+								foreach ($datadevengo as $valuedevengo) {
+									$id_devengo.=$valuedevengo["id"];
+									$codigo_devengo.=$valuedevengo["codigo"];
+									$descipcion_devengo.=$valuedevengo["descripcion"];
+									$isss_devengo.=$valuedevengo["isss_devengo"];
+									$afp_devengo.=$valuedevengo["afp_devengo"];
+									$renta_devengo.=$valuedevengo["renta_devengo"];
+									$suma_resta.=$valuedevengo["tipo"];
+
+								}
+								$codigo_devengo_descuento_planilla=$codigo_devengo;
+								$descripcion_devengo_descuento_planilla=$descipcion_devengo;
+								$tipo_devengo_descuento_planilla=$id_devengo;
+								$isss_devengo_devengo_descuento_planilla=$isss_devengo;
+								$afp_devengo_devengo_descuento_planilla=$afp_devengo;
+								$renta_devengo_devengo_descuento_planilla=$renta_devengo;
+								$idempleado_devengo=$value["idempleado"];
+								$valor_devengo_planilla= bcdiv($bono, '1', 2);
+								$tipo_valor=$suma_resta;
+								$codigo_planilla_devengo=$numero_planilladevengo_admin;
+
+								$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','','','',''),";
+					 		/* ******************* */
+							}
+						}
+
+
+						if($tiempotrabajo=="nuevo"){
+
+							if($dias_ausencia_situ_bono=="vacio"){
+
+								$calculobono=floatval($bono)/30*floatval($total_dias_trabajados);
+								/* ******************* */
+								$datadevengo = consultar_devengo2('0020');
+								$codigo_devengo="";
+								$descipcion_devengo="";
+								$isss_devengo="";
+								$afp_devengo="";
+								$renta_devengo="";
+								$id_devengo="";
+								$suma_resta="";
+								foreach ($datadevengo as $valuedevengo) {
+									$id_devengo.=$valuedevengo["id"];
+									$codigo_devengo.=$valuedevengo["codigo"];
+									$descipcion_devengo.=$valuedevengo["descripcion"];
+									$isss_devengo.=$valuedevengo["isss_devengo"];
+									$afp_devengo.=$valuedevengo["afp_devengo"];
+									$renta_devengo.=$valuedevengo["renta_devengo"];
+									$suma_resta.=$valuedevengo["tipo"];
+
+								}
+								$codigo_devengo_descuento_planilla=$codigo_devengo;
+								$descripcion_devengo_descuento_planilla=$descipcion_devengo;
+								$tipo_devengo_descuento_planilla=$id_devengo;
+								$isss_devengo_devengo_descuento_planilla=$isss_devengo;
+								$afp_devengo_devengo_descuento_planilla=$afp_devengo;
+								$renta_devengo_devengo_descuento_planilla=$renta_devengo;
+								$idempleado_devengo=$value["idempleado"];
+								$valor_devengo_planilla= bcdiv($calculobono, '1', 2);
+								$tipo_valor=$suma_resta;
+								$codigo_planilla_devengo=$numero_planilladevengo_admin;
+
+							
+								$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','','','',''),";
+
+							/* ******************* */
+							}
+						}
+				}
+
+			}
+		 /* ********************************************* */
+
+			/* *********RECIBO DESCUENTO***************** */
+			$datarecibo = recibo($idempleado,$fecha_desde_format,$fechahasta02);
+			foreach ($datarecibo as $valuerecibo) {
+
+				/* ************************ */
+				$iddevengo=$valuerecibo["descuento_recibo"];
+				$valorrecibo=$valuerecibo["valor_recibo"];
+				$idrecibo.=$valuerecibo["id"].",";
+						$datadevengo = consultar_devengo2($iddevengo);
+						$codigo_devengo="";
+						$descipcion_devengo="";
+						$isss_devengo="";
+						$afp_devengo="";
+						$renta_devengo="";
+						$id_devengo="";
+						$suma_resta="";
+						foreach ($datadevengo as $valuedevengo) {
+							$id_devengo.=$valuedevengo["id"];
+							$codigo_devengo.=$valuedevengo["codigo"];
+							$descipcion_devengo.=$valuedevengo["descripcion"];
+							$isss_devengo.=$valuedevengo["isss_devengo"];
+							$afp_devengo.=$valuedevengo["afp_devengo"];
+							$renta_devengo.=$valuedevengo["renta_devengo"];
+							$suma_resta.=$valuedevengo["tipo"];
+						}
+						$codigo_devengo_descuento_planilla=$codigo_devengo;
+						$descripcion_devengo_descuento_planilla=$descipcion_devengo;
+						$tipo_devengo_descuento_planilla=$id_devengo;
+						$isss_devengo_devengo_descuento_planilla=$isss_devengo;
+						$afp_devengo_devengo_descuento_planilla=$afp_devengo;
+						$renta_devengo_devengo_descuento_planilla=$renta_devengo;
+						$idempleado_devengo=$value["idempleado"];
+						$valor_devengo_planilla=$valorrecibo;
+						$tipo_valor=$suma_resta;
+						$codigo_planilla_devengo=$numero_planilladevengo_admin;
+
+						$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','','','',''),";
+
+
+				/* ************************ */
+				
+			}
+			/* ******************** */
+
+			$numero_planilladevengo_admin=$numero_planilladevengo_admin;
+			$fecha_planilladevengo_admin=$fecha_planilladevengo_admin;
+			$fecha_desde_planilladevengo_admin=$_POST["fechaperiodo1"];
+			$fecha_hasta_planilladevengo_admin=$_POST["fechaperiodo2"];
+			$descripcion_planilladevengo_admin=$descripcion_planilladevengo_admin;
+			$codigo_empleado_planilladevengo_admin=$value["codigo_empleado"];
+			$nombre_empleado_planilladevengo_admin=$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["tercer_nombre"].' '.$value["primer_apellido"].' '.$value["segundo_apellido"].' '.$value["apellido_casada"];
+			$id_empleado_planilladevengo_admin=$value["idempleado"];
+			$sueldo_planilladevengo_admin=bcdiv($sueldo_total, '1', 2); ;
+			$sueldo="0";
+			$devengo="0";
+			$totaldevengo=$sueldo+$devengo;
+			$total_devengo_admin_planilladevengo_admin=$totaldevengo;
+			$total_liquidado_planilladevengo_admin=$totaldevengo;
+			$codigo_ubicacion_planilladevengo_admin="";
+			$nombre_ubicacion_planilladevengo_admin="";
+			$id_ubicacion_planilladevengo_admin="";
+			$periodo_planilladevengo_admin=$periodo_planilladevengo_admin;
+			$tipo_planilladevengo_admin=$tipo_planilladevengo_admin;
+			$empleado_rango_desde=$empleado_rango_desde;
+			$empleado_rango_hasta=$empleado_rango_hasta;
+			$observacion_planilladevengo_admin=$observacion;
+			$fecha_gratificacion_admin=$_POST["fecha_gratificacion_admin"];
+			/* ---------------- */
+			if($salario_isss>=$tope_isss){
+				$salario_isss=$salario_isss;
+			}
+			$descuento_isss_planilladevengo_admin=  bcdiv($descuento_isss, '1', 2); 
+			$descuento_afp_planilladevengo_admin=  bcdiv($descuento_afp, '1', 2); 
+			$descuento_renta_planilladevengo_admin=  bcdiv($descuento_renta, '1', 2);
+			$sueldo_renta_planilladevengo_admin=  bcdiv($renta_final, '1', 2);
+			$sueldo_isss_planilladevengo_admin= bcdiv($salario_isss, '1', 2); 
+			$sueldo_afp_planilladevengo_admin=  bcdiv($salario_afp, '1', 2);
+			$hora_extra_diurna_planilladevengo_admin=$horas_extras;
+
+
+
+
+			$values_consulta.="('$numero_planilladevengo_admin','$fecha_planilladevengo_admin','$fecha_desde_planilladevengo_admin','$fecha_hasta_planilladevengo_admin','$descripcion_planilladevengo_admin','$codigo_empleado_planilladevengo_admin','$nombre_empleado_planilladevengo_admin','$id_empleado_planilladevengo_admin','$sueldo_planilladevengo_admin','$total_devengo_admin_planilladevengo_admin','$total_liquidado_planilladevengo_admin','$codigo_ubicacion_planilladevengo_admin','$nombre_ubicacion_planilladevengo_admin','$id_ubicacion_planilladevengo_admin','$periodo_planilladevengo_admin','$tipo_planilladevengo_admin','$empleado_rango_desde','$empleado_rango_hasta','$total_dias_trabajados','$dias_incapacidad','$dias_ausencia','$dias_trabajo_planilladevengo_admin','$descuento_isss_planilladevengo_admin','$descuento_afp_planilladevengo_admin','$descuento_renta_planilladevengo_admin','$sueldo_renta_planilladevengo_admin','$sueldo_isss_planilladevengo_admin','$sueldo_afp_planilladevengo_admin','$observacion_planilladevengo_admin','$fecha_gratificacion_admin','$hora_extra_diurna_planilladevengo_admin'),";
+
+			$datos_html .= ' <tr class="btnEditarabase" pensionado_empleado="'.$value["pensionado_empleado"].'" hora_extra_nocturna_domingo="'.$value["hora_extra_nocturna_domingo"].'"   hora_extra_domingo="'.$value["hora_extra_domingo"].'"  hora_extra_nocturna="'.$value["hora_extra_nocturna"].'" hora_extra_diurna="'.$value["hora_extra_diurna"].'"    salario_por_hora="'.$value["salario_por_hora"].'"  sueldo="'.$value["sueldo"].'"  idempleado="'.$value["idempleado"].'" codigo="'.$value["codigo_empleado"].'"  nombre="'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["tercer_nombre"].' '.$value["primer_apellido"].' '.$value["segundo_apellido"].' '.$value["apellido_casada"].'">
+			<td>'.$value["codigo_empleado"].'</td>
+			<td>'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["tercer_nombre"].' '.$value["primer_apellido"].' '.$value["segundo_apellido"].' '.$value["apellido_casada"].' </td>';
+			$datos_html .='<td><div class="btn btn-danger eliminarempleado" numero_planilla="'.$numero_planilladevengo_admin.'" idempleado="'.$value["idempleado"].'"><i class="fa fa-times"></i></div></td>';
+			$datos_html .= '</tr>';
+		}
+
 		$datos_html .= '</tbody></table>';
 		/* echo trim($values_consulta, ","); */
 
@@ -1667,9 +2664,6 @@ switch ($accion) {
 		}
 		if($registro == 0){
 
-			
-			
-			
 			$insertar_recibo="UPDATE `recibos` SET  `liquidado_recibo`='Si',`numero_planilla_liquidado`='$numero_planilladevengo_admin' WHERE id in  (".trim($idrecibo, ",").")";
 			$sql_recibo= Conexion::conectar()->prepare($insertar_recibo);
 			$sql_recibo->execute();
@@ -1679,18 +2673,13 @@ switch ($accion) {
 			$sql_situacion->execute();
 
 			
-			$insertar_devengo="INSERT INTO `tbl_devengo_descuento_planilla_admin`(`codigo_devengo_descuento_planilla`, `descripcion_devengo_descuento_planilla`, `tipo_devengo_descuento_planilla`, `isss_devengo_devengo_descuento_planilla`, `afp_devengo_devengo_descuento_planilla`, `renta_devengo_devengo_descuento_planilla`,`idempleado_devengo`, `valor_devengo_planilla`, `tipo_valor`, `codigo_planilla_devengo`) VALUES  ".trim($values_devengo, ",")."";
-		/* 
-			echo $insertar_devengo; */
+			$insertar_devengo="INSERT INTO `tbl_devengo_descuento_planilla_admin`(`codigo_devengo_descuento_planilla`, `descripcion_devengo_descuento_planilla`, `tipo_devengo_descuento_planilla`, `isss_devengo_devengo_descuento_planilla`, `afp_devengo_devengo_descuento_planilla`, `renta_devengo_devengo_descuento_planilla`,`idempleado_devengo`, `valor_devengo_planilla`, `tipo_valor`, `codigo_planilla_devengo`,dias_Feriados,valor_dias_Feriados,dias_tra_inca_admin,pago_dias_tra_inca_admin,dias_incapacidad_admin,pago_dias_incapacidad_admin,horas_tardes,precio_horas_tardes) VALUES  ".trim($values_devengo, ",")."";
 			$sql_devengo = Conexion::conectar()->prepare($insertar_devengo);
 			$sql_devengo->execute();
 
 
-			$insertar="INSERT INTO `planilladevengo_admin`(`numero_planilladevengo_admin`, `fecha_planilladevengo_admin`, `fecha_desde_planilladevengo_admin`, `fecha_hasta_planilladevengo_admin`, `descripcion_planilladevengo_admin`, `codigo_empleado_planilladevengo_admin`, `nombre_empleado_planilladevengo_admin`, `id_empleado_planilladevengo_admin`, `sueldo_planilladevengo_admin`,  `total_devengo_admin_planilladevengo_admin`, `total_liquidado_planilladevengo_admin`, `codigo_ubicacion_planilladevengo_admin`, `nombre_ubicacion_planilladevengo_admin`, `id_ubicacion_planilladevengo_admin`, `periodo_planilladevengo_admin`, `tipo_planilladevengo_admin`, `empleado_rango_desde`, `empleado_rango_hasta`,dias_trabajo_planilladevengo_admin,dias_incapacidad,dias_ausencia,his_dias_trabajo_admin,descuento_isss_planilladevengo_admin,descuento_afp_planilladevengo_admin,descuento_renta_planilladevengo_admin,sueldo_renta_planilladevengo_admin,sueldo_isss_planilladevengo_admin,sueldo_afp_planilladevengo_admin,observacion_planilladevengo_admin,fecha_gratificacion_admin) value ".trim($values_consulta, ",")."";
-			$sql = Conexion::conectar()->prepare($insertar);
-
-
-			
+			$insertar="INSERT INTO `planilladevengo_admin`(`numero_planilladevengo_admin`, `fecha_planilladevengo_admin`, `fecha_desde_planilladevengo_admin`, `fecha_hasta_planilladevengo_admin`, `descripcion_planilladevengo_admin`, `codigo_empleado_planilladevengo_admin`, `nombre_empleado_planilladevengo_admin`, `id_empleado_planilladevengo_admin`, `sueldo_planilladevengo_admin`,  `total_devengo_admin_planilladevengo_admin`, `total_liquidado_planilladevengo_admin`, `codigo_ubicacion_planilladevengo_admin`, `nombre_ubicacion_planilladevengo_admin`, `id_ubicacion_planilladevengo_admin`, `periodo_planilladevengo_admin`, `tipo_planilladevengo_admin`, `empleado_rango_desde`, `empleado_rango_hasta`,dias_trabajo_planilladevengo_admin,dias_incapacidad,dias_ausencia,his_dias_trabajo_admin,descuento_isss_planilladevengo_admin,descuento_afp_planilladevengo_admin,descuento_renta_planilladevengo_admin,sueldo_renta_planilladevengo_admin,sueldo_isss_planilladevengo_admin,sueldo_afp_planilladevengo_admin,observacion_planilladevengo_admin,fecha_gratificacion_admin,hora_extra_diurna_planilladevengo_admin) value ".trim($values_consulta, ",")."";
+		
 			$sql = Conexion::conectar()->prepare($insertar);
 			if ($sql->execute()) {
 				/* echo "OK"; */
@@ -1892,6 +2881,167 @@ switch ($accion) {
 		echo $datos_html;
 		
 	break;
+	case "empleadosnoprocesados":
+		
+		$tipo_planilladevengo_admin = $_POST["tipo_planilladevengo_admin"];
+		$periodo_planilladevengo_admin = $_POST["periodo_planilladevengo_admin"];
+		$numero_planilladevengo_admin = $_POST["numero_planilladevengo_admin"];
+		$descripcion_planilladevengo_admin = $_POST["descripcion_planilladevengo_admin"];
+
+		function consultarnoprocesados($numero_planilladevengo_admin1)
+		{
+
+
+			/* $query01="SELECT*FROM planilladevengo_admin
+			WHERE planilladevengo_admin.numero_planilladevengo_admin='$numero_planilladevengo_admin1'  and total_liquidado_planilladevengo_admin='0' or total_liquidado_planilladevengo_admin='' or total_liquidado_planilladevengo_admin='NaN'"; */
+			$query01="SELECT*FROM planilladevengo_admin
+			WHERE planilladevengo_admin.numero_planilladevengo_admin='$numero_planilladevengo_admin1'";
+		
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();
+		};
+
+		function consultar($e,$dia1,$dia2,$numero_planilladevengo_admin1,$idempleado1)
+		{
+
+			/* $query01="SELECT  tbl_empleados.id as idempleado, tbl_empleados.*, tbl_empleados_devengos_descuentos.* , tbl_devengo_descuento.*
+			FROM `tbl_empleados` , tbl_empleados_devengos_descuentos,tbl_devengo_descuento, planilladevengo_admin
+			WHERE tbl_empleados.id=tbl_empleados_devengos_descuentos.id_empleado and tbl_devengo_descuento.id = tbl_empleados_devengos_descuentos.id_tipo_devengo_descuento and planilladevengo_admin.id_empleado_planilladevengo_admin=tbl_empleados.id and planilladevengo_admin.numero_planilladevengo_admin=$numero_planilladevengo_admin1 group by tbl_empleados.id"; */
+
+			$query01="SELECT  tbl_empleados.id as idempleado, tbl_empleados.*
+			FROM `tbl_empleados` , planilladevengo_admin
+			WHERE   planilladevengo_admin.id_empleado_planilladevengo_admin=tbl_empleados.id and planilladevengo_admin.numero_planilladevengo_admin=$numero_planilladevengo_admin1  and id_empleado_planilladevengo_admin='$idempleado1' group by tbl_empleados.id ";
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();
+		};
+		$newDate = date("Y-m-d", strtotime($fecha_planilladevengo_admin));
+		$fechaperiodo1_total = date("Y-m-d", strtotime($_POST["fechaperiodo1"]));
+		$fechaperiodo2_total= date("Y-m-d", strtotime($_POST["fechaperiodo2"]));
+		$fechaperiodo1 = date("d",strtotime($_POST["fechaperiodo1"]));
+		$fechaperiodo2 = date("d",strtotime($_POST["fechaperiodo2"]));
+
+
+		$datos_html = "";
+		$datos_html .= '  <table class="table table-bordered table-striped dt-responsive tablas1" width="100%" id="tbl_byKeyboard">
+		<thead>
+		<tr>
+			<th style="width:90px">Códigos</th>
+			<th>Nombre Empleado</th>
+			<th>Acciones</th>
+		</tr> 
+		</thead>
+		<tbody>';
+		$datos_html .="<tr id='visiondelempleado'>
+					<td></td>
+					<td></td>
+					<td></td>
+						</tr>";
+		$data_noprocesada = consultarnoprocesados($numero_planilladevengo_admin);
+		foreach ($data_noprocesada as $value_noprocesada) {
+			$total_liquidado_planilladevengo_admin=$value_noprocesada["total_liquidado_planilladevengo_admin"];
+		
+			if($total_liquidado_planilladevengo_admin=="0"){
+
+				/* --------------- */
+				$data01 = consultar($newDate,$fechaperiodo1,$fechaperiodo2,$numero_planilladevengo_admin,$value_noprocesada["id_empleado_planilladevengo_admin"]);
+			$values_consulta="";
+			foreach ($data01 as $value) {
+				$pensionado=$value["pensionado_empleado"];
+				if($pensionado==""){
+					$pensionado="No";
+				}
+				else{
+					$pensionado=$value["pensionado_empleado"];
+				}
+
+		
+				$datos_html .= ' <tr class="btnEditarabase" pensionado_empleado="'.$pensionado.'" hora_extra_nocturna_domingo="'.$value["hora_extra_nocturna_domingo"].'"   hora_extra_domingo="'.$value["hora_extra_domingo"].'"  hora_extra_nocturna="'.$value["hora_extra_nocturna"].'" hora_extra_diurna="'.$value["hora_extra_diurna"].'"   sueldo_diario="'.$value["sueldo_diario"].'"  fecha_contratacion="'.$value["fecha_contratacion"].'"  salario_por_hora="'.$value["salario_por_hora"].'"  sueldo="'.$value["sueldo"].'"  idempleado="'.$value["idempleado"].'" codigo="'.$value["codigo_empleado"].'"  nombre="'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["tercer_nombre"].' '.$value["primer_apellido"].' '.$value["segundo_apellido"].' '.$value["apellido_casada"].'">
+				<td>'.$value["codigo_empleado"].'</td>
+				<td>'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["tercer_nombre"].' '.$value["primer_apellido"].' '.$value["segundo_apellido"].' '.$value["apellido_casada"].' </td>';
+				$datos_html .='<td><div class="btn btn-danger eliminarempleado" numero_planilla="'.$numero_planilladevengo_admin.'" idempleado="'.$value["idempleado"].'"><i class="fa fa-times"></i></div></td>';
+				$datos_html .= '</tr>';
+			}
+
+				/* --------------- */
+				
+			}
+			if($total_liquidado_planilladevengo_admin==""){
+
+				/* ------------------- */
+				$data01 = consultar($newDate,$fechaperiodo1,$fechaperiodo2,$numero_planilladevengo_admin,$value_noprocesada["id_empleado_planilladevengo_admin"]);
+			$values_consulta="";
+			foreach ($data01 as $value) {
+				$pensionado=$value["pensionado_empleado"];
+				if($pensionado==""){
+					$pensionado="No";
+				}
+				else{
+					$pensionado=$value["pensionado_empleado"];
+				}
+
+		
+				$datos_html .= ' <tr class="btnEditarabase" pensionado_empleado="'.$pensionado.'" hora_extra_nocturna_domingo="'.$value["hora_extra_nocturna_domingo"].'"   hora_extra_domingo="'.$value["hora_extra_domingo"].'"  hora_extra_nocturna="'.$value["hora_extra_nocturna"].'" hora_extra_diurna="'.$value["hora_extra_diurna"].'"   sueldo_diario="'.$value["sueldo_diario"].'"  fecha_contratacion="'.$value["fecha_contratacion"].'"  salario_por_hora="'.$value["salario_por_hora"].'"  sueldo="'.$value["sueldo"].'"  idempleado="'.$value["idempleado"].'" codigo="'.$value["codigo_empleado"].'"  nombre="'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["tercer_nombre"].' '.$value["primer_apellido"].' '.$value["segundo_apellido"].' '.$value["apellido_casada"].'">
+				<td>'.$value["codigo_empleado"].'</td>
+				<td>'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["tercer_nombre"].' '.$value["primer_apellido"].' '.$value["segundo_apellido"].' '.$value["apellido_casada"].' </td>';
+				$datos_html .='<td><div class="btn btn-danger eliminarempleado" numero_planilla="'.$numero_planilladevengo_admin.'" idempleado="'.$value["idempleado"].'"><i class="fa fa-times"></i></div></td>';
+				$datos_html .= '</tr>';
+			}
+			/* ---------------------- */
+			
+			}
+			if($total_liquidado_planilladevengo_admin=="NaN"){
+				/* --------------------- */
+				$data01 = consultar($newDate,$fechaperiodo1,$fechaperiodo2,$numero_planilladevengo_admin,$value_noprocesada["id_empleado_planilladevengo_admin"]);
+				$values_consulta="";
+				foreach ($data01 as $value) {
+					$pensionado=$value["pensionado_empleado"];
+					if($pensionado==""){
+						$pensionado="No";
+					}
+					else{
+						$pensionado=$value["pensionado_empleado"];
+					}
+	
+			
+					$datos_html .= ' <tr class="btnEditarabase" pensionado_empleado="'.$pensionado.'" hora_extra_nocturna_domingo="'.$value["hora_extra_nocturna_domingo"].'"   hora_extra_domingo="'.$value["hora_extra_domingo"].'"  hora_extra_nocturna="'.$value["hora_extra_nocturna"].'" hora_extra_diurna="'.$value["hora_extra_diurna"].'"   sueldo_diario="'.$value["sueldo_diario"].'"  fecha_contratacion="'.$value["fecha_contratacion"].'"  salario_por_hora="'.$value["salario_por_hora"].'"  sueldo="'.$value["sueldo"].'"  idempleado="'.$value["idempleado"].'" codigo="'.$value["codigo_empleado"].'"  nombre="'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["tercer_nombre"].' '.$value["primer_apellido"].' '.$value["segundo_apellido"].' '.$value["apellido_casada"].'">
+					<td>'.$value["codigo_empleado"].'</td>
+					<td>'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["tercer_nombre"].' '.$value["primer_apellido"].' '.$value["segundo_apellido"].' '.$value["apellido_casada"].' </td>';
+					$datos_html .='<td><div class="btn btn-danger eliminarempleado" numero_planilla="'.$numero_planilladevengo_admin.'" idempleado="'.$value["idempleado"].'"><i class="fa fa-times"></i></div></td>';
+					$datos_html .= '</tr>';
+				}
+
+				/* --------------------- */
+			}
+
+
+			/* $data01 = consultar($newDate,$fechaperiodo1,$fechaperiodo2,$numero_planilladevengo_admin,$value_noprocesada["id_empleado_planilladevengo_admin"]);
+			$values_consulta="";
+			foreach ($data01 as $value) {
+				$pensionado=$value["pensionado_empleado"];
+				if($pensionado==""){
+					$pensionado="No";
+				}
+				else{
+					$pensionado=$value["pensionado_empleado"];
+				}
+
+		
+				$datos_html .= ' <tr class="btnEditarabase" pensionado_empleado="'.$pensionado.'" hora_extra_nocturna_domingo="'.$value["hora_extra_nocturna_domingo"].'"   hora_extra_domingo="'.$value["hora_extra_domingo"].'"  hora_extra_nocturna="'.$value["hora_extra_nocturna"].'" hora_extra_diurna="'.$value["hora_extra_diurna"].'"   sueldo_diario="'.$value["sueldo_diario"].'"  fecha_contratacion="'.$value["fecha_contratacion"].'"  salario_por_hora="'.$value["salario_por_hora"].'"  sueldo="'.$value["sueldo"].'"  idempleado="'.$value["idempleado"].'" codigo="'.$value["codigo_empleado"].'"  nombre="'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["tercer_nombre"].' '.$value["primer_apellido"].' '.$value["segundo_apellido"].' '.$value["apellido_casada"].'">
+				<td>'.$value["codigo_empleado"].'</td>
+				<td>'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["tercer_nombre"].' '.$value["primer_apellido"].' '.$value["segundo_apellido"].' '.$value["apellido_casada"].' </td>';
+				$datos_html .='<td><div class="btn btn-danger eliminarempleado" numero_planilla="'.$numero_planilladevengo_admin.'" idempleado="'.$value["idempleado"].'"><i class="fa fa-times"></i></div></td>';
+				$datos_html .= '</tr>';
+			} */
+		}
+		$datos_html .= '</tbody></table>';
+		/* echo trim($values_consulta, ","); */
+
+
+		echo $datos_html;
+		
+	break;
 	case "addempleadonuevo_backup":
 
 		$tipo_planilladevengo_admin = $_POST["tipo_planilladevengo_admin"];
@@ -1990,10 +3140,10 @@ switch ($accion) {
 				$dias_trabajo_planilladevengo_admin=$dias_trabajo;
 			}
 			$sueldo_diario=floatval($value["sueldo_diario"]);
-			$dias_incapacidad=floor($dias_incapacidad_situ);
-			$dias_ausencia=floor($dias_ausencia_situ);
+			$dias_incapacidad=floatval($dias_incapacidad_situ);
+			$dias_ausencia=floatval($dias_ausencia_situ);
 
-			$total_dias_trabajados = floor($dias_trabajo_planilladevengo_admin)-$dias_incapacidad-$dias_ausencia;
+			$total_dias_trabajados = floatval($dias_trabajo_planilladevengo_admin)-$dias_incapacidad-$dias_ausencia;
 			
 			if($total_dias_trabajados<=0){
 				$total_dias_trabajados=0;
@@ -2085,20 +3235,65 @@ switch ($accion) {
             }
 			echo $html;
 	break;
-
-	case "addempleadonuevo2":
+	case "addempleadonuevo2":/* principal */
 
 		$tipo_planilladevengo_admin = $_POST["tipo_planilladevengo_admin"];
 		$periodo_planilladevengo_admin = $_POST["periodo_planilladevengo_admin"];
 		$numero_planilladevengo_admin = $_POST["numero_planilladevengo_admin"];
 		$descripcion_planilladevengo_admin = $_POST["descripcion_planilladevengo_admin"];
 
+
+
 		function situaciones($idempleado1,$fechadesde1,$fechahasta2) /* --SUMA DE DIAS AUSENCIA Y INCAPACIDAD */
 		{
+			$query01="SELECT sum(dias_ausencia_situacion) as sumaausencia, sum(incapacidad_situacion) as sumainca, sum(horas_ausencia_situacion) as sumahoraausencia, sum(hora_extra_situacion) as sumahoraextra, sum(dias_no_sueldo) as sumadias_no_sueldo FROM `situacion` WHERE  liquidado_situacion='No' and idempleado_situacion='$idempleado1'  and STR_TO_DATE(fecha_situacion, '%d-%m-%Y')  BETWEEN '$fechadesde1' AND '$fechahasta2' ";
+			/* echo $query01; */
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();
+		};
 
-			$query01="SELECT sum(dias_ausencia_situacion) as sumaausencia, sum(incapacidad_situacion) as sumainca
-					 FROM `situacion` 
-					 WHERE  liquidado_situacion='No' and idempleado_situacion='$idempleado1'  and STR_TO_DATE(fecha_situacion, '%d-%m-%Y')  BETWEEN '$fechadesde1' AND '$fechahasta2' ";
+		function situaciones_incapacidad($idempleado1,$fechadesde1,$fechahasta2) /* --SUMA DE DIAS AUSENCIA Y INCAPACIDAD */
+		{
+			$query01="SELECT sum(dias_ausencia_situacion) as sumaausencia, sum(incapacidad_situacion) as sumainca FROM `situacion` WHERE  liquidado_situacion='No' and idempleado_situacion='$idempleado1' and inicial_situacion='Inicial'  and STR_TO_DATE(fecha_situacion, '%d-%m-%Y')  BETWEEN '$fechadesde1' AND '$fechahasta2' ";
+			/* echo $query01; */
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();
+		};
+
+		function situaciones_dias_tra_inca($idempleado1,$fechadesde1,$fechahasta2) /* --SUMA DE DIAS AUSENCIA Y INCAPACIDAD */
+		{
+			$query01="SELECT sum(dias_tra_incapacidad) as sumadiastrabajados FROM `situacion` 
+					 WHERE  situacion.incapacidad_situacion !='' and liquidado_situacion='No' and idempleado_situacion='$idempleado1' and inicial_situacion='Inicial'  and STR_TO_DATE(fecha_situacion, '%d-%m-%Y')  BETWEEN '$fechadesde1' AND '$fechahasta2' ";
+			/* echo $query01; */
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();
+		};
+
+		function situaciones_horas($idempleado1,$fechadesde1,$fechahasta2) /* --Horas ausencia */
+		{
+			$query01="SELECT sum(horas_ausencia_situacion) as horas_ausencia_situacion  FROM `situacion` 
+					 WHERE  liquidado_situacion='No' and idempleado_situacion='$idempleado1'  and STR_TO_DATE(fecha_situacion, '%d-%m-%Y')  BETWEEN '$fechadesde1' AND '$fechahasta2'  and situacion.horas_ausencia_situacion !=''";
+			/* echo $query01; */
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();
+		};
+
+
+		function horas_cubiertar_extras($codigo_empleado1) /* --se busca horas ausencia que han sido cubiertas situaciones */
+		{
+			$query01="SELECT sum(hora_extra_situacion) as hora_extra_situacion FROM `situacion` WHERE cubrir_situacion LIKE '%$codigo_empleado1%' and situacion.hora_extra_situacion != ''";
+	
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();
+		};
+		function horas_cubiertar_normal($codigo_empleado1) /* --se busca horas ausencia que han sido cubiertas situaciones */
+		{
+			$query01="SELECT sum(hora_normales_situacion) as hora_normales_situacion FROM `situacion` WHERE cubrir_situacion LIKE '%$codigo_empleado1%' and situacion.hora_normales_situacion != ''";
 			/* echo $query01; */
 			$sql = Conexion::conectar()->prepare($query01);
 			$sql->execute();
@@ -2108,9 +3303,7 @@ switch ($accion) {
 		function recibo($idempleado1,$fechadesde1,$fechahasta2) /* -- */
 		{
 
-			$query01="SELECT `id`, `fecha_descuento_recibo`, `empleado_recibo`, `descuento_recibo`, `numero_recibo`, `valor_recibo`, `observacion_recibo`, `fecha_hecho_recibo`, `hora_hecho_recibo`, `numero_planilla_liquidado`, `liquidado_recibo`, `anular_recibo`, `user_recibo` 
-			FROM `recibos` 
-			WHERE liquidado_recibo='No'and anular_recibo='No' and empleado_recibo='$idempleado1'  and STR_TO_DATE(fecha_descuento_recibo, '%d-%m-%Y')  BETWEEN '$fechadesde1' AND '$fechahasta2' ";
+			$query01="SELECT `id`, `fecha_descuento_recibo`, `empleado_recibo`, `descuento_recibo`, `numero_recibo`, `valor_recibo`, `observacion_recibo`, `fecha_hecho_recibo`, `hora_hecho_recibo`, `numero_planilla_liquidado`, `liquidado_recibo`, `anular_recibo`, `user_recibo` FROM `recibos` WHERE liquidado_recibo='No' and anular_recibo='No' and anular_recibo='No' and empleado_recibo='$idempleado1'  and STR_TO_DATE(fecha_descuento_recibo, '%d-%m-%Y')  BETWEEN '$fechadesde1' AND '$fechahasta2' ";
 		
 			$sql = Conexion::conectar()->prepare($query01);
 			$sql->execute();
@@ -2120,8 +3313,7 @@ switch ($accion) {
 		function bonoubicacion($codigoempleado1) /* -- */
 		{
 
-			$query01="SELECT tbl_ubicaciones_agentes_asignados.id as idubicacionagente, tbl_clientes_ubicaciones.* FROM `tbl_ubicaciones_agentes_asignados`,tbl_clientes_ubicaciones 
-			WHERE tbl_ubicaciones_agentes_asignados.idubicacion_agente=tbl_clientes_ubicaciones.id and tbl_ubicaciones_agentes_asignados.codigo_agente='$codigoempleado1'  group by tbl_ubicaciones_agentes_asignados.codigo_agente";
+			$query01="SELECT tbl_ubicaciones_agentes_asignados.id as idubicacionagente, tbl_clientes_ubicaciones.* FROM `tbl_ubicaciones_agentes_asignados`,tbl_clientes_ubicaciones WHERE tbl_ubicaciones_agentes_asignados.idubicacion_agente=tbl_clientes_ubicaciones.id and tbl_ubicaciones_agentes_asignados.codigo_agente='$codigoempleado1'  group by tbl_ubicaciones_agentes_asignados.codigo_agente";
 			$sql = Conexion::conectar()->prepare($query01);
 			$sql->execute();
 			return $sql->fetchAll();
@@ -2130,7 +3322,7 @@ switch ($accion) {
 		
 		function bonopornofaltar($codigoempleado1) /* -- */
 		{
-			$query01="SELECT tbl_ubicaciones_agentes_asignados.id as idubicacionagente, tbl_devengo_ubicacion.* FROM `tbl_ubicaciones_agentes_asignados`,tbl_devengo_ubicacion WHERE tbl_ubicaciones_agentes_asignados.idubicacion_agente=tbl_devengo_ubicacion.idubicacion_devengo and tbl_ubicaciones_agentes_asignados.codigo_agente='$codigoempleado1' and periodo_devengo_ubicacion='2'  group by tbl_ubicaciones_agentes_asignados.codigo_agente";
+			$query01="SELECT tbl_ubicaciones_agentes_asignados.id as idubicacionagente, tbl_devengo_ubicacion.* FROM `tbl_ubicaciones_agentes_asignados`,tbl_devengo_ubicacion WHERE tbl_ubicaciones_agentes_asignados.idubicacion_agente=tbl_devengo_ubicacion.idubicacion_devengo and tbl_ubicaciones_agentes_asignados.codigo_agente='$codigoempleado1'  group by tbl_ubicaciones_agentes_asignados.codigo_agente";
 			$sql = Conexion::conectar()->prepare($query01);
 			$sql->execute();
 			return $sql->fetchAll();
@@ -2139,8 +3331,7 @@ switch ($accion) {
 		function data_situaciones($idempleado1,$fechadesde1,$fechahasta2) /* --ID DE REGISTROS A MODIFICAR */
 		{
 
-			$query01="SELECT*FROM `situacion` 
-					 WHERE  liquidado_situacion='No' and idempleado_situacion='$idempleado1'  and STR_TO_DATE(fecha_situacion, '%d-%m-%Y')  BETWEEN '$fechadesde1' AND '$fechahasta2' ";
+			$query01="SELECT*FROM `situacion` WHERE  liquidado_situacion='No' and idempleado_situacion='$idempleado1'  and STR_TO_DATE(fecha_situacion, '%d-%m-%Y')  BETWEEN '$fechadesde1' AND '$fechahasta2' ";
 			/* echo $query01; */
 			$sql = Conexion::conectar()->prepare($query01);
 			$sql->execute();
@@ -2159,6 +3350,16 @@ switch ($accion) {
 		};
 		/* *************** */
 
+		/* ******************** */
+		function devengo_anticipo($idempleado1)
+		{
+			$query01 = "SELECT * FROM `tbl_devengo_descuento_planilla` WHERE idempleado_devengo='$idempleado1' and codigo_devengo_descuento_planilla='0022' order by codigo_planilla_devengo DESC limit 1";
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();
+		};
+		/* *************** */
+
 		
 		/* ***Devegos y descuentos del empleado con tipo***** */
 		function consultar_devengo_empleado($periodo1,$fechadesde1,$fechahasta2,$idempleado1)
@@ -2167,9 +3368,7 @@ switch ($accion) {
 			FROM `tbl_empleados_devengos_descuentos` , tbl_devengo_descuento 
 			WHERE tipodescuento='$periodo1' and id_empleado='$idempleado1' and tbl_empleados_devengos_descuentos.id_tipo_devengo_descuento=tbl_devengo_descuento.id and  fecha_caducidad BETWEEN '$fechadesde1' AND '$fechahasta2'";
 			 */
-			$query01 = "SELECT tbl_empleados_devengos_descuentos.id AS id, `id_empleado`, `id_tipo_devengo_descuento`, `valor`, `fecha_caducidad`, `referencia`, `tipodescuento` ,tbl_devengo_descuento.*
-			FROM `tbl_empleados_devengos_descuentos` , tbl_devengo_descuento 
-			WHERE id_empleado='$idempleado1' and tbl_empleados_devengos_descuentos.id_tipo_devengo_descuento=tbl_devengo_descuento.id and  fecha_caducidad >= '$fechadesde1'";
+			$query01 = "SELECT tbl_empleados_devengos_descuentos.id AS id, `id_empleado`, `id_tipo_devengo_descuento`, `valor`, `fecha_caducidad`, `referencia`, `tipodescuento` ,tbl_devengo_descuento.* FROM `tbl_empleados_devengos_descuentos` , tbl_devengo_descuento WHERE id_empleado='$idempleado1' and tbl_empleados_devengos_descuentos.id_tipo_devengo_descuento=tbl_devengo_descuento.id and  fecha_caducidad >= '$fechadesde1'";
 			/* echo $query01; */
 			$sql = Conexion::conectar()->prepare($query01);
 			$sql->execute();
@@ -2181,9 +3380,7 @@ switch ($accion) {
 		/* ***Devegos y descuentos del empleado sin tipo***** */
 		function consultar_devengo_emple_sintipo($periodo1,$fechadesde1,$fechahasta2,$idempleado1)
 		{
-			$query01 = "SELECT tbl_empleados_devengos_descuentos.id AS id, `id_empleado`, `id_tipo_devengo_descuento`, `valor`, `fecha_caducidad`, `referencia`, `tipodescuento` ,tbl_devengo_descuento.*
-			FROM `tbl_empleados_devengos_descuentos` , tbl_devengo_descuento 
-			WHERE id_empleado='$idempleado1' and tbl_empleados_devengos_descuentos.id_tipo_devengo_descuento=tbl_devengo_descuento.id and  fecha_caducidad BETWEEN '$fechadesde1' AND '$fechahasta2'";
+			$query01 = "SELECT tbl_empleados_devengos_descuentos.id AS id, `id_empleado`, `id_tipo_devengo_descuento`, `valor`, `fecha_caducidad`, `referencia`, `tipodescuento` ,tbl_devengo_descuento.* FROM `tbl_empleados_devengos_descuentos` , tbl_devengo_descuento WHERE id_empleado='$idempleado1' and tbl_empleados_devengos_descuentos.id_tipo_devengo_descuento=tbl_devengo_descuento.id and  fecha_caducidad BETWEEN '$fechadesde1' AND '$fechahasta2'";
 			
 			$sql = Conexion::conectar()->prepare($query01);
 			$sql->execute();
@@ -2216,7 +3413,7 @@ switch ($accion) {
 			$dias_maximo_incapacidad=0;
 			$porcentaje_dias_incapacidad=0;
 			foreach ($data_configuracion as $valueconfig) {
-				$porcentaje_isss.=floor($valueconfig["porcentaje_isss"]);
+				$porcentaje_isss.=floatval($valueconfig["porcentaje_isss"]);
 				$tope_isss.=$valueconfig["tope_isss"];
 				$dias_maximo_incapacidad.=$valueconfig["dias_maximo_incapacidad"];
 				$porcentaje_dias_incapacidad.=$valueconfig["porcentaje_dias_incapacidad"];
@@ -2227,9 +3424,7 @@ switch ($accion) {
 		/* ************************ */
 		function isr($salario,$periodo)
 			{
-				$query01="SELECT isr.id as idisr, `codigo`, `nombre_rango`, `periodo_pago`, `salario_desde`, `salario_hasta`, `base_1`, `tasa_sobre_excedente`, `base_2`, periodo_de_pago.id as idperiodo 
-						FROM `isr`, periodo_de_pago 
-						WHERE isr.periodo_pago=periodo_de_pago.id and nombre_periodo='$periodo' and '$salario'>=salario_desde and '$salario'<=salario_hasta";
+				$query01="SELECT isr.id as idisr, `codigo`, `nombre_rango`, `periodo_pago`, `salario_desde`, `salario_hasta`, `base_1`, `tasa_sobre_excedente`, `base_2`, periodo_de_pago.id as idperiodo FROM `isr`, periodo_de_pago WHERE isr.periodo_pago=periodo_de_pago.id and nombre_periodo='$periodo' and '$salario'>=salario_desde and '$salario'<=salario_hasta";
 				
 				$sql = Conexion::conectar()->prepare($query01);
 				$sql->execute();
@@ -2237,6 +3432,55 @@ switch ($accion) {
 			};
 		/* ************************ */
 
+		/* ************************ */
+		function cargo_empleado($id1)
+			{
+				$query01="SELECT `id`, `descripcion`, `nivel`, `codigo_contable`, `personal_asignado`, `pago_feriados`, `calculo` FROM `cargos_desempenados` WHERE id='$id1'";
+				$sql = Conexion::conectar()->prepare($query01);
+				$sql->execute();
+				return $sql->fetchAll();
+			};
+		/* ************************ */
+
+		
+		/* ************************ */
+		function viatico_permanente($id_tipo_devengo1,$id_empleado1)
+			{
+				$query01="SELECT `id`, `id_empleado`, `id_tipo_devengo_descuento`, `valor`, `fecha_caducidad`, `referencia`, `tipodescuento` FROM `tbl_empleados_devengos_descuentos` WHERE id_empleado='$id_empleado1' and id_tipo_devengo_descuento='$id_tipo_devengo1'";
+			
+				$sql = Conexion::conectar()->prepare($query01);
+				$sql->execute();
+				return $sql->fetchAll();
+			};
+		/* ************************ */
+
+		
+		/* ************************ */
+		function dias_feriados()
+			{
+				$query01="SELECT `id`, `num_dias`, `fecha_desde`, `fecha_hasta` FROM `dias_feriados` ";
+				$sql = Conexion::conectar()->prepare($query01);
+				$sql->execute();
+				return $sql->fetchAll();
+			};
+		/* ************************ */
+
+		
+		/* ************************ */
+		function ausencia_dias_feriados($idempleado1)
+			{
+				$query01="SELECT `id`, `empleado_ausencia`, `fecha_feriado` FROM `ausenciadiasferiados` WHERE empleado_ausencia='$idempleado1' ";
+				
+				$sql = Conexion::conectar()->prepare($query01);
+				$sql->execute();
+				return $sql->fetchAll();
+			};
+		/* ************************ */
+
+
+
+
+		/* consulta maestra  addempleadonuevo*/
 		function consultar($idempleado,$dia1,$dia2)
 		{
 			/* $query01="SELECT * FROM tbl_empleados 
@@ -2282,6 +3526,9 @@ switch ($accion) {
 		$values_situacion="";
 		$id_situaciones="";
 		$idrecibo="";
+		
+		
+
 		foreach ($data01 as $value) {
 
 
@@ -2289,17 +3536,42 @@ switch ($accion) {
 
 			/* *******suma de dias en SITUACION */
 				$codigo_empleado=$value["codigo_empleado"];
+				$idcargo_empleado=$value["nivel_cargo"];
+				$salario_empleado=$value["sueldo"];
+				$idempleado=$value["idempleado"];
+				$hora_extra_diurna=$value["hora_extra_diurna"];
+
+
 				$fechadesde02 = date("Y-m-d", strtotime($_POST["fechaperiodo1"]));
 				$mes = date("m", strtotime($_POST["fechaperiodo1"]));
 				$anio = date("Y", strtotime($_POST["fechaperiodo1"]));
 				$fecha_desde_format=$anio."-".$mes."-"."01";
 				$fechahasta02= date("Y-m-d", strtotime($_POST["fechaperiodo2"]));
+
 				$datasituacion = situaciones($codigo_empleado,$fecha_desde_format,$fechahasta02);
+				$datasituacion_inca = situaciones_incapacidad($codigo_empleado,$fecha_desde_format,$fechahasta02);
+				$datasituacion_dias_tra = situaciones_dias_tra_inca($codigo_empleado,$fecha_desde_format,$fechahasta02);
+
 				$dias_ausencia_situ="";
 				$dias_incapacidad_situ="";
+				$dias_tra_inca="";
+
+				$horas_ausencia="";
+				$horas_extras="";
+
 				foreach ($datasituacion as $valuesituacion) {
-					$dias_ausencia_situ.=$valuesituacion["sumaausencia"];
+					$dias_ausencia_situ.=floatval($valuesituacion["sumaausencia"])+floatval($valuesituacion["sumadias_no_sueldo"]);
+					/* $dias_incapacidad_situ.=$valuesituacion["sumainca"]; */
+					$horas_ausencia.=$valuesituacion["sumahoraausencia"];
+					$horas_extras.=$valuesituacion["sumahoraextra"];
+				}
+				/* situaciones incapacidad */
+				foreach ($datasituacion_inca as $valuesituacion) {
 					$dias_incapacidad_situ.=$valuesituacion["sumainca"];
+				}
+				/* situaciones dias trabajados de incapacidad */
+				foreach ($datasituacion_dias_tra as $valuesituacion) {
+					$dias_tra_inca.=$valuesituacion["sumadiastrabajados"];
 				}
 
 			/* **************************** */
@@ -2327,9 +3599,7 @@ switch ($accion) {
 				}
 				$comentario_obser="";
 				if(!empty($dias_ausen)){
-					$comentario_obser.="Fechas dias ausencia:".trim($fecha_ausencia, "-")."
-					
-					";
+					$comentario_obser.="Fechas dias ausencia:".trim($fecha_ausencia, "-")."\n";
 				}
 				if(!empty($dias_inca)){
 					$comentario_obser.="Fechas dias Incapacidad:".trim($fecha_incapacidad, "-");
@@ -2340,7 +3610,6 @@ switch ($accion) {
 
 			/* ********DEVENGO EMPLEADOS********* */
 
-				$idempleado=$value["idempleado"];
 				
 				$datadevengoempleado = consultar_devengo_empleado($periodo_planilladevengo_admin,$fecha_desde_format,$fechahasta02,$idempleado);
 				$valordevengoempleado="";
@@ -2348,6 +3617,7 @@ switch ($accion) {
 				$valorisss="";
 				$valorafp="";
 				$valorrenta="";
+				$viaticos_empleados="0";
 			
 				foreach ($datadevengoempleado as $valuesdevengoempleado) {
 					$tipodescuento=$valuesdevengoempleado["tipodescuento"];
@@ -2359,15 +3629,19 @@ switch ($accion) {
 						$renta=$valuesdevengoempleado["renta_devengo"];
 
 						if($isss=="Si"){
-							$valorisss=floor($valuesdevengoempleado["valor"]);
+							$valorisss=floatval($valuesdevengoempleado["valor"]);
 						}
 						if($afp=="Si"){
-							$valorafp=floor($valuesdevengoempleado["valor"]);
+							$valorafp=floatval($valuesdevengoempleado["valor"]);
 						}
 						if($renta=="Si"){
-							$valorrenta=floor($valuesdevengoempleado["valor"]);
+							$valorrenta=floatval($valuesdevengoempleado["valor"]);
 						}
 						$valordevengoempleado=$valuesdevengoempleado["valor"];
+						
+						if($iddevengo=="2"){
+							$viaticos_empleados.=$valuesdevengoempleado["valor"];
+						}
 					}
 				}
 
@@ -2380,7 +3654,6 @@ switch ($accion) {
 			$datetime1 = date_create($fechaEnvio);
 			$datetime2 = date_create($fechaActual);
 			$contador = date_diff($datetime1, $datetime2);
-
 			/* lunes-viernes */
 			$workingDays = 0;
 			$startTimestamp = strtotime($fechaEnvio);
@@ -2388,23 +3661,17 @@ switch ($accion) {
 			for ($i = $startTimestamp; $i <= $endTimestamp; $i = $i + (60 * 60 * 24)) {
 				if (date("N", $i) <= 5) $workingDays = $workingDays + 1;
 			}
-
 			/* *********** */
 			/* ****sabado-domingo */
 			$weekendDays = 0;
-			
 			$startTimestamp = strtotime($fechaEnvio);
 			$endTimestamp = strtotime($fechaActual);
 			for ($i = $startTimestamp; $i <= $endTimestamp; $i = $i + (60 * 60 * 24)) {
 				if (date("N", $i) > 5) $weekendDays = $weekendDays + 1;
 			}
 			/* ********** */
-			
-			$dias_trabajo= floor($workingDays)+floor($weekendDays);
-
-
+			$dias_trabajo= floatval($workingDays)+floatval($weekendDays);
 			$differenceFormat = '%a';
-
 			/* $dias_trabajo=$contador->format($differenceFormat); */
 			$tiempotrabajo="";
 			if($dias_trabajo>='15'){
@@ -2417,14 +3684,14 @@ switch ($accion) {
 			}
 		   
 			$sueldo_diario=floatval($value["sueldo_diario"]);
-			$dias_incapacidad=floor($dias_incapacidad_situ);
-			$dias_ausencia=floor($dias_ausencia_situ);
-		
+			$dias_incapacidad=floatval($dias_incapacidad_situ);
+			$dias_ausencia=floatval($dias_ausencia_situ);
+			$total_dias_trabajados = floatval($dias_trabajo_planilladevengo_admin)-$dias_incapacidad-$dias_ausencia;
 
-			$total_dias_trabajados = floor($dias_trabajo_planilladevengo_admin)-$dias_incapacidad-$dias_ausencia;
 			if($total_dias_trabajados<=0){
 				$total_dias_trabajados=0;
 			}
+			
 			$sueldo_total=$total_dias_trabajados*$sueldo_diario;
 			
 
@@ -2449,7 +3716,7 @@ switch ($accion) {
 			$data_afp = afp($tipo_afp);
 			$porcentaje_afp=0;
 				foreach ($data_afp as $valueafp) {
-					$porcentaje_afp.=floor($valueafp["porcentaje"]);
+					$porcentaje_afp.=floatval($valueafp["porcentaje"]);
 				}
 				/*--------------------------------  */
 
@@ -2464,18 +3731,18 @@ switch ($accion) {
 				$descuento_isss=0;
 				$descuento_afp=0;
 				if($pensionado_empleado=="Si"){
-					$renta_final=floor($valorrenta)+floor($sueldo_total);/* sujeto renta si  es pensionado */
+					$renta_final=floatval($valorrenta)+floatval($sueldo_total);/* sujeto renta si  es pensionado */
 	
 				}
 				else{
 					
-					$salario_isss=floor($valorisss)+$sueldo_total;/* sujeto iss */
-					$salario_afp=floor($valorafp)+$sueldo_total;/* sujeto afp */
+					$salario_isss=floatval($valorisss)+$sueldo_total;/* sujeto iss */
+					$salario_afp=floatval($valorafp)+$sueldo_total;/* sujeto afp */
 
 					$descuento_isss=$salario_isss*$calcularporcentaje_isss;/* descuento isss */
 					$descuento_afp=$salario_afp*$calcularporcentaje_afp;/* descuento afp */
 
-					$salario_renta=floor($valorrenta)+$sueldo_total;
+					$salario_renta=floatval($valorrenta)+$sueldo_total;
 					$sujeto_renta=$salario_renta-$descuento_isss-$descuento_afp;
 					$renta_final=$sujeto_renta;/* sujeto renta si no es pensionado */
 				}
@@ -2486,9 +3753,9 @@ switch ($accion) {
 				$porcentaje_base2=0;
 				$tasa_sobre_excedente=0;
 				foreach ($dataisr as $valueisr) {
-					$porcentaje_base1=floor($valueisr["base_1"]);
-					$porcentaje_base2=floor($valueisr["base_2"]);
-					$tasa_sobre_excedente=floor($valueisr["tasa_sobre_excedente"]);
+					$porcentaje_base1=floatval($valueisr["base_1"]);
+					$porcentaje_base2=floatval($valueisr["base_2"]);
+					$tasa_sobre_excedente=floatval($valueisr["tasa_sobre_excedente"]);
 				}
 
 				$porcentaje_tasa_excedente=$tasa_sobre_excedente/100;
@@ -2500,7 +3767,205 @@ switch ($accion) {
 			/* echo $porcentaje_isss.",".$porcentaje_afp.",".$porcentaje_base1.",".$porcentaje_base2.",".$tasa_sobre_excedente; */
 			/* **********************  */
 
+			/* VERIFICA LAS HORAS DE AUSENCIA CUBIERTAS O NO CUBIERTAS O SI FUERON CUBIERTAS DE MANERA DE HORA NORMAL*/
+			$horas_no_cubiertas="";
+			$horas_cubiertas_extras=0;
+			$horas_cubiertas_normal=0;
+			$total_horas_ausencia=0;
+			$suma_horas=0;
+			$total_horas_cubiertas_extras="";
+			$total_horas_cubiertas_normal="";
 
+
+			/* ----------HORAS EXTRAS------------------ */
+			$data_hora_cubi = horas_cubiertar_extras($codigo_empleado);	
+			foreach ($data_hora_cubi as $value_horas_cubi) {
+				$horas_cubiertas_extras= floatval($value_horas_cubi["hora_extra_situacion"]);
+				$total_horas_cubiertas_extras.=$value_horas_cubi["hora_extra_situacion"];
+			}
+			/* ----------HORAS NORMALES------------------ */
+			$data_hora_normales = horas_cubiertar_normal($codigo_empleado);	
+			foreach ($data_hora_normales as $value_horas_cubi) {
+				$horas_cubiertas_normal= floatval($value_horas_cubi["hora_normales_situacion"]);
+				$total_horas_cubiertas_normal.=$value_horas_cubi["hora_normales_situacion"];
+			}
+
+			/* ---------HORAS AUSENCIA TOTAL------------- */
+			$data_hora_aus = situaciones_horas($codigo_empleado,$fecha_desde_format,$fechahasta02);
+			foreach ($data_hora_aus as $value_horas_aus) {
+				$horas_ausencia_situacion = $value_horas_aus["horas_ausencia_situacion"];
+				$total_horas_ausencia .= $value_horas_aus["horas_ausencia_situacion"];
+			
+				/* --------------------- */
+
+			}
+
+
+			/* ------------------------------ */
+						/* HORAS EXTRAS CUBIERTAS DE AUSENCIAS */
+						if($total_horas_cubiertas_extras>0){
+
+												$datadevengo = consultar_devengo2("23");
+												$codigo_devengo="";
+												$descipcion_devengo="";
+												$isss_devengo="";
+												$afp_devengo="";
+												$renta_devengo="";
+												$id_devengo="";
+												$suma_resta="";
+												foreach ($datadevengo as $valuedevengo) {
+													$id_devengo.=$valuedevengo["id"];
+													$codigo_devengo.=$valuedevengo["codigo"];
+													$descipcion_devengo.=$valuedevengo["descripcion"];
+													$isss_devengo.=$valuedevengo["isss_devengo"];
+													$afp_devengo.=$valuedevengo["afp_devengo"];
+													$renta_devengo.=$valuedevengo["renta_devengo"];
+													$suma_resta.=$valuedevengo["tipo"];
+												}
+
+														$total_valor_horas_aus=floatval($hora_extra_diurna)*floatval($total_horas_cubiertas_extras);
+
+														$codigo_devengo_descuento_planilla=$codigo_devengo;
+														$descripcion_devengo_descuento_planilla=$descipcion_devengo;
+														$tipo_devengo_descuento_planilla=$id_devengo;
+														$isss_devengo_devengo_descuento_planilla=$isss_devengo;
+														$afp_devengo_devengo_descuento_planilla=$afp_devengo;
+														$renta_devengo_devengo_descuento_planilla=$renta_devengo;
+														$idempleado_devengo=$value["idempleado"];
+														$valor_devengo_planilla=$total_valor_horas_aus;
+														$tipo_valor=$suma_resta;
+														$codigo_planilla_devengo=$numero_planilladevengo_admin;
+														
+														$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','','','$total_horas_cubiertas_extras','$hora_extra_diurna'),";
+
+						}
+			/* ------------------------------ */
+
+				/* ------------------------------ */
+					/* HORAS NORMALES CUBIERTAS DE AUSENCIAS */
+					if($total_horas_cubiertas_normal>0){
+
+									$datadevengo = consultar_devengo2("23");
+									$codigo_devengo="";
+									$descipcion_devengo="";
+									$isss_devengo="";
+									$afp_devengo="";
+									$renta_devengo="";
+									$id_devengo="";
+									$suma_resta="";
+									foreach ($datadevengo as $valuedevengo) {
+										$id_devengo.=$valuedevengo["id"];
+										$codigo_devengo.=$valuedevengo["codigo"];
+										$descipcion_devengo.=$valuedevengo["descripcion"];
+										$isss_devengo.=$valuedevengo["isss_devengo"];
+										$afp_devengo.=$valuedevengo["afp_devengo"];
+										$renta_devengo.=$valuedevengo["renta_devengo"];
+										$suma_resta.=$valuedevengo["tipo"];
+									}
+
+									$sueldo_viatico=floatval($salario_empleado)+floatval($viaticos_empleados);
+									$sueldo_diario02=floatval($sueldo_viatico)/15;
+									$sueldo_dia_pagar=floatval($sueldo_diario02)/12;
+									
+									$total_valor_horas_aus=floatval($sueldo_dia_pagar)*floatval($total_horas_cubiertas_normal);
+								
+
+
+									$codigo_devengo_descuento_planilla=$codigo_devengo;
+									$descripcion_devengo_descuento_planilla=$descipcion_devengo;
+									$tipo_devengo_descuento_planilla=$id_devengo;
+									$isss_devengo_devengo_descuento_planilla=$isss_devengo;
+									$afp_devengo_devengo_descuento_planilla=$afp_devengo;
+									$renta_devengo_devengo_descuento_planilla=$renta_devengo;
+									$idempleado_devengo=$value["idempleado"];
+									$valor_devengo_planilla=$total_valor_horas_aus;
+									$tipo_valor=$suma_resta;
+									$codigo_planilla_devengo=$numero_planilladevengo_admin;
+
+									$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','','','$total_horas_cubiertas_normal','$sueldo_dia_pagar'),";
+									
+
+					}
+				/* ------------------------------ */
+
+			/* HORAS AUSENCIAS NO CUBIERTAS*/
+			$suma_horas=floatval($total_horas_cubiertas_extras)+floatval($total_horas_cubiertas_normal);
+			$horas_no_cubiertas=floatval($total_horas_ausencia)-floatval($suma_horas);
+				if($horas_no_cubiertas>0){
+						$datadevengo = consultar_devengo2("23");
+						$codigo_devengo="";
+						$descipcion_devengo="";
+						$isss_devengo="";
+						$afp_devengo="";
+						$renta_devengo="";
+						$id_devengo="";
+						$suma_resta="";
+						foreach ($datadevengo as $valuedevengo) {
+							$id_devengo.=$valuedevengo["id"];
+							$codigo_devengo.=$valuedevengo["codigo"];
+							$descipcion_devengo.=$valuedevengo["descripcion"];
+							$isss_devengo.=$valuedevengo["isss_devengo"];
+							$afp_devengo.=$valuedevengo["afp_devengo"];
+							$renta_devengo.=$valuedevengo["renta_devengo"];
+							$suma_resta.=$valuedevengo["tipo"];
+						}
+
+						$sueldo_viatico=floatval($salario_empleado)+floatval($viaticos_empleados);
+						$sueldo_diario02=floatval($sueldo_viatico)/15;
+						$sueldo_dia_pagar=floatval($sueldo_diario02)/12;
+						$total_valor_horas_aus=floatval($sueldo_dia_pagar)*floatval($horas_no_cubiertas);
+
+						$codigo_devengo_descuento_planilla=$codigo_devengo;
+						$descripcion_devengo_descuento_planilla=$descipcion_devengo;
+						$tipo_devengo_descuento_planilla=$id_devengo;
+						$isss_devengo_devengo_descuento_planilla=$isss_devengo;
+						$afp_devengo_devengo_descuento_planilla=$afp_devengo;
+						$renta_devengo_devengo_descuento_planilla=$renta_devengo;
+						$idempleado_devengo=$value["idempleado"];
+						$valor_devengo_planilla=$total_valor_horas_aus;
+						$tipo_valor=$suma_resta;
+						$codigo_planilla_devengo=$numero_planilladevengo_admin;
+
+						$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','','','$horas_no_cubiertas','$sueldo_dia_pagar'),";
+
+				}
+			/* --------------------- */
+
+			/* DIAS TRABAJADOS EN INCAPACIDAD */
+
+			if($dias_tra_inca>0){
+				$datadevengo = consultar_devengo2("31");
+				$codigo_devengo="";
+				$descipcion_devengo="";
+				$isss_devengo="";
+				$afp_devengo="";
+				$renta_devengo="";
+				$id_devengo="";
+				$suma_resta="";
+				foreach ($datadevengo as $valuedevengo) {
+					$id_devengo.=$valuedevengo["id"];
+					$codigo_devengo.=$valuedevengo["codigo"];
+					$descipcion_devengo.=$valuedevengo["descripcion"];
+					$isss_devengo.=$valuedevengo["isss_devengo"];
+					$afp_devengo.=$valuedevengo["afp_devengo"];
+					$renta_devengo.=$valuedevengo["renta_devengo"];
+					$suma_resta.=$valuedevengo["tipo"];
+				}
+				$valor_devengo_incapacidad=floatval($sueldo_diario)*floatval($dias_tra_inca);
+				
+				$codigo_devengo_descuento_planilla=$codigo_devengo;
+				$descripcion_devengo_descuento_planilla=$descipcion_devengo;
+				$tipo_devengo_descuento_planilla=$id_devengo;
+				$isss_devengo_devengo_descuento_planilla=$isss_devengo;
+				$afp_devengo_devengo_descuento_planilla=$afp_devengo;
+				$renta_devengo_devengo_descuento_planilla=$renta_devengo;
+				$idempleado_devengo=$value["idempleado"];
+				$valor_devengo_planilla=$valor_devengo_incapacidad;
+				$tipo_valor=$suma_resta;
+				$codigo_planilla_devengo=$numero_planilladevengo_admin;
+				$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','$dias_tra_inca','$sueldo_diario','','','',''),";
+			}
+			/* DIAS INCAPACIDAD */
 			if($dias_incapacidad>0){
 
 					$datadevengo = consultar_devengo2("33");
@@ -2522,9 +3987,10 @@ switch ($accion) {
 					}
 
 					$valor_devengo_incapacidad=0;
+					$sueldo_porcentaje=0;
 					if($dias_incapacidad>=$dias_maximo_incapacidad){
 						$sueldo_porcentaje=$sueldo_diario*$porcentaje_dias_incapacidad;
-						$valor_devengo_incapacidad=$dias_incapacidad*$dias_maximo_incapacidad;
+						$valor_devengo_incapacidad=$sueldo_porcentaje*$dias_maximo_incapacidad;
 
 					}
 					else{
@@ -2543,11 +4009,10 @@ switch ($accion) {
 					$tipo_valor=$suma_resta;
 					$codigo_planilla_devengo=$numero_planilladevengo_admin;
 
-					$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo'),";
+					$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','$dias_maximo_incapacidad','$sueldo_porcentaje','',''),";
 
 			}
 			
-
 			if(empty($iddevengo)){
 			}
 			else{
@@ -2591,7 +4056,7 @@ switch ($accion) {
 							$tipo_valor=$suma_resta;
 							$codigo_planilla_devengo=$numero_planilladevengo_admin;
 
-							$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo'),";
+							$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','','','',''),";
 
 						/* ************ */
 
@@ -2602,10 +4067,178 @@ switch ($accion) {
 			}
 
 
+			/* DEVENGO QUINCENAL PLANILLA ANTICIPO */
+
+			/* ************* */
+
+			$datadevengo_anticipo = devengo_anticipo($idempleado);
+			foreach ($datadevengo_anticipo as $valuedevengo_anticipo) {
+				$devengoquincenal=$valuedevengo_anticipo["valor_devengo_planilla"];
+				if($devengoquincenal>0){
+						/* ************* */
+						$datadevengo = consultar_devengo2('25');
+						$codigo_devengo="";
+						$descipcion_devengo="";
+						$isss_devengo="";
+						$afp_devengo="";
+						$renta_devengo="";
+						$id_devengo="";
+						$suma_resta="";
+						foreach ($datadevengo as $valuedevengo) {
+							$id_devengo.=$valuedevengo["id"];
+							$codigo_devengo.=$valuedevengo["codigo"];
+							$descipcion_devengo.=$valuedevengo["descripcion"];
+							$isss_devengo.=$valuedevengo["isss_devengo"];
+							$afp_devengo.=$valuedevengo["afp_devengo"];
+							$renta_devengo.=$valuedevengo["renta_devengo"];
+							$suma_resta.=$valuedevengo["tipo"];
+
+						}
+
+						
+						$codigo_devengo_descuento_planilla=$codigo_devengo;
+						$descripcion_devengo_descuento_planilla=$descipcion_devengo;
+						$tipo_devengo_descuento_planilla=$id_devengo;
+						$isss_devengo_devengo_descuento_planilla=$isss_devengo;
+						$afp_devengo_devengo_descuento_planilla=$afp_devengo;
+						$renta_devengo_devengo_descuento_planilla=$renta_devengo;
+						$idempleado_devengo=$value["idempleado"];
+						$valor_devengo_planilla=$devengoquincenal;
+						$tipo_valor=$suma_resta;
+						$codigo_planilla_devengo=$numero_planilladevengo_admin;
+						$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','','','',''),";
+
+					/* ************ */
+
+				}
+
+			}
+
+			
+			/* ************************************ */
+			/* DEVENGO POR DIAS FERIADOS TRABAJADOS */
+
+			$data_viatico_permanente= viatico_permanente('2',$idempleado);	
+			$valor_viatico_permanente="";		
+			foreach ($data_viatico_permanente as $value_viatico) {
+				$valor_viatico_permanente.=$value_viatico["valor"];		
+			}
+
+
+			/* ***** VALIDAR SI ESTAMOS EN EL MES DE DIAS FERIADOS Y BUSCAR SI EMPLEADO A ESTA AUSENTE EN LOS DIAS FERIADOS */
+			$data_ausencia_dias_feriados= ausencia_dias_feriados($idempleado);	
+			$restar_dias_feriados=0;	
+			$fecha_feriado_ausencia="";	
+			foreach ($data_ausencia_dias_feriados as $value_ausencia_dias_feriados) {
+				$fecha_feriado_ausencia.=$value_ausencia_dias_feriados["fecha_feriado"];	
+			}
+			
+			$data_dias_feriados= dias_feriados();	
+			foreach ($data_dias_feriados as $value_dias_feriados) {
+				$fecha_desde=$value_dias_feriados["fecha_desde"];		
+				$fecha_hasta=$value_dias_feriados["fecha_hasta"];	
+
+				$fecha_desde_mes=date("m", strtotime($fecha_desde));	
+				$fechaActual_mes = date("m", strtotime($fecha_planilladevengo_admin));
+				if($fechaActual_mes==$fecha_desde_mes){
+
+					$fecha_desde_mes_feriado=$value_dias_feriados["fecha_desde"];
+					$fecha_hasta_mes_feriado=$value_dias_feriados["fecha_hasta"];
+					$resultado_dias=0;
+					if ($fecha_feriado_ausencia >= $fecha_desde && $fecha_feriado_ausencia <= $fecha_hasta){
+						$resultado_dias=$resultado_dias+1;
+					}		
+					/* CONTAR LOS DIAS FERIADOS */
+					$feriado_desde= date("Y-m-d", strtotime($fecha_desde_mes_feriado));
+					$feriado_hasta = date("Y-m-d", strtotime($fecha_hasta_mes_feriado));
+					/* lunes-viernes */
+					$workingDays = 0;
+					$startTimestamp = strtotime($feriado_desde);
+					$endTimestamp = strtotime($feriado_hasta);
+					for ($i = $startTimestamp; $i <= $endTimestamp; $i = $i + (60 * 60 * 24)) {
+						if (date("N", $i) <= 5) $workingDays = $workingDays + 1;
+					}
+					/* *********** */
+					/* ****sabado-domingo */
+					$weekendDays = 0;
+					$startTimestamp = strtotime($feriado_desde);
+					$endTimestamp = strtotime($feriado_hasta);
+					for ($i = $startTimestamp; $i <= $endTimestamp; $i = $i + (60 * 60 * 24)) {
+						if (date("N", $i) > 5) $weekendDays = $weekendDays + 1;
+					}
+
+					$dias_festivos= floatval($workingDays)+floatval($weekendDays);
+					$restar_dias_feriados.=floatval($dias_festivos)-floatval($resultado_dias);
+					/* echo $restar_dias_feriados.'restar_dias_feriados'; */
+					/* *********************** */
+					
+				}
+				
+			}
+			/* ******************************************************** */
+
+			if($restar_dias_feriados>0){
+				
+					$data_cargo= cargo_empleado($idcargo_empleado);		
+					foreach ($data_cargo as $valu_cargo) {
+							$pago_feriados=$valu_cargo["pago_feriados"];
+							$calculo=$valu_cargo["calculo"];
+							if($pago_feriados=="Si"){
+								$ecuacion_dias=0;
+								$valordias=0;
+								if($calculo=="Sueldo+Tfijo"){
+									$salario_mas_viatico=floatval($salario_empleado)+floatval($valor_viatico_permanente);
+									$valordias=floatval($salario_mas_viatico)/15;
+									$ecuacion_dias=$valordias*floatval($restar_dias_feriados);
+								}
+								else{
+									$valordias=floatval($salario_empleado)/15;
+									$ecuacion_dias=floatval($valordias)*floatval($restar_dias_feriados);
+								}
+								/* ******************* */
+									$datadevengo = consultar_devengo2('0021');
+									$codigo_devengo="";
+									$descipcion_devengo="";
+									$isss_devengo="";
+									$afp_devengo="";
+									$renta_devengo="";
+									$id_devengo="";
+									$suma_resta="";
+									foreach ($datadevengo as $valuedevengo) {
+										$id_devengo.=$valuedevengo["id"];
+										$codigo_devengo.=$valuedevengo["codigo"];
+										$descipcion_devengo.=$valuedevengo["descripcion"];
+										$isss_devengo.=$valuedevengo["isss_devengo"];
+										$afp_devengo.=$valuedevengo["afp_devengo"];
+										$renta_devengo.=$valuedevengo["renta_devengo"];
+										$suma_resta.=$valuedevengo["tipo"];
+
+									}
+									$codigo_devengo_descuento_planilla=$codigo_devengo;
+									$descripcion_devengo_descuento_planilla=$descipcion_devengo;
+									$tipo_devengo_descuento_planilla=$id_devengo;
+									$isss_devengo_devengo_descuento_planilla=$isss_devengo;
+									$afp_devengo_devengo_descuento_planilla=$afp_devengo;
+									$renta_devengo_devengo_descuento_planilla=$renta_devengo;
+									$idempleado_devengo=$value["idempleado"];
+									$valor_devengo_planilla= bcdiv($ecuacion_dias, '1', 2);
+									$tipo_valor=$suma_resta;
+									$codigo_planilla_devengo=$numero_planilladevengo_admin;
+
+									$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','$restar_dias_feriados','$valordias','','','','','',''),";
+
+								/* ******************* */
+									
+							}
+					}
+			
+			}
+			/* ********************************************* */
+
 			/* *************BONO POR UBICACION*************** */
 				$databonoubicacion = bonoubicacion($codigo_empleado);			
 				foreach ($databonoubicacion as $valubonoubicacion) {
-					$bono=$valubonoubicacion["bonos"];
+						$bono=$valubonoubicacion["bonos"];
 					/* ******************* */
 						$datadevengo = consultar_devengo2('0061');
 						$codigo_devengo="";
@@ -2623,6 +4256,7 @@ switch ($accion) {
 							$afp_devengo.=$valuedevengo["afp_devengo"];
 							$renta_devengo.=$valuedevengo["renta_devengo"];
 							$suma_resta.=$valuedevengo["tipo"];
+
 						}
 						$codigo_devengo_descuento_planilla=$codigo_devengo;
 						$descripcion_devengo_descuento_planilla=$descipcion_devengo;
@@ -2635,7 +4269,7 @@ switch ($accion) {
 						$tipo_valor=$suma_resta;
 						$codigo_planilla_devengo=$numero_planilladevengo_admin;
 
-						$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo'),";
+						$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','','','',''),";
 
 					/* ******************* */
 				}
@@ -2646,98 +4280,104 @@ switch ($accion) {
 			$databonopornofaltar = bonopornofaltar($codigo_empleado);			
 			foreach ($databonopornofaltar as $valubonopornofaltar) {
 				$bono=$valubonopornofaltar["valor_devengo_ubicacion"];
-
-				$fecha_planilladevengo_admin01 = date("Y-m-d", strtotime($fecha_planilladevengo_admin));
-				$fecha_gratificacion_admin= date("Y-m-d", strtotime($_POST["fecha_gratificacion_admin"]));
-				$datasituacion = situaciones($codigo_empleado,$fecha_gratificacion_admin,$fecha_planilladevengo_admin01);
-				$dias_ausencia_situ_bono="";
-				foreach ($datasituacion as $valuesituacion) {
-					$dias_ausencia_situ_bono.=$valuesituacion["sumaausencia"];
+				$periodo=$valubonopornofaltar["periodo_devengo_ubicacion"];
+				if($periodo=="Siempre"){
+					$periodo=$periodo_planilladevengo_admin;
 				}
-
-				if($tiempotrabajo=="viejo"){
-
-					if(empty($dias_ausencia_situ_bono)){
-						/* ******************* */
-						$datadevengo = consultar_devengo2('0020');
-						$codigo_devengo="";
-						$descipcion_devengo="";
-						$isss_devengo="";
-						$afp_devengo="";
-						$renta_devengo="";
-						$id_devengo="";
-						$suma_resta="";
-						foreach ($datadevengo as $valuedevengo) {
-							$id_devengo.=$valuedevengo["id"];
-							$codigo_devengo.=$valuedevengo["codigo"];
-							$descipcion_devengo.=$valuedevengo["descripcion"];
-							$isss_devengo.=$valuedevengo["isss_devengo"];
-							$afp_devengo.=$valuedevengo["afp_devengo"];
-							$renta_devengo.=$valuedevengo["renta_devengo"];
-							$suma_resta.=$valuedevengo["tipo"];
-
+				
+				if($periodo==$periodo_planilladevengo_admin){
+						$fecha_planilladevengo_admin01 = date("Y-m-d", strtotime($fecha_planilladevengo_admin));
+						$fecha_gratificacion_admin= date("Y-m-d", strtotime($_POST["fecha_gratificacion_admin"]));
+						$datasituacion = situaciones($codigo_empleado,$fecha_gratificacion_admin,$fecha_planilladevengo_admin01);
+						$dias_ausencia_situ_bono="vacio";
+						foreach ($datasituacion as $valuesituacion) {
+							$dias_ausencia_situ_bono.=$valuesituacion["sumaausencia"];
 						}
-						$codigo_devengo_descuento_planilla=$codigo_devengo;
-						$descripcion_devengo_descuento_planilla=$descipcion_devengo;
-						$tipo_devengo_descuento_planilla=$id_devengo;
-						$isss_devengo_devengo_descuento_planilla=$isss_devengo;
-						$afp_devengo_devengo_descuento_planilla=$afp_devengo;
-						$renta_devengo_devengo_descuento_planilla=$renta_devengo;
-						$idempleado_devengo=$value["idempleado"];
-						$valor_devengo_planilla= bcdiv($bono, '1', 2);
-						$tipo_valor=$suma_resta;
-						$codigo_planilla_devengo=$numero_planilladevengo_admin;
+						
+						if($tiempotrabajo=="viejo"){
 
-						$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo'),";
+							if($dias_ausencia_situ_bono=="vacio"){
+								/* ******************* */
+								$datadevengo = consultar_devengo2('0020');
+								$codigo_devengo="";
+								$descipcion_devengo="";
+								$isss_devengo="";
+								$afp_devengo="";
+								$renta_devengo="";
+								$id_devengo="";
+								$suma_resta="";
+								foreach ($datadevengo as $valuedevengo) {
+									$id_devengo.=$valuedevengo["id"];
+									$codigo_devengo.=$valuedevengo["codigo"];
+									$descipcion_devengo.=$valuedevengo["descripcion"];
+									$isss_devengo.=$valuedevengo["isss_devengo"];
+									$afp_devengo.=$valuedevengo["afp_devengo"];
+									$renta_devengo.=$valuedevengo["renta_devengo"];
+									$suma_resta.=$valuedevengo["tipo"];
 
-					 /* ******************* */
-					}
+								}
+								$codigo_devengo_descuento_planilla=$codigo_devengo;
+								$descripcion_devengo_descuento_planilla=$descipcion_devengo;
+								$tipo_devengo_descuento_planilla=$id_devengo;
+								$isss_devengo_devengo_descuento_planilla=$isss_devengo;
+								$afp_devengo_devengo_descuento_planilla=$afp_devengo;
+								$renta_devengo_devengo_descuento_planilla=$renta_devengo;
+								$idempleado_devengo=$value["idempleado"];
+								$valor_devengo_planilla= bcdiv($bono, '1', 2);
+								$tipo_valor=$suma_resta;
+								$codigo_planilla_devengo=$numero_planilladevengo_admin;
 
-				}
-
-				if($tiempotrabajo=="nuevo"){
-
-					if(empty($dias_ausencia_situ_bono)){
-
-						$calculobono=floor($bono)/30*floor($total_dias_trabajados);
-						/* ******************* */
-						$datadevengo = consultar_devengo2('0020');
-						$codigo_devengo="";
-						$descipcion_devengo="";
-						$isss_devengo="";
-						$afp_devengo="";
-						$renta_devengo="";
-						$id_devengo="";
-						$suma_resta="";
-						foreach ($datadevengo as $valuedevengo) {
-							$id_devengo.=$valuedevengo["id"];
-							$codigo_devengo.=$valuedevengo["codigo"];
-							$descipcion_devengo.=$valuedevengo["descripcion"];
-							$isss_devengo.=$valuedevengo["isss_devengo"];
-							$afp_devengo.=$valuedevengo["afp_devengo"];
-							$renta_devengo.=$valuedevengo["renta_devengo"];
-							$suma_resta.=$valuedevengo["tipo"];
-
+								$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','','','',''),";
+					 		/* ******************* */
+							}
 						}
-						$codigo_devengo_descuento_planilla=$codigo_devengo;
-						$descripcion_devengo_descuento_planilla=$descipcion_devengo;
-						$tipo_devengo_descuento_planilla=$id_devengo;
-						$isss_devengo_devengo_descuento_planilla=$isss_devengo;
-						$afp_devengo_devengo_descuento_planilla=$afp_devengo;
-						$renta_devengo_devengo_descuento_planilla=$renta_devengo;
-						$idempleado_devengo=$value["idempleado"];
-						$valor_devengo_planilla= bcdiv($calculobono, '1', 2);
-						$tipo_valor=$suma_resta;
-						$codigo_planilla_devengo=$numero_planilladevengo_admin;
 
-						$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo'),";
 
-					 /* ******************* */
-					}
+						if($tiempotrabajo=="nuevo"){
 
+							if($dias_ausencia_situ_bono=="vacio"){
+
+								$calculobono=floatval($bono)/30*floatval($total_dias_trabajados);
+								/* ******************* */
+								$datadevengo = consultar_devengo2('0020');
+								$codigo_devengo="";
+								$descipcion_devengo="";
+								$isss_devengo="";
+								$afp_devengo="";
+								$renta_devengo="";
+								$id_devengo="";
+								$suma_resta="";
+								foreach ($datadevengo as $valuedevengo) {
+									$id_devengo.=$valuedevengo["id"];
+									$codigo_devengo.=$valuedevengo["codigo"];
+									$descipcion_devengo.=$valuedevengo["descripcion"];
+									$isss_devengo.=$valuedevengo["isss_devengo"];
+									$afp_devengo.=$valuedevengo["afp_devengo"];
+									$renta_devengo.=$valuedevengo["renta_devengo"];
+									$suma_resta.=$valuedevengo["tipo"];
+
+								}
+								$codigo_devengo_descuento_planilla=$codigo_devengo;
+								$descripcion_devengo_descuento_planilla=$descipcion_devengo;
+								$tipo_devengo_descuento_planilla=$id_devengo;
+								$isss_devengo_devengo_descuento_planilla=$isss_devengo;
+								$afp_devengo_devengo_descuento_planilla=$afp_devengo;
+								$renta_devengo_devengo_descuento_planilla=$renta_devengo;
+								$idempleado_devengo=$value["idempleado"];
+								$valor_devengo_planilla= bcdiv($calculobono, '1', 2);
+								$tipo_valor=$suma_resta;
+								$codigo_planilla_devengo=$numero_planilladevengo_admin;
+
+							
+								$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','','','',''),";
+
+							/* ******************* */
+							}
+						}
 				}
+
 			}
-		/* ********************************************* */
+		 /* ********************************************* */
 
 			/* *********RECIBO DESCUENTO***************** */
 			$datarecibo = recibo($idempleado,$fecha_desde_format,$fechahasta02);
@@ -2775,7 +4415,7 @@ switch ($accion) {
 						$tipo_valor=$suma_resta;
 						$codigo_planilla_devengo=$numero_planilladevengo_admin;
 
-						$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo'),";
+						$values_devengo.="('$codigo_devengo_descuento_planilla', '$descripcion_devengo_descuento_planilla', '$tipo_devengo_descuento_planilla', '$isss_devengo_devengo_descuento_planilla', '$afp_devengo_devengo_descuento_planilla', '$renta_devengo_devengo_descuento_planilla', '$idempleado_devengo', '$valor_devengo_planilla', '$tipo_valor', '$codigo_planilla_devengo','','','','','','','',''),";
 
 
 				/* ************************ */
@@ -2816,11 +4456,12 @@ switch ($accion) {
 			$sueldo_renta_planilladevengo_admin=  bcdiv($renta_final, '1', 2);
 			$sueldo_isss_planilladevengo_admin= bcdiv($salario_isss, '1', 2); 
 			$sueldo_afp_planilladevengo_admin=  bcdiv($salario_afp, '1', 2);
+			$hora_extra_diurna_planilladevengo_admin=$horas_extras;
 
 
 
 
-			$values_consulta.="('$numero_planilladevengo_admin','$fecha_planilladevengo_admin','$fecha_desde_planilladevengo_admin','$fecha_hasta_planilladevengo_admin','$descripcion_planilladevengo_admin','$codigo_empleado_planilladevengo_admin','$nombre_empleado_planilladevengo_admin','$id_empleado_planilladevengo_admin','$sueldo_planilladevengo_admin','$total_devengo_admin_planilladevengo_admin','$total_liquidado_planilladevengo_admin','$codigo_ubicacion_planilladevengo_admin','$nombre_ubicacion_planilladevengo_admin','$id_ubicacion_planilladevengo_admin','$periodo_planilladevengo_admin','$tipo_planilladevengo_admin','$empleado_rango_desde','$empleado_rango_hasta','$total_dias_trabajados','$dias_incapacidad','$dias_ausencia','$dias_trabajo_planilladevengo_admin','$descuento_isss_planilladevengo_admin','$descuento_afp_planilladevengo_admin','$descuento_renta_planilladevengo_admin','$sueldo_renta_planilladevengo_admin','$sueldo_isss_planilladevengo_admin','$sueldo_afp_planilladevengo_admin','$observacion_planilladevengo_admin','$fecha_gratificacion_admin'),";
+			$values_consulta.="('$numero_planilladevengo_admin','$fecha_planilladevengo_admin','$fecha_desde_planilladevengo_admin','$fecha_hasta_planilladevengo_admin','$descripcion_planilladevengo_admin','$codigo_empleado_planilladevengo_admin','$nombre_empleado_planilladevengo_admin','$id_empleado_planilladevengo_admin','$sueldo_planilladevengo_admin','$total_devengo_admin_planilladevengo_admin','$total_liquidado_planilladevengo_admin','$codigo_ubicacion_planilladevengo_admin','$nombre_ubicacion_planilladevengo_admin','$id_ubicacion_planilladevengo_admin','$periodo_planilladevengo_admin','$tipo_planilladevengo_admin','$empleado_rango_desde','$empleado_rango_hasta','$total_dias_trabajados','$dias_incapacidad','$dias_ausencia','$dias_trabajo_planilladevengo_admin','$descuento_isss_planilladevengo_admin','$descuento_afp_planilladevengo_admin','$descuento_renta_planilladevengo_admin','$sueldo_renta_planilladevengo_admin','$sueldo_isss_planilladevengo_admin','$sueldo_afp_planilladevengo_admin','$observacion_planilladevengo_admin','$fecha_gratificacion_admin','$hora_extra_diurna_planilladevengo_admin'),";
 
 			$datos_html .= ' <tr class="btnEditarabase" pensionado_empleado="'.$value["pensionado_empleado"].'" hora_extra_nocturna_domingo="'.$value["hora_extra_nocturna_domingo"].'"   hora_extra_domingo="'.$value["hora_extra_domingo"].'"  hora_extra_nocturna="'.$value["hora_extra_nocturna"].'" hora_extra_diurna="'.$value["hora_extra_diurna"].'"    salario_por_hora="'.$value["salario_por_hora"].'"  sueldo="'.$value["sueldo"].'"  idempleado="'.$value["idempleado"].'" codigo="'.$value["codigo_empleado"].'"  nombre="'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["tercer_nombre"].' '.$value["primer_apellido"].' '.$value["segundo_apellido"].' '.$value["apellido_casada"].'">
 			<td>'.$value["codigo_empleado"].'</td>
@@ -2850,6 +4491,8 @@ switch ($accion) {
 		if($registro == 0){
 
 
+
+
 			$insertar_recibo="UPDATE `recibos` SET  `liquidado_recibo`='Si',`numero_planilla_liquidado`='$numero_planilladevengo_admin' WHERE id in  (".trim($idrecibo, ",").")";
 			$sql_recibo= Conexion::conectar()->prepare($insertar_recibo);
 			$sql_recibo->execute();
@@ -2859,14 +4502,13 @@ switch ($accion) {
 			$sql_situacion->execute();
 
 			
-			$insertar_devengo="INSERT INTO `tbl_devengo_descuento_planilla_admin`(`codigo_devengo_descuento_planilla`, `descripcion_devengo_descuento_planilla`, `tipo_devengo_descuento_planilla`, `isss_devengo_devengo_descuento_planilla`, `afp_devengo_devengo_descuento_planilla`, `renta_devengo_devengo_descuento_planilla`,`idempleado_devengo`, `valor_devengo_planilla`, `tipo_valor`, `codigo_planilla_devengo`) VALUES  ".trim($values_devengo, ",")."";
-		
+			$insertar_devengo="INSERT INTO `tbl_devengo_descuento_planilla_admin`(`codigo_devengo_descuento_planilla`, `descripcion_devengo_descuento_planilla`, `tipo_devengo_descuento_planilla`, `isss_devengo_devengo_descuento_planilla`, `afp_devengo_devengo_descuento_planilla`, `renta_devengo_devengo_descuento_planilla`,`idempleado_devengo`, `valor_devengo_planilla`, `tipo_valor`, `codigo_planilla_devengo`,dias_Feriados,valor_dias_Feriados,dias_tra_inca_admin,pago_dias_tra_inca_admin,dias_incapacidad_admin,pago_dias_incapacidad_admin,horas_tardes,precio_horas_tardes) VALUES  ".trim($values_devengo, ",")."";
 			$sql_devengo = Conexion::conectar()->prepare($insertar_devengo);
 			$sql_devengo->execute();
 
 
-			$insertar="INSERT INTO `planilladevengo_admin`(`numero_planilladevengo_admin`, `fecha_planilladevengo_admin`, `fecha_desde_planilladevengo_admin`, `fecha_hasta_planilladevengo_admin`, `descripcion_planilladevengo_admin`, `codigo_empleado_planilladevengo_admin`, `nombre_empleado_planilladevengo_admin`, `id_empleado_planilladevengo_admin`, `sueldo_planilladevengo_admin`,  `total_devengo_admin_planilladevengo_admin`, `total_liquidado_planilladevengo_admin`, `codigo_ubicacion_planilladevengo_admin`, `nombre_ubicacion_planilladevengo_admin`, `id_ubicacion_planilladevengo_admin`, `periodo_planilladevengo_admin`, `tipo_planilladevengo_admin`, `empleado_rango_desde`, `empleado_rango_hasta`,dias_trabajo_planilladevengo_admin,dias_incapacidad,dias_ausencia,his_dias_trabajo_admin,descuento_isss_planilladevengo_admin,descuento_afp_planilladevengo_admin,descuento_renta_planilladevengo_admin,sueldo_renta_planilladevengo_admin,sueldo_isss_planilladevengo_admin,sueldo_afp_planilladevengo_admin,observacion_planilladevengo_admin,fecha_gratificacion_admin) value ".trim($values_consulta, ",")."";
-			
+			$insertar="INSERT INTO `planilladevengo_admin`(`numero_planilladevengo_admin`, `fecha_planilladevengo_admin`, `fecha_desde_planilladevengo_admin`, `fecha_hasta_planilladevengo_admin`, `descripcion_planilladevengo_admin`, `codigo_empleado_planilladevengo_admin`, `nombre_empleado_planilladevengo_admin`, `id_empleado_planilladevengo_admin`, `sueldo_planilladevengo_admin`,  `total_devengo_admin_planilladevengo_admin`, `total_liquidado_planilladevengo_admin`, `codigo_ubicacion_planilladevengo_admin`, `nombre_ubicacion_planilladevengo_admin`, `id_ubicacion_planilladevengo_admin`, `periodo_planilladevengo_admin`, `tipo_planilladevengo_admin`, `empleado_rango_desde`, `empleado_rango_hasta`,dias_trabajo_planilladevengo_admin,dias_incapacidad,dias_ausencia,his_dias_trabajo_admin,descuento_isss_planilladevengo_admin,descuento_afp_planilladevengo_admin,descuento_renta_planilladevengo_admin,sueldo_renta_planilladevengo_admin,sueldo_isss_planilladevengo_admin,sueldo_afp_planilladevengo_admin,observacion_planilladevengo_admin,fecha_gratificacion_admin,hora_extra_diurna_planilladevengo_admin) value ".trim($values_consulta, ",")."";
+		
 			$sql = Conexion::conectar()->prepare($insertar);
 
 			if ($sql->execute()) {
@@ -2889,8 +4531,6 @@ switch ($accion) {
 			/* echo $datos_html; */
 		}
 	break;
-
-
 	case "listaconempleado_backup":
 
 
@@ -3005,6 +4645,48 @@ switch ($accion) {
 
 
 	break;
+	case "modificarexpres":
+		/* ***************** */
+	
+		$namecolumnas_situacion = "";
+		$namecampos_situacion = "";
+		$data = getContent_modificarexpres();
+		$test = "";
+		foreach ($data as $row) {
+			$namecolumnas_situacion .= $row['Field'] . "=" . ":" . $row['Field'] . ",";
+			$test .= $row['Field'] . "='" . $_POST["" . $row['Field'] . ""] . "',";
+		}
+
+		$codigo_empleado_planilladevengo_admin = $_POST["codigo_empleado_planilladevengo_admin"];
+		$numero_planilladevengo_admin = $_POST["numero_planilladevengo_admin"];
+
+		function validarempleado01($e,$numero_planilladevengo_admin1)
+		{
+					$query01 = "SELECT * FROM planilladevengo_admin WHERE codigo_empleado_planilladevengo_admin='$e' and numero_planilladevengo_admin=$numero_planilladevengo_admin1";
+					
+					$sql = Conexion::conectar()->prepare($query01);
+					$sql->execute();
+					return $sql->fetchAll();
+		}
+		$existeempleado="";
+		$data03 = validarempleado01($codigo_empleado_planilladevengo_admin,$numero_planilladevengo_admin);
+		foreach ($data03 as $value) {
+		$existeempleado.=$value["id"];
+		}
+
+
+		$query01 = "UPDATE planilladevengo_admin SET " . trim($test, ",") . " WHERE id LIKE $existeempleado and numero_planilladevengo_admin=$numero_planilladevengo_admin";
+		echo $query01;
+
+		$sql = Conexion::conectar()->prepare($query01);
+		$sql->execute();
+		return $sql->fetchAll();
+		$sql->close();
+		$sql = null;
+		/* ***************** */
+
+
+	break;
 	case "obtenerdata":
 		/* ************ */
 		function consultar_situacion2($e)
@@ -3096,11 +4778,9 @@ switch ($accion) {
 		function consultar_situacion2($e,$x,$z)
 		{
 			$query01="SELECT*FROM tbl_devengo_descuento_planilla_admin WHERE idempleado_devengo='$e' and codigo_planilla_devengo='$z' and tipo_valor LIKE '%$x%'";
-			
 			$sql = Conexion::conectar()->prepare($query01);
 			$sql->execute();
 			return $sql->fetchAll();
-			
 		};
 		$tipo=$_POST["tipo"];
 		$codigo_planilla_devengo=$_POST["codigo_planilla_devengo"];
@@ -3109,7 +4789,7 @@ switch ($accion) {
 			echo' <tr>
 			<td>'.$value["codigo_devengo_descuento_planilla"].'</td>
 			<td>'.$value["descripcion_devengo_descuento_planilla"].'</td>
-			<td class="subtotal2" isss="'.$value["isss_devengo_devengo_descuento_planilla"].'" afp="'.$value["afp_devengo_devengo_descuento_planilla"].'" renta="'.$value["renta_devengo_devengo_descuento_planilla"].'"  >'.$value["valor_devengo_planilla"].'</td>
+			<td class="subtotal2" isss="'.$value["isss_devengo_devengo_descuento_planilla"].'" afp="'.$value["afp_devengo_devengo_descuento_planilla"].'" renta="'.$value["renta_devengo_devengo_descuento_planilla"].'"  >'. bcdiv($value["valor_devengo_planilla"], '1', 3).'</td>
 			<td>'.$value["isss_devengo_devengo_descuento_planilla"].'</td>
 			<td>'.$value["afp_devengo_devengo_descuento_planilla"].'</td>
 			<td>'.$value["renta_devengo_devengo_descuento_planilla"].'</td>
@@ -3213,7 +4893,6 @@ switch ($accion) {
 					$sql = null;
 					/* ***************** */
     break;
-
 	case "obtenerdatadevengo":
 		/* ************ */
 		function consultar_situacion2($e)
@@ -3358,9 +5037,6 @@ switch ($accion) {
 		$afp_devengo=$_POST["afp_devengo"];
 		$isss_devengo=$_POST["isss_devengo"];
 		$valor_devengo_planilla=$_POST["valor_devengo_planilla"];
-
-
-
 			/* ************************ */
 			function consultar($e)
 			{
@@ -3443,11 +5119,37 @@ switch ($accion) {
 				}
 				/* ************************* */
 
-			echo $porcentaje_isss.",".$porcentaje_afp.",".$porcentaje_base1.",".$porcentaje_base2.",".$tasa_sobre_excedente;
+				function planilla_vacacion($e)
+				{
+					$query01="SELECT*FROM planilladevengo_vacacion WHERE id_empleado_planilladevengo_vacacion='$e' and numero_planilladevengo_vacacion = (SELECT MAX(numero_planilladevengo_vacacion) FROM planilladevengo_vacacion)";
+					$sql = Conexion::conectar()->prepare($query01);
+					$sql->execute();
+					return $sql->fetchAll();
+				};
+				$data_planilla = planilla_vacacion($consultarempleado);
+				$validar=0;
+				foreach ($data_planilla as $value_planilla) {
+					$validar.=$value_planilla["id"];
+				}
+
+				if($validar==0){
+					echo $porcentaje_isss.",".$porcentaje_afp.",".$porcentaje_base1.",".$porcentaje_base2.",".$tasa_sobre_excedente.",".'no';
+
+				}
+				else{
+
+					$porcentaje_isss=0;
+					$porcentaje_afp=0;
+					$porcentaje_base1=0;
+					$porcentaje_base2=0;
+					$tasa_sobre_excedente=0;
+
+					echo $porcentaje_isss.",".$porcentaje_afp.",".$porcentaje_base1.",".$porcentaje_base2.",".$tasa_sobre_excedente.",".'si';
+
+				}
 			
 			/* ************ */
 	break;
-
 	case "consultardevengosexistentes":
 		
 		/* ************ */
@@ -3667,7 +5369,6 @@ switch ($accion) {
 		echo $correlativo_dato;
 		/* ************ */
 	break;
-	
 	case "eliminarempleado":
 		/* ********************* */
 		$numero_planilladevengo_admin=$_POST["numero_planilladevengo_admin"];
@@ -3716,11 +5417,6 @@ switch ($accion) {
 			echo "Ok";
 		}
 
-		
-
-		
-
-
 		/* 		$query = "DELETE FROM `planilladevengo_vacacion` WHERE id_empleado_planilladevengo_vacacion=$idempleado";
 		echo $query;
 		$stmt = Conexion::conectar()->prepare($query);
@@ -3746,7 +5442,7 @@ switch ($accion) {
 		$stmt01->execute();
 		/* ****************** */
 
-		$insertar_situacion="UPDATE `situacion` SET  `liquidado_situacion`='No',`numero_planilla_admin`='' WHERE numero_planilla_admin=$numero_planilladevengo_admin";
+		$insertar_situacion="UPDATE `situacion` SET  `liquidado_situacion`='No',`numero_planilla_admin`='' WHERE numero_planilla_admin='$numero_planilladevengo_admin'";
 		$sql_situacion = Conexion::conectar()->prepare($insertar_situacion);
 		$sql_situacion->execute();
 
@@ -3799,15 +5495,14 @@ switch ($accion) {
 		$result = [];
 		/* ************ */
 	break;
-
 	case "ubicacionempleado1":
 		
 		/* ************ */
 		$idempleado=$_POST["id"];
 
-		function consultar_situacion2($id1)
+		function consultar_situacion2($id12)
 		{
-			$query01="SELECT * FROM `tbl_empleados` WHERE id=$id1";
+			$query01="SELECT * FROM `tbl_empleados` WHERE id=$id12";
 			$sql = Conexion::conectar()->prepare($query01);
 			$sql->execute();
 			return $sql->fetchAll();
@@ -3834,6 +5529,552 @@ switch ($accion) {
 		$result = [];
 		/* ************ */
 	break;
+	case "diasferiado":
+	
+		$idempleado=$_POST["idempleado"];
+		$fecha_planilladevengo_admin=$_POST["fecha_planilladevengo_admin"];
+		/* ************************ */
+		function viatico_permanente($id_tipo_devengo1,$id_empleado1)
+			{
+				$query01="SELECT `id`, `id_empleado`, `id_tipo_devengo_descuento`, `valor`, `fecha_caducidad`, `referencia`, `tipodescuento` FROM `tbl_empleados_devengos_descuentos` WHERE id_empleado='$id_empleado1' and id_tipo_devengo_descuento='$id_tipo_devengo1'";
+			
+				$sql = Conexion::conectar()->prepare($query01);
+				$sql->execute();
+				return $sql->fetchAll();
+			};
+			/* ************************ */
+		function dias_feriados()
+			{
+				$query01="SELECT `id`, `num_dias`, `fecha_desde`, `fecha_hasta` FROM `dias_feriados` ";
+				$sql = Conexion::conectar()->prepare($query01);
+				$sql->execute();
+				return $sql->fetchAll();
+			};
+		/* ************************ */
+		
+		/* ************************ */
+		function ausencia_dias_feriados($idempleado1)
+			{
+				$query01="SELECT `id`, `empleado_ausencia`, `fecha_feriado` FROM `ausenciadiasferiados` WHERE empleado_ausencia='$idempleado1' ";
+				
+				$sql = Conexion::conectar()->prepare($query01);
+				$sql->execute();
+				return $sql->fetchAll();
+			};
+		/* ************************ */
+
+		function cargo_empleado($id1)
+			{
+				$query01="SELECT `id`, `descripcion`, `nivel`, `codigo_contable`, `personal_asignado`, `pago_feriados`, `calculo` FROM `cargos_desempenados` WHERE id='$id1'";
+				$sql = Conexion::conectar()->prepare($query01);
+				$sql->execute();
+				return $sql->fetchAll();
+			};
+
+
+		/* consulta maestra */
+		function consultar($idemmpleados1)
+		{
+			$query01="SELECT DATE_FORMAT(DATE(NOW()), '%m-%d')as fecha_actual,DATE_FORMAT(tbl_empleados.fecha_contratacion, '%m-%d') as fechacontracion, tbl_empleados.id as idempleado, tbl_empleados.*
+			FROM `tbl_empleados` where 
+			id='$idemmpleados1'";
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();
+		};
+
+			$data_consultar= consultar($idempleado);	
+			foreach ($data_consultar as $value_empleado) {
+				$idcargo_empleado=$value_empleado["nivel_cargo"];
+				$salario_empleado=$value_empleado["sueldo"];
+
+				/* DEVENGO POR DIAS FERIADOS TRABAJADOS */
+				$data_viatico_permanente= viatico_permanente('2',$idempleado);	
+				$valor_viatico_permanente="";		
+				foreach ($data_viatico_permanente as $value_viatico) {
+					$valor_viatico_permanente.=$value_viatico["valor"];		
+				}
+
+
+				/* ***** VALIDAR SI ESTAMOS EN EL MES DE DIAS FERIADOS Y BUSCAR SI EMPLEADO A ESTA AUSENTE EN LOS DIAS FERIADOS */
+				$data_ausencia_dias_feriados= ausencia_dias_feriados($idempleado);	
+				$restar_dias_feriados=0;	
+				$fecha_feriado_ausencia="";	
+				foreach ($data_ausencia_dias_feriados as $value_ausencia_dias_feriados) {
+					$fecha_feriado_ausencia.=$value_ausencia_dias_feriados["fecha_feriado"];	
+				}
+				
+				$data_dias_feriados= dias_feriados();	
+				foreach ($data_dias_feriados as $value_dias_feriados) {
+					$fecha_desde=$value_dias_feriados["fecha_desde"];		
+					$fecha_hasta=$value_dias_feriados["fecha_hasta"];	
+
+					$fecha_desde_mes=date("m", strtotime($fecha_desde));	
+					$fechaActual_mes = date("m", strtotime($fecha_planilladevengo_admin));
+					if($fechaActual_mes==$fecha_desde_mes){
+
+						$fecha_desde_mes_feriado=$value_dias_feriados["fecha_desde"];
+						$fecha_hasta_mes_feriado=$value_dias_feriados["fecha_hasta"];
+						$resultado_dias=0;
+						if ($fecha_feriado_ausencia >= $fecha_desde && $fecha_feriado_ausencia <= $fecha_hasta){
+							$resultado_dias=$resultado_dias+1;
+						}		
+						/* CONTAR LOS DIAS FERIADOS */
+						$feriado_desde= date("Y-m-d", strtotime($fecha_desde_mes_feriado));
+						$feriado_hasta = date("Y-m-d", strtotime($fecha_hasta_mes_feriado));
+						/* lunes-viernes */
+						$workingDays = 0;
+						$startTimestamp = strtotime($feriado_desde);
+						$endTimestamp = strtotime($feriado_hasta);
+						for ($i = $startTimestamp; $i <= $endTimestamp; $i = $i + (60 * 60 * 24)) {
+							if (date("N", $i) <= 5) $workingDays = $workingDays + 1;
+						}
+						/* *********** */
+						/* ****sabado-domingo */
+						$weekendDays = 0;
+						$startTimestamp = strtotime($feriado_desde);
+						$endTimestamp = strtotime($feriado_hasta);
+						for ($i = $startTimestamp; $i <= $endTimestamp; $i = $i + (60 * 60 * 24)) {
+							if (date("N", $i) > 5) $weekendDays = $weekendDays + 1;
+						}
+
+						$dias_festivos= floatval($workingDays)+floatval($weekendDays);
+						$restar_dias_feriados.=floatval($dias_festivos)-floatval($resultado_dias);
+						/* echo $restar_dias_feriados.'restar_dias_feriados'; */
+						/* *********************** */
+						
+					}
+					
+				}
+				/* ******************************************************** */
+
+				$data_cargo= cargo_empleado($idcargo_empleado);	
+				$ecuacion_dias=0;	
+				$valordias=0;
+				foreach ($data_cargo as $valu_cargo) {
+						$pago_feriados=$valu_cargo["pago_feriados"];
+						$calculo=$valu_cargo["calculo"];
+						if($pago_feriados=="Si"){
+							if($calculo=="Sueldo+Tfijo"){
+								$salario_mas_viatico=floatval($salario_empleado)+floatval($valor_viatico_permanente);
+								$valordias.=floatval($salario_mas_viatico)/15;
+								$ecuacion_dias=$valordias*floatval($restar_dias_feriados);
+							}
+							else{
+								$valordias.=floatval($salario_empleado)/15;
+								$ecuacion_dias=floatval($valordias)*floatval($restar_dias_feriados);
+							}
+						}
+					}
+
+
+				echo $restar_dias_feriados.'-'.$valordias;
+			}
+	
+	break;
+	case "onlydiastrabajados":
+		/* ************ */
+		$idempleado=$_POST["idempleado"];
+		function empleadosplanilla($idempleado1)
+		{
+		/* 	$query01 = "SELECT * FROM `planilladevengo_admin`  WHERE codigo_empleado_planilladevengo_admin='$e'"; */
+			$query01="SELECT*FROM `tbl_empleados` where id=$idempleado1";
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			$outp = $sql->fetchAll();
+			echo json_encode($outp);
+			
+		};
+		$data01 = empleadosplanilla($idempleado);
+		$result = [];
+			/* ************ */
+	break;
+	case "listadoempleados":
+		/* ************ */
+		$numero=$_POST["numero"];
+		function empleadosplanilla($numero1)
+		{
+		/* 	$query01 = "SELECT * FROM `planilladevengo_admin`  WHERE codigo_empleado_planilladevengo_admin='$e'"; */
+			$query01="SELECT tbl_empleados.id as id, planilladevengo_admin.*,tbl_empleados.* 
+			FROM `tbl_empleados`,planilladevengo_admin 
+			WHERE planilladevengo_admin.id_empleado_planilladevengo_admin=tbl_empleados.id and planilladevengo_admin.numero_planilladevengo_admin='$numero1'
+			 group by tbl_empleados.id ";
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			$outp = $sql->fetchAll();
+			echo json_encode($outp);
+			
+		};
+		$data01 = empleadosplanilla($numero);
+		$result = [];
+			/* ************ */
+	break;
+	case "listaidempleados":
+		/* ************ */
+		$idempleado=$_POST["idempleado"];
+		/* $correlativo=$_POST["correlativo"]; */
+		function empleadosplanilla($idempleado1)
+		{
+		/* 	$query01 = "SELECT * FROM `planilladevengo_admin`  WHERE codigo_empleado_planilladevengo_admin='$e'"; */
+
+		$query01="SELECT * FROM `tbl_empleados` WHERE tbl_empleados.id='$idempleado1' ";
+			/* $query01="SELECT tbl_empleados.id as id, tbl_empleados.*, planilladevengo_admin.* FROM `tbl_empleados`, planilladevengo_admin WHERE planilladevengo_admin.id_empleado_planilladevengo_admin=tbl_empleados.id and tbl_empleados.id='$idempleado1' and planilladevengo_admin.numero_planilladevengo_admin='$correlativo1'"; */
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			$outp = $sql->fetchAll();
+			echo json_encode($outp);
+			
+		};
+		$data01 = empleadosplanilla($idempleado);
+		$result = [];
+			/* ************ */
+	break;
+	case "verificardatoingresado":
+		/* ************ */
+		$numero=$_POST["numero"];
+		$idempleado=$_POST["idempleado"];
+		function empleadosplanilla($numero1,$idempleado1)
+		{
+		/* 	$query01 = "SELECT * FROM `planilladevengo_admin`  WHERE codigo_empleado_planilladevengo_admin='$e'"; */
+			$query01="SELECT tbl_empleados.id as id, planilladevengo_admin.*,tbl_empleados.* FROM `tbl_empleados`,planilladevengo_admin WHERE planilladevengo_admin.id_empleado_planilladevengo_admin=tbl_empleados.id and planilladevengo_admin.numero_planilladevengo_admin='$numero1' and tbl_empleados.id='$idempleado1' group by tbl_empleados.id ";
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			$outp = $sql->fetchAll();
+			echo json_encode($outp);
+			
+		};
+		$data01 = empleadosplanilla($numero,$idempleado);
+		$result = [];
+			/* ************ */
+	break;
+	case "guardartodo":
+		$numeroplanilla=$_POST["numeroplanilla"];
+
+		function salario_planilla($empleado1,$numeroplanilla1)
+		{
+			$query01="SELECT * FROM `planilladevengo_admin` 
+			WHERE id_empleado_planilladevengo_admin='$empleado1' and numero_planilladevengo_admin='$numeroplanilla1' ";
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();
+		};
+
+		function devengo_isss($empleado1,$numeroplanilla1)
+						{
+							$query01="SELECT SUM(valor_devengo_planilla) as sumaisss FROM `tbl_devengo_descuento_planilla_admin` 
+							WHERE isss_devengo_devengo_descuento_planilla='Si' and idempleado_devengo='$empleado1' and tbl_devengo_descuento_planilla_admin.codigo_planilla_devengo='$numeroplanilla1' and  tbl_devengo_descuento_planilla_admin.tipo_valor LIKE '%suma%'";
+							$sql = Conexion::conectar()->prepare($query01);
+							$sql->execute();
+							return $sql->fetchAll();
+						};
+
+						/* sacar los devengos renta */
+				function devengo_renta($empleado1,$numeroplanilla1)
+				{
+					$query01="SELECT SUM(valor_devengo_planilla) as sumarenta FROM `tbl_devengo_descuento_planilla_admin` 
+					WHERE renta_devengo_devengo_descuento_planilla='Si' and idempleado_devengo='$empleado1' and tbl_devengo_descuento_planilla_admin.codigo_planilla_devengo='$numeroplanilla1' and  tbl_devengo_descuento_planilla_admin.tipo_valor LIKE '%suma%'";
+					$sql = Conexion::conectar()->prepare($query01);
+					$sql->execute();
+					return $sql->fetchAll();
+				};
+		/* sacar los devengos afp */
+		function devengo_afp($empleado1,$numeroplanilla1)
+		{
+			$query01="SELECT SUM(valor_devengo_planilla) as sumaafp FROM `tbl_devengo_descuento_planilla_admin` 
+			WHERE afp_devengo_devengo_descuento_planilla='Si' and idempleado_devengo='$empleado1' and tbl_devengo_descuento_planilla_admin.codigo_planilla_devengo='$numeroplanilla1' and  tbl_devengo_descuento_planilla_admin.tipo_valor LIKE '%suma%'";
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();
+		};
+
+		
+
+			function descuentos_total($empleado1,$numeroplanilla1)
+				{
+					$query01="SELECT SUM(valor_devengo_planilla) as sumadescuentos FROM `tbl_devengo_descuento_planilla_admin` 
+					WHERE idempleado_devengo='$empleado1' and tbl_devengo_descuento_planilla_admin.codigo_planilla_devengo='$numeroplanilla1' and  tbl_devengo_descuento_planilla_admin.tipo_valor LIKE '%resta%'";
+					$sql = Conexion::conectar()->prepare($query01);
+					$sql->execute();
+					return $sql->fetchAll();
+				};
+
+
+                /* sacar los descuentos */
+				function devengos_total($empleado1,$numeroplanilla1)
+				{
+					$query01="SELECT SUM(valor_devengo_planilla) as sumaglobal FROM `tbl_devengo_descuento_planilla_admin` 
+					WHERE idempleado_devengo='$empleado1' and tbl_devengo_descuento_planilla_admin.codigo_planilla_devengo='$numeroplanilla1' and  tbl_devengo_descuento_planilla_admin.tipo_valor LIKE '%suma%'";
+					$sql = Conexion::conectar()->prepare($query01);
+					$sql->execute();
+					return $sql->fetchAll();
+				};
+
+
+                /* EMPLEADO */
+					function empleado($e)
+					{
+						$query01="SELECT*FROM tbl_empleados WHERE id='$e'";
+						$sql = Conexion::conectar()->prepare($query01);
+						$sql->execute();
+						return $sql->fetchAll();
+					};
+
+
+                    /* afp------- */
+					function afp($e)
+								{
+									$query01="SELECT*FROM afp WHERE codigo='$e'";
+									$sql = Conexion::conectar()->prepare($query01);
+									$sql->execute();
+									return $sql->fetchAll();
+								};
+
+
+                                /* configuracion */
+					function configuracion()
+					{
+						$query01="SELECT*FROM configuracion";
+						$sql = Conexion::conectar()->prepare($query01);
+						$sql->execute();
+						return $sql->fetchAll();
+					};
+
+
+                    
+						function planilla_vacacion($e)
+						{
+							$query01="SELECT*FROM planilladevengo_vacacion WHERE id_empleado_planilladevengo_vacacion='$e' and numero_planilladevengo_vacacion = (SELECT MAX(numero_planilladevengo_vacacion) FROM planilladevengo_vacacion)";
+							$sql = Conexion::conectar()->prepare($query01);
+							$sql->execute();
+							return $sql->fetchAll();
+						};
+
+                        /* ISR sirve para saber la renta */
+				function isr($salario,$periodo)
+				{
+					$query01="SELECT isr.id as idisr, `codigo`, `nombre_rango`, `periodo_pago`, `salario_desde`, `salario_hasta`, `base_1`, `tasa_sobre_excedente`, `base_2`, periodo_de_pago.id as idperiodo 
+							FROM `isr`, periodo_de_pago 
+							WHERE isr.periodo_pago=periodo_de_pago.id and nombre_periodo='$periodo' and '$salario'>=salario_desde and '$salario'<=salario_hasta";
+					$sql = Conexion::conectar()->prepare($query01);
+					$sql->execute();
+					return $sql->fetchAll();
+				};
+
+
+      
+		function consulta_maestras($numeroplanilla1)
+		{
+			$query01="SELECT * FROM `planilladevengo_admin` WHERE numero_planilladevengo_admin='$numeroplanilla1' ";
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();
+		};
+		$data_maestra = consulta_maestras($numeroplanilla);
+		$respuesta="";
+		foreach ($data_maestra as $value_master) {
+
+				$consultarempleado = $value_master["id_empleado_planilladevengo_admin"];
+				/* --------------------- */
+				/* VARIABLES RECIBIDAS */
+				/* $valor_devengo_planilla=$_POST["valor_devengo_planilla"]; */
+			
+						$data_salario_planilla = salario_planilla($consultarempleado,$numeroplanilla);
+						$sueldo_planilladevengo_admin=0;
+						$hora_extra_diurna_planilladevengo_admin=0;
+						foreach ($data_salario_planilla as $value) {
+							$sueldo_planilladevengo_admin.=floatval($value["sueldo_planilladevengo_admin"]);
+							$hora_extra_diurna_planilladevengo_admin.=floatval($value["hora_extra_diurna_planilladevengo_admin"]);
+						}
+
+				/* sacar los devengos isss */
+					
+						$data_devengo_isss = devengo_isss($consultarempleado,$numeroplanilla);
+						$sumaisss=0;
+						foreach ($data_devengo_isss as $value) {
+							$sumaisss.=floatval($value["sumaisss"]);
+						}
+				/* --------------------- */
+				
+				$data_devengo_renta = devengo_renta($consultarempleado,$numeroplanilla);
+				$sumarenta=0;
+				foreach ($data_devengo_renta as $value) {
+					$sumarenta.=floatval($value["sumarenta"]);
+				}
+				/* --------------------- */
+				
+				$data_devengo_afp = devengo_afp($consultarempleado,$numeroplanilla);
+				$sumaafp=0;
+				foreach ($data_devengo_afp as $value) {
+					$sumaafp.=floatval($value["sumaafp"]);
+				}
+				/* --------------------- */
+				/* sacar los descuentos */
+				
+				$data_descuentos_total = descuentos_total($consultarempleado,$numeroplanilla);
+				$sumadescuentos=0;
+				foreach ($data_descuentos_total as $value) {
+					$sumadescuentos.=floatval($value["sumadescuentos"]);
+				}
+				if(empty($sumadescuentos)){
+					$sumadescuentos=0;
+				}
+				/* --------------------- */
+					/* --------------------- */
+				
+				$data_devengos_total = devengos_total($consultarempleado,$numeroplanilla);
+				$sumaglobal=0;
+				foreach ($data_devengos_total as $value) {
+					$sumaglobal.=floatval($value["sumaglobal"]);
+				}
+				/* --------------------- */
+
+
+				/* operacion para saber porcentajes */
+				
+					$data01 = empleado($consultarempleado);
+					$tipo_afp="";
+					$periodo_pago="";
+					$hora_extra_diurna=0;
+					foreach ($data01 as $value) {
+						$tipo_afp=$value["codigo_afp"];
+						$periodo_pago=$value["periodo_pago"];
+						$hora_extra_diurna=floatval($value["hora_extra_diurna"]);
+					}
+					
+					/* converir el periodo de pago  */
+					if($periodo_pago=="015"){
+						$periodo_pago="quincenal";
+					}
+					if($periodo_pago=="15"){
+						$periodo_pago="quincenal";
+					}
+					if($periodo_pago=="030"){
+						$periodo_pago="Mensual";
+					}
+					if($periodo_pago=="30"){
+						$periodo_pago="Mensual";
+					}
+					
+					$data01 = afp($tipo_afp);
+					$porcentaje_afp="";
+					foreach ($data01 as $value) {
+						$porcentaje_afp=$value["porcentaje"];
+					}
+
+					
+					$data01 = configuracion();
+					$porcentaje_isss="";
+					$tope_isss="";
+					foreach ($data01 as $value) {
+						$porcentaje_isss=$value["porcentaje_isss"];
+						$tope_isss=$value["tope_isss"];
+					}
+					
+						/* saber si hay planilla vacacion */
+
+						$data_planilla = planilla_vacacion($consultarempleado);
+						$validar=0;
+						foreach ($data_planilla as $value_planilla) {
+							$validar.=$value_planilla["id"];
+						}
+
+					/* validar si hay o no vacacion */ /* aqui estan los porcentajes */
+						if($validar==0){
+							
+						}
+						else{
+							$porcentaje_isss=0;
+							$porcentaje_afp=0;
+							
+						}
+				/*----------------------  */
+				$convertir_porcentaje_isss =floatval($porcentaje_isss)/100;
+				$convertir_porcentaje_afp =floatval($porcentaje_afp)/100;
+				if(floatval($sumaisss)>floatval($tope_isss)){
+					$sumaisss=$tope_isss;
+				}
+				/* Descuento ISSS: */
+				$validar_salario_calculos=$sueldo_planilladevengo_admin;
+				if($validar==0){}else{$validar_salario_calculos=0;}
+				$sumaisss_salario=floatval($validar_salario_calculos)+floatval($sumaisss);
+				$total_isss= floatval($sumaisss_salario)*$convertir_porcentaje_isss;/* descuento isss */
+				$descuento_iss_final=floatval($sumaisss_salario)-floatval($total_isss);
+				/* Descuento AFP: */
+				$sumaafp_salario=floatval($validar_salario_calculos)+floatval($sumaafp);
+				$total_afp=floatval($sumaafp_salario)*$convertir_porcentaje_afp;/* descuento afp */
+				$descuento_afp_final=$sumaafp_salario-$total_afp;
+				/* Descuento Renta: */
+				$sumarenta_salario=floatval($validar_salario_calculos)+floatval($sumarenta);
+				$total_descuento_renta=floatval($sumarenta_salario)-floatval($total_afp)-floatval($total_isss);
+				if($total_descuento_renta==0){
+					$total_descuento_renta=0;
+				}
+
+				
+				$valor_renta_salario=floatval($sueldo_planilladevengo_admin)+floatval($total_descuento_renta);
+				$data01 = isr($valor_renta_salario,$periodo_pago);
+				$porcentaje_base1="";
+				$porcentaje_base2="";
+				$tasa_sobre_excedente="";
+				foreach ($data01 as $value) {
+					$porcentaje_base1=$value["base_1"];
+					$porcentaje_base2=$value["base_2"];
+					$tasa_sobre_excedente=$value["tasa_sobre_excedente"];
+
+				}
+				/* validar si hay o no vacacion */ /* aqui estan los porcentajes */
+				if($validar==0){}
+				else{
+					$porcentaje_base1=0;
+					$porcentaje_base2=0;
+					$tasa_sobre_excedente=0;
+				}
+			/* 	$convertir_porcentaje_base1 =floatval($porcentaje_base1)/100;
+				$convertir_porcentaje_base2 =floatval($porcentaje_base2)/100; */
+				$convertir_tasa_sobre_excedente=floatval($tasa_sobre_excedente)/100;
+				$sueldo_menos_base= floatval($total_descuento_renta)-floatval($porcentaje_base2);
+				$tasa_por_exedente= floatval($sueldo_menos_base)*floatval($convertir_tasa_sobre_excedente);
+				$descuento_renta=floatval($tasa_por_exedente)+floatval($porcentaje_base1);
+
+				$total_horas_extras=floatval($hora_extra_diurna_planilladevengo_admin)*floatval($hora_extra_diurna);
+
+				$total_salario_horas_devengos=floatval($sueldo_planilladevengo_admin)+floatval($sumaglobal)+floatval($total_horas_extras);
+
+				$total_descuentos=floatval($total_isss)+floatval($total_afp)+floatval($descuento_renta)+floatval($sumadescuentos);/* guardar  */
+				$valor_liquido_final=floatval($total_salario_horas_devengos)-floatval($total_descuentos);/* guardar  */
+
+
+				$test = "total_liquidado_planilladevengo_admin". "='" . round($valor_liquido_final,2) . "',".
+						"descuento_afp_planilladevengo_admin" . "='" . round($total_afp,2) . "',".
+						"descuento_isss_planilladevengo_admin" . "='" . round($total_isss,2) . "',".
+						"descuento_renta_planilladevengo_admin" . "='" . round($descuento_renta,2) . "',".
+						"otro_devengo_admin_planilladevengo_admin" . "='" . round($sumaglobal,2) . "',".
+						"otro_descuento_planilladevengo_admin" . "='" . round($sumadescuentos,2) . "',".
+						"sueldo_isss_planilladevengo_admin" . "='" . round($sumaisss_salario,2) . "',".
+						"sueldo_renta_planilladevengo_admin" . "='" . round($total_descuento_renta,2) . "',".
+						"sueldo_afp_planilladevengo_admin" . "='" . round($sumaafp_salario,2) . "',".
+						"total_descuento_planilladevengo_admin" . "='" . round($total_descuentos,2) . "',".
+						"hora_extra_diurna_planilladevengo_admin" . "='" . round($hora_extra_diurna_planilladevengo_admin,2) . "',".
+						"total_devengo_admin_planilladevengo_admin" . "='" . round($total_salario_horas_devengos,2) . "',";
+
+				$existeempleado=$value_master["id"];
+				$query01 = "UPDATE planilladevengo_admin SET " . trim($test, ",") . " WHERE id LIKE $existeempleado and numero_planilladevengo_admin='$numeroplanilla'";
+				$sql = Conexion::conectar()->prepare($query01);
+				$sql->execute();
+				if($sql->execute()){
+					$respuesta= "exito";
+				}
+				/* return $sql->fetchAll();
+				$sql->close();
+				$sql = null; */
+
+	    }
+		echo $respuesta;
+	break;
+
+
+
+
 	default:
 		echo $accion."respuesta nula";
 }

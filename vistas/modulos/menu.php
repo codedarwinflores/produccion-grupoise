@@ -1,14 +1,14 @@
 <aside class="main-sidebar">
 
-	<section class="sidebar">
+	 <section class="sidebar">
 
 		<ul class="sidebar-menu">
 
-			<?php
+		<?php
 
-			if ($_SESSION["perfil"] == "Administrador") {
+		if($_SESSION["perfil"] == "Administrador"){
 
-				echo '
+			echo '
 			<li >			
 				<a href="inicio">
 					<i class="fa fa-home"></i>
@@ -129,22 +129,25 @@
 							<span>Tarjeta SIM</span>
 						</a>
 					</li>
+
 					<li>
-						<a href="familia">
-							<i class="fa fa-users"></i>
-							<span>Familia</span>
-						</a>
-					</li>
-						<li>
 						<a href="talleres">
-							<i class="fa fa-building"></i>
-							<span>Talleres</span>
+						<i class="fa fabuilding"></i>
+						<span>Talleres</span>
 						</a>
 					</li>
 					<li>
 						<a href="reparaciones">
-							<i class="fa fa-cogs"></i>
-							<span>Reparaciones</span>
+						<i class="fa fa-cogs"></i>
+						<span>Reparaciones</span>
+						</a>
+					</li>
+
+
+					<li>
+						<a href="familia">
+							<i class="fa fa-users"></i>
+							<span>Familia</span>
 						</a>
 					</li>
 					<li>
@@ -161,8 +164,8 @@
 					</li>
 					<li>
 						<a href="mantenimientoarma">
-							<i class="fa fa-medkit"></i>
-							<span>Mtto. Armas</span>
+						<i class="fa fa-medkit"></i>
+						<span>Mtto. Armas</span>
 						</a>
 					</li>
 					<li>
@@ -179,11 +182,10 @@
 					</li>
 					<li>
 						<a href="mantenimientovehiculo">
-							<i class="fa fa-ambulance"></i>
-							<span>Mtto. Vehículo</span>
+						<i class="fa fa-ambulance"></i>
+						<span>Mtto. Vehículo</span>
 						</a>
 					</li>
-				
 					<li>
 						<a href="tipobicicleta">
 							<i class="fa fa-sitemap"></i>
@@ -196,12 +198,14 @@
 							<span>Bicicleta</span>
 						</a>
 					</li>
+
 					<li>
 						<a href="mantenimientobicicleta">
-							<i class="fa fa-yelp"></i>
-							<span>Mtto. Bicicleta</span>
+						<i class="fa fa-yelp"></i>
+						<span>Mtto. Bicicleta</span>
 						</a>
 					</li>
+
 					<li>
 						<a href="tiporadio">
 							<i class="fa fa-sitemap"></i>
@@ -216,8 +220,8 @@
 					</li>
 					<li>
 						<a href="mantenimientoradio">
-							<i class="fa fa-tty"></i>
-							<span>Mtto. Radio</span>
+						<i class="fa fa-tty"></i>
+						<span>Mtto. Radio</span>
 						</a>
 					</li>
 					<li>
@@ -542,20 +546,37 @@
 					<span>Recibos</span>
 				</a>
 			</li>
+			<li>			
+				<a href="ausenciadiasferiados">
+					<i class="fa fa-list-alt"></i>
+					<span>Aus. Dias Feriados</span>
+				</a>
+			</li>
+
+			<li>			
+				<a href="movimientoequipo">
+					<i class="fa fa-wpexplorer"></i>
+					<span>Movimiento Equipo</span>
+				</a>
+			</li>
 			
 			';
-			}
 
 
+				
 
+		}
 
+		
 
+		
 
+		
 
-			?>
+		?>
 
 		</ul>
 
-	</section>
+	 </section>
 
 </aside>

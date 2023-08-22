@@ -6,12 +6,23 @@ $(document).ready(function(){
 	$("#editarestado_retiro").change(function(){
 		if($(this).val()=="Activar"){
 			$("#editarfecha_contratacion_retiro").val("");
-			alert("Si desea Activar el empleado asigne Fecha de Contratación");
+			$("#editarfecha_contratacion_retiro").removeAttr("disabled");
+			$(".gruporetiro_fecha_contratacion_retiro").removeAttr("style");
+
+			/* alert("Si desea Activar el empleado asigne Fecha de Contratación"); */
+
+			swal({
+				title: 'Alerta',
+				text: "Si desea Activar el empleado asigne Fecha de Contratación",
+				type: 'warning'
+			  })
 			
 		}
 	});
 
-		  
+
+
+
  })
 
  $( ".modificar_retiro" ).click(function() {
@@ -40,7 +51,6 @@ $.ajax({
 /* ********* */
 
 
-
 });
 
 /*=============================================
@@ -49,6 +59,9 @@ EDITAR
 $(".tablas").on("click", ".btnEditarretiro", function(){
 
 	
+
+
+
 	var idretiro = $(this).attr("idretiro");
 	
 	var datos = new FormData();
@@ -77,6 +90,10 @@ $(".tablas").on("click", ".btnEditarretiro", function(){
 			$("#editarobservaciones_retiro").val(respuesta["observaciones_retiro"]);
 			$("#editaridempleado_retiro").val(respuesta["idempleado_retiro"]);
 			$("#editarestado_retiro").val(respuesta["estado_retiro"]);
+			
+			$("#editarmotivo_inactivo").val(respuesta["motivo_inactivo"]);
+			$("#editarmotivo_inactivo").val(respuesta["motivo_inactivo"]).trigger('change.select2');
+
 
 
 

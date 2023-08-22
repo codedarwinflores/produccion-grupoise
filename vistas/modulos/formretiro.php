@@ -48,6 +48,29 @@ function getContent() {
       <form role="form" method="post" enctype="multipart/form-data">
 
 
+      <div class="form-group  " bis_skin_checked="1">
+              <label for="" class="">Motivo de Inactivo</label> 
+              <div class="input-group" bis_skin_checked="1">
+                <span class="input-group-addon"><i class=""></i></span> 
+                    <select name="nuevomotivo_inactivo" class="form-control mi-selector" id="nuevomotivo_inactivo" >
+                      <option value="">Seleccione Motivo</option>
+                      <?php                    
+                                function transaccion() {
+                                  $query = "SELECT * FROM `tbl_transacciones_personal`";
+                                  $sql = Conexion::conectar()->prepare($query);
+                                  $sql->execute();			
+                                  return $sql->fetchAll();
+                                };
+                              $data = transaccion();
+                              foreach($data as $row) {
+                                echo "<option value='".$row["codigo"]."'>".$row["nombre"]."</option>";
+                              }         
+                      ?>
+                    </select>                  
+              </div>
+      </div>
+
+
       <!-- ****** -->
 
           <div class="form-group id  gruporetiro_id" bis_skin_checked="1">
@@ -113,7 +136,7 @@ function getContent() {
               
                 <span class="input-group-addon"><i class="icono_fecha_contratacion_retiro"></i></span> 
 
-                <input type="text" class="form-control input-lg input_fecha_contratacion_retiro" name="nuevofecha_contratacion_retiro" placeholder="Fecha Contratación" value="" autocomplete="off"  >
+                <input type="text" class="form-control input-lg input_fecha_contratacion_retiro" name="nuevofecha_contratacion_retiro" placeholder="Fecha Contratación" value="" autocomplete="off" readonly >
 
               </div>
 
@@ -128,7 +151,7 @@ function getContent() {
 
                 <input type="text" value="" class="calendario" data-lang="es" data-years="1600-2060" data-format="DD-MM-YYYY" style="display: none;">
   
-                <input type="text" class="form-control input-lg input_fecha_retiro calendario" name="nuevofecha_retiro" placeholder="Fecha del Retiro" value="" autocomplete="off"  >
+                <input type="text" class="form-control input-lg input_fecha_retiro calendario" name="nuevofecha_retiro" placeholder="Fecha del Retiro" value="" autocomplete="off" readonly id="nuevofecha_retiro">
 
               </div>
 

@@ -257,7 +257,31 @@ MODAL EDITAR
 
           </div>
 
-          <div class="form-group nombre_retiro  gruporetiro_nombre_retiro" bis_skin_checked="1">
+          
+      <div class="form-group  " bis_skin_checked="1" style="pointer-events: none;">
+              <label for="" class="">Motivo de Inactivo</label> 
+              <div class="input-group " bis_skin_checked="1">
+                
+                <span class="input-group-addon"><i class=""></i></span> 
+                    <select name="editarmotivo_inactivo" class="form-control mi-selector" id="editarmotivo_inactivo" readonly>
+                      <option value="">Seleccione Motivo</option>
+                      <?php                    
+                                function transaccion() {
+                                  $query = "SELECT * FROM `tbl_transacciones_personal`";
+                                  $sql = Conexion::conectar()->prepare($query);
+                                  $sql->execute();			
+                                  return $sql->fetchAll();
+                                };
+                              $data = transaccion();
+                              foreach($data as $row) {
+                                echo "<option value='".$row["codigo"]."'>".$row["nombre"]."</option>";
+                              }         
+                      ?>
+                    </select>                  
+              </div>
+      </div>
+
+      <div class="form-group nombre_retiro  gruporetiro_nombre_retiro" bis_skin_checked="1">
               <label for="" class="label_nombre_retiro">Nombre Empleado</label> 
               
               <div class="input-group" bis_skin_checked="1">
@@ -268,7 +292,7 @@ MODAL EDITAR
 
               </div>
 
-          </div>
+      </div>
 
           <div class="form-group ubicacion_retiro  gruporetiro_ubicacion_retiro" bis_skin_checked="1">
               <label for="" class="label_ubicacion_retiro">Ubicación</label> 
@@ -277,20 +301,20 @@ MODAL EDITAR
               
                 <span class="input-group-addon"><i class="icono_ubicacion_retiro"></i></span> 
 
-                <input type="text" class="form-control input-lg input_ubicacion_retiro" name="editarubicacion_retiro" id="editarubicacion_retiro" placeholder="" value="" autocomplete="off" required="">
+                <input type="text" class="form-control input-lg input_ubicacion_retiro" name="editarubicacion_retiro" id="editarubicacion_retiro" placeholder="" value="" autocomplete="off" required="" readonly>
 
               </div>
 
           </div>
 
-          <div class="form-group causa_retiro  gruporetiro_causa_retiro" bis_skin_checked="1">
+          <div class="form-group causa_retiro  gruporetiro_causa_retiro" bis_skin_checked="1" style="pointer-events: none;">
               <label for="" class="label_causa_retiro">Causa del Retiro</label> 
               
               <div class="input-group" bis_skin_checked="1">
               
                 <span class="input-group-addon"><i class="icono_causa_retiro"></i></span> 
 
-                <select name="editarcausa_retiro" id="editarcausa_retiro" class="form-control input-lg input_causa_retiro" required="">
+                <select name="editarcausa_retiro" id="editarcausa_retiro" class="form-control input-lg input_causa_retiro" >
                   <option value="">Seleccione Causa de Retiro</option>
                   <option value="Despido">Despido</option>
                   <option value="Renuncia">Renuncia</option>
@@ -300,7 +324,7 @@ MODAL EDITAR
 
           </div>
 
-          <div class="form-group fecha_contratacion_retiro  gruporetiro_fecha_contratacion_retiro" bis_skin_checked="1">
+          <div class="form-group fecha_contratacion_retiro  gruporetiro_fecha_contratacion_retiro" bis_skin_checked="1" style="pointer-events: none;">
               <label for="" class="label_fecha_contratacion_retiro">Fecha Contratación</label> 
               
               <div class="input-group" bis_skin_checked="1">
@@ -310,13 +334,13 @@ MODAL EDITAR
                 <input type="text" value="" class="calendario" data-lang="es" data-years="1600-2060" data-format="DD-MM-YYYY" style="display: none;">
   
 
-                <input type="text" class="form-control input-lg input_fecha_contratacion_retiro calendario" name="editarfecha_contratacion_retiro" id="editarfecha_contratacion_retiro" placeholder="" value="" autocomplete="off" required="">
+                <input type="text" class="form-control input-lg input_fecha_contratacion_retiro calendario" name="editarfecha_contratacion_retiro" id="editarfecha_contratacion_retiro" placeholder="" value="" autocomplete="off" required="" readonly  >
 
               </div>
 
           </div>
 
-          <div class="form-group fecha_retiro  gruporetiro_fecha_retiro" bis_skin_checked="1" style="width: 80%;">
+          <div class="form-group fecha_retiro  gruporetiro_fecha_retiro" bis_skin_checked="1" style="width: 80%; pointer-events: none;" >
               <label for="" class="label_fecha_retiro">Fecha del Retiro</label> 
               
               <div class="input-group" bis_skin_checked="1">
@@ -325,7 +349,7 @@ MODAL EDITAR
 
                 <input type="text" value="" class="calendario" data-lang="es" data-years="1600-2060" data-format="DD-MM-YYYY" style="display: none;">
   
-                <input type="text" class="form-control input-lg input_fecha_retiro calendario" name="editarfecha_retiro" id="editarfecha_retiro" placeholder="" value="" autocomplete="off" required="required">
+                <input type="text" class="form-control input-lg input_fecha_retiro calendario" name="editarfecha_retiro" id="editarfecha_retiro" placeholder="" value="" autocomplete="off" required="required" readonly  >
 
               </div>
 
@@ -338,7 +362,7 @@ MODAL EDITAR
               
                 <span class="input-group-addon"><i class="icono_horas_extras_pentientes_retiro"></i></span> 
 
-                <input type="number" class="form-control input-lg input_horas_extras_pentientes_retiro" name="editarhoras_extras_pentientes_retiro" id="editarhoras_extras_pentientes_retiro" placeholder="" value="" autocomplete="off" required="">
+                <input type="number" class="form-control input-lg input_horas_extras_pentientes_retiro" name="editarhoras_extras_pentientes_retiro" id="editarhoras_extras_pentientes_retiro" placeholder="" value="" autocomplete="off" required="" readonly >
 
               </div>
 
@@ -351,7 +375,7 @@ MODAL EDITAR
               
                 <span class="input-group-addon"><i class="icono_horas_llegadas_tardes_retiro"></i></span> 
 
-                <input type="number" class="form-control input-lg input_horas_llegadas_tardes_retiro" name="editarhoras_llegadas_tardes_retiro" id="editarhoras_llegadas_tardes_retiro" placeholder="" value="" autocomplete="off" required="">
+                <input type="number" class="form-control input-lg input_horas_llegadas_tardes_retiro" name="editarhoras_llegadas_tardes_retiro" id="editarhoras_llegadas_tardes_retiro" placeholder="" value="" autocomplete="off" required="" readonly>
 
               </div>
 
@@ -364,7 +388,7 @@ MODAL EDITAR
               
                 <span class="input-group-addon"><i class="icono_descuento_tarde_retiro"></i></span> 
 
-                <input type="number" class="form-control input-lg input_descuento_tarde_retiro" name="editardescuento_tarde_retiro" id="editardescuento_tarde_retiro" placeholder="" value="" autocomplete="off" required="">
+                <input type="number" class="form-control input-lg input_descuento_tarde_retiro" name="editardescuento_tarde_retiro" id="editardescuento_tarde_retiro" placeholder="" value="" autocomplete="off" required="" readonly>
 
               </div>
 
@@ -377,7 +401,7 @@ MODAL EDITAR
               
                 <span class="input-group-addon"><i class="icono_observaciones_retiro"></i></span> 
 
-                <input type="text" class="form-control input-lg input_observaciones_retiro" name="editarobservaciones_retiro" id="editarobservaciones_retiro" placeholder="" value="" autocomplete="off" required="">
+                <input type="text" class="form-control input-lg input_observaciones_retiro" name="editarobservaciones_retiro" id="editarobservaciones_retiro" placeholder="" value="" autocomplete="off" required="" readonly>
 
               </div>
 
@@ -391,9 +415,8 @@ MODAL EDITAR
               
                 <span class="input-group-addon"><i class="icono_estado_retiro"></i></span> 
 
-               <!--  <input type="text" placeholder="" value="Inactivo" autocomplete="off" required="" >
- -->
-                <select  class="form-control input-lg input_estado_retiro" name="editarestado_retiro" id="editarestado_retiro" required activacion="">
+               <!--  <input type="text" placeholder="" value="Inactivo" autocomplete="off" required="" >-->
+                <select  class="form-control input-lg input_estado_retiro" name="editarestado_retiro" id="editarestado_retiro" required activacion="" >
                   <option value="">Seleccione Estado</option>
                   <option value="Inactivo">Inactivo</option>
                   <option value="Activar">Activar</option>

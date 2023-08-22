@@ -1,6 +1,6 @@
 /* COLOCACION DE ICONOS */
 $(document).ready(function(){
-
+	
 
 	/* CORRELATIVO PLANILLA */
 			/* *********** */
@@ -38,7 +38,6 @@ $(document).ready(function(){
 
 
 
-
 		  
  })
 
@@ -48,12 +47,187 @@ $(document).ready(function(){
 	$("#precio_kardex").val(valor);
 });
 
+/* VALIDAR CANTIDAD EN UBICACION */
+$(".kardex_armas").change(function(){
+	var valor = $(this).val();
+	var cantidad_armas = $('option:selected', this).attr('cantidad_armas');
+	var tabla = $('option:selected', this).attr('tabla');
+	$("#cantidad_maximo").val(cantidad_armas);
+	$("#idubicacion_select").val(valor);
+	var columna="";
+	if(tabla=="tbl_radios"){
+		columna="codigo_radio";
+	}
+	else{
+		columna="codigo";
+
+	}
+	/* CORRELATIVO PLANILLA */
+			/* *********** */
+			var dataString = 'accion01=validararmasubicacion'+
+							 '&idubicacion=' +$.trim(valor)+
+							 '&columna=' +$.trim(columna)+
+							 '&tabla=' +$.trim(tabla);
+							 
+			$.ajax({
+				data: dataString,
+				url: "ajax/kardex.ajax.php",
+				type: 'post',
+				success: function (response) {
+					
+					$("#cantidad_actual").val(response);
+
+					if(response>=cantidad_armas){							
+							swal({
+								title: 'Alerta',
+								text: "Ubicación esta al limite. Por favor cambiar ubicacion",
+								type: 'warning'
+							})
+							$(".guardardata").attr("disabled","disabled");
+							$("#equipo_kardex").attr("disabled","disabled");
+					}
+					else{
+							$("#equipo_kardex").removeAttr("disabled");
+							$(".guardardata").removeAttr("disabled","disabled");
+
+					}
+				}
+			});
+
+			/* *********** */
+
+	
+});
+
+
+/* VALIDAR SI ARMA O RADIO YA ESTA EN UBICACION */
+$("#equipo_kardex").change(function(){
+
+	var valor = $(this).val();
+	var idubicacion_select = $("#idubicacion_select").val();
+	$("#cantidad_kardex").val("1");
+
+	var texto_codigos=$("#global_code").val();
+
+	/* --------------validar si el codigo ya esta en la tabla */
+
+	var index = texto_codigos.indexOf(valor);
+
+		if(index >= 0) {
+			swal({
+				title: 'Alerta',
+				text: "Error no se aceptan duplicados",
+				type: 'warning'
+			})
+			$("#equipo_kardex").val("").trigger('change.select2');
+		} else {
+
+		}
+	/* -------------------------- */
+	
+
+	/* --------------VALIDAR SI NO EXEDE EL LIMITE DE CANTIDAD------------------- */
+	var cantidad_actual=$("#cantidad_actual").val();
+	var cantidad_total=$("#cantidad_total").val();
+	var cantidad_maximo=$("#cantidad_maximo").val();
+	var cantidad_global=parseFloat(cantidad_actual)+parseFloat(cantidad_total)+1;
+	if(cantidad_global>cantidad_maximo){
+		swal({
+			title: 'Alerta',
+			text: "Ubicación esta al limite",
+			type: 'warning'
+		})
+		$(".guardarproducto").attr("style","display:none");
+	}
+	else{
+		$(".guardarproducto").removeAttr("style");
+	}
+	/* ----------VALIDAR SI UBICACION ESTA VACIA----------------------- */
+
+	if(idubicacion_select==""){
+		$(".guardardata").attr("style","display:none");
+		swal({
+			title: 'Alerta',
+			text: "Porfavor seleccione ubicación",
+			type: 'warning'
+		})
+	}
+	else{
+		$(".guardardata").removeAttr("style");
+
+	}
+
+	/* CORRELATIVO PLANILLA */
+			/* *********** */
+			var dataString = 'accion01=equipoubicacion'+
+							 '&idubicacion_select=' +$.trim(idubicacion_select)+
+							 '&equipo=' +$.trim(valor);
+							 
+			$.ajax({
+				data: dataString,
+				url: "ajax/kardex.ajax.php",
+				type: 'post',
+				success: function (response) {					
+
+					if(response>"0"){	
+							swal({
+								title: 'Alerta',
+								text: "Ya se encuentra en esta ubicación",
+								type: 'warning'
+							})
+							$(".guardardata").attr("disabled","disabled");
+					}
+					else{
+						$(".guardardata").removeAttr("disabled","disabled");
+
+					}
+				}
+			});
+
+			/* *********** */
+});
+
+ 
+ $("#tipo_kardex").change(function(){
+	var valor = $(this).val();
+	if(valor=="armas"){
+		window.location.href = 'kardexarmas';
+	}
+	if(valor=="equipos"){
+		window.location.href = 'kardex';
+
+	}
+	if(valor=="radios"){
+		window.location.href = 'kardexradios';
+	}
+});
+/* transaccion kardex */
+$("#tipo_kardex_t").change(function(){
+	var valor = $(this).val();
+	if(valor=="armas"){
+		window.location.href = 'transancionkardexarmas';
+	}
+	if(valor=="equipos"){
+		window.location.href = 'transancionkardex';
+
+	}
+	if(valor=="radios"){
+		window.location.href = 'transancionkardexradios';
+	}
+});
+
  $('.guardarproducto').on('click',function(){
+
+	
+
+
     var codigo_equipo=$("#equipo_kardex").val();
     var nombre_equipo=$('option:selected', "#equipo_kardex").attr('descripcion');
     var cantidad_equipo=$("#cantidad_kardex").val();
     var precio_equipo=$("#precio_kardex").val();
     var total_equipo=$("#subtotal_kardex").val();
+	var global_code=$("#global_code").val();
+	$("#global_code").val(global_code+'-'+codigo_equipo);
 
 	var table="<tr>"+
 				"<td>"+codigo_equipo+"</td>"+
@@ -116,10 +290,13 @@ $("#transancion_kardex").change(function(){
 	$("#tipo_transaccion_equipo").val(tipo_transaccion_equipo);
 });
 
+
 $('.guardardata').on('click',function(){
 	agregarkardex();
 
 })
+
+
 function agregarkardex(){
 
 	$('#añadirequipo tr').each(function () {
@@ -282,6 +459,7 @@ $(".tablas").on("click", ".modificarproducto", function(){
 	var cantidad = $(this).attr("cantidad");
 	var precio = $(this).attr("precio");
 	var total = $(this).attr("total");
+	var correlativo_numero = $("#correlativo_numero").val();
 
 	var cantidadtext=$("."+clase+"cantidad"+idregistro).val();
 	var preciotext=$("."+clase+"precio"+idregistro).val();
@@ -299,6 +477,7 @@ $(".tablas").on("click", ".modificarproducto", function(){
 							   '&cantidadtext=' +$.trim(cantidadtext)+
 							   '&preciotext=' +$.trim(preciotext)+
 							   '&totalglobal=' +$.trim(totalglobal)+
+							   '&correlativo_numero=' +$.trim(correlativo_numero)+
 							   '&totaltext=' +$.trim(totaltext);
 			
 			  $.ajax({

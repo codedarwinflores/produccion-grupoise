@@ -1,22 +1,20 @@
 <?php
 /* cambiar _tipoarmas por el nombre de la table correspondiente */
-$Nombremodulo_mensaje_tipoarmas = "Tipo de Arma";
-$nombremodelo_tipoarmas = "tipoarmas";
-$namecolumnas_tipoarmas = "";
-$namecampos_tipoarmas = "";
-$nombretabla_tipoarmas_tipoarmas = "tbl_tipos_de_armas";
+$Nombremodulo_mensaje_tipoarmas="Tipo de Arma";
+$nombremodelo_tipoarmas="tipoarmas";
+$namecolumnas_tipoarmas="";
+$namecampos_tipoarmas="";
+$nombretabla_tipoarmas_tipoarmas="tbl_tipos_de_armas";
 $tabla_tipoarmas = "tbl_tipos_de_armas";
-class Controladortipoarmas
-{
+class Controladortipoarmas{
 
 	/* CAPTURAR NOMBRE COLUMNAS*/
 
-	function getContent()
-	{
+	function getContent() {
 		global $nombretabla_tipoarmas_tipoarmas;
 		$query = "SHOW COLUMNS FROM $nombretabla_tipoarmas_tipoarmas";
 		$sql = Conexion::conectar()->prepare($query);
-		$sql->execute();
+		$sql->execute();			
 		return $sql->fetchAll();
 	}
 
@@ -24,17 +22,14 @@ class Controladortipoarmas
 	INGRESO 
 	=============================================*/
 
-	static public function ctrIngreso()
-	{
+	static public function ctrIngreso(){
 
-		if (isset($_POST["ingUsuario"])) {
+		if(isset($_POST["ingUsuario"])){
 
-			if (
-				preg_match('/^[a-zA-Z0-9]+$/', $_POST["ingUsuario"]) &&
-				preg_match('/^[a-zA-Z0-9]+$/', $_POST["ingPassword"])
-			) {
+			if(preg_match('/^[a-zA-Z0-9]+$/', $_POST["ingUsuario"]) &&
+			   preg_match('/^[a-zA-Z0-9]+$/', $_POST["ingPassword"])){
 
-				$encriptar = crypt($_POST["ingPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+			   	$encriptar = crypt($_POST["ingPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
 
 				$tabla_tipoarmas = "usuarios";
 
@@ -43,9 +38,9 @@ class Controladortipoarmas
 
 				$respuesta = ModeloUsuarios::MdlMostrarUsuarios($tabla_tipoarmas, $item, $valor);
 
-				if ($respuesta["usuario"] == $_POST["ingUsuario"] && $respuesta["password"] == $encriptar) {
+				if($respuesta["usuario"] == $_POST["ingUsuario"] && $respuesta["password"] == $encriptar){
 
-					if ($respuesta["estado"] == 1) {
+					if($respuesta["estado"] == 1){
 
 						$_SESSION["iniciarSesion"] = "ok";
 						$_SESSION["id"] = $respuesta["id"];
@@ -63,7 +58,7 @@ class Controladortipoarmas
 						$fecha = date('Y-m-d');
 						$hora = date('H:i:s');
 
-						$fechaActual = $fecha . ' ' . $hora;
+						$fechaActual = $fecha.' '.$hora;
 
 						$item1 = "ultimo_login";
 						$valor1 = $fechaActual;
@@ -73,64 +68,71 @@ class Controladortipoarmas
 
 						$ultimoLogin = ModeloUsuarios::mdlActualizarUsuario($tabla_tipoarmas, $item1, $valor1, $item2, $valor2);
 
-						if ($ultimoLogin == "ok") {
+						if($ultimoLogin == "ok"){
 
 							echo '<script>
 
 								window.location = "inicio";
 
 							</script>';
-						}
-					} else {
+
+						}				
+						
+					}else{
 
 						echo '<br>
 							<div class="alert alert-danger">El usuario aún no está activado</div>';
-					}
-				} else {
+
+					}		
+
+				}else{
 
 					echo '<br><div class="alert alert-danger">Error al ingresar, vuelve a intentarlo</div>';
+
 				}
-			}
+
+			}	
+
 		}
+
 	}
 
 	/*=============================================
 	INGRESAR REGISTRO 
 	=============================================*/
 
-	static public function ctrCrear()
-	{
+	static public function ctrCrear(){
 
-		if (isset($_POST["nuevocodigo"])) {
-
+		if(isset($_POST["nuevocodigo"])){
 
 
-			global $tabla_tipoarmas;
-			global $namecolumnas_tipoarmas;
-			global $namecampos_tipoarmas;
-			global $Nombremodulo_mensaje_tipoarmas;
-			global $nombremodelo_tipoarmas;
 
-			$data = getContent();
-			$datos = "";
-			$array = [];
-			foreach ($data as $row) {
-				$datos0 = array("" . $row['Field'] . "" => $_POST["nuevo" . $row['Field'] . ""],);
+				global $tabla_tipoarmas;
+				global $namecolumnas_tipoarmas;
+				global $namecampos_tipoarmas;
+				global $Nombremodulo_mensaje_tipoarmas;
+				global $nombremodelo_tipoarmas;
+				
+				$data = getContent();
+				$datos="";
+				$array=[];
+				foreach($data as $row) {
+					$datos0 = array("".$row['Field']."" => $_POST["nuevo".$row['Field'].""],);
 				/* $namecolumnas_tipoarmas .= "".$row['Field'].""." =>". $_POST["nuevo".$row['Field'].""].","; */
-				$array += ["" . $row['Field'] . "" => $_POST["nuevo" . $row['Field'] . ""],];
-			}
+				$array+=["".$row['Field']."" => $_POST["nuevo".$row['Field'].""],];
+				}
+			
+				$datos=$array;
+				$respuesta = Modelotipoarmas::mdlIngresar($tabla_tipoarmas, $datos);
+			
+				if($respuesta == "ok"){
 
-			$datos = $array;
-			$respuesta = Modelotipoarmas::mdlIngresar($tabla_tipoarmas, $datos);
-
-			if ($respuesta == "ok") {
-
-				echo '<script>
+					echo '<script>
 
 					swal({
 
 						type: "success",
-						title: "¡' . $Nombremodulo_mensaje_tipoarmas . ' ha sido guardado correctamente!",
+						title: "¡'.$Nombremodulo_mensaje_tipoarmas.' ha sido guardado correctamente!",
 						showConfirmButton: true,
 						confirmButtonText: "Cerrar"
 
@@ -138,7 +140,7 @@ class Controladortipoarmas
 
 						if(result.value){
 						
-							window.location = "' . $nombremodelo_tipoarmas . '";
+							window.location = "'.$nombremodelo_tipoarmas.'";
 
 						}
 
@@ -146,16 +148,23 @@ class Controladortipoarmas
 				
 
 					</script>';
-			}
+
+
+				}	
+
+
+			
+
 		}
+
+
 	}
 
 	/*=============================================
 	MOSTRAR REGISTROS
 	=============================================*/
 
-	static public function ctrMostrar($item, $valor)
-	{
+	static public function ctrMostrar($item, $valor){
 
 		global $tabla_tipoarmas;
 
@@ -168,10 +177,9 @@ class Controladortipoarmas
 	EDITAR REGISTRO
 	=============================================*/
 
-	static public function ctrEditar()
-	{
+	static public function ctrEditar(){
 
-		if (isset($_POST["editarcodigo"])) {
+		if(isset($_POST["editarcodigo"])){
 
 
 
@@ -180,86 +188,98 @@ class Controladortipoarmas
 			global $namecampos_tipoarmas;
 			global $Nombremodulo_mensaje_tipoarmas;
 			global $nombremodelo_tipoarmas;
-
+			
 			$data = getContent();
-			$datos = "";
-			$array = [];
-			foreach ($data as $row) {
-				$datos0 = array("" . $row['Field'] . "" => $_POST["editar" . $row['Field'] . ""],);
-				/* $namecolumnas_tipoarmas .= "".$row['Field'].""." =>". $_POST["nuevo".$row['Field'].""].","; */
-				$array += ["" . $row['Field'] . "" => $_POST["editar" . $row['Field'] . ""],];
+			$datos="";
+			$array=[];
+			foreach($data as $row) {
+				$datos0 = array("".$row['Field']."" => $_POST["editar".$row['Field'].""],);
+			/* $namecolumnas_tipoarmas .= "".$row['Field'].""." =>". $_POST["nuevo".$row['Field'].""].","; */
+			$array+=["".$row['Field']."" => $_POST["editar".$row['Field'].""],];
 			}
+		
+			$datos=$array;
+				
 
-			$datos = $array;
-
-
-			/* $datos = array("id" => $_POST["id"],
+				/* $datos = array("id" => $_POST["id"],
 							   "codigo" => $_POST["editarCodigo"],
 							   "nombre" => $_POST["editarNombre"]); */
 
-			$respuesta = Modelotipoarmas::mdlEditar($tabla_tipoarmas, $datos);
+				$respuesta = Modelotipoarmas::mdlEditar($tabla_tipoarmas, $datos);
 
-			if ($respuesta == "ok") {
+				if($respuesta == "ok"){
 
-				echo '<script>
+					echo'<script>
 
 					swal({
 						  type: "success",
-						  title: "' . $Nombremodulo_mensaje_tipoarmas . ' ha sido editado correctamente",
+						  title: "'.$Nombremodulo_mensaje_tipoarmas.' ha sido editado correctamente",
 						  showConfirmButton: true,
 						  confirmButtonText: "Cerrar"
 						  }).then(function(result) {
 									if (result.value) {
 
-									window.location = "' . $nombremodelo_tipoarmas . '";
+									window.location = "'.$nombremodelo_tipoarmas.'";
 
 									}
 								})
 
 					</script>';
-			}
+
+				}
+
+
+			
 		}
+
 	}
 
 	/*=============================================
 	BORRAR REGISTROS
 	=============================================*/
 
-	static public function ctrBorrar()
-	{
+	static public function ctrBorrar(){
 
-		if (isset($_GET["idtipoarmas"])) {
+		if(isset($_GET["idtipoarmas"])){
 
 			global $tabla_tipoarmas;
-			global $namecolumnas_tipoarmas;
-			global $namecampos_tipoarmas;
-			global $Nombremodulo_mensaje_tipoarmas;
-			global $nombremodelo_tipoarmas;
+				global $namecolumnas_tipoarmas;
+				global $namecampos_tipoarmas;
+				global $Nombremodulo_mensaje_tipoarmas;
+				global $nombremodelo_tipoarmas;
 			$datos = $_GET["idtipoarmas"];
 
 
 			$respuesta = Modelotipoarmas::mdlBorrar($tabla_tipoarmas, $datos);
 
-			if ($respuesta == "ok") {
+			if($respuesta == "ok"){
 
-				echo '<script>
+				echo'<script>
 
 				swal({
 					  type: "success",
-					  title: "' . $Nombremodulo_mensaje_tipoarmas . ' ha sido borrado correctamente",
+					  title: "'.$Nombremodulo_mensaje_tipoarmas.' ha sido borrado correctamente",
 					  showConfirmButton: true,
 					  confirmButtonText: "Cerrar",
 					  closeOnConfirm: false
 					  }).then(function(result) {
 								if (result.value) {
 
-								window.location = "' . $nombremodelo_tipoarmas . '";
+								window.location = "'.$nombremodelo_tipoarmas.'";
 
 								}
 							})
 
 				</script>';
-			}
+
+			}		
+
 		}
+
 	}
+
+
 }
+	
+
+

@@ -32,7 +32,18 @@ $(document).ready(function () {
 	});
 
 	$( "#motivo_horas_extras" ).on( "change", function() {
+		descontar_tipohora
 		var requiere_agente = $('option:selected', this).attr("requiere_agente");
+		var descontar_tipohora = $('option:selected', this).attr("descontar_tipohora");
+
+		if(descontar_tipohora=="Si"){
+			$(".descontar_tipohora").val("Si");
+		}
+		else{
+			$(".descontar_tipohora").val("No");
+		}
+
+
 		if(requiere_agente=="Si"){
 			$(".cubrir_situacion").removeAttr("style");
 		}
@@ -412,13 +423,15 @@ $(".guardar_movimiento").click(function () {
 	var hora_inicio_situacion = $("#hora_inicio_situacion").val();
 	var hora_fin_situacion = $("#hora_fin_situacion").val();
 	var numero_planilla_admin = $("#numero_planilla_admin").val();
+	var descontar_tipohora = $(".descontar_tipohora").val();
+	var dias_no_sueldo = $("#dias_no_sueldo").val();
+	var dias_tra_incapacidad = $("#dias_tra_incapacidad").val();
 
 
 
 	/*  ******** */
 
-	var dataString = 'id=' + $.trim(id) + '&idempleado_situacion=' + idempleado_situacion + '&dias_ausencia_situacion=' + dias_ausencia_situacion + '&horas_ausencia_situacion=' + horas_ausencia_situacion + '&consulta_isss_situacion=' + consulta_isss_situacion + '&incapacidad_situacion=' + incapacidad_situacion + '&ansp_situacion=' + ansp_situacion + '&vacaciones_situacion=' + vacaciones_situacion + '&permiso_situacion=' + permiso_situacion + '&hora_normales_situacion=' + hora_normales_situacion + '&tiempo_compensatorio_situacion=' + tiempo_compensatorio_situacion + '&recuperar_tiempo_situacion=' + recuperar_tiempo_situacion + '&comodin_situacion=' + comodin_situacion + '&cubierto_situacion=' + cubierto_situacion + '&nuevo_servicio_situacion=' + nuevo_servicio_situacion + '&fin_servicio_situacion=' + fin_servicio_situacion + '&ubicacion_situacion=' + ubicacion_situacion + '&servicio_eventual_situacion=' + servicio_eventual_situacion + '&inactivos_situacion=' + inactivos_situacion + '&activo_situacion=' + activo_situacion + '&liquidado_situacion=' + liquidado_situacion + '&inicial_situacion=' + inicial_situacion + '&hora_extra_situacion=' + hora_extra_situacion + '&vacante_situacion=' + vacante_situacion + '&posicion_situacion=' + posicion_situacion + '&fecha_situacion=' + fecha_situacion + '&accion=' + accion + '&motivo_horas_extras=' + motivo_horas_extras + '&horas_no_cubiertas=' + horas_no_cubiertas + '&cubrir_situacion=' + cubrir_situacion+ '&solicitado_situacion=' + solicitado_situacion+ '&codigocliente_situacion=' + codigocliente_situacion+ '&idcliente_situacion=' + idcliente_situacion+ '&nombrecliente_situacion=' + nombrecliente_situacion+ '&hora_inicio_situacion=' + hora_inicio_situacion+ '&hora_fin_situacion=' + hora_fin_situacion+ '&numero_planilla_admin=' + numero_planilla_admin;
-
+	var dataString = 'id=' + $.trim(id) + '&idempleado_situacion=' + idempleado_situacion + '&dias_ausencia_situacion=' + dias_ausencia_situacion + '&horas_ausencia_situacion=' + horas_ausencia_situacion + '&consulta_isss_situacion=' + consulta_isss_situacion + '&incapacidad_situacion=' + incapacidad_situacion + '&ansp_situacion=' + ansp_situacion + '&vacaciones_situacion=' + vacaciones_situacion + '&permiso_situacion=' + permiso_situacion + '&hora_normales_situacion=' + hora_normales_situacion + '&tiempo_compensatorio_situacion=' + tiempo_compensatorio_situacion + '&recuperar_tiempo_situacion=' + recuperar_tiempo_situacion + '&comodin_situacion=' + comodin_situacion + '&cubierto_situacion=' + cubierto_situacion + '&nuevo_servicio_situacion=' + nuevo_servicio_situacion + '&fin_servicio_situacion=' + fin_servicio_situacion + '&ubicacion_situacion=' + ubicacion_situacion + '&servicio_eventual_situacion=' + servicio_eventual_situacion + '&inactivos_situacion=' + inactivos_situacion + '&activo_situacion=' + activo_situacion + '&liquidado_situacion=' + liquidado_situacion + '&inicial_situacion=' + inicial_situacion + '&hora_extra_situacion=' + hora_extra_situacion + '&vacante_situacion=' + vacante_situacion + '&posicion_situacion=' + posicion_situacion + '&fecha_situacion=' + fecha_situacion + '&accion=' + accion + '&motivo_horas_extras=' + motivo_horas_extras + '&horas_no_cubiertas=' + horas_no_cubiertas + '&cubrir_situacion=' + cubrir_situacion+ '&solicitado_situacion=' + solicitado_situacion+ '&codigocliente_situacion=' + codigocliente_situacion+ '&idcliente_situacion=' + idcliente_situacion+ '&nombrecliente_situacion=' + nombrecliente_situacion+ '&hora_inicio_situacion=' + hora_inicio_situacion+ '&hora_fin_situacion=' + hora_fin_situacion+ '&numero_planilla_admin=' + numero_planilla_admin+ '&descontar_tipohora=' + descontar_tipohora+ '&dias_no_sueldo=' + dias_no_sueldo+ '&dias_tra_incapacidad=' + dias_tra_incapacidad;
 
 	$.ajax({
 		data: dataString,
@@ -426,26 +439,21 @@ $(".guardar_movimiento").click(function () {
 		type: 'post',
 		success: function (response) {
 
-			guardarregistro3();
+			if($.trim(response)=="ok"){
+				guardarregistro3();
+				swal({
 
-			swal({
+					type: "success",
+					title: "Guardado con Exito",
+					showConfirmButton: true,
+					confirmButtonText: "Cerrar"
 
-				type: "success",
-				title: "Guardado con Exito",
-				showConfirmButton: true,
-				confirmButtonText: "Cerrar"
-
-			}).then(function (result) {
-
-				if (result.value) {
-
-					window.location = "situacion";
-
-				}
-
-			});
-
-
+				}).then(function (result) {
+					if (result.value) {
+						window.location = "situacion";
+					}
+				});
+			}
 		}
 	});
 	/* ********* */
@@ -537,10 +545,8 @@ function editar(ids) {
 			/* el 23 vacante*/
 			$("#posicion_situacion").val(response.split(",")[24]);
 			$("#fecha_situacion").val(response.split(",")[25]);
-
 			$("#motivo_value").val(response.split(",")[26]);
 			$("#select2-motivo_horas_extras-container").text(response.split(",")[26]);
-
 			$("#horas_no_cubiertas").val(response.split(",")[27]);
 
 
@@ -550,6 +556,15 @@ function editar(ids) {
 
 			$("#motivo_horas_extras option[value='"+response.split(",")[26]+"']").attr("selected", true);
 			var requiere_agente = $('option:selected', "#motivo_horas_extras").attr("requiere_agente");
+			var descontar_tipohora = $('option:selected', "#motivo_horas_extras").attr("descontar_tipohora");
+
+			if(descontar_tipohora=="Si"){
+				$(".descontar_tipohora").val("Si");
+			}
+			else{
+				$(".descontar_tipohora").val("No");
+			}
+
 			if(requiere_agente=="Si"){
 				$(".cubrir_situacion").removeAttr("style");
 			}
@@ -577,8 +592,10 @@ function editar(ids) {
 			$(".nombrecliente_situacion").val(response.split(",")[32]);
 			$("#hora_inicio_situacion").val(response.split(",")[33]);
 			$("#hora_fin_situacion").val(response.split(",")[34]);
-
 			$("#numero_planilla_admin").val(response.split(",")[35]);
+
+			$("#dias_tra_incapacidad").val(response.split(",")[36]);
+			$("#dias_no_sueldo").val(response.split(",")[37]);
 
 
 			/* $("#ubicacion_situacion").val(response.split(",")[16]); */
@@ -594,16 +611,14 @@ function editar(ids) {
 
 			if(response.split(",")[16]==""){
 				$("#selec_ubicacion").val(response.split(",")[36]);
-				$("#select2-ubicacion_situacion-container").text(response.split(",")[36]);/* ---ULTIMO CAMPO */
+				$("#select2-ubicacion_situacion-container").text(response.split(",")[38]);/* ---ULTIMO CAMPO */
 			}
 			else{
 				$("#selec_ubicacion").val(response.split(",")[16]);
 				$("#select2-ubicacion_situacion-container").text(response.split(",")[16]);
 			}
 
-		
-		
-	
+
 			if(response.split(",")[31]==""){
 				$(".cobrar_cliente").attr("style", "visibility:hidden");
 			}
@@ -666,6 +681,10 @@ function editar(ids) {
 				$(".vacante_situacion").attr("style", "visibility:hidden");
 				$(".pocision_situacion").attr("style", "visibility:hidden");
 			} */
+
+			if(response.split(",")[5]>0){
+				$(".inicial_situacion").removeAttr("style");
+			}
 
 
 

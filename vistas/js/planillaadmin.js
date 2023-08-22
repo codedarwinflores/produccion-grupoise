@@ -1,12 +1,18 @@
 
 
 
+/* variables globales */
+var idactualempleado="";
+var finalizar_total=1;/* finalizar_total inicio */
+let intervaloID1;
+var intervaloID2;
+var intervaloID3;
+var intervaloID4;
+var suma=0;
+var insertplanilla=[];
 
 $(document).ready(function(){
 	
-	
-
-
 	var ocultar= "visibility:hidden; height:0";
 	var mostrar= "visibility:show";
 
@@ -25,7 +31,6 @@ $(document).ready(function(){
 		var descripcion_planilladevengo_admin1=$(".descripcion_planilladevengo_admin1").val();
 		var empleado_rango_desde1=$(".empleado_rango_desde1").val();
 		var empleado_rango_hasta1=$(".empleado_rango_hasta1").val();
-
 		var fecha_gratificacion_admin_hidden=$(".fecha_gratificacion_admin_hidden").val();
 
 		/* var desdeformato = moment(fecha_desde_planilladevengo_admin1,'YYYY-MM-DD').format('DD-MM-YYYY');
@@ -43,11 +48,16 @@ $(document).ready(function(){
 		$("#empleado_rango_desde").val(empleado_rango_desde1);
 		$("#empleado_rango_hasta").val(empleado_rango_hasta1);
 		$("#fecha_gratificacion_admin").val(fecha_gratificacion_admin_hidden);
-
-		
-		cargardataempleados();
+		/* cargardataempleados(); */
 		$(".filtrar_empleados").attr("disabled","disabled");
-
+		var noprocesado=$(".noprocesado").val();
+		if(noprocesado=="0"){
+			empleadosnoprocesados();
+		}
+		else{
+			cargardataempleados_admin();
+		}
+		
 	}
 	else{
 
@@ -112,11 +122,10 @@ $(document).ready(function(){
 			/* ******* */
 	}
 
-
-
-
-
  });
+
+
+ /* GLOBAL */
 
  $("body").bind('mousewheel', function(event){
 	$("body").attr("style","overflow-y: auto;");
@@ -256,9 +265,21 @@ $(document).ready(function(){
 		
 				}).then(function (result) {
 					if (result.value) {
-						location.reload();
-	
 						
+
+						var dataFecha=id;
+						var codigo_empleado="";
+						var objeto={id:dataFecha, codigo:codigo_empleado};
+						ids_empleados.push(objeto);
+						delayedLog(id);
+						/* idempleados_one(numero_planilladevengo_admin); */
+						$('.modal_carga_empleados').modal({backdrop: 'static', keyboard: false});
+						$('.modal_carga_empleados').modal('show');
+						setTimeout(function(){
+							/* location.reload(); */
+						}, 3000);
+					
+	
 					}
 				});
 				/* --------- */
@@ -463,110 +484,48 @@ $.ajax({
 }
 
 function guardarplanillaoculto(){
-	
 	/* variables */
 
-	var id = $("#id").val();
-	var numero_planilladevengo_admin = $("#numero_planilladevengo_admin").val();
-
-	var fecha_planilladevengo_admin = $("#fecha_planilladevengo_admin").val();
-	var fecha_desde_planilladevengo_admin = $("#fecha_desde_planilladevengo_admin").val();
-	var fecha_hasta_planilladevengo_admin = $("#fecha_hasta_planilladevengo_admin").val();
-
-	var descripcion_planilladevengo_admin = $("#descripcion_planilladevengo_admin").val();
-	var codigo_empleado_planilladevengo_admin = $("#codigo_empleado_planilladevengo_admin").val();
-	var nombre_empleado_planilladevengo_admin = $("#nombre_empleado_planilladevengo_admin").val();
-	var id_empleado_planilladevengo_admin = $("#id_empleado_planilladevengo_admin").val();
-	var dias_trabajo_planilladevengo_admin = $("#dias_trabajo_planilladevengo_admin").val();
-	var sueldo_planilladevengo_admin = $("#sueldo_planilladevengo_admin").val();
-	var hora_extra_diurna_planilladevengo_admin = $("#hora_extra_diurna_planilladevengo_admin").val();
-	var hora_extra_nocturna_planilladevengo_admin = $("#hora_extra_nocturna_planilladevengo_admin").val();
-	var hora_extra_domingo_planilladevengo_admin = $("#hora_extra_domingo_planilladevengo_admin").val();
-	var hora_extra_domingo_nocturna_planilladevengo_admin = $("#hora_extra_domingo_nocturna_planilladevengo_admin").val();
-	var otro_devengo_admin_planilladevengo_admin = $("#otro_devengo_admin_planilladevengo_admin").val();
-	var total_devengo_admin_planilladevengo_admin = $("#total_devengo_admin_planilladevengo_admin").val();
-	var descuento_isss_planilladevengo_admin = $("#descuento_isss_planilladevengo_admin").val();
-	var descuento_afp_planilladevengo_admin = $("#descuento_afp_planilladevengo_admin").val();
-	var descuento_renta_planilladevengo_admin = $("#descuento_renta_planilladevengo_admin").val();
-	var otro_descuento_planilladevengo_admin = $("#otro_descuento_planilladevengo_admin").val();
-	var total_descuento_planilladevengo_admin = $("#total_descuento_planilladevengo_admin").val();
-	var total_liquidado_planilladevengo_admin = $("#total_liquidado_planilladevengo_admin").val();
-	var sueldo_renta_planilladevengo_admin = $("#sueldo_renta_planilladevengo_admin").val();
-	var sueldo_isss_planilladevengo_admin = $("#sueldo_isss_planilladevengo_admin").val();
-	var sueldo_afp_planilladevengo_admin = $("#sueldo_afp_planilladevengo_admin").val();
-	var departamento_planilladevengo_admin = $("#departamento_planilladevengo_admin").val();
-	var codigo_ubicacion_planilladevengo_admin = $("#codigo_ubicacion_planilladevengo_admin").val();
-	var nombre_ubicacion_planilladevengo_admin = $("#nombre_ubicacion_planilladevengo_admin").val();
-	var id_ubicacion_planilladevengo_admin = $("#id_ubicacion_planilladevengo_admin").val();
-	var observacion_planilladevengo_admin = $("#observacion_planilladevengo_admin").val();
-	var periodo_planilladevengo_admin = $("#periodo_planilladevengo_admin").val();
-	var tipo_planilladevengo_admin = $("#tipo_planilladevengo_admin").val();
-	var dias_incapacidad = $("#dias_incapacidad").val();
-	var empleado_rango_desde = $("#empleado_rango_desde").val();
-	var empleado_rango_hasta = $("#empleado_rango_hasta").val();
-
-	var septimo_admin = $("#septimo_admin").val();
-	var dias_ausencia = $("#dias_ausencia").val();
-	var his_dias_trabajo_admin = $("#his_dias_trabajo_admin").val();
-
-	var fecha_gratificacion_admin = $("#fecha_gratificacion_admin").val();
-
-
-	var accion_realizar = "";
-
+	
+		var valores={id:$("#id").val(),
+		id_empleado_planilladevengo_admin:$("#id_empleado_planilladevengo_admin").val(),
+		codigo_empleado_planilladevengo_admin:$("#codigo_empleado_planilladevengo_admin").val(),
+		numero_planilladevengo_admin:$("#numero_planilladevengo_admin").val(),
+		hora_extra_diurna_planilladevengo_admin:$("#hora_extra_diurna_planilladevengo_admin").val(),
+		otro_devengo_admin_planilladevengo_admin:$("#otro_devengo_admin_planilladevengo_admin").val(),
+		total_devengo_admin_planilladevengo_admin:$("#total_devengo_admin_planilladevengo_admin").val(),
+		descuento_isss_planilladevengo_admin:$("#descuento_isss_planilladevengo_admin").val(),
+		descuento_afp_planilladevengo_admin:$("#descuento_afp_planilladevengo_admin").val(),
+		descuento_renta_planilladevengo_admin:$("#descuento_renta_planilladevengo_admin").val(),
+		otro_descuento_planilladevengo_admin:$("#otro_descuento_planilladevengo_admin").val(),
+		total_descuento_planilladevengo_admin:$("#total_descuento_planilladevengo_admin").val(),
+		total_liquidado_planilladevengo_admin:$("#total_liquidado_planilladevengo_admin").val(),
+		sueldo_renta_planilladevengo_admin:$("#sueldo_renta_planilladevengo_admin").val(),
+		sueldo_isss_planilladevengo_admin:$("#sueldo_isss_planilladevengo_admin").val(),
+		sueldo_afp_planilladevengo_admin:$("#sueldo_afp_planilladevengo_admin").val(),
+		departamento_planilladevengo_admin:$("#departamento_planilladevengo_admin").val(),
+		accion01:"modificarexpres"
+		};
+		insertplanilla.push(valores);
+	/* var dataString = "";
+	for (var key in valores) {
+		if (valores.hasOwnProperty(key)) {
+		  window[key] = valores[key];
+		  dataString += key + "=" + encodeURIComponent(valores[key]) + "&";
+		}
+	  } */
 /*  ******** */
+/* dataString = dataString.slice(0, -1); */				 
 
-				var dataString = 'id=' +$.trim(id) +
-				'&numero_planilladevengo_admin=' +numero_planilladevengo_admin +
-				'&fecha_planilladevengo_admin=' +fecha_planilladevengo_admin +
-				'&fecha_desde_planilladevengo_admin=' +fecha_desde_planilladevengo_admin +
-				'&fecha_hasta_planilladevengo_admin=' +fecha_hasta_planilladevengo_admin +
-				'&descripcion_planilladevengo_admin=' +descripcion_planilladevengo_admin +
-				'&codigo_empleado_planilladevengo_admin=' +codigo_empleado_planilladevengo_admin +
-				'&nombre_empleado_planilladevengo_admin=' +nombre_empleado_planilladevengo_admin +
-				'&id_empleado_planilladevengo_admin=' +id_empleado_planilladevengo_admin +
-				'&dias_trabajo_planilladevengo_admin=' +dias_trabajo_planilladevengo_admin +
-				'&sueldo_planilladevengo_admin=' +sueldo_planilladevengo_admin +
-				'&hora_extra_diurna_planilladevengo_admin=' +hora_extra_diurna_planilladevengo_admin +
-				'&hora_extra_nocturna_planilladevengo_admin=' +hora_extra_nocturna_planilladevengo_admin +
-				'&hora_extra_domingo_planilladevengo_admin=' +hora_extra_domingo_planilladevengo_admin +
-				'&hora_extra_domingo_nocturna_planilladevengo_admin=' +hora_extra_domingo_nocturna_planilladevengo_admin +
-				'&otro_devengo_admin_planilladevengo_admin=' +otro_devengo_admin_planilladevengo_admin +
-				 '&total_devengo_admin_planilladevengo_admin=' +total_devengo_admin_planilladevengo_admin +
-				 '&descuento_isss_planilladevengo_admin=' +descuento_isss_planilladevengo_admin +
-				 '&descuento_afp_planilladevengo_admin=' +descuento_afp_planilladevengo_admin +
-				 '&descuento_renta_planilladevengo_admin=' +descuento_renta_planilladevengo_admin +
-				 '&otro_descuento_planilladevengo_admin=' +otro_descuento_planilladevengo_admin +
-				 '&total_descuento_planilladevengo_admin=' +total_descuento_planilladevengo_admin +
-				 '&total_liquidado_planilladevengo_admin=' +total_liquidado_planilladevengo_admin +
-				 '&sueldo_renta_planilladevengo_admin=' +sueldo_renta_planilladevengo_admin +
-				 '&sueldo_isss_planilladevengo_admin=' +sueldo_isss_planilladevengo_admin +
-				 '&sueldo_afp_planilladevengo_admin=' +sueldo_afp_planilladevengo_admin +
-				 '&departamento_planilladevengo_admin=' +departamento_planilladevengo_admin +
-				 '&codigo_ubicacion_planilladevengo_admin=' +codigo_ubicacion_planilladevengo_admin +
-				 '&nombre_ubicacion_planilladevengo_admin=' +nombre_ubicacion_planilladevengo_admin +
-				 '&id_ubicacion_planilladevengo_admin=' +id_ubicacion_planilladevengo_admin+
-				 '&observacion_planilladevengo_admin=' +observacion_planilladevengo_admin+
-				 '&periodo_planilladevengo_admin=' +periodo_planilladevengo_admin+
-				 '&tipo_planilladevengo_admin=' +tipo_planilladevengo_admin+
-				 '&dias_incapacidad=' +dias_incapacidad+
-				 '&empleado_rango_desde=' +empleado_rango_desde+
-				 '&empleado_rango_hasta=' +empleado_rango_hasta+
-				 '&septimo_admin=' +septimo_admin+
-				 '&dias_ausencia=' +dias_ausencia+
-				 '&his_dias_trabajo_admin=' +his_dias_trabajo_admin+
-				 '&fecha_gratificacion_admin=' +fecha_gratificacion_admin+
-				 '&accion=' +accion_realizar;
-				 
-$.ajax({
+
+/* $.ajax({
 	data: dataString,
 	url: "ajax/planilladevengo_admin.ajax.php",
 	type: 'post',
 	success: function (response) {
-		/* alert(response);
-		console.log(response); */
+		
 	}
-});
+}); */
 /* ********* */
 
 }
@@ -594,7 +553,6 @@ $( "#fecha_desde_planilladevengo_admin" ).on( "click", function() {
   } );
 
 $(".filtrar_empleados").on( "click", function() {
-	
 	var fecha_gratificacion_admin=$("#fecha_gratificacion_admin").val();
 	if(fecha_gratificacion_admin==""){
 
@@ -660,6 +618,7 @@ function cargardataempleados(){
 
 	if(accion=="consultar"){
 
+		
 		/* *********** */
 		var dataString = 'empleado_rango_desde=' +empleado_rango_desde +
 		'&empleado_rango_hasta=' +empleado_rango_hasta+
@@ -678,14 +637,20 @@ function cargardataempleados(){
 			type: 'post',
 			success: function (response) {
 
-
+				console.log(response);
 				if(response.trim()!=""){
-					window.location = "nuevaplanillaadmin?id="+response;
+					/* 		generarcalculos_planilla(numero_planilladevengo_admin); */
+					$.ajax({
+						url:idempleados_one(numero_planilladevengo_admin),
+						success:function(){
+							/* window.location = "nuevaplanillaadmin?id="+response; */
+						}
+					});
 				}
 				console.log(response);
 				$("#tabla_empleados").empty();
 				$("#tabla_empleados").append(response);
-				cargardataempleados_admin();
+				/* cargardataempleados_admin(); */
 
 				
 
@@ -712,8 +677,6 @@ function cargardataempleados(){
 					var numero_planilla=$(this).attr("numero_planilla");
 					eliminarempleado(idempleado,numero_planilla);
 				});
-
-
 
 				$('.tablas1').DataTable({
 					language: {
@@ -745,6 +708,564 @@ function cargardataempleados(){
 
 	}
 };
+
+
+
+/* GUARDA LOS CALCULOS EN LA PLANILLA POR CADA INDIVIDUO */
+var idactualempleado=0;
+var  ids_empleados=[];
+var totalempleados="";
+function idempleados_one(numero){
+
+	/* -----INICIAR TIEMPO------- */
+	var hoy = new Date();
+	var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
+	function formatTime(timeString) {
+		const [hourString, minute] = timeString.split(":");
+		const hour = +hourString % 24;
+		return  ('0' + (hour % 12 || 12)).slice(-2) + ":" + ('0' + minute).slice(-2)  + (hour < 12 ? "" : "");
+	}
+	$(".tiempoiniciado").text("Iniciado: "+formatTime(hora));
+	/* ------------ */
+	$('.modal_carga').modal({backdrop: 'static', keyboard: true});
+	$('.modal_carga').modal('hide');
+	$('.modal_carga_empleados').modal({backdrop: 'static', keyboard: false});
+	$('.modal_carga_empleados').modal('show');
+	/* guardartodo */
+
+	var dataString ='consultarempleado=1'+
+					'&numeroplanilla=' +numero+
+					'&accion01=guardartodo';				
+	$.ajax({
+		data: dataString,
+		url: "ajax/planilladevengo_admin.ajax.php",
+		type: 'post',
+		success: function (response) {
+
+			console.log(response+"  respuesta de idempleados_one");
+			if($.trim(response)=="exito"){
+				/* --------------- */
+				/* **********HORA ACTUAL */
+					/* ------------ */
+					var hoy = new Date();
+					var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
+					function formatTime(timeString) {
+						const [hourString, minute] = timeString.split(":");
+						const hour = +hourString % 24;
+						return  ('0' + (hour % 12 || 12)).slice(-2) + ":" + ('0' + minute).slice(-2)  + (hour < 12 ? "" : "");
+					}
+					$(".tiempofinal").text("Finalizado: "+formatTime(hora));
+					/* ------------ */
+					var numero=$("#numero_planilladevengo_admin").val();
+					$(".irplanilla").attr("href","nuevaplanillaadmin?id="+numero);
+					$(".irplanilla").removeAttr("style");
+				/* -------------------- */
+				/* ------------------ */
+			}
+		}
+	});
+}
+function idempleados_one_backup(numero){
+	var dataString = 'accion01=listadoempleados'+'&numero='+numero;
+	$.ajax({
+		data: dataString,
+		url: "ajax/planilladevengo_admin.ajax.php",
+		type: 'post',
+		success: function (response) {
+		
+				datos = JSON.parse(response);
+				for (i = 0; i < datos.length; i++) {
+					var dataFecha=datos[i].id;
+					var codigo_empleado=datos[i].codigo_empleado;
+					var objeto={id:dataFecha, codigo:codigo_empleado};
+					ids_empleados.push(objeto);
+				}
+				totalempleados=ids_empleados.length;
+				processArray();
+				$('.modal_carga').modal({backdrop: 'static', keyboard: true});
+				$('.modal_carga').modal('hide');
+				$('.modal_carga_empleados').modal({backdrop: 'static', keyboard: false});
+				$('.modal_carga_empleados').modal('show');
+				/* ------------ */
+					var hoy = new Date();
+					var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
+					function formatTime(timeString) {
+						const [hourString, minute] = timeString.split(":");
+						const hour = +hourString % 24;
+						return  ('0' + (hour % 12 || 12)).slice(-2) + ":" + ('0' + minute).slice(-2)  + (hour < 12 ? "" : "");
+					}
+					$(".tiempoiniciado").text("Iniciado: "+formatTime(hora));
+				/* ------------ */
+		}
+	
+	})
+}
+function delay() {
+	return new Promise(resolve => setTimeout(resolve, 100));
+}
+var cuenta=0;
+async function  delayedLog(idempleado){
+		cuenta+=1;
+		$(".cantidad_empleados_pro").text("Empleados Procesados: "+cuenta);
+		$(".totalempleados").text("Total empleado: "+totalempleados);
+		$(".conteo_actual").text("Cantidad de empleados faltantes: "+ids_empleados.length);
+		$(".datos_informacion").text("Cargando datos de empleado: "+ids_empleados[0].codigo);
+		/* console.log(idempleado+"nuevo inicial***********************************************"); */
+		/* CAPTURAR EMPLEADOS */
+			/* *********** */
+			var dataString = 'accion01=listaidempleados'+'&idempleado='+idempleado;
+			$.ajax({
+				data: dataString,
+				url: "ajax/planilladevengo_admin.ajax.php",
+				type: 'post',
+				success: function (response) {
+					console.log(response+" holaaaaaa");
+
+					var datos = JSON.parse(response);
+					for (i = 0; i < datos.length; i++) {
+					var dato_pensionado=datos[i].pensionado_empleado;
+					if(dato_pensionado==""){
+						dato_pensionado="No";
+					}
+					else{
+						dato_pensionado=datos[i].pensionado_empleado;
+					}
+					/* --------------------------- */
+					var codigo = datos[i].codigo_empleado;
+					var id = datos[i].id;
+					var nombre = datos[i].primer_nombre+" "+datos[i].segundo_nombre+" "+datos[i].tercer_nombre+" "+datos[i].primer_apellido+" "+datos[i].segundo_apellido+" "+datos[i].apellido_casada;
+					var sueldo = datos[i].sueldo;
+					var salario_por_hora = datos[i].salario_por_hora;
+					var hora_extra_diurna = datos[i].hora_extra_diurna;
+					var hora_extra_nocturna = datos[i].hora_extra_nocturna;
+					var hora_extra_domingo = datos[i].hora_extra_domingo;
+					var hora_extra_nocturna_domingo = datos[i].hora_extra_nocturna_domingo;
+					var pensionado_empleado = datos[i].dato_pensionado;
+					var fecha_contratacion = datos[i].fecha_contratacion;
+					var hr1 = moment(fecha_contratacion,'YYYY/MM/DD HH:mm:ss a').format('DD-MM-YYYY');
+					$("#fecha_contratacion").val(hr1);
+					var sueldo_diario = datos[i].sueldo_diario;
+					var votevalue = parseFloat(sueldo_diario);
+					$("#sueldo_diario").val(votevalue);
+					$("#txt_codigo").val(codigo);
+					$("#txt_idempleado").val(id);
+					$("#txt_nombre").val(nombre);
+					$("#txt_sueldo").val(sueldo);
+					$("#txt_salario_por_hora").val(salario_por_hora);
+					$("#salario_por_hora").val(salario_por_hora);
+					$("#hora_extra_diurna").val(hora_extra_diurna);
+					$("#hora_extra_nocturna").val(hora_extra_nocturna);
+					$("#hora_extra_domingo").val(hora_extra_domingo);
+					$("#hora_extra_nocturna_domingo").val(hora_extra_nocturna_domingo);
+					$("#nombreempleado").text(nombre);
+					$(".mostrar_devengo_admin").attr("sueldo",sueldo);
+					$(".valor_devengo_planilla").attr("idempleado",id);
+					$("#pensionado_empleado").val(pensionado_empleado);
+					
+					valor_devengo_admin();
+					editar(codigo,id,nombre,sueldo);
+					setInterval(repetir(),200);
+					/* --------------------- */
+					/* intervaloID1 = setInterval(function() {
+						repetir();
+					 }, 200); */
+
+					/* ---------------------- */
+
+						
+					/* setInterval(repetir(codigo,id,nombre,sueldo),200); */
+					/* setInterval(repetir(codigo,id,nombre,sueldo),200); */
+					/* calculos(id,sueldo); *//* aqui es al iniciar */
+					/* cargarrecibos(id);
+					departamentoempleado(id);
+					ubicacionempleado(id); */
+					/* --------------------------- */
+					}
+				}
+			});
+		/* *********** */
+	
+}
+async function processArray() {
+	/* for (const item of ids_empleados[1]) { */
+	for (var i=0; i < 1; i++) {
+			idactualempleado=ids_empleados[i].id;
+			await delayedLog(ids_empleados[i].id);
+	  }
+	  /* -------------------- */
+	/* await delay(); */
+	/* verificarFuncionesTerminadas(); */
+	
+	  /* ----------------- */
+}
+let timeout;
+function varificarliquido(){
+	
+
+	var numero=$("#numero_planilladevengo_admin").val();
+	/* PLANILLA */
+	if(idactualempleado==0){
+		if(intervaloID2==0){
+			recargararray();
+			/* alert("va a recargar"); */
+		}
+	}else{
+			/* *********** */
+			var dataString = 'accion01=verificardatoingresado'+'&numero='+numero+'&idempleado='+idactualempleado;
+			$.ajax({
+				data: dataString,
+				url: "ajax/planilladevengo_admin.ajax.php",
+				type: 'post',
+				success: function (response) {
+				
+			
+					datos = JSON.parse(response);
+					var liquido=datos[0].total_liquidado_planilladevengo_admin;
+					var idempleado=datos[0].id_empleado_planilladevengo_admin;
+					if(liquido==0){
+						
+					}
+					else if(liquido==""){
+						
+					}
+					else if(liquido=="NULL"){
+						
+					}
+					else if(liquido=="NaN"){
+						
+					}
+					else if(liquido=="0.00"){
+						/* recargararray(); */
+					}
+					else if(liquido<=0){
+						/* recargararray(); */
+					}
+					else if(!liquido){
+						/* recargararray(); */
+					}
+					 if(intervaloID2==0){
+						
+						recargararray();
+						/* alert("va a recargar"); */
+					}
+					timeout = setTimeout(function() {
+						if(idempleado==idactualempleado){
+							recargararray();
+						}
+					  }, 1000); // 3000 milisegundos (3 segundos)
+
+				}
+			});
+			/* *********** */
+		}
+} 
+
+/* ------------------------ */
+function recargararray(){
+	ids_empleados = ids_empleados.filter(function(empleado) {
+		return empleado.id != idactualempleado; 
+	});
+	
+	if(ids_empleados.length>0){
+		/* processArray(); */
+		delayedLog(ids_empleados[0].id);
+		idactualempleado=ids_empleados[0].id;
+		clearTimeout(timeout);
+		/* alert("ya recargo y va por otro empleado") */
+		/* timeout = setTimeout(function() {
+			console.log('Temporizador reiniciado y finalizado.');
+		}, 4000); */
+	} 
+	if(!ids_empleados.length){
+		
+		$.ajax({
+			data: { 'registros': JSON.stringify(insertplanilla)},
+			url: "ajax/guardardatos_admin.ajax.php",
+			type: 'post',
+			success: function (response) {
+				console.log(response);
+				
+			/* **********HORA ACTUAL */
+					/* ------------ */
+					var hoy = new Date();
+					var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
+					function formatTime(timeString) {
+						const [hourString, minute] = timeString.split(":");
+						const hour = +hourString % 24;
+						return  ('0' + (hour % 12 || 12)).slice(-2) + ":" + ('0' + minute).slice(-2)  + (hour < 12 ? "" : "");
+					}
+					$(".tiempofinal").text("Finalizado: "+formatTime(hora));
+					/* ------------ */
+					var numero=$("#numero_planilladevengo_admin").val();
+					$(".irplanilla").attr("href","nuevaplanillaadmin?id="+numero);
+					$(".irplanilla").removeAttr("style");
+				/* -------------------- */
+			}
+		});
+
+		
+
+		/* var numero=$("#numero_planilladevengo_admin").val();
+		window.location = "nuevaplanillaadmin?id="+numero; */
+	}
+}
+/* ------------------------------ */
+
+
+function empleadosnoprocesados(){
+
+	var tipo_planilladevengo_admin=$("#tipo_planilladevengo_admin").val();
+	var periodo_planilladevengo_admin=$("#periodo_planilladevengo_admin").val();
+	var numero_planilladevengo_admin=$("#numero_planilladevengo_admin").val();
+	var descripcion_planilladevengo_admin =$("#descripcion_planilladevengo_admin").val();
+	var empleado_rango_desde = $("#empleado_rango_desde").val();
+	var empleado_rango_hasta = $("#empleado_rango_hasta").val();
+	var fecha_planilladevengo_admin = $("#fecha_planilladevengo_admin").val();
+	var fecha_gratificacion_admin = $("#fecha_gratificacion_admin").val();
+	var fecha_desde_planilladevengo_admin = $("#fecha_desde_planilladevengo_admin").val();
+	var fecha_hasta_planilladevengo_admin = $("#fecha_hasta_planilladevengo_admin").val();
+	var accion_realizar = "";
+
+	var accion ="";
+	if(empleado_rango_desde != "*"){
+
+		if (empleado_rango_hasta=="*"){
+			accion ="falta";
+		}
+		else{
+			accion="consultar";
+			accion_realizar="listaconempleado";
+
+		}
+	}
+
+	if(fecha_planilladevengo_admin==""){
+		accion ="falta";
+	}
+	else if(empleado_rango_desde=="*" && empleado_rango_hasta=="*"){
+		accion="consultar";
+		accion_realizar="lista";
+
+	}
+
+	if(accion == "falta"){
+		alert("Por favor ingrese Datos para la busqueda");
+	}
+
+	if(accion=="consultar"){
+		
+		/* *********** */
+		var dataString = 'empleado_rango_desde=' +empleado_rango_desde +
+		'&empleado_rango_hasta=' +empleado_rango_hasta+
+		'&fecha_planilladevengo_admin=' +fecha_planilladevengo_admin+
+		'&fecha_gratificacion_admin=' +fecha_gratificacion_admin+
+		'&fechaperiodo1=' +fecha_desde_planilladevengo_admin+
+		'&fechaperiodo2=' +fecha_hasta_planilladevengo_admin+
+		'&tipo_planilladevengo_admin=' +tipo_planilladevengo_admin+
+		'&periodo_planilladevengo_admin=' +periodo_planilladevengo_admin+
+		'&numero_planilladevengo_admin=' +numero_planilladevengo_admin+
+		'&descripcion_planilladevengo_admin=' +descripcion_planilladevengo_admin+
+		'&accion01=empleadosnoprocesados';
+
+		$.ajax({
+			data: dataString,
+			url: "ajax/planilladevengo_admin.ajax.php",
+			type: 'post',
+			success: function (response) {
+
+				if(response!=""){
+					$('.modal_carga').modal({backdrop: 'static', keyboard: true});
+					$('.modal_carga').modal('hide');	
+				}
+
+				console.log(response+"funcion empleadosnoprocesados");
+				$("#tabla_empleados").empty();
+				$("#tabla_empleados").append(response);
+
+		
+				/* ***********MOVER EN TABLA ***** */
+
+
+				var $tbl = $('#tbl_byKeyboard');
+				var $cur = $('.empleadoseleccionado', $tbl).first();
+				var seconds = 0; //número de segundos a contar
+
+				/* *************************** */
+				function secondPassed() {
+					var minutes = Math.trunc(seconds/60); //calcula el número de minutos
+					var remainingSeconds = seconds % 60; //calcula los segundos restantes
+					//si los segundos usan sólo un dígito, añadimos un cero a la izq
+					if (remainingSeconds < 10) { 
+						remainingSeconds = "0" + remainingSeconds; 
+					} 
+					/* document.getElementById('countdown').innerHTML = minutes + ":" +     remainingSeconds;  */
+					console.log(remainingSeconds); 
+					if (seconds == 0) { 
+						clearInterval(countdownTimer); 
+						/* rows[selectedRow].click(); */
+					} else { 
+						seconds--; 
+					} 
+				} 
+				var countdownTimer;
+				/* *************************** */
+				var rows = document.getElementById("tbl_byKeyboard").children[1].children;
+				var selectedRow = 0;
+
+
+					/* document.body.onkeydown = function(e){ */
+					document.addEventListener("keydown", event => {
+						//Prevent page scrolling on keypress
+						/* e.preventDefault(); */
+						//Clear out old row's color
+						rows[selectedRow].style.backgroundColor = "#FFFFFF";
+						/* var $scrollable = $("#tabla_empleados"); */
+				
+						//Calculate new row
+						if(event.keyCode == 38){
+							selectedRow--;
+						} else if(event.keyCode == 40){
+							selectedRow++;
+							$("body").attr("style","overflow-y: hidden;");
+						}else if(event.keyCode == 13){
+							rows[selectedRow].click();
+						}
+						
+						if(selectedRow == rows.length){
+							selectedRow = 0;
+						
+							
+						} else if(selectedRow <= 0){
+							selectedRow = rows.length-1;
+						
+						}
+						/* rows[selectedRow].style.backgroundColor = "#FFFFAA"; */
+						cambiotr(selectedRow);
+						
+					});
+
+
+
+				/* ***************** */
+				/* $(".tablas1").unbind("click", ".btnEditarabase").click(function(){ */
+
+				$(".tablas1").on("click", ".btnEditarabase", function(){
+
+					
+					$('.modal_carga').modal({backdrop: 'static', keyboard: false});
+					$('.modal_carga').modal('show');
+
+					var codigohtml="<td></td><td></td><td></td>";
+					$("#visiondelempleado").empty();
+					$("#visiondelempleado").append(codigohtml);
+
+					$(this).removeClass("empleadoseleccionado");
+					
+					$(this).addClass("empleadoseleccionado");
+					var codigo = $(this).attr("codigo");
+					var id = $(this).attr("idempleado");
+					var nombre = $(this).attr("nombre");
+					var sueldo = $(this).attr("sueldo");
+					var salario_por_hora = $(this).attr("salario_por_hora");
+					var hora_extra_diurna = $(this).attr("hora_extra_diurna");
+					var hora_extra_nocturna = $(this).attr("hora_extra_nocturna");
+					var hora_extra_domingo = $(this).attr("hora_extra_domingo");
+					var hora_extra_nocturna_domingo = $(this).attr("hora_extra_nocturna_domingo");
+					var pensionado_empleado = $(this).attr("pensionado_empleado");
+					var fecha_contratacion = $(this).attr("fecha_contratacion");
+					var hr1 = moment(fecha_contratacion,'YYYY/MM/DD HH:mm:ss a').format('DD-MM-YYYY');
+					$("#fecha_contratacion").val(hr1);
+					var sueldo_diario = $(this).attr("sueldo_diario");
+					var votevalue = parseFloat(sueldo_diario);
+					$("#sueldo_diario").val(votevalue);
+
+					$("#txt_codigo").val(codigo);
+					$("#txt_idempleado").val(id);
+					$("#txt_nombre").val(nombre);
+					$("#txt_sueldo").val(sueldo);
+					$("#txt_salario_por_hora").val(salario_por_hora);
+					$("#salario_por_hora").val(salario_por_hora);
+					$("#hora_extra_diurna").val(hora_extra_diurna);
+					$("#hora_extra_nocturna").val(hora_extra_nocturna);
+					$("#hora_extra_domingo").val(hora_extra_domingo);
+					$("#hora_extra_nocturna_domingo").val(hora_extra_nocturna_domingo);
+
+					$("#nombreempleado").text(nombre);
+					$(".mostrar_devengo_admin").attr("sueldo",sueldo);
+					$(".valor_devengo_planilla").attr("idempleado",id);
+					$("#pensionado_empleado").val(pensionado_empleado);
+
+				
+					valor_devengo_admin();
+					editar(codigo,id,nombre,sueldo);
+					calculos(id,sueldo);
+					cargarrecibos(id);
+
+				/* 	setInterval(valor_devengo_admin(),300);
+					setInterval(editar(codigo,id,nombre,sueldo),300);
+					setInterval(calculos(id,sueldo),300); */
+					/* repetir(codigo,id,nombre,sueldo); */
+
+
+					setInterval(repetir(),200);
+					/* --------------------- */
+					/* clearInterval(intervaloID1);
+					intervaloID1 = setInterval(function() {
+						repetir();
+					}, 200); */
+					/* ---------------------- */
+					
+					/* cargarporcentajes(id); */
+					/* $('#total_devengo_admin_planilladevengo_admin').change();  */
+					$(".btnEditarabase").removeAttr("style");
+					$(this).attr("style","background: lightblue;");
+
+					departamentoempleado(id);
+					ubicacionempleado(id);
+
+				});
+
+			
+
+				/* ****eliminar empleado */
+				$(".tablas1").on("click", ".eliminarempleado", function(){
+					var idempleado = $(this).attr("idempleado");
+					var numero_planilla=$(this).attr("numero_planilla");
+					eliminarempleado(idempleado,numero_planilla);
+				});
+
+				$('.tablas1').DataTable({
+					language: {
+						"decimal": "",
+						"emptyTable": "No hay información",
+						"info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+						"infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+						"infoFiltered": "(Filtrado de _MAX_ total entradas)",
+						"infoPostFix": "",
+						"thousands": ",",
+						"lengthMenu": "Mostrar _MENU_ Entradas",
+						"loadingRecords": "Cargando...",
+						"processing": "Procesando...",
+						"search": "Buscar:",
+						"zeroRecords": "Sin resultados encontrados",
+						"paginate": {
+						"first": "Primero",
+						"last": "Ultimo",
+						"next": "Siguiente",
+						"previous": "Anterior"
+						}
+						},
+					"paging": false
+				});
+			
+			}
+		});
+
+		/* *********** */
+
+
+	}
+}
 
 function cargardataempleados_admin(){
 
@@ -806,14 +1327,13 @@ function cargardataempleados_admin(){
 			url: "ajax/planilladevengo_admin.ajax.php",
 			type: 'post',
 			success: function (response) {
-		
 
 				if(response!=""){
 					$('.modal_carga').modal({backdrop: 'static', keyboard: true});
 					$('.modal_carga').modal('hide');	
 				}
 
-				console.log(response);
+				console.log(response+"funcion cargardataempleados_admin");
 
 			
 				$("#tabla_empleados").empty();
@@ -889,6 +1409,9 @@ function cargardataempleados_admin(){
 
 				$(".tablas1").on("click", ".btnEditarabase", function(){
 					
+					$('.modal_carga').modal({backdrop: 'static', keyboard: false});
+					$('.modal_carga').modal('show');
+
 					var codigohtml="<td></td><td></td><td></td>";
 					$("#visiondelempleado").empty();
 					$("#visiondelempleado").append(codigohtml);
@@ -932,13 +1455,23 @@ function cargardataempleados_admin(){
 					valor_devengo_admin();
 					editar(codigo,id,nombre,sueldo);
 					calculos(id,sueldo);
-
 					cargarrecibos(id);
 				/* 	setInterval(valor_devengo_admin(),300);
 					setInterval(editar(codigo,id,nombre,sueldo),300);
 					setInterval(calculos(id,sueldo),300); */
 					/* repetir(codigo,id,nombre,sueldo); */
-					setInterval(repetir(codigo,id,nombre,sueldo),600);
+
+
+					setInterval(repetir(),200);
+					/* --------------------- */
+					/* clearInterval(intervaloID1);
+					intervaloID1 = setInterval(function() {
+						repetir(codigo,id,nombre,sueldo);
+					}, 200); */
+
+					/* ---------------------- */
+
+
 					/* cargarporcentajes(id); */
 					/* $('#total_devengo_admin_planilladevengo_admin').change();  */
 					$(".btnEditarabase").removeAttr("style");
@@ -946,6 +1479,8 @@ function cargardataempleados_admin(){
 
 					departamentoempleado(id);
 					ubicacionempleado(id);
+					onlydiastrabajados(id);
+
 				});
 
 			
@@ -990,6 +1525,42 @@ function cargardataempleados_admin(){
 	}
 }
 
+
+function onlydiastrabajados(id){
+
+	
+	/* dias trabajo */
+			/* *********** */
+			var dataString = 'accion01=onlydiastrabajados'+"&idempleado="+id;
+			$.ajax({
+				data: dataString,
+				url: "ajax/planilladevengo_admin.ajax.php",
+				type: 'post',
+				success: function (response) {
+				
+                    datos = JSON.parse(response);
+					fecha_contratacion=datos[0].fecha_contratacion;
+					/* formato */
+					var fechaInput=$("#fecha_planilladevengo_admin").val();
+					var partesFecha = fechaInput.split("-");
+					var nuevoFormato = partesFecha[2]+"-"+partesFecha[1]+"-"+partesFecha[0];
+					/*--------------------  */
+					
+						var date1 = new Date(fecha_contratacion);
+						var date2 = new Date(nuevoFormato);
+						var diferenciaMilisegundos = Math.abs(date2 - date1);
+						var diferenciaDias = Math.ceil(diferenciaMilisegundos / (1000 * 60 * 60 * 24));
+						if(diferenciaDias>=15)
+						{
+							diferenciaDias=15;
+						}
+						$("#onlydias_trabajo").val(diferenciaDias);
+				}
+			});
+
+			/* *********** */
+
+}
 function departamentoempleado(id1){
 
 	var dataString = 'id=' +id1 +
@@ -1059,23 +1630,33 @@ function cambiotr(selectedRow1){
 	$("#visiondelempleado").append(resultado);
 }
 
-function repetir(codigo,id,nombre,sueldo){
+function repetir(){
 	/* editar(codigo,id,nombre,sueldo); */
 	/* $(".empleadoseleccionado").trigger("click"); */
-	setInterval(editar(codigo,id,nombre,sueldo),700);
+	var codigo=$("#txt_codigo").val();
+	var id=$("#txt_idempleado").val();
+	var nombre=$("#txt_nombre").val();
+	var sueldo=$("#txt_sueldo").val();
+	setInterval(editar(codigo,id,nombre,sueldo),400);
+	/* --------------------- */
+	/* editar(codigo,id,nombre,sueldo); */
+	/* intervaloID1 = setInterval(function() {
+		editar(codigo,id,nombre,sueldo);
+	 }, 200); */
+	 /* editar(codigo,id,nombre,sueldo); */
+	/* ---------------------- */
 }
 function actualizar_datos(codigo,id,nombre,sueldo){
 	valor_devengo_admin();
 	editar(codigo,id,nombre,sueldo);
 	calculos(id,sueldo);
-
 	setTimeout(function(){
 		valor_devengo_admin();
 		editar(codigo,id,nombre,sueldo);
 		calculos(id,sueldo);
-	}, 800);
-
+	}, 200);
 }
+
 
 
 
@@ -1083,51 +1664,54 @@ function actualizar_datos(codigo,id,nombre,sueldo){
 /* ELIMINAR EMPLEADO******************************** */
 function eliminarempleado(idempleados,numero_planillas){
 
-
-	var dataString = 'numero_planilladevengo_admin=' +numero_planillas +
-	'&id_empleado_planilladevengo_admin=' +idempleados+
-	'&accion01=eliminarempleado';
-	swal({
-		title: '¿Está seguro de borrar el registro?',
-		text: "¡Si no lo está puede cancelar la accíón!",
-		type: 'warning',
-		showCancelButton: true,
-		confirmButtonColor: '#3085d6',
-		  cancelButtonColor: '#d33',
-		  cancelButtonText: 'Cancelar',
-		  confirmButtonText: 'Si, borrar!'
-	  }).then(function(result){
+	validarmodalcerrada(idempleados,numero_planillas);
 	
-		if(result.value){
-	
-			$.ajax({
-				url: "ajax/planilladevengo_admin.ajax.php",
-				method: 'post',
-				data: dataString,
-				success: function (response) {
-					
-					if($.trim(response)=="Ok"){
-						
-							location.reload();
-						
-
-					}
-	
-					/* alert(response); */
-					/* console.log(response);
-					$('#myModal').modal('toggle'); */
-				}
-			});
-	
-		}
-	
-	  })
-		
-
-
 }
 
+function validarmodalcerrada(idempleados,numero_planillas){
 
+	$('.modal_carga').on('hidden.bs.modal', function() {
+		var dataString = 'numero_planilladevengo_admin=' +numero_planillas +
+		'&id_empleado_planilladevengo_admin=' +idempleados+
+		'&accion01=eliminarempleado';
+		swal({
+			title: '¿Está seguro de borrar el registro?',
+			text: "¡Si no lo está puede cancelar la accíón!",
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			cancelButtonText: 'Cancelar',
+			confirmButtonText: 'Si, borrar!'
+		}).then(function(result){
+		
+			if(result.value){
+		
+				$.ajax({
+					url: "ajax/planilladevengo_admin.ajax.php",
+					method: 'post',
+					data: dataString,
+					success: function (response) {
+						
+						if($.trim(response)=="Ok"){
+							
+								location.reload();
+							
+
+						}
+		
+						/* alert(response); */
+						/* console.log(response);
+						$('#myModal').modal('toggle'); */
+					}
+				});
+		
+			}
+		
+		})
+	})
+
+}
 
 /* ****eliminar plantilla */
 $(".tablas").on("click", ".eliminarallplantilla", function(){
@@ -1184,8 +1768,6 @@ EDITAR
  function editar(codigo1,id1,nombre1,sueldo){
 	
 
-	
-
 	$("#dias_trabajo_planilladevengo_admin").val("");
 	$("#sueldo_planilladevengo_admin").val("");
 	$("#hora_extra_diurna_planilladevengo_admin").val("");
@@ -1221,7 +1803,7 @@ EDITAR
 				
 				$(".mostrar_devengo_admin").removeAttr("disabled");
 				var datos = JSON.parse(response);
-				console.log(response);
+				console.log(response+"funcion editar");
 				console.log(datos[0].codigo_empleado_planilladevengo_admin);
 
 			
@@ -1252,13 +1834,10 @@ EDITAR
 
 					var tipo = "suma";
 					cargardatadevengo(tipo);
-
 					var tipo2 = "resta";
 					cargardatadescuento(tipo2);
-
 					empleados_devengos();
-					
-				obtenerdata_total(codigo1,id1,nombre1);
+					obtenerdata_total(codigo1,id1,nombre1);
 
 
 	
@@ -1335,7 +1914,7 @@ function obtenerdata_total(codigo1,id1,nombre1){
 			success: function (response) {
 			
 				var datos = JSON.parse(response);
-				console.log(response);
+				console.log(response+"funcion obtenerdata_total");
 				console.log(datos[0].id_empleado_planilladevengo_admin);
 				$("#dias_trabajo_planilladevengo_admin").val(datos[0].dias_trabajo_planilladevengo_admin);
 				$("#his_dias_trabajo_admin").val(datos[0].his_dias_trabajo_admin);
@@ -1617,6 +2196,9 @@ $(".guardardevengo").click(function(){
 	var porcentaje_renta_devengo_descuento_planilla = $(".porcentaje_renta_devengo_descuento_planilla").val();
 	var idempleado_devengo = $(".idempleado_devengo").val();
 	var idrecibo = $("#idrecibo").val();
+	var valor_dias_Feriados = $("#valor_dias_Feriados").val();
+	var dias_Feriados = $("#dias_Feriados").val();
+
 
 	var valor_devengo_planilla = "";
 
@@ -1656,6 +2238,8 @@ $(".guardardevengo").click(function(){
 					'&tipo_valor='+tipo_valor+
 					'&codigo_planilla_devengo='+codigo_planilla_devengo+
 					'&idrecibo='+idrecibo+
+					'&valor_dias_Feriados='+valor_dias_Feriados+
+					'&dias_Feriados='+dias_Feriados+
 					'&accion01='+accionaccion_devengo;
 
 		
@@ -1759,7 +2343,6 @@ function editardevengo(id1){
 	var dataString = 'consultarempleado=' +id+'&accion01='+accion_realizar;
 
 		$.ajax({
-			
 			url: "ajax/planilladevengo_admin.ajax.php",
 			method: 'post',
 			data: dataString,
@@ -1770,11 +2353,7 @@ function editardevengo(id1){
 				$(".codigo_devengo_descuento_planilla").val(datos[0].codigo_devengo_descuento_planilla);
 				$(".descripcion_devengo_descuento_planilla").val(datos[0].descripcion_devengo_descuento_planilla);
 				$(".tipo_devengo_descuento_planilla").val(datos[0].tipo_devengo_descuento_planilla).trigger('change.select2');;
-
-				/* $(".tipo_devengo_descuento_planilla option[value="+ datos[0].tipo_devengo_descuento_planilla +"]").attr("selected",true); */
-				 
-				
-				
+				/* $(".tipo_devengo_descuento_planilla option[value="+ datos[0].tipo_devengo_descuento_planilla +"]").attr("selected",true); */	 
 				$(".isss_devengo_devengo_descuento_planilla").val(datos[0].isss_devengo_devengo_descuento_planilla);
 				$(".afp_devengo_devengo_descuento_planilla").val(datos[0].afp_devengo_devengo_descuento_planilla);
 				$(".renta_devengo_devengo_descuento_planilla").val(datos[0].renta_devengo_devengo_descuento_planilla);
@@ -1786,12 +2365,71 @@ function editardevengo(id1){
 				$(".valor_devengo_planilla1").val(datos[0].valor_devengo_planilla);
 				$(".tipo_valor").val(datos[0].tipo_valor);
 				$(".accion_devengo").val("modificardevengo");
+
+
+				if(datos[0].codigo_devengo_descuento_planilla=="0023"){
+					/* diasferiados(datos[0].idempleado_devengo); */
+					$(".ocultarhorasllegas").removeAttr("style");
+					$("#horas_tardes").val(datos[0].horas_tardes);
+					$("#precio_horas_tardes").val(datos[0].precio_horas_tardes);
+				}
+
+
+				if(datos[0].codigo_devengo_descuento_planilla=="0021"){
+					/* diasferiados(datos[0].idempleado_devengo); */
+					$(".ocultardiasferiados").removeAttr("style");
+					$("#dias_Feriados").val(datos[0].dias_Feriados);
+					$("#valor_dias_Feriados").val(datos[0].valor_dias_Feriados);
+				}
+
+				if(datos[0].codigo_devengo_descuento_planilla=="0031"){
+					/* diasferiados(datos[0].idempleado_devengo); */
+					$(".dias_trabajados_inca").removeAttr("style");
+					$("#dias_tra_inca_admin").val(datos[0].dias_tra_inca_admin);
+					$("#pago_dias_tra_inca_admin").val(datos[0].pago_dias_tra_inca_admin);
+				}
+				else{
+					$(".dias_trabajados_inca").attr("style","display:none;");
+				}
+				if(datos[0].codigo_devengo_descuento_planilla=="0033"){
+					/* diasferiados(datos[0].idempleado_devengo); */
+					$(".diasincapacidad").removeAttr("style");
+					$("#dias_incapacidad_admin").val(datos[0].dias_incapacidad_admin);
+					$("#pago_dias_incapacidad_admin").val(datos[0].pago_dias_incapacidad_admin);
+				}
+				else{
+					$(".diasincapacidad").attr("style","display:none;");
+				}
+
 			}
 		});
-
-
-
 };
+
+$("#dias_Feriados").blur(function(){
+	var valor= $(this).val();
+	var sueldo_feriado=$("#valor_dias_Feriados").val();
+
+	var total=parseFloat(valor)*parseFloat(sueldo_feriado);
+	$("#valor_devengo_planilla").val(total.toFixed(2));
+  });
+
+  /* por el momento no esta funcionando este fuxtion */
+function diasferiados(idempleado){
+
+	var fecha_planilladevengo_admin=$("#fecha_planilladevengo_admin").val();
+	var accion_realizar="diasferiado";
+	var dataString = 'idempleado=' +idempleado+'&accion01='+accion_realizar+'&fecha_planilladevengo_admin='+fecha_planilladevengo_admin;
+
+		$.ajax({
+			url: "ajax/planilladevengo_admin.ajax.php",
+			method: 'post',
+			data: dataString,
+			success: function (response) {
+				alert(response);
+			}
+		});
+};
+
 
 function eliminardevengo_admin(id1, idempleado){
 	var id = id1;
@@ -2021,6 +2659,8 @@ function vaciar(){
 	$(".valor_devengo_planilla").val("");
 	$(".valor_devengo_planilla1").val("");
 	$("#idrecibo").val("no");
+	$(".ocultardiasferiados").attr("style","visibility:hidden; height:0px");
+
 }
 
 function calculos(id, sueldo){
@@ -2492,7 +3132,7 @@ $( "#hora_extra_domingo_nocturna_planilladevengo_admin").blur(function() {
 	$("."+clase_calculo).val(calculo.toFixed(2));
 });
 
-function calculo_horas(){
+ function calculo_horas(){
 
 	if($("#hora_extra_diurna_planilladevengo_admin").val()==""){
 		$("#hora_extra_diurna_planilladevengo_admin").val("0");
@@ -2532,7 +3172,16 @@ function calculo_horas(){
 
 
 $("#btnsumarhoras").click(function(){
-	calcular_afp_iss();
+	/* calcular_afp_iss(); */
+
+	$.ajax({
+		url:calcular_afp_iss(),
+		success:function(){
+			$('.modal_carga').modal('hide');
+			guardarplanillaoculto();
+		}
+	})
+
 });
 
 
@@ -2556,14 +3205,18 @@ $("#restardias").click(function(){
 
 
 	setTimeout(function(){
-		calcular_afp_iss();
+		/* calcular_afp_iss(); */
+		$.ajax({
+			url:calcular_afp_iss(),
+			success:function(){
+				$('.modal_carga').modal('hide');
+				guardarplanillaoculto();
+			}
+		})
 	}, 1000);	
 });
 
-
 function cargarporcentajes(idempleados){
-
-
 	/* DEVENGOS */
 	/* ********************* */
 	var sum1 = 0;
@@ -2668,9 +3321,7 @@ function cargarporcentajes(idempleados){
 	/* var valor_devengo=$(".valor_devengo_planilla").val(); */
 	var sueldo_afp=$("#sueldo_afp_planilladevengo_admin").val();
 	var sujeto_renta=$("#sueldo_renta_planilladevengo_admin").val();
-
 	var valor_devengo_planilla=sujeto_renta;
-
 	var dataString = 'consultarempleado=' +idempleado+'&accion01='+accion_realizar+'&renta_devengo='+renta_devengo+'&afp_devengo='+afp_devengo+'&isss_devengo='+isss_devengo+'&valor_devengo_planilla='+valor_devengo_planilla;
 	$.ajax({
 			
@@ -2708,24 +3359,50 @@ function cargarporcentajes(idempleados){
 			$("#porcentaje_base2").val(porcentaje_base2);
 			$("#tasa_sobre_excedente").val(tasa_sobre_excedente);
 
-			
-			setTimeout(function(){
-				calcular_afp_iss();
-			}, 1500);
-			}
+			finalizar_total=1;
+			intervaloID2=1;
+			suma=suma+1;
+
+					/* calcular_afp_iss(); */
+					$.ajax({
+						url:calcular_afp_iss(),
+						success:function(){
+
+							/* guardarplanillaoculto(); */
+							/* setTimeout(function(){varificarliquido()},800); */
+							/* varificarliquido(); */
+							// Crea una instancia de PerformanceObserver y observa las solicitudes de red
+							console.log("data totalmente terminada funcion calcular_afp_iss");
+							finalizar_total=0;/* finalizar_total final */
+							if(suma>1){
+								suma=0;
+								intervaloID2=0;
+								$.ajax({
+									url:guardarplanillaoculto(),
+									success:function(){
+										varificarliquido();
+										$('.modal_carga').modal('hide');
+									}
+								})
+							}
+						
+
+
+						}
+					})
+				
+		   }
 	})
 }
 
-function calcular_afp_iss(){
 
+function calcular_afp_iss(){
 
 	var renta_devengo= $(".renta_devengo_devengo_descuento_planilla").val();
 	var afp_devengo=$(".afp_devengo_devengo_descuento_planilla").val();
 	var isss_devengo=$(".isss_devengo_devengo_descuento_planilla").val();
 	var porcentaje_isss= $("#porcentaje_isss").val();
 	var porcentaje_afp= $("#porcentaje_afp").val();
-
-
 	/* ************************* */
 	var sueldo_empleado_final=$("#sueldo_planilladevengo_admin").val();
 	if($.trim(sueldo_empleado_final)==""){
@@ -2751,10 +3428,6 @@ function calcular_afp_iss(){
 		total_isss_salario=tope_isss;
 	}
 	/* ************************* */
-
-
-
-
 	var valor_devengo_planilla = $("#sueldo_afp_planilladevengo_admin").val();
 
 
@@ -2778,7 +3451,6 @@ function calcular_afp_iss(){
 	$("#descuento_afp_planilladevengo_admin").val(total_afp.toFixed(2));
 
 
-
 	/* Descuento ISSS: */
 	total_isss= parseFloat(total_isss_salario)*calcularporcentaje_isss;
 	descuento_iss_final=total_isss_salario-total_isss;
@@ -2797,53 +3469,47 @@ function calcular_afp_iss(){
 
 
 	/* *******renta*********** */
-		calcular_renta(parseFloat(sujeto_renta_final));
-	/* ********************** */
-/* 	console.log("************************");
-	console.log(sueldo_menos_base+"sueldo_menos_base");
-	console.log(tasa_por_exedente+"tasa_por_exedente");
-	console.log(descuento_renta+"descuento_renta"); */
+	$.ajax({
+		url:calcular_renta(parseFloat(sujeto_renta_final)),
+		success:function(){
+		
+							/* ********************** */
+						/* 	console.log("************************");
+							console.log(sueldo_menos_base+"sueldo_menos_base");
+							console.log(tasa_por_exedente+"tasa_por_exedente");
+							console.log(descuento_renta+"descuento_renta"); */
 
-	/* ****************CUENTAS GLOBALES**************** */
-	calculo_horas();
-	/* calculo de horas****************** */
-	var calculo_extra_diurna = $(".calculo_extra_diurna").val();
-	var calculo_extra_nocturna = $(".calculo_extra_nocturna").val();
-	var calculo_extra_domingo = $(".calculo_extra_domingo").val();
-	var calculo_extra_domingo_noctu = $(".calculo_extra_domingo_noctu").val();
-	var total_suma_horas=parseFloat(calculo_extra_diurna)+parseFloat(calculo_extra_nocturna)+parseFloat(calculo_extra_domingo)+parseFloat(calculo_extra_domingo_noctu);/* --CALCULO HORAS */
-
-
-
-	var sueldo=$("#sueldo_planilladevengo_admin").val();/* --SUELDO */
-	var otrodevengo=$("#otro_devengo_admin_planilladevengo_admin").val();/* --Otro Devengo: */
-
-	var totaldevengo_calculo=parseFloat(sueldo)+parseFloat(otrodevengo)+parseFloat(total_suma_horas);
-	$("#total_devengo_admin_planilladevengo_admin").val(totaldevengo_calculo.toFixed(2));
-	var totaldevengo=$("#total_devengo_admin_planilladevengo_admin").val();/* --Total Devengado: */
-
-
-	var descuento_isss_planilladevengo_admin=$("#descuento_isss_planilladevengo_admin").val();/* --Descuento ISSS: */
-	var descuento_afp_planilladevengo_admin= $("#descuento_afp_planilladevengo_admin").val();/* --Descuento AFP: */
-	var descuento_renta_planilladevengo_admin=$("#descuento_renta_planilladevengo_admin").val();/* --Descuento Renta: */
-	var otro_descuento_planilladevengo_admin=$("#otro_descuento_planilladevengo_admin").val();/* --Otro Descuento: */
-
-	calculototaldescuento=parseFloat(descuento_isss_planilladevengo_admin)+parseFloat(descuento_afp_planilladevengo_admin)+parseFloat(descuento_renta_planilladevengo_admin)+parseFloat(otro_descuento_planilladevengo_admin);
-
-
-	$("#total_descuento_planilladevengo_admin").val(calculototaldescuento.toFixed(2));
-	var totaldescuento=$("#total_descuento_planilladevengo_admin").val();/* --Total Descuento: */
-
-	var calculototalliquido=parseFloat(totaldevengo)-parseFloat(totaldescuento);
-	$("#total_liquidado_planilladevengo_admin").val(calculototalliquido.toFixed(2));
-	var totalliquido=$("#total_liquidado_planilladevengo_admin").val();/* --Total Liquido: */
-
-	guardarplanillaoculto();
+							/* ****************CUENTAS GLOBALES**************** */
+							
+			calculo_horas();
+			/* calculo de horas****************** */
+			var calculo_extra_diurna = $(".calculo_extra_diurna").val();
+			var calculo_extra_nocturna = $(".calculo_extra_nocturna").val();
+			var calculo_extra_domingo = $(".calculo_extra_domingo").val();
+			var calculo_extra_domingo_noctu = $(".calculo_extra_domingo_noctu").val();
+			var total_suma_horas=parseFloat(calculo_extra_diurna)+parseFloat(calculo_extra_nocturna)+parseFloat(calculo_extra_domingo)+parseFloat(calculo_extra_domingo_noctu);/* --CALCULO HORAS */
+			var sueldo=$("#sueldo_planilladevengo_admin").val();/* --SUELDO */
+			var otrodevengo=$("#otro_devengo_admin_planilladevengo_admin").val();/* --Otro Devengo: */
+			var totaldevengo_calculo=parseFloat(sueldo)+parseFloat(otrodevengo)+parseFloat(total_suma_horas);
+			$("#total_devengo_admin_planilladevengo_admin").val(totaldevengo_calculo.toFixed(2));
+			var totaldevengo=$("#total_devengo_admin_planilladevengo_admin").val();/* --Total Devengado: */
+			var descuento_isss_planilladevengo_admin=$("#descuento_isss_planilladevengo_admin").val();/* --Descuento ISSS: */
+			var descuento_afp_planilladevengo_admin= $("#descuento_afp_planilladevengo_admin").val();/* --Descuento AFP: */
+			var descuento_renta_planilladevengo_admin=$("#descuento_renta_planilladevengo_admin").val();/* --Descuento Renta: */
+			var otro_descuento_planilladevengo_admin=$("#otro_descuento_planilladevengo_admin").val();/* --Otro Descuento: */
+			calculototaldescuento=parseFloat(descuento_isss_planilladevengo_admin)+parseFloat(descuento_afp_planilladevengo_admin)+parseFloat(descuento_renta_planilladevengo_admin)+parseFloat(otro_descuento_planilladevengo_admin);
+			$("#total_descuento_planilladevengo_admin").val(calculototaldescuento.toFixed(2));
+			var totaldescuento=$("#total_descuento_planilladevengo_admin").val();/* --Total Descuento: */
+			var calculototalliquido=parseFloat(totaldevengo)-parseFloat(totaldescuento);
+			$("#total_liquidado_planilladevengo_admin").val(calculototalliquido.toFixed(2));
+			var totalliquido=$("#total_liquidado_planilladevengo_admin").val();/* --Total Liquido: */
+			/*---------------------  */
+								
+		}
+	})
 }
 
-
 function calcular_renta(total_descuento_renta1){
-	
 	/* ********************PORCENTAJE PARA RENTA************************** */
 	var idempleado=$("#txt_idempleado").val();
 	var accion_realizar="calculosisss";
@@ -2864,6 +3530,7 @@ function calcular_renta(total_descuento_renta1){
 			var porcentaje_base1 = response.split(",")[2];
 			var porcentaje_base2 = response.split(",")[3];
 			var tasa_sobre_excedente = response.split(",")[4];
+			var vacacion = response.split(",")[5];
 
 			if(porcentaje_isss==""){
 				porcentaje_isss=0;
@@ -2885,23 +3552,34 @@ function calcular_renta(total_descuento_renta1){
 			$("#porcentaje_base1").val(porcentaje_base1);
 			$("#porcentaje_base2").val(porcentaje_base2);
 			$("#tasa_sobre_excedente").val(tasa_sobre_excedente);
+			$("#tienevacacion").val(vacacion);
+			var tienevacacion=$("#tienevacacion").val();
+			if(tienevacacion=="si"){
+				$("#sueldo_renta_planilladevengo_admin").val("0");
+				$("#sueldo_isss_planilladevengo_admin").val("0");
+				$("#sueldo_afp_planilladevengo_admin").val("0");
+			}
+		
+			var porcentaje_base1= $("#porcentaje_base1").val();
+			var porcentaje_base2= $("#porcentaje_base2").val();
+			var tasa_sobre_excedente= $("#tasa_sobre_excedente").val();
+			var calcularporcentaje_tasa_excente=tasa_sobre_excedente/100;
+			/* *************************************************** */
+			/* CALCULO RENTA */
+			var sueldo_menos_base= parseFloat(total_descuento_renta)-parseFloat(porcentaje_base2);
+			var tasa_por_exedente= parseFloat(sueldo_menos_base)*parseFloat(calcularporcentaje_tasa_excente);
+			var descuento_renta=parseFloat(tasa_por_exedente)+parseFloat(porcentaje_base1);
+			/* var descuento_renta_final=total_renta_salario-descuento_renta; */
+			$("#descuento_renta_planilladevengo_admin").val(descuento_renta.toFixed(2));
+		
+
 			
+
 			}
 	})
 
 
-	
-	var porcentaje_base1= $("#porcentaje_base1").val();
-	var porcentaje_base2= $("#porcentaje_base2").val();
-	var tasa_sobre_excedente= $("#tasa_sobre_excedente").val();
-	var calcularporcentaje_tasa_excente=tasa_sobre_excedente/100;
-	/* *************************************************** */
-	/* CALCULO RENTA */
-	var sueldo_menos_base= parseFloat(total_descuento_renta)-parseFloat(porcentaje_base2);
-	var tasa_por_exedente= parseFloat(sueldo_menos_base)*parseFloat(calcularporcentaje_tasa_excente);
-	var descuento_renta=parseFloat(tasa_por_exedente)+parseFloat(porcentaje_base1);
-	/* var descuento_renta_final=total_renta_salario-descuento_renta; */
-	$("#descuento_renta_planilladevengo_admin").val(descuento_renta.toFixed(2));
+
 }
 
 function sumar(){
@@ -3052,5 +3730,7 @@ function redondear(num) {
     var m = Number((Math.abs(num) * 100).toPrecision(15));
     return Math.round(m) / 100 * Math.sign(num);
 }
+
+
 
 
