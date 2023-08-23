@@ -1,6 +1,7 @@
 $(document).ready(function () {
   generarCorrelativoRadio();
   cargarDatosRadio(0);
+  agregarEquipos();
 
   $("#tablaradio tbody").on("click", ".campoid", function () {
     $(".agregarbtnmovimiento").removeAttr("disabled");
@@ -19,8 +20,11 @@ $(document).ready(function () {
     $("#name_radio").html(datosradio);
     /* PARAMTETRO VEHÍCULO */
     let idradio = $(this).attr("idradio");
+    let codigo_radio = $(this).attr("codigo_radio");
     $("#nuevoidradio_mante").val(idradio);
     cargarDatosRadio(idradio);
+    /* buscar ubicacion del radio */
+    buscarUbicacionRadio("nuevo", codigo_radio);
   });
 
   /* SUMAR TOTAL RADIO  NUEVO*/
@@ -49,7 +53,7 @@ $(document).ready(function () {
     $("#editartotal_mradio").val(suma.toFixed(2));
   });
 
-  /* SACAR EL COSTO DE OBRA */
+  /*    SACAR EL COSTO DE OBRA 
   $("#nuevoid_equipo").on("change", function () {
     let valor = $(this).val();
 
@@ -80,10 +84,10 @@ $(document).ready(function () {
         console.error(error);
       },
     });
-  });
+  }); */
 
   /* SACAR EL COSTO DE OBRA */
-  $("#editarid_equipo").on("change", function () {
+  /*  $("#editarid_equipo").on("change", function () {
     let valor = $(this).val();
 
     $.ajax({
@@ -113,7 +117,7 @@ $(document).ready(function () {
         console.error(error);
       },
     });
-  });
+  }); */
 
   $("#saveformradio").submit(function (e) {
     e.preventDefault();
@@ -341,6 +345,21 @@ function cargarDatosRadio(idarma) {
   });
 }
 
+/* AGREGAR DATOS AL DETALLE */
+function agregarEquipos() {
+  $.ajax({
+    url: "./ajax/mantoradio.ajax.php", // Ruta al script PHP que realizará la consulta a MySQL
+    type: "POST",
+    data: { addDetail: true },
+    success: function (response) {
+      $("#addDetailEquipo").html(response).fadeIn("slow");
+    },
+    error: function (xhr, status, error) {
+      console.error(error);
+    },
+  });
+}
+
 function limpiarRadio() {
   $("#nuevoid_equipo").val("").trigger("change");
   $("#nuevodiagnostico_mradio").val("");
@@ -440,4 +459,50 @@ function generarCorrelativoRadio() {
       $("#nuevocorrelativo_mradio").val(response);
     },
   });
+}
+
+function buscarUbicacionRadio(accion, codRadio) {
+  $.ajax({
+    data: {
+      radiosearch: accion,
+      codRadio: codRadio,
+    },
+    url: "./ajax/mantoradio.ajax.php",
+    type: "post",
+    dataType: "json",
+    success: function (response) {
+      $("#idmovimientoequipo").val(response.id_movimiento);
+      $("#codubicacion").val(response.codigo_ubicacion);
+      $("#ubicacionactual").val(response.nombre_ubicacion);
+    },
+  });
+}
+
+function roundNumber(num) {
+  var result = Math.round(num.value);
+  if (/^\d*$/.test(result)) {
+    num.value = "";
+    if (result <= 0) {
+      result = 1;
+    }
+    num.value = result;
+  } else {
+    num.value = 1;
+  }
+}
+
+function sumar_restar(signo, id) {
+  var result = parseInt(document.getElementById("cantidad_" + id).value);
+  var asign = 1;
+
+  if (signo == "+") {
+    asign = result + 1;
+  } else {
+    if (result > 1) {
+      asign = result - 1;
+    }
+  }
+
+  document.getElementById("cantidad_" + id).value = asign;
+  /*   modificar_producto_cart(id); */
 }

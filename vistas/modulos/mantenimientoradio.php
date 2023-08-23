@@ -35,6 +35,24 @@ function getContent()
         font-weight: 700;
         cursor: pointer;
     }
+
+
+    .fieldset {
+        border: 1px groove #ddd !important;
+        padding: 0 1.4em 1.4em 1.4em !important;
+        margin: 0 0 1.5em 0 !important;
+        -webkit-box-shadow: 0px 0px 0px 0px #000;
+        box-shadow: 0px 0px 0px 0px #000;
+    }
+
+    .legend {
+        font-size: 1.2em !important;
+        font-weight: bold !important;
+        text-align: left !important;
+        width: auto;
+        padding: 0 10px;
+        border-bottom: none;
+    }
 </style>
 <div class="content-wrapper">
 
@@ -67,7 +85,18 @@ function getContent()
                                 $data0 = $Radio::mostrarDatosDb("*", "tbl_radios", "", "");
                                 foreach ($data0 as $value) {
 
-                                    echo ' <tr class="campoid" datosradio="' . $value["codigo_radio"] . " - " . $value["descripcion_radio"] . " - " . $value["numero_serie"] . " - " . $value["marca"] . " - " . $value["modelo_radio"] . " - " . $value["color_radio"] . '" idradio="' . $value["id"] . '">
+
+                                    // Verificar si la fecha es válida y no está en 0000-00-00
+                                    if ($value["fecha_adquisicion"] !== '0000-00-00') {
+                                        // Convertir la fecha en un objeto DateTime
+                                        $fechaDateTime = new DateTime($value["fecha_adquisicion"]);
+
+                                        // Formatear la fecha en el formato deseado
+                                        $fechaFormateada = $fechaDateTime->format("d/m/Y");
+                                    } else {
+                                        $fechaFormateada = $value["fecha_adquisicion"];
+                                    }
+                                    echo ' <tr class="campoid" datosradio="' . $value["codigo_radio"] . " - " . $value["descripcion_radio"] . " - " . $value["numero_serie"] . " - " . $value["marca"] . " - " . $value["modelo_radio"] . " - " . $value["color_radio"] . " - " . $fechaFormateada . '" idradio="' . $value["id"] . '" codigo_radio="' . $value["codigo_radio"] . '">
                                     <th>' . $value["codigo_radio"] . '</th>
                                      <td>' . $value["descripcion_radio"] . '</td>
                                     <td>' . $value["marca"] . '</td>
@@ -109,7 +138,7 @@ function getContent()
     </section>
 
 </div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.min.js"></script>
 
 
 
@@ -120,7 +149,7 @@ MODAL AGREGAR
 
 <div id="modalAgregarMantenimientoRadio" class="modal fade" role="dialog">
 
-    <div class="modal-dialog" style="width: 900px !important;">
+    <div class="modal-dialog" style="width: 1140px !important;">
 
         <div class="modal-content">
 
@@ -182,69 +211,65 @@ MODAL AGREGAR
 
                             </div>
                         </div>
-
                         <div class="form-group col-md-12">
-                            <label for="nuevoid_equipo">Equipos:</label>
+                            <fieldset class="fieldset">
+                                <legend class="legend">Agregar Mano de Obra / Repuestos</legend>
+                                <div class="form-group col-md-8">
+                                    <label for="nuevoid_equipo">Equipos:</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
+
+                                        <select class="form-control mi-selector" name="nuevoid_equipo" id="nuevoid_equipo" required>
+
+                                            <option value="">Seleccione...</option>
+                                            <?php
+
+                                            $datos_mostrar = $Radio::mostrarDatosDb("eq.id,eq.codigo_equipo,eq.descripcion_equipo,eq.descripcion,otro_eq.codigo,otro_eq.nombre", "tbl_otros_equipos eq INNER JOIN tipo_otros_equipos otro_eq on eq.tipo_equipos=otro_eq.id WHERE otro_eq.codigo = 'REPU' OR otro_eq.codigo = 'SERV'", "", "");
+                                            foreach ($datos_mostrar as $key => $value) {
+                                            ?>
+                                                <option value="<?php echo $value['id']  ?>">
+                                                    <?php echo $value['nombre'] . " - " . $value['codigo_equipo'] . ' - ' . $value['descripcion'] ?>
+                                                </option>
+                                            <?php
+                                            }
+                                            ?>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label for=""></label>
+                                    <div class="input-group">
+                                        <button class="btn btn-success" type="button" onclick="agregarEquipos();" id="btn-addequipos"><span class="fa fa-plus"> </span> Agregar Repuesto o Mano de Obra</button>
+                                    </div>
+                                </div>
+                                <!-- AGREGAR DETALLE -->
+                                <div id="addDetailEquipo">
+
+                                </div>
+
+                            </fieldset>
+
+                        </div>
+                        <input type="hidden" id="idmovimientoequipo" name="idmovimientoequipo">
+                        <div class="form-group col-md-4">
+                            <label for="codubicacion" class="">CÓDIGO UBICACIÓN:</label>
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
-
-                                <select class="form-control mi-selector" name="nuevoid_equipo" id="nuevoid_equipo" required>
-
-                                    <option value="">Seleccione...</option>
-                                    <?php
-
-                                    $datos_mostrar = $Radio::mostrarDatosDb("eq.id,eq.codigo_equipo,eq.descripcion_equipo,eq.descripcion,otro_eq.codigo,otro_eq.nombre", "tbl_otros_equipos eq INNER JOIN tipo_otros_equipos otro_eq on eq.tipo_equipos=otro_eq.id WHERE otro_eq.codigo = 'REPU' OR otro_eq.codigo = 'SERV'", "", "");
-                                    foreach ($datos_mostrar as $key => $value) {
-                                    ?>
-                                        <option value="<?php echo $value['id']  ?>">
-                                            <?php echo $value["codigo"] . " - " . $value['nombre'] . " - " . $value['codigo_equipo'] . ' - ' . $value['descripcion'] ?>
-                                        </option>
-                                    <?php
-                                    }
-                                    ?>
-
-                                </select>
-
+                                <span class="input-group-addon"><i class="fa fa-qrcode"></i></span>
+                                <input type="text" class=" form-control" name="codubicacion" id="codubicacion" placeholder="Código Ubicación" readonly>
 
                             </div>
                         </div>
 
-
-                        <div class="form-group col-md-6">
-                            <label for="nuevocosto_obra_mradio" class="">Costo Obra:</label>
+                        <div class="form-group col-md-8">
+                            <label for="ubicacionactual" class="">UBICACIÓN ACTUAL:</label>
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                <input type="text" class="form-control validarmoney sumarTotalNuevo" min="0" required placeholder="0.00" name=" nuevocosto_obra_mradio" readonly id="nuevocosto_obra_mradio">
+                                <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                                <input type="text" class=" form-control" name="ubicacionactual" id="ubicacionactual" placeholder="Ubicación Actual" readonly>
 
                             </div>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label for="nuevocosto_repuesto_mradio" class="">Costo Repuesto:</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                <input type="text" class="form-control validarmoney sumarTotalNuevo" required name="nuevocosto_repuesto_mradio" id="nuevocosto_repuesto_mradio" readonly placeholder="0.00">
-
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label for="nuevovalor_mradio" class="">Valor:</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                <input type="text" class="form-control validarmoney" min="0" required placeholder="0.00" name=" nuevovalor_mradio" id="nuevovalor_mradio">
-
-                            </div>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="nuevototal_mradio" class="">Total:</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                <input type="text" class="form-control validarmoney" readonly="" required name="nuevototal_mradio" id="nuevototal_mradio" placeholder="0.00">
-
-                            </div>
-                        </div>
-
-
 
                         <div class="form-group col-md-12">
                             <label for="nuevodescripcion" class="">Descripción:</label>
