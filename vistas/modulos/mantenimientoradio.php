@@ -241,8 +241,11 @@ MODAL AGREGAR
                                 <div class="form-group col-md-4">
                                     <label for=""></label>
                                     <div class="input-group">
-                                        <button class="btn btn-success" type="button" onclick="agregarEquipos();" id="btn-addequipos"><span class="fa fa-plus"> </span> Agregar Repuesto o Mano de Obra</button>
+                                        <button class="btn btn-success" type="button" onclick="add_equipo();"><span class="fa fa-plus"> </span> Agregar Repuesto o Mano de Obra</button>
                                     </div>
+                                </div>
+                                <div class="form-group col-md-12" id="mensajenuevoequipo">
+
                                 </div>
                                 <!-- AGREGAR DETALLE -->
                                 <div id="addDetailEquipo">

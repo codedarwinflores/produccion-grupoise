@@ -1,7 +1,7 @@
 $(document).ready(function () {
   generarCorrelativoRadio();
   cargarDatosRadio(0);
-  agregarEquipos();
+  MostrarEquipos();
 
   $("#tablaradio tbody").on("click", ".campoid", function () {
     $(".agregarbtnmovimiento").removeAttr("disabled");
@@ -25,6 +25,7 @@ $(document).ready(function () {
     cargarDatosRadio(idradio);
     /* buscar ubicacion del radio */
     buscarUbicacionRadio("nuevo", codigo_radio);
+    vaciar_todo_mover();
   });
 
   /* SUMAR TOTAL RADIO  NUEVO*/
@@ -52,72 +53,6 @@ $(document).ready(function () {
 
     $("#editartotal_mradio").val(suma.toFixed(2));
   });
-
-  /*    SACAR EL COSTO DE OBRA 
-  $("#nuevoid_equipo").on("change", function () {
-    let valor = $(this).val();
-
-    $.ajax({
-      url: "./ajax/mantoradio.ajax.php", // Ruta al script PHP que realizará la consulta a MySQL
-      type: "POST",
-      data: { equipos: valor },
-      success: function (response) {
-        if (response.codigo == "REPU") {
-          $("#nuevocosto_repuesto_mradio").val(response.costo_equipo);
-          $("#nuevocosto_obra_mradio").val("0.00");
-        } else {
-          $("#nuevocosto_repuesto_mradio").val("0.00");
-          $("#nuevocosto_obra_mradio").val(response.costo_equipo);
-        }
-
-        let suma = 0;
-
-        $(".sumarTotalNuevo").each(function () {
-          if (!isNaN(this.value) && this.value.length != 0) {
-            suma += parseFloat($(this).val());
-          }
-        });
-
-        $("#nuevototal_mradio").val(suma.toFixed(2));
-      },
-      error: function (xhr, status, error) {
-        console.error(error);
-      },
-    });
-  }); */
-
-  /* SACAR EL COSTO DE OBRA */
-  /*  $("#editarid_equipo").on("change", function () {
-    let valor = $(this).val();
-
-    $.ajax({
-      url: "./ajax/mantoradio.ajax.php", // Ruta al script PHP que realizará la consulta a MySQL
-      type: "POST",
-      data: { equipos: valor },
-      success: function (response) {
-        if (response.codigo == "REPU") {
-          $("#editarcosto_repuesto_mradio").val(response.costo_equipo);
-          $("#editarcosto_obra_mradio").val("0.00");
-        } else {
-          $("#editarcosto_repuesto_mradio").val("0.00");
-          $("#editarcosto_obra_mradio").val(response.costo_equipo);
-        }
-
-        let suma = 0;
-
-        $(".sumarTotalEditar").each(function () {
-          if (!isNaN(this.value) && this.value.length != 0) {
-            suma += parseFloat($(this).val());
-          }
-        });
-
-        $("#editartotal_mradio").val(suma.toFixed(2));
-      },
-      error: function (xhr, status, error) {
-        console.error(error);
-      },
-    });
-  }); */
 
   $("#saveformradio").submit(function (e) {
     e.preventDefault();
@@ -345,8 +280,8 @@ function cargarDatosRadio(idarma) {
   });
 }
 
-/* AGREGAR DATOS AL DETALLE */
-function agregarEquipos() {
+/* MOSTRAR DATOS AL DETALLE */
+function MostrarEquipos() {
   $.ajax({
     url: "./ajax/mantoradio.ajax.php", // Ruta al script PHP que realizará la consulta a MySQL
     type: "POST",
@@ -358,6 +293,57 @@ function agregarEquipos() {
       console.error(error);
     },
   });
+}
+
+/* AGREGAR EQUIPOS DETALLE */
+function add_equipo() {
+  var errores = "";
+  let selectid = $("#nuevoid_equipo").val();
+  if (selectid == "") {
+    errores += "<strong><li>Selecciona un Equipo</li></strong>";
+  }
+
+  if (errores != "") {
+    $("#mensajenuevoequipo").show();
+    mensaje(
+      "#mensajenuevoequipo",
+      "danger",
+      "check",
+      "Campos requeridos",
+      errores
+    );
+
+    /* DESAPARECER DIV */
+    ocultarMensaje("#mensajenuevoequipo");
+
+    errores = "";
+    return;
+  } else {
+    $.ajax({
+      url: "./ajax/mantoradio.ajax.php", // Ruta al script PHP que realizará la consulta a MySQL
+      type: "POST",
+      dataType: "json",
+      data: { action: "add", idequipo: selectid },
+      success: function (response) {
+        if (response.estado == "add") {
+          MostrarEquipos();
+          $("#mensajenuevoequipo").show();
+          mensaje(
+            "#mensajenuevoequipo",
+            "success",
+            "check",
+            "Bien Hecho",
+            "Datos agregados correctamente"
+          );
+
+          $("#nuevoid_equipo").val("").trigger("change");
+
+          /* DESAPARECER DIV */
+          ocultarMensaje("#mensajenuevoequipo");
+        }
+      },
+    });
+  }
 }
 
 function limpiarRadio() {
@@ -504,5 +490,232 @@ function sumar_restar(signo, id) {
   }
 
   document.getElementById("cantidad_" + id).value = asign;
-  /*   modificar_producto_cart(id); */
+  modificar_equipo_detalle(id);
 }
+
+$(document).on("change", ".operar_detalle", function () {
+  var id = $(this).data("id");
+  modificar_equipo_detalle(id);
+});
+
+/* ELIMINAR EQUIPO SESIÓN */
+
+function eliminar_equipo_session(id) {
+  swal({
+    title: "¿Está seguro de quitar el registro?",
+    text: "¡Si no lo está puede cancelar la accíón!",
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    cancelButtonText: "Cancelar",
+    confirmButtonText: "Si, borrar!",
+  }).then(function (result) {
+    if (result.value) {
+      $.ajax({
+        type: "POST",
+        data: {
+          action: "eliminar",
+          idequipo: id,
+        },
+        url: "./ajax/mantoradio.ajax.php",
+        beforeSend: function (objeto) {
+          $("#mensajenuevoequipo").show();
+          mensaje(
+            "#mensajenuevoequipo",
+            "warning",
+            "check",
+            "¡Espere!",
+            "Procesando..."
+          );
+        },
+        success: function (datos) {
+          $("#mensajenuevoequipo").show();
+          if (datos == "vacio") {
+            mensaje(
+              "#mensajenuevoequipo",
+              "success",
+              "check",
+              "Vacío",
+              "Detalle Vacío"
+            );
+            MostrarEquipos();
+          } else {
+            mensaje(
+              "#mensajenuevoequipo",
+              "danger",
+              "check",
+              "Bien Hecho",
+              "Equipo eliminado correctamente"
+            );
+            MostrarEquipos();
+          }
+          /* DESAPARECER DIV */
+          ocultarMensaje("#mensajenuevoequipo");
+        },
+      });
+    } else {
+      return false;
+    }
+  });
+}
+
+function vaciar_equipos() {
+  var to = $("#recorrer_t").val();
+  if (to > 0) {
+    $("#mensajenuevoequipo").show();
+    swal({
+      title: "¿Está seguro de vaciar el detalle de equipos agregados?",
+      text: "¡Si no lo está puede cancelar la accíón!",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Si, borrar!",
+    }).then(function (result) {
+      if (result.value) {
+        $.ajax({
+          type: "POST",
+          data: {
+            action: "vaciar",
+          },
+          url: "./ajax/mantoradio.ajax.php",
+          beforeSend: function (objeto) {
+            mensaje(
+              "#mensajenuevoequipo",
+              "warning",
+              "check",
+              "¡Espere!",
+              "Procesando..."
+            );
+          },
+          success: function (datos) {
+            mensaje(
+              "#mensajenuevoequipo",
+              "success",
+              "check",
+              "Vacío",
+              "Detalle Equipos Vacío"
+            );
+            MostrarEquipos();
+
+            /* DESAPARECER DIV */
+            ocultarMensaje("#mensajenuevoequipo");
+          },
+        });
+      } else {
+        return false;
+      }
+    });
+  } else {
+    mensaje(
+      "#mensajenuevoequipo",
+      "info",
+      "check",
+      "Importante",
+      "No hay equipos agregados..."
+    );
+    /* DESAPARECER DIV */
+    ocultarMensaje("#mensajenuevoequipo");
+    return false;
+  }
+}
+
+function vaciar_todo_mover() {
+  $.ajax({
+    type: "POST",
+    data: {
+      action: "vaciar",
+    },
+    url: "./ajax/mantoradio.ajax.php",
+    success: function (datos) {
+      MostrarEquipos();
+    },
+  });
+}
+
+function modificar_equipo_detalle(id) {
+  var idequipo = $("#id_equipo_" + id).val();
+  var descripcion = $("#descripcion_" + id).val();
+  var costo_equipo = $("#costo_equipo_" + id).val();
+  var cantidad = $("#cantidad_" + id).val();
+
+  if (cantidad < 1 || cantidad == null) {
+    cantidad = 1;
+  }
+
+  $.ajax({
+    type: "POST",
+    data: {
+      action: "modif",
+      idequipo: idequipo,
+      descripcion: descripcion,
+      cantidad: cantidad,
+      costo_equipo: costo_equipo,
+    },
+    url: "./ajax/mantoradio.ajax.php",
+
+    success: function (data) {
+      document.getElementById("valor_" + id).innerHTML = parseFloat(
+        cantidad * costo_equipo
+      ).toFixed(2);
+      var elemento = document.getElementById("valor_REPU" + id);
+      var elemento2 = document.getElementById("valor_SERV" + id);
+
+      if (elemento !== null) {
+        elemento.value = parseFloat(cantidad * costo_equipo).toFixed(2);
+      }
+
+      if (elemento2 !== null) {
+        elemento2.value = parseFloat(cantidad * costo_equipo).toFixed(2);
+      }
+
+      var total = parseInt(document.getElementById("recorrer_t").value);
+
+      var suma_repuestos = 0.0;
+      var suma_manoobra = 0.0;
+      var repu;
+      var mano_obra;
+      for (var i = 0; i < total; i++) {
+        repu = document.getElementById("valor_REPU" + i);
+        mano_obra = document.getElementById("valor_SERV" + i);
+        if (repu !== null) {
+          suma_repuestos += parseFloat(repu.value);
+        }
+
+        if (mano_obra !== null) {
+          suma_manoobra += parseFloat(mano_obra.value);
+        }
+      }
+
+      document.getElementById("total_repuesto").innerHTML =
+        parseFloat(suma_repuestos).toFixed(2);
+      document.getElementById("total_mano_obra").innerHTML =
+        parseFloat(suma_manoobra).toFixed(2);
+      document.getElementById("total_pagar_todo").innerHTML = parseFloat(
+        parseFloat(suma_repuestos) + parseFloat(suma_manoobra)
+      ).toFixed(2);
+    },
+  });
+}
+
+$(document).on("keyup", ".operar_detalle", function () {
+  var id = $(this).data("id");
+  modificar_equipo_detalle(id);
+});
+
+$(document).on("blur", ".operar_detalle", function () {
+  var id = $(this).data("id");
+  modificar_equipo_detalle(id);
+});
+
+$(document).on("change", ".operar_detalle", function () {
+  var id = $(this).data("id");
+  modificar_equipo_detalle(id);
+});
+
+$(document).on("keydown", ".operar_detalle", function () {
+  var id = $(this).data("id");
+  modificar_equipo_detalle(id);
+});
