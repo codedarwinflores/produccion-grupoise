@@ -58,105 +58,80 @@ $(document).ready(function () {
     e.preventDefault();
     $("#mensajenuevo").show();
     var errores = "";
-    if ($("#nuevoidradio_mante").val() == "") {
-      errores += "<strong><li>Selecciona un Radio</li></strong>";
-      $("#nuevoidradio_mante").focus();
-    }
+    var to = $("#recorrer_t").val();
+    if (to > 0) {
+      if ($("#nuevoidradio_mante").val() == "") {
+        errores += "<strong><li>Selecciona un Radio</li></strong>";
+        $("#nuevoidradio_mante").focus();
+      }
 
-    if ($("#nuevoid_equipo").val() == "") {
-      errores +=
-        "<strong><li>Selecciona un Equipo / Mano de Obra</li></strong>";
-      $("#nuevoid_equipo").focus();
-    }
-    if ($("#nuevofecha_mradio").val() == "") {
-      errores += "<strong><li>Fecha</li></strong>";
-      $("#nuevofecha_mradio").focus();
-    }
+      if ($("#nuevofecha_mradio").val() == "") {
+        errores += "<strong><li>Fecha</li></strong>";
+        $("#nuevofecha_mradio").focus();
+      }
 
-    if ($("#nuevocorrelativo_mradio").val() == "") {
-      errores += "<strong><li>Número Correlativo</li></strong>";
-      $("#nuevocorrelativo_mradio").focus();
-    }
+      if ($("#nuevocorrelativo_mradio").val() == "") {
+        errores += "<strong><li>Número Correlativo</li></strong>";
+        $("#nuevocorrelativo_mradio").focus();
+      }
 
-    if ($("#nuevodiagnostico_mradio").val() == "") {
-      errores += "<strong><li>Diagnóstico</li></strong>";
-      $("#nuevodiagnostico_mradio").focus();
-    }
-    if ($("#nuevocosto_obra_mradio").val() == "") {
-      errores += "<strong><li>Costo Obra</li></strong>";
-      $("#nuevocosto_obra_mradio").focus();
-    }
+      if ($("#nuevodiagnostico_mradio").val() == "") {
+        errores += "<strong><li>Diagnóstico</li></strong>";
+        $("#nuevodiagnostico_mradio").focus();
+      }
 
-    if ($("#nuevocosto_repuesto_mradio").val() == "") {
-      errores += "<strong><li>Costo Repuesto</li></strong>";
-      $("#nuevocosto_repuesto_mradio").focus();
-    }
+      if (errores != "") {
+        mensajeAlert("Información importante", errores, "error");
 
-    if ($("#nuevovalor_mradio").val() == "") {
-      errores += "<strong><li>Valor</li></strong>";
-      $("#nuevovalor_mradio").focus();
-    }
+        errores = "";
+        return;
+      } else {
+        var parametros = new FormData(this);
 
-    if ($("#nuevototal_mradio").val() == "") {
-      errores += "<strong><li>Total</li></strong>";
-      $("#nuevototal_mradio").focus();
-    }
+        $(":submit").attr("disabled", true);
+        $.ajax({
+          type: "POST",
+          url: "./controladores/mante_radio.controlador.php?action=save",
+          data: parametros,
+          cache: false,
+          contentType: false,
+          processData: false,
+          beforeSend: function (objeto) {
+            mensajeAlert("Espere...", "Procesando su petición.", "warning");
+          },
+          success: function (datos) {
+            if (datos.trim() == "ok") {
+              mensajeAlert(
+                "Información importante",
+                "Datos almacenados correctamente.",
+                "success"
+              );
 
-    if (errores != "") {
-      mensaje("#mensajenuevo", "danger", "check", "Campos requeridos", errores);
+              vaciar_todo_mover();
+              cargarDatosRadio($("#nuevoidradio_mante").val());
+              limpiarRadio();
+              generarCorrelativoRadio();
 
-      errores = "";
-      return;
+              /*   document.getElementById("saveform").reset(); */
+            } else {
+              mensajeAlert(
+                "Información importante",
+                "Error al almacenar los datos.",
+                "error"
+              );
+            }
+            /* DESAPARECER DIV */
+
+            $(":submit").attr("disabled", false);
+          },
+        });
+      }
     } else {
-      var parametros = new FormData(this);
-
-      $(":submit").attr("disabled", true);
-      $.ajax({
-        type: "POST",
-        url: "./controladores/mante_radio.controlador.php?action=save",
-        data: parametros,
-        cache: false,
-        contentType: false,
-        processData: false,
-        beforeSend: function (objeto) {
-          mensaje(
-            "#mensajenuevo",
-            "warning",
-            "warning",
-            "Espere",
-            "Procesando su petición..."
-          );
-        },
-        success: function (datos) {
-          if (datos.trim() == "ok") {
-            mensaje(
-              "#mensajenuevo",
-              "success",
-              "check",
-              "Bien Hecho",
-              "Datos almacenados correctamente"
-            );
-
-            cargarDatosRadio($("#nuevoidradio_mante").val());
-            limpiarRadio();
-            generarCorrelativoRadio();
-
-            /*   document.getElementById("saveform").reset(); */
-          } else {
-            mensaje(
-              "#mensajenuevo",
-              "danger",
-              "check",
-              "Error",
-              "Problema al almacenar los datos" + datos
-            );
-          }
-          /* DESAPARECER DIV */
-          ocultarMensaje("#mensajenuevo");
-
-          $(":submit").attr("disabled", false);
-        },
-      });
+      mensajeAlert(
+        "Información importante",
+        "No ha agregado repuestos / mano obra.",
+        "info"
+      );
     }
   });
 
@@ -304,18 +279,7 @@ function add_equipo() {
   }
 
   if (errores != "") {
-    $("#mensajenuevoequipo").show();
-    mensaje(
-      "#mensajenuevoequipo",
-      "danger",
-      "check",
-      "Campos requeridos",
-      errores
-    );
-
-    /* DESAPARECER DIV */
-    ocultarMensaje("#mensajenuevoequipo");
-
+    mensajeAlert("Información importante", errores, "error");
     errores = "";
     return;
   } else {
@@ -327,19 +291,13 @@ function add_equipo() {
       success: function (response) {
         if (response.estado == "add") {
           MostrarEquipos();
-          $("#mensajenuevoequipo").show();
-          mensaje(
-            "#mensajenuevoequipo",
-            "success",
-            "check",
-            "Bien Hecho",
-            "Datos agregados correctamente"
+          mensajeAlert(
+            "Información importante",
+            "Equipo agregado correctamente.",
+            "success"
           );
 
           $("#nuevoid_equipo").val("").trigger("change");
-
-          /* DESAPARECER DIV */
-          ocultarMensaje("#mensajenuevoequipo");
         }
       },
     });
@@ -356,6 +314,15 @@ function limpiarRadio() {
   $("#nuevodescripcion").val("");
 }
 
+/* MENSAJE ALERT */
+function mensajeAlert(title, mensaje, icono) {
+  swal({
+    title: "¡" + title + "!",
+    html: mensaje,
+    type: icono,
+    timer: 2000,
+  });
+}
 function mensaje(id, tipoalert, icono, titulo, mensaje) {
   $(id)
     .html(`<div class="alert alert-${tipoalert} alert-dismissible" role="alert">
@@ -609,15 +576,7 @@ function vaciar_equipos() {
       }
     });
   } else {
-    mensaje(
-      "#mensajenuevoequipo",
-      "info",
-      "check",
-      "Importante",
-      "No hay equipos agregados..."
-    );
-    /* DESAPARECER DIV */
-    ocultarMensaje("#mensajenuevoequipo");
+    mensajeAlert("Información importante", "No hay equipos agregados.", "info");
     return false;
   }
 }

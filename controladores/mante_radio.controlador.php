@@ -32,8 +32,7 @@ if (isset($_GET["action"])) {
 
 
     if (isset($_POST["nuevoidradio_mante"])) {
-
-
+        session_start();
 
         global $tabla_mante_radio;
         global $namecolumnas__mante_radio;
@@ -43,17 +42,60 @@ if (isset($_GET["action"])) {
 
         $data = getContent();
         $datos = "";
-        $array = [];
-        foreach ($data as $row) {
-            $datos0 = array("" . $row['Field'] . "" => $_POST["nuevo" . $row['Field'] . ""],);
-            /* $namecolumnas__mante_radio .= "".$row['Field'].""." =>". $_POST["nuevo".$row['Field'].""].","; */
-            $array += ["" . $row['Field'] . "" => $_POST["nuevo" . $row['Field'] . ""],];
-        }
+        $array = [
+            "idradio_mante" => $_POST["nuevoidradio_mante"],
+            "correlativo_mradio" => $_POST["nuevocorrelativo_mradio"],
+            "fecha_mradio" => $_POST["nuevofecha_mradio"],
+            "diagnostico_mradio" => $_POST["nuevodiagnostico_mradio"],
+            "descripcion" => $_POST["nuevodescripcion"],
+            "id_movimiento_his" => $_POST["idmovimientoequipo"],
+        ];
 
         $datos = $array;
         $respuesta = ModeloManteRadio::mdlIngresar($tabla_mante_radio, $datos);
 
         if ($respuesta == "ok") {
+
+
+            // Obtener el último valor generado
+            $stmt = Conexion::conectar()->prepare("SELECT MAX(id) as maximo FROM `mante_radio`");
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($row) {
+                $lastValue = $row['maximo'];
+
+                if (!empty($_SESSION['detalle_equipo'])) {
+                    $count_equipo = count($_SESSION['detalle_equipo']);
+                    for ($i = 0; $i < $count_equipo; $i++) {
+
+                        // Prepare the SQL statement
+                        $sql = "INSERT INTO mante_radio_detalle_equipo (	id_manto, id_equipo, descripcion,cantidad,costo_equipo,valor,tipo_equipo) VALUES (:value1, :value2, :value3, :value4, :value5, :value6, :value7)";
+                        $stmt = Conexion::conectar()->prepare($sql);
+
+                        // Bind parameters
+                        $value1 = $lastValue;
+                        $value2 = $_SESSION['detalle_equipo'][$i]['idequipo'];
+                        $value3 = $_SESSION['detalle_equipo'][$i]['equipo_descripcion_unica'];
+                        $value4 = $_SESSION['detalle_equipo'][$i]['equipo_cantidad'];
+                        $value5 = $_SESSION['detalle_equipo'][$i]['equipo_costo_equipo'];
+                        $value6 = $_SESSION['detalle_equipo'][$i]['equipo_valor'];
+                        $value7 = $_SESSION['detalle_equipo'][$i]['equipo_codigo_tipo'];
+
+                        $stmt->bindParam(':value1', $value1);
+                        $stmt->bindParam(':value2', $value2);
+                        $stmt->bindParam(':value3', $value3);
+                        $stmt->bindParam(':value4', $value4);
+                        $stmt->bindParam(':value5', $value5);
+                        $stmt->bindParam(':value6', $value6);
+                        $stmt->bindParam(':value7', $value7);
+
+                        // Execute the prepared statement
+                        $stmt->execute();
+                    }
+                }
+            }
+
 
             echo 'ok';
         } else {

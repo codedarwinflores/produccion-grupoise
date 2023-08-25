@@ -105,6 +105,61 @@ function removetoequipo_delete()
     return true;
 }
 
+function buscarInfoUbicacion($code, $consult)
+{
+    if ($consult == "id") {
+        $stmt = Conexion::conectar()->prepare("SELECT
+    moveq.*,
+    clientubi.codigo_ubicacion,
+    clientubi.nombre_ubicacion
+FROM
+    `historialmovimientosequipos` moveq
+INNER JOIN tbl_clientes_ubicaciones clientubi ON
+    moveq.id_ubicacion_movimiento_his = clientubi.id
+WHERE
+    moveq.id = " . $code);
+    } else {
+        $stmt = Conexion::conectar()->prepare("SELECT
+    moveq.*,
+    clientubi.codigo_ubicacion,
+    clientubi.nombre_ubicacion
+FROM
+    `historialmovimientosequipos` moveq
+INNER JOIN tbl_clientes_ubicaciones clientubi ON
+    moveq.id_ubicacion_movimiento_his = clientubi.id
+WHERE
+    moveq.codigo_equipo_his = '" . $code . "'
+AND moveq.id = (
+    SELECT
+        MAX(id)
+    FROM
+        `historialmovimientosequipos`
+    WHERE
+        codigo_equipo_his = '" . $code . "'
+);");
+    }
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $row;
+}
+
+
+function buscarSubtotal($id, $tipo, $sms)
+{
+    if ($sms === "subtotal") {
+        $sql = "SELECT SUM(valor) as subtotal FROM `mante_radio_detalle_equipo` WHERE id_manto = $id and tipo_equipo ='" . $tipo . "'";
+    } else {
+        $sql = "SELECT SUM(valor) as total FROM `mante_radio_detalle_equipo` WHERE id_manto = $id";
+    }
+
+    $stmt = Conexion::conectar()->prepare($sql);
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $row;
+}
+
 if (isset($_POST['action']) && $_POST['action'] == "add") {
     if (is_numeric($_POST["idequipo"])) {
         $idequipo = $_POST['idequipo'];
@@ -273,7 +328,7 @@ if (isset($_POST["addDetail"])) {
                 }
             } else {
                 echo '<tr><td colspan="6">
-                <div class="alert alert-warning alert-dismissible" role="alert">
+                <div class="alert bg-warning alert-dismissible" role="alert">
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 					<i class="fa fa-warning"></i>
 					<strong>¡Datos Vacíos!</strong> No se encontraron registros...
@@ -380,7 +435,7 @@ if (isset($_POST["addDetail"])) {
                 }
             } else {
                 echo '<tr><td colspan="6">
-                <div class="alert alert-warning alert-dismissible" role="alert">
+                <div class="alert bg-warning alert-dismissible" role="alert">
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 					<i class="fa fa-warning"></i>
 					<strong>¡Datos Vacíos!</strong> No se encontraron registros...
@@ -422,13 +477,14 @@ if (isset($_POST["addDetail"])) {
 <?php
 }
 
+
+
+
 /* BUSCRA UBICACIÓN RADIO */
 if (isset($_POST["radiosearch"])) {
     if ($_POST["radiosearch"] === "nuevo") {
         if (isset($_POST["codRadio"])) {
-            $stmt = Conexion::conectar()->prepare("SELECT moveq.*, clientubi.codigo_ubicacion, clientubi.nombre_ubicacion FROM `movimientosequipos` moveq INNER JOIN tbl_clientes_ubicaciones clientubi on moveq.id_ubicacion_movimiento = clientubi.id where moveq.codigo_equipo ='" . $_POST["codRadio"] . "'");
-            $stmt->execute();
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $row = buscarInfoUbicacion($_POST["codRadio"], "");
 
             if ($row) {
                 $id = $row["id"];
@@ -513,7 +569,7 @@ if (isset($_POST["valor"])) {
     $valor = $_POST["valor"];
 
 
-    function tblarmas($valor1)
+    function tbl_mante_radio($valor1)
     {
         $query01 = "SELECT mante_r.*  FROM `mante_radio` mante_r WHERE mante_r.idradio_mante='$valor1' ORDER BY mante_r.fecha_mradio DESC";
         $sql = Conexion::conectar()->prepare($query01);
@@ -540,34 +596,69 @@ if (isset($_POST["valor"])) {
             <tr>
                 <th>N° Correlativo</th>
                 <th>Fecha</th>
+                <th>Ubicación Radio</th>
                 <th>Diagnóstico</th>
                 <th>Descripción</th>
-                <th>Acciones</th>
+                <th>Total en Repuestos</th>
+                <th>Total en Mano Obra</th>
+                <th>Total Pago</th>
+                <th width="12%">Acciones</th>
             </tr>
 
         </thead>
         <tbody>
             <?php
 
-            $data01 = tblarmas($valor);
+            $data01 = tbl_mante_radio($valor);
 
             $acumTotal = 0;
             $acumValor = 0;
 
             $acumCostoObra = 0;
             $acumCostoRepuesto = 0;
+            $row;
             foreach ($data01 as $value) {
+                $row = buscarInfoUbicacion($value["id_movimiento_his"], "id");
+                $ubicacion = "No Ubicación";
+                if ($row) {
+                    $ubicacion = $row['codigo_ubicacion'] . " - " . $row['nombre_ubicacion'];
+                }
 
+                /* REPUESTO */
+                $totalRepuesto = 0.0;
+                $Repuesto = buscarSubtotal($value['id'], "REPU", "subtotal");
+                if ($Repuesto) {
+                    $totalRepuesto = $Repuesto['subtotal'];
+                }
+
+
+                /* MANO DE OBRA */
+                $totalManoObra = 0.0;
+                $ManoObra = buscarSubtotal($value['id'], "SERV", "subtotal");
+                if ($ManoObra) {
+                    $totalManoObra = $ManoObra['subtotal'];
+                }
+
+                /* TOTAL A PAGAR */
+                $totalPagar = 0;
+                $TotalPagarMantto = buscarSubtotal($value['id'], "", "");
+                if ($TotalPagarMantto) {
+                    $totalPagar = $TotalPagarMantto['total'];
+                }
                 echo ' <tr>
 
 			<td>' . $value["correlativo_mradio"] . '</td>
 			<td>' . date_format(date_create($value["fecha_mradio"]), "d-m-Y")  . '</td>
+			<td>' . $ubicacion . '</td>
 			<td>' . $value["diagnostico_mradio"] . '</td>
-			<td>' . $value["descripcion"] . '</td>';
+			<td>' . $value["descripcion"] . '</td>
+			<th>$ ' . ($totalRepuesto != "" ? $totalRepuesto : "0.00") . '</th>
+			<th>$ ' . ($totalManoObra != "" ? $totalManoObra : "0.00") . '</th>
+            <th>$ ' . ($totalPagar != "" ? $totalPagar : "0.00")  . '</th>';
                 echo '<td>
 
 			  <div class="btn-group">
-				  
+				  <button type="button" class="btn btn-info"><i class="fa fa-eye"></i></button>
 				<button class="btn btn-warning btnEditarMantenimiento" onclick="editarMantenimientoRadio(' . $value["id"] . ')" data-toggle="modal" data-target="#modalEditarMantenimiento"><i class="fa fa-pencil"></i></button>
 
 				<button class="btn btn-danger" onclick="eliminarMantenimientoRadio(' . $value["id"] . ',' . $value["idradio_mante"] . ')"><i class="fa fa-times"></i></button>

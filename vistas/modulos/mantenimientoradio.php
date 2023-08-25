@@ -219,7 +219,7 @@ MODAL AGREGAR
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
 
-                                        <select class="form-control mi-selector" name="nuevoid_equipo" id="nuevoid_equipo" required>
+                                        <select class="form-control mi-selector" name="nuevoid_equipo" id="nuevoid_equipo">
 
                                             <option value="">Seleccione...</option>
                                             <?php
