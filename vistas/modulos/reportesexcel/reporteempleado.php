@@ -51,17 +51,17 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
             $estado_emp = "tbemp.estado IN (2)";
             $estado_ingresos = "Ingresos";
             if (!empty($fechadesde) && !empty($fechahasta)) {
-                $fechasFiltrar = " and tbemp.fecha_contratacion" . $fechasFiltrar;
+                $fechasFiltrar = " and STR_TO_DATE(tbemp.fecha_contratacion, '%Y-%m-%d')" . $fechasFiltrar;
             }
         } else if ($_GET['tipoagente'] == 3) {
             $estado_emp = "tbemp.estado IN (3)";
             $estado_ingresos = "Egresos";
             if (!empty($fechadesde) && !empty($fechahasta)) {
-                $fechasFiltrar = " and ret.fecha_retiro" . $fechasFiltrar;
+                $fechasFiltrar = " and STR_TO_DATE(ret.fecha_retiro, '%Y-%m-%d')" . $fechasFiltrar;
             }
         } else {
             if (!empty($fechadesde) && !empty($fechahasta)) {
-                $fechasFiltrar = " and tbemp.fecha_contratacion" . $fechasFiltrar . "or ret.fecha_retiro" . $fechasFiltrar;
+                $fechasFiltrar = " and STR_TO_DATE(tbemp.fecha_contratacion, '%Y-%m-%d')" . $fechasFiltrar . "or STR_TO_DATE(ret.fecha_retiro, '%Y-%m-%d')" . $fechasFiltrar;
             }
             $estado_emp = "tbemp.estado IN (2,3)";
             $estado_ingresos = "Ingresos/Egresos";
@@ -88,7 +88,7 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
 
         if (!empty($codigo)) {
 
-            $query = "SELECT tbemp.primer_nombre, tbemp.codigo_empleado, tbemp.primer_apellido, transacc.idagente_transacciones_agente, transacc.fecha_transacciones_agente, transacc.nueva_ubicacion_transacciones_agente FROM `tbl_empleados` tbemp INNER JOIN `transacciones_agente` transacc ON tbemp.codigo_empleado = transacc.idagente_transacciones_agente WHERE tbemp.codigo_empleado = " . $codigo . " and transacc.fecha_transacciones_agente = ( SELECT MAX(fecha_transacciones_agente) FROM transacciones_agente WHERE idagente_transacciones_agente = tbemp.codigo_empleado );";
+            $query = "SELECT tbemp.primer_nombre,tbemp.codigo_empleado,tbemp.primer_apellido,transacc.idagente_transacciones_agente,transacc.fecha_transacciones_agente,transacc.nueva_ubicacion_transacciones_agente FROM `tbl_empleados` tbemp INNER JOIN `transacciones_agente` transacc ON tbemp.codigo_empleado=transacc.idagente_transacciones_agente WHERE tbemp.codigo_empleado=" . $codigo . " and transacc.fecha_transacciones_agente=( SELECT MAX(fecha_transacciones_agente) FROM transacciones_agente WHERE idagente_transacciones_agente=tbemp.codigo_empleado );";
             $sql = Conexion::conectar()->prepare($query);
             $sql->execute();
             $data = $sql->fetch(PDO::FETCH_ASSOC);
@@ -117,7 +117,7 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
             /* SELECT tbl_clientes_ubicaciones.id AS idubicacionc, `id_cliente`, `codigo_cliente`, clientes.id AS idcliente, clientes.nombre AS nombrecliente, bono_unidad, codigo_ubicacion, estado_cliente_ubicacion FROM `tbl_clientes_ubicaciones`, clientes WHERE clientes.id = tbl_clientes_ubicaciones.id_cliente and codigo_ubicacion='A0002003' */
 
 
-            $query = "SELECT tbl_clientes_ubicaciones.id AS idubicacionc, `id_cliente`, `codigo_cliente`, clientes.id AS idcliente, clientes.nombre AS nombrecliente, bono_unidad, codigo_ubicacion, estado_cliente_ubicacion FROM `tbl_clientes_ubicaciones`, clientes WHERE clientes.id = tbl_clientes_ubicaciones.id_cliente and codigo_ubicacion='" . $codigo_u . "'";
+            $query = "SELECT tbl_clientes_ubicaciones.id AS idubicacionc,`id_cliente`,`codigo_cliente`,clientes.id AS idcliente,clientes.nombre AS nombrecliente,bono_unidad,codigo_ubicacion,estado_cliente_ubicacion FROM `tbl_clientes_ubicaciones`, clientes WHERE clientes.id=tbl_clientes_ubicaciones.id_cliente and codigo_ubicacion='" . $codigo_u . "'";
             $sql = Conexion::conectar()->prepare($query);
             $sql->execute();
             $data = $sql->fetch(PDO::FETCH_ASSOC);
@@ -144,7 +144,7 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
             $unidescuento = $sql->fetch(PDO::FETCH_ASSOC);
 
             /* UNIFORME REGALO */
-            $queryy = "SELECT COUNT(idempleado) as cant_empleado FROM `regalo` WHERE idempleado =" . $idEmpleado;
+            $queryy = "SELECT COUNT(idempleado) as cant_empleado FROM `regalo` WHERE idempleado=" . $idEmpleado;
             $sqll = Conexion::conectar()->prepare($queryy);
             $sqll->execute();
             $uniregalo = $sqll->fetch(PDO::FETCH_ASSOC);
@@ -168,7 +168,7 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
 
         if (!empty($idEmpleado) && $idEmpleado != null) {
 
-            $query = "SELECT * FROM `tbl_empleados_devengos_descuentos` WHERE id_empleado = " . $idEmpleado . " and tipodescuento=2;";
+            $query = "SELECT * FROM `tbl_empleados_devengos_descuentos` WHERE id_empleado=" . $idEmpleado . " and tipodescuento=2;";
             $sql = Conexion::conectar()->prepare($query);
             $sql->execute();
             $datos = $sql->fetch(PDO::FETCH_ASSOC);
@@ -218,7 +218,7 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
     function departamentos($depa1, $depa2)
     {
         if (is_numeric($depa1) && $depa2 == "uno") {
-            $stm = "SELECT tblemp.primer_nombre, d_emp.codigo,d_emp.nombre FROM tbl_empleados tblemp LEFT JOIN departamentos_empresa d_emp ON tblemp.id_departamento_empresa = d_emp.id WHERE tblemp.id = " . $depa1;
+            $stm = "SELECT tblemp.primer_nombre,d_emp.codigo,d_emp.nombre FROM tbl_empleados tblemp LEFT JOIN departamentos_empresa d_emp ON tblemp.id_departamento_empresa=d_emp.id WHERE tblemp.id=" . $depa1;
         } else if (is_numeric($depa1) && is_numeric($depa2)) {
             $stm = "SELECT * FROM `departamentos_empresa` where id between " . $depa1 . " and " . $depa2;
         } else {
@@ -235,8 +235,6 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
             return $sqlquery->fetchAll();
         }
     }
-
-
 
     /* FiN FUNCIONES */
     /* __________________________________________________________________________ */
@@ -462,12 +460,12 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
         //set font style and background color
         $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':Y' . $filaHeadeTable . '')->applyFromArray($tableHead);
 
-        $campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa,ret.fecha_retiro, ret.motivo_inactivo,ret.observaciones_retiro";
+        $campos = "tbemp.*,cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank,d_emp.id as d_empid,d_emp.nombre as nombre_empresa,ret.fecha_retiro,ret.motivo_inactivo,ret.observaciones_retiro";
 
 
-        $tabla = " `tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco = bank.id LEFT JOIN retiro ret ON tbemp.id = ret.idempleado_retiro";
+        $tabla = "`tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa=d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo=cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco=bank.id LEFT JOIN retiro ret ON tbemp.id=ret.idempleado_retiro";
 
-        $condicion = " tbemp.id=" . $_GET['empleados'] . " order by primer_nombre asc, primer_apellido asc";
+        $condicion = "tbemp.id=" . $_GET['empleados'] . " order by primer_nombre asc, primer_apellido asc";
         $array = [];
 
 
@@ -642,12 +640,12 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
             //set font style and background color
             $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':Y' . $filaHeadeTable . '')->applyFromArray($tableHead);
 
-            $campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo,ret.observaciones_retiro";
+            $campos = "tbemp.*,cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank,bank.nombre as nombre_bank,d_emp.id as d_empid,d_emp.nombre as nombre_empresa,ret.fecha_retiro,ret.motivo_inactivo,ret.observaciones_retiro";
 
 
-            $tabla = " `tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco = bank.id LEFT JOIN retiro ret ON tbemp.id = ret.idempleado_retiro";
+            $tabla = "`tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa=d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo=cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco=bank.id LEFT JOIN retiro ret ON tbemp.id=ret.idempleado_retiro";
 
-            $condicion = " tbemp.id_departamento_empresa=" . $depa['id'] . " and " . $estado_emp . "and " . $repotePnc . $fechasFiltrar . " order by primer_nombre asc, primer_apellido asc";
+            $condicion = "tbemp.id_departamento_empresa=" . $depa['id'] . " and " . $estado_emp . "and " . $repotePnc . $fechasFiltrar . " order by primer_nombre asc, primer_apellido asc";
             $array = [];
 
 
@@ -820,11 +818,11 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
                 $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':Y' . $filaHeadeTable . '')->applyFromArray($tableHead);
 
                 /* CONSULTA */
-                $campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo,ret.observaciones_retiro ";
+                $campos = "tbemp.*,cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank,bank.nombre as nombre_bank,d_emp.id as d_empid,d_emp.nombre as nombre_empresa,ret.fecha_retiro,ret.motivo_inactivo,ret.observaciones_retiro";
 
-                $tabla = " `tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco = bank.id LEFT JOIN retiro ret ON tbemp.id = ret.idempleado_retiro";
+                $tabla = "`tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo=cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco=bank.id LEFT JOIN retiro ret ON tbemp.id=ret.idempleado_retiro";
 
-                $condicion = " tbemp.id_departamento_empresa=" . $depa['id'] . " and " . $estado_emp . "and " . $repotePnc . $fechasFiltrar . " order by primer_nombre asc, primer_apellido asc";
+                $condicion = "tbemp.id_departamento_empresa=" . $depa['id'] . " and " . $estado_emp . "and " . $repotePnc . $fechasFiltrar . " order by primer_nombre asc, primer_apellido asc";
                 $array = [];
 
 
@@ -1001,10 +999,10 @@ if (isset($_GET["typeReport"])  &&  !empty($_GET["typeReport"])) {
                 $spreadsheet->getActiveSheet()->getStyle('A' . $filaHeadeTable . ':Y' . $filaHeadeTable . '')->applyFromArray($tableHead);
 
 
-                $campos = "tbemp.*, cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo,ret.observaciones_retiro";
+                $campos = "tbemp.*,cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank,bank.nombre as nombre_bank,d_emp.id as d_empid,d_emp.nombre as nombre_empresa,ret.fecha_retiro,ret.motivo_inactivo,ret.observaciones_retiro";
 
-                $tabla = " `tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa = d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco = bank.id LEFT JOIN retiro ret ON tbemp.id = ret.idempleado_retiro";
-                $condicion = " tbemp.id_departamento_empresa=" . $depa['id'] . " and " . $estado_emp . "and " . $repotePnc . $fechasFiltrar . " order by primer_nombre asc, primer_apellido asc";
+                $tabla = "`tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa=d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo=cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco=bank.id LEFT JOIN retiro ret ON tbemp.id=ret.idempleado_retiro";
+                $condicion = "tbemp.id_departamento_empresa=" . $depa['id'] . " and " . $estado_emp . "and " . $repotePnc . $fechasFiltrar . " order by primer_nombre asc, primer_apellido asc";
                 $array = [];
 
 
