@@ -429,6 +429,21 @@ function editarMantenimientoRadio(id) {
   });
 }
 
+function viewMantenimientoRadio(id) {
+  $.ajax({
+    url: "./ajax/mantoradio.ajax.php",
+    method: "POST",
+    data: {
+      action: "viewmantenimiento",
+      id: id,
+    },
+    success: function (respuesta) {
+      $("#viewname_radio").html($("#nombre_radio_mostrar").html());
+      $("#viewMantenimiento").html(respuesta).fadeIn("slow");
+    },
+  });
+}
+
 function generarCorrelativoRadio() {
   var dataString = "generar=correlativo";
   $.ajax({

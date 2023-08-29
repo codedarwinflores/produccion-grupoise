@@ -339,7 +339,7 @@ MODAL EDITAR
                         <!-- ENTRADA PARA CAMPOS  -->
                         <!-- ENTRADA PARA CAMPOS  -->
 
-                        <h4 class="text-primary"><strong>Radio: <span id="editarname_radio"></span></strong></h4>
+                        <h4 class="text-primary"><strong><span id="editarname_radio"></span></strong></h4>
                         <input type="hidden" name="editarid" id="editarid" placeholder="" value="" autocomplete="off">
                         <input type="hidden" id="editaridradio_mante" name="editaridradio_mante">
                         <div class="form-group col-md-6">
@@ -500,10 +500,13 @@ MODAL EDITAR
                 <div class="box-body">
 
                     <!-- ENTRADA PARA CAMPOS  -->
-                    <!-- ENTRADA PARA CAMPOS  -->
 
-                    <h4 class="text-primary"><strong>Radio: <span id="editarname_radio"></span></strong></h4>
 
+                    <h4 class="text-primary"><strong><span id="viewname_radio"></span></strong></h4>
+                    <!-- AGREGAR DETALLE -->
+                    <div id="viewMantenimiento">
+
+                    </div>
 
                 </div>
             </div>
@@ -520,10 +523,7 @@ MODAL EDITAR
 
             </div>
 
-
-
         </div>
-
     </div>
 
 </div>

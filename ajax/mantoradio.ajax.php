@@ -303,6 +303,198 @@ if (isset($_POST['action']) && $_POST['action'] == "add") {
         header('Content-Type: application/json');
         echo json_encode($response);
     }
+} else if (isset($_POST['action']) && $_POST['action'] == "viewmantenimiento") {
+
+    $valor = $_POST['id'];
+    $stmt = Conexion::conectar()->prepare("SELECT * FROM `mante_radio` WHERE id = $valor");
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $ubicaciones = buscarInfoUbicacion($row['id_movimiento_his'], "id");
+
+    $ubicacion = "No Ubicación";
+    if ($ubicaciones) {
+        $ubicacion = $ubicaciones['codigo_ubicacion'] . " - " . $ubicaciones['nombre_ubicacion'];
+    }
+
+
+    function tbl_mante_radio_detalle($valor1)
+    {
+        $query01 = "SELECT detalle_e.*,otro_eq.codigo_equipo,otro_eq.descripcion as descripcion_equipo,otro_eq.costo_equipo as costo_equipo_actual,tipo_otro_eq.codigo FROM `mante_radio_detalle_equipo` detalle_e INNER JOIN tbl_otros_equipos otro_eq ON detalle_e.id_equipo = otro_eq.id INNER JOIN tipo_otros_equipos tipo_otro_eq ON otro_eq.tipo_equipos = tipo_otro_eq.id WHERE detalle_e.id_manto=$valor1";
+        $sql = Conexion::conectar()->prepare($query01);
+        $sql->execute();
+        return $sql->fetchAll();
+    }
+
+
+
+    $datos = tbl_mante_radio_detalle($valor);
+?>
+
+    <table class="table table-bordered dt-responsive">
+        <caption class="label-default text-center"><strong>MANTENIMIENTO DE RADIO</strong></caption>
+        <tr>
+            <th width="15%">Correlativo:</th>
+            <td width="12%"><?php echo $row['correlativo_mradio'] ?></td>
+            <th rowspan="2" width="15%">Diagnóstico:</th>
+            <td rowspan="2"><?php echo $row['diagnostico_mradio'] ?></td>
+
+        </tr>
+        <tr>
+            <th>Fecha:</th>
+            <td><?php echo $row['fecha_mradio'] ?></td>
+
+        </tr>
+        <tr>
+            <th>Ubicación de Radio:</th>
+            <td><?php echo $ubicacion; ?></td>
+            <th>Descripción:</th>
+            <td><?php echo $row['descripcion'] ?></td>
+        </tr>
+    </table>
+
+    <table class="table table-bordered dt-responsive">
+        <caption class="label-default text-center"><strong>REPUESTOS</strong></caption>
+        <thead>
+            <th>N°</th>
+            <th>Descripción del Equipo</th>
+            <th>Cantidad</th>
+            <th>Costo Equipo</th>
+            <th>Valor</th>
+            <th>Descripción</th>
+        </thead>
+        <tbody>
+
+            <?php
+            $acumTotal = 0;
+            $acumTotalPagar = 0;
+            $contN = 0;
+            if (count($datos) > 0) {
+
+
+                foreach ($datos as $value) {
+                    if ($value['tipo_equipo'] == "REPU") {
+                        $acumTotal += $value['valor'];
+
+
+            ?>
+                        <tr>
+                            <td><?php echo $contN + 1; ?></td>
+                            <td><?php echo $value['codigo_equipo'] . " - " . $value['descripcion_equipo'] ?></td>
+                            <td><?php echo $value['cantidad'] ?></td>
+                            <td>$ <?php echo number_format($value['costo_equipo'], 2) ?></td>
+                            <td>$ <?php echo number_format($value['valor'], 2) ?></td>
+                            <td><?php echo $value['descripcion'] ?></td>
+                        </tr>
+
+            <?php
+                        $contN++;
+                    }
+                }
+            } else {
+                echo '<tr><td colspan="6">
+                <div class="alert bg-warning alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<i class="fa fa-warning"></i>
+					<strong>¡Datos Vacíos!</strong> No se encontraron registros...
+				</div>
+                </td></tr>';
+            }
+            ?>
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <th class="text-right" colspan="4">Total Repuestos: </th>
+                <td> <?php
+                        $acumTotalPagar += $acumTotal;
+                        ?>$
+                    <span id="editartotal_repuesto">
+                        <?php
+                        echo number_format($acumTotal, 2)
+                        ?>
+                    </span>
+                </td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <table class="table table-bordered dt-responsive">
+        <caption class="label-default text-center"><strong>MANO OBRA</strong></caption>
+        <thead>
+            <th>N°</th>
+            <th>Descripción del Equipo</th>
+            <th>Cantidad</th>
+            <th>Costo Equipo</th>
+            <th>Valor</th>
+            <th>Descripción</th>
+        </thead>
+        <tbody>
+
+            <?php
+            $acumTotal = 0;
+            $contN = 0;
+            if (count($datos) > 0) {
+
+
+                foreach ($datos as $value) {
+                    if ($value['tipo_equipo'] == "SERV") {
+                        $acumTotal += $value['valor'];
+
+
+            ?>
+                        <tr>
+                            <td><?php echo $contN + 1; ?></td>
+                            <td><?php echo $value['codigo_equipo'] . " - " . $value['descripcion_equipo'] ?></td>
+                            <td><?php echo $value['cantidad'] ?></td>
+                            <td>$ <?php echo number_format($value['costo_equipo'], 2) ?></td>
+                            <td>$ <?php echo number_format($value['valor'], 2) ?></td>
+                            <td><?php echo $value['descripcion'] ?></td>
+                        </tr>
+
+            <?php
+                        $contN++;
+                    }
+                }
+            } else {
+                echo '<tr><td colspan="6">
+                <div class="alert bg-warning alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<i class="fa fa-warning"></i>
+					<strong>¡Datos Vacíos!</strong> No se encontraron registros...
+				</div>
+                </td></tr>';
+            }
+            ?>
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <th class="text-right" colspan="4">Total Mano Obra: </th>
+                <td> <?php
+                        $acumTotalPagar += $acumTotal;
+                        ?>$
+                    <span id="">
+                        <?php
+                        echo number_format($acumTotal, 2)
+                        ?>
+                    </span>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="3">
+
+                </td>
+                <th class="text-right label-default">Total a Pagar: </th>
+                <th colspan="2">$ <span id="editartotal_pagar_todo"> <?php echo number_format($acumTotalPagar, 2)  ?></span></th>
+            </tr>
+        </tfoot>
+    </table>
+
+
+<?php
 }
 
 
@@ -589,6 +781,7 @@ if (isset($_POST["addDetailedit"])) {
             $acumTotal = 0;
             $acumTotalPagar = 0;
             $contN = 0;
+            $contador = 0;
             if (count($datos) > 0) {
 
 
@@ -599,7 +792,7 @@ if (isset($_POST["addDetailedit"])) {
 
             ?>
                         <tr>
-                            <td><?php echo $contN + 1; ?>
+                            <td><?php echo $contador + 1; ?>
                                 <input type="hidden" id="editarid_equipo_<?php echo $contN; ?>" value="<?php echo $value['id_equipo'] ?>">
                                 <input type="hidden" id="editarvalor_<?php echo $value['tipo_equipo'] . $contN; ?>" value="<?php echo $value['valor'] ?>">
 
@@ -650,6 +843,7 @@ if (isset($_POST["addDetailedit"])) {
 
             <?php
                         $contN++;
+                        $contador++;
                     }
                 }
             } else {
@@ -696,6 +890,7 @@ if (isset($_POST["addDetailedit"])) {
             <?php
             $contN = $contN;
             $acumTotal = 0;
+            $contador = 0;
 
             if (count($datos) > 0) {
 
@@ -707,7 +902,7 @@ if (isset($_POST["addDetailedit"])) {
 
             ?>
                         <tr>
-                            <td><?php echo $contN + 1; ?>
+                            <td><?php echo $contador + 1; ?>
                                 <input type="hidden" id="editarid_equipo_<?php echo $contN; ?>" value="<?php echo $value['id_equipo'] ?>">
                                 <input type="hidden" id="editarvalor_<?php echo $value['tipo_equipo'] . $contN; ?>" value="<?php echo $value['valor'] ?>">
 
@@ -757,6 +952,7 @@ if (isset($_POST["addDetailedit"])) {
 
             <?php
                         $contN++;
+                        $contador++;
                     }
                 }
             } else {
@@ -1014,7 +1210,7 @@ if (isset($_POST["valor"])) {
                 echo '<td>
 
 			  <div class="btn-group">
-				  <button type="button" data-toggle="modal"  data-target="#modalViewMantenimiento" class="btn btn-info" onclick="viewMantenimiento(' . $value["id"] . ')"><i class="fa fa-eye"></i></button>
+				  <button type="button" data-toggle="modal"  data-target="#modalViewMantenimiento" class="btn btn-info" onclick="viewMantenimientoRadio(' . $value["id"] . ')"><i class="fa fa-eye"></i></button>
 				<button class="btn btn-warning btnEditarMantenimiento" onclick="editarMantenimientoRadio(' . $value["id"] . ')" data-toggle="modal" data-target="#modalEditarMantenimiento"><i class="fa fa-pencil"></i></button>
 				<button class="btn btn-danger" onclick="eliminarMantenimientoRadio(' . $value["id"] . ',' . $value["idradio_mante"] . ')"><i class="fa fa-times"></i></button>
 
