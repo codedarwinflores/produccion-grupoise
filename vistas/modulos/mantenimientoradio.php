@@ -138,11 +138,6 @@ function getContent()
     </section>
 
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.min.js"></script>
-
-
-
-
 <!--=====================================
 MODAL AGREGAR 
 ======================================-->
@@ -278,7 +273,7 @@ MODAL AGREGAR
                             <label for="nuevodescripcion" class="">Descripción:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-sticky-note-o"></i></span>
-                                <textarea class=" form-control" name="nuevodescripcion" id="nuevodescripcion" placeholder="Descripción" required></textarea>
+                                <textarea class=" form-control" name="nuevodescripcion" id="nuevodescripcion" placeholder="Descripción"></textarea>
 
                             </div>
                         </div>
@@ -315,7 +310,7 @@ MODAL EDITAR
 
 <div id="modalEditarMantenimiento" class="modal fade" role="dialog">
 
-    <div class="modal-dialog" style="width: 900px !important;">
+    <div class="modal-dialog" style="width: 1140px !important;">
 
         <div class="modal-content">
 
@@ -342,18 +337,19 @@ MODAL EDITAR
                     <div class="box-body">
 
                         <!-- ENTRADA PARA CAMPOS  -->
+                        <!-- ENTRADA PARA CAMPOS  -->
 
-                        <h4 class="text-primary" id="radio_mostrar"></h4>
+                        <h4 class="text-primary"><strong>Radio: <span id="editarname_radio"></span></strong></h4>
                         <input type="hidden" name="editarid" id="editarid" placeholder="" value="" autocomplete="off">
                         <input type="hidden" id="editaridradio_mante" name="editaridradio_mante">
-
                         <div class="form-group col-md-6">
                             <label for="editarfecha_mradio">Fecha:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                <input type="date" class="form-control " name="editarfecha_mradio" id="editarfecha_mradio" placeholder="Ingresar Fecha" autocomplete="off" required="">
+                                <input type="date" class="form-control " name="editarfecha_mradio" id="editarfecha_mradio" placeholder="Ingresar Fecha" autocomplete="off" required="" value="<?php echo date('Y-m-d') ?>">
                             </div>
                         </div>
+                        <!-- ********************* -->
 
 
                         <div class="form-group col-md-6">
@@ -377,80 +373,78 @@ MODAL EDITAR
 
                             </div>
                         </div>
-
                         <div class="form-group col-md-12">
-                            <label for="editarid_equipo">Equipos:</label>
+                            <fieldset class="fieldset">
+                                <legend class="legend">Agregar Mano de Obra / Repuestos</legend>
+                                <div class="form-group col-md-8">
+                                    <label for="editarid_equipo">Equipos:</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
+
+                                        <select class="form-control mi-selector" name="editarid_equipo" id="editarid_equipo">
+
+                                            <option value="">Seleccione...</option>
+                                            <?php
+
+                                            $datos_mostrar = $Radio::mostrarDatosDb("eq.id,eq.codigo_equipo,eq.descripcion_equipo,eq.descripcion,otro_eq.codigo,otro_eq.nombre", "tbl_otros_equipos eq INNER JOIN tipo_otros_equipos otro_eq on eq.tipo_equipos=otro_eq.id WHERE otro_eq.codigo = 'REPU' OR otro_eq.codigo = 'SERV'", "", "");
+                                            foreach ($datos_mostrar as $key => $value) {
+                                            ?>
+                                                <option value="<?php echo $value['id']  ?>">
+                                                    <?php echo $value['nombre'] . " - " . $value['codigo_equipo'] . ' - ' . $value['descripcion'] ?>
+                                                </option>
+                                            <?php
+                                            }
+                                            ?>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label for=""></label>
+                                    <div class="input-group">
+                                        <button class="btn btn-success" type="button" onclick="add_equipo_detalle();"><span class="fa fa-plus"> </span> Agregar Repuesto o Mano de Obra</button>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12" id="editarmensajenuevoequipo">
+
+                                </div>
+                                <!-- AGREGAR DETALLE -->
+                                <div id="editarDetailEquipo">
+
+                                </div>
+
+                            </fieldset>
+
+                        </div>
+                        <input type="hidden" id="editaridmovimientoequipo" name="editaridmovimientoequipo">
+                        <div class="form-group col-md-4">
+                            <label for="editarcodubicacion" class="">CÓDIGO UBICACIÓN:</label>
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
-
-                                <select class="form-control mi-selector" name="editarid_equipo" id="editarid_equipo" required>
-
-                                    <option value="">Seleccione...</option>
-                                    <?php
-
-                                    $datos_mostrar = $Radio::mostrarDatosDb("eq.id,eq.codigo_equipo,eq.descripcion_equipo,eq.descripcion,otro_eq.codigo,otro_eq.nombre", "tbl_otros_equipos eq INNER JOIN tipo_otros_equipos otro_eq on eq.tipo_equipos=otro_eq.id WHERE otro_eq.codigo = 'REPU' OR otro_eq.codigo = 'SERV'", "", "");
-                                    foreach ($datos_mostrar as $key => $value) {
-                                    ?>
-                                        <option value="<?php echo $value['id']  ?>">
-                                            <?php echo $value["codigo"] . " - " . $value['nombre'] . " - " . $value['codigo_equipo'] . ' - ' . $value['descripcion'] ?>
-                                        </option>
-                                    <?php
-                                    }
-                                    ?>
-
-                                </select>
-
+                                <span class="input-group-addon"><i class="fa fa-qrcode"></i></span>
+                                <input type="text" class=" form-control" name="editarcodubicacion" id="editarcodubicacion" placeholder="Código Ubicación" readonly>
 
                             </div>
                         </div>
 
-                        <div class="form-group col-md-6">
-                            <label for="editarcosto_obra_mradio" class="">Costo Obra:</label>
+                        <div class="form-group col-md-8">
+                            <label for="editarubicacionactual" class="">UBICACIÓN DONDE SE HIZO EL MANTENIMIENTO:</label>
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                <input type="text" class="form-control validarmoney sumarTotalEditar" readonly min="0" required placeholder="0.00" name=" editarcosto_obra_mradio" id="editarcosto_obra_mradio">
+                                <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                                <input type="text" class=" form-control" name="editarubicacionactual" id="editarubicacionactual" placeholder="Ubicación Actual" readonly>
 
                             </div>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label for="editarcosto_repuesto_mradio" class="">Costo Repuesto:</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                <input type="text" class="form-control validarmoney sumarTotalEditar" readonly required name="editarcosto_repuesto_mradio" id="editarcosto_repuesto_mradio" placeholder="0.00">
-
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label for="editarvalor_mradio" class="">Valor:</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                <input type="text" class="form-control validarmoney" min="0" required placeholder="0.00" name=" editarvalor_mradio" id="editarvalor_mradio">
-
-                            </div>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="editartotal_mradio" class="">Total:</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                <input type="text" class="form-control validarmoney" readonly="" required name="editartotal_mradio" id="editartotal_mradio" placeholder="0.00">
-
-                            </div>
-                        </div>
-
-
-
                         <div class="form-group col-md-12">
                             <label for="editardescripcion" class="">Descripción:</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-sticky-note-o"></i></span>
-                                <textarea class=" form-control" name="editardescripcion" id="editardescripcion" placeholder="Descripción" required></textarea>
-
+                                <textarea class=" form-control" name="editardescripcion" id="editardescripcion" placeholder="Descripción"></textarea>
                             </div>
                         </div>
 
                         <div class="form-group col-md-12">
-                            <div id="mensajenuevoedit"></div>
+                            <div id="editarmensajenuevo"></div>
                         </div>
                     </div>
                 </div>
@@ -468,6 +462,65 @@ MODAL EDITAR
                 </div>
 
             </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!--=====================================
+MODAL EDITAR 
+======================================-->
+
+<div id="modalViewMantenimiento" class="modal fade" role="dialog">
+
+    <div class="modal-dialog" style="width: 1140px !important;">
+
+        <div class="modal-content">
+
+            <!--=====================================
+        CABEZA DEL MODAL
+        ======================================-->
+
+            <div class="modal-header" style="background:#3c8dbc; color:white">
+
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                <h4 class="modal-title">Ver <?php echo $Nombre_del_Modulo; ?></h4>
+
+            </div>
+
+            <!--=====================================
+        CUERPO DEL MODAL
+        ======================================-->
+
+            <div class="modal-body">
+
+                <div class="box-body">
+
+                    <!-- ENTRADA PARA CAMPOS  -->
+                    <!-- ENTRADA PARA CAMPOS  -->
+
+                    <h4 class="text-primary"><strong>Radio: <span id="editarname_radio"></span></strong></h4>
+
+
+                </div>
+            </div>
+
+            <!--=====================================
+        PIE DEL MODAL
+        ======================================-->
+
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
+
+
+
+            </div>
+
+
 
         </div>
 

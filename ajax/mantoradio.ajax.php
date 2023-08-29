@@ -198,6 +198,8 @@ if (isset($_POST['action']) && $_POST['action'] == "add") {
             "tipo" => "TIPO DESCONOCIDO",
             "estado" => "error"
         );
+        header('Content-Type: application/json');
+        echo json_encode($response);
     }
 } else if (isset($_POST['action']) && $_POST['action'] === "eliminar") {
     if (isset($_POST['idequipo'])) {
@@ -224,6 +226,83 @@ if (isset($_POST['action']) && $_POST['action'] == "add") {
     $costo_equipo = doubleval($_POST['costo_equipo']);
     /* MODIFICAR ARRAY */
     updated_equipo($idequipo, $descripcion, $cantidad, $costo_equipo);
+} else if (isset($_POST['action']) && $_POST['action'] == "modificar_detalle") {
+    $descripcion = $_POST['descripcion'];
+    $cantidad = intval($_POST['cantidad']);
+    $costo_equipo = doubleval($_POST['costo_equipo']);
+    $id = intval($_POST['id']);
+    $sentencia = Conexion::conectar()->prepare("UPDATE mante_radio_detalle_equipo SET descripcion=?, cantidad=?,valor=cantidad*? WHERE id=?;");
+    $resultado = $sentencia->execute([$descripcion, $cantidad, $costo_equipo, $id]); # Pasar en el mismo orden de los ?
+    if ($resultado) {
+        echo "ok";
+    } else {
+        echo "error";
+    }
+    /* MODIFICAR ARRAY */
+} elseif (isset($_POST['action']) && $_POST['action'] == "add_detail_team") {
+    if (is_numeric($_POST["idequipo"]) && is_numeric($_POST["id_manto"])) {
+        $idequipo = $_POST['idequipo'];
+        $id_manto = $_POST['id_manto'];
+        $stmt = Conexion::conectar()->prepare("SELECT otro_eq.codigo_equipo,otro_eq.descripcion as descripcion_equipo,otro_eq.costo_equipo,tipo_otro_eq.codigo FROM tbl_otros_equipos otro_eq INNER JOIN tipo_otros_equipos tipo_otro_eq ON otro_eq.tipo_equipos = tipo_otro_eq.id where otro_eq.id=" . $idequipo);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $codigo = $row["codigo"];
+        $costo_equipo = $row["costo_equipo"];
+        $cantidad = 1;
+        $valor = $cantidad * $costo_equipo;
+        $descripcion_equipo = $row["codigo_equipo"] . " - " . $row["descripcion_equipo"];
+        $descripcion_unica = "";
+
+        if ($codigo == "REPU") {
+            $tipoEquipo = "repuestos";
+            $mensaje = "REPUESTOS AGREGADOS";
+        } else {
+            $tipoEquipo = "manoobra";
+            $mensaje = "Mano Obra AGREGADOS";
+        }
+        /*  addtoEquipo($idequipo, $descripcion_equipo, $descripcion_unica, $cantidad, $costo_equipo, $valor, $codigo); */
+
+        $sql = Conexion::conectar()->prepare("SELECT id FROM mante_radio_detalle_equipo WHERE id_equipo = $idequipo and id_manto=$id_manto");
+        $sql->execute();
+        $rowsql = $sql->fetch(PDO::FETCH_ASSOC);
+
+        if ($rowsql) {
+            $id_detalle = $rowsql['id'];
+            /* ACTUALIZAR SI EXISTE */
+            $sentencia = Conexion::conectar()->prepare("UPDATE mante_radio_detalle_equipo SET cantidad=cantidad+1,valor=cantidad*costo_equipo WHERE id=?;");
+            $resultado = $sentencia->execute([$id_detalle]); # Pasar en el mismo orden de los ?
+        } else {
+            /* INSERTAR SI NO EXISTE */
+            $sentencia = Conexion::conectar()->prepare("INSERT INTO mante_radio_detalle_equipo(id_manto, id_equipo, descripcion,cantidad,costo_equipo,valor,tipo_equipo) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $resultado = $sentencia->execute([$id_manto, $idequipo, $descripcion_unica, $cantidad, $costo_equipo, $valor, $codigo]); # Pasar en el mismo orden de los ?
+        }
+        if ($resultado) {
+            $response = array(
+                "mensaje" => $mensaje,
+                "tipo" => $tipoEquipo,
+                "estado" => "add"
+            );
+        } else {
+            $response = array(
+                "mensaje" => "ERROR",
+                "tipo" => "TIPO DESCONOCIDO",
+                "estado" => "error"
+            );
+        }
+
+
+
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    } else {
+        $response = array(
+            "mensaje" => "ERROR",
+            "tipo" => "TIPO DESCONOCIDO",
+            "estado" => "error"
+        );
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    }
 }
 
 
@@ -446,7 +525,7 @@ if (isset($_POST["addDetail"])) {
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="4" class="text-right"><strong>Total en Repuestos: </strong></td>
+                <td colspan="4" class="text-right"><strong>Total en Mano Obra: </strong></td>
                 <th>
 
                     <?php
@@ -475,8 +554,253 @@ if (isset($_POST["addDetail"])) {
     <input type="hidden" value="<?php echo isset($_SESSION['detalle_equipo']) ? count($_SESSION['detalle_equipo']) : 0; ?>" id="recorrer_t">
 
 <?php
-}
 
+    /* DETAIL EDIT */
+} else
+if (isset($_POST["addDetailedit"])) {
+    function tbl_mante_radio_detalle($valor1)
+    {
+        $query01 = "SELECT detalle_e.*,otro_eq.codigo_equipo,otro_eq.descripcion as descripcion_equipo,otro_eq.costo_equipo as costo_equipo_actual,tipo_otro_eq.codigo FROM `mante_radio_detalle_equipo` detalle_e INNER JOIN tbl_otros_equipos otro_eq ON detalle_e.id_equipo = otro_eq.id INNER JOIN tipo_otros_equipos tipo_otro_eq ON otro_eq.tipo_equipos = tipo_otro_eq.id WHERE detalle_e.id_manto=$valor1";
+        $sql = Conexion::conectar()->prepare($query01);
+        $sql->execute();
+        return $sql->fetchAll();
+    }
+
+    $valor = $_POST["id_historial"];
+
+    $datos = tbl_mante_radio_detalle($valor);
+?>
+
+
+
+    <table class="table table-bordered table-striped dt-responsive" width="100%">
+        <caption class="label-default text-center"><strong>REPUESTOS</strong></caption>
+        <thead>
+            <th width="4%">N°</th>
+            <th width="40%">Nombre del Equipo</th>
+            <th width="18%">Cantidad</th>
+            <th width="20%">Costo Repuesto</th>
+            <th>Valor</th>
+            <th width="5%">Acciones</th>
+        </thead>
+        <tbody>
+
+            <?php
+            $acumTotal = 0;
+            $acumTotalPagar = 0;
+            $contN = 0;
+            if (count($datos) > 0) {
+
+
+                foreach ($datos as $value) {
+                    if ($value['tipo_equipo'] == "REPU") {
+                        $acumTotal += $value['valor'];
+
+
+            ?>
+                        <tr>
+                            <td><?php echo $contN + 1; ?>
+                                <input type="hidden" id="editarid_equipo_<?php echo $contN; ?>" value="<?php echo $value['id_equipo'] ?>">
+                                <input type="hidden" id="editarvalor_<?php echo $value['tipo_equipo'] . $contN; ?>" value="<?php echo $value['valor'] ?>">
+
+
+                            </td>
+                            <td>
+                                <div class="form-group col-md-12">
+                                    <label for="" class=""><strong><?php echo $value['codigo_equipo'] . " - " . $value['descripcion_equipo'] ?></strong></label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-sticky-note-o"></i></span>
+                                        <textarea placeholder="Agrega una descripción" id="editardescripcion_<?php echo $contN; ?>" data-id="<?php echo $value['id']; ?>" idcont="<?php echo $contN; ?>" class="operar_detallee form-control"><?php echo $value['descripcion'] ?></textarea>
+                                    </div>
+                                </div>
+                            </td>
+                            <td> <!-- Quantity -->
+                                <div>
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <button title="Retroceder" onclick="editar_sumar_restar('-',<?php echo $contN; ?>,<?php echo $value['id']; ?>);" type="button" class=" btn btn-default">
+                                                <span class="glyphicon glyphicon-minus"></span>
+                                            </button>
+                                        </span>
+
+                                        <input min="1" style="text-align:center;min-width:20px;" onkeyup="roundNumber(this);" placeholder="0" type="number" id="editarcantidad_<?php echo $contN ?>" data-id="<?php echo $value['id']; ?>" class="operar_detallee form-control" idcont="<?php echo $contN; ?>" value="<?php echo $value['cantidad'] ?>">
+
+                                        <span class="input-group-btn">
+                                            <!-- ngIf: item.qtyStatus == false -->
+                                            <button title="Avanzar" onclick="editar_sumar_restar('+',<?php echo $contN ?>,<?php echo $value['id']; ?>);" type="button" class="btn btn-default">
+                                                <span class="glyphicon glyphicon-plus"></span>
+                                            </button>
+                                        </span>
+
+                                    </div>
+                                </div>
+                                <!-- /Quantity -->
+                            </td>
+                            <td>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                                    <input type="text" class="form-control validarMoney" min="0" readonly placeholder="0.00" id="editarcosto_equipo_<?php echo $contN; ?>" value="<?php echo $value['costo_equipo'] ?>">
+                                </div>
+                            </td>
+                            <th>$ <span id="editarvalor_<?php echo $contN; ?>">
+                                    <?php echo number_format($value['valor'], 2) ?>
+                                </span></th>
+                            <td><button type="button" class="btn btn-danger" onclick="eliminar_equipo_tabla(<?php echo $value['id']; ?>);"> <i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
+                        </tr>
+
+            <?php
+                        $contN++;
+                    }
+                }
+            } else {
+                echo '<tr><td colspan="6">
+                <div class="alert bg-warning alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<i class="fa fa-warning"></i>
+					<strong>¡Datos Vacíos!</strong> No se encontraron registros...
+				</div>
+                </td></tr>';
+            }
+            ?>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" class="text-right"><strong>Total en Repuestos: </strong></td>
+                <th>
+
+                    <?php
+                    $acumTotalPagar += $acumTotal;
+                    ?>$
+                    <span id="editartotal_repuesto">
+                        <?php
+                        echo number_format($acumTotal, 2)
+                        ?>
+                    </span>
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+
+    <table class="table table-bordered table-striped dt-responsive" width="100%">
+        <caption class="label-default text-center"><strong>MANO DE OBRA</strong></caption>
+        <thead>
+            <th width="4%">N°</th>
+            <th width="40%">Nombre del Equipo</th>
+            <th width="18%">Cantidad</th>
+            <th width="20%">Costo Mano Obra</th>
+            <th>Valor</th>
+            <th width="5%">Acciones</th>
+        </thead>
+        <tbody>
+
+            <?php
+            $contN = $contN;
+            $acumTotal = 0;
+
+            if (count($datos) > 0) {
+
+
+                foreach ($datos as $value) {
+                    if ($value['tipo_equipo'] == "SERV") {
+                        $acumTotal += $value['valor'];
+
+
+            ?>
+                        <tr>
+                            <td><?php echo $contN + 1; ?>
+                                <input type="hidden" id="editarid_equipo_<?php echo $contN; ?>" value="<?php echo $value['id_equipo'] ?>">
+                                <input type="hidden" id="editarvalor_<?php echo $value['tipo_equipo'] . $contN; ?>" value="<?php echo $value['valor'] ?>">
+
+                            </td>
+                            <td>
+                                <div class="form-group col-md-12">
+                                    <label for="" class=""><strong><?php echo $value['codigo_equipo'] . " - " . $value['descripcion_equipo'] ?></strong></label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-sticky-note-o"></i></span>
+                                        <textarea placeholder="Agrega una descripción" id="editardescripcion_<?php echo $contN; ?>" data-id="<?php echo $value['id']; ?>" idcont="<?php echo $contN; ?>" class="operar_detallee form-control"><?php echo $value['descripcion'] ?></textarea>
+                                    </div>
+                                </div>
+                            </td>
+                            <td> <!-- Quantity -->
+                                <div>
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <button title="Retroceder" onclick="editar_sumar_restar('-',<?php echo $contN; ?>,<?php echo $value['id']; ?>);" type="button" class=" btn btn-default">
+                                                <span class="glyphicon glyphicon-minus"></span>
+                                            </button>
+                                        </span>
+
+                                        <input min="1" style="text-align:center;min-width:20px;" onkeyup="roundNumber(this);" placeholder="0" type="number" id="editarcantidad_<?php echo $contN ?>" data-id="<?php echo $value['id']; ?>" class="operar_detallee form-control" idcont="<?php echo $contN; ?>" value="<?php echo $value['cantidad'] ?>">
+
+                                        <span class="input-group-btn">
+                                            <!-- ngIf: item.qtyStatus == false -->
+                                            <button title="Avanzar" onclick="editar_sumar_restar('+',<?php echo $contN ?>,<?php echo $value['id']; ?>);" type="button" class="btn btn-default">
+                                                <span class="glyphicon glyphicon-plus"></span>
+                                            </button>
+                                        </span>
+
+                                    </div>
+                                </div>
+                                <!-- /Quantity -->
+                            </td>
+                            <td>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                                    <input type="text" class="form-control validarMoney" min="0" readonly placeholder="0.00" id="editarcosto_equipo_<?php echo $contN; ?>" value="<?php echo $value['costo_equipo'] ?>">
+                                </div>
+                            </td>
+                            <th>$ <span id="editarvalor_<?php echo $contN; ?>">
+                                    <?php echo number_format($value['valor'], 2) ?>
+                                </span></th>
+                            <td><button type="button" class="btn btn-danger" onclick="eliminar_equipo_tabla(<?php echo $value['id']; ?>);"> <i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
+                        </tr>
+
+            <?php
+                        $contN++;
+                    }
+                }
+            } else {
+                echo '<tr><td colspan="6">
+                <div class="alert bg-warning alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<i class="fa fa-warning"></i>
+					<strong>¡Datos Vacíos!</strong> No se encontraron registros...
+				</div>
+                </td></tr>';
+            }
+            ?>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" class="text-right"><strong>Total en Mano Obra: </strong></td>
+                <th>
+
+                    <?php
+                    $acumTotalPagar += $acumTotal;
+                    ?>
+                    $
+                    <span id="editartotal_mano_obra">
+                        <?php
+                        echo number_format($acumTotal, 2)
+                        ?>
+                    </span>
+                </th>
+            </tr>
+
+            <tr>
+                <td colspan="3">
+
+                </td>
+                <th class="text-right label-default">Total a Pagar: </th>
+                <th colspan="2">$ <span id="editartotal_pagar_todo"> <?php echo number_format($acumTotalPagar, 2)  ?></span></th>
+            </tr>
+        </tfoot>
+
+    </table>
+
+    <input type="hidden" value="<?php echo isset($datos) ? count($datos) : 0; ?>" id="editarrecorrer_t">
+<?php
+}
 
 
 
@@ -507,9 +831,37 @@ if (isset($_POST["radiosearch"])) {
             header('Content-Type: application/json');
             echo json_encode($response);
         }
+    } else if ($_POST["radiosearch"] === "editar") {
+
+        /* BUSCAR LA UBICACIÓN DEL RADIO POR ID HISTORIAL DE UBICACIÓN*/
+        if (isset($_POST["codRadio"])) {
+            $row = buscarInfoUbicacion($_POST["codRadio"], "id");
+
+            if ($row) {
+                $id = $row["id"];
+                $codigo = $row["codigo_ubicacion"];
+                $nombre_ubicacion = $row["nombre_ubicacion"];
+                $response = array(
+                    "id_movimiento" => $id,
+                    "codigo_ubicacion" => $codigo,
+                    "nombre_ubicacion" => $nombre_ubicacion
+                );
+            } else {
+                $response = array(
+                    "id_movimiento" => 0,
+                    "codigo_ubicacion" => "Código No asignado",
+                    "nombre_ubicacion" => "Nombre Ubicación no asignado"
+                );
+            }
+
+
+            header('Content-Type: application/json');
+            echo json_encode($response);
+        }
     }
 }
 
+/* consultar equipos */
 if (isset($_POST['equipos'])) {
     if (is_numeric($_POST["equipos"])) {
 
@@ -528,6 +880,8 @@ if (isset($_POST['equipos'])) {
     }
 }
 
+
+/* GENERAR NUMERO CORRELATIVO */
 if (isset($_POST['generar'])) {
     if ($_POST['generar'] == "correlativo") {
         // Obtener el último valor generado
@@ -548,7 +902,7 @@ if (isset($_POST['generar'])) {
     }
 }
 
-
+/* mostrar para editar en json */
 if (isset($_POST['editar'])) {
 
     if (isset($_POST['id'])) {
@@ -562,6 +916,7 @@ if (isset($_POST['editar'])) {
     }
 }
 
+/* MOSTRAR LOS EQUIPOS DE ACUERDO AL RADIO */
 if (isset($_POST["valor"])) {
     # code...
 
@@ -594,7 +949,7 @@ if (isset($_POST["valor"])) {
     <table class="table table-bordered table-striped dt-responsive tablas" id="examples" width="100%">
         <thead>
             <tr>
-                <th>N° Correlativo</th>
+                <th width="6%">N° Correlativo</th>
                 <th>Fecha</th>
                 <th>Ubicación Radio</th>
                 <th>Diagnóstico</th>
@@ -618,6 +973,7 @@ if (isset($_POST["valor"])) {
             $acumCostoRepuesto = 0;
             $row;
             foreach ($data01 as $value) {
+                /* CONSULTAR UBICACIÓN */
                 $row = buscarInfoUbicacion($value["id_movimiento_his"], "id");
                 $ubicacion = "No Ubicación";
                 if ($row) {
@@ -658,9 +1014,8 @@ if (isset($_POST["valor"])) {
                 echo '<td>
 
 			  <div class="btn-group">
-				  <button type="button" class="btn btn-info"><i class="fa fa-eye"></i></button>
+				  <button type="button" data-toggle="modal"  data-target="#modalViewMantenimiento" class="btn btn-info" onclick="viewMantenimiento(' . $value["id"] . ')"><i class="fa fa-eye"></i></button>
 				<button class="btn btn-warning btnEditarMantenimiento" onclick="editarMantenimientoRadio(' . $value["id"] . ')" data-toggle="modal" data-target="#modalEditarMantenimiento"><i class="fa fa-pencil"></i></button>
-
 				<button class="btn btn-danger" onclick="eliminarMantenimientoRadio(' . $value["id"] . ',' . $value["idradio_mante"] . ')"><i class="fa fa-times"></i></button>
 
 			  </div>  

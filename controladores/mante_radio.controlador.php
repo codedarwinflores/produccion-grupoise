@@ -122,12 +122,15 @@ if (isset($_GET["edit"])) {
 
         $data = getContent();
         $datos = "";
-        $array = [];
-        foreach ($data as $row) {
-            $datos0 = array("" . $row['Field'] . "" => $_POST["editar" . $row['Field'] . ""],);
-            /* $namecolumnas__mante_radio .= "".$row['Field'].""." =>". $_POST["nuevo".$row['Field'].""].","; */
-            $array += ["" . $row['Field'] . "" => $_POST["editar" . $row['Field'] . ""],];
-        }
+        $array = [
+            "idradio_mante" => $_POST["editaridradio_mante"],
+            "correlativo_mradio" => $_POST["editarcorrelativo_mradio"],
+            "fecha_mradio" => $_POST["editarfecha_mradio"],
+            "diagnostico_mradio" => $_POST["editardiagnostico_mradio"],
+            "descripcion" => $_POST["editardescripcion"],
+            "id_movimiento_his" => $_POST["editaridmovimientoequipo"],
+            "id" => $_POST["editarid"],
+        ];
 
         $datos = $array;
 
@@ -163,10 +166,33 @@ if (isset($_GET["borrar"])) {
         global $nombremodelo_mante_radio;
         $datos = $_GET["id_mante"];
 
-
+        /* DELETE */
+        $sentencia = Conexion::conectar()->prepare("DELETE FROM mante_radio_detalle_equipo WHERE id_manto = ?");
+        $resultado = $sentencia->execute([$datos]);
         $respuesta = ModeloManteRadio::mdlBorrar($tabla_mante_radio, $datos);
 
-        if ($respuesta == "ok") {
+
+        if ($respuesta == "ok" && $resultado) {
+
+            echo "ok";
+        } else {
+            echo "error";
+        }
+    }
+}
+
+
+if (isset($_POST["eliminar"])) {
+
+    if (isset($_POST["id"])) {
+
+        $datos = $_POST["id"];
+
+        /* DELETE */
+        $sentencia = Conexion::conectar()->prepare("DELETE FROM mante_radio_detalle_equipo WHERE id = ?");
+        $resultado = $sentencia->execute([$datos]);
+
+        if ($resultado) {
 
             echo "ok";
         } else {

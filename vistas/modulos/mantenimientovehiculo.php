@@ -371,9 +371,7 @@ MODAL EDITAR
         ======================================-->
 
                 <div class="modal-body">
-
                     <div class="box-body">
-
                         <!-- ENTRADA PARA CAMPOS  -->
 
                         <h4 class="text-primary" id="vehiculo_mostrar"></h4>
@@ -387,8 +385,6 @@ MODAL EDITAR
                             </div>
                         </div>
                         <!-- ********************* -->
-
-
 
                         <div class="form-group col-md-8">
                             <label for="editaridempleado_mvehi">Empleado Encargado:</label>

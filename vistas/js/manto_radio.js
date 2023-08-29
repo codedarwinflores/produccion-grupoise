@@ -137,11 +137,13 @@ $(document).ready(function () {
 
   $("#editarformradio").submit(function (e) {
     e.preventDefault();
-    $("#mensajenuevoedit").show();
     var errores = "";
     if ($("#editaridradio_mante").val() == "") {
       errores += "<strong><li>Selecciona un Radio</li></strong>";
-      $("#editaridradio_mante").focus();
+    }
+
+    if ($("#editarid").val() == "") {
+      errores += "<strong><li>Selecciona un Mantenimiento</li></strong>";
     }
     if ($("#editarfecha_mradio").val() == "") {
       errores += "<strong><li>Fecha</li></strong>";
@@ -156,25 +158,6 @@ $(document).ready(function () {
     if ($("#editardiagnostico_mradio").val() == "") {
       errores += "<strong><li>Diagnóstico</li></strong>";
       $("#editardiagnostico_mradio").focus();
-    }
-    if ($("#editarcosto_obra_mradio").val() == "") {
-      errores += "<strong><li>Costo Obra</li></strong>";
-      $("#editarcosto_obra_mradio").focus();
-    }
-
-    if ($("#editarcosto_repuesto_mradio").val() == "") {
-      errores += "<strong><li>Costo Repuesto</li></strong>";
-      $("#editarcosto_repuesto_mradio").focus();
-    }
-
-    if ($("#editarvalor_mradio").val() == "") {
-      errores += "<strong><li>Valor</li></strong>";
-      $("#editarvalor_mradio").focus();
-    }
-
-    if ($("#editartotal_mradio").val() == "") {
-      errores += "<strong><li>Total</li></strong>";
-      $("#editartotal_mradio").focus();
     }
 
     if (errores != "") {
@@ -200,38 +183,26 @@ $(document).ready(function () {
         contentType: false,
         processData: false,
         beforeSend: function (objeto) {
-          mensaje(
-            "#mensajenuevoedit",
-            "warning",
-            "warning",
-            "Espere",
-            "Procesando su petición..."
-          );
+          mensajeAlert("Espere...", "Procesando su petición.", "warning");
         },
         success: function (datos) {
           if (datos.trim() == "ok") {
-            mensaje(
-              "#mensajenuevoedit",
-              "success",
-              "check",
-              "Bien Hecho",
-              "Datos modificados correctamente"
+            mensajeAlert(
+              "Información importante",
+              "Datos almacenados correctamente." + datos,
+              "success"
             );
 
             cargarDatosRadio($("#editaridradio_mante").val());
-
+            MostrarEquiposDetalle($("#editarid").val());
             /*   document.getElementById("saveform").reset(); */
           } else {
-            mensaje(
-              "#mensajenuevoedit",
-              "danger",
-              "check",
-              "Error",
-              "Problema al modificados los datos" + datos
+            mensajeAlert(
+              "Información importante",
+              "Arror al almacenar los datos" + datos,
+              "error"
             );
           }
-          /* DESAPARECER DIV */
-          ocultarMensaje("#mensajenuevoedit");
 
           $(":submit").attr("disabled", false);
         },
@@ -263,6 +234,21 @@ function MostrarEquipos() {
     data: { addDetail: true },
     success: function (response) {
       $("#addDetailEquipo").html(response).fadeIn("slow");
+    },
+    error: function (xhr, status, error) {
+      console.error(error);
+    },
+  });
+}
+
+/* MOSTRAR DATOS AL DETALLE */
+function MostrarEquiposDetalle(valor) {
+  $.ajax({
+    url: "./ajax/mantoradio.ajax.php", // Ruta al script PHP que realizará la consulta a MySQL
+    type: "POST",
+    data: { addDetailedit: "ello", id_historial: valor },
+    success: function (response) {
+      $("#editarDetailEquipo").html(response).fadeIn("slow");
     },
     error: function (xhr, status, error) {
       console.error(error);
@@ -304,13 +290,58 @@ function add_equipo() {
   }
 }
 
+/* AGREGAR EQUIPOS TBL_DETALLE */
+function add_equipo_detalle() {
+  var errores = "";
+  let selectid = $("#editarid_equipo").val();
+  let id_manto = $("#editarid").val();
+  let id_mante_radio = $("#editaridradio_mante").val();
+
+  if (selectid == "") {
+    errores += "<strong><li>Selecciona un Equipo</li></strong>";
+  }
+
+  if (errores != "") {
+    mensajeAlert("Información importante", errores, "error");
+    errores = "";
+    return;
+  } else {
+    $.ajax({
+      url: "./ajax/mantoradio.ajax.php", // Ruta al script PHP que realizará la consulta a MySQL
+      type: "POST",
+      dataType: "json",
+      data: {
+        action: "add_detail_team",
+        idequipo: selectid,
+        id_manto: id_manto,
+      },
+      success: function (response) {
+        /*   alert(response.estado); */
+        if (response.estado == "add") {
+          MostrarEquiposDetalle(id_manto);
+          cargarDatosRadio(id_mante_radio);
+          mensajeAlert(
+            "Información importante",
+            "Equipo almacenado correctamente.",
+            "success"
+          );
+
+          $("#editarid_equipo").val("").trigger("change");
+        } else {
+          mensajeAlert(
+            "Información importante",
+            "Error al agregar el equipo." + response.estado,
+            "error"
+          );
+        }
+      },
+    });
+  }
+}
+
 function limpiarRadio() {
   $("#nuevoid_equipo").val("").trigger("change");
   $("#nuevodiagnostico_mradio").val("");
-  $("#nuevocosto_obra_mradio").val("");
-  $("#nuevocosto_repuesto_mradio").val("");
-  $("#nuevovalor_mradio").val("");
-  $("#nuevototal_mradio").val("");
   $("#nuevodescripcion").val("");
 }
 
@@ -338,7 +369,7 @@ function ocultarMensaje(id) {
   }, 3500);
 }
 
-function eliminarMantenimientoArma(id, idarma) {
+function eliminarMantenimientoRadio(id, idradio) {
   swal({
     title: "¿Está seguro de borrar el registro?",
     text: "¡Si no lo está puede cancelar la accíón!",
@@ -352,7 +383,7 @@ function eliminarMantenimientoArma(id, idarma) {
     if (result.value) {
       $.ajax({
         url:
-          "./controladores/mante_arma.controlador.php?borrar=&id_mante=" + id,
+          "./controladores/mante_radio.controlador.php?borrar=&id_mante=" + id,
         type: "GET",
         success: function (response) {
           if (response == "ok") {
@@ -361,7 +392,7 @@ function eliminarMantenimientoArma(id, idarma) {
               text: "Registro eliminado correctamente.",
               type: "success",
             });
-            cargarDatosRadio(idarma);
+            cargarDatosRadio(idradio);
           } else {
             swal({
               title: "Error",
@@ -377,26 +408,22 @@ function eliminarMantenimientoArma(id, idarma) {
 
 function editarMantenimientoRadio(id) {
   $.ajax({
-    url: "./ajax/mantoradio.ajax.php?editar=&id=" + id,
+    url: "./ajax/mantoradio.ajax.php",
     method: "POST",
-    cache: false,
-    contentType: false,
-    processData: false,
+    data: {
+      editar: "editar",
+      id: id,
+    },
     dataType: "json",
     success: function (respuesta) {
-      $("#radio_mostrar").html($("#nombre_radio_mostrar").html());
+      MostrarEquiposDetalle(respuesta["id"]);
+      $("#editarname_radio").html($("#nombre_radio_mostrar").html());
       $("#editarid").val(respuesta["id"]);
       $("#editaridradio_mante").val(respuesta["idradio_mante"]);
-
+      buscarUbicacionRadio("editar", respuesta["id_movimiento_his"]);
       $("#editarfecha_mradio").val(respuesta["fecha_mradio"]);
       $("#editarcorrelativo_mradio").val(respuesta["correlativo_mradio"]);
-      $("#editarid_equipo").val(respuesta["id_equipo"]).trigger("change");
       $("#editardiagnostico_mradio").val(respuesta["diagnostico_mradio"]);
-      $("#editarcosto_obra_mradio").val(respuesta["costo_obra_mradio"]);
-      $("#editarcosto_repuesto_mradio").val(respuesta["costo_repuesto_mradio"]);
-      $("#editarvalor_mradio").val(respuesta["valor_mradio"]);
-      $("#editartotal_mradio").val(respuesta["total_mradio"]);
-
       $("#editardescripcion").val(respuesta["descripcion"]);
     },
   });
@@ -424,9 +451,15 @@ function buscarUbicacionRadio(accion, codRadio) {
     type: "post",
     dataType: "json",
     success: function (response) {
-      $("#idmovimientoequipo").val(response.id_movimiento);
-      $("#codubicacion").val(response.codigo_ubicacion);
-      $("#ubicacionactual").val(response.nombre_ubicacion);
+      if (accion == "nuevo") {
+        $("#idmovimientoequipo").val(response.id_movimiento);
+        $("#codubicacion").val(response.codigo_ubicacion);
+        $("#ubicacionactual").val(response.nombre_ubicacion);
+      } else {
+        $("#editaridmovimientoequipo").val(response.id_movimiento);
+        $("#editarcodubicacion").val(response.codigo_ubicacion);
+        $("#editarubicacionactual").val(response.nombre_ubicacion);
+      }
     },
   });
 }
@@ -458,6 +491,24 @@ function sumar_restar(signo, id) {
 
   document.getElementById("cantidad_" + id).value = asign;
   modificar_equipo_detalle(id);
+}
+
+function editar_sumar_restar(signo, id, iddetail) {
+  var result = parseInt(document.getElementById("editarcantidad_" + id).value);
+  var asign = 1;
+
+  if (signo == "+") {
+    asign = result + 1;
+  } else {
+    if (result > 1) {
+      asign = result - 1;
+    }
+  }
+
+  document.getElementById("editarcantidad_" + id).value = asign;
+  modificar_equipo_detalle_tabla(id, iddetail);
+  let id_mante_radio = $("#editaridradio_mante").val();
+  cargarDatosRadio(id_mante_radio);
 }
 
 $(document).on("change", ".operar_detalle", function () {
@@ -519,6 +570,70 @@ function eliminar_equipo_session(id) {
           }
           /* DESAPARECER DIV */
           ocultarMensaje("#mensajenuevoequipo");
+        },
+      });
+    } else {
+      return false;
+    }
+  });
+}
+
+/* ELIMINAR EQUIPO SESIÓN */
+
+function eliminar_equipo_tabla(id) {
+  let id_manto = $("#editarid").val();
+  let id_mante_radio = $("#editaridradio_mante").val();
+  swal({
+    title: "¿Está seguro de quitar el registro?",
+    text: "¡Si no lo está puede cancelar la accíón!",
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    cancelButtonText: "Cancelar",
+    confirmButtonText: "Si, borrar!",
+  }).then(function (result) {
+    if (result.value) {
+      $.ajax({
+        type: "POST",
+        data: {
+          eliminar: "eliminar",
+          id: id,
+        },
+        url: "./controladores/mante_radio.controlador.php",
+        beforeSend: function (objeto) {
+          $("#editarmensajenuevoequipo").show();
+          mensaje(
+            "#editarmensajenuevoequipo",
+            "warning",
+            "check",
+            "¡Espere!",
+            "Procesando..."
+          );
+        },
+        success: function (datos) {
+          $("#editarmensajenuevoequipo").show();
+          if (datos == "ok") {
+            mensaje(
+              "#editarmensajenuevoequipo",
+              "success",
+              "check",
+              "Elminado",
+              "Equipo Detalle Eliminado"
+            );
+            MostrarEquiposDetalle(id_manto);
+            cargarDatosRadio(id_mante_radio);
+          } else {
+            mensaje(
+              "#editarmensajenuevoequipo",
+              "danger",
+              "check",
+              "Lo siento",
+              "Equipo no eliminado"
+            );
+          }
+          /* DESAPARECER DIV */
+          ocultarMensaje("#editarmensajenuevoequipo");
         },
       });
     } else {
@@ -659,22 +774,91 @@ function modificar_equipo_detalle(id) {
   });
 }
 
-$(document).on("keyup", ".operar_detalle", function () {
+function modificar_equipo_detalle_tabla(id, iddetail) {
+  var descripcion = $("#editardescripcion_" + id).val();
+  var costo_equipo = $("#editarcosto_equipo_" + id).val();
+  var cantidad = $("#editarcantidad_" + id).val();
+
+  if (cantidad < 1 || cantidad == null) {
+    cantidad = 1;
+  }
+
+  $.ajax({
+    type: "POST",
+    data: {
+      action: "modificar_detalle",
+      descripcion: descripcion,
+      cantidad: cantidad,
+      costo_equipo: costo_equipo,
+      id: iddetail,
+    },
+    url: "./ajax/mantoradio.ajax.php",
+
+    success: function (data) {
+      document.getElementById("editarvalor_" + id).innerHTML = parseFloat(
+        cantidad * costo_equipo
+      ).toFixed(2);
+      var elemento = document.getElementById("editarvalor_REPU" + id);
+      var elemento2 = document.getElementById("editarvalor_SERV" + id);
+
+      if (elemento !== null) {
+        elemento.value = parseFloat(cantidad * costo_equipo).toFixed(2);
+      }
+
+      if (elemento2 !== null) {
+        elemento2.value = parseFloat(cantidad * costo_equipo).toFixed(2);
+      }
+
+      var total = parseInt(document.getElementById("editarrecorrer_t").value);
+
+      var suma_repuestos = 0.0;
+      var suma_manoobra = 0.0;
+      var repu;
+      var mano_obra;
+      for (var i = 0; i < total; i++) {
+        repu = document.getElementById("editarvalor_REPU" + i);
+        mano_obra = document.getElementById("editarvalor_SERV" + i);
+        if (repu !== null) {
+          suma_repuestos += parseFloat(repu.value);
+        }
+
+        if (mano_obra !== null) {
+          suma_manoobra += parseFloat(mano_obra.value);
+        }
+      }
+
+      document.getElementById("editartotal_repuesto").innerHTML =
+        parseFloat(suma_repuestos).toFixed(2);
+      document.getElementById("editartotal_mano_obra").innerHTML =
+        parseFloat(suma_manoobra).toFixed(2);
+      document.getElementById("editartotal_pagar_todo").innerHTML = parseFloat(
+        parseFloat(suma_repuestos) + parseFloat(suma_manoobra)
+      ).toFixed(2);
+    },
+  });
+}
+
+$(document).on("keyup", ".operar_detallee", function () {
   var id = $(this).data("id");
-  modificar_equipo_detalle(id);
+  var idposicion = $(this).attr("idcont");
+  modificar_equipo_detalle_tabla(idposicion, id);
 });
 
-$(document).on("blur", ".operar_detalle", function () {
+$(document).on("blur", ".operar_detallee", function () {
   var id = $(this).data("id");
-  modificar_equipo_detalle(id);
+  var idposicion = $(this).attr("idcont");
+  modificar_equipo_detalle_tabla(idposicion, id);
 });
 
-$(document).on("change", ".operar_detalle", function () {
+$(document).on("change", ".operar_detallee", function () {
   var id = $(this).data("id");
-  modificar_equipo_detalle(id);
+  var idposicion = $(this).attr("idcont");
+  modificar_equipo_detalle_tabla(idposicion, id);
+  let id_mante_radio = $("#editaridradio_mante").val();
+  cargarDatosRadio(id_mante_radio);
 });
 
-$(document).on("keydown", ".operar_detalle", function () {
+/* $(document).on("keydown", ".operar_detalle", function () {
   var id = $(this).data("id");
-  modificar_equipo_detalle(id);
-});
+  modificar_equipo_detalle_tabla(id);
+}); */
