@@ -113,10 +113,10 @@ class ModeloLogsUser
     {
         try {
             if (empty($condicion)) {
-                $stm = Conexion::conectar()->prepare("SELECT " . $campos . " FROM " . $tabla);
+                $stm = Conexion::conectar()->prepare("SELECT " . $campos . " FROM " . $tabla . $array);
                 $stm->execute();
             } else {
-                $stm = Conexion::conectar()->prepare("SELECT " . $campos . " FROM " . $tabla . " WHERE " . $condicion);
+                $stm = Conexion::conectar()->prepare("SELECT " . $campos . " FROM " . $tabla . " WHERE " . $condicion . $array);
                 $stm->execute();
             }
 

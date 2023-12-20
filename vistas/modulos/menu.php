@@ -1,14 +1,14 @@
 <aside class="main-sidebar">
 
-	 <section class="sidebar">
+	<section class="sidebar">
 
 		<ul class="sidebar-menu">
 
-		<?php
+			<?php
 
-		if($_SESSION["perfil"] == "Administrador"){
+			if ($_SESSION["perfil"] == "Administrador") {
 
-			echo '
+				echo '
 			<li >			
 				<a href="inicio">
 					<i class="fa fa-home"></i>
@@ -576,22 +576,19 @@
 			</li>
 			
 			';
+			}
 
 
-				
 
-		}
-
-		
-
-		
-
-		
-
-		?>
-
+			?>
+			<li>
+				<a href="logs">
+					<i class="fa fa-user-circle-o"></i>
+					<span>Users Logs</span>
+				</a>
+			</li>
 		</ul>
 
-	 </section>
+	</section>
 
 </aside>

@@ -938,6 +938,7 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "reventasCCF" ||
         $_GET["ruta"] == "reventasFA" ||
         $_GET["ruta"] == "reventasFE" ||
+        $_GET["ruta"] == "logs" ||
 
 
 
@@ -974,7 +975,7 @@ CUERPO DOCUMENTO
   }
 
   if (isset($_GET["ruta"]) && !empty($_GET["ruta"])) {
-    /* logs_msg("Descripción del módulo", "Acción o Descripción de la actividad") */
+    /* logs_msg("Descripción del módulo o Tabla", "Acción o Descripción de la actividad") */
     logs_msg($_GET["ruta"], "Listar " . $_GET["ruta"]);
   }
 
@@ -1062,6 +1063,7 @@ CUERPO DOCUMENTO
   <script src="vistas/js/manto_bicicleta.js"></script>
   <script src="vistas/js/manto_arma.js"></script>
   <script src="vistas/js/manto_radio.js"></script>
+  <script src="vistas/js/logs.js"></script>
 
   <script src="vistas/js/permisos.js"></script>
   <script src="vistas/js/empleados2.js"></script>
