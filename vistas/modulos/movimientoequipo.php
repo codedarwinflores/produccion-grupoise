@@ -122,58 +122,61 @@ function getContent() {
          };
 
  
+         $html_code="";
         foreach ($bancos as $key => $value){
 
 
           
-           echo ' <tr>
+          $html_code.= ' <tr>
                    <td>'.($key+1).'</td>
                    <td>'.$value["fecha_ingreso_movimiento"].'</td>
                    <td>'.$value["fecha_movimiento"].'</td>';
-            echo '<td>'.$value["correlativo_movimiento"].'</td>';
+        $html_code.= '<td>'.$value["correlativo_movimiento"].'</td>';
        
-             /* ---------arma------------- */
+        $equipo_capturar="";
+        $ubica_capturar="";
+        /* ---------arma------------- */
              $data_arma = armas_mostrar($value["codigo_equipo"]);
              foreach ($data_arma as $value_arma) {
-              echo '<td>'.$value_arma["descripcion_arma"].'</td>';
+              $equipo_capturar=$value_arma["descripcion_arma"];
              }
              /* ---------------------- */
              /* ---------radio------------- */
              $data_radio = radios_mostrar($value["codigo_equipo"]);
              foreach ($data_radio as $value_radio) {
-              echo '<td>'.$value_radio["descripcion_radio"].'</td>';
+              $equipo_capturar=$value_radio["descripcion_radio"];
              }
              /* ---------------------- */
             /* ---------celular------------- */
               $data_cel = celular_mostrar($value["codigo_equipo"]);
               foreach ($data_cel as $value_cel) {
-               echo '<td>'.$value_cel["descripcion"].'</td>';
+                $equipo_capturar=$value_cel["descripcion"];
               }
             /* ---------------------- */
              /* ---------bicicleta------------- */
              $data_bis = bicicleta_mostrar($value["codigo_equipo"]);
              foreach ($data_bis as $value_bis) {
-              echo '<td>'.$value_bis["descripcion_bicicleta"].'</td>';
+              $equipo_capturar=$value_bis["descripcion_bicicleta"];
              }
            /* ---------------------- */
            /* ---------OTRO RQUIPO------------- */
            $data_otroequipo = otroequipos($value["codigo_equipo"]);
            foreach ($data_otroequipo as $value_otroe) {
-            echo '<td>'.$value_otroe["descripcion"].'</td>';
+            $equipo_capturar=$value_otroe["descripcion"];
            }
          /* ---------------------- */
-
-
             /* ---------ubicacion------------- */
+           
             $data_ubi = ubicacion_mostrar($value["id_ubicacion_movimiento"]);
             foreach ($data_ubi as $value_ubi) {
-              echo '<td>'.$value_ubi["nombre_ubicacion"].'</td>';
+              $ubica_capturar=$value_ubi["nombre_ubicacion"];
             }
             /* ---------------------- */
 
-
+           $html_code.='<td>'.$equipo_capturar.'</td>';
+           $html_code.='<td>'.$ubica_capturar.'</td>';
                  
-                   echo '<td>
+            $html_code.= '<td>
  
                      <div class="btn-group">
                          
@@ -189,7 +192,7 @@ function getContent() {
  
                  </tr>';
          }
- 
+         echo $html_code;
  
          ?> 
  
@@ -311,7 +314,7 @@ MODAL AGREGAR
                   $data05 = ubicacion();
                   foreach ($data05 as $value) {
                   ?>
-                  <option value="<?php echo $value["id"]?>" cantidad_radios="<?php echo $value["cantidad_radios"]?>" cantidad_armas="<?php echo $value["cantidad_armas"]?>"><?php echo $value["nombre_ubicacion"] ?></option>
+                  <option value="<?php echo $value["id"]?>" cantidad_radios="<?php echo $value["cantidad_radios"]?>" cantidad_armas="<?php echo $value["cantidad_armas"]?>"  cantidad_celular="<?php echo $value["cantidad_celulares"]?>"><?php echo $value["nombre_ubicacion"] ?></option>
                   <?php
                    }
                   ?>
@@ -346,6 +349,7 @@ MODAL AGREGAR
               </div>
             </div>
 
+            <!-- radios -->
 
             <div class="form-group col-md-4  grupomovimientosequipos_radios_asign_movimiento" bis_skin_checked="1">
               <label for="" class="">Radios Autorizadas.</label> 
@@ -371,8 +375,37 @@ MODAL AGREGAR
               </div>
             </div>
 
+            <!-- celular -->
+
+            <div class="form-group col-md-4  " bis_skin_checked="1">
+              <label for="" class="">Celular Autorizadas.</label> 
+              <div class="input-group" bis_skin_checked="1">
+                <span class="input-group-addon"><i class="icono_radios_asign_movimiento"></i></span> 
+                <input type="text" class="form-control input-lg " name="" id="celularautorizadas" placeholder="" value="" autocomplete="off" required="" readonly>
+              </div>
+            </div>
+
+            <div class="form-group col-md-4  " bis_skin_checked="1">
+              <label for="" class="">Celular Asig.</label> 
+              <div class="input-group" bis_skin_checked="1">
+                <span class="input-group-addon"><i class="icono_radios_asign_movimiento"></i></span> 
+                <input type="text" class="form-control input-lg input_celular_asign_movimiento" name="nuevocelular_asign_movimiento" id="nuevocelular_asign_movimiento" placeholder="" value="" autocomplete="off" required="" readonly>
+              </div>
+            </div>
+
+            <div class="form-group  col-md-4 " bis_skin_checked="1">
+              <label for="" class="">Diferencia Celular</label> 
+              <div class="input-group" bis_skin_checked="1">
+                <span class="input-group-addon"><i class="icono_diferencia_radios_movimiento"></i></span> 
+                <input type="text" class="form-control input-lg input_diferencia_celular_movimiento" name="nuevodiferencia_celular_movimiento" id="nuevodiferencia_celular_movimiento" placeholder="" value="" autocomplete="off" required="" readonly>
+              </div>
+            </div>
+            <!-- *********** -->
+            
+
             <div class="form-group   grupomovimientosequipos_codigo_equipo" bis_skin_checked="1">
-              <label for="" class=""></label> 
+              <label for="" class="">Seleccione Equipos <br>
+            Codigo-Descripcion-Marca-Modelo-Serie-Matricula</label> 
               <div class="input-group" bis_skin_checked="1">
                 <span class="input-group-addon"><i class="icono_codigo_equipo fa fa-qrcode"></i></span> 
                 <select  class="form-control input-lg input_codigo_equipo mi-selector" name="nuevocodigo_equipo" id="nuevocodigo_equipo" placeholder="Ingresar Código" value="" autocomplete="off" required="">
@@ -388,14 +421,14 @@ MODAL AGREGAR
                   $data05 = armas();
                   foreach ($data05 as $value) {
                   ?>
-                    <option value="<?php echo $value["codigo"]?>" precio="<?php echo $value["precio_costo"]?>" tipoequipo="arma" marca="<?php echo $value["marca"]?>" modelo="<?php echo $value["modelo"]?>" serie="<?php echo $value["numero_serie"]?>"><?php echo $value["codigo"]."-".$value["descripcion_arma"]?></option>
+                    <option value="<?php echo $value["codigo"]?>" precio="<?php echo $value["precio_costo"]?>" tipoequipo="arma" marca="<?php echo $value["marca"]?>" modelo="<?php echo $value["modelo"]?>" serie="<?php echo $value["numero_serie"]?>"><?php echo $value["codigo"]."-".$value["descripcion_arma"]."-".$value["marca"]."-".$value["modelo"]."-".$value["numero_serie"]."-".$value["numero_matricula"]?></option>
                   <?php
                    }
                   ?>
                   <?php
                   function radios()
                   {
-                        $query01 = "SELECT * FROM tbl_radios";
+                        $query01 = "SELECT * FROM tbl_radios where estado_radio='Activo'";
                         $sql = Conexion::conectar()->prepare($query01);
                         $sql->execute();
                         return $sql->fetchAll();
@@ -403,11 +436,11 @@ MODAL AGREGAR
                   $data05r = radios();
                   foreach ($data05r as $value) {
                   ?>
-                    <option value="<?php echo $value["codigo_radio"]?>" precio="<?php echo $value["costo_radio"]?>" tipoequipo="radio" marca="<?php echo $value["marca"]?>" modelo="<?php echo $value["modelo_radio"]?>" serie="<?php echo $value["numero_serie"]?>"><?php echo $value["codigo_radio"]."-".$value["descripcion_radio"]?></option>
+                    <option value="<?php echo $value["codigo_radio"]?>" precio="<?php echo $value["costo_radio"]?>" tipoequipo="radio" marca="<?php echo $value["marca"]?>" modelo="<?php echo $value["modelo_radio"]?>" serie="<?php echo $value["numero_serie"]?>"><?php echo $value["codigo_radio"]."-".$value["descripcion_radio"]."-".$value["marca"]."-".$value["modelo_radio"]."-".$value["numero_serie"]?></option>
                   <?php
                    }
                   ?>
-                  <?php
+                  <!-- <?php
                   function bicicleta()
                   {
                         $query01 = "SELECT * FROM tbl_bicicleta";
@@ -418,10 +451,10 @@ MODAL AGREGAR
                   $data05b = bicicleta();
                   foreach ($data05b as $value) {
                   ?>
-                    <option value="<?php echo $value["codigo_bicicleta"]?>" precio="<?php echo $value["costo_bicicleta"]?>" tipoequipo="bicicleta" marca="<?php echo $value["marca"]?>" modelo="<?php echo $value["modelo_bicicleta"]?>" serie="<?php echo $value["numero_serie"]?>"><?php echo $value["codigo_bicicleta"]."-".$value["descripcion_bicicleta"]?></option>
+                    <option value="<?php echo $value["codigo_bicicleta"]?>" precio="<?php echo $value["costo_bicicleta"]?>" tipoequipo="bicicleta" marca="<?php echo $value["marca"]?>" modelo="<?php echo $value["modelo_bicicleta"]?>" serie="<?php echo $value["numero_serie"]?>"><?php echo $value["codigo_bicicleta"]."-".$value["descripcion_bicicleta"]."-".$value["marca"]."-".$value["modelo_bicicleta"]?></option>
                   <?php
                    }
-                  ?>
+                  ?> -->
                   <?php
                   function celular()
                   {
@@ -433,11 +466,11 @@ MODAL AGREGAR
                   $data05b = celular();
                   foreach ($data05b as $value) {
                   ?>
-                    <option value="<?php echo $value["codigo"]?>" precio="<?php echo $value["costo"]?>" tipoequipo="celular" marca="<?php echo $value["marca"]?>" modelo="<?php echo $value["modelo"]?>" serie=""><?php echo $value["codigo"]."-".$value["descripcion"]?></option>
+                    <option value="<?php echo $value["codigo"]?>" precio="<?php echo $value["costo"]?>" tipoequipo="celular" marca="<?php echo $value["marca"]?>" modelo="<?php echo $value["modelo"]?>" serie=""><?php echo $value["codigo"]."-".$value["descripcion"]."-".$value["marca"]."-".$value["modelo"]?></option>
                   <?php
                    }
                   ?>
-                  <?php
+                  <!-- <?php
                   function otroequipo()
                   {
                         $query01 = "SELECT * FROM tbl_otros_equipos";
@@ -448,10 +481,10 @@ MODAL AGREGAR
                   $dataequipo = otroequipo();
                   foreach ($dataequipo as $value) {
                   ?>
-                    <option value="<?php echo $value["codigo_equipo"]?>" precio="<?php echo $value["costo_equipo"]?>" tipoequipo="otroequipo" marca="" modelo="<?php echo $value["modelo_equipo"]?>" serie="<?php echo $value["numero_serie"]?>"><?php echo $value["codigo_equipo"]."-".$value["descripcion_equipo"]?></option>
+                    <option value="<?php echo $value["codigo_equipo"]?>" precio="<?php echo $value["costo_equipo"]?>" tipoequipo="otroequipo" marca="" modelo="<?php echo $value["modelo_equipo"]?>" serie="<?php echo $value["numero_serie"]?>"><?php echo $value["codigo_equipo"]."-".$value["descripcion_equipo"]."-".$value["modelo_equipo"]."-".$value["numero_serie"]?></option>
                   <?php
                    }
-                  ?>
+                  ?> -->
                 </select>
               </div>
             </div>
@@ -668,3 +701,4 @@ MODAL EDITAR
 ?> 
 
 
+<script src="vistas/js/movimientoequipo.js"></script>

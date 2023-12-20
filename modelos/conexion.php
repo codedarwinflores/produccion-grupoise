@@ -7,14 +7,23 @@ class Conexion
 	{
 
 		$link = new PDO(
-			"mysql:host=localhost;dbname=u900482437_grupoise",
-			"u900482437_user_grupoise",
-			"4LXTbS22w!Iy"
+			"mysql:host=localhost;dbname=grupoiseserver",
+			"root",
+			""
 		);
 
+		/*cpanel  */
 		/* $link = new PDO("mysql:host=localhost;dbname=armonico_grupoise",
 			            "armonico_grupoise",
 			            "riverPlate11!!"); */
+
+		/* hostinger */
+
+		/* $link = new PDO("mysql:host=localhost;dbname=u551001918_grupoise",
+			            "u551001918_grupoise",
+			            "riverPlate11!!"); */
+
+
 
 		$link->exec("set names utf8");
 

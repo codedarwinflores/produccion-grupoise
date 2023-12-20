@@ -38,7 +38,7 @@ $(document).ready(function(){
 		
 		cargardataempleados();
 		$(".filtrar_empleados").attr("disabled","disabled");
-
+		calculos_globales();
 	}
 	else{
 
@@ -143,9 +143,40 @@ $( "#periodo_planilladevengo_gratifivaca" ).on( "change", function() {
 
   /* CAPTURAR FECHA DESDE */
   $( "#fecha_desde_planilladevengo_gratifivaca" ).on( "click", function() {
-	$( "#ic__datepicker-1 .ic__day" ).on( "click", function() {
+	$( "#ic__datepicker-2" ).on( "click", function() {
 		/* ******************************************* */
 			var desde=$("#fecha_desde_planilladevengo_gratifivaca").val();
+			var hasta=$("#fecha_hasta_planilladevengo_gratifivaca").val();
+			var historial_desde=$("#historial_fecha_desde").val();
+
+
+			var dia_desde = moment(desde,'DD-MM-YYYY').format('DD');
+			var mes_desde = moment(desde,'DD-MM-YYYY').format('MM');
+			var anio_desde = moment(desde,'DD-MM-YYYY').format('YYYY');
+
+			/* capturar ultimo dia fecha hasta */
+			var capturardiafinal=anio_desde+"-"+mes_desde+"-"+dia_desde;
+			var partesFecha = capturardiafinal.split('-');
+			var año = parseInt(partesFecha[0]);
+			var mes = parseInt(partesFecha[1]);
+			var ultimoDia = new Date(año, mes, 0).getDate();
+			var ultimoDiaDelMes = año + '-' + (mes < 10 ? '0' : '') + mes + '-' + (ultimoDia < 10 ? '0' : '') + ultimoDia;
+			/* *************** */
+			
+			var dia_hasta = moment(hasta,'DD-MM-YYYY').format('DD');
+			var mes_hasta = moment(hasta,'DD-MM-YYYY').format('MM');
+			var anio_hasta = moment(hasta,'DD-MM-YYYY').format('YYYY');
+			$("#fecha_hasta_planilladevengo_gratifivaca").val(ultimoDia+"-"+mes_desde+"-"+anio_desde);
+			var hasta=$("#fecha_hasta_planilladevengo_gratifivaca").val();
+			$("#fecha_planilladevengo_gratifivaca").val(hasta);
+
+
+			var dia_his = moment(historial_desde,'DD-MM-YYYY').format('DD');
+			$("#historial_fecha_desde").val(dia_his+"-"+mes_desde+"-"+anio_desde);
+			$("#descripcion_planilladevengo_gratifivaca").val("Planilla de Gratificación por Vacación desde "+desde+" hasta "+hasta);
+
+
+
 			var historial_desde=$("#historial_fecha_desde").val();
 
 			
@@ -173,10 +204,10 @@ $( "#periodo_planilladevengo_gratifivaca" ).on( "change", function() {
 
  /* CAPTURAR FECHA HASTA */
  $( "#fecha_hasta_planilladevengo_gratifivaca" ).on( "click", function() {
-	$( "#ic__datepicker-2 .ic__day" ).on( "click", function() {
+	$( "#ic__datepicker-3 .ic__day" ).on( "click", function() {
 		/* ******************************************* */
 			var hasta=$("#fecha_hasta_planilladevengo_gratifivaca").val();
-					
+			$("#fecha_planilladevengo_gratifivaca").val(hasta);
 			var historial_hasta=$("#historial_fecha_hasta").val();
 
 			if(hasta != historial_hasta){
@@ -2103,8 +2134,8 @@ function consultarviaticos(tipo,sueldo){
 				}
 				var suma_sueldo_viatiaco=parseFloat(sueldo)+parseFloat(valor_devengo_planilla);/* --calcular devengo_gratifivaca */
 				var total_devengo_gratifivaca=suma_sueldo_viatiaco*0.30;/* --devengo_gratifivaca */
-				$(".valor_devengo_planilla").val(total_devengo_gratifivaca.toFixed(2));
-				$("#devengodevengo_gratifivaca").val(total_devengo_gratifivaca.toFixed(2));
+				$(".valor_devengo_planilla").val(total_devengo_gratifivaca);
+				$("#devengodevengo_gratifivaca").val(total_devengo_gratifivaca);
 	
 		}
 	});
@@ -2230,10 +2261,10 @@ function calculo_horas(){
 	var calculo_extra_domingo_noc=parseFloat(hora_extra_domingo_noc)*parseFloat(precio_hora_extra_nocturna_domingo);
 
 
-	$(".calculo_extra_diurna").val(calculo_extra.toFixed(2));
-	$(".calculo_extra_nocturna").val(calculo_extra_nocturna.toFixed(2));
-	$(".calculo_extra_domingo").val(calculo_extra_domingo.toFixed(2));
-	$(".calculo_extra_domingo_noctu").val(calculo_extra_domingo_noc.toFixed(2));
+	$(".calculo_extra_diurna").val(calculo_extra);
+	$(".calculo_extra_nocturna").val(calculo_extra_nocturna);
+	$(".calculo_extra_domingo").val(calculo_extra_domingo);
+	$(".calculo_extra_domingo_noctu").val(calculo_extra_domingo_noc);
 
 }
 
@@ -2377,6 +2408,15 @@ function cargarporcentajes(idempleados){
 			$("#porcentaje_base1").val(porcentaje_base1);
 			$("#porcentaje_base2").val(porcentaje_base2);
 			$("#tasa_sobre_excedente").val(tasa_sobre_excedente);
+
+			
+			if($.trim(porcentaje_isss)=="0"){
+				$("#sueldo_isss_planilladevengo_gratifivaca").val("0");
+			}
+			if($.trim(porcentaje_afp)=="0"){
+				$("#sueldo_afp_planilladevengo_gratifivaca").val("0");
+			}
+
 			calcular_afp_iss();
 			}
 	})
@@ -2436,14 +2476,14 @@ function calcular_afp_iss(){
 	/* Descuento AFP: */
 	total_afp=total_afp_salario*calcularporcentaje;
 	descuento_afp_final=total_afp_salario-total_afp;
-	$("#descuento_afp_planilladevengo_gratifivaca").val(total_afp.toFixed(2));
+	$("#descuento_afp_planilladevengo_gratifivaca").val(total_afp);
 
 
 
 	/* Descuento ISSS: */
 	total_isss=parseFloat(sueldo_isss_planilladevengo_gratifivaca)*calcularporcentaje_isss;
 	descuento_iss_final=total_isss_salario-total_isss;
-	$("#descuento_isss_planilladevengo_gratifivaca").val(total_isss.toFixed(2));
+	$("#descuento_isss_planilladevengo_gratifivaca").val(total_isss);
 
 
 	/* Descuento Renta: */
@@ -2451,7 +2491,7 @@ function calcular_afp_iss(){
 	if(total_renta_salario==0){
 		total_descuento_renta=0;
 	}
-	$("#sueldo_renta_planilladevengo_gratifivaca").val(total_descuento_renta.toFixed(2));
+	$("#sueldo_renta_planilladevengo_gratifivaca").val(total_descuento_renta);
 
 
 
@@ -2517,7 +2557,7 @@ function calcular_afp_iss(){
 	var tasa_por_exedente= parseFloat(sueldo_menos_base)*parseFloat(calcularporcentaje_tasa_excente);
 	var descuento_renta=parseFloat(tasa_por_exedente)+parseFloat(porcentaje_base1);
 	var descuento_renta_final=total_renta_salario-descuento_renta;
-	$("#descuento_renta_planilladevengo_gratifivaca").val(descuento_renta.toFixed(2));
+	$("#descuento_renta_planilladevengo_gratifivaca").val(descuento_renta);
 
 
 	console.log("************************");
@@ -2553,18 +2593,170 @@ function calcular_afp_iss(){
 	calculototaldescuento=parseFloat(descuento_isss_planilladevengo_gratifivaca)+parseFloat(descuento_afp_planilladevengo_gratifivaca)+parseFloat(descuento_renta_planilladevengo_gratifivaca)+parseFloat(otro_descuento_planilladevengo_gratifivaca);
 
 
-	$("#total_descuento_planilladevengo_gratifivaca").val(calculototaldescuento.toFixed(2));
+	$("#total_descuento_planilladevengo_gratifivaca").val(calculototaldescuento);
 	var totaldescuento=$("#total_descuento_planilladevengo_gratifivaca").val();/* --Total Descuento: */
 
 	var calculototalliquido=parseFloat(totaldevengo)-parseFloat(totaldescuento);
-	$("#total_liquidado_planilladevengo_gratifivaca").val(calculototalliquido.toFixed(2));
+	$("#total_liquidado_planilladevengo_gratifivaca").val(calculototalliquido);
 	var totalliquido=$("#total_liquidado_planilladevengo_gratifivaca").val();/* --Total Liquido: */
 
-	guardarplanillaoculto();
+	/* guardarplanillaoculto(); */
+	$.ajax({
+		url:guardarplanillaoculto(),
+		success:function(){
+			redondear("false");
+		}
+	});
 }
 
 
 
+/* codigo mascara para toda la planilla */
+function redondear(valor_desbloqueo){
+	
+	var divOriginal = $("#formulario_original");
+	/* var divDuplicado = divOriginal.clone(); */
+
+	// Cambiar el ID del div duplicado (opcional)
+   /*  divDuplicado.attr("id", "formulario_copia");
+	divDuplicado.attr("style", ""); */
+
+	// Agregar el div duplicado al contenedor deseado
+   /*  $("#formulario_copia").empty();
+	$("#formulario_copia").append(divDuplicado); */
+
+
+		 if (valor_desbloqueo=="true") {
+
+		   $("#formulario_copia").empty();
+		   $("#formulario_original").attr("style","");
+		   $(".desbloquear_mascara").attr("style","display:none;");
+		   $(".bloqueo_mascara").attr("style","display:none;");
+	   
+		}
+		else{
+			   var divOriginal = $("#formulario_original");
+			   var clone = divOriginal.clone();
+				// Cambiar el ID (opcional)
+				clone.attr("id", "nuevoDiv");
+			   // Agregar el clon al contenedor de clones
+			   $("#formulario_copia").empty();
+			   $("#formulario_copia").append(clone);
+			   clone.removeAttr("style");
+			   $("#formulario_original").attr("style","visibility:hidden; height:0px");
+			   
+			   var ancho = $("#nuevoDiv").width();
+			   var alto = $("#nuevoDiv").height();
+			   var posicion = $("#nuevoDiv").position();
+			   posicion.left;
+			   posicion.top;
+
+			   $(".desbloquear_mascara").attr("style","");
+			   $(".bloqueo_mascara").attr("style","");
+			   var nuevoDiv = $(".bloqueo_mascara");
+			   nuevoDiv.css({
+				   width: ancho,
+				   height: alto,
+				   background: " -webkit-linear-gradient(top, rgba(0,0,0,0.06) 0%,rgba(0,0,0,0) 100%)", // Color rojo semi-transparente
+				   position: "absolute",
+				   "z-index":9
+			   });
+			   $(".desbloquear_mascara").attr("style","margin-left:55%");
+
+			   
+			   $(".desbloquear_mascara").click(function() {
+				   // Tu código a ejecutar cuando se hace clic
+				   redondear("true");
+			   });
+
+			   var inputs = $("#formulario_copia input");
+			   /* -------------- */
+			   inputs.each(function() {
+				   var input = $(this);
+				   var valor=input.val();
+				   var idinput=input.attr("id");
+				   /* 	input.attr("id","");
+				   input.attr("name",""); */
+				   var valorNumerico = parseFloat(valor);
+						   if (!isNaN(valorNumerico) && valorNumerico % 1 !== 0) {
+							   var valorRedondeado = parseFloat(valor);
+							   var numerosDosDecimales = Math.floor(valorRedondeado * 100) / 100;
+							   input.val(numerosDosDecimales);
+						   }
+				   
+			   });
+			   /* ------------- */
+		   }
+		   calculos_globales();
+}
+
+$("#myModal").on("hidden.bs.modal", function() {
+   var inputs = $(".modal_devengos input");
+   var select = $(".modal_devengos select");
+   $(".accion_devengo").val("agregardevengo");
+   inputs.each(function() {
+	   var input = $(this);
+	   input.val("");
+   })
+   select.each(function() {
+	   var input = $(this);
+	   input.val("");
+   })
+});
+
+
+$("#descuento").on("hidden.bs.modal", function() {
+   var inputs = $(".modal_devengos input");
+   var select = $(".modal_devengos select");
+   $(".accion_devengo").val("agregardevengo");
+   inputs.each(function() {
+	   var input = $(this);
+	   input.val("");
+   })
+   select.each(function() {
+	   var input = $(this);
+	   input.val("");
+   })
+});
+/* fin codigo mascara para toda la planilla */
+
+
+
+function calculos_globales(){
+
+	var numero=$("#numero_planilladevengo_gratifivaca").val();
+	var dataString = 'accion01=calculosglobales'+'&numero='+numero;
+			$.ajax({
+				data: dataString,
+				url: "ajax/planilladevengo_gratifivaca.ajax.php",
+				type: 'post',
+				success: function (response) {
+					var datos = JSON.parse(response);
+					var total_liquido = datos[0].total_liquido;
+					var cantidad = parseFloat(total_liquido); // Obtener la cantidad como número
+					// Formatear la cantidad como dinero
+					var cantidadFormateada = cantidad.toLocaleString('es-ES', {
+						style: 'currency',
+						currency: 'USD' // Cambia 'EUR' por el código de moneda deseado (por ejemplo, 'USD' para dólares)
+					});
+					$(".total_liquido_global").text(cantidadFormateada);
+				}
+			});
+			/* ------------------------- */
+			var dataString2 = 'accion01=totalempleados'+'&numero='+numero;
+
+			$.ajax({
+				data: dataString2,
+				url: "ajax/planilladevengo_gratifivaca.ajax.php",
+				type: 'post',
+				success: function (response) {
+					var datos = JSON.parse(response);
+					var total_empleados = datos[0].total_empleados;
+					$(".total_empleado_global").text(total_empleados);
+				}
+			});
+
+}
 
 function sumar(){
 
@@ -2635,8 +2827,8 @@ function sumar(){
 	descuento_isss=parseFloat(sujetoiss_afp)*porcentajeisss;
 	descuento_afp=parseFloat(sujetoiss_afp)*porcentajeafp;
 
-	$("#descuento_isss_planilladevengo_gratifivaca").val(descuento_isss.toFixed(2));
-	$("#descuento_afp_planilladevengo_gratifivaca").val(descuento_afp.toFixed(2));
+	$("#descuento_isss_planilladevengo_gratifivaca").val(descuento_isss);
+	$("#descuento_afp_planilladevengo_gratifivaca").val(descuento_afp);
 
 	var descuento_isss_planilladevengo_gratifivaca=$("#descuento_isss_planilladevengo_gratifivaca").val();/* --Descuento ISSS: */
 	var descuento_afp_planilladevengo_gratifivaca= $("#descuento_afp_planilladevengo_gratifivaca").val();/* --Descuento AFP: */
@@ -2646,12 +2838,12 @@ function sumar(){
 	calculototaldescuento=parseFloat(descuento_isss_planilladevengo_gratifivaca)+parseFloat(descuento_afp_planilladevengo_gratifivaca)+parseFloat(descuento_renta_planilladevengo_gratifivaca)+parseFloat(otro_descuento_planilladevengo_gratifivaca);
 
 
-	$("#total_descuento_planilladevengo_gratifivaca").val(calculototaldescuento.toFixed(2));
+	$("#total_descuento_planilladevengo_gratifivaca").val(calculototaldescuento);
 	var totaldescuento=$("#total_descuento_planilladevengo_gratifivaca").val();/* --Total Descuento: */
 
 	var calculototalliquido=parseFloat(totaldevengo)-parseFloat(totaldescuento);
 	var totalliquido=$("#total_liquidado_planilladevengo_gratifivaca").val();
-	/* $("#total_liquidado_planilladevengo_gratifivaca").val(calculototalliquido.toFixed(2)); */
+	/* $("#total_liquidado_planilladevengo_gratifivaca").val(calculototalliquido); */
 	var totalliquido=$("#total_liquidado_planilladevengo_gratifivaca").val();/* --Total Liquido: */
 
 

@@ -134,7 +134,7 @@ switch ($accion) {
 
 		/* *************** */
 
-		function consultar($e,$dia1,$dia2)
+		function consultar($e,$dia1,$dia2,$anio1,$mes1)
 		{
 			/* $query01="SELECT * FROM tbl_empleados 
 					  WHERE YEAR(fecha_contratacion)<YEAR(NOW()) and DAY(fecha_contratacion)=DAY(NOW()) AND MONTH(fecha_contratacion)=MONTH(NOW()) AND DAY(fecha_contratacion) BETWEEN '16' AND '31'  and tbl_empleados.fecha_contratacion < '$e'"; */
@@ -152,7 +152,8 @@ switch ($accion) {
 
 			$query01="SELECT DATE_FORMAT(DATE(NOW()), '%m-%d')as fecha_actual,DATE_FORMAT(tbl_empleados.fecha_contratacion, '%m-%d') as fechacontracion, tbl_empleados.id as idempleado, tbl_empleados.*
 			FROM `tbl_empleados` 
-			WHERE  tbl_empleados.fecha_contratacion < '$e' and YEAR(fecha_contratacion)<YEAR(NOW())  AND MONTH(NOW()) = MONTH(fecha_contratacion) AND DAY(fecha_contratacion) BETWEEN '$dia1' AND '$dia2' GROUP by tbl_empleados.id";
+			WHERE  tbl_empleados.estado=2 and tbl_empleados.fecha_contratacion < '$e' and YEAR(fecha_contratacion)<'$anio1'  AND '$mes1' = MONTH(fecha_contratacion) AND DAY(fecha_contratacion) BETWEEN '$dia1' AND '$dia2' GROUP by tbl_empleados.id";
+			
 
 			/* echo $query01; */
 			$sql = Conexion::conectar()->prepare($query01);
@@ -164,7 +165,12 @@ switch ($accion) {
 		$fechaperiodo2_total= date("Y-m-d", strtotime($_POST["fechaperiodo2"]));
 		$fechaperiodo1 = date("d",strtotime($_POST["fechaperiodo1"]));
 		$fechaperiodo2 = date("d",strtotime($_POST["fechaperiodo2"]));
-		$data01 = consultar($newDate,$fechaperiodo1,$fechaperiodo2);
+
+		$anio = date("Y",strtotime($_POST["fecha_planilladevengo_vacacion"]));
+		$mes = date("m",strtotime($_POST["fecha_planilladevengo_vacacion"]));
+
+
+		$data01 = consultar($newDate,$fechaperiodo1,$fechaperiodo2,$anio,$mes);
 		$datos_html = "";
 		$datos_html .= '  <table class="table table-bordered table-striped dt-responsive tablas1" width="100%">
 		<thead>
@@ -359,7 +365,7 @@ switch ($accion) {
 		/* *************** */
 
 
-		function consultar($e,$dia1,$dia2,$empleado_rango_desde1,$empleado_rango_hasta1)
+		function consultar($e,$dia1,$dia2,$empleado_rango_desde1,$empleado_rango_hasta1,$anio1,$mes1)
 		{
 			/* $query01="SELECT * FROM tbl_empleados 
 					  WHERE YEAR(fecha_contratacion)<YEAR(NOW()) and DAY(fecha_contratacion)=DAY(NOW()) AND MONTH(fecha_contratacion)=MONTH(NOW()) AND DAY(fecha_contratacion) BETWEEN '16' AND '31'  and tbl_empleados.fecha_contratacion < '$e'"; */
@@ -373,7 +379,7 @@ switch ($accion) {
 
 			$query01="SELECT DATE_FORMAT(DATE(NOW()), '%m-%d')as fecha_actual,DATE_FORMAT(tbl_empleados.fecha_contratacion, '%m-%d') as fechacontracion, tbl_empleados.id as idempleado, tbl_empleados.*
 			FROM `tbl_empleados` 
-			WHERE  YEAR(fecha_contratacion)<YEAR(NOW())  and  MONTH(NOW()) = MONTH(fecha_contratacion) AND DAY(fecha_contratacion) BETWEEN '$dia1' AND '$dia2'   and tbl_empleados.id >= '$empleado_rango_desde1' and tbl_empleados.id <= '$empleado_rango_hasta1' GROUP by tbl_empleados.id";
+			WHERE  YEAR(fecha_contratacion)<'$anio1'  and  '$mes1' = MONTH(fecha_contratacion) AND DAY(fecha_contratacion) BETWEEN '$dia1' AND '$dia2'   and tbl_empleados.id >= '$empleado_rango_desde1' and tbl_empleados.id <= '$empleado_rango_hasta1' GROUP by tbl_empleados.id";
 
 			/* echo $query01; */
 			$sql = Conexion::conectar()->prepare($query01);
@@ -385,7 +391,12 @@ switch ($accion) {
 		$fechaperiodo2_total= date("Y-m-d", strtotime($_POST["fechaperiodo2"]));
 		$fechaperiodo1 = date("d",strtotime($_POST["fechaperiodo1"]));
 		$fechaperiodo2 = date("d",strtotime($_POST["fechaperiodo2"]));
-		$data01 = consultar($newDate,$fechaperiodo1,$fechaperiodo2,$empleado_rango_desde,$empleado_rango_hasta);
+
+		$anio = date("Y", strtotime($fecha_planilladevengo_vacacion));
+		$mes = date("m", strtotime($fecha_planilladevengo_vacacion));
+
+
+		$data01 = consultar($newDate,$fechaperiodo1,$fechaperiodo2,$empleado_rango_desde,$empleado_rango_hasta,$anio,$mes);
 		$datos_html = "";
 		$datos_html .= '  <table class="table table-bordered table-striped dt-responsive tablas1" width="100%">
 		<thead>
@@ -537,7 +548,7 @@ switch ($accion) {
 
 			$query01="SELECT  tbl_empleados.id as idempleado, tbl_empleados.*
 			FROM `tbl_empleados` , planilladevengo_vacacion
-			WHERE planilladevengo_vacacion.id_empleado_planilladevengo_vacacion=tbl_empleados.id and planilladevengo_vacacion.numero_planilladevengo_vacacion=$numero_planilladevengo_vacacion1 group by tbl_empleados.id";
+			WHERE planilladevengo_vacacion.id_empleado_planilladevengo_vacacion=tbl_empleados.id and planilladevengo_vacacion.numero_planilladevengo_vacacion='$numero_planilladevengo_vacacion1' group by tbl_empleados.id";
 
 			/* echo $query01; */
 			$sql = Conexion::conectar()->prepare($query01);
@@ -796,7 +807,7 @@ switch ($accion) {
 			echo' <tr>
 			<td>'.$value["codigo_devengo_descuento_planilla"].'</td>
 			<td>'.$value["descripcion_devengo_descuento_planilla"].'</td>
-			<td class="subtotal2" isss="'.$value["isss_devengo_devengo_descuento_planilla"].'" afp="'.$value["afp_devengo_devengo_descuento_planilla"].'" renta="'.$value["renta_devengo_devengo_descuento_planilla"].'" >'.$value["valor_devengo_planilla"].'</td>
+			<td class="subtotal2" isss="'.$value["isss_devengo_devengo_descuento_planilla"].'" afp="'.$value["afp_devengo_devengo_descuento_planilla"].'" renta="'.$value["renta_devengo_devengo_descuento_planilla"].'" >'.bcdiv($value["valor_devengo_planilla"], '1', 2).'</td>
 			<td>'.$value["isss_devengo_devengo_descuento_planilla"].'</td>
 			<td>'.$value["afp_devengo_devengo_descuento_planilla"].'</td>
 			<td>'.$value["renta_devengo_devengo_descuento_planilla"].'</td>
@@ -1156,6 +1167,44 @@ switch ($accion) {
 				}
 				/* ************************* */
 
+
+				
+				/* cuando empleado esta indemdizado */
+				function empleado_no_isss($e)
+				{
+					$query01="SELECT*FROM tbl_empleados WHERE id='$e' and descontar_isss='No'";
+				
+					$sql = Conexion::conectar()->prepare($query01);
+					$sql->execute();
+					return $sql->fetchAll();
+				};
+				$data_planilla = empleado_no_isss($consultarempleado);
+				$validar_isss=0;
+				foreach ($data_planilla as $value_planilla) {
+					$validar_isss.=$value_planilla["id"];
+				}
+				if($validar_isss!=0){
+					$porcentaje_isss="0";
+				}
+
+				function empleado_no_afp($e)
+				{
+					$query01="SELECT*FROM tbl_empleados WHERE id='$e' and descontar_afp='No'";
+					$sql = Conexion::conectar()->prepare($query01);
+					$sql->execute();
+					return $sql->fetchAll();
+				};
+				$data_planilla = empleado_no_afp($consultarempleado);
+				$validar_afp=0;
+				foreach ($data_planilla as $value_planilla) {
+					$validar_afp.=$value_planilla["id"];
+				}
+				if($validar_afp!=0){
+					$porcentaje_afp="0";
+				}
+
+				/* ********************** */
+
 			echo $porcentaje_isss.",".$porcentaje_afp.",".$porcentaje_base1.",".$porcentaje_base2.",".$tasa_sobre_excedente;
 			
 			/* ************ */
@@ -1473,6 +1522,86 @@ switch ($accion) {
 		$stmt->close();
 		$stmt = null;
 		/* ********************* */
+	break;
+
+	
+	case "calculosglobales":
+		
+		$numero=$_POST["numero"];
+		/* ************ */
+		function global_datos($numero)
+		{
+			$query01="SELECT SUM(total_liquidado_planilladevengo_vacacion) AS total_liquido FROM `planilladevengo_vacacion` where numero_planilladevengo_vacacion='$numero'";
+	
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			$outp = $sql->fetchAll();
+			echo json_encode($outp);
+		};
+		$data01 = global_datos($numero);
+		$result = [];
+		/* ************ */
+	break;
+	case "totalempleados":
+		
+		$numero=$_POST["numero"];
+		/* ************ */
+		function global_datos($numero)
+		{
+			$query01="SELECT COUNT(*) AS total_empleados FROM `planilladevengo_vacacion` where numero_planilladevengo_vacacion='$numero'";
+	
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			$outp = $sql->fetchAll();
+			echo json_encode($outp);
+		};
+		$data01 = global_datos($numero);
+		$result = [];
+		/* ************ */
+	break;
+	case "cargardataporempleado":
+		
+		$numero=$_POST["planilla"];
+		/* ************ */
+		function global_datos($numero)
+		{
+			$query01="SELECT * FROM `planilladevengo_vacacion` where numero_planilladevengo_vacacion='$numero'";
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();
+
+			/* echo json_encode($outp); */
+		};
+		function empleados($id)
+		{
+			$query01="SELECT * FROM `tbl_empleados` where id=$id";
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();
+		};
+
+
+		$data01 = global_datos($numero);
+		$array_resultado = array(); // El array que contendrá los elementos
+		foreach ($data01 as $value) {
+			$idempleado=$value["id_empleado_planilladevengo_vacacion"];
+
+			$data_emple=empleados($idempleado);
+			foreach ($data_emple as $val_emple) {
+				
+				$fila = array();
+				foreach ($val_emple as $columna => $valor) {
+					// Utiliza el nombre de la columna como clave en lugar de índice
+					$fila[$columna] = $valor;
+				}
+				// Agrega la fila al array_resultado
+				$array_resultado[] = $fila;
+			
+			}
+		}
+		echo json_encode($array_resultado);
+
+		/* ************ */
 	break;
 
 	default:

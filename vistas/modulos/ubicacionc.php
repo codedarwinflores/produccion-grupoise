@@ -59,6 +59,7 @@ function getContent() {
             <th>Nombre Cliente</th>
             <th>Código Cliente</th>
             <th>Código Ubicación</th>
+            <th>Supervisor</th>
             <th>Facturado a</th>
             <th>ID Coordinador de Zona</th>
             <th>Nombre Ubicación</th>
@@ -113,8 +114,16 @@ function getContent() {
          $valor = null;
  
          $bancos = Controladorubicacionc::ctrMostrar($item, $valor);
+
+         function empleado($id) {
+          $query = "SELECT * FROM `tbl_empleados` where id=$id";
+          $sql = Conexion::conectar()->prepare($query);
+          $sql->execute();			
+          return $sql->fetchAll();
+        };
  
         foreach ($bancos as $key => $value){
+          $id_coordinador_zona=$value["id_coordinador_zona"];
           
           $coordinador="<a href='asignarcoordinador?id=".$value["idubicacionc"]."' class='btn btn-warning' >Asignar</a>";
 
@@ -129,9 +138,28 @@ function getContent() {
                    <td>'.$value["id_cliente"].'</td>
                    <td>'.$value["nombrecliente"].'</td>
                    <td>'.$value["codigo_cliente"].'</td>
-                   <td>'.$value["codigo_ubicacion"].'</td>
+                   <td>'.$value["codigo_ubicacion"].'</td>';
+
+
+          /* COORDINADOR */
+          $dataempleado=empleado($coordinador);
+          $nombre_empleado="";
+          $idjefe="";
+          foreach ($dataempleado as $row_empleado){
+            $nombre_empleado=$row_empleado["primer_apellido"]." ".$row_empleado["segundo_apellido"]." ".$row_empleado["apellido_casada"]." ".$row_empleado["primer_nombre"]." ".$row_empleado["segundo_nombre"]." ".$row_empleado["tercer_nombre"];
+            $idjefe=$row_empleado["id_jefe_operaciones"];
+          }
+
+          /* JEFE OPERACION */
+          $dataempleado=empleado($idjefe);
+          $nombre_jefe="";
+          foreach ($dataempleado as $row_empleado){
+            $nombre_jefe=$row_empleado["primer_apellido"]." ".$row_empleado["segundo_apellido"]." ".$row_empleado["apellido_casada"]." ".$row_empleado["primer_nombre"]." ".$row_empleado["segundo_nombre"]." ".$row_empleado["tercer_nombre"];
+          }
+          echo "<td>".$nombre_jefe."</td>";
+          echo' 
                    <td>'.$value["facturar"].'</td>
-                   <td>'.$coordinador.'</td>
+                   <td>'.$nombre_empleado.'</td>
                    <td>'.$value["nombre_ubicacion"].'</td>
                    <td>'.$value["latitude"].'</td>
                    <td>'.$value["longitude"].'</td>
@@ -329,12 +357,12 @@ MODAL AGREGAR
               /*  $datos = array("".$row['Field']."" => $_POST["nuevo".$row['Field'].""]); */
            ?>
             <div class="form-group ubicacioncgrupo_<?php echo $row['Field'];?> <?php echo $row['Field'];?>">
+            
               <label for="" class="nuevoubicacionlabel_<?php echo $row['Field'];?>"></label> 
-              
+             
               <div class="input-group">
               
                 <span class="input-group-addon"><i class="icono_<?php echo $row['Field'];?>"></i></span> 
-
                 <input type="text" class="form-control input-lg nuevoubicacioninput_<?php echo $row['Field'];?>  ubicacioninput_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value="" autocomplete="off" required>
               </div>
             </div>

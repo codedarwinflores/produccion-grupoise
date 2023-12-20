@@ -1,4 +1,5 @@
 <?php
+    date_default_timezone_set('America/El_Salvador');
 
 if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
 
@@ -21,6 +22,22 @@ function getContent() {
 };
 
 ?>
+<style>
+     .mensaje {
+            color: red;
+            position: absolute;
+            display: none;
+        }
+        .color_estado_no{
+          color:red;
+          padding:10px;
+        }
+        
+        .color_estado_si{
+          color:green;
+          padding:10px;
+        }
+</style>
 <div class="content-wrapper">
 
  
@@ -54,13 +71,26 @@ function getContent() {
                     };
                     $data0 = obtenerempleado();
                     foreach($data0 as $value) {
-                          echo ' 
-                                  <option class="" codigo="'.$value["codigo_empleado"].'" idempleado="'.$value["id"].'" nombre="'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["tercer_nombre"].' '.$value["primer_apellido"].' '.$value["segundo_apellido"].' '.$value["apellido_casada"].'">
-                                  '.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["tercer_nombre"].' '.$value["primer_apellido"].' '.$value["segundo_apellido"].' '.$value["apellido_casada"].' - '.$value["descripcion"].'</option>';
+
+                      $nombre_cargo=trim(trim($value["primer_nombre"])." ".trim($value["segundo_nombre"]).' '.trim($value["tercer_nombre"]).' '.trim($value["primer_apellido"]).' '.trim($value["segundo_apellido"]).' '.trim($value["apellido_casada"]).' - '.trim($value["descripcion"]));
+
+                      $nombre_cargo = preg_replace('/\s+/', ' ', $nombre_cargo);
+
+                      $estado_emple="";
+	                    if($value["estado"]=="" || $value["estado"] != 2){
+                      $estado_emple=" <span class='color_estado_no'>- No esta contratado</span>";
+                      }
+                      else{
+                        $estado_emple=" <span class='color_estado_si'>-Esta contratado</span>";
+                      }
+
+
+                          echo '<option class="" estado_empleado="'.$value["estado"].'" codigo="'.$value["codigo_empleado"].'" idempleado="'.$value["id"].'" nombre="'.trim($value["primer_nombre"]).' '.trim($value["segundo_nombre"]).' '.trim($value["tercer_nombre"]).' '.trim($value["primer_apellido"]).' '.trim($value["segundo_apellido"]).' '.trim($value["apellido_casada"]).'">'.$nombre_cargo.$estado_emple.'</option>';
                         }
                   ?> 
               </select>
               <br>
+              <p style="color:red" class="estado_emple"></p>
               <h4>
                 Ubicación:
               </h4>
@@ -76,12 +106,28 @@ function getContent() {
 
           </div>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12 ">
             <button class="btn btn-primary agregar_situacion" data-toggle="modal" data-target="#modalAgregarsituacion">
               Agregar <?php echo $Nombre_del_Modulo;?>
             </button>
+            <a href="generarreportesituacion" class="btn btn-success">Reportes</a>
+            <br>
             <br>
 
+            <div class="col-md-3">
+                <label>Fecha Desde</label>
+                <input type="text" class="form-control calendario" id="fechaInicio" data-lang="es" data-years="2010-2060" data-format="DD-MM-YYYY">
+            </div>
+            <div class="col-md-3">
+                <label>Fecha Hasta</label>
+                <input type="text" class="form-control calendario" id="fechaFin">
+            </div>
+            <div class="col-md-12">
+              <button class="btn btn-primary filtrar_fecha">Filtrar fecha</button>
+              <button class="btn btn-warning limpiar_table">limpiar</button>
+            </div>
+
+            <div class="col-md-12"></div>
             <div class="box-body" style=" height: 450px;  overflow: scroll;" id="cargar_data_situacion">
 
             <table class="table table-bordered table-striped dt-responsive tablas" width="100%">
@@ -153,12 +199,16 @@ MODAL AGREGAR
 
             <!-- ENTRADA PARA CAMPOS  -->
 
-              <div class="box-dody">
+              <div class="box-dody todosinput">
 
                 <input type="hidden" id="id">
-                <input type="text" id="accion">
+                <input type="hidden" id="accion">
                 <input type="hidden" id="idempleado_situacion">
+                <input type="hidden" id="fecha_hora_ingreso_his" value="<?php echo date("d-m-Y g:i a");?>">
+                <label> Fecha y hora de ingreso de registro </label>
+                <input type="text" id="fecha_hora_ingreso" class="form-control" value="<?php echo date("d-m-Y g:i a");?>" readonly>
 
+                <h4 class="informacion_empleado"></h4>
                 <!-- ****************** -->
                 <table class="tabla_situacion" width="100%">
                   <thead>
@@ -191,8 +241,8 @@ MODAL AGREGAR
                       <td><input type="text" class="form-control inputtable" id="ansp_situacion" oninput="validateNumber(this);" autocomplete="off"></td>
                       <td><input type="text" class="form-control inputtable" id="vacaciones_situacion" oninput="validateNumber(this);" autocomplete="off"></td>
                       <td><input type="text" class="form-control inputtable" id="permiso_situacion" oninput="validateNumber(this);" autocomplete="off"></td>
-                      <td><input type="text" class="form-control inputtable activarmotivo"  id="hora_extra_situacion" oninput="validateNumber(this);" autocomplete="off"></td>
-                      <td><input type="text" class="form-control inputtable activarmotivo" id="hora_normales_situacion" oninput="validateNumber(this);" autocomplete="off"></td>
+                      <td><input type="text" class="form-control inputtable activarmotivo tiempo"  id="hora_extra_situacion"  autocomplete="off"></td>
+                      <td><input type="text" class="form-control inputtable activarmotivo" id="hora_normales_situacion"  oninput="validateNumber(this);" autocomplete="off"></td>
                       <td><input type="text" class="form-control inputtable activarmotivo" id="tiempo_compensatorio_situacion" oninput="validateNumber(this);" autocomplete="off"></td>
                       <td><input type="text" class="form-control inputtable" id="recuperar_tiempo_situacion" oninput="validateNumber(this);" autocomplete="off"></td>
                       <td><input type="text" class="form-control inputtable" id="dias_no_sueldo" oninput="validateNumber(this);" autocomplete="off"></td>
@@ -217,7 +267,7 @@ MODAL AGREGAR
                     <select  id="inicial_situacion" class="form-control">
                         <option value="">Seleccione opción</option>
                         <option value="Inicial">Inicial</option>
-                        <option value="No">No</option>
+                        <option value="No">Prorroga</option>
                     </select>
                   </div>
 
@@ -272,6 +322,13 @@ MODAL AGREGAR
                             <option value="" id="selec_ubicacion">Seleccione  Ubicación</option>
                             <?php
 
+                              function cliente_hora($codigo) {
+                                $query01 = "SELECT * FROM `clientes`
+                                WHERE codigo = '$codigo'";
+                                $sql = Conexion::conectar()->prepare($query01);
+                                $sql->execute();			
+                                return $sql->fetchAll();
+                              };
 
                               function ubicacion_con_hombres_autorizados() {
                                 $query01 = "SELECT tbl_clientes_ubicaciones.id as idubicacion,  tbl_clientes_ubicaciones.*, tbl_ubicaciones_detalle.* 
@@ -285,14 +342,28 @@ MODAL AGREGAR
                               };
                               $data0120 = ubicacion_con_hombres_autorizados();
                               foreach($data0120 as $value) {
+
+                                $codigo_ubica=$value["codigo_cliente"];
+                                $horas_autorizada=0;
+                                $idcliente=0;
+                                $data_cliente=cliente_hora($codigo_ubica);
+                                foreach ($data_cliente as $val_cli) {
+                                  $horas_autorizada=$val_cli["valor_hora_extra_cliente"];
+                                  $idcliente=$val_cli["id"];
+                                }
+                                
+
                             ?>
-                                <option codigo="<?php echo $value['codigo_ubicacion']?>" value="<?php echo $value['codigo_ubicacion'].'-'.$value['nombre_ubicacion'] ?>">
+
+                                <option horas_autorizada="<?php echo $horas_autorizada?>" idcliente="<?php echo $idcliente?>" codigo="<?php echo $value['codigo_ubicacion']?>" value="<?php echo $value['codigo_ubicacion'].'-'.$value['nombre_ubicacion'] ?>">
                                   <?php echo $value['codigo_ubicacion'].'-'.$value['nombre_ubicacion'] ?>
                                 </option>  
                             <?php
                                 }
                               ?>
                     </select>
+                    <div id="mensaje_situacion" class="mensaje"></div>
+
                   </div>
 
  
@@ -370,7 +441,11 @@ MODAL AGREGAR
                         };
                         $data0120 = obtenerempleado_cubrir();
                         foreach($data0120 as $value) {
-                          echo "<option value='".$value["codigo_empleado"]."-".$value["primer_nombre"]." ".$value["primer_apellido"]."'>".$value["codigo_empleado"]."-".$value["primer_nombre"]." ".$value["primer_apellido"]." </option>";
+                          
+                      $nombre_cargo=trim(trim($value["primer_nombre"])." ".trim($value["segundo_nombre"]).' '.trim($value["tercer_nombre"]).' '.trim($value["primer_apellido"]).' '.trim($value["segundo_apellido"]).' '.trim($value["apellido_casada"]));
+                      $nombre_cargo = preg_replace('/\s+/', ' ', $nombre_cargo);
+
+                          echo "<option value='".$value["codigo_empleado"]."-".$nombre_cargo."'>".$value["codigo_empleado"]."-".$nombre_cargo." </option>";
                         }
                         ?>
                     </select>
@@ -428,6 +503,9 @@ MODAL AGREGAR
                         }
                         ?>
                     </select>
+
+             
+
                     <!-- maestros -->
                     <input type="hidden" class="descontar_tipohora" value="">
                     <input type="hidden" class="nombrecliente_situacion" value="">
@@ -435,6 +513,10 @@ MODAL AGREGAR
 
                   </div>
 
+                  <div class="form-group col-md-12">
+                    <label>Observacion</label>
+                    <input type="text" class="form-control" id="observacion_situacion">
+                  </div>
               </div>
 
             <!-- ****************** -->

@@ -4,6 +4,28 @@
   <hr style="border-color: #f6ae0f;margin-top: 0px;">
 </div>
 
+<?php
+
+?>
+
+
+<div class="col-lg-2 col-xs-6">
+
+  <div class="small-box " style="background-color: #222d32eb;color: #ffb002;">    
+    <div class="inner">    
+      <p>Permisos</p>    
+    </div>    
+    <div class="icon">      
+      <i class="fa fa-address-card"></i>    
+    </div>    
+    <a href="permisos" class="small-box-footer">      
+      Más info <i class="fa fa-arrow-circle-right"></i>    
+    </a>
+  </div>
+
+</div>
+
+
 
 <div class="col-lg-2 col-xs-6">
 
@@ -608,7 +630,7 @@
 
   <div class="small-box " style="background-color: #222d32eb;color: #ffb002;">    
     <div class="inner">    
-      <p>Colaboradores</p>    
+      <p>Empleados</p>    
     </div>    
     <div class="icon">      
       <i class="fa fa fa-drivers-license-o"></i>    
@@ -715,6 +737,25 @@
     <i class="fa fa-tty"></i>
     </div>
     <a href="mantenimientoradio" class="small-box-footer">
+    Más info <i class="fa fa-arrow-circle-right"></i>
+    </a>
+  </div>
+</div>
+
+<div class="col-lg-12 col-xs-12">
+    <p style="font-weight: bold;font-size: x-large;">REPORTES</p>
+    <hr style="border-color: #f6ae0f;margin-top: 0px;">
+  </div>
+
+  <div class="col-lg-3 col-xs-6">
+  <div class="small-box " style="background-color: #2b2468;color: #ffb002;"">
+    <div class=" inner">
+    <p>Reportes</p>
+    </div>
+  <div class="icon">
+    <i class="fa fa-file-text"></i>
+    </div>
+    <a href="todosreportes" class="small-box-footer">
     Más info <i class="fa fa-arrow-circle-right"></i>
     </a>
   </div>

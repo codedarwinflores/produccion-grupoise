@@ -54,6 +54,18 @@ function getContent()
 	$stmt = null;
 }
 
+function getContentupdate()
+{
+	$query = "SHOW COLUMNS FROM situacion WHERE Field NOT IN ('id')";
+	$stmt = Conexion::conectar()->prepare($query);
+	$stmt->execute();
+	return $stmt->fetchAll();
+
+	$stmt->close();
+
+	$stmt = null;
+}
+
 
 
 
@@ -63,14 +75,15 @@ switch ($accion) {
 
 		function consultar_situacion($e)
 		{
-			$query01 = "SELECT * FROM `situacion`  WHERE idempleado_situacion='$e'";
+			$query01 = "SELECT * FROM `situacion`  WHERE idempleado_situacion='$e' ORDER BY STR_TO_DATE(fecha_situacion, '%d-%m') DESC";
+			
 			$sql = Conexion::conectar()->prepare($query01);
 			$sql->execute();
 			return $sql->fetchAll();
 		};
 		$data01 = consultar_situacion($idempleado_situacion);
 		$datos_html = "";
-		$datos_html .= '  <table class="table table-bordered table-striped dt-responsive tablas" width="100%">
+		$datos_html .= '  <table class="table table-bordered table-striped dt-responsive tablas" width="100%" id="tablas_filtro">
 		<thead>
 		  <tr>
 			<th style="width:90px">Fecha</th>
@@ -86,6 +99,7 @@ switch ($accion) {
 			<th>T.COMP</th>
 			<th>R.TIEMP</th>
 			<th>D. No Sueldo</th>
+			<th>N. Pla</th>
 			<th>Acciones</th>
 
 		  </tr> 
@@ -111,6 +125,7 @@ switch ($accion) {
 			<td>' . $value["tiempo_compensatorio_situacion"] . '</td>
 			<td>' . $value["recuperar_tiempo_situacion"] . '</td>
 			<td>' . $value["dias_no_sueldo"] . '</td>
+			<td>' . $value["numero_planilla_admin"] . '</td>
 			<td>
 			  <div class="btn-group">
 				<button class="btn btn-warning btnEditarsituacion" id="' . $value["id"] . '" data-toggle="modal" data-target="#modalAgregarsituacion"><i class="fa fa-pencil"></i></button>
@@ -221,12 +236,11 @@ switch ($accion) {
 		/* *************************** */
 		$codigo_empleado = explode("-", $cubrir_situacion);
 		$codigo_empleadoc=$codigo_empleado[0];
-		if($hora_extra_situacion>0 || $cubrir_situacion != ""){
+		if($hora_extra_situacion > 0 || $cubrir_situacion != ""){
 
 			function consultar_situacion($id1)
 			{
 				$query01="SELECT * FROM situacion WHERE id='$id1'";
-				
 				$sql = Conexion::conectar()->prepare($query01);
 				$sql->execute();
 				return $sql->fetchAll();
@@ -248,33 +262,34 @@ switch ($accion) {
 					$horas_ausencia_situacion_old.=$value["tiempo_compensatorio_situacion"];
 				}
 
-				$empleado_cubrir.=$value["cubrir_situacion"];
+				$empleado_cubrir=$value["cubrir_situacion"];
 			}
 
 			$codigo_empleado_old = explode("-", $empleado_cubrir);
 			$codigo_empleadoc_old=$codigo_empleado_old[0];
 
 			$eliminar_haus="DELETE FROM `situacion` WHERE horas_ausencia_situacion='$horas_ausencia_situacion_old' and fecha_situacion='$fecha_anterior' and idempleado_situacion='$codigo_empleadoc_old'";
-			echo $eliminar_haus;
+			/* echo $eliminar_haus; */
 			$sql_haus = Conexion::conectar()->prepare($eliminar_haus);
 			$sql_haus->execute();
 
 
-			if(!empty($hora_extra_situacion)){
+			if($hora_extra_situacion!=""){
 				$valor_hora_ausensia=$hora_extra_situacion;
 			}
-			if(!empty($hora_normales_situacion)){
-				$valor_hora_ausensia=$hora_extra_situacion;
+			if($hora_normales_situacion!=""){
+				$valor_hora_ausensia=$hora_normales_situacion;
 			}
-			if(!empty($tiempo_compensatorio_situacion)){
-				$valor_hora_ausensia=$hora_extra_situacion;
+			if($tiempo_compensatorio_situacion!=""){
+				$valor_hora_ausensia=$tiempo_compensatorio_situacion;
 			}
 			$insertar_haus="INSERT INTO `situacion`(`horas_ausencia_situacion`, `fecha_situacion`, `idempleado_situacion`) VALUES  ('$valor_hora_ausensia','$fecha_situacion','$codigo_empleadoc')";
+			/* echo $insertar_haus; */
 			$sql_haus = Conexion::conectar()->prepare($insertar_haus);
 			$sql_haus->execute();
 		}
 		/* ****************************** */
-		$data = getContent();
+		$data = getContentupdate();
 		$test = "";
 		foreach ($data as $row) {
 			$namecolumnas_situacion .= $row['Field'] . "=" . ":" . $row['Field'] . ",";
@@ -282,21 +297,19 @@ switch ($accion) {
 		}
 
 		$query01 = "UPDATE situacion SET " . trim($test, ",") . " WHERE id LIKE $id";
-		
+		/* echo $query01; */
 		$sql = Conexion::conectar()->prepare($query01);
-		$sql->execute();
+		
+		if($sql->execute()){
+			echo "ok";
+		}
 
 
 		return $sql->fetchAll();
 		$sql->close();
 		$sql = null;
 
-
-
-
-
 		/* ***************** */
-
 
 		break;
 	case "eliminar":
@@ -362,7 +375,46 @@ switch ($accion) {
 		$nombre_empleado="";
 		foreach ($data01 as $value) {
 			$nombre_empleado.=$value["idempleado_situacion"];
-			$datos .= $value["id"] . ',' . $value["idempleado_situacion"] . ',' . $value["dias_ausencia_situacion"] . ',' . $value["horas_ausencia_situacion"] . ',' . $value["consulta_isss_situacion"] . ',' . $value["incapacidad_situacion"] . ',' . $value["ansp_situacion"] . ',' . $value["vacaciones_situacion"] . ',' . $value["permiso_situacion"] . ',' . $value["hora_normales_situacion"] . ',' . $value["tiempo_compensatorio_situacion"] . ',' . $value["recuperar_tiempo_situacion"] . ',' . $value["comodin_situacion"] . ',' . $value["cubierto_situacion"] . ',' . $value["nuevo_servicio_situacion"] . ',' . $value["fin_servicio_situacion"] . ',' . $value["ubicacion_situacion"] . ',' . $value["servicio_eventual_situacion"] . ',' . $value["inactivos_situacion"] . ',' . $value["activo_situacion"] . ',' . $value["liquidado_situacion"] . ',' . $value["inicial_situacion"] . ',' . $value["hora_extra_situacion"] . ',' . $value["vacante_situacion"] . ',' . $value["posicion_situacion"] . ',' . $value["fecha_situacion"] . ',' . $value["motivo_horas_extras"] . ',' . $value["horas_no_cubiertas"]. ',' . $value["cubrir_situacion"]. ',' . $value["solicitado_situacion"]. ',' . $value["idcliente_situacion"].  ',' .$value["codigocliente_situacion"].  ',' .$value["nombrecliente_situacion"].  ',' .$value["hora_inicio_situacion"].  ',' .$value["hora_fin_situacion"].  ',' .$value["numero_planilla_admin"].  ',' .$value["dias_tra_incapacidad"].  ',' .$value["dias_no_sueldo"];
+			$datos .= /* 0 */$value["id"] . ',' . 
+					/* 1 */$value["idempleado_situacion"] . ',' . 
+					/* 2 */$value["dias_ausencia_situacion"] . ',' . 
+					/* 3 */$value["horas_ausencia_situacion"] . ',' . 
+					/* 4 */$value["consulta_isss_situacion"] . ',' .
+					 /* 5 */$value["incapacidad_situacion"] . ',' . 
+					 /* 6 */$value["ansp_situacion"] . ',' . 
+					 /* 7 */$value["vacaciones_situacion"] . ',' . 
+					 /* 8 */$value["permiso_situacion"] . ',' . 
+					 /* 9 */$value["hora_normales_situacion"] . ',' .
+					 /* 10 */$value["tiempo_compensatorio_situacion"] . ',' . 
+					 /* 11 */$value["recuperar_tiempo_situacion"] . ',' . 
+					 /* 12 */$value["comodin_situacion"] . ',' .
+					 /* 13 */$value["cubierto_situacion"] . ',' . 
+					 /* 14 */$value["nuevo_servicio_situacion"] . ',' .
+					/* 15 */$value["fin_servicio_situacion"] . ',' . 
+					/* 16 */$value["ubicacion_situacion"] . ',' . 
+					/* 17 */$value["servicio_eventual_situacion"] . ',' .
+					/* 18 */$value["inactivos_situacion"] . ',' .
+					/* 19 */$value["activo_situacion"] . ',' .
+					/* 20 */ $value["liquidado_situacion"] . ',' . 
+					/* 21 */$value["inicial_situacion"] . ',' . 
+					/* 22 */$value["hora_extra_situacion"] . ',' . 
+					/* 23 */$value["vacante_situacion"] . ',' . 
+					/* 24 */$value["posicion_situacion"] . ',' . 
+					/* 25 */$value["fecha_situacion"] . ',' . 
+					/* 26 */$value["motivo_horas_extras"] . ',' . 
+					/* 27 */$value["horas_no_cubiertas"]. ',' .
+					/* 28 */$value["cubrir_situacion"]. ',' .
+					/* 29 */$value["solicitado_situacion"]. ',' . 
+					/* 30 */$value["idcliente_situacion"].  ',' .
+					/* 31 */$value["codigocliente_situacion"].  ',' .
+					/* 32 */$value["nombrecliente_situacion"].  ',' .
+					/* 33 */$value["hora_inicio_situacion"].  ',' .
+					/* 34 */$value["hora_fin_situacion"].  ',' .
+					/* 35 */$value["numero_planilla_admin"].  ',' .
+					/* 36 */$value["dias_tra_incapacidad"].  ',' .
+					/* 37 */$value["dias_no_sueldo"].  ',' .
+					/* 38 */$value["fecha_hora_ingreso"].  ',' .
+					/* 39 */$value["observacion_situacion"];
 		}
 
 		function consultar_ubicacion($x)
@@ -379,7 +431,7 @@ switch ($accion) {
 		}
 
 
-		echo $datos.",".$obtener_ubicacion;
+		echo $datos.",".$obtener_ubicacion/* 40 */;
 		/* ************ */
 		break;
 	default:

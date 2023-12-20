@@ -40,6 +40,7 @@ function getContent() {
           Agregar <?php echo $Nombre_del_Modulo;?>
 
         </button>
+        <a href="generarreporteradios" class="btn btn-success">Generar reporte listado de radios</a>
 
       </div>
 
@@ -69,6 +70,7 @@ function getContent() {
             <th>Fecha de adquisición</th>
             <th>Estado</th>
             <th>Observaciones</th>
+            <th>Ubicación Actual</th>
             <th>Acciones</th>
  
           </tr> 
@@ -81,10 +83,29 @@ function getContent() {
  
          $item = null;
          $valor = null;
+
+          
+         function ubicacion_radio($codigo_radio) {
+          $query = "SELECT tbl_clientes_ubicaciones.* FROM `historialmovimientosequipos`,tbl_clientes_ubicaciones
+           where codigo_equipo_his='$codigo_radio' and historialmovimientosequipos.id_ubicacion_movimiento_his=tbl_clientes_ubicaciones.id
+           order by historialmovimientosequipos.id desc limit 1";
+          $sql = Conexion::conectar()->prepare($query);
+          $sql->execute();			
+          return $sql->fetchAll();
+        };
+
  
          $bancos = Controladorradio::ctrMostrar($item, $valor);
  
+         
         foreach ($bancos as $key => $value){
+          $codigo_radio=$value["codigo_radio"];
+          $nombre_ubicacion="";
+          $data_ubica=ubicacion_radio($codigo_radio);
+          foreach ($data_ubica as $val_ubi) {
+            # code...
+            $nombre_ubicacion=$val_ubi["nombre_ubicacion"];
+          }
           
            echo ' <tr>
                    <td>'.($key+1).'</td>
@@ -99,7 +120,9 @@ function getContent() {
                    <td>'.$value["color_radio"].'</td>
                    <td>'.$value["fecha_adquisicion"].'</td>
                    <td>'.$value["estado_radio"].'</td>
-                   <td>'.$value["observaciones"].'</td>';
+                   <td>'.$value["observaciones"].'</td>
+                   <td>'.$nombre_ubicacion.'</td>
+                   ';
  
                   
  

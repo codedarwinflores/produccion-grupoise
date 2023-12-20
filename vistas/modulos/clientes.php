@@ -140,7 +140,7 @@ function getContent() {
                    <td>'.$value["porcentaje_comision"].'</td>
                    <td>'.$value["posee_contrato"].'</td>
                    <td>'.$value["vigencia_contrato"].'</td>
-                   <td>'.$value["nombreservicio"].'</td>
+                   <td>'.$value["tipo_servicio"].'</td>
                    <td>'.$value["categoria_cliente"].'</td>
                    <td>'.$value["dui"].'</td>
                    <td>'.$value["contacto_contable"].'</td>
@@ -159,6 +159,8 @@ function getContent() {
 
                       
                       <button estado="Desactivar" idcontenido="'.$value["clienteid"].'" class="btn btn-danger desactivarcliente">Desactivar</button>
+
+                      
                       
 
                     </div>  
@@ -179,7 +181,8 @@ function getContent() {
                        
                        <button estado="Activar" idcontenido="'.$value["clienteid"].'" class="btn btn-success activarcliente">Activar</button>
                        
-
+                       <a  href="index.php?ruta=minutos&id='.$value["clienteid"].'" class="btn btn-info">Minutos</a>
+                      
                      </div>  
  
                    </td>
@@ -278,6 +281,20 @@ MODAL AGREGAR
              }
           ?>
 
+
+        <!-- <input type="text" class="form-control input-lg  input_des_valor_hora_extra_cliente clientes_input_des_valor_hora_extra_cliente" name="nuevodes_valor_hora_extra_cliente" placeholder="" value="" autocomplete="off" required="" tabla_validar="clientes" item_validar="codigo"> -->
+          <!-- descontar  -->
+            <div class="descontar">
+              <label for="">¿Descontar Hora extra?</label>
+                <div>
+                  <select class="form-control input-lg  input_des_valor_hora_extra_cliente clientes_input_des_valor_hora_extra_cliente" name="nuevodes_valor_hora_extra_cliente" id="nuevodes_valor_hora_extra_cliente">
+                    <option value="">Seleccione Opción</option>
+                    <option value="Si">Si</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+             </div>
+
            <!-- dia  -->
            <div class="diacobro">
               <label for="">Seleccione día cobro</label>
@@ -291,7 +308,6 @@ MODAL AGREGAR
                     <option value="Viernes">Viernes</option>
                     <option value="Sábado">Sábado</option>
                     <option value="Domingo">Domingo</option>
-
                   </select>
                 </div>
              </div>
@@ -646,6 +662,18 @@ MODAL EDITAR
              }
           ?>
              
+
+             <!-- descontar  -->
+            <div class="editardescontar">
+              <label for="">¿Descontar Hora extra?</label>
+                <div>
+                  <select class="form-control input-lg  input_des_valor_hora_extra_cliente clientes_input_des_valor_hora_extra_cliente" name="editardes_valor_hora_extra_cliente" id="editardes_valor_hora_extra_cliente">
+                    <option value="">Seleccione Opción</option>
+                    <option value="Si">Si</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+             </div>
 
              <!-- dia  -->
            <div class="ediacobro">

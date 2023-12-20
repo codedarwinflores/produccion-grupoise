@@ -124,6 +124,13 @@ class Controladorrecibo{
 			
 				$datos=$array;
 				$respuesta = Modelorecibo::mdlIngresar($tabla_recibo, $datos);
+
+				$validar_modulo=$_POST["empleados_modulo"];
+
+				$ira="recibos";
+				if($validar_modulo!=""){
+					$nombremodelo_recibo="empleados";
+				}
 			
 				if($respuesta == "ok"){
 

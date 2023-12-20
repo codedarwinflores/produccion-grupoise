@@ -110,6 +110,9 @@ function getContent() {
  
                      <div class="btn-group">
                          
+                     <button class="btn btn-success btnEditarEmpleadoretiro"  idEmpleado="'.$value["id"].'" >Informacion</button>        
+
+
                        <button class="btn btn-warning btnEditarretiro" idretiro="'.$value["id"].'" data-toggle="modal" data-target="#modalEditarretiro"><i class="fa fa-pencil"></i></button>
  
                        <button class="btn btn-danger btnEliminarretiro" idretiro="'.$value["id"].'"  Codigo="'.$value["id"].'"><i class="fa fa-times"></i></button>

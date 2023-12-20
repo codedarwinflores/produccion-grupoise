@@ -54,6 +54,7 @@ function getContent() {
           <tr>
             
             <th>Ubicación</th>
+            <th>Cliente</th>
             <th>Correlativo</th>
             <th>Fecha</th>
             <th>Hora</th>
@@ -78,11 +79,29 @@ function getContent() {
  
          $bancos = Controladorvacante::ctrMostrar($item, $valor);
  
+         function cliente($codigo) {
+            $query = "SELECT clientes.*
+                      FROM tbl_clientes_ubicaciones, clientes
+                      where tbl_clientes_ubicaciones.id_cliente=clientes.id and
+                            tbl_clientes_ubicaciones.codigo_ubicacion='$codigo'";
+            $sql = Conexion::conectar()->prepare($query);
+            $sql->execute();			
+            return $sql->fetchAll();
+        };
+
         foreach ($bancos as $key => $value){
           
            echo ' <tr>
-                   <td>'.$value["ubicacion_vacante"]."-".$value["nombre_ubicacion_vacante"].'</td>
-                   <td>'.$value["correlativo_vacante"].'</td>
+                   <td>'.$value["ubicacion_vacante"]."-".$value["nombre_ubicacion_vacante"].'</td>';
+
+                   $data_cliente=cliente($value["ubicacion_vacante"]);
+                   foreach($data_cliente as $row_cliente) {
+                    echo "<td>".$row_cliente["nombre"]."</td>";
+                  }
+
+
+
+              echo'<td>'.$value["correlativo_vacante"].'</td>
                    <td>'.$value["fecha_vacante"].'</td>
                    <td>'.$value["hora_vacante"].'</td>
                    <td>'.$value["codigo_agente_vacante"].'</td>
@@ -274,7 +293,10 @@ MODAL AGREGAR
                         };
                         $data01 = consultar_personal();
                         foreach($data01 as $value) {
-                          echo "<option codigo='".$value["codigo_empleado"]."' nombre='".$value["primer_nombre"].' '.$value["primer_apellido"]."' value='".$value["codigo_empleado"]."'>".$value["codigo_empleado"]."-".$value["primer_nombre"].' '.$value["primer_apellido"]." </option>";
+                          $nombre_cargo=trim(trim($value["primer_nombre"])." ".trim($value["segundo_nombre"]).' '.trim($value["tercer_nombre"]).' '.trim($value["primer_apellido"]).' '.trim($value["segundo_apellido"]).' '.trim($value["apellido_casada"]));
+                          $nombre_cargo = preg_replace('/\s+/', ' ', $nombre_cargo);
+                
+                          echo "<option codigo='".$value["codigo_empleado"]."' nombre='".$nombre_cargo."'>".$value["codigo_empleado"]."-".$nombre_cargo." </option>";
                         }
                         ?>
                 </select>
@@ -323,6 +345,14 @@ MODAL AGREGAR
               <div class="input-group" bis_skin_checked="1">
                 <span class="input-group-addon"><i class="icono_hora_cobertura_vacante"></i></span> 
                 <input type="text" class="form-control input-lg input_hora_cobertura_vacante tiempo" name="nuevohora_cobertura_vacante" id="nuevohora_cobertura_vacante" placeholder="Ingresar Hora Cobertura" value="" autocomplete="off" >
+              </div>
+            </div>
+
+            <div class="form-group   grupovacante_hora_cobertura_vacante" bis_skin_checked="1">
+              <label for="" class="">Ingresar Observación</label> 
+              <div class="input-group" bis_skin_checked="1">
+                <span class="input-group-addon"><i class="icono_hora_cobertura_vacante"></i></span> 
+                <input type="text" class="form-control input-lg  " name="nuevoobserva_vacante" id="nuevoobserva_vacante" placeholder="Ingresar Hora Cobertura" value="" autocomplete="off" >
               </div>
             </div>
 
@@ -540,6 +570,15 @@ MODAL EDITAR
                  <input type="text" class="form-control input-lg input_hora_cobertura_vacante tiempo" name="editarhora_cobertura_vacante" id="editarhora_cobertura_vacante" placeholder="Ingresar Hora Cobertura" value="" autocomplete="off" >
                </div>
              </div>
+
+
+             <div class="form-group   grupovacante_hora_cobertura_vacante" bis_skin_checked="1">
+              <label for="" class="">Ingresar Observación</label> 
+              <div class="input-group" bis_skin_checked="1">
+                <span class="input-group-addon"><i class="icono_hora_cobertura_vacante"></i></span> 
+                <input type="text" class="form-control input-lg  " name="editarobserva_vacante" id="editarobserva_vacante" placeholder="Ingresar Hora Cobertura" value="" autocomplete="off" >
+              </div>
+            </div>
 
              <!-- ***************** -->
 

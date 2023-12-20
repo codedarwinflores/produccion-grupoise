@@ -189,6 +189,13 @@ function getContent() {
                   </div>
 
                   <div class="form-group">
+                      <label for="" class="">Tope de Aguinaldo Exento</label> 
+                      <div class="">
+                        <input type="number" id="editartope_excento_aguinaldo" onKeyPress="if(this.value.length==6) return false;" class="form-control" name="editartope_excento_aguinaldo"  step="0.01">
+                      </div>
+                  </div>
+
+                  <div class="form-group">
                       <label for="" class="">Dias maximo de pago incapacidad</label> 
                       <div class="">
                         <input type="number" id="editardias_maximo_incapacidad" onKeyPress="if(this.value.length==6) return false;" class="form-control" name="editardias_maximo_incapacidad"  step="0.01">
@@ -369,6 +376,13 @@ function getContent() {
                       </div>
                   </div>
 
+                  <div class="form-group">
+                      <label for="" class="">Centro de Trabajo</label> 
+                      <div class="">
+                        <input type="number" id="editarcentro_trabajo"  class="form-control editarcentro_trabajo" name="editarcentro_trabajo"   onKeyPress="if(this.value.length==100) return false;"  >
+                      </div>
+                  </div>
+
                   
                   <div class="form-group">
                       <label for="" class="">Numero Patronal</label> 
@@ -377,12 +391,19 @@ function getContent() {
                       </div>
                   </div>
 
-                  
-                  
-                  <div class="form-group" style="display: none;">
-                      <label for="" class="">Registro NRC</label> 
+                  <div class="form-group">
+                      <label for="" class="">Cuota Patronal ISSS</label> 
                       <div class="">
-                        <input type="text" id="editarregistro"  class="form-control " name="editarregistro"   onKeyPress="if(this.value.length==12) return false;"  >
+                        <input type="text" id="editarcuota_patronal_isss"  class="form-control " name="editarcuota_patronal_isss"   onKeyPress="if(this.value.length==12) return false;"  >
+                      </div>
+                  </div>
+
+                  
+                  
+                  <div class="form-group" >
+                      <label for="" class="">INSAFORP</label> 
+                      <div class="">
+                        <input type="text" id="editarinsaforp"  class="form-control " name="editarinsaforp"   onKeyPress="if(this.value.length==12) return false;"  >
                       </div>
                   </div>
 
@@ -509,6 +530,25 @@ function getContent() {
                         <input type="text" id="editargratificacion_vacacion" oninput="validateNumber(this);" class="form-control " name="editargratificacion_vacacion" >
                       </div>
                   </div>
+
+
+                  <div class="form-group">
+                      <label for="" class="">Kilometraje de Mantenimiento para Vehiculo</label> 
+                      <div class="">
+                        <input type="text" id="editarkilo_man_vehi" oninput="validateNumber(this);" class="form-control " name="editarkilo_man_vehi" >
+                      </div>
+                  </div>
+                  
+                  <div class="form-group">
+                      <label for="" class="">Kilometraje de Mantenimiento para Motocicleta</label> 
+                      <div class="">
+                        <input type="text" id="editarkilo_man_moto" oninput="validateNumber(this);" class="form-control " name="editarkilo_man_moto" >
+                      </div>
+                  </div>
+
+
+
+
 
 
                   <a class="btn btn-success" href="diasferiados">Agregar Dia Feriado</a>

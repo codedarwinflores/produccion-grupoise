@@ -442,7 +442,8 @@ switch ($accion) {
 
 		function verificar($codigo1,$tabla1,$columna1)
 		{
-			$query01="SELECT*FROM $tabla1 where $columna1='$codigo1'";
+			$query01="SELECT*FROM $tabla1 where $columna1='$codigo1'"; 
+
 			$sql = Conexion::conectar()->prepare($query01);
 			$sql->execute();
 			return $sql->fetchAll();	

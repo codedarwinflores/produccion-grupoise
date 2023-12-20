@@ -812,7 +812,7 @@ switch ($accion) {
 			echo' <tr>
 			<td>'.$value["codigo_devengo_descuento_planilla"].'</td>
 			<td>'.$value["descripcion_devengo_descuento_planilla"].'</td>
-			<td class="subtotal2" isss="'.$value["isss_devengo_devengo_descuento_planilla"].'" afp="'.$value["afp_devengo_devengo_descuento_planilla"].'" renta="'.$value["renta_devengo_devengo_descuento_planilla"].'"  >'.$value["valor_devengo_planilla"].'</td>
+			<td class="subtotal2" isss="'.$value["isss_devengo_devengo_descuento_planilla"].'" afp="'.$value["afp_devengo_devengo_descuento_planilla"].'" renta="'.$value["renta_devengo_devengo_descuento_planilla"].'"  >'.bcdiv($value["valor_devengo_planilla"], '1', 2).'</td>
 			<td>'.$value["isss_devengo_devengo_descuento_planilla"].'</td>
 			<td>'.$value["afp_devengo_devengo_descuento_planilla"].'</td>
 			<td>'.$value["renta_devengo_devengo_descuento_planilla"].'</td>
@@ -1090,6 +1090,43 @@ switch ($accion) {
 				}
 				/* ************************* */
 
+				
+				/* cuando empleado esta indemdizado */
+				function empleado_no_isss($e)
+				{
+					$query01="SELECT*FROM tbl_empleados WHERE id='$e' and descontar_isss='No'";
+				
+					$sql = Conexion::conectar()->prepare($query01);
+					$sql->execute();
+					return $sql->fetchAll();
+				};
+				$data_planilla = empleado_no_isss($consultarempleado);
+				$validar_isss=0;
+				foreach ($data_planilla as $value_planilla) {
+					$validar_isss.=$value_planilla["id"];
+				}
+				if($validar_isss!=0){
+					$porcentaje_isss="0";
+				}
+
+				function empleado_no_afp($e)
+				{
+					$query01="SELECT*FROM tbl_empleados WHERE id='$e' and descontar_afp='No'";
+					$sql = Conexion::conectar()->prepare($query01);
+					$sql->execute();
+					return $sql->fetchAll();
+				};
+				$data_planilla = empleado_no_afp($consultarempleado);
+				$validar_afp=0;
+				foreach ($data_planilla as $value_planilla) {
+					$validar_afp.=$value_planilla["id"];
+				}
+				if($validar_afp!=0){
+					$porcentaje_afp="0";
+				}
+
+				/* ********************** */
+
 			echo $porcentaje_isss.",".$porcentaje_afp.",".$porcentaje_base1.",".$porcentaje_base2.",".$tasa_sobre_excedente;
 			
 			/* ************ */
@@ -1311,6 +1348,39 @@ switch ($accion) {
 		$stmt->close();
 		$stmt = null;
 		/* ********************* */
+	break;
+	case "calculosglobales":
+		$numero=$_POST["numero"];
+		/* ************ */
+		function global_datos($numero)
+		{
+			$query01="SELECT SUM(total_liquidado_planilladevengo_gratifivaca) AS total_liquido FROM `planilladevengo_gratifivaca` where numero_planilladevengo_gratifivaca='$numero'";
+	
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			$outp = $sql->fetchAll();
+			echo json_encode($outp);
+		};
+		$data01 = global_datos($numero);
+		$result = [];
+		/* ************ */
+	break;
+	case "totalempleados":
+		
+		$numero=$_POST["numero"];
+		/* ************ */
+		function global_datos($numero)
+		{
+			$query01="SELECT COUNT(*) AS total_empleados FROM `planilladevengo_gratifivaca` where numero_planilladevengo_gratifivaca='$numero'";
+	
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			$outp = $sql->fetchAll();
+			echo json_encode($outp);
+		};
+		$data01 = global_datos($numero);
+		$result = [];
+		/* ************ */
 	break;
 	default:
 		echo $accion."respuesta nula";

@@ -1,7 +1,6 @@
 /* COLOCACION DE ICONOS */
 $(document).ready(function(){
 
-
 	$( ".numerodui" ).blur(function() {
 		
 		var nombres= $(".nombre1").val()+" "+$(".nombre2").val()+" "+$(".nombre3").val();

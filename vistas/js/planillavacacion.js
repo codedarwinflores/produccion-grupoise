@@ -37,7 +37,7 @@ $(document).ready(function(){
 
 		cargardataempleados();
 		$(".filtrar_empleados").attr("disabled","disabled");
-
+		calculos_globales();
 	}
 	else{
 	
@@ -120,9 +120,58 @@ $( "#periodo_planilladevengo_vacacion" ).on( "change", function() {
 	var historial_periodo = $("#historial_periodo").val();
 	var valor_actual= $(this).val();
 
-	if(valor_actual!=historial_periodo){
-						/* ********************* */
 
+		
+		/* *************************** */
+
+		
+		var valor = $(this).val();
+
+
+		var historial_desde=$("#historial_fecha_desde").val();
+		var historial_hasta=$("#historial_fecha_hasta").val();
+
+		
+		var his_mes_desde = moment(historial_desde,'DD-MM-YYYY').format('MM');
+		var his_anio_desde = moment(historial_desde,'DD-MM-YYYY').format('YYYY');
+
+		var his_mes_hasta = moment(historial_hasta,'DD-MM-YYYY').format('MM');
+		var his_anio_hasta = moment(historial_hasta,'DD-MM-YYYY').format('YYYY');
+
+
+		
+		var fecha = new Date();
+		var ultimoDia = new Date(fecha.getFullYear(), fecha.getMonth() + 1, 0);
+		var soloultimodia=ultimoDia.getDate();
+
+
+		desde="";
+		hasta="";
+		if(valor=="1"){
+			desde="01"+"-"+his_mes_desde+"-"+his_anio_desde;
+			hasta="15"+"-"+his_mes_hasta+"-"+his_anio_hasta;
+
+		}
+		if (valor=="2"){
+			desde="16"+"-"+his_mes_desde+"-"+his_anio_desde;
+			hasta=soloultimodia+"-"+his_mes_hasta+"-"+his_anio_hasta;
+		}
+
+		$("#historial_fecha_desde").val(desde);
+		$("#fecha_desde_planilladevengo_vacacion").val(desde);
+
+		$("#historial_fecha_hasta").val(hasta);
+		$("#fecha_hasta_planilladevengo_vacacion").val(hasta);
+
+
+		$("#descripcion_planilladevengo_vacacion").val("Planilla de Vacación desde "+desde+" hasta "+hasta);
+		$("#fecha_planilladevengo_vacacion").val(hasta);
+
+		/* ************************** */
+
+
+	/* if(valor_actual!=historial_periodo){
+				
 						swal({
 							type: "warning",
 							title: "Error: periodo incorrecto",
@@ -131,12 +180,16 @@ $( "#periodo_planilladevengo_vacacion" ).on( "change", function() {
 				
 						}).then(function (result) {
 							if (result.value) {
-								/* window.location = "situacion"; */
+								
 								location.reload();
 							}
 						});
-					/* ******************** */
-	}
+				
+	} */
+
+
+
+
 
 
   } );
@@ -144,13 +197,45 @@ $( "#periodo_planilladevengo_vacacion" ).on( "change", function() {
 
   /* CAPTURAR FECHA DESDE */
   $( "#fecha_desde_planilladevengo_vacacion" ).on( "click", function() {
-	$( "#ic__datepicker-1 .ic__day" ).on( "click", function() {
+	/* $( "#ic__datepicker-1 .ic__day" ).on( "click", function() { */
+	$( "#ic__datepicker-2" ).on( "click", function() {
 		/* ******************************************* */
 			var desde=$("#fecha_desde_planilladevengo_vacacion").val();
+			var hasta=$("#fecha_hasta_planilladevengo_vacacion").val();
+
 			var historial_desde=$("#historial_fecha_desde").val();
 
+
 			
-			if(desde != historial_desde){
+			var dia_desde = moment(desde,'DD-MM-YYYY').format('DD');
+			var mes_desde = moment(desde,'DD-MM-YYYY').format('MM');
+			var anio_desde = moment(desde,'DD-MM-YYYY').format('YYYY');
+
+	
+			/* capturar ultimo dia fecha hasta */
+			var capturardiafinal=anio_desde+"-"+mes_desde+"-"+dia_desde;
+			var partesFecha = capturardiafinal.split('-');
+			var año = parseInt(partesFecha[0]);
+			var mes = parseInt(partesFecha[1]);
+			var ultimoDia = new Date(año, mes, 0).getDate();
+			var ultimoDiaDelMes = año + '-' + (mes < 10 ? '0' : '') + mes + '-' + (ultimoDia < 10 ? '0' : '') + ultimoDia;
+			/* *************** */
+
+
+			var dia_hasta = moment(hasta,'DD-MM-YYYY').format('DD');
+			var mes_hasta = moment(hasta,'DD-MM-YYYY').format('MM');
+			var anio_hasta = moment(hasta,'DD-MM-YYYY').format('YYYY');
+			$("#fecha_hasta_planilladevengo_vacacion").val(ultimoDia+"-"+mes_desde+"-"+anio_desde);
+			var hasta=$("#fecha_hasta_planilladevengo_vacacion").val();
+			$("#fecha_planilladevengo_vacacion").val(hasta);
+
+
+			var dia_his = moment(historial_desde,'DD-MM-YYYY').format('DD');
+			$("#historial_fecha_desde").val(dia_his+"-"+mes_desde+"-"+anio_desde);
+			$("#descripcion_planilladevengo_vacacion").val("Planilla de Vacación desde "+desde+" hasta "+hasta);
+			
+
+			if(dia_desde != dia_his){
 				/* ********************* */
 
 					swal({
@@ -174,15 +259,68 @@ $( "#periodo_planilladevengo_vacacion" ).on( "change", function() {
 
  /* CAPTURAR FECHA HASTA */
  $( "#fecha_hasta_planilladevengo_vacacion" ).on( "click", function() {
-	$( "#ic__datepicker-2 .ic__day" ).on( "click", function() {
+	$( "#ic__datepicker-3" ).on( "click", function() {
 		/* ******************************************* */
 			var hasta=$("#fecha_hasta_planilladevengo_vacacion").val();
-					
+			var desde=$("#fecha_desde_planilladevengo_vacacion").val();
+
 			var historial_hasta=$("#historial_fecha_hasta").val();
 
-			if(hasta != historial_hasta){
-				/* ********************* */
+			$("#descripcion_planilladevengo_vacacion").val("Planilla de Vacación desde "+desde+" hasta "+hasta);
 
+
+			var mes_desde = moment(desde,'DD-MM-YYYY').format('MM');
+
+			var dia_hasta = moment(hasta,'DD-MM-YYYY').format('DD');
+			var mes_hasta = moment(hasta,'DD-MM-YYYY').format('MM');
+			var anio_hasta = moment(hasta,'DD-MM-YYYY').format('YYYY');
+
+			var dia_his = moment(historial_hasta,'DD-MM-YYYY').format('DD');
+
+			$("#historial_fecha_hasta").val(dia_his+"-"+mes_hasta+"-"+anio_hasta);
+
+
+			
+			/* **************************** */
+			if(mes_hasta > mes_desde){
+				/* ********************* */
+					swal({
+						type: "warning",
+						title: "Error: fecha hasta es mayor a fecha desde",
+						showConfirmButton: true,
+						confirmButtonText: "Cerrar"
+			
+					}).then(function (result) {
+						if (result.value) {
+							/* window.location = "situacion"; */
+							location.reload();
+						}
+					});
+				/* ******************** */
+			}
+			/* *************************** */
+
+
+			/* **************************** */
+			if(mes_hasta < mes_desde){
+				/* ********************* */
+					swal({
+						type: "warning",
+						title: "Error: fecha hasta es menor a fecha desde",
+						showConfirmButton: true,
+						confirmButtonText: "Cerrar"
+			
+					}).then(function (result) {
+						if (result.value) {
+							/* window.location = "situacion"; */
+							location.reload();
+						}
+					});
+				/* ******************** */
+			}
+			/* *************************** */
+			if(dia_hasta != dia_his){
+				/* ********************* */
 					swal({
 						type: "warning",
 						title: "Error: periodo incorrecto",
@@ -213,7 +351,6 @@ $( "#periodo_planilladevengo_vacacion" ).on( "change", function() {
 	$("#nombre_empleado_planilladevengo_vacacion").val(nombre);
 	$("#id_empleado_planilladevengo_vacacion").val(id);
 
-	alert(codigo);
 	setTimeout(function(){
 		guardarplanilla();
 	}, 300);
@@ -557,7 +694,10 @@ function cargardataempleados(){
 
 				console.log(response);
 				if(response.trim()!=""){
-					window.location = "nuevaplanillavacacion?id="+response;
+					/* window.location = "nuevaplanillavacacion?id="+response; */
+
+					/* operaciones globales */
+					cargardataporempleado(numero_planilladevengo_vacacion);
 				}
 				cargardataempleados_vacacion();
 				$("#tabla_empleados").empty();
@@ -617,8 +757,90 @@ function cargardataempleados(){
 	}
 
 }
+/* operaciones globales */
+var controldearray=0;
+var dataArray = [];
+var totalElementos =0;
+var numeroplanillaglobal="";
+function cargardataporempleado(numero_planilladevengo_vacacion){
+
+	$('.modal_carga_global').modal({backdrop: 'static', keyboard: false});
+	$('.modal_carga_global').modal('show');
+
+	numeroplanillaglobal=numero_planilladevengo_vacacion;
+
+	var dataString = 'accion01=cargardataporempleado&planilla='+numero_planilladevengo_vacacion+'';
+	$.ajax({
+		data: dataString,
+		url: "ajax/planilladevengo_vacacion.ajax.php",
+		type: 'post',
+		success: function (response) {
+			
+			dataArray = JSON.parse(response);
+			totalElementos = dataArray.length;
+
+			dataArray.forEach(function(fila) {
+				/* console.log("ID:", fila.codigo_empleado);  */
+			});
+			calculosglobalesinicial();
+		}
+	});
+}
+
+function calculosglobalesinicial(){
+	
+	if(controldearray==totalElementos){
+		window.location = "nuevaplanillavacacion?id="+numeroplanillaglobal; 
+	}
+	else{
+		var unoporuno = dataArray[controldearray];
+		console.log("codigo_empleado:", unoporuno.codigo_empleado);
+
+		
+		var codigo =  unoporuno.codigo_empleado;
+		var id =  unoporuno.id;
+		var nombre = $.trim(unoporuno.primer_nombre)+" "+$.trim(unoporuno.segundo_nombre)+" "+$.trim(unoporuno.tercer_nombre)+" "+$.trim(unoporuno.primer_apellido)+" "+$.trim(unoporuno.segundo_apellido)+" "+$.trim(unoporuno.apellido_casada);
+		var sueldo = unoporuno.sueldo;
+		var salario_por_hora = unoporuno.salario_por_hora;
+		var hora_extra_diurna = unoporuno.hora_extra_diurna;
+		var hora_extra_nocturna = unoporuno.hora_extra_nocturna;
+		var hora_extra_domingo = unoporuno.hora_extra_domingo;
+		var hora_extra_nocturna_domingo = unoporuno.hora_extra_nocturna_domingo;
+		var fecha_contratacion = unoporuno.fecha_contratacion;
+		var sueldo_diario = unoporuno.sueldo_diario;
+
+		var hr1 = moment(fecha_contratacion,'YYYY/MM/DD HH:mm:ss a').format('DD-MM-YYYY');
+		$("#fecha_contratacion").val(hr1);
+		var votevalue = parseFloat(sueldo_diario);
+		$("#sueldo_diario").val(votevalue);
+		$("#sueldo_diario").val(votevalue);
+		$("#txt_codigo").val(codigo);
+		$("#txt_idempleado").val(id);
+		$("#txt_nombre").val(nombre);
+		$("#txt_sueldo").val(sueldo);
+		$("#txt_salario_por_hora").val(salario_por_hora);
+		$("#salario_por_hora").val(salario_por_hora);
+		$("#hora_extra_diurna").val(hora_extra_diurna);
+		$("#hora_extra_nocturna").val(hora_extra_nocturna);
+		$("#hora_extra_domingo").val(hora_extra_domingo);
+		$("#hora_extra_nocturna_domingo").val(hora_extra_nocturna_domingo);
+		$("#nombreempleado").text(nombre);
+		$(".mostrar_devengo_vacacion").attr("sueldo",sueldo);
+		$(".valor_devengo_planilla").attr("idempleado",id);
 
 
+
+
+		
+		valor_devengo_vacacion();
+		editar(codigo,id,nombre,sueldo);
+		calculos(id,sueldo);
+		setInterval(repetir(codigo,id,nombre,sueldo),600);
+		
+	}
+	
+}
+/* operaciones globales */
 function cargardataempleados_vacacion(){
 
 	var tipo_planilladevengo_vacacion=$("#tipo_planilladevengo_vacacion").val();
@@ -683,6 +905,9 @@ function cargardataempleados_vacacion(){
 
 				$(".tablas1").on("click", ".btnEditarabase", function(){
 
+					$('.modal_carga').modal({backdrop: 'static', keyboard: false});
+					$('.modal_carga').modal('show');
+					
 
 					var codigo = $(this).attr("codigo");
 					var id = $(this).attr("idempleado");
@@ -822,9 +1047,9 @@ function actualizar_datos(){
 	}, 1500);
 
 	
-	setTimeout(function(){
+	/* setTimeout(function(){
 		$('.modal_carga').modal('toggle');	
-	}, 2000);
+	}, 2000); */
 
 	
 }
@@ -1506,7 +1731,13 @@ $(".guardardevengo").click(function(){
 						/* window.location = "situacion"; */
 
 						
-						guardarplanillaoculto();
+						/* guardarplanillaoculto(); */
+						$.ajax({
+							url:guardarplanillaoculto(),
+							success:function(){
+								$('.modal_carga').modal('hide');
+							}
+						})
 
 						
 				
@@ -2203,8 +2434,8 @@ function consultarviaticos(tipo,sueldo){
 				} */
 				var suma_sueldo_viatiaco=parseFloat(sueldo)+parseFloat(valor_devengo_planilla);/* --calcular devengo_vacacion */
 				var total_devengo_vacacion=suma_sueldo_viatiaco*0.30;/* --devengo_vacacion */
-				$(".valor_devengo_planilla").val(total_devengo_vacacion.toFixed(2));
-				$("#devengodevengo_vacacion").val(total_devengo_vacacion.toFixed(2));
+				$(".valor_devengo_planilla").val(total_devengo_vacacion);
+				$("#devengodevengo_vacacion").val(total_devengo_vacacion);
 	
 		}
 	});
@@ -2271,7 +2502,7 @@ function valor_devengo_vacacion(){
 $( "#hora_extra_diurna_planilladevengo_vacacion").blur(function() {
 var valor= $(this).val();
 var clase_calculo=$(this).attr("calculo");
-var precio_hora=$("#hora_extra_diurna").val();
+var precio_hora=$("#hora_extra_diurna").val()+"0";
 var calculo=parseFloat(valor)*parseFloat(precio_hora);
 $("."+clase_calculo).val(calculo.toFixed(2));
 });
@@ -2319,10 +2550,10 @@ function calculo_horas(){
 	var calculo_extra_domingo_noc=parseFloat(hora_extra_domingo_noc)*parseFloat(precio_hora_extra_nocturna_domingo);
 
 
-	$(".calculo_extra_diurna").val(calculo_extra.toFixed(2));
-	$(".calculo_extra_nocturna").val(calculo_extra_nocturna.toFixed(2));
-	$(".calculo_extra_domingo").val(calculo_extra_domingo.toFixed(2));
-	$(".calculo_extra_domingo_noctu").val(calculo_extra_domingo_noc.toFixed(2));
+	$(".calculo_extra_diurna").val(calculo_extra);
+	$(".calculo_extra_nocturna").val(calculo_extra_nocturna);
+	$(".calculo_extra_domingo").val(calculo_extra_domingo);
+	$(".calculo_extra_domingo_noctu").val(calculo_extra_domingo_noc);
 
 }
 
@@ -2500,7 +2731,7 @@ function calcular_renta(){
 	/* ********************PORCENTAJE PARA RENTA************************** */
 	var idempleado=$("#txt_idempleado").val();
 	var accion_realizar="calculosisss";
-	var renta_devengo=total_descuento_renta.toFixed(2);
+	var renta_devengo=total_descuento_renta;
 	var afp_devengo=$("#sueldo_afp_planilladevengo_vacacion").val();
 	var isss_devengo=$("#sueldo_isss_planilladevengo_vacacion").val();
 
@@ -2551,7 +2782,7 @@ function calcular_renta(){
 }
 
 
-
+var addsuma=0;
 function calcular_afp_iss(){
 
 	var renta_devengo= $(".renta_devengo_devengo_descuento_planilla").val();
@@ -2563,6 +2794,14 @@ function calcular_afp_iss(){
 	
 	var porcentaje_isss= $("#porcentaje_isss").val();
 	var porcentaje_afp= $("#porcentaje_afp").val();
+
+		
+	if($.trim(porcentaje_isss)=="0"){
+		$("#sueldo_isss_planilladevengo_vacacion").val("0");
+	}
+	if($.trim(porcentaje_afp)=="0"){
+		$("#sueldo_afp_planilladevengo_vacacion").val("0");
+	}
 
 	var valor_devengo_planilla = $("#sueldo_afp_planilladevengo_vacacion").val();
 
@@ -2609,24 +2848,27 @@ function calcular_afp_iss(){
 
 
 	/* Descuento AFP: */
-	total_afp=parseFloat(total_afp_salario)*calcularporcentaje;
+	var pre_afp=parseFloat(total_afp_salario)*calcularporcentaje;
+	total_afp=solodecimales(pre_afp);
 	descuento_afp_final=total_afp_salario-total_afp;
-	$("#descuento_afp_planilladevengo_vacacion").val(total_afp.toFixed(2));
+	$("#descuento_afp_planilladevengo_vacacion").val(total_afp);
 
 
 
 	/* Descuento ISSS: */
-	total_isss= parseFloat(sueldo_isss_planilladevengo_vacacion)*calcularporcentaje_isss;
+	var pre_isss=parseFloat(sueldo_isss_planilladevengo_vacacion)*calcularporcentaje_isss;
+	total_isss=solodecimales(pre_isss);
 	descuento_iss_final=sueldo_isss_planilladevengo_vacacion-total_isss;
-	$("#descuento_isss_planilladevengo_vacacion").val(total_isss.toFixed(2));
+	$("#descuento_isss_planilladevengo_vacacion").val(total_isss);
 
 
 	/* Descuento Renta: */
-	total_descuento_renta=parseFloat(total_renta_salario)-parseFloat(total_afp)-parseFloat(total_isss);
+	var pre_renta=parseFloat(total_renta_salario)-parseFloat(total_afp)-parseFloat(total_isss);
+	total_descuento_renta=solodecimales(pre_renta);
 	if(total_renta_salario==0){
 		total_descuento_renta=0;
 	}
-	$("#sueldo_renta_planilladevengo_vacacion").val(total_descuento_renta.toFixed(2));
+	$("#sueldo_renta_planilladevengo_vacacion").val(total_descuento_renta);
 
 	/* ****CALCULO RENTA**** */
 	calcular_renta();
@@ -2640,11 +2882,12 @@ function calcular_afp_iss(){
 	/* CALCULO RENTA */
 	var sueldo_menos_base= parseFloat(total_descuento_renta)-parseFloat(porcentaje_base2);
 	var tasa_por_exedente= parseFloat(sueldo_menos_base)*parseFloat(calcularporcentaje_tasa_excente);
-	var descuento_renta=parseFloat(tasa_por_exedente)+parseFloat(porcentaje_base1);
+	var pre_des_renta=parseFloat(tasa_por_exedente)+parseFloat(porcentaje_base1);
+	var descuento_renta=solodecimales(pre_des_renta);
 
 	var descuento_renta_final=total_renta_salario-descuento_renta;
 
-	$("#descuento_renta_planilladevengo_vacacion").val(descuento_renta.toFixed(2));
+	$("#descuento_renta_planilladevengo_vacacion").val(descuento_renta);
 
 
 	console.log("************************");
@@ -2667,7 +2910,8 @@ function calcular_afp_iss(){
 	var sueldo=$("#sueldo_planilladevengo_vacacion").val();/* --SUELDO */
 	var otrodevengo=$("#otro_devengo_vacacion_planilladevengo_vacacion").val();/* --Otro Devengo: */
 
-	$("#total_devengo_vacacion_planilladevengo_vacacion").val(parseFloat(sueldo)+parseFloat(otrodevengo)+parseFloat(total_suma_horas));
+	var pre_total_devengado=parseFloat(sueldo)+parseFloat(otrodevengo)+parseFloat(total_suma_horas);
+	$("#total_devengo_vacacion_planilladevengo_vacacion").val(solodecimales(pre_total_devengado));
 	var totaldevengo=$("#total_devengo_vacacion_planilladevengo_vacacion").val();/* --Total Devengado: */
 	
 
@@ -2677,19 +2921,41 @@ function calcular_afp_iss(){
 	var descuento_renta_planilladevengo_vacacion=$("#descuento_renta_planilladevengo_vacacion").val();/* --Descuento Renta: */
 	var otro_descuento_planilladevengo_vacacion=$("#otro_descuento_planilladevengo_vacacion").val();/* --Otro Descuento: */
 
-	calculototaldescuento=parseFloat(descuento_isss_planilladevengo_vacacion)+parseFloat(descuento_afp_planilladevengo_vacacion)+parseFloat(descuento_renta_planilladevengo_vacacion)+parseFloat(otro_descuento_planilladevengo_vacacion);
+	var pre_calculototaldescuento=parseFloat(descuento_isss_planilladevengo_vacacion)+parseFloat(descuento_afp_planilladevengo_vacacion)+parseFloat(descuento_renta_planilladevengo_vacacion)+parseFloat(otro_descuento_planilladevengo_vacacion);
+	calculototaldescuento=solodecimales(pre_calculototaldescuento);
 
 
-	$("#total_descuento_planilladevengo_vacacion").val(calculototaldescuento.toFixed(2));
+	$("#total_descuento_planilladevengo_vacacion").val(calculototaldescuento);
 	var totaldescuento=$("#total_descuento_planilladevengo_vacacion").val();/* --Total Descuento: */
 
-	var calculototalliquido=parseFloat(totaldevengo)-parseFloat(totaldescuento);
-	$("#total_liquidado_planilladevengo_vacacion").val(calculototalliquido.toFixed(2));
+	var pre_calculototalliquido=parseFloat(totaldevengo)-parseFloat(totaldescuento);
+	var calculototalliquido=solodecimales(pre_calculototalliquido);
+	$("#total_liquidado_planilladevengo_vacacion").val(calculototalliquido);
 	var totalliquido=$("#total_liquidado_planilladevengo_vacacion").val();/* --Total Liquido: */
 
 
 
-	guardarplanillaoculto();
+	/* guardarplanillaoculto(); */
+	
+	addsuma=addsuma+1;
+	
+	console.log(addsuma+" resultado");
+	if(addsuma>=3){
+
+		addsuma=0;
+		$.ajax({
+			url:guardarplanillaoculto(),
+			success:function(){
+				$('.modal_carga').modal('hide');
+				redondear("false");
+				controldearray=controldearray+1;
+				console.log(controldearray+" controldearray");
+				calculosglobalesinicial();
+			}
+		})
+
+	}
+	
 }
 
 
@@ -2703,6 +2969,162 @@ $('.modales').on('hidden.bs.modal', function() {
 		$('.modal_carga').modal('toggle');	
 	}, 2000); */
 })
+
+/* codigo mascara para toda la planilla */
+function redondear(valor_desbloqueo){
+	
+	var divOriginal = $("#formulario_original");
+	/* var divDuplicado = divOriginal.clone(); */
+
+	// Cambiar el ID del div duplicado (opcional)
+   /*  divDuplicado.attr("id", "formulario_copia");
+	divDuplicado.attr("style", ""); */
+
+	// Agregar el div duplicado al contenedor deseado
+   /*  $("#formulario_copia").empty();
+	$("#formulario_copia").append(divDuplicado); */
+
+
+		 if (valor_desbloqueo=="true") {
+
+		   $("#formulario_copia").empty();
+		   $("#formulario_original").attr("style","");
+		   $(".desbloquear_mascara").attr("style","display:none;");
+		   $(".bloqueo_mascara").attr("style","display:none;");
+	   
+		}
+		else{
+			   var divOriginal = $("#formulario_original");
+			   var clone = divOriginal.clone();
+				// Cambiar el ID (opcional)
+				clone.attr("id", "nuevoDiv");
+			   // Agregar el clon al contenedor de clones
+			   $("#formulario_copia").empty();
+			   $("#formulario_copia").append(clone);
+			   clone.removeAttr("style");
+			   $("#formulario_original").attr("style","visibility:hidden; height:0px");
+			   
+			   var ancho = $("#nuevoDiv").width();
+			   var alto = $("#nuevoDiv").height();
+			   var posicion = $("#nuevoDiv").position();
+			   posicion.left;
+			   posicion.top;
+
+			   $(".desbloquear_mascara").attr("style","");
+			   $(".bloqueo_mascara").attr("style","");
+			   var nuevoDiv = $(".bloqueo_mascara");
+			   nuevoDiv.css({
+				   width: ancho,
+				   height: alto,
+				   background: " -webkit-linear-gradient(top, rgba(0,0,0,0.06) 0%,rgba(0,0,0,0) 100%)", // Color rojo semi-transparente
+				   position: "absolute",
+				   "z-index":9
+			   });
+			   $(".desbloquear_mascara").attr("style","margin-left:55%");
+
+			   
+			   $(".desbloquear_mascara").click(function() {
+				   // Tu código a ejecutar cuando se hace clic
+				   redondear("true");
+			   });
+
+			   var inputs = $("#formulario_copia input");
+			   /* -------------- */
+			   inputs.each(function() {
+				   var input = $(this);
+				   var valor=input.val();
+				   var idinput=input.attr("id");
+				   /* 	input.attr("id","");
+				   input.attr("name",""); */
+				   var valorNumerico = parseFloat(valor);
+						   if (!isNaN(valorNumerico) && valorNumerico % 1 !== 0) {
+							   var valorRedondeado = parseFloat(valor);
+							   var numerosDosDecimales = Math.floor(valorRedondeado * 100) / 100;
+							   input.val(numerosDosDecimales);
+						   }
+				   
+			   });
+			   /* ------------- */
+		   }
+
+			calculos_globales();
+
+
+}
+
+$("#myModal").on("hidden.bs.modal", function() {
+   var inputs = $(".modal_devengos input");
+   var select = $(".modal_devengos select");
+   $(".accion_devengo").val("agregardevengo");
+   inputs.each(function() {
+	   var input = $(this);
+	   input.val("");
+   })
+   select.each(function() {
+	   var input = $(this);
+	   input.val("");
+   })
+});
+
+
+$("#descuento").on("hidden.bs.modal", function() {
+   var inputs = $(".modal_devengos input");
+   var select = $(".modal_devengos select");
+   $(".accion_devengo").val("agregardevengo");
+   inputs.each(function() {
+	   var input = $(this);
+	   input.val("");
+   })
+   select.each(function() {
+	   var input = $(this);
+	   input.val("");
+   })
+});
+/* fin codigo mascara para toda la planilla */
+
+
+
+function solodecimales(num) {
+	const resultado=parseFloat(num).toFixed(2);
+	return resultado;
+  }
+
+
+function calculos_globales(){
+
+	var numero=$("#numero_planilladevengo_vacacion").val();
+	var dataString = 'accion01=calculosglobales'+'&numero='+numero;
+			$.ajax({
+				data: dataString,
+				url: "ajax/planilladevengo_vacacion.ajax.php",
+				type: 'post',
+				success: function (response) {
+					var datos = JSON.parse(response);
+					var total_liquido = datos[0].total_liquido;
+					var cantidad = parseFloat(total_liquido); // Obtener la cantidad como número
+					// Formatear la cantidad como dinero
+					var cantidadFormateada = cantidad.toLocaleString('es-ES', {
+						style: 'currency',
+						currency: 'USD' // Cambia 'EUR' por el código de moneda deseado (por ejemplo, 'USD' para dólares)
+					});
+					$(".total_liquido_global").text(cantidadFormateada);
+				}
+			});
+			/* ------------------------- */
+			var dataString2 = 'accion01=totalempleados'+'&numero='+numero;
+
+			$.ajax({
+				data: dataString2,
+				url: "ajax/planilladevengo_vacacion.ajax.php",
+				type: 'post',
+				success: function (response) {
+					var datos = JSON.parse(response);
+					var total_empleados = datos[0].total_empleados;
+					$(".total_empleado_global").text(total_empleados);
+				}
+			});
+
+}
 
 
 function sumar(){
@@ -2774,8 +3196,8 @@ function sumar(){
 	descuento_isss=parseFloat(sujetoiss_afp)*porcentajeisss;
 	descuento_afp=parseFloat(sujetoiss_afp)*porcentajeafp;
 
-	$("#descuento_isss_planilladevengo_vacacion").val(descuento_isss.toFixed(2));
-	$("#descuento_afp_planilladevengo_vacacion").val(descuento_afp.toFixed(2));
+	$("#descuento_isss_planilladevengo_vacacion").val(descuento_isss);
+	$("#descuento_afp_planilladevengo_vacacion").val(descuento_afp);
 
 	var descuento_isss_planilladevengo_vacacion=$("#descuento_isss_planilladevengo_vacacion").val();/* --Descuento ISSS: */
 	var descuento_afp_planilladevengo_vacacion= $("#descuento_afp_planilladevengo_vacacion").val();/* --Descuento AFP: */
@@ -2784,20 +3206,20 @@ function sumar(){
 
 	calculototaldescuento=parseFloat(descuento_isss_planilladevengo_vacacion)+parseFloat(descuento_afp_planilladevengo_vacacion)+parseFloat(descuento_renta_planilladevengo_vacacion)+parseFloat(otro_descuento_planilladevengo_vacacion);
 
-	$("#total_descuento_planilladevengo_vacacion").val(calculototaldescuento.toFixed(2));
+	$("#total_descuento_planilladevengo_vacacion").val(calculototaldescuento);
 	var totaldescuento=$("#total_descuento_planilladevengo_vacacion").val();/* --Total Descuento: */
 
 	var calculototalliquido=parseFloat(totaldevengo)-parseFloat(totaldescuento);
 	var totalliquido=$("#total_liquidado_planilladevengo_vacacion").val();
 
 
-		$("#total_liquidado_planilladevengo_vacacion").val(calculototalliquido.toFixed(2));
+		$("#total_liquidado_planilladevengo_vacacion").val(calculototalliquido);
 		var totalliquido=$("#total_liquidado_planilladevengo_vacacion").val();/* --Total Liquido: */
 
 
 
 	calculorenta= parseFloat(sujetoiss_afp)-parseFloat(descuento_isss)-parseFloat(descuento_afp);
-	$("#sueldo_renta_planilladevengo_vacacion").val(calculorenta.toFixed(2));
+	$("#sueldo_renta_planilladevengo_vacacion").val(calculorenta);
 	
 	var sujeto_isss=$("#sueldo_isss_planilladevengo_vacacion").val();/* --Sujeto ISSS: */
 	var sujeto_afp=$("#sueldo_afp_planilladevengo_vacacion").val();/* --Sujeto AFP: */
@@ -2808,7 +3230,14 @@ function sumar(){
 
 
 
-	guardarplanillaoculto();
+	/* guardarplanillaoculto(); */
+	$.ajax({
+		url:guardarplanillaoculto(),
+		success:function(){
+			 
+			$('.modal_carga').modal('hide');
+		}
+	})
 
 	console.log("***********************");
 	console.log(calculototaldescuento +"calculototaldescuento");

@@ -1,4 +1,3 @@
-
 <?php ob_start();
 require_once "../../modelos/conexion.php";        
  ?>
@@ -136,11 +135,13 @@ foreach($data as $value) {
 <?php
 require_once 'dompdf/autoload.inc.php';
 use Dompdf\Dompdf;
+/* require_once ('dompdf05/dompdf_config.inc.php'); */
 $dompdf = new DOMPDF();
-$dompdf->loadHtml(ob_get_clean());
+$dompdf->loadhtml(ob_get_clean());
 $dompdf->render();
 $pdf = $dompdf->output();
 $filename = "ejemplo.pdf";
 file_put_contents($filename, $pdf);
-$dompdf->stream($filename);
+/* $dompdf->stream($filename); */
+$dompdf->stream($filename, array("Attachment" => false));
 ?>

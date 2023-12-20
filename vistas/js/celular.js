@@ -128,6 +128,7 @@ $(".tablas").on("click", ".btnEditarcelular", function(){
 
 			$("#editaroperador_celular").val(respuesta["operador_celular"]);
 			$("#editarimei_celular").val(respuesta["imei_celular"]);
+			$("#editarserie_celular").val(respuesta["serie_celular"]);
 
 
 

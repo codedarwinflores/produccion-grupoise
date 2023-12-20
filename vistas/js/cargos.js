@@ -21,7 +21,15 @@ $(document).ready(function(){
 	});
 
 
-	
+	$(".jefeoperacioncargo").empty();
+	$(".jefeoperacioncargo").append($(".necesitajefe"));
+
+	$(".editarjefeoperacioncargo").empty();
+	$(".editarjefeoperacioncargo").append($(".editarnecesitajefe"));
+
+
+
+
 	$(".icono_codigo_contable").addClass("fa fa-money");
 	$(".input_codigo_contable").attr("placeholder", texto+" Código Contable");
 
@@ -204,8 +212,9 @@ $(".tablas").on("click", ".btnEditarCargos", function(){
 			$("#editarpersonal_asignado").val(respuesta["personal_asignado"]);
 			$("#editarpago_feriados").val(respuesta["pago_feriados"]);
 			$("#editarcalculo").val(respuesta["calculo"]);
+			$("#editarjefeoperacioncargo").val(respuesta["jefeoperacioncargo"]);
 
-
+			
 
 		}
 

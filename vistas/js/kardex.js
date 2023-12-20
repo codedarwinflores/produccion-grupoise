@@ -42,10 +42,10 @@ $(document).ready(function(){
  })
 
  
- $("#equipo_kardex").change(function(){
+/*  $("#equipo_kardex").change(function(){
 	var valor = $('option:selected', this).attr('costos');
 	$("#precio_kardex").val(valor);
-});
+}); */
 
 /* VALIDAR CANTIDAD EN UBICACION */
 $(".kardex_armas").change(function(){
@@ -74,6 +74,7 @@ $(".kardex_armas").change(function(){
 				url: "ajax/kardex.ajax.php",
 				type: 'post',
 				success: function (response) {
+					console.log(response);
 					
 					$("#cantidad_actual").val(response);
 
@@ -103,9 +104,18 @@ $(".kardex_armas").change(function(){
 /* VALIDAR SI ARMA O RADIO YA ESTA EN UBICACION */
 $("#equipo_kardex").change(function(){
 
+
+	var tipo_equipo=$("#equipo_kardex").attr("equipo");
+
+	var valorcostos = $('option:selected', this).attr('costos');
+	$("#precio_kardex").val(valorcostos);
+
 	var valor = $(this).val();
 	var idubicacion_select = $("#idubicacion_select").val();
 	$("#cantidad_kardex").val("1");
+
+	var suma_inicial= valorcostos*1;
+	$("#subtotal_kardex").val(suma_inicial);
 
 	var texto_codigos=$("#global_code").val();
 
@@ -131,16 +141,20 @@ $("#equipo_kardex").change(function(){
 	var cantidad_total=$("#cantidad_total").val();
 	var cantidad_maximo=$("#cantidad_maximo").val();
 	var cantidad_global=parseFloat(cantidad_actual)+parseFloat(cantidad_total)+1;
-	if(cantidad_global>cantidad_maximo){
-		swal({
-			title: 'Alerta',
-			text: "Ubicación esta al limite",
-			type: 'warning'
-		})
-		$(".guardarproducto").attr("style","display:none");
-	}
-	else{
-		$(".guardarproducto").removeAttr("style");
+
+	if(tipo_equipo!="equipo"){
+
+		if(cantidad_global>cantidad_maximo){
+			swal({
+				title: 'Alerta',
+				text: "Ubicación esta al limite",
+				type: 'warning'
+			})
+			$(".guardarproducto").attr("style","display:none");
+		}
+		else{
+			$(".guardarproducto").removeAttr("style");
+		}
 	}
 	/* ----------VALIDAR SI UBICACION ESTA VACIA----------------------- */
 
@@ -167,20 +181,28 @@ $("#equipo_kardex").change(function(){
 				data: dataString,
 				url: "ajax/kardex.ajax.php",
 				type: 'post',
-				success: function (response) {					
+				success: function (response) {	
 
-					if(response>"0"){	
-							swal({
-								title: 'Alerta',
-								text: "Ya se encuentra en esta ubicación",
-								type: 'warning'
-							})
-							$(".guardardata").attr("disabled","disabled");
-					}
-					else{
-						$(".guardardata").removeAttr("disabled","disabled");
+					var palabraBuscada = $("#nombremodulo").val();
+				
+					if (palabraBuscada=="kardex") {
+						/* alert(palabraBuscada); */
+					} else {
 
+							if(response>"0"){	
+									swal({
+										title: 'Alerta',
+										text: "Ya se encuentra en esta ubicación",
+										type: 'warning'
+									})
+									$(".guardardata").attr("disabled","disabled");
+							}
+							else{
+								$(".guardardata").removeAttr("disabled","disabled");
+
+							}					
 					}
+
 				}
 			});
 
@@ -218,8 +240,6 @@ $("#tipo_kardex_t").change(function(){
 
  $('.guardarproducto').on('click',function(){
 
-	
-
 
     var codigo_equipo=$("#equipo_kardex").val();
     var nombre_equipo=$('option:selected', "#equipo_kardex").attr('descripcion');
@@ -229,7 +249,8 @@ $("#tipo_kardex_t").change(function(){
 	var global_code=$("#global_code").val();
 	$("#global_code").val(global_code+'-'+codigo_equipo);
 
-	var table="<tr>"+
+	var table="";
+	 table="<tr>"+
 				"<td>"+codigo_equipo+"</td>"+
 				"<td>"+nombre_equipo+"</td>"+
 				"<td>"+cantidad_equipo+"</td>"+
@@ -237,6 +258,7 @@ $("#tipo_kardex_t").change(function(){
 				"<td>"+total_equipo+"</td>"+
 				"<td>"+"<div class='btn btn-danger quitarlista'><i class='fa fa-times'></i></div>"+"</td>"+
 				"</tr>";
+	
 	$("#añadirequipo").append(table);
 
 	/* ****** */

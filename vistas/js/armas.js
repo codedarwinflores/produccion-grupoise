@@ -1,6 +1,139 @@
 /* COLOCACION DE ICONOS */
+/*=============================================
+SUBIENDO LA FOTO DEL USUARIO
+=============================================*/
+$(".armasinput_foto_matricula").change(function(){
+
+	var imagen = this.files[0];
+	
+	/*=============================================
+  	VALIDAMOS EL FORMATO DE LA IMAGEN SEA JPG O PNG
+  	=============================================*/
+
+  	if(imagen["type"] != "image/jpeg" && imagen["type"] != "image/png"){
+
+  		$(".armasinput_foto_matricula").val("");
+
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen debe estar en formato JPG o PNG!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+
+  	}else if(imagen["size"] > 2000000){
+
+  		$(".armasinput_foto_matricula").val("");
+
+  		 swal({
+		      title: "Error al subir la imagen",
+		      text: "¡La imagen no debe pesar más de 2MB!",
+		      type: "error",
+		      confirmButtonText: "¡Cerrar!"
+		    });
+
+  	}else{
+
+  		var datosImagen = new FileReader;
+  		datosImagen.readAsDataURL(imagen);
+
+  		$(datosImagen).on("load", function(event){
+
+  			var rutaImagen = event.target.result;
+
+  			$(".previsualizar").attr("src", rutaImagen);
+
+  		})
+
+  	}
+})
+
+
+$('#insert_foto').on('change', function(e) {
+	var file = e.target.files[0];
+    console.log('Nombre del archivo:', file.name);
+    console.log('Tipo de archivo:', file.type);
+    console.log('Tamaño del archivo:', file.size);
+	$(".ubi_foto").val("../vistas/img/armas/"+file.name);
+  });
+
+  
+$('#update_foto').on('change', function(e) {
+	var file = e.target.files[0];
+    console.log('Nombre del archivo:', file.name);
+    console.log('Tipo de archivo:', file.type);
+    console.log('Tamaño del archivo:', file.size);
+	$("#editarfoto_matricula").val("../vistas/img/armas/"+file.name);
+  });
+
+$('.guardarimagen').on('click', function() {
+
+	const inputFile = document.getElementById('insert_foto');
+    const file = inputFile.files[0];
+    
+    const formData = new FormData();
+    formData.append('file', file);
+
+	$.ajax({
+		url: 'ajax/uploadfotoarma.ajax.php', // Ruta al script del lado del servidor
+		type: 'POST',
+		data: formData,
+		contentType: false,
+		processData: false,
+		success: function(response) {
+		  console.log('Archivo subido exitosamente:', response);
+		},
+		error: function(error) {
+		  console.error('Error al subir el archivo:', error);
+		}
+	  });
+	
+})
+
+$('.updateimagen').on('click', function() {
+
+	const inputFile = document.getElementById('update_foto');
+    const file = inputFile.files[0];
+    
+    const formData = new FormData();
+    formData.append('file', file);
+
+	$.ajax({
+		url: 'ajax/uploadfotoarma.ajax.php', // Ruta al script del lado del servidor
+		type: 'POST',
+		data: formData,
+		contentType: false,
+		processData: false,
+		success: function(response) {
+		  console.log('Archivo subido exitosamente:', response);
+		},
+		error: function(error) {
+		  console.error('Error al subir el archivo:', error);
+		}
+	  });
+	
+})
+
+
 $(document).ready(function(){
 
+	
+
+	$(".armagrupo_color").empty();
+	$(".armagrupo_color").append($(".s_color_arma"));
+
+	 
+
+	
+	$(".grupo_editar_foto_matricula ").empty();
+	$(".grupo_editar_foto_matricula ").append($(".egruponuevfoto_matricula"));
+	
+	$(".grupo_foto_matricula ").empty();
+	$(".grupo_foto_matricula ").append($(".insergruponuevfoto_matricula"));
+
+	
+	$(".grupo_editar_color").empty();
+	$(".grupo_editar_color").append($(".s_color_arma_editar"));
 
 	/* $(".grupo_descripcion_arma").empty();
 	$(".grupo_descripcion_arma").append($(".descripcion_arma")); */
@@ -131,9 +264,65 @@ $(document).ready(function(){
 	
 	$(".icono_fecha_vencimiento").addClass("fa fa-calendar");
 	$(".input_fecha_vencimiento").attr("placeholder", texto+" Fecha Vencimiento");
+	/* $(".input_fecha_vencimiento").addClass("calendario"); */
 	$(".input_fecha_vencimiento").addClass("calendario");
 	$(".input_fecha_vencimiento").addClass("fechavence");
 	$(".input_fecha_vencimiento").attr("fecha", "fechavence");
+
+	/* calendario validado */
+
+	const fechaActual = new Date();
+	const dia = ('0' + fechaActual.getDate()).slice(-2);
+	const mes = ('0' + (fechaActual.getMonth() + 1)).slice(-2);
+	const anio = fechaActual.getFullYear();
+
+	const fechaFormateada = `${dia}-${mes}-${anio}`;
+
+	$(".input_fecha_vencimiento").blur(function(){
+		$( "#ic__datepicker-4" ).click(function() {
+			var fechainicial = $(".input_fecha_vencimiento").val();
+			var valor=$(this).val();
+
+			 // Convierte las fechas en objetos Date
+			 const fechaDate1 = new Date(fechainicial.split("-").reverse().join("-"));
+			 const fechaDate2 = new Date(fechaFormateada.split("-").reverse().join("-"));
+			 if (fechaDate1 < fechaDate2) {
+				   $(".input_fecha_vencimiento").val("");
+				   swal({
+					   title: 'ERROR',
+					   text: "La fecha tiene que ser superior a la fecha actual",
+					   type: 'warning',
+					   confirmButtonColor: '#3085d6',
+					   cancelButtonColor: '#d33',
+					   cancelButtonText: 'Aceptar'
+				   })
+			   }
+
+		});
+
+		$( "#ic__datepicker-6" ).click(function() {
+			var fechainicial = $("#editarfecha_vencimiento").val();
+			var valor=$(this).val();
+
+		  // Convierte las fechas en objetos Date
+		  const fechaDate1 = new Date(fechainicial.split("-").reverse().join("-"));
+		  const fechaDate2 = new Date(fechaFormateada.split("-").reverse().join("-"));
+		  if (fechaDate1 < fechaDate2) {
+				$(".input_fecha_vencimiento").val("");
+				swal({
+					title: 'ERROR',
+					text: "La fecha tiene que ser superior a la fecha actual",
+					type: 'warning',
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					cancelButtonText: 'Aceptar'
+				})
+			}
+
+		});
+	});
+
+	/*  */
 
 
 	
@@ -151,6 +340,7 @@ $(document).ready(function(){
 	
 	$(".icono_precio_costo").addClass("fa fa-money");
 	$(".input_precio_costo").attr("placeholder", texto+" Precio Costo");
+	$(".input_precio_costo").addClass("onlydinero");
 
 	
 	$(".icono_estado").addClass("fa fa-shield");
@@ -285,7 +475,13 @@ $(".tablas").on("click", ".btnEditararmas", function(){
 			$("#editarlugar_adquisicion").val(respuesta["lugar_adquisicion"]);
 			$("#editarprecio_costo").val(respuesta["precio_costo"]);
 			$("#editarestado").val(respuesta["estado"]);
-			
+
+			$("#editarfoto_matricula").val(respuesta["foto_matricula"]);
+			const rutaOriginal = respuesta["foto_matricula"];
+			const rutaSinPuntos = rutaOriginal.replace(/^(\.\.\/)*/, "");
+			$(".editarprevisualizar").attr("src",rutaSinPuntos);
+
+
 
 			$("#editardescripcion_arma").val(respuesta["descripcion_arma"]);
 

@@ -131,7 +131,7 @@ MODAL AGREGAR
 
 <div id="modalAgregarabase" class="modal fade" role="dialog">
   
-  <div class="modal-dialog">
+  <div class="modal-dialog" style="width: 60%">
 
     <div class="modal-content">
 
@@ -158,6 +158,8 @@ MODAL AGREGAR
 
           <input type="hidden" id="id">
           <input type="hidden" id="correlativo_kardex">
+
+
 
             <!-- ENTRADA PARA CAMPOS  -->
             <div class="form-group ">
@@ -254,7 +256,7 @@ MODAL AGREGAR
             <table class="table table-bordered table-striped dt-responsive " width="100%">
               <thead>
                 <tr>
-                  <th>Equipo</th>
+                  <th style="min-width: 400px;">Equipo</th>
                   <th>Cantidad</th>
                   <th>Precio</th>
                   <th>Sub Total</th>
@@ -262,13 +264,20 @@ MODAL AGREGAR
               </thead>
               <tbody>
                 <tr>
+                  <td><span>Código-Descripción-Serie-Modelo</span></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
                   <td>
-                  <select class="form-control mi-selector" name="equipo_kardex" id="equipo_kardex">
+                  
+                  <select class="form-control mi-selector" name="equipo_kardex" id="equipo_kardex" equipo="radios">
                         <option value="">Seleccione Equipo</option>
                         <?php
                         function equipo()
                         {
-                              $query01 = "SELECT * FROM tbl_radios";
+                              $query01 = "SELECT * FROM tbl_radios where estado_radio='Activo'";
                               $sql = Conexion::conectar()->prepare($query01);
                               $sql->execute();
                               return $sql->fetchAll();
@@ -276,7 +285,7 @@ MODAL AGREGAR
                         $data06 = equipo();
                         foreach ($data06 as $value) {
                         ?>
-                          <option value="<?php echo $value["codigo_radio"]?>" costos="<?php echo $value["costo_radio"]?>" descripcion="<?php echo $value["descripcion_radio"]?>"><?php echo $value["codigo_radio"].'-'.$value["descripcion_radio"] ?></option>
+                          <option value="<?php echo $value["codigo_radio"]?>" costos="<?php echo $value["costo_radio"]?>" descripcion="<?php echo $value["descripcion_radio"]?>"><?php echo $value["codigo_radio"].'-'.$value["descripcion_radio"].'-'.$value["numero_serie"].'-'.$value["modelo_radio"] ?></option>
                         <?php
                         }
                         ?>
@@ -346,6 +355,7 @@ MODAL AGREGAR
             <input type="hidden" id="cantidad_actual">
             <input type="hidden" id="cantidad_maximo">
             <input type="hidden" id="global_code">
+            <input type="hidden" id="nombremodulo" value="kardexequipo"/>
 
       
 

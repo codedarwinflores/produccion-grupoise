@@ -129,7 +129,7 @@ switch ($accion) {
 		foreach ($data01 as $value) {
 			$datos_html .= "<option idvacante='".$value["id"]."' value='".$value["id"]."'>".$value["correlativo_vacante"]."-".$value["nombre_agente_vacante"]."-".$value["posicion_vacante"]." </option>";
 
-			$datos_situacion .= "<option empleado='".$value["codigo_agente_vacante"]."-".$value["nombre_agente_vacante"]."' idvacante='".$value["id"]."' value='".$value["id"]."'>".$value["correlativo_vacante"]."-".$value["posicion_vacante"]." </option>";
+			$datos_situacion .= "<option empleado='".$value["codigo_agente_vacante"]."-".$value["nombre_agente_vacante"]."' idvacante='".$value["id"]."' value='".$value["id"]."'  posicion_vacante='".$value["posicion_vacante"]."'>".$value["correlativo_vacante"]."-".$value["posicion_vacante"]." </option>";
 
 			$codigo_ubicacion.=$value["ubicacion_vacante"];
 			$empleado.=$value["codigo_agente_vacante"]."-".$value["nombre_agente_vacante"];
@@ -244,6 +244,28 @@ switch ($accion) {
 		/* ***************** */
 
 	break;
+
+	case "minutos":
+		/* ************ */
+		function minutos($minutos,$idcliente)
+		{
+		/* 	$query01 = "SELECT * FROM `planilladevengo`  WHERE codigo_empleado_planilladevengo='$e'"; */
+			$query01="SELECT*FROM minutos WHERE minutos_desde >= '$minutos' and minutos_hasta <= '$minutos' and id_cliente_minutos='$idcliente'";
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			$outp = $sql->fetchAll();
+			echo json_encode($outp);
+			
+		};
+		$minutos=$_POST["minutos"];
+		$idcliente=$_POST["idcliente"];
+		$data01 = minutos($minutos,$idcliente);
+		foreach ($data01 as $value) {
+			echo $value["valor_minutos"];
+		}
+			/* ************ */
+	break;
+
 	default:
 		echo $accion." datos nulo";
 }

@@ -2,6 +2,38 @@
 $(document).ready(function(){
 
 
+	/* ********************************** */
+		// Obtén la URL actual
+		var url = window.location.href;
+		// Utiliza el objeto URL para analizar la URL y obtener los parámetros
+		var urlObj = new URL(url);
+		// Obtén el valor de la variable "variable1" desde la URL
+		var variable1 = urlObj.searchParams.get("id");
+		var modulo = urlObj.searchParams.get("modulo");
+		// Haz algo con las variables capturadas
+		if (variable1 !== null) {
+			console.log("Valor de variable1: " + variable1);
+			$("#modalAgregarrecibo").modal('show');
+			$(".input_empleado_recibo").val(variable1).trigger('change.select2');
+			$(".input_descuento_recibo").val(17).trigger('change.select2');
+			$(".divoculto").removeAttr("style");
+			$(".precio_detalle").removeAttr("readonly");
+			$(".precio_detalle").val("0");
+			if(modulo=="regalo"){
+				$(".titulo_modulo").text("UNIFORME REGALADO");
+				$(".precio_detalle").attr("readonly","readonly");
+
+				
+			}
+			else{
+				$(".titulo_modulo").text("UNIFORME DESCUENTO");
+			}
+			$(".empleados_modulo").val(variable1);
+
+			
+		}
+		
+	/* ********************************* */
 	/* CORRELATIVO PLANILLA */
 			/* *********** */
 			var dataString = 'accion01=correlativoplanilla';
@@ -122,7 +154,8 @@ $(".tablas").on("click", ".btnEditarrecibo", function(){
 							=============================================*/
 							$(".productos").on("click", ".eliminardetalle", function(){
 								var id=$(this).attr("id");
-								elimindardetalle(id);
+								var idkardex=$(this).attr("idkardex");
+								elimindardetalle(id,idkardex);
 							});
 
 					}
@@ -185,6 +218,7 @@ $(".tablas").on("click", ".btnEliminarrecibo", function(){
 
   var idrecibo = $(this).attr("idrecibo");
   var liquidado = $(this).attr("liquidado");
+  var numero_recibo = $(this).attr("numero_recibo");
   var Codigo = "";
 
   if(liquidado=="Si"){
@@ -211,7 +245,11 @@ else{
 
 			if(result.value){
 
+				anulardetallekardex(numero_recibo);
+
 			window.location = "index.php?ruta=recibo&idrecibo="+idrecibo+"&Codigo="+Codigo;
+
+
 
 			}
 
@@ -235,9 +273,24 @@ $(".input_descuento_recibo").change(function(){
 $(".kardex_detalle").change(function(){
 	var precio = $('option:selected', this).attr('precio');
 	var cantidad = $('option:selected', this).attr('cantidad');
+
+
+
 	$(".precio_detalle").val(precio);
 	$(".comparar").val(cantidad);
 
+	
+	/* si es regalo */
+	var url = window.location.href;
+	var urlObj = new URL(url);
+	var variable1 = urlObj.searchParams.get("id");
+	var modulo = urlObj.searchParams.get("modulo");
+	if (variable1 !== null) {
+		if(modulo=="regalo"){
+			$(".precio_detalle").val("0");
+		}
+	}
+	/* *********** */
 });
 
 $(".cantidad_detalle").blur(function() {
@@ -245,7 +298,7 @@ $(".cantidad_detalle").blur(function() {
 	var cantidadmaxima=$(".comparar").val();
 
 	if(parseFloat(valor) >= parseFloat(cantidadmaxima)){
-		$(".advertencia").text("La cantidad supera a la del Kardex");
+		$(".advertencia").text("La cantidad que digito es superior se a modificado de acuerdo al Kardex");
 		$(".cantidad_detalle").val(cantidadmaxima);
 		valor=cantidadmaxima;
 	}
@@ -317,11 +370,110 @@ $('.añadirtable').on('click',function(){
 				/* *********** */
 });
 
+$('.guardar_datos').on('click',function(){
 
+	var  valor_des=$("#nuevodescuento_recibo").val();
+
+	var verificar_datos=$(".validar_datos").val();
+	if(valor_des=="17")
+	{
+			/* ********** */
+			 // Selecciona la tabla por su ID
+				var $miTabla = $('.productos');
+				var tablaVacia = true;
+
+				$miTabla.find('tbody td').each(function() {
+				  if ($(this).text().trim() !== '') {
+					tablaVacia = false;
+					return false; // Detener el bucle each si se encuentra texto en alguna celda
+				  }
+				});
+			  
+				if (tablaVacia) {
+				  console.log('La tabla está vacía o no contiene texto.');
+				  verificar_datos=$(".validar_datos").val();
+
+					swal({
+						title: 'Añadir Uniforme',
+						text: "Usted a seleccionado Descuento Uniforme pero no a añadido uniforme a la tabla. Por Favor seleccione uniforme y dar click al boton de añadir.",
+						type: 'warning',
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						cancelButtonText: 'Aceptar'
+					})
+
+				} else {
+				  console.log('La tabla tiene datos o texto en alguna celda.');
+				  verificar_datos=$(".validar_datos").val("datos");
+
+				  	/* si es regalo */
+					var url = window.location.href;
+					var urlObj = new URL(url);
+					var variable1 = urlObj.searchParams.get("id");
+					if (variable1 !== null) {
+						window.location.href = 'empleados';
+					}
+					/* *********** */
+				}
+			/* ********* */
+	}
+})
+
+$('.guardarmodificacion_recibo').on('click',function(){
+
+
+	var  valor_des=$("#editardescuento_recibo").val();
+
+	var verificar_datos=$(".validar_datos").val();
+	if(valor_des=="17")
+	{
+			/* ********** */
+			 // Selecciona la tabla por su ID
+				var $miTabla = $('.productos');
+				var tablaVacia = true;
+
+				$miTabla.find('tbody td').each(function() {
+				  if ($(this).text().trim() !== '') {
+					tablaVacia = false;
+					return false; // Detener el bucle each si se encuentra texto en alguna celda
+				  }
+				});
+			  
+				if (tablaVacia) {
+				  console.log('La tabla está vacía o no contiene texto.');
+				  verificar_datos=$(".validar_datos").val();
+
+					swal({
+						title: 'Añadir Uniforme',
+						text: "Usted a seleccionado Descuento Uniforme pero no a añadido uniforme a la tabla. Por Favor seleccione uniforme y dar click al boton de añadir.",
+						type: 'warning',
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						cancelButtonText: 'Aceptar'
+					})
+
+				} else {
+				  console.log('La tabla tiene datos o texto en alguna celda.');
+				  verificar_datos=$(".validar_datos").val("datos");
+
+				}
+			/* ********* */
+	}
+
+	if(verificar_datos!="")
+	{
+		var valorSeleccionado=$("#editaranular_recibo").val();
+		if(valorSeleccionado=="Si"){
+			var numero_recibo=$("#editarnumero_recibo").val();
+			anulardetallekardex(numero_recibo);
+		}
+	}
+})
 
 function elimindardetalle(id1, idkardex1){
 
 	var fecha_kardexh=$(".input_fecha_hecho_recibo").val();
+	var numero_recibo=$(".input_numero_recibo").val();
 	var transancion_kardexh=$(".input_descuento_recibo").val();
 	var empleado_kardexh=$('option:selected', ".input_empleado_recibo").attr('codigo_empleado');
 
@@ -343,6 +495,7 @@ function elimindardetalle(id1, idkardex1){
 										 '&fecha_kardexh=' +fecha_kardexh+
 										 '&transancion_kardexh=' +transancion_kardexh+
 										 '&idkardex=' +idkardex1+
+										 '&numero_recibo=' +numero_recibo+
 										 '&empleado_kardexh=' +empleado_kardexh;
 						$.ajax({
 							data: dataString,
@@ -369,6 +522,22 @@ function sumardetalle(){
 			suma_cantidad+=+($(this).text());
 		});
 		$(".input_valor_recibo").val(suma_cantidad);
+}
+
+function anulardetallekardex(numero_recibo){
+				/* *********** */
+						var dataString = 'accion01=anularrecibo'+
+										 '&numero_recibo=' +numero_recibo;
+						$.ajax({
+							data: dataString,
+							url: "ajax/correlativo_recibo.ajax.php",
+							type: 'post',
+							success: function (response) {
+								
+								
+							}
+						});
+						/* *********** */
 }
 
 

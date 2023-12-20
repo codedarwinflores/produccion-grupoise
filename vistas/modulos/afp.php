@@ -1,7 +1,7 @@
 <?php
 
-if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
 
+if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
   echo '<script>
 
     window.location = "inicio";
@@ -9,22 +9,21 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
   </script>';
 
   return;
-
 }
 
 ?>
 <div class="content-wrapper">
 
- 
+
 
   <section class="content">
 
     <div class="box">
 
       <div class="box-header with-border">
-  
+
         <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarAfp">
-          
+
           Agregar AFP
 
         </button>
@@ -32,68 +31,68 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
       </div>
 
       <div class="box-body">
-        
-       <table class="table table-bordered table-striped dt-responsive tablas" width="100%">
-         
-        <thead>
-         
-         <tr>
-           
-           <th style="width:10px">#</th>
-           <th>Código</th>
-           <th>Nombre</th>
-           <th>Código superintendencia</th>
-           <th>Porcentaje</th>
-           <th>Cuota patronal</th>
-           <th>Acciones</th>
 
-         </tr> 
+        <table class="table table-bordered table-striped dt-responsive tablas" width="100%">
 
-        </thead>
+          <thead>
 
-        <tbody>
+            <tr>
 
-        <?php
+              <th style="width:10px">#</th>
+              <th>Código</th>
+              <th>Nombre</th>
+              <th>Código superintendencia</th>
+              <th>Porcentaje</th>
+              <th>Cuota patronal</th>
+              <th>Acciones</th>
 
-        $item = null;
-        $valor = null;
+            </tr>
 
-        $afp = ControladorAfp::ctrMostrarAfp($item, $valor);
+          </thead>
 
-       foreach ($afp as $key => $value){
-         
-          echo ' <tr>
-                  <td>'.($key+1).'</td>
-                  <td>'.$value["codigo"].'</td>
-                  <td>'.$value["nombre"].'</td>
-                  <td>'.$value["codigo_superintendencia"].'</td>
-                  <td>'.$value["porcentaje"].'</td>
-                  <td>'.$value["cuota_patronal"].'</td>';
-                  
+          <tbody>
 
-                 
+            <?php
 
-                  echo '<td>
+            $item = null;
+            $valor = null;
+
+            $afp = ControladorAfp::ctrMostrarAfp($item, $valor);
+
+            foreach ($afp as $key => $value) {
+
+              echo ' <tr>
+                  <td>' . ($key + 1) . '</td>
+                  <td>' . $value["codigo"] . '</td>
+                  <td>' . $value["nombre"] . '</td>
+                  <td>' . $value["codigo_superintendencia"] . '</td>
+                  <td>' . $value["porcentaje"] . '</td>
+                  <td>' . $value["cuota_patronal"] . '</td>';
+
+
+
+
+              echo '<td>
 
                     <div class="btn-group">
                         
-                      <button class="btn btn-warning btnEditarAfp" idAfp="'.$value["id"].'" data-toggle="modal" data-target="#modalEditarAfp"><i class="fa fa-pencil"></i></button>
+                      <button class="btn btn-warning btnEditarAfp" idAfp="' . $value["id"] . '" data-toggle="modal" data-target="#modalEditarAfp"><i class="fa fa-pencil"></i></button>
 
-                      <button class="btn btn-danger btnEliminarAfp" idAfp="'.$value["id"].'"  Codigo="'.$value["codigo"].'"><i class="fa fa-times"></i></button>
+                      <button class="btn btn-danger btnEliminarAfp" idAfp="' . $value["id"] . '"  Codigo="' . $value["codigo"] . '"><i class="fa fa-times"></i></button>
 
                     </div>  
 
                   </td>
 
                 </tr>';
-        }
+            }
 
 
-        ?> 
+            ?>
 
-        </tbody>
+          </tbody>
 
-       </table>
+        </table>
 
       </div>
 
@@ -108,7 +107,7 @@ MODAL AGREGAR
 ======================================-->
 
 <div id="modalAgregarAfp" class="modal fade" role="dialog">
-  
+
   <div class="modal-dialog">
 
     <div class="modal-content">
@@ -136,13 +135,13 @@ MODAL AGREGAR
           <div class="box-body">
 
             <!-- ENTRADA PARA EL Codigo  -->
-            
+
             <div class="form-group">
               <label for="">Ingresar Código</label>
-              
+
               <div class="input-group">
-              
-                <span class="input-group-addon"><i class="fa fa-qrcode"></i></span> 
+
+                <span class="input-group-addon"><i class="fa fa-qrcode"></i></span>
 
                 <input type="text" class="form-control input-lg codigo_validar cuatrocaracter" name="nuevoCodigo" placeholder="Ingresar Código" required tabla_validar="afp" item_validar="codigo">
 
@@ -152,12 +151,12 @@ MODAL AGREGAR
 
             <!-- ENTRADA PARA EL NOMBRE -->
 
-             <div class="form-group">
-             <label for="">Ingresar Nombre</label>
-              
+            <div class="form-group">
+              <label for="">Ingresar Nombre</label>
+
               <div class="input-group">
-              
-                <span class="input-group-addon"><i class="fa fa-globe"></i></span> 
+
+                <span class="input-group-addon"><i class="fa fa-globe"></i></span>
 
                 <input type="text" class="form-control input-lg" name="nuevoNombre" placeholder="Ingresar Nombre" id="nuevoNombre" required>
 
@@ -168,14 +167,14 @@ MODAL AGREGAR
             <!-- ENTRADA PARA EL SUPERINTENDENCIA -->
 
             <div class="form-group">
-            <label for="">Ingresar Código superintendencia</label>
+              <label for="">Ingresar Código superintendencia</label>
 
               <div class="input-group">
-              
-                <span class="input-group-addon"><i class="fa fa-qrcode"></i></span> 
 
-            
-                <input type="text" class="form-control input-lg trescaracter" name="nuevoCodigo_superintendencia" placeholder="Ingresar Código superintendencia" id="nuevoCodigo_superintendencia" required >
+                <span class="input-group-addon"><i class="fa fa-qrcode"></i></span>
+
+
+                <input type="text" class="form-control input-lg trescaracter" name="nuevoCodigo_superintendencia" placeholder="Ingresar Código superintendencia" id="nuevoCodigo_superintendencia" required>
 
               </div>
 
@@ -184,11 +183,11 @@ MODAL AGREGAR
             <!-- ENTRADA PARA EL porcentaje -->
 
             <div class="form-group">
-             <label for="">Ingresar Porcentaje</label>
-              
+              <label for="">Ingresar Porcentaje</label>
+
               <div class="input-group">
-              
-                <span class="input-group-addon"><i class="fa fa-percent"></i></span> 
+
+                <span class="input-group-addon"><i class="fa fa-percent"></i></span>
 
                 <input type="number" step="0.01" class="form-control input-lg" name="nuevoPorcentaje" placeholder="Ingresar Porcentaje" id="nuevoPorcentaje" required>
 
@@ -201,8 +200,8 @@ MODAL AGREGAR
             <div class="form-group">
               <label for="">Ingresar Cuota Patronal</label>
               <div class="input-group">
-              
-                <span class="input-group-addon"><i class="fa fa-book"></i></span> 
+
+                <span class="input-group-addon"><i class="fa fa-book"></i></span>
 
                 <input type="number" step="0.01" class="form-control input-lg" name="nuevoCuota_patronal" placeholder="Ingresar Cuota Patronal" id="nuevoCuota_patronal" required>
 
@@ -230,8 +229,8 @@ MODAL AGREGAR
 
         <?php
 
-          $crear = new ControladorAfp();
-          $crear -> ctrCrearAfp();
+        $crear = new ControladorAfp();
+        $crear->ctrCrearAfp();
 
         ?>
 
@@ -248,7 +247,7 @@ MODAL EDITAR
 ======================================-->
 
 <div id="modalEditarAfp" class="modal fade" role="dialog">
-  
+
   <div class="modal-dialog">
 
     <div class="modal-content">
@@ -275,18 +274,18 @@ MODAL EDITAR
 
           <div class="box-body">
 
-          <!-- -- entrada id -- -->
+            <!-- -- entrada id -- -->
 
-          <input type="hidden" name="id" id="editarid">
+            <input type="hidden" name="id" id="editarid">
 
-             <!-- ENTRADA PARA EL Codigo  -->
-            
-             <div class="form-group">
-             <label for="">Ingresar Código</label>
-              
+            <!-- ENTRADA PARA EL Codigo  -->
+
+            <div class="form-group">
+              <label for="">Ingresar Código</label>
+
               <div class="input-group">
-              
-                <span class="input-group-addon"><i class="fa fa-qrcode"></i></span> 
+
+                <span class="input-group-addon"><i class="fa fa-qrcode"></i></span>
 
                 <input type="text" class="form-control input-lg cuatrocaracter" name="editarCodigo" id="editarCodigo" placeholder="Ingresar Código" required tabla_validar="afp" item_validar="codigo">
 
@@ -296,12 +295,12 @@ MODAL EDITAR
 
             <!-- ENTRADA PARA EL NOMBRE -->
 
-             <div class="form-group">
+            <div class="form-group">
               <label for="">Ingresar Nombre</label>
-              
+
               <div class="input-group">
-              
-                <span class="input-group-addon"><i class="fa fa-globe"></i></span> 
+
+                <span class="input-group-addon"><i class="fa fa-globe"></i></span>
 
                 <input type="text" class="form-control input-lg" name="editarNombre" placeholder="Ingresar Nombre" id="editarNombre" required>
 
@@ -313,10 +312,10 @@ MODAL EDITAR
 
             <div class="form-group">
               <label for="">Ingresar Código superintendencia</label>
-              
+
               <div class="input-group">
-              
-                <span class="input-group-addon"><i class="fa fa-qrcode"></i></span> 
+
+                <span class="input-group-addon"><i class="fa fa-qrcode"></i></span>
 
                 <input type="text" class="form-control input-lg trescaracter" name="editarCodigo_superintendencia" placeholder="Ingresar Código superintendencia" id="editarCodigo_superintendencia" required>
 
@@ -330,8 +329,8 @@ MODAL EDITAR
               <label for="">Ingresar Porcentaje</label>
 
               <div class="input-group">
-              
-                <span class="input-group-addon"><i class="fa fa-percent"></i></span> 
+
+                <span class="input-group-addon"><i class="fa fa-percent"></i></span>
 
                 <input type="number" step="0.01" class="form-control input-lg" name="editarPorcentaje" placeholder="Ingresar Porcentaje" id="editarPorcentaje" required>
 
@@ -343,10 +342,10 @@ MODAL EDITAR
 
             <div class="form-group">
               <label for="">Ingresar Cuota Patronal</label>
-              
+
               <div class="input-group">
-              
-                <span class="input-group-addon"><i class="fa fa-book"></i></span> 
+
+                <span class="input-group-addon"><i class="fa fa-book"></i></span>
 
                 <input type="number" step="0.01" class="form-control input-lg" name="editarCuota_patronal" placeholder="Ingresar Cuota Patronal" id="editarCuota_patronal" required>
 
@@ -373,12 +372,12 @@ MODAL EDITAR
 
         </div>
 
-     <?php
+        <?php
 
-          $editar = new ControladorAfp();
-          $editar -> ctrEditarAfp();
+        $editar = new ControladorAfp();
+        $editar->ctrEditarAfp();
 
-        ?> 
+        ?>
 
       </form>
 
@@ -390,9 +389,7 @@ MODAL EDITAR
 
 <?php
 
-  $borrar = new ControladorAfp();
-  $borrar -> ctrBorrarAfp();
+$borrar = new ControladorAfp();
+$borrar->ctrBorrarAfp();
 
-?> 
-
-
+?>

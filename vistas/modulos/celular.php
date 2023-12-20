@@ -307,6 +307,16 @@ MODAL AGREGAR
             </div>
 
 
+            <div class="form-group   ">
+              <label for="" class="">Ingresar Serie</label> 
+              <div class="input-group">
+                <span class="input-group-addon"><i class="icono_numero fa fa-phone"></i></span> 
+                <input type="text" class="form-control input-lg " id="nuevoserie_celular" name="nuevoserie_celular" placeholder="Ingresar Serie" value="" autocomplete="off" required="" tabla_validar="celular" item_validar="codigo" maxlength="9">
+              </div>
+            </div>
+
+
+
             <div class="form-group marca  grupocelular_marca">
               <label for="" class="label_marca">Ingresar Marca</label> 
               <div class="input-group">
@@ -369,6 +379,7 @@ MODAL AGREGAR
               </div>
             </div>
 
+        
              <div class="form-group observacion_celular  ">
               <label for="" class="label_observacion_celular">Ingresar Observación</label> 
               <div class="input-group">
@@ -596,6 +607,14 @@ MODAL EDITAR
               </div>
             </div>
 
+            <div class="form-group  ">
+              <label for="" class="">Ingresar Serie</label> 
+              <div class="input-group">
+                <span class="input-group-addon"><i class="icono_numero fa fa-phone"></i></span> 
+                <input type="text" class="form-control input-lg " id="editarserie_celular" name="editarserie_celular" placeholder="Ingresar Serie" value="" autocomplete="off" required="" tabla_validar="celular" item_validar="codigo" maxlength="9">
+              </div>
+            </div>
+
 
             <div class="form-group marca  grupocelular_marca">
               <label for="" class="label_marca">Ingresar Marca</label> 
@@ -658,6 +677,11 @@ MODAL EDITAR
                 <input type="text" class="form-control input-lg input_plan_datos_celular" name="editarplan_datos_celular" id="editarplan_datos_celular" placeholder="Ingresar Plan de datos Celular" value="" autocomplete="off" required="" tabla_validar="celular" item_validar="codigo">
               </div>
             </div>
+
+
+       
+
+
 
              <div class="form-group observacion_celular  ">
               <label for="" class="label_observacion_celular">Ingresar Observación</label> 

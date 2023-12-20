@@ -12,10 +12,45 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
   return;
 
 }
-require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
+require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");  /* servidor */
 /* require($_SERVER['DOCUMENT_ROOT']."/grupoise/modelos/conexion2.php"); */
 /* require($_SERVER['DOCUMENT_ROOT']."/armoni/git/modelos/conexion2.php"); */
 
+
+function fun_config() {
+  $query = "SELECT * FROM configuracion";
+  $sql = Conexion::conectar()->prepare($query);
+  $sql->execute();			
+  return $sql->fetchAll();
+};
+
+$data_config=fun_config();
+$sueldo_minimo=0;
+foreach ($data_config as $value) {
+  $sueldo_minimo= floatval($value["salario_minimo"]);
+}
+
+
+
+function fun_empleados() {
+  $query = "SELECT MAX( CONVERT(codigo_empleado, SIGNED)) as codigo FROM `tbl_empleados`";
+  $sql = Conexion::conectar()->prepare($query);
+  $sql->execute();			
+  return $sql->fetchAll();
+};
+
+$data_empleado=fun_empleados();
+$codigo_empleado=0;
+foreach ($data_empleado as $value) {
+  $codigo_empleado= floatval($value["codigo"]);
+}
+
+if($codigo_empleado==0){
+  $codigo_empleado=str_pad(1, 6, '0', STR_PAD_LEFT);
+}
+else{
+  $codigo_empleado=$codigo_empleado+1;
+}
 
 
 ?>
@@ -132,7 +167,7 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                       Estado:
                       <div class="input-group">              
                         <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-                        <select class="form-control input-lg estadoempleado" name="nuevoEstado" campo="">                  
+                        <select class="form-control input-lg estadoempleado" name="nuevoEstado" required="required">                  
                           <!-- <option value="" id="nuevoEstado"></option>      -->      
                           <option value="2">Contratado</option>
                           <option value="1">Solicitud</option>
@@ -164,7 +199,7 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                     Primer Nombre:
                     <div class="input-group">              
                       <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                      <input type="text" class="form-control input-lg" id="nuevoNombre" name="nuevoNombre" value="" campo="">
+                      <input type="text" class="form-control input-lg" id="nuevoNombre" name="nuevoNombre" value="" required="required">
                     </div>
                   </div>
                 </div>
@@ -197,7 +232,7 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                         Primer Apellido:
                         <div class="input-group">              
                           <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                          <input type="text" class="form-control input-lg" id="nuevoPrimerApellido" name="nuevoPrimerApellido" value="" campo="">
+                          <input type="text" class="form-control input-lg" id="nuevoPrimerApellido" name="nuevoPrimerApellido" value="" required="required">
                         </div>
                       </div>
                 </div>
@@ -207,7 +242,7 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                       Segundo Apellido:
                       <div class="input-group">              
                         <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                        <input type="text" class="form-control input-lg" id="nuevoSegundoApellido" name="nuevoSegundoApellido" value="" campo="">
+                        <input type="text" class="form-control input-lg" id="nuevoSegundoApellido" name="nuevoSegundoApellido" value="" required="required">
                       </div>
                     </div>
                 </div>
@@ -357,7 +392,7 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                     N&uacute;mero de ISSS:             
                       <div class="input-group">              
                         <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                        <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="nuevoNumeroIsss" name="nuevoNumeroIsss" value="" placeholder="Ingresar N&uacute;mero de ISSS">
+                        <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg numero_isss_valida" id="nuevoNumeroIsss" name="nuevoNumeroIsss" value="" placeholder="Ingresar N&uacute;mero de ISSS">
                       </div>
                     </div>
                 </div>
@@ -397,7 +432,7 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                       Tipo de Documento:              
                       <div class="input-group">              
                         <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-                        <select class="form-control input-lg" name="nuevoTipoDocumento" campo="">                  
+                        <select class="form-control input-lg" name="nuevoTipoDocumento" required="required">                  
                           <option value="" id="nuevoTipoDocumento">Tipo de Documento</option>  
                           <option value="DUI">DUI</option>
                           <option value="Pasaporte">Pasaporte</option>
@@ -412,7 +447,7 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                     N&uacute;mero Documento Identidad:
                       <div class="input-group">              
                         <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                        <input type="text" class="form-control input-lg input_dui duis"  id="nuevoNumeroDocumento" name="nuevoNumeroDocumento" value="" campo="">
+                        <input type="text" class="form-control input-lg input_dui duis"  id="nuevoNumeroDocumento" name="nuevoNumeroDocumento" value="" required="required">
                       </div>
                     </div>
                 </div>               
@@ -470,17 +505,27 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
 
             
             <div class="col-md-12" > 
-                <div class="col-md-6" > 
+                <div class="col-md-4" > 
                     <!-- ENTRADA PARA LICENCIA DE CONDUCIR-->            
                     <div class="form-group"> 
                     N&uacute;mero de Licencia de Conducir:             
                       <div class="input-group">              
                         <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                        <input type="text"   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg input_nit nits" id="nuevoNumeroLicenciaConducir" name="nuevoLicenciaConducir" value="" placeholder="Ingresar N&uacute;mero de Licencia de Conducir">
+                        <input type="text"   class="form-control input-lg input_nit nits" id="nuevoNumeroLicenciaConducir" name="nuevoLicenciaConducir" value="" placeholder="Ingresar N&uacute;mero de Licencia de Conducir">
                       </div>
                     </div>
                 </div>
-                <div class="col-md-6" > 
+                <div class="col-md-4" > 
+                    <!-- ENTRADA PARA LICENCIA DE CONDUCIR-->            
+                    <div class="form-group"> 
+                    Fecha de vencimiento de Licencia de Conducir:             
+                      <div class="input-group">              
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                        <input type="text" class="form-control input-lg calendario " id="nuevofecha_venc_licenciaconducir" name="nuevofecha_venc_licenciaconducir" value="" placeholder="Ingresar Fecha de vencimiento de Licencia de Conducir">
+                      </div>
+                    </div>
+                </div>
+                <div class="col-md-4" > 
                     <!-- ENTRADA PARA SELECCIONAR TIPO LICENCIA CONDUCIR -->
                     <div class="form-group"> 
                     Tipo Licencia de Conducir:             
@@ -633,8 +678,10 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                         <div class="input-group">                  
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                             <input type="text" value="" class="calendario nuevofecha_nacimiento form-control input-lg capturarfechanac" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_nacimiento" placeholder="Ingresar Fecha" id="mascarafechanac" readonly>
+
+
                             <input type="text" class="oficial_nuevofecha_nacimiento " name="nuevofecha_nacimiento" style="display: none;" id="editarfecha_nacimiento">
-                            <p style="color:red;" class="mostrarerror">ERROR. NO ES MAYOR A 18 AÑOS</p>
+                            <p style="color:red; display:none;" class="mostrarerror">ERROR. NO ES MAYOR A 18 AÑOS</p>
                         </div>
                       </div>
                 </div>
@@ -664,10 +711,10 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                 <div class="col-md-6" > 
                      <!-- ENTRADA PARA PLANTEL-->            
                     <div class="form-group"> 
-                    Plantel:             
+                    Centro de Estudio:             
                         <div class="input-group">              
                           <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                          <input type="text"  class="form-control input-lg" id="nuevoPlantel" name="nuevoPlantel" value="" placeholder="Ingresar Plantel">
+                          <input type="text"  class="form-control input-lg" id="nuevoPlantel" name="nuevoPlantel" value="" placeholder="Ingresar Centro de Estudio">
                         </div>
                     </div>
                 </div>               
@@ -682,10 +729,10 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                 <div class="col-md-4" > 
                      <!-- ENTRADA PARA PESO-->            
                       <div class="form-group">  
-                      Peso:            
+                      Peso (LB):            
                         <div class="input-group">              
                           <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                          <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="nuevoPeso" name="nuevoPeso" value="" placeholder="Ingresar Peso">
+                          <input type="text"  class="form-control input-lg onlydecimal" id="nuevoPeso" name="nuevoPeso" value="" placeholder="Ingresar Peso">
                         </div>
                       </div>
                 </div>
@@ -705,7 +752,14 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                       Color de Piel:            
                         <div class="input-group">              
                           <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                          <input type="text"  class="form-control input-lg" id="nuevoPiel" name="nuevoPiel" value="" placeholder="Ingresar Color Piel">
+                          <!-- <input type="text"  class="form-control input-lg" id="nuevoPiel" name="nuevoPiel" value="" placeholder="Ingresar Color Piel"> -->
+                          <select class="form-control input-lg" id="nuevoPiel" name="nuevoPiel">
+                            <option value="">Seleccione color de piel</option>
+                            <option value="Blanca">Blanca</option>
+                            <option value="Trigueña">Trigueña</option>
+                            <option value="Morena">Morena</option>
+                            <option value="Pendiente">Pendiente</option>
+                          </select>
                         </div>
                       </div>
                 </div>
@@ -719,7 +773,18 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                     Color de Ojos:              
                         <div class="input-group">              
                           <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                          <input type="text"  class="form-control input-lg" id="nuevoOjos" name="nuevoOjos" value="" placeholder="Ingresar Color Ojos">
+                          <!-- <input type="text"  class="form-control input-lg" id="nuevoOjos" name="nuevoOjos" value="" placeholder="Ingresar Color Ojos"> -->
+                          <select class="form-control input-lg" id="nuevoOjos" name="nuevoOjos" >
+                            <option value="">Seleccione color de ojos</option>
+                            <option value="Cafe">Cafe</option>
+                            <option value="Negro">Negro</option>
+                            <option value="Azul">Azul</option>
+                            <option value="Verde">Verde</option>
+                            <option value="Pardo">Pardo</option>
+                            <option value="Pendiente">Pendiente</option>
+
+                          </select>
+
                         </div>
                     </div>
                 </div>
@@ -744,6 +809,8 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                             <option value="">Seleccione Tipo de Cara</option>
                             <option value="Redonda">Redonda</option>
                             <option value="Ovalada">Ovalada</option>
+                            <option value="Pendiente">Pendiente</option>
+
                           </select>
                         </div>
                     </div>
@@ -802,13 +869,13 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                     </div>
                 </div>
                 
-                <div class="col-md-6" > 
+                <div class="col-md-6" style="visibility: hidden"> 
                      <!-- ENTRADA PARA NUMERO LICENCIA TDA-->            
                     <div class="form-group">
                     N&uacute;mero Licencia Tenencia de Armas:              
                       <div class="input-group">              
                         <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                        <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="nuevoNumeroLicenciaTDA" name="nuevoNumeroLicenciaTDA" value="" placeholder="Ingresar N&uacute;mero Licencia Tenencia de Armas">
+                        <input type="text"  class="form-control input-lg " id="nuevoNumeroLicenciaTDA" name="nuevoNumeroLicenciaTDA" value="" placeholder="Ingresar N&uacute;mero Licencia Tenencia de Armas">
                       </div>
                     </div>
                 </div>               
@@ -835,7 +902,7 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                         Licencia para uso de arma de fuego(LUAF):             
                         <div class="input-group">              
                             <span class="input-group-addon"><i class="fa fa-address-card"></i></span> 
-                            <input type="text" class="form-control input-lg" name="nuevoluaf" placeholder="Ingresar Licencia para uso de arma de fuego(LUAF)" id="nuevoluaf">
+                            <input type="text" class="form-control input-lg luaf" name="nuevoluaf" placeholder="Ingresar Licencia para uso de arma de fuego(LUAF)" id="nuevoluaf">
                         </div>
                     </div>
                 </div>
@@ -849,7 +916,7 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                         Fecha vencimiento de Licencia de portación de arma (LPA):
                         <div class="input-group">                  
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                            <input type="text" value="" class="calendario nuevofecha_venLTA form-control input-lg" data-lang="es" data-years="1940-2035" data-format="DD-MM-YYYY"  name="" fecha="nuevofecha_venLTA" placeholder="Ingresar Fecha" id="mascarafecha_venLTA" readonly>
+                            <input type="text" value="" class="calendario nuevofecha_venLTA form-control input-lg" data-lang="es" data-years="1940-2035" data-format="MM-YYYY"  name="" fecha="nuevofecha_venLTA" placeholder="Ingresar Fecha" id="mascarafecha_venLTA" readonly>
                             <input type="text" class="oficial_nuevofecha_venLTA" name="nuevofecha_nuevofecha_venLTA" style="display: none;" id="nuevofecha_venLTA">
                         </div>
                       </div>
@@ -1064,7 +1131,7 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                     Sueldo que Deveng&oacute;:            
                       <div class="input-group">              
                         <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                        <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="nuevoSueldoDevengo" name="nuevoSueldoDevengo" value="" placeholder="Ingresar Sueldo que Deveng&oacute;">
+                        <input type="text"  class="form-control input-lg onlydinero" id="nuevoSueldoDevengo" name="nuevoSueldoDevengo" value="" placeholder="Ingresar Sueldo que Deveng&oacute;">
                       </div>
                     </div>
                 </div>               
@@ -1094,7 +1161,7 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                 </div>               
             </div>
             <div class="col-md-12" >                
-                <div class="col-md-12" >
+                <div class="col-md-12" style="visibility: hidden" >
                     <!-- ENTRADA PARA EVALUACION ANTERIOR-->            
                     <div class="form-group">
                     Evaluaci&oacute;n Anterior:              
@@ -1115,7 +1182,7 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                       Nombre Trabajo Actual:            
                         <div class="input-group">              
                           <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                          <input type="text"  class="form-control input-lg" id="nuevoTrabajoActual" name="nuevoTrabajoActual" value="" placeholder="Ingresar Trabajo Actual">
+                          <input type="text"  class="form-control input-lg" id="nuevoTrabajoActual" name="nuevoTrabajoActual" value="GRUPO ISE" placeholder="Ingresar Trabajo Actual">
                         </div>
                       </div>
                 </div>
@@ -1126,7 +1193,7 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                     Sueldo que Devenga:
                       <div class="input-group">              
                         <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                        <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="nuevoSueldoDevenga" name="nuevoSueldoDevenga" value="" placeholder="Ingresar Sueldo que Devenga">
+                        <input type="text"  class="form-control input-lg onlydinero" id="nuevoSueldoDevenga" name="nuevoSueldoDevenga" value="" placeholder="Ingresar Sueldo que Devenga">
                       </div>
                     </div>
                 </div>               
@@ -1134,7 +1201,7 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
 
             
             <div class="col-md-12" > 
-                <div class="col-md-6" >
+                <div class="col-md-6"  style="visibility: hidden">
                     <!-- ENTRADA NOM DE REF TEL TRABAJO ACTUAL-->            
                     <div class="form-group"> 
                     Nombre de Referencia  Trabajo Actual:             
@@ -1145,7 +1212,7 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                     </div>
                 </div>
                 
-                <div class="col-md-6" > 
+                <div class="col-md-6" style="visibility: hidden" > 
                    <!-- ENTRADA PARA EVALUACION ACTUAL-->            
                   <div class="form-group"> 
                   Evaluaci&oacute;n Actual:             
@@ -1215,7 +1282,7 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
             
 
             <div class="col-md-12" >                
-                <div class="col-md-12 " >
+                <div class="col-md-12 " style="visibility: hidden">
                     <!-- ENTRADA PARA EXPERIENCI ALABORAL-->            
                   <div class="form-group">  
                     Experiencia Laboral:            
@@ -1234,7 +1301,7 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
 
 
             <div class="col-md-12" >                
-                <div class="col-md-12" >
+                <div class="col-md-12" style="display:none;">
                      <!-- ENTRADA PARA RAZON ISE-->            
                     <div class="form-group">  
                     Raz&oacute;n por qu&eacute; quiere trabajar en G. ISE:            
@@ -1253,7 +1320,21 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                     N&uacute;mero de Personas Dependientes:             
                       <div class="input-group">              
                         <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                        <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="nuevoPersonasDependientes" name="nuevoNumeroPersonasDependientes" value="" placeholder="Ingresar N&uacute;mero de Personas Dependientes">
+                      <!--   <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control input-lg" id="nuevoPersonasDependientes" name="nuevoNumeroPersonasDependientes" value="" placeholder="Ingresar N&uacute;mero de Personas Dependientes"> -->
+                      <select class="form-control input-lg" id="nuevoPersonasDependientes" name="nuevoNumeroPersonasDependientes">
+                          <option value="">Seleccione Opcion</option>
+                          <option value="0">0</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+                          <option value="9">9</option>
+                          <option value="10">10</option>
+                        </select>
                       </div>
                     </div>
                 </div>
@@ -1272,7 +1353,7 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
 
             
             <div class="col-md-12" >                
-                <div class="col-md-12" >
+                <div class="col-md-12" style="visibility: hidden" >
                     <!-- ENTRADA PARA INFO VERIFICADA-->
                     <div class="form-group"> 
                       Ha verificado la informaci&oacute;n?             
@@ -1320,13 +1401,13 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
 
             <div class="col-md-12" >
                 
-                <div class="col-md-12" bis_skin_checked="1">           
+                    <div class="col-md-12" bis_skin_checked="1">           
                         <div class="form-group" bis_skin_checked="1">   
                             Tiene Antecedentes policiales:           
                             <div class="input-group" bis_skin_checked="1">              
                                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
 
-                                <select class="form-control input-lg nuevoantecedente_policial" name="nuevoantecedente_policial" id="nuevoantecedente_policial">
+                                <select class="form-control input-lg nuevoantecedente_policial validar_antecedente" name="nuevoantecedente_policial" id="nuevoantecedente_policial">
                                     <option value="">Tiene Antecedentes policiales</option>
                                     <option value="SI">SI</option>
                                     <option value="NO">NO</option>
@@ -1334,6 +1415,31 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
 
                             </div>
                         </div>
+                    </div>
+
+                    <div class="oculto_ante_pnc" style="visibility:hidden;">
+                      
+                      <div class="col-md-6" bis_skin_checked="1">           
+                          <div class="form-group" bis_skin_checked="1">   
+                              Motivos:           
+                              <div class="input-group" bis_skin_checked="1">              
+                                  <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                                    <input type="text" class="form-control" name="nuevo_motivo_antecedente" id="nuevo_motivo_antecedente">
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="col-md-6" bis_skin_checked="1">           
+                          <div class="form-group" bis_skin_checked="1">   
+                              Número de Resolución:           
+                              <div class="input-group" bis_skin_checked="1">              
+                                  <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                                    <input type="text" class="form-control" name="nuevo_num_reso_antecedente" id="nuevo_num_reso_antecedente ">
+                              </div>
+                          </div>
+                      </div>
+
+
                     </div>
 
            
@@ -1402,8 +1508,8 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                             <div class="input-group" bis_skin_checked="1">              
                                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
 
-                                <select class="form-control input-lg nuevoconstancia_psicologica" name="nuevoconstancia_psicologica" id="nuevoconstancia_psicologica">
-                                    <!-- <option value="">Constancia Psicológica</option> -->
+                                <select class="form-control input-lg nuevoconstancia_psicologica editarconstancia_psicologica" name="nuevoconstancia_psicologica" id="nuevoconstancia_psicologica">
+                                    <option value="">Constancia Psicológica</option>
                                     <option value="SI">SI</option>
                                     <option value="NO">NO</option>
                                 </select>
@@ -1417,7 +1523,7 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                     <div class="form-group">
                         <div class="">Nombre del Psicologo</div>
                         <div class="">
-                            <select   class="form-control  input-lg nuevonombre_psicologo" name="nuevonombre_psicologo" id="nuevonombre_psicologo" style="display: none;" >
+                            <select   class="form-control  input-lg nuevonombre_psicologo editarnombre_psicologo" name="nuevonombre_psicologo" id="nuevonombre_psicologo" style="display: none;" >
                                     <option value="vacio">Seleccione el Nombre del Psicologo</option>
                                     <?php
                                     function getcargo() {
@@ -1448,8 +1554,8 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                             <div class="input-group" bis_skin_checked="1">              
                                 <span class="input-group-addon"><i class="fa fa-user"></i></span> 
 
-                                <select class="form-control input-lg nuevoexamen_poligrafico" name="nuevoexamen_poligrafico" id="nuevoexamen_poligrafico">
-                                    <!-- <option value="">Tiene examen poligráfico</option> -->
+                                <select class="form-control input-lg nuevoexamen_poligrafico editarexamen_poligrafico" name="nuevoexamen_poligrafico" id="nuevoexamen_poligrafico">
+                                    <option value="">Tiene examen poligráfico</option>
                                     <option value="SI">SI</option>
                                     <option value="NO">NO</option>
                                 </select>
@@ -1464,7 +1570,7 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                             <div class="input-group" bis_skin_checked="1">              
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span> 
 
-                                <input type="text" class="form-control input-lg calendario nuevoFecha_poligrafico" name="nuevoFecha_poligrafico" id="nuevoFecha_poligrafico" readonly="readonly" style="display: none;">
+                                <input type="text" class="form-control input-lg calendario nuevoFecha_poligrafico editarFecha_poligrafico" name="nuevoFecha_poligrafico" id="nuevoFecha_poligrafico" readonly="readonly" style="display: none;">
                               
 
                             </div>
@@ -1538,11 +1644,11 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                       <div class="input-group">              
                         <span class="input-group-addon"><i class="fa fa-qrcode"></i></span> 
                         <input type="text" class="form-control input-lg" id="editarcodigo_empleado" 
-                        name="nuevocodigo_empleado" readonly>
+                        name="nuevocodigo_empleado" readonly  value="<?php echo $codigo_empleado?>">
 
                         
                       <?php
-                        function getempleado() {
+                        /* function getempleado() {
                           $query = "SELECT * FROM tbl_empleados where estado='2' order by id desc limit 1";
                           $sql = Conexion::conectar()->prepare($query);
                           $sql->execute();			
@@ -1564,13 +1670,12 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                             }
                             $correlativo_numero = sprintf("%05d",$addnumber);
                             $correlativo_dato=$correlativo_numero;
-                        /*   $datos .=$row["codigo_empleado"]; */
                         }
                         if($correlativo_dato=="")
                           {
                             $correlativo_dato="000001";
                           }
-                        echo '<input type="hidden" value='.$correlativo_dato.'  class="form-control ultimoempleado"  readonly>';
+                        echo '<input type="hidden" value='.$correlativo_dato.'  class="form-control ultimoempleado"  readonly>'; */
                         ?>
 
                       </div>
@@ -1582,19 +1687,53 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                     CARGO:            
                       <div class="input-group">              
                         <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-                        <select class="form-control input-lg nuevoCARGO" name="nuevoCARGO"  id="editarCARGO0" >
+                        <select class="form-control input-lg nuevoCARGO mi-selector value_cargo" name="nuevoCARGO"  id="editarCARGO0" >
                           <option  value="">Seleccione el Cargo</option>
                           <?php
                             $datos_mostrar_cargo = ControladorCargos::ctrMostrar($item, $valor);
                             foreach ($datos_mostrar_cargo as $key => $value){
-                              echo '<option value="'.$value["id"].'">'.$value["descripcion"].'</option>';                     
+                              echo '<option value="'.$value["id"].'" cargo="'.$value["descripcion"].'" jefeoperacioncargo="'.$value["jefeoperacioncargo"].'" >'.$value["descripcion"].'</option>';                     
                             }
                           ?>
                         </select>
                       </div>
                     </div>
 
-                </div>                
+                </div>   
+                
+                <!-- ************************** -->
+                <div class="col-md-4 jefeoperacion_empleado" id="divJOP" style="visibility: hidden" > 
+                  <!-- ENTRADA PARA JEFE OPERQACIONES A CARGO--> 
+                  <div class="form-group" >
+                    Jefe operaciones:
+                      <div class="input-group">           
+                          <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                          <select class="form-control input-lg " name="nuevojefe_empleado"  >   
+                            <option id="nuevojefe_empleado" value="">Seleccione Jefe de Operaciones</option>
+
+                            <?php
+                                                      
+                              function configuracion() {
+                                    
+                                  $query = "SELECT tbl_empleados.id as idempleado,  tbl_empleados.* FROM tbl_empleados
+                                  INNER JOIN cargos_desempenados 
+                                  WHERE cargos_desempenados.id = tbl_empleados.nivel_cargo and cargos_desempenados.descripcion='Jefe de Operaciones'";
+                                  $sql = Conexion::conectar()->prepare($query);
+                                  $sql->execute();			
+                                  return $sql->fetchAll();
+                                };
+                              $data = configuracion();
+                              foreach($data as $value) {
+                               echo "<option value=".$value["idempleado"].">".$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["primer_apellido"]."</option>";
+                              }
+                            ?>
+                          
+                          
+                          </select>
+                      </div>
+                  </div>  
+                </div>   
+                <!-- ************************* -->
             </div>
 
             <div class="col-md-12">
@@ -1681,7 +1820,7 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                     Recomendado por:
                       <div class="input-group">           
                           <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                          <select class="form-control input-lg mi-selector" name="nuevorecomendado_empleado" id="nuevorecomendado_empleado" campo="">                  
+                          <select class="form-control input-lg mi-selector" name="nuevorecomendado_empleado" id="nuevorecomendado_empleado" >                  
                             <option value="">Seleccionar Recomendado</option>
                             <?php
                               $datos_mostrar_cargo = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
@@ -1709,7 +1848,7 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                     Documentación completa:
                       <div class="input-group">           
                           <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                          <select class="form-control input-lg" name="nuevodocumentacion_empleado" id="nuevodocumentacion_empleado" campo="">                  
+                          <select class="form-control input-lg" name="nuevodocumentacion_empleado" id="nuevodocumentacion_empleado" required="required">                  
                             <!-- <option value="">Seleccionar Documentación completa</option> -->
                             <option value="No">No</option>
                             <option value="Si">Si</option>
@@ -1729,10 +1868,9 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                   ¿Tiene ANSP?:
                     <div class="input-group">           
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                        <select class="form-control input-lg" name="nuevoansp_empleado" id="nuevoansp_empleado" campo="">                  
-                          <option value="">¿Tiene ANSP?</option>
-                          <option value="Si">Si</option>
+                        <select class="form-control input-lg" name="nuevoansp_empleado" id="nuevoansp_empleado" campo="campo">                  
                           <option value="No">No</option>
+                          <option value="Si">Si</option>
                         </select>
                     </div>
                   </div>
@@ -1744,7 +1882,7 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                     Uniforme regalado:
                       <div class="input-group">           
                           <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                          <select class="form-control input-lg" name="nuevouniformeregalado_empleado" id="nuevouniformeregalado_empleado" campo="">                  
+                          <select class="form-control input-lg" name="nuevouniformeregalado_empleado" id="nuevouniformeregalado_empleado" required="required">                  
                             <!-- <option value="">Uniforme regalado</option> -->
                             <option value="Si">Si</option>
                             <option value="No">No</option>
@@ -1839,7 +1977,7 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                           Sueldo:
                           <div class="input-group">           
                               <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                              <input type="number"  min="0.01" step="0.01"  class="form-control input-lg " name="nuevo_sueldo" id="editar_sueldo" placeholder="Ingresar sueldo" onKeyPress="if(this.value.length==6) return false;">
+                              <input type="text"   class="form-control input-lg onlydinero" name="nuevo_sueldo" id="editar_sueldo" placeholder="Ingresar sueldo" onKeyPress="if(this.value.length==6) return false;">
                           </div>
                         </div>
                     </div>
@@ -1855,7 +1993,7 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                           Sueldo diario:
                           <div class="input-group">           
                               <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                              <input type="number" step="any" class="form-control input-lg " name="nuevo_sueldo_diario" id="editar_sueldo_diario" placeholder="Ingresar sueldo diario" onKeyPress="if(this.value.length==7) return false;">
+                              <input type="number" step="any" class="form-control input-lg onlydinero" name="nuevo_sueldo_diario" id="editar_sueldo_diario" placeholder="Ingresar sueldo diario" onKeyPress="if(this.value.length==7) return false;">
                           </div>
                         </div>
                   </div>
@@ -1906,7 +2044,7 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                           Hora extra diurna domingo:
                           <div class="input-group">           
                               <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                              <input type="number"  min="0.01" step="0.01" class="form-control input-lg " name="nuevo_hora_extra_domingo" id="editar_hora_extra_domingo" placeholder="Ingresar hora extra domingo"  onKeyPress="if(this.value.length==7) return false;">
+                              <input type="text" class="form-control input-lg " name="nuevo_hora_extra_domingo" id="editar_hora_extra_domingo" placeholder="Ingresar hora extra domingo"  oninput="validateNumber(this);">
                           </div>
                         </div>
                     </div>
@@ -1918,7 +2056,8 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                           Hora extra nocturna domingo:
                           <div class="input-group">           
                               <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                              <input type="number"  min="0.01" step="0.01"  class="form-control input-lg " name="nuevo_hora_extra_nocturna_domingo" id="editar_hora_extra_nocturna_domingo" placeholder="Ingresar hora extra nocturna domingo" onKeyPress="if(this.value.length==7) return false;">
+                              <input type="text"   class="form-control input-lg " name="nuevo_hora_extra_nocturna_domingo" id="editar_hora_extra_nocturna_domingo" placeholder="Ingresar hora extra nocturna domingo" 
+                              oninput="validateNumber(this);">
                           </div>
                         </div>
                     </div>                      
@@ -1950,10 +2089,10 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                     <div class="form-group">
                         <!-- ENTRADA PARA DESCONTAR ISSS -->                        
                         Descontar ISSS: 
-                        <select class="form-control input-lg" name="nuevo_descontar_isss"  >                  
-                          <option value="" id="nuevo_descontar_isss"></option>
-                          <option value="SI">SI</option>
+                        <select class="form-control input-lg descontar_isss" name="nuevo_descontar_isss"  >                  
+                          <!-- <option value="" id="nuevo_descontar_isss"></option> -->
                           <option value="NO">NO</option>
+                          <option value="SI">SI</option>
                         </select>
                     </div>
                 </div>
@@ -1961,10 +2100,10 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                     <div class="form-group">
                         <!-- ENTRADA PARA DESCONTAR AFP -->                        
                         Descontar AFP: 
-                        <select class="form-control input-lg" name="nuevo_descontar_afp"  >                  
-                          <option value="" id="editar_descontar_afp"></option>
-                          <option value="SI">SI</option>
+                        <select class="form-control input-lg descontar_afp"  name="nuevo_descontar_afp"  >                  
+                          <!-- <option value="" id="editar_descontar_afp"></option> -->
                           <option value="NO">NO</option>
+                          <option value="SI">SI</option>
                         </select>
                     </div>                      
                 </div>                
@@ -1978,7 +2117,7 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                        <!-- ENTRADA PARA TIPO PLANILLA-->                         
                        <div class="form-group"> 
                           Tipo de planilla:
-                          <select class="form-control input-lg" name="nuevoTipoPlanilla"  >                  
+                          <select class="form-control input-lg tipo_planilla" name="nuevoTipoPlanilla"  >                  
                           <option id="nuevoTipoPlanilla"></option>
                             <?php
                               $datos_mostrar_tipo_planilla = Controladorplantillas::ctrMostrar($item, $valor);
@@ -2000,7 +2139,7 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
                             <?php
                               $datos_mostrar_banco = ControladorBancos::ctrMostrarBancos($item, $valor);
                               foreach ($datos_mostrar_banco as $key => $value){
-                                echo '<option value="'.$value["nombre"].'">'.$value["nombre"].'</option>';                     
+                                echo '<option value="'.$value["id"].'">'.$value["nombre"].'</option>';                     
                               }
                             ?>
                           </select>
@@ -2022,37 +2161,7 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
             </div>
 
             <div class="col-md-12" >
-              <div class="col-md-4 jefeoperacion_empleado" id="divJOP" > 
-                  <!-- ENTRADA PARA JEFE OPERQACIONES A CARGO--> 
-                  <div class="form-group" >
-                    Jefe operaciones:
-                      <div class="input-group">           
-                          <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                          <select class="form-control input-lg " name="nuevojefe_empleado"  >   
-                            <option id="nuevojefe_empleado" value="">Seleccione Jefe de Operaciones</option>
-
-                            <?php
-                                                      
-                              function configuracion() {
-                                    
-                                  $query = "SELECT tbl_empleados.id as idempleado,  tbl_empleados.* FROM tbl_empleados
-                                  INNER JOIN cargos_desempenados 
-                                  WHERE cargos_desempenados.id = tbl_empleados.nivel_cargo and cargos_desempenados.descripcion='Jefe de Operaciones'";
-                                  $sql = Conexion::conectar()->prepare($query);
-                                  $sql->execute();			
-                                  return $sql->fetchAll();
-                                };
-                              $data = configuracion();
-                              foreach($data as $value) {
-                               echo "<option value=".$value["idempleado"].">".$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["primer_apellido"]."</option>";
-                              }
-                            ?>
-                          
-                          
-                          </select>
-                      </div>
-                    </div>  
-                </div>              
+                           
                 <div class="col-md-4" style="display: none;">
                     <!-- ENTRADA PARA IMAGEN CONTRATO-->
                     <div class="form-group">              
@@ -2222,11 +2331,12 @@ require($_SERVER['DOCUMENT_ROOT']."/modelos/conexion2.php");
 
 </div>
 
-<!-- 
+
+
+
+
+
 <script>
-$( document ).ready(function() {
-  var idEmpleadox = <?php echo $_POST["idEmpleado"]?>; 
-  poblarFormulario(idEmpleadox);
-});
-</script>  -->
+
+</script> 
 

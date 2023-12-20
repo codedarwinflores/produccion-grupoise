@@ -38,7 +38,7 @@ $(document).ready(function(){
 		
 		cargardataempleados();
 		$(".filtrar_empleados").attr("disabled","disabled");
-
+		calculos_globales();
 	}
 	else{
 
@@ -410,7 +410,7 @@ $.ajax({
 	url: "ajax/planilladevengo_aguinaldo.ajax.php",
 	type: 'post',
 	success: function (response) {
-		
+		console.log(response+"updateeeee")
 	}
 });
 /* ********* */
@@ -421,20 +421,21 @@ $.ajax({
 /* CAPTURAR FECHA DESDE */
 
 $( "#fecha_desde_planilladevengo_aguinaldo" ).on( "click", function() {
-	$( "#ic__datepicker-1 .ic__day" ).on( "click", function() {
+	$( "#ic__datepicker-2 .ic__day" ).on( "click", function() {
 		var valor= $("#fecha_desde_planilladevengo_aguinaldo").val();
 		var valor2= $("#fecha_hasta_planilladevengo_aguinaldo").val();
-		$("#descripcion_planilladevengo_aguinaldo").val("Planilla de Anticipo desde "+valor+" hasta "+valor2);
+		$("#descripcion_planilladevengo_aguinaldo").val("Planilla de Aguinaldo desde "+valor+" hasta "+valor2);
 
 	  } );
   } );
 
   /* CAPTURAR FECHA HASTA */
   $( "#fecha_hasta_planilladevengo_aguinaldo" ).on( "click", function() {
-	$( "#ic__datepicker-2 .ic__day" ).on( "click", function() {
+	$( "#ic__datepicker-3 .ic__day" ).on( "click", function() {
 		var valor= $("#fecha_desde_planilladevengo_aguinaldo").val();
 		var valor2= $("#fecha_hasta_planilladevengo_aguinaldo").val();
-		$("#descripcion_planilladevengo_aguinaldo").val("Planilla de Anticipo desde "+valor+" hasta "+valor2);
+		$("#fecha_planilladevengo_aguinaldo").val(valor2);
+		$("#descripcion_planilladevengo_aguinaldo").val("Planilla de Aguinaldo desde "+valor+" hasta "+valor2);
 
 	  } );
   } );
@@ -2050,8 +2051,8 @@ function consultarviaticos(tipo,sueldo){
 				}
 				var suma_sueldo_viatiaco=parseFloat(sueldo)+parseFloat(valor_devengo_planilla);/* --calcular devengo_aguinaldo */
 				var total_devengo_aguinaldo=suma_sueldo_viatiaco*0.30;/* --devengo_aguinaldo */
-				$(".valor_devengo_planilla").val(total_devengo_aguinaldo.toFixed(2));
-				$("#devengodevengo_aguinaldo").val(total_devengo_aguinaldo.toFixed(2));
+				$(".valor_devengo_planilla").val(total_devengo_aguinaldo);
+				$("#devengodevengo_aguinaldo").val(total_devengo_aguinaldo);
 	
 		}
 	});
@@ -2122,28 +2123,28 @@ var valor= $(this).val();
 var clase_calculo=$(this).attr("calculo");
 var precio_hora=$("#hora_extra_diurna").val();
 var calculo=parseFloat(valor)*parseFloat(precio_hora);
-$("."+clase_calculo).val(calculo.toFixed(2));
+$("."+clase_calculo).val(calculo);
 });
 $( "#hora_extra_nocturna_planilladevengo_aguinaldo").blur(function() {
 	var valor= $(this).val();
 	var clase_calculo=$(this).attr("calculo");
 	var precio_hora=$("#hora_extra_nocturna").val();
 	var calculo=parseFloat(valor)*parseFloat(precio_hora);
-	$("."+clase_calculo).val(calculo.toFixed(2));
+	$("."+clase_calculo).val(calculo);
 });
 $( "#hora_extra_domingo_planilladevengo_aguinaldo").blur(function() {
 	var valor= $(this).val();
 	var clase_calculo=$(this).attr("calculo");
 	var precio_hora=$("#hora_extra_domingo").val();
 	var calculo=parseFloat(valor)*parseFloat(precio_hora);
-	$("."+clase_calculo).val(calculo.toFixed(2));
+	$("."+clase_calculo).val(calculo);
 });
 $( "#hora_extra_domingo_nocturna_planilladevengo_aguinaldo").blur(function() {
 	var valor= $(this).val();
 	var clase_calculo=$(this).attr("calculo");
 	var precio_hora=$("#hora_extra_nocturna_domingo").val();
 	var calculo=parseFloat(valor)*parseFloat(precio_hora);
-	$("."+clase_calculo).val(calculo.toFixed(2));
+	$("."+clase_calculo).val(calculo);
 });
 
 function calculo_horas(){
@@ -2177,10 +2178,10 @@ function calculo_horas(){
 	var calculo_extra_domingo_noc=parseFloat(hora_extra_domingo_noc)*parseFloat(precio_hora_extra_nocturna_domingo);
 
 	
-	$(".calculo_extra_diurna").val(calculo_extra.toFixed(2));
-	$(".calculo_extra_nocturna").val(calculo_extra_nocturna.toFixed(2));
-	$(".calculo_extra_domingo").val(calculo_extra_domingo.toFixed(2));
-	$(".calculo_extra_domingo_noctu").val(calculo_extra_domingo_noc.toFixed(2));
+	$(".calculo_extra_diurna").val(calculo_extra);
+	$(".calculo_extra_nocturna").val(calculo_extra_nocturna);
+	$(".calculo_extra_domingo").val(calculo_extra_domingo);
+	$(".calculo_extra_domingo_noctu").val(calculo_extra_domingo_noc);
 
 }
 
@@ -2325,13 +2326,19 @@ function cargarporcentajes(idempleados){
 			$("#porcentaje_base2").val(porcentaje_base2);
 			$("#tasa_sobre_excedente").val(tasa_sobre_excedente);
 			calcular_afp_iss();
+
+				
+				if($.trim(porcentaje_isss)=="0"){
+					$("#sueldo_isss_planilladevengo_aguinaldo").val("0");
+				}
+				if($.trim(porcentaje_afp)=="0"){
+					$("#sueldo_afp_planilladevengo_aguinaldo").val("0");
+				}
 			}
 	})
 }
-
+var sumavalor=0;
 function calcular_afp_iss(){
-
-
 
 	var renta_devengo= $(".renta_devengo_devengo_descuento_planilla").val();
 	var afp_devengo=$(".afp_devengo_devengo_descuento_planilla").val();
@@ -2383,14 +2390,14 @@ function calcular_afp_iss(){
 	/* Descuento AFP: */
 	total_afp=total_afp_salario*calcularporcentaje;
 	descuento_afp_final=total_afp_salario-total_afp;
-	$("#descuento_afp_planilladevengo_aguinaldo").val(total_afp.toFixed(2));
+	$("#descuento_afp_planilladevengo_aguinaldo").val(total_afp);
 
 
 
 	/* Descuento ISSS: */
 	total_isss= parseFloat(sueldo_isss_planilladevengo_aguinaldo)*calcularporcentaje_isss;
 	descuento_iss_final=total_isss_salario-total_isss;
-	$("#descuento_isss_planilladevengo_aguinaldo").val(total_isss.toFixed(2));
+	$("#descuento_isss_planilladevengo_aguinaldo").val(total_isss);
 
 
 	/* Descuento Renta: */
@@ -2398,7 +2405,7 @@ function calcular_afp_iss(){
 	if(total_renta_salario==0){
 		total_descuento_renta=0;
 	}
-	$("#sueldo_renta_planilladevengo_aguinaldo").val(total_descuento_renta.toFixed(2));
+	$("#sueldo_renta_planilladevengo_aguinaldo").val(total_descuento_renta);
 
 
 
@@ -2465,7 +2472,7 @@ function calcular_afp_iss(){
 	var tasa_por_exedente= parseFloat(sueldo_menos_base)*parseFloat(calcularporcentaje_tasa_excente);
 	var descuento_renta=parseFloat(tasa_por_exedente)+parseFloat(porcentaje_base1);
 	var descuento_renta_final=total_renta_salario-descuento_renta;
-	$("#descuento_renta_planilladevengo_aguinaldo").val(descuento_renta.toFixed(2));
+	$("#descuento_renta_planilladevengo_aguinaldo").val(descuento_renta);
 
 
 	console.log("************************");
@@ -2501,17 +2508,177 @@ function calcular_afp_iss(){
 	calculototaldescuento=parseFloat(descuento_isss_planilladevengo_aguinaldo)+parseFloat(descuento_afp_planilladevengo_aguinaldo)+parseFloat(descuento_renta_planilladevengo_aguinaldo)+parseFloat(otro_descuento_planilladevengo_aguinaldo);
 
 
-	$("#total_descuento_planilladevengo_aguinaldo").val(calculototaldescuento.toFixed(2));
+	$("#total_descuento_planilladevengo_aguinaldo").val(calculototaldescuento);
 	var totaldescuento=$("#total_descuento_planilladevengo_aguinaldo").val();/* --Total Descuento: */
 
 	var calculototalliquido=parseFloat(totaldevengo)-parseFloat(totaldescuento);
-	$("#total_liquidado_planilladevengo_aguinaldo").val(calculototalliquido.toFixed(2));
+	$("#total_liquidado_planilladevengo_aguinaldo").val(calculototalliquido);
 	var totalliquido=$("#total_liquidado_planilladevengo_aguinaldo").val();/* --Total Liquido: */
 
-	guardarplanillaoculto();
+	/* guardarplanillaoculto(); */
+
+	sumavalor=sumavalor+1;
+	if(sumavalor>=2){
+		$.ajax({
+			url:guardarplanillaoculto(),
+			success:function(){
+				redondear("false");
+			}
+		});
+	console.log(sumavalor+"globalllllll");
+	sumavalor=0;
+	}
 }
 
 
+
+
+/* codigo mascara para toda la planilla */
+function redondear(valor_desbloqueo){
+	
+	var divOriginal = $("#formulario_original");
+	/* var divDuplicado = divOriginal.clone(); */
+
+	// Cambiar el ID del div duplicado (opcional)
+   /*  divDuplicado.attr("id", "formulario_copia");
+	divDuplicado.attr("style", ""); */
+
+	// Agregar el div duplicado al contenedor deseado
+   /*  $("#formulario_copia").empty();
+	$("#formulario_copia").append(divDuplicado); */
+
+
+		 if (valor_desbloqueo=="true") {
+
+		   $("#formulario_copia").empty();
+		   $("#formulario_original").attr("style","");
+		   $(".desbloquear_mascara").attr("style","display:none;");
+		   $(".bloqueo_mascara").attr("style","display:none;");
+	   
+		}
+		else{
+			   var divOriginal = $("#formulario_original");
+			   var clone = divOriginal.clone();
+				// Cambiar el ID (opcional)
+				clone.attr("id", "nuevoDiv");
+			   // Agregar el clon al contenedor de clones
+			   $("#formulario_copia").empty();
+			   $("#formulario_copia").append(clone);
+			   clone.removeAttr("style");
+			   $("#formulario_original").attr("style","visibility:hidden; height:0px");
+			   
+			   var ancho = $("#nuevoDiv").width();
+			   var alto = $("#nuevoDiv").height();
+			   var posicion = $("#nuevoDiv").position();
+			   posicion.left;
+			   posicion.top;
+
+			   $(".desbloquear_mascara").attr("style","");
+			   $(".bloqueo_mascara").attr("style","");
+			   var nuevoDiv = $(".bloqueo_mascara");
+			   nuevoDiv.css({
+				   width: ancho,
+				   height: alto,
+				   background: " -webkit-linear-gradient(top, rgba(0,0,0,0.06) 0%,rgba(0,0,0,0) 100%)", // Color rojo semi-transparente
+				   position: "absolute",
+				   "z-index":9
+			   });
+			   $(".desbloquear_mascara").attr("style","margin-left:55%");
+
+			   
+			   $(".desbloquear_mascara").click(function() {
+				   // Tu código a ejecutar cuando se hace clic
+				   redondear("true");
+			   });
+
+			   var inputs = $("#formulario_copia input");
+			   /* -------------- */
+			   inputs.each(function() {
+				   var input = $(this);
+				   var valor=input.val();
+				   var idinput=input.attr("id");
+				   /* 	input.attr("id","");
+				   input.attr("name",""); */
+				   var valorNumerico = parseFloat(valor);
+						   if (!isNaN(valorNumerico) && valorNumerico % 1 !== 0) {
+							   var valorRedondeado = parseFloat(valor);
+							   var numerosDosDecimales = Math.floor(valorRedondeado * 100) / 100;
+							   input.val(numerosDosDecimales);
+						   }
+				   
+			   });
+			   /* ------------- */
+		   }
+
+		   calculos_globales();
+}
+
+$("#myModal").on("hidden.bs.modal", function() {
+   var inputs = $(".modal_devengos input");
+   var select = $(".modal_devengos select");
+   $(".accion_devengo").val("agregardevengo");
+   inputs.each(function() {
+	   var input = $(this);
+	   input.val("");
+   })
+   select.each(function() {
+	   var input = $(this);
+	   input.val("");
+   })
+});
+
+
+$("#descuento").on("hidden.bs.modal", function() {
+   var inputs = $(".modal_devengos input");
+   var select = $(".modal_devengos select");
+   $(".accion_devengo").val("agregardevengo");
+   inputs.each(function() {
+	   var input = $(this);
+	   input.val("");
+   })
+   select.each(function() {
+	   var input = $(this);
+	   input.val("");
+   })
+});
+/* fin codigo mascara para toda la planilla */
+
+
+function calculos_globales(){
+
+	var numero=$("#numero_planilladevengo_aguinaldo").val();
+	var dataString = 'accion01=calculosglobales'+'&numero='+numero;
+			$.ajax({
+				data: dataString,
+				url: "ajax/planilladevengo_aguinaldo.ajax.php",
+				type: 'post',
+				success: function (response) {
+					var datos = JSON.parse(response);
+					var total_liquido = datos[0].total_liquido;
+					var cantidad = parseFloat(total_liquido); // Obtener la cantidad como número
+					// Formatear la cantidad como dinero
+					var cantidadFormateada = cantidad.toLocaleString('es-ES', {
+						style: 'currency',
+						currency: 'USD' // Cambia 'EUR' por el código de moneda deseado (por ejemplo, 'USD' para dólares)
+					});
+					$(".total_liquido_global").text(cantidadFormateada);
+				}
+			});
+			/* ------------------------- */
+			var dataString2 = 'accion01=totalempleados'+'&numero='+numero;
+
+			$.ajax({
+				data: dataString2,
+				url: "ajax/planilladevengo_aguinaldo.ajax.php",
+				type: 'post',
+				success: function (response) {
+					var datos = JSON.parse(response);
+					var total_empleados = datos[0].total_empleados;
+					$(".total_empleado_global").text(total_empleados);
+				}
+			});
+
+}
 
 
 function sumar(){
@@ -2583,8 +2750,8 @@ function sumar(){
 	descuento_isss=parseFloat(sujetoiss_afp)*porcentajeisss;
 	descuento_afp=parseFloat(sujetoiss_afp)*porcentajeafp;
 
-	$("#descuento_isss_planilladevengo_aguinaldo").val(descuento_isss.toFixed(2));
-	$("#descuento_afp_planilladevengo_aguinaldo").val(descuento_afp.toFixed(2));
+	$("#descuento_isss_planilladevengo_aguinaldo").val(descuento_isss);
+	$("#descuento_afp_planilladevengo_aguinaldo").val(descuento_afp);
 
 	var descuento_isss_planilladevengo_aguinaldo=$("#descuento_isss_planilladevengo_aguinaldo").val();/* --Descuento ISSS: */
 	var descuento_afp_planilladevengo_aguinaldo= $("#descuento_afp_planilladevengo_aguinaldo").val();/* --Descuento AFP: */
@@ -2594,12 +2761,12 @@ function sumar(){
 	calculototaldescuento=parseFloat(descuento_isss_planilladevengo_aguinaldo)+parseFloat(descuento_afp_planilladevengo_aguinaldo)+parseFloat(descuento_renta_planilladevengo_aguinaldo)+parseFloat(otro_descuento_planilladevengo_aguinaldo);
 
 
-	$("#total_descuento_planilladevengo_aguinaldo").val(calculototaldescuento.toFixed(2));
+	$("#total_descuento_planilladevengo_aguinaldo").val(calculototaldescuento);
 	var totaldescuento=$("#total_descuento_planilladevengo_aguinaldo").val();/* --Total Descuento: */
 
 	var calculototalliquido=parseFloat(totaldevengo)-parseFloat(totaldescuento);
 	var totalliquido=$("#total_liquidado_planilladevengo_aguinaldo").val();
-	/* $("#total_liquidado_planilladevengo_aguinaldo").val(calculototalliquido.toFixed(2)); */
+	/* $("#total_liquidado_planilladevengo_aguinaldo").val(calculototalliquido); */
 	var totalliquido=$("#total_liquidado_planilladevengo_aguinaldo").val();/* --Total Liquido: */
 
 

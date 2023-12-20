@@ -963,6 +963,10 @@ class ControladorEmpleados{
 							   "carnetafp"=>$rutaafp,
 							   "fotoisss"=>$rutaisss,
 							   "fotoansp"=>$rutaansp2,
+							   "fecha_venc_licenciaconducir" => $_POST["nuevofecha_venc_licenciaconducir"],
+							   "motivo_antecedente" => $_POST["nuevo_motivo_antecedente"],
+							   "motivo_antecedente" => $_POST["nuevo_num_reso_antecedente"],
+
 
 
 
@@ -2206,11 +2210,14 @@ class ControladorEmpleados{
 								"carnetafp"=>$rutaafp,
 								"fotoisss"=>$rutaisss,
 								"fotoansp"=>$rutaansp2,
+								"fecha_venc_licenciaconducir" => $_POST["editarfecha_venc_licenciaconducir"],
+								"motivo_antecedente" => $_POST["nuevo_motivo_antecedente"],
+								"num_reso_antecedente" => $_POST["nuevo_num_reso_antecedente"],
 
 
                                "id"=>$_POST["idEmpleado"]);
 
-				
+								$prueba=$_POST["editarfecha_venc_licenciaconducir"].$_POST["editarNombre"];
 
 				$respuesta = ModeloEmpleados::mdlEditarEmpleado($tabla, $datos);
 

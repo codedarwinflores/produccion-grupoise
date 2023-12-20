@@ -4,6 +4,7 @@ $(document).ready(function () {
 
 	$(".agregar_situacion").attr("disabled", "disabled");
 
+
 	/* CAMPOS INVISIBLES */
 	$(".inicial_situacion").attr("style", "visibility:hidden");
 	$(".motivo_situacion").attr("style", "visibility:hidden");
@@ -16,6 +17,42 @@ $(document).ready(function () {
 
 
 
+
+	/* validar si fecha esta cerrada */
+			$( "#fecha_situacion" ).on( "click", function() {
+				$( "#ic__datepicker-4" ).on( "click", function() {
+					/* ******************************************* */
+						var valor=$("#fecha_situacion").val();
+						var dataString = 'fecha='+valor+
+										'&modulo=situacion'+
+										'&accion01=verificar';
+						$.ajax({
+							data: dataString,
+							url: "ajax/cierres.ajax.php",
+							type: 'post',
+							success: function (response) {
+
+								if(response>0){
+											
+										swal({
+
+											type: "error",
+											title: "Error, esta fecha esta cerrada",
+											showConfirmButton: true,
+											confirmButtonText: "Cerrar"
+
+										});
+										$("#fecha_situacion").val("");
+								
+								}
+
+							}
+						});
+					/* ******************************************* */
+				});
+			});
+			
+	/* ******************************* */
 	
 
 
@@ -83,12 +120,29 @@ $(document).ready(function () {
  	 });
 
 
-	$(".inputtable").blur(function () {
+	$(".inputtable").change(function () {
 		var valor = $(this).val();
 		var idinput_seleccionado = $(this).attr("id");
 		var clase = $(this).attr("class");
 
-
+		if(idinput_seleccionado=="hora_extra_situacion"){
+			if(valor>24){
+				$(this).val(24);
+				valor=24;
+			}
+		}
+		if(idinput_seleccionado=="hora_normales_situacion"){
+			if(valor>24){
+				$(this).val(24);
+				valor=24;
+			}
+		}
+		if(idinput_seleccionado=="tiempo_compensatorio_situacion"){
+			if(valor>24){
+				$(this).val(24);
+				valor=24;
+			}
+		}
 
 
 		if (valor > 0) {
@@ -142,11 +196,78 @@ $(document).ready(function () {
 
 
 
+/* vaciar */
+$('#modalAgregarsituacion').on('hidden.bs.modal', function() {
+	$('.todosinput input[type="text"]').each(function() {
+		// Establece el valor de cada input en cadena vacía
+		$(this).val('');
+	  });
+
+	  $('.todosinput select').each(function() {
+		// Establece el valor de cada input en cadena vacía
+		$(this).val('');
+	  });
+	
+  })
+/*  */
+
+
 $( "#ubicacion_situacion" ).change(function()
 { 
 
    var codigo_ubicacion = $('option:selected', this).attr('codigo');
-  
+   var idcliente = $('option:selected', this).attr('idcliente');
+
+   var horas_autorizada = $('option:selected', this).attr('horas_autorizada');
+   if(horas_autorizada>0){
+
+	var hora_extra=$("#hora_extra_situacion").val();
+		if(hora_extra != ""){
+				
+				var partes = hora_extra.split(':');
+				var minutos = parseInt(partes[1], 10);
+				var convertir=minutos/60;
+				// Quitar el '0.' y redondear a número entero
+				var resultado = Math.round(parseFloat(convertir.toString().substring(2)));
+
+
+				if(resultado<10){
+					resultado=resultado+"0";
+				}
+				var nueva_hora=parseInt(partes[0], 10)+":"+resultado;
+				$("#hora_extra_situacion").val(nueva_hora);
+
+
+
+				var mensajeDiv = $('#mensaje_situacion');
+				mensajeDiv.text('SE REALIZO UN CAMBIO EN HORA, YA QUE LA UBICACIÓN TIENE HORA EXTRA').show();
+				setTimeout(function () {
+					mensajeDiv.text("");
+				}, 5000);
+
+		}
+   /*  ******** */
+/* proceso para obtener el valor del minuto */	
+   /* var parametros = {
+		"idcliente" : idcliente,
+		"minutos" : horas_autorizada,
+		"accion" : "minutos"
+		};
+	$.ajax({
+	url:"ajax/historialvacante.ajax.php",
+	method: "POST",
+	data: parametros,
+		success: function(respuesta){
+			
+		}
+	}); */
+	/* ********** */
+
+   }
+
+  /* ************* */
+
+
    /*  ******** */
    var parametros = {
 	   "codigoubicacion" : codigo_ubicacion,
@@ -165,9 +286,7 @@ $( "#ubicacion_situacion" ).change(function()
 			/* 	   $("#cubrir").val(respuesta.split(",")[4]);
 				   $("#select2-cubrir_situacion-container").text(respuesta.split(",")[4]); */
 				  /*  $("#cubrir_situacion option[value='"+respuesta.split(",")[4]+"']").attr("selected", true); */
-
-				
-				   
+	   
 	   
    }
    });
@@ -175,11 +294,14 @@ $( "#ubicacion_situacion" ).change(function()
 })
 
 
+
 /* vacante select */
 $( ".vacante_a_cubrir" ).on( "change", function() {
 	
-
 	var empleado = $('option:selected', this).attr('empleado');
+	var posicion_vacante = $('option:selected', this).attr('posicion_vacante');
+	
+	$("#posicion_situacion").val(posicion_vacante);
 
 	$("#cubrir").val(empleado);
 	$("#select2-cubrir_situacion-container").text(empleado);
@@ -199,20 +321,29 @@ $( "#codigocliente_situacion").on( "change", function() {
 /* $(".nombreempleado_situacion").click(function () { */
 $( ".nombreempleado_situacion" ).on( "change", function() {
 
-	if($(this).val()==""){
-		$(".agregar_situacion").attr("disabled", "disabled");
+	var estado_empleado = $('option:selected', this).attr("estado_empleado");
+	
 
+	if($(this).val()=="" || estado_empleado != 2){
+		$(".agregar_situacion").attr("disabled", "disabled");
+		$(".guardar_movimiento").attr("disabled", "disabled");
+		$(".estado_emple").text("El empleado seleccionado no esta con estado contratado");
 	}
 	else{
-	$(".agregar_situacion").removeAttr("disabled");
+		$(".agregar_situacion").removeAttr("disabled");
+		$(".guardar_movimiento").removeAttr("disabled");
+		$(".estado_emple").text("");
+
 	}
 	var valor = $('option:selected', this).attr("nombre");
 	var idempleado = $('option:selected', this).attr("idempleado");
 	var codigo = $('option:selected', this).attr("codigo");
 	var consultar = "consultar";
+	var nombre_cargo = $('option:selected', this).text();
+
 
 	
-	
+	$(".informacion_empleado").text(codigo+"-"+nombre_cargo);
 	
 
 	$("#idempleado").val(idempleado);
@@ -291,12 +422,30 @@ $( ".nombreempleado_situacion" ).on( "change", function() {
 		url: "ajax/situacion.ajax.php",
 		type: 'post',
 		success: function (response) {
+			
 			$("#cargar_data_situacion").empty();
 			$("#cargar_data_situacion").append(response.split(",")[0]);
+
+			if(estado_empleado != 2){
+				$(".btnEliminarsituacion").attr("disabled", "disabled");
+			}
+			else{
+				$(".btnEliminarsituacion").removeAttr("disabled");
+			}
+
+			
+			
 			$("#selec_ubicacion").val(response.split(",")[1]);
 			$("#select2-ubicacion_situacion-container").text(response.split(",")[1]);
 
 			$(".mostrar_ubicacion").text(response.split(",")[1]);
+
+			var ubicacion=response.split(",")[1];
+			var codigoubicacion = ubicacion.split('-');
+			if(codigoubicacion[0]=="I0023048"){
+				$("#comodin_situacion").val("Si");
+			}
+
 
 			var infoubicacion=response.split(",")[1];
 			var codigo_ubicacion=infoubicacion.split("-")[0];
@@ -328,7 +477,31 @@ $( ".nombreempleado_situacion" ).on( "change", function() {
 
 		
 	
-			$('.tablas').DataTable();
+			var table =$('.tablas').DataTable({
+				searching: true,
+				"paging": false, 
+				"ordering": false,
+				language: {
+					"decimal": "",
+					"emptyTable": "No hay información",
+					"info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+					"infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+					"infoFiltered": "(Filtrado de _MAX_ total entradas)",
+					"infoPostFix": "",
+					"thousands": ",",
+					"lengthMenu": "Mostrar _MENU_ Entradas",
+					"loadingRecords": "Cargando...",
+					"processing": "Procesando...",
+					"search": "Buscar:",
+					"zeroRecords": "Sin resultados encontrados",
+					"paginate": {
+					"first": "Primero",
+					"last": "Ultimo",
+					"next": "Siguiente",
+					"previous": "Anterior"
+					}
+					}
+			});
 
 			$(".tablas").on("click", ".btnEditarsituacion", function () {
 				var id = $(this).attr("id");
@@ -338,21 +511,68 @@ $( ".nombreempleado_situacion" ).on( "change", function() {
 			$(".tablas").on("click", ".btnEliminarsituacion", function () {
 				var id = $(this).attr("id");
 				eliminar(id);
-			})
+			});
+
+			    // Escuchar cambios en los campos de fecha
+				$('.filtrar_fecha').click(function() {
+					filtrarPorRango();
+
+				});
+				$('.limpiar_table').click(function() {
+					$("#fechaInicio").val("");
+					$("#fechaFin").val("");
+					filtrarPorRango();
+
+
+				});
+
+
 
 		}
 	});
 	/* ********* */
 
-
-
-
 });
 
+
+function filtrarPorRango() {
+    var fechaInicio = document.getElementById("fechaInicio").value;
+    var fechaFin = document.getElementById("fechaFin").value;
+    
+    var table = document.getElementById("tablas_filtro");
+    var rows = table.getElementsByTagName("tr");
+    
+    for (var i = 1; i < rows.length; i++) {
+        var row = rows[i];
+        var cell = row.getElementsByTagName("td")[0]; // Suponemos que la fecha está en la primera columna
+        
+        if (cell) {
+            var fecha = cell.textContent || cell.innerText;
+            
+            if (compararFechas(fecha, fechaInicio) >= 0 && compararFechas(fecha, fechaFin) <= 0) {
+                row.style.display = ""; // Mostrar la fila si está dentro del rango
+            } else {
+                row.style.display = "none"; // Ocultar la fila si no está dentro del rango
+            }
+        }
+    }
+}
+
+function compararFechas(fecha1, fecha2) {
+    var date1 = new Date(fecha1.split('-').reverse().join('-'));
+    var date2 = new Date(fecha2.split('-').reverse().join('-'));
+    
+    if (date1 < date2) return -1;
+    if (date1 > date2) return 1;
+    return 0;
+}
 
 /* ********************* */
 
 $(".agregar_situacion").click(function () {
+
+	var fecha_hora_ingreso_his=$("#fecha_hora_ingreso_his").val();
+	$("#fecha_hora_ingreso").val(fecha_hora_ingreso_his);
 	$("#accion").val("insertar");
 	$(".inputtable").val("");
 
@@ -426,36 +646,56 @@ $(".guardar_movimiento").click(function () {
 	var descontar_tipohora = $(".descontar_tipohora").val();
 	var dias_no_sueldo = $("#dias_no_sueldo").val();
 	var dias_tra_incapacidad = $("#dias_tra_incapacidad").val();
+	var fecha_hora_ingreso = $("#fecha_hora_ingreso").val();
+	var observacion_situacion = $("#observacion_situacion").val();
 
 
 
 	/*  ******** */
 
-	var dataString = 'id=' + $.trim(id) + '&idempleado_situacion=' + idempleado_situacion + '&dias_ausencia_situacion=' + dias_ausencia_situacion + '&horas_ausencia_situacion=' + horas_ausencia_situacion + '&consulta_isss_situacion=' + consulta_isss_situacion + '&incapacidad_situacion=' + incapacidad_situacion + '&ansp_situacion=' + ansp_situacion + '&vacaciones_situacion=' + vacaciones_situacion + '&permiso_situacion=' + permiso_situacion + '&hora_normales_situacion=' + hora_normales_situacion + '&tiempo_compensatorio_situacion=' + tiempo_compensatorio_situacion + '&recuperar_tiempo_situacion=' + recuperar_tiempo_situacion + '&comodin_situacion=' + comodin_situacion + '&cubierto_situacion=' + cubierto_situacion + '&nuevo_servicio_situacion=' + nuevo_servicio_situacion + '&fin_servicio_situacion=' + fin_servicio_situacion + '&ubicacion_situacion=' + ubicacion_situacion + '&servicio_eventual_situacion=' + servicio_eventual_situacion + '&inactivos_situacion=' + inactivos_situacion + '&activo_situacion=' + activo_situacion + '&liquidado_situacion=' + liquidado_situacion + '&inicial_situacion=' + inicial_situacion + '&hora_extra_situacion=' + hora_extra_situacion + '&vacante_situacion=' + vacante_situacion + '&posicion_situacion=' + posicion_situacion + '&fecha_situacion=' + fecha_situacion + '&accion=' + accion + '&motivo_horas_extras=' + motivo_horas_extras + '&horas_no_cubiertas=' + horas_no_cubiertas + '&cubrir_situacion=' + cubrir_situacion+ '&solicitado_situacion=' + solicitado_situacion+ '&codigocliente_situacion=' + codigocliente_situacion+ '&idcliente_situacion=' + idcliente_situacion+ '&nombrecliente_situacion=' + nombrecliente_situacion+ '&hora_inicio_situacion=' + hora_inicio_situacion+ '&hora_fin_situacion=' + hora_fin_situacion+ '&numero_planilla_admin=' + numero_planilla_admin+ '&descontar_tipohora=' + descontar_tipohora+ '&dias_no_sueldo=' + dias_no_sueldo+ '&dias_tra_incapacidad=' + dias_tra_incapacidad;
+	var dataString = 'id=' + $.trim(id) + '&idempleado_situacion=' + idempleado_situacion + '&dias_ausencia_situacion=' + dias_ausencia_situacion + '&horas_ausencia_situacion=' + horas_ausencia_situacion + '&consulta_isss_situacion=' + consulta_isss_situacion + '&incapacidad_situacion=' + incapacidad_situacion + '&ansp_situacion=' + ansp_situacion + '&vacaciones_situacion=' + vacaciones_situacion + '&permiso_situacion=' + permiso_situacion + '&hora_normales_situacion=' + hora_normales_situacion + '&tiempo_compensatorio_situacion=' + tiempo_compensatorio_situacion + '&recuperar_tiempo_situacion=' + recuperar_tiempo_situacion + '&comodin_situacion=' + comodin_situacion + '&cubierto_situacion=' + cubierto_situacion + '&nuevo_servicio_situacion=' + nuevo_servicio_situacion + '&fin_servicio_situacion=' + fin_servicio_situacion + '&ubicacion_situacion=' + ubicacion_situacion + '&servicio_eventual_situacion=' + servicio_eventual_situacion + '&inactivos_situacion=' + inactivos_situacion + '&activo_situacion=' + activo_situacion + '&liquidado_situacion=' + liquidado_situacion + '&inicial_situacion=' + inicial_situacion + '&hora_extra_situacion=' + hora_extra_situacion + '&vacante_situacion=' + vacante_situacion + '&posicion_situacion=' + posicion_situacion + '&fecha_situacion=' + fecha_situacion + '&accion=' + accion + '&motivo_horas_extras=' + motivo_horas_extras + '&horas_no_cubiertas=' + horas_no_cubiertas + '&cubrir_situacion=' + cubrir_situacion+ '&solicitado_situacion=' + solicitado_situacion+ '&codigocliente_situacion=' + codigocliente_situacion+ '&idcliente_situacion=' + idcliente_situacion+ '&nombrecliente_situacion=' + nombrecliente_situacion+ '&hora_inicio_situacion=' + hora_inicio_situacion+ '&hora_fin_situacion=' + hora_fin_situacion+ '&numero_planilla_admin=' + numero_planilla_admin+ '&descontar_tipohora=' + descontar_tipohora+ '&dias_no_sueldo=' + dias_no_sueldo+ '&dias_tra_incapacidad=' + dias_tra_incapacidad+ '&fecha_hora_ingreso=' + fecha_hora_ingreso+ '&observacion_situacion=' + observacion_situacion;
 
-	$.ajax({
-		data: dataString,
-		url: "ajax/situacion.ajax.php",
-		type: 'post',
-		success: function (response) {
+	console.log(dataString);
 
-			if($.trim(response)=="ok"){
-				guardarregistro3();
-				swal({
+	if(fecha_situacion!=""){
 
-					type: "success",
-					title: "Guardado con Exito",
-					showConfirmButton: true,
-					confirmButtonText: "Cerrar"
+		$.ajax({
+			data: dataString,
+			url: "ajax/situacion.ajax.php",
+			type: 'post',
+			success: function (response) {
+				console.log(response);
+			
+				if($.trim(response)=="ok"){
+					guardarregistro3();
+					swal({
 
-				}).then(function (result) {
-					if (result.value) {
-						window.location = "situacion";
-					}
-				});
+						type: "success",
+						title: "Guardado con Exito",
+						showConfirmButton: true,
+						confirmButtonText: "Cerrar"
+
+					}).then(function (result) {
+						if (result.value) {
+							window.location = "situacion";
+						}
+					});
+				}
 			}
-		}
-	});
+		});
+
+	}
+	else{
+
+		swal({
+			title: 'ERROR',
+			text: "No a ingresado fecha",
+			type: 'warning',
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			cancelButtonText: 'Aceptar'
+		})
+	}
 	/* ********* */
 
 
@@ -545,14 +785,20 @@ function editar(ids) {
 			/* el 23 vacante*/
 			$("#posicion_situacion").val(response.split(",")[24]);
 			$("#fecha_situacion").val(response.split(",")[25]);
-			$("#motivo_value").val(response.split(",")[26]);
-			$("#select2-motivo_horas_extras-container").text(response.split(",")[26]);
+			$("#motivo_horas_extras").val(response.split(",")[26]).trigger('change.select2');
+
+			/* $("#motivo_value").val(response.split(",")[26]);
+			$("#select2-motivo_horas_extras-container").text(response.split(",")[26]); */
 			$("#horas_no_cubiertas").val(response.split(",")[27]);
 
 
-			$("#cubrir").val(response.split(",")[28]);
+			/* $("#cubrir").val(response.split(",")[28]);
 			$("#select2-cubrir_situacion-container").text(response.split(",")[28]);
+ */
+			$("#cubrir_situacion").val(response.split(",")[28]).trigger('change.select2');
+
 	
+
 
 			$("#motivo_horas_extras option[value='"+response.split(",")[26]+"']").attr("selected", true);
 			var requiere_agente = $('option:selected', "#motivo_horas_extras").attr("requiere_agente");
@@ -596,6 +842,8 @@ function editar(ids) {
 
 			$("#dias_tra_incapacidad").val(response.split(",")[36]);
 			$("#dias_no_sueldo").val(response.split(",")[37]);
+			$("#fecha_hora_ingreso").val(response.split(",")[38]);
+			$("#observacion_situacion").val(response.split(",")[39]);
 
 
 			/* $("#ubicacion_situacion").val(response.split(",")[16]); */
@@ -608,14 +856,18 @@ function editar(ids) {
 			}
 
 
-
+			/* alert(response.split(",")[16]); */
+			/* alert(response.split(",")[36]+"/"+response.split(",")[40]+"/"+response.split(",")[16]); */
 			if(response.split(",")[16]==""){
-				$("#selec_ubicacion").val(response.split(",")[36]);
-				$("#select2-ubicacion_situacion-container").text(response.split(",")[38]);/* ---ULTIMO CAMPO */
+				
+				$("#ubicacion_situacion").val(response.split(",")[40]).trigger('change.select2');/* ---ULTIMO CAMPO */
+				/* $("#selec_ubicacion").val(response.split(",")[36]); */
+				/* $("#select2-ubicacion_situacion-container").text(response.split(",")[40]); */
 			}
 			else{
-				$("#selec_ubicacion").val(response.split(",")[16]);
-				$("#select2-ubicacion_situacion-container").text(response.split(",")[16]);
+				$("#ubicacion_situacion").val(response.split(",")[16]).trigger('change.select2');
+				/* $("#selec_ubicacion").val(response.split(",")[16]);
+				$("#select2-ubicacion_situacion-container").text(response.split(",")[16]); */
 			}
 
 

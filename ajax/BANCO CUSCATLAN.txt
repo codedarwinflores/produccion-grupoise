@@ -1,0 +1,59 @@
+176.74 153401000084136 4 SANCHEZ CRUZ ANTONIO                                                                       
+174.24 023401000371841 4 GARCIA MARTINEZ MARIO ALONSO                                                                       
+172.18 010401000358877 4 GUZMAN GONZALEZ RAUL                                                                       
+172.18 253401000322219 4 HERNANDEZ JESUS EVELIO                                                                       
+182.18 253401000349757 4 DIAZ ZEPEDA JUAN FRANCISCO                                                                       
+172.18 140401001580206 4 GALDAMEZ GUTIERREZ NOE NEFTALI                                                                       
+172.18 016401000628464 4 RIVERA PORTILLO JOSE RICARDO                                                                       
+172.18 018401000465137 4 FLORES SIBRIAN RODER ALEXANDER                                                                       
+167.18 000000011429201 4 HERNANDEZ MEDRANO PEDRO SANTIAGO                                                                       
+182.18 010401000342665 4 PEREZ CA_AS MIGUEL ANGEL                                                                       
+182.18 030401000279387 4 MELENDEZ CORTEZ JUAN CARLOS                                                                       
+182.18 024401000245912 4 BONILLA HERNANDEZ JOSE ISIDRO                                                                       
+172.18 018401000450739 4 PEREZ PALACIOS JOSE ANGEL                                                                       
+182.18 017401000279933 4 GIRON JOSE HERNAN                                                                       
+182.18 001401000547301 4 GUILLEN AVILES RENE ANTONIO                                                                       
+199.68 023401000369187 4 BORJA ALAS JOSE ROBERTO                                                                       
+184.09 422401000007242 4 HERNANDEZ RENE                                                                       
+172.18 026401000373846 4 BAIRES GUEVARA VICTORIANO CANDELARIO                                                                       
+184.24 016401000615792 4 FLORES LOPEZ JUAN CARLOS                                                                       
+199.68 140401001158573 4 PINTO BOLA_OS JOSE CRUZ                                                                       
+177.18 140401001072501 4 RENDEROS HEBER                                                                       
+187.50 302401000007573 4 MERLOS GONZALEZ VINICIO ROBERTO CARLOS                                                                       
+184.09 016401000616625 4 MANCIA NU_EZ JOSE DOMINGO                                                                       
+211.59 002401000068151 4 MARTINEZ RAMIREZ JOSE                                                                       
+172.18 018401000440541 4 FLORES GARCIA PEDRO OSMIN                                                                       
+199.68 000000004310219 4 RECINOS CALDERON OSCAR ARMANDO                                                                       
+163.53 001401000544021 4 GONZALEZ CORTEZ NEFTALY ALFREDO                                                                       
+172.18 313401000012683 4 CARTAGENA GUEVARA ANIBAL DE JESUS                                                                       
+177.18 408401000006816 4 VASQUEZ VELASQUEZ RAFAEL EBERGITO                                                                       
+172.18 176401000004126 4 ROMERO ARRIAZA RUDY OBDULIO                                                                       
+182.18 368401000009115 4 JIMENEZ PREZA HECTOR ANTONIO                                                                       
+172.18 004401000604586 4 MARTINEZ FREDI EDGARDO                                                                       
+172.18 424401000012387 4 CONTRERAS BAUTISTA EDVIN EBERTO                                                                       
+192.18 263401000183055 4 MERINO ESPINOZA RAFAEL                                                                       
+172.18 409401000008646 4 FLORES VASQUEZ SAUL ANTONIO                                                                       
+143.93 346401000008318 4 LEMUS QUIJANO FLORENCIO FRANCISCO                                                                       
+172.18 018401000455671 4 GARCIA LINARES JUAN RAMON                                                                       
+202.50 007401000880905 4 BAUTISTA ALFARO VICTOR JOSUE                                                                       
+162.18 300401000022068 4 ANDRADE FRANCO OSCAR OMAR                                                                       
+172.18 007401000835046 4 AGUILAR SERRANO JUAN LORENZO                                                                       
+172.18 316401000028205 4 GARCIA GARCIA DONALD ANIBAL                                                                       
+162.18 423401000017062 4 ROMERO RODRIGUEZ JOSUE EZEQUIEL                                                                       
+162.18 010401000352701 4 GARCIA BELTRAN DAGOBERTO                                                                       
+172.18 018401000471327 4 HERRERA DE LA CRUZ JOSE ANTONIO                                                                       
+177.18 401495000049060 4 HERNANDEZ FABIAN JOSE JULIO                                                                       
+174.24 030401000299633 4 RAUDA ACOSTA LEONARDO ANTONIO                                                                       
+174.09 140401000914507 4 ZARCE_O OSCAR DONALDO                                                                       
+172.18 007401000916842 4 HERNANDEZ HERNANDEZ JOSE VICENTE                                                                       
+172.18 007401000929912 4 RIVERA ELIO IVAN                                                                       
+172.18 408401000014141 4 HERNANDEZ JOSE DIMAS                                                                       
+172.18 409401000032627 4 VALLADARES GAMEZ LUIS MIGUEL                                                                       
+177.18 401495000298075 4 GRANADE_O AVALO JOSE ADAN                                                                       
+167.18 346401000027087 4 SANCHEZ MARTINEZ JOSE SANTOS                                                                       
+169.68 401495000228326 4 CRUZ MOLINA ROBERTO CARLOS                                                                       
+172.18 424401000043594 4 VEGA MERLOS JUAN CARLOS                                                                       
+162.18 401495000179529 4 CA_AS CAMPOS MORIS RENE                                                                       
+167.18 351401000051109 4 MENDOZA DE LA CRUZ CRISTIAN NEFTALI                                                                       
+162.18 346401000028318 4 ANGULO CESAR ALBERTO                                                                       
+                                           10206.06             SON        58 EMPLEADOS 

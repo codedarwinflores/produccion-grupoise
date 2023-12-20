@@ -164,6 +164,7 @@ $(".tablas").on("click", ".btnEditarvacante", function(){
 			$("#editarnombre_empleado_cubrir_vacante").val(respuesta["nombre_empleado_cubrir_vacante"]);
 			$("#editarcodigo_ubicacion_cubrir_vacante").val(respuesta["codigo_ubicacion_cubrir_vacante"]);
 			$("#editarnombre_ubicacion_cubrir_vacante").val(respuesta["nombre_ubicacion_cubrir_vacante"]);
+			$("#editarobserva_vacante").val(respuesta["observa_vacante"]);
 
 
 

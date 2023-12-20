@@ -1,19 +1,23 @@
 <?php
 
-class ControladorAfp{
+class ControladorAfp
+{
 
 	/*=============================================
 	INGRESO 
 	=============================================*/
 
-	static public function ctrIngresoAfp(){
+	static public function ctrIngresoAfp()
+	{
 
-		if(isset($_POST["ingUsuario"])){
+		if (isset($_POST["ingUsuario"])) {
 
-			if(preg_match('/^[a-zA-Z0-9]+$/', $_POST["ingUsuario"]) &&
-			   preg_match('/^[a-zA-Z0-9]+$/', $_POST["ingPassword"])){
+			if (
+				preg_match('/^[a-zA-Z0-9]+$/', $_POST["ingUsuario"]) &&
+				preg_match('/^[a-zA-Z0-9]+$/', $_POST["ingPassword"])
+			) {
 
-			   	$encriptar = crypt($_POST["ingPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+				$encriptar = crypt($_POST["ingPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
 
 				$tabla = "usuarios";
 
@@ -22,9 +26,9 @@ class ControladorAfp{
 
 				$respuesta = ModeloUsuarios::MdlMostrarUsuarios($tabla, $item, $valor);
 
-				if($respuesta["usuario"] == $_POST["ingUsuario"] && $respuesta["password"] == $encriptar){
+				if ($respuesta["usuario"] == $_POST["ingUsuario"] && $respuesta["password"] == $encriptar) {
 
-					if($respuesta["estado"] == 1){
+					if ($respuesta["estado"] == 1) {
 
 						$_SESSION["iniciarSesion"] = "ok";
 						$_SESSION["id"] = $respuesta["id"];
@@ -42,7 +46,7 @@ class ControladorAfp{
 						$fecha = date('Y-m-d');
 						$hora = date('H:i:s');
 
-						$fechaActual = $fecha.' '.$hora;
+						$fechaActual = $fecha . ' ' . $hora;
 
 						$item1 = "ultimo_login";
 						$valor1 = $fechaActual;
@@ -52,59 +56,54 @@ class ControladorAfp{
 
 						$ultimoLogin = ModeloUsuarios::mdlActualizarUsuario($tabla, $item1, $valor1, $item2, $valor2);
 
-						if($ultimoLogin == "ok"){
+						if ($ultimoLogin == "ok") {
 
 							echo '<script>
 
 								window.location = "inicio";
 
 							</script>';
-
-						}				
-						
-					}else{
+						}
+					} else {
 
 						echo '<br>
 							<div class="alert alert-danger">El usuario aún no está activado</div>';
-
-					}		
-
-				}else{
+					}
+				} else {
 
 					echo '<br><div class="alert alert-danger">Error al ingresar, vuelve a intentarlo</div>';
-
 				}
-
-			}	
-
+			}
 		}
-
 	}
 
 	/*=============================================
 	INGRESAR REGISTRO 
 	=============================================*/
 
-	static public function ctrCrearAfp(){
+	static public function ctrCrearAfp()
+	{
 
-		if(isset($_POST["nuevoNombre"])){
-
-
-
-				$tabla = "afp";
+		if (isset($_POST["nuevoNombre"])) {
 
 
-				$datos = array("codigo" => $_POST["nuevoCodigo"],
-					           "nombre" => $_POST["nuevoNombre"],
-							   "codigo_superintendencia" => $_POST["nuevoCodigo_superintendencia"],
-							   "porcentaje" => $_POST["nuevoPorcentaje"],
-							   "cuota_patronal" => $_POST["nuevoCuota_patronal"]);
 
-				$respuesta = ModeloAfp::mdlIngresar($tabla, $datos);
-			
-				if($respuesta == "ok"){
+			$tabla = "afp";
 
-					echo '<script>
+
+			$datos = array(
+				"codigo" => $_POST["nuevoCodigo"],
+				"nombre" => $_POST["nuevoNombre"],
+				"codigo_superintendencia" => $_POST["nuevoCodigo_superintendencia"],
+				"porcentaje" => $_POST["nuevoPorcentaje"],
+				"cuota_patronal" => $_POST["nuevoCuota_patronal"]
+			);
+
+			$respuesta = ModeloAfp::mdlIngresar($tabla, $datos);
+
+			if ($respuesta == "ok") {
+
+				echo '<script>
 
 					swal({
 
@@ -125,23 +124,16 @@ class ControladorAfp{
 				
 
 					</script>';
-
-
-				}	
-
-
-			
-
+			}
 		}
-
-
 	}
 
 	/*=============================================
 	MOSTRAR REGISTROS
 	=============================================*/
 
-	static public function ctrMostrarAfp($item, $valor){
+	static public function ctrMostrarAfp($item, $valor)
+	{
 
 		$tabla = "afp";
 
@@ -154,27 +146,30 @@ class ControladorAfp{
 	EDITAR REGISTRO
 	=============================================*/
 
-	static public function ctrEditarAfp(){
+	static public function ctrEditarAfp()
+	{
 
-		if(isset($_POST["editarNombre"])){
+		if (isset($_POST["editarNombre"])) {
 
 
 
-				$tabla = "afp";
+			$tabla = "afp";
 
-				
 
-				$datos = array("id" => $_POST["id"],
-							   "codigo" => $_POST["editarCodigo"],
-							   "nombre" => $_POST["editarNombre"],"codigo_superintendencia" => $_POST["editarCodigo_superintendencia"],
-							   "porcentaje" => $_POST["editarPorcentaje"],
-							   "cuota_patronal" => $_POST["editarCuota_patronal"]);
 
-				$respuesta = ModeloAfp::mdlEditar($tabla, $datos);
+			$datos = array(
+				"id" => $_POST["id"],
+				"codigo" => $_POST["editarCodigo"],
+				"nombre" => $_POST["editarNombre"], "codigo_superintendencia" => $_POST["editarCodigo_superintendencia"],
+				"porcentaje" => $_POST["editarPorcentaje"],
+				"cuota_patronal" => $_POST["editarCuota_patronal"]
+			);
 
-				if($respuesta == "ok"){
+			$respuesta = ModeloAfp::mdlEditar($tabla, $datos);
 
-					echo'<script>
+			if ($respuesta == "ok") {
+
+				echo '<script>
 
 					swal({
 						  type: "success",
@@ -190,32 +185,28 @@ class ControladorAfp{
 								})
 
 					</script>';
-
-				}
-
-
-			
+			}
 		}
-
 	}
 
 	/*=============================================
 	BORRAR REGISTROS
 	=============================================*/
 
-	static public function ctrBorrarAfp(){
+	static public function ctrBorrarAfp()
+	{
 
-		if(isset($_GET["idAfp"])){
+		if (isset($_GET["idAfp"])) {
 
-			$tabla ="afp";
+			$tabla = "afp";
 			$datos = $_GET["idAfp"];
 
 
 			$respuesta = ModeloAfp::mdlBorrar($tabla, $datos);
 
-			if($respuesta == "ok"){
+			if ($respuesta == "ok") {
 
-				echo'<script>
+				echo '<script>
 
 				swal({
 					  type: "success",
@@ -232,15 +223,7 @@ class ControladorAfp{
 							})
 
 				</script>';
-
-			}		
-
+			}
 		}
-
 	}
-
-
 }
-	
-
-

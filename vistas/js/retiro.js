@@ -11,16 +11,37 @@ $(document).ready(function(){
 
 			/* alert("Si desea Activar el empleado asigne Fecha de Contratación"); */
 
-			swal({
+			/* swal({
 				title: 'Alerta',
 				text: "Si desea Activar el empleado asigne Fecha de Contratación",
 				type: 'warning'
-			  })
-			
+			  }) */
+			// Captura la fecha actual
+			var fechaActual = new Date();
+      
+			// Obtiene día, mes y año
+			var dia = fechaActual.getDate();
+			var mes = fechaActual.getMonth() + 1; // Los meses en JavaScript son base 0
+			var anio = fechaActual.getFullYear(); // Solo los últimos dos dígitos del año
+	  
+			// Formatea para asegurarse de que tengan dos dígitos
+			if (dia < 10) {
+			  dia = "0" + dia;
+			}
+			if (mes < 10) {
+			  mes = "0" + mes;
+			}
+			if (anio < 10) {
+			  anio = "0" + anio;
+			}
+	  
+			// Crea la fecha en el formato "dd-mm-yy"
+			var fechaFormateada = dia + "-" + mes + "-" + anio;
+	  
+			$("#editarfecha_contratacion_retiro").val(fechaFormateada);
+		
 		}
 	});
-
-
 
 
  })

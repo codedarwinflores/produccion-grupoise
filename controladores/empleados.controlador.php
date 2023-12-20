@@ -716,7 +716,7 @@ class ControladorEmpleados{
 						/*=============================================
 						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
 						=============================================*/
-			/* 			$aleatorio = mt_rand(100,999);
+			       /* 			$aleatorio = mt_rand(100,999);
 						$rutaafp = "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"]."/afp_".$aleatorio.".png";
 						$origen = imagecreatefrompng($_FILES["nuevocarnetafp"]["tmp_name"]);
 						$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
@@ -772,7 +772,7 @@ class ControladorEmpleados{
 						/*=============================================
 						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
 						=============================================*/
-			/* 			$aleatorio = mt_rand(100,999);
+				/* 			$aleatorio = mt_rand(100,999);
 						$rutaafp = "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"]."/afp_".$aleatorio.".png";
 						$origen = imagecreatefrompng($_FILES["nuevocarnetafp"]["tmp_name"]);
 						$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
@@ -827,7 +827,7 @@ class ControladorEmpleados{
 						/*=============================================
 						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
 						=============================================*/
-			/* 			$aleatorio = mt_rand(100,999);
+					/* 			$aleatorio = mt_rand(100,999);
 						$rutaafp = "vistas/img/empleados/".$_POST["nuevoNumeroDocumento"]."/afp_".$aleatorio.".png";
 						$origen = imagecreatefrompng($_FILES["nuevocarnetafp"]["tmp_name"]);
 						$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
@@ -988,8 +988,10 @@ class ControladorEmpleados{
 							   "id_jefe_operaciones" => $_POST["nuevojefe_empleado"],
 							   "idconfiguracion" => $_POST["nuevoidconfiguracion"],
 							   "pensionado_empleado" => $_POST["pensionado_empleado"],
-
-
+							   "fecha_venc_licenciaconducir" => $_POST["nuevofecha_venc_licenciaconducir"],
+							   "motivo_antecedente" => $_POST["nuevo_motivo_antecedente"],
+							   "num_reso_antecedente" => $_POST["nuevo_num_reso_antecedente"],
+							   "codigo_empleado" => $_POST["nuevocodigo_empleado"],
 
 
 
@@ -2233,6 +2235,9 @@ class ControladorEmpleados{
 								"fotoisss"=>$rutaisss,
 								"fotoansp"=>$rutaansp2,
 								"pensionado_empleado" => $_POST["pensionado_empleado"],
+								"fecha_venc_licenciaconducir" => $_POST["editarfecha_venc_licenciaconducir"],
+								"motivo_antecedente" => $_POST["nuevo_motivo_antecedente"],
+								"num_reso_antecedente" => $_POST["nuevo_num_reso_antecedente"],
 
 
                                "id"=>$_POST["idEmpleado"]);

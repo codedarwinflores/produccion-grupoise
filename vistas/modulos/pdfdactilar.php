@@ -1,4 +1,3 @@
-
 <?php ob_start(); ?>
 
 
@@ -967,8 +966,17 @@ $mes = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto"
                     $fotoempleado;
                     if($value["fotografia"] != ""){
                         $empleado = $value["fotografia"];
+                        
+                        $ubicacionfinalempleado="";
+                       
                         $ubicacionempleado = explode("/", $empleado);
+                        if (count($ubicacionempleado) > 1) {
+                            // El delimitador '/' se encontró en la cadena
                         $ubicacionfinalempleado="../".$ubicacionempleado[1]."/".$ubicacionempleado[2]."/".$ubicacionempleado[3]."/".$ubicacionempleado[4];
+                        }
+                        else{
+                            $ubicacionfinalempleado="../imgcarnet/anonymous.png";
+                        }
 
                          $fotoempleado = "data:image/png;base64," . base64_encode(file_get_contents($ubicacionfinalempleado));
 
@@ -983,11 +991,13 @@ $mes = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto"
 
                 <div style="width: 100%; border:1px solid #000; height:90px">
                     <div style="width: 20%; float:left;">
+
                         <img src="<?php echo $logopolicia ?>" width="100" />
                     </div>
                     <div style="width: 60%; float:left;" align="center">
                         <br>
                         <span style="font-size: 12px;">
+                        <?php echo $empleado;?>
                         POLICÍA NACIONAL CIVIL<br>
                         DIVISION DE REGISTRO Y CONTROL DE SERVICIOS<br>
                         PRIVADOS DE SEGURIDAD<br>

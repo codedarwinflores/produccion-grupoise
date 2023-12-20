@@ -51,9 +51,9 @@ echo "<input type='hidden' id='tipo_kardex_id' value='$tipo'/>"
       <div class="input-group" bis_skin_checked="1">
                 <span class="input-group-addon"><i class=""></i></span> 
                 <select class="form-control input-lg " name="tipo_kardex" id="tipo_kardex">
-                  <option value="equipos">Equipos</option>
-                  <option value="armas">Armas</option>
-                  <option value="radios">Radio</option>
+                  <option value="equipos">Equipos, Bicicleta, Vehiculo</option>
+                  <!-- <option value="armas">Armas</option>
+                  <option value="radios">Radio</option> -->
                 </select>
       </div>
       <br>
@@ -81,28 +81,70 @@ echo "<input type='hidden' id='tipo_kardex_id' value='$tipo'/>"
          </thead>
          <tbody>
          <?php
+         
+
+            function equipo_code($codigo)
+            {
+                  $query01 = "SELECT * FROM tbl_otros_equipos where codigo_equipo='$codigo'";
+                  $sql = Conexion::conectar()->prepare($query01);
+                  $sql->execute();
+                  return $sql->fetchAll();
+            }
+            function bicicleta_code($codigo)
+            {
+                  $query01 = "SELECT * FROM tbl_bicicleta where codigo_bicicleta='$codigo'";
+                  $sql = Conexion::conectar()->prepare($query01);
+                  $sql->execute();
+                  return $sql->fetchAll();
+            }
+            function vehiculo_code($codigo)
+            {
+                  $query01 = "SELECT * FROM tbl_vehiculos where codigo_vehiculo='$codigo'";
+                  $sql = Conexion::conectar()->prepare($query01);
+                  $sql->execute();
+                  return $sql->fetchAll();
+            }
+         
             function kardex()
             {
-                  $query01 = "SELECT kardex.id as idkardex,kardex.*,tbl_otros_equipos.*,tbl_transacciones_equipo.*
+                  /* $query01 = "SELECT kardex.id as idkardex,kardex.*,tbl_otros_equipos.*,tbl_transacciones_equipo.*
                   FROM kardex,tbl_otros_equipos,tbl_transacciones_equipo,tbl_clientes_ubicaciones
-                  where kardex.transancion_kardex=tbl_transacciones_equipo.id and kardex.equipo_kardex=tbl_otros_equipos.codigo_equipo and kardex.ubicacion_kardex= tbl_clientes_ubicaciones.id";
+                  where kardex.transancion_kardex=tbl_transacciones_equipo.id and kardex.equipo_kardex=tbl_otros_equipos.codigo_equipo and kardex.ubicacion_kardex= tbl_clientes_ubicaciones.id"; */
+                  $query01 = "SELECT * FROM kardex";
                   $sql = Conexion::conectar()->prepare($query01);
                   $sql->execute();
                   return $sql->fetchAll();
             }
             $data03 = kardex();
             foreach ($data03 as $value) {
+              $name_equipo="";
+              $codigo=$value["equipo_kardex"];
+              $data_equipo=equipo_code($codigo);
+              foreach ($data_equipo as $subvalue) {
+               $name_equipo=$subvalue["descripcion"];
+              }
+              $data_bici=bicicleta_code($codigo);
+              foreach ($data_bici as $subvalue) {
+               $name_equipo=$subvalue["descripcion_bicicleta"];
+              }
+
+              $data_vehi=vehiculo_code($codigo);
+              foreach ($data_vehi as $subvalue) {
+               $name_equipo=$subvalue["descripcion_vehiculo"];
+              }
+
           
            echo ' <tr>
                    <td>'.$value["fecha_kardex"].'</td>
-                   <td>'.$value["descripcion"].'</td>
+                   <td>'.$name_equipo.'</td>
+                   
                    <td>'.$value["cantidad_kardex"].'</td>
                    <td>'.$value["precio_kardex"].'</td>';
                    echo '<td>
  
                      <div class="btn-group">
                        <a href="historialkardex?id='.$value["equipo_kardex"].'" class="btn btn-info">Movimientos</a>
-                       <button class="btn btn-danger btnEliminarkardex" idkardex="'.$value["idkardex"].'"  Codigo="'.$value["idkardex"].'"><i class="fa fa-times"></i></button>
+                       <button class="btn btn-danger btnEliminarkardex" idkardex="'.$value["id"].'"  Codigo="'.$value["id"].'"><i class="fa fa-times"></i></button>
                      </div>  
  
                    </td>
@@ -131,7 +173,7 @@ MODAL AGREGAR
 
 <div id="modalAgregarabase" class="modal fade" role="dialog">
   
-  <div class="modal-dialog">
+  <div class="modal-dialog" style="width: 60%">
 
     <div class="modal-content">
 
@@ -156,6 +198,7 @@ MODAL AGREGAR
 
           <div class="box-body">
 
+          
           <input type="hidden" id="id">
           <input type="hidden" id="correlativo_kardex">
 
@@ -229,7 +272,7 @@ MODAL AGREGAR
               <div class="input-group" bis_skin_checked="1">
                 <span class="input-group-addon"><i class=""></i></span> 
 
-                <select class="form-control input-lg  mi-selector" name="ubicacion_kardex" id="ubicacion_kardex">
+                <select class="form-control input-lg  mi-selector kardex_armas" name="ubicacion_kardex" id="ubicacion_kardex">
                   <option value="">Seleccione Ubicación</option>
                   <?php
                   function ubicacion()
@@ -263,7 +306,7 @@ MODAL AGREGAR
               <tbody>
                 <tr>
                   <td>
-                      <select class="form-control mi-selector" name="equipo_kardex" id="equipo_kardex">
+                      <select class="form-control mi-selector" name="equipo_kardex" id="equipo_kardex" equipo="equipo">
                         <option value="">Seleccione Equipo</option>
                         <?php
                         function equipo()
@@ -277,6 +320,39 @@ MODAL AGREGAR
                         foreach ($data06 as $value) {
                         ?>
                           <option value="<?php echo $value["codigo_equipo"]?>" costos="<?php echo $value["costo_equipo"]?>" descripcion="<?php echo $value["descripcion"]?>"><?php echo $value["descripcion"] ?></option>
+                        <?php
+                        }
+                        ?>
+
+                        <!-- bicicleta -->
+                        <?php
+                        function bicicleta()
+                        {
+                              $query01 = "SELECT * FROM tbl_bicicleta";
+                              $sql = Conexion::conectar()->prepare($query01);
+                              $sql->execute();
+                              return $sql->fetchAll();
+                        }
+                        $data05b = bicicleta();
+                        foreach ($data05b as $value) {
+                        ?>
+                          <option value="<?php echo $value["codigo_bicicleta"]?>" costos="<?php echo $value["costo_bicicleta"]?>" descripcion="<?php echo $value["descripcion_bicicleta"]?>"><?php echo $value["codigo_bicicleta"]."-".$value["descripcion_bicicleta"]."-".$value["marca"]."-".$value["modelo_bicicleta"]?></option>
+                        <?php
+                        }
+                        ?>
+                        <!-- vehiculo -->
+                        <?php
+                        function vehiculo()
+                        {
+                              $query01 = "SELECT * FROM tbl_vehiculos";
+                              $sql = Conexion::conectar()->prepare($query01);
+                              $sql->execute();
+                              return $sql->fetchAll();
+                        }
+                        $data05b = vehiculo();
+                        foreach ($data05b as $value) {
+                        ?>
+                          <option value="<?php echo $value["codigo_vehiculo"]?>" costos="<?php echo $value["costo_vehiculo"]?>" descripcion="<?php echo $value["descripcion_vehiculo"]?>"><?php echo $value["codigo_vehiculo"]."-".$value["descripcion_vehiculo"]."-".$value["marca"]."-".$value["modelo"]?></option>
                         <?php
                         }
                         ?>
@@ -341,6 +417,13 @@ MODAL AGREGAR
             </table>
 
       
+            <!-- master -->
+            <input type="hidden" id="idubicacion_select">
+            <input type="hidden" id="cantidad_actual">
+            <input type="hidden" id="cantidad_maximo">
+            <input type="hidden" id="global_code">
+            <input type="hidden" id="nombremodulo" value="kardex"/>
+
 
           </div>
 

@@ -24,7 +24,51 @@ function getContent() {
   return $sql->fetchAll();
 };
 
+
+$host= $_SERVER["HTTP_HOST"];
+$url= $_SERVER["REQUEST_URI"];
+$url = "http://" . $host . $url;
+$components = parse_url($url);
+parse_str($components['query'], $results);
+
+$idhistorial0 = $results['id'];
+
+
+
 ?>
+
+<?php
+              function consultar_ubicacion2($x)
+              {
+                $query01 = "SELECT*FROM `transacciones_agente` WHERE  idagente_transacciones_agente='$x' 
+                order by id desc
+                limit 1";
+                $sql = Conexion::conectar()->prepare($query01);
+                $sql->execute();
+                return $sql->fetchAll();
+              };
+              function empleado($x)
+              {
+                $query01 = "SELECT*FROM `tbl_empleados` WHERE  id='$x'";
+                $sql = Conexion::conectar()->prepare($query01);
+                $sql->execute();
+                return $sql->fetchAll();
+              };
+
+              $data_empleado2 = empleado($idhistorial0);
+              $codigo_empleado="";
+              foreach ($data_empleado2 as $value) {
+                $codigo_empleado=$value["codigo_empleado"];
+              }
+
+              $data_empleado = consultar_ubicacion2($codigo_empleado);
+              $obtener_ubicacion="";
+              foreach ($data_empleado as $value) {
+                $obtener_ubicacion.=$value["nueva_ubicacion_transacciones_agente"];
+              }
+              
+              ?>
+ 
 <div class="content-wrapper">
 
  
@@ -52,7 +96,7 @@ function getContent() {
               <label for="" class="">Motivo de Inactivo</label> 
               <div class="input-group" bis_skin_checked="1">
                 <span class="input-group-addon"><i class=""></i></span> 
-                    <select name="nuevomotivo_inactivo" class="form-control mi-selector" id="nuevomotivo_inactivo" >
+                    <select name="nuevomotivo_inactivo" class="form-control mi-selector" id="nuevomotivo_inactivo" required="">
                       <option value="">Seleccione Motivo</option>
                       <?php                    
                                 function transaccion() {
@@ -102,11 +146,10 @@ function getContent() {
           <div class="form-group ubicacion_retiro  gruporetiro_ubicacion_retiro" bis_skin_checked="1">
               <label for="" class="label_ubicacion_retiro">Ubicación</label> 
               
-              <div class="input-group" bis_skin_checked="1">
+                <div class="input-group" bis_skin_checked="1">
               
                 <span class="input-group-addon"><i class="icono_ubicacion_retiro"></i></span> 
-
-                <input type="text" class="form-control input-lg input_ubicacion_retiro" name="nuevoubicacion_retiro" placeholder="Ubicación" value="" autocomplete="off"  >
+                <input type="text" class="form-control input-lg input_ubicacion_retiro" name="nuevoubicacion_retiro" placeholder="Ubicación"  autocomplete="off"  value="<?php echo $obtener_ubicacion?>" >
 
               </div>
 
@@ -119,7 +162,7 @@ function getContent() {
               
                 <span class="input-group-addon"><i class="icono_causa_retiro"></i></span> 
 
-                <select name="nuevocausa_retiro" id="" class="form-control input-lg input_causa_retiro"  >
+                <select name="nuevocausa_retiro" id="" class="form-control input-lg input_causa_retiro"  required="required">
                   <option value="">Seleccione Causa de Retiro</option>
                   <option value="Despido">Despido</option>
                   <option value="Renuncia">Renuncia</option>
@@ -203,7 +246,7 @@ function getContent() {
               
                 <span class="input-group-addon"><i class="icono_observaciones_retiro"></i></span> 
 
-                <input type="text" class="form-control input-lg input_observaciones_retiro" name="nuevoobservaciones_retiro" placeholder="Observación" value="" autocomplete="off"  >
+                <input type="text" class="form-control input-lg input_observaciones_retiro" name="nuevoobservaciones_retiro" placeholder="Observación" value="" autocomplete="off"  required="required">
 
               </div>
 

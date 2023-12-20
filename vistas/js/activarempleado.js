@@ -1,5 +1,4 @@
 
-
  $( ".modificar_retiro" ).click(function() {
 
 

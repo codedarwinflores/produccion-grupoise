@@ -60,6 +60,7 @@ function getContent() {
             <th>Personal Asignado</th>
             <th>Pago Feriados</th>
             <th>Cálculo</th>
+            <th>¿Necesita Jefe de Operación?</th>
             <th>Acciones</th>
  
           </tr> 
@@ -84,7 +85,8 @@ function getContent() {
                    <td>'.$value["codigo_contable"].'</td>
                    <td>'.$value["personal_asignado"].'</td>
                    <td>'.$value["pago_feriados"].'</td>
-                   <td>'.$value["calculo"].'</td>';
+                   <td>'.$value["calculo"].'</td>
+                   <td>'.$value["jefeoperacioncargo"].'</td>';
  
                   
  
@@ -159,20 +161,15 @@ MODAL AGREGAR
               /*  $datos = array("".$row['Field']."" => $_POST["nuevo".$row['Field'].""]); */
            ?>
             <div class="form-group <?php echo $row['Field'];?>">
-         <label for="" class="label_<?php echo $row['Field'];?>"></label> 
-              
+             <label for="" class="label_<?php echo $row['Field'];?>"></label> 
               <div class="input-group">
-              
                 <span class="input-group-addon"><i class="icono_<?php echo $row['Field'];?>"></i></span> 
-
                 <input type="text" class="form-control input-lg input_<?php echo $row['Field'];?> cargos_<?php echo $row['Field'];?>" name="nuevo<?php echo $row['Field'];?>" placeholder="" value="" autocomplete="off" required>
 
               </div>
-
             </div>
 
             
-
 
 <script>
               /* *********LABEL*********** */
@@ -222,7 +219,14 @@ MODAL AGREGAR
             <span class="select_sueldo" sueldo="Sueldo+Tfijo"> Sueldo+Tfijo</span>    
           </div>    -->
           <!-- *** -->
-
+          <div class="necesitajefe">
+            <label for="">¿Necesita Jefe de Operacion?</label>
+            <select class="form-control input-lg input_jefeoperacioncargo cargos_jefeoperacioncargo" name="nuevojefeoperacioncargo">
+              <option value="">Seleccionte Opcion</option>
+              <option value="Si">Si</option>
+              <option value="No">No</option>
+            </select>
+          </div>
 
 
           
@@ -303,7 +307,7 @@ MODAL EDITAR
              $data = getContent();
              foreach($data as $row) {
            ?>
-            <div class="form-group <?php echo $row['Field'];?>">
+            <div class="form-group <?php echo $row['Field'];?> editar<?php echo $row['Field'];?>">
          <label for="" class="label_<?php echo $row['Field'];?>"></label> 
               
               <div class="input-group">
@@ -333,7 +337,17 @@ MODAL EDITAR
               echo $row0['code'];
             }
           ?>
-                          
+                     
+          <div class="editarnecesitajefe">
+            <label for="">¿Necesita Jefe de Operacion?</label>
+            <select class="form-control input-lg input_jefeoperacioncargo cargos_jefeoperacioncargo" name="editarjefeoperacioncargo" id="editarjefeoperacioncargo">
+              <option value="">Seleccionte Opcion</option>
+              <option value="Si">Si</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+
+
           <!-- ***PERSONAL ASIGNADO -->
           <!-- <div id="personal2" class="dropdown-content myDropdown_personal drop_personal">
             <span class="select_personal" personal="Si"> Si</span>

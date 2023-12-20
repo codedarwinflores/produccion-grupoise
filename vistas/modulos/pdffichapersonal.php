@@ -1,4 +1,3 @@
-
 <?php ob_start(); ?>
 
 
@@ -42,8 +41,19 @@ $mes = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto"
                     if($value["fotografia"] != ""){
                         $empleado = $value["fotografia"];
                         $ubicacionempleado = explode("/", $empleado);
-                        $ubicacionfinalempleado="../".$ubicacionempleado[1]."/".$ubicacionempleado[2]."/".$ubicacionempleado[3]."/".$ubicacionempleado[4];
 
+                        $ubicacionfinalempleado="";
+                        if (count($ubicacionempleado) > 1) {
+                            // El delimitador '/' se encontró en la cadena
+                            $ubicacionfinalempleado="../".$ubicacionempleado[1]."/".$ubicacionempleado[2]."/".$ubicacionempleado[3]."/".$ubicacionempleado[4];
+
+                        }
+                        else{
+                            $ubicacionfinalempleado="../imgcarnet/anonymous.png";
+                        }
+
+
+                        
                          $fotoempleado = "data:image/png;base64," . base64_encode(file_get_contents($ubicacionfinalempleado));
 
     

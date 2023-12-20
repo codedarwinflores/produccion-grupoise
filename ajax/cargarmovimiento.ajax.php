@@ -10,7 +10,7 @@ $valor=$_POST["valor"];
 	function tblempleados($valor1) {
 		$query01 = "SELECT `id`, `idagente_transacciones_agente`, `fecha_transacciones_agente`, `hora_transacciones_agente`, `tipo_movimiento_transacciones_agente`, `nueva_ubicacion_transacciones_agente`, `ubicacion_anterior_transacciones_agente`, `fecha_desde_transacciones_agente`, `fecha_hasta_transacciones_agente`, `presento_incapacidad_transacciones_agente`, `comentarios_transacciones_agente`, `turno_transacciones_agente`, `horario_desde_transacciones_agente`, `horario_hasta_transacciones_agente` 
 		FROM `transacciones_agente` 
-		WHERE idagente_transacciones_agente='$valor1' ORDER BY fecha_transacciones_agente DESC";
+		WHERE idagente_transacciones_agente='$valor1' ORDER BY STR_TO_DATE(fecha_transacciones_agente, '%d-%m') DESC";
 		$sql = Conexion::conectar()->prepare($query01);
 		$sql->execute();			
 		return $sql->fetchAll();
@@ -24,8 +24,7 @@ $valor=$_POST["valor"];
 			<td>'.$value["nueva_ubicacion_transacciones_agente"].'</td>
 			<td>'.$value["ubicacion_anterior_transacciones_agente"].'</td>';
 
-			
-
+		
 			echo '<td>
 
 			  <div class="btn-group">

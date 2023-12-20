@@ -22,6 +22,7 @@ function cargar() {
       );
     },
     success: function (data) {
+     
       $("#verTabla").html(data).fadeIn("slow");
       $("#loader").html("");
       mensaje("success", "check", "Bien Hecho", "Mostrando Datos");

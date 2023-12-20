@@ -79,11 +79,12 @@ function getContent() {
               $data0 = obtenerempleado();
               foreach($data0 as $value) {
                   
+                
+                $nombre_cargo=trim(trim($value["primer_nombre"])." ".trim($value["segundo_nombre"]).' '.trim($value["tercer_nombre"]).' '.trim($value["primer_apellido"]).' '.trim($value["segundo_apellido"]).' '.trim($value["apellido_casada"]));
+                $nombre_cargo = preg_replace('/\s+/', ' ', $nombre_cargo);
+                
                   echo ' <tr>
-                          <td class="nombreempleado" codigoempleado="'.$value["codigo_empleado"].'" idempleado="'.$value["idempleado"].'"  nombre="'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["tercer_nombre"].' '.$value["primer_apellido"].' '.$value["segundo_apellido"].' '.$value["apellido_casada"]. '">'.$value["primer_nombre"].' '.$value["segundo_nombre"].' '.$value["tercer_nombre"].' '.$value["primer_apellido"].' '.$value["segundo_apellido"].' '.$value["apellido_casada"]. '</td>';
-        
-                          
-        
+                          <td class="nombreempleado" estado_empleado="'.$value["estado"].'" codigoempleado="'.$value["codigo_empleado"].'" idempleado="'.$value["idempleado"].'"  nombre="'.$nombre_cargo. '">'.$value["codigo_empleado"]."-".$nombre_cargo. '</td>';
                           echo '</tr>';
                 }
         
@@ -385,12 +386,15 @@ MODAL AGREGAR
                   <select class="form-control input-lg input_turno_transacciones_agente" name="nuevoturno_transacciones_agente" id="nuevoturno_transacciones_agente">
                     <option value="">Seleccione Turno</option>
                     <option value="24h/r">24h/r</option>
-                    <option value="24h/d5">24h/d5</option>
-                    <option value="24h/d6">24h/d6</option>
-                    <option value="24h/n6">24h/n6</option>
-                    <option value="24h/d7">24h/d7</option>
-                    <option value="24h/n7">24h/n7</option>
+                    <option value="12h/d5">12h/d5</option>
+                    <option value="12h/d6">12h/d6</option>
+                    <option value="12h/d7">12h/d7</option>
+                    <option value="12h/n7">12h/n7</option>
                     <option value="Septimo">Septimo</option>
+                    <option value="Extraordinario">Extraordinario</option>
+                    <!-- <option value="24h/d7">24h/d7</option>
+                    <option value="24h/n7">24h/n7</option>
+                    <option value="Septimo">Septimo</option> -->
                   </select>
 
                 </div>
@@ -445,7 +449,7 @@ MODAL AGREGAR
               </div>
 
             <!-- ************************ -->
-            <div class="form-group   grupotransacciones_agente_horario_hasta_transacciones_agente col-md-2">
+            <div class="form-group   grupotransacciones_agente_horario_hasta_transacciones_agente col-md-2" style="visibility: hidden">
                 <label for="" class="">Hora Desde</label> 
                 <div class="input-group">
                   <span class="input-group-addon"><i class="icono_horario_hasta_transacciones_agente"></i></span> 
@@ -455,7 +459,7 @@ MODAL AGREGAR
 
             <!-- ************************ -->
 
-            <div class="form-group   grupotransacciones_agente_horario_hasta_transacciones_agente col-md-2">
+            <div class="form-group   grupotransacciones_agente_horario_hasta_transacciones_agente col-md-2" style="visibility: hidden">
                 <label for="" class="">Hora Hasta</label> 
                 <div class="input-group">
                   <span class="input-group-addon"><i class="icono_horario_hasta_transacciones_agente"></i></span> 
@@ -732,13 +736,17 @@ MODAL EDITAR
                   <span class="input-group-addon"><i class="icono_turno_transacciones_agente"></i></span> 
                   <select class="form-control input-lg input_turno_transacciones_agente" name="editarturno_transacciones_agente" id="editarturno_transacciones_agente">
                     <option value="">Seleccione Turno</option>
+                    
                     <option value="24h/r">24h/r</option>
-                    <option value="24h/d5">24h/d5</option>
-                    <option value="24h/d6">24h/d6</option>
-                    <option value="24h/n6">24h/n6</option>
-                    <option value="24h/d7">24h/d7</option>
-                    <option value="24h/n7">24h/n7</option>
+                    <option value="12h/d5">12h/d5</option>
+                    <option value="12h/d6">12h/d6</option>
+                    <option value="12h/d7">12h/d7</option>
+                    <option value="12h/n7">12h/n7</option>
                     <option value="Septimo">Septimo</option>
+                    <option value="Extraordinario">Extraordinario</option>
+                    <!-- <option value="24h/d7">24h/d7</option>
+                    <option value="24h/n7">24h/n7</option>
+                    <option value="Septimo">Septimo</option> -->
                   </select>
 
                 </div>
@@ -791,7 +799,7 @@ MODAL EDITAR
               </div>
 
             <!-- ************************ -->
-            <div class="form-group   grupotransacciones_agente_horario_hasta_transacciones_agente col-md-2">
+            <div class="form-group   grupotransacciones_agente_horario_hasta_transacciones_agente col-md-2" style="visibility: hidden">
                 <label for="" class="">Hora Desde</label> 
                 <div class="input-group">
                   <span class="input-group-addon"><i class="icono_horario_hasta_transacciones_agente"></i></span> 
@@ -801,7 +809,7 @@ MODAL EDITAR
 
             <!-- ************************ -->
 
-            <div class="form-group   grupotransacciones_agente_horario_hasta_transacciones_agente col-md-2">
+            <div class="form-group   grupotransacciones_agente_horario_hasta_transacciones_agente col-md-2" style="visibility: hidden">
                 <label for="" class="">Hora Hasta</label> 
                 <div class="input-group">
                   <span class="input-group-addon"><i class="icono_horario_hasta_transacciones_agente"></i></span> 

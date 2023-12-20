@@ -79,9 +79,19 @@ switch ($accion) {
 			$sql->execute();
 			return $sql->fetchAll();
 		};
+		function celular($idubicacion1)
+		{
+			$query01="SELECT COUNT(*) as cuenta_celular
+			FROM `movimientosequipos` 
+			WHERE id_ubicacion_movimiento='$idubicacion1' and tipoequipo='celular';";
+			$sql = Conexion::conectar()->prepare($query01);
+			$sql->execute();
+			return $sql->fetchAll();
+		};
 		$data01 = arma($idubicacion);
 		$numero_arma="";
 		$numero_radio="";
+		$numero_celular="";
 		foreach ($data01 as $value) {
 				$numero_arma.=$value["cuenta_arma"];  
 		}
@@ -89,7 +99,11 @@ switch ($accion) {
 		foreach ($data01 as $value) {
 				$numero_radio.=$value["cuenta_radio"];    
 		}
-		echo $numero_arma.",".$numero_radio;
+		$data01 = celular($idubicacion);
+		foreach ($data01 as $value) {
+				$numero_celular.=$value["cuenta_celular"];    
+		}
+		echo $numero_arma.",".$numero_radio.",".$numero_celular;
 		/* ************ */
 	break;
 	case "ubicacion":
@@ -145,6 +159,9 @@ switch ($accion) {
 		if($codigoequipo==0){
 			/* ----------INSERTAR-------------------- */
 			$data = getContent_insert();
+			$namecampos_situacion="";
+			$namecolumnas_situacion_his="";
+			$namecolumnas_situacion="";
 			foreach ($data as $row) {
 				$namecolumnas_situacion .= $row['Field'] . ",";
 				$namecolumnas_situacion_his .= $row['Field']."_his" . ",";
@@ -152,6 +169,7 @@ switch ($accion) {
 			}
 			$stmt = Conexion::conectar()->prepare("INSERT INTO movimientosequipos(" . trim($namecolumnas_situacion, ",") . ") VALUES (" . trim($namecampos_situacion, ",") . ")");
 		
+			echo "INSERT INTO movimientosequipos(" . trim($namecolumnas_situacion, ",") . ") VALUES (" . trim($namecampos_situacion, ",") . ")";
 			foreach ($data as $row) {
 				$stmt->bindParam(":" . $row['Field'], $_POST["" . $row['Field'] . ""], PDO::PARAM_STR);
 			}

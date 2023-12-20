@@ -1,6 +1,37 @@
 
 $(document).ready(function(){
 
+	
+	$(".grupovehiculo_personal_asig_vehiculo").empty();
+	$(".grupovehiculo_personal_asig_vehiculo").append($(".s_personal_asig_vehiculo"));
+	$(".grupovehiculo_fecha_venctarjeta_circula").empty();
+	$(".grupovehiculo_fecha_venctarjeta_circula").append($(".s_fecha_venctarjeta_circula"));
+	$(".grupovehiculo_gasolina_asig_vehiculo").empty();
+	$(".grupovehiculo_gasolina_asig_vehiculo").append($(".s_gasolina_asig_vehiculo"));
+
+	
+	$(".egrupovehiculo_personal_asig_vehiculo").empty();
+	$(".egrupovehiculo_personal_asig_vehiculo").append($(".editars_personal_asig_vehiculo"));
+	$(".egrupovehiculo_fecha_venctarjeta_circula").empty();
+	$(".egrupovehiculo_fecha_venctarjeta_circula").append($(".editars_fecha_venctarjeta_circula"));
+	$(".egrupovehiculo_gasolina_asig_vehiculo").empty();
+	$(".egrupovehiculo_gasolina_asig_vehiculo").append($(".editars_gasolina_asig_vehiculo"));
+
+	$("#nuevopersonal_asig_vehiculo").change(function() {
+	    var fecha_ven_lic = $("#nuevopersonal_asig_vehiculo option:selected").attr("fecha_ven_lic");
+	    var licensia = $("#nuevopersonal_asig_vehiculo option:selected").attr("licensia");
+		$(".nuevolicensia").text("Licencia: "+licensia);
+		$(".nuevofecha").text("Fecha Vencimiento: "+fecha_ven_lic);
+
+	});
+	$("#editarpersonal_asig_vehiculo").change(function() {
+	    var fecha_ven_lic = $("#editarpersonal_asig_vehiculo option:selected").attr("fecha_ven_lic");
+	    var licensia = $("#editarpersonal_asig_vehiculo option:selected").attr("licensia");
+		$(".editarlicensia").text("Licensia: "+licensia);
+		$(".editarfecha").text("Fecha Vencimiento: "+fecha_ven_lic);
+
+	});
+
 
 	$(".grupovehiculo_estado_vehiculo").empty();
 	$(".grupovehiculo_estado_vehiculo").append($(".s_estado_vehiculo"));
@@ -137,6 +168,17 @@ $(".tablas").on("click", ".btnEditarvehiculo", function(){
 			$("#editarvalor_asegurado").val(respuesta["valor_asegurado"]);
 			$("#editarprima_seguro").val(respuesta["prima_seguro"]);
 			$("#editardeducible").val(respuesta["deducible"]);
+
+			$("#editargasolina_asig_vehiculo").val(respuesta["gasolina_asig_vehiculo"]);
+			$("#editarfecha_venctarjeta_circula").val(respuesta["fecha_venctarjeta_circula"]);
+			$("#editarpersonal_asig_vehiculo").val(respuesta["personal_asig_vehiculo"]).trigger('change.select2');
+
+			$("#editarpersonal_asig_vehiculo option[value='"+respuesta["personal_asig_vehiculo"]+"']").attr("selected", true);
+			var fecha_ven_lic = $('option:selected', "#editarpersonal_asig_vehiculo").attr("fecha_ven_lic");
+			var licensia = $('option:selected', "#editarpersonal_asig_vehiculo").attr("licensia");
+
+			$(".editarlicensia").text("Licensia: "+licensia);
+			$(".editarfecha").text("Fecha Vencimiento: "+fecha_ven_lic);
 
 
 			

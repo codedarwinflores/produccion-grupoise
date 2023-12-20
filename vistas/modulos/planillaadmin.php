@@ -33,13 +33,37 @@ function getContent() {
     <div class="box">
 
       <div class="box-header with-border">
-  
         <a href="nuevaplanillaadmin?id=0" class="btn btn-primary" >
-          
           Agregar <?php echo $Nombre_del_Modulo;?>
-
         </a>
+        
+        <a href="bitacora" class="btn btn-info" >Cerrar/Abrir Planillas</a>
 
+        <br>
+        <br>
+        <select name="" id="reportesimprimir" class="form-control">
+            <option value="">Seleccione Reporte</option>
+            <option value="gereportedeposito">REPORTE OPCION DEPOSITO BANCO</option>
+            <!-- <option value="gereporteisss">REPORTE OPCION ISSS</option>
+            <option value="gereporteafp">REPORTE OPCION AFP</option> -->
+            <!-- <option value="gereporteplanilla">REPORTE PLANILLA NORMAL</option> -->
+            <option value="gereporteplanillanocontable">REPORTE PLANILLA OPCION POR NOMBRE NO CONTABLE</option>
+            <option value="gereporteplanillacontable">REPORTE PLANILLA OPCION POR NOMBRE  CONTABLE</option>
+            <option value="gereporteplanillacuotapatro">REPORTE PLANILLA OPCION CUOTAS PATRONALES</option>
+            <option value="gereporteplanillaadmin">REPORTE PLANILLA OPCION  ADMINISTRATIVA</option>
+            <option value="gereporteplanilladevengos">REPORTE PLANILLA OPCION  DEVENGOS</option>
+            <option value="gereportedepoagricola">FORMATO BANCO AGRICOLA</option>
+            <option value="gereportedepoagricolaadmin">FORMATO BANCO AGRICOLA ADMINISTRATIVA</option>
+            <option value="gereportedepoagricoladevengo">FORMATO BANCO AGRICOLA DEVENGOS</option>
+            <option value="gereportedepocusca">FORMATO BANCO CUSCATLAN</option>
+            <option value="gereportedepocuscaadmin">FORMATO BANCO CUSCATLAN ADMINISTRATIVA</option>
+            <option value="gereportedepocuscadevengo">FORMATO BANCO CUSCATLAN DEVENGOS</option>
+            <option value="gereporteboletaejecutar">BOLETAS</option>
+            <option value="geanexosplanillaadmin">ANEXOS PLANILLA</option>
+            <!-- <option value="gereportehoraextra">REPORTE HORAS EXTRAS</option> ESTE REPORTE QUEDO INCOMPLETO PORQUE YA ESTA EN SITUACIONES -->
+            <option value="gereportessf">REPORTE SSF</option>
+        </select>
+        <a href="" class="btn btn-success iraimprimir">Generar</a>
       </div>
 
       <div class="row">
@@ -85,6 +109,8 @@ function getContent() {
           
                                 <button class="btn btn-danger eliminarallplantilla" numero_planilladevengo_admin="'.$value["numero_planilladevengo_admin"].'"  Codigo="'.$value["id"].'"><i class="fa fa-times"></i></button>
           
+
+
                               </div>  
           
                             </td>

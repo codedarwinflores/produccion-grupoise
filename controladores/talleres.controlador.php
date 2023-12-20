@@ -125,6 +125,8 @@ class ControladorTalleres
 
             if ($respuesta == "ok") {
 
+                logs_msg("Talleres", "Crear Taller");
+
                 echo '<script>
 
 					swal({

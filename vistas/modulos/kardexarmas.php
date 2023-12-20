@@ -131,7 +131,7 @@ MODAL AGREGAR
 
 <div id="modalAgregarabase" class="modal fade" role="dialog">
   
-  <div class="modal-dialog">
+  <div class="modal-dialog" style="width: 60%">
 
     <div class="modal-content">
 
@@ -254,7 +254,7 @@ MODAL AGREGAR
             <table class="table table-bordered table-striped dt-responsive " width="100%">
               <thead>
                 <tr>
-                  <th>Equipo</th>
+                  <th style="min-width: 400px;">Equipo</th>
                   <th>Cantidad</th>
                   <th>Precio</th>
                   <th>Sub Total</th>
@@ -262,8 +262,15 @@ MODAL AGREGAR
               </thead>
               <tbody>
                 <tr>
+                  <td><span>Código-Descripción-Serie-Matricula</span></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
                   <td>
-                  <select class="form-control mi-selector" name="equipo_kardex" id="equipo_kardex">
+                  
+                  <select class="form-control mi-selector" name="equipo_kardex" id="equipo_kardex" equipo="arma">
                         <option value="">Seleccione Equipo</option>
                         <?php
                         function equipo()
@@ -276,7 +283,7 @@ MODAL AGREGAR
                         $data06 = equipo();
                         foreach ($data06 as $value) {
                         ?>
-                          <option value="<?php echo $value["codigo"]?>" costos="<?php echo $value["precio_costo"]?>" descripcion="<?php echo $value["descripcion_arma"]?>"><?php echo $value["codigo"].'-'.$value["descripcion_arma"] ?></option>
+                          <option value="<?php echo $value["codigo"]?>" costos="<?php echo $value["precio_costo"]?>" descripcion="<?php echo $value["descripcion_arma"]?>"><?php echo $value["codigo"].'-'.$value["descripcion_arma"].'-'.$value["numero_serie"].'-'.$value["numero_matricula"] ?></option>
                         <?php
                         }
                         ?>
@@ -346,6 +353,7 @@ MODAL AGREGAR
             <input type="hidden" id="cantidad_actual">
             <input type="hidden" id="cantidad_maximo">
             <input type="hidden" id="global_code">
+            <input type="hidden" id="nombremodulo" value="armas"/>
 
 
           </div>

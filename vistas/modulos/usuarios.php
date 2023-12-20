@@ -212,6 +212,25 @@ MODAL AGREGAR USUARIO
                   <option value="Especial">Especial</option>
 
                   <option value="Vendedor">Vendedor</option>
+                  <option value="Gerencia General">Gerencia General </option>
+                  <option value="Sub-gerente">Sub-gerente</option>
+                  <option value="Contador">Contador</option>
+                  <option value="Asistente Contable">Asistente Contable</option>
+                  <option value="Facturacion y Cobros">Facturacion y Cobros</option>
+                  <option value="Departamento IT">Departamento IT</option>
+                  <option value="Gerencia RHH">Gerencia RHH</option>
+                  <option value="Asistente RHH">Asistente RHH</option>
+                  <option value="Auxiliar RRHH">Auxiliar RRHH</option>
+                  <option value="Pasante RRHH">Pasante RRHH</option>
+                  <option value="Gerencia Operaciones">Gerencia Operaciones</option>
+                  <option value="Logistico">Logistico</option>
+                  <option value="Jefe Operaciones">Jefe Operaciones</option>
+                  <option value="Asistente Operaciones">Asistente Operaciones</option>
+                  <option value="Recepcionista">Recepcionista</option>
+                  <option value="Poligrafia">Poligrafia</option>
+                  <option value="Atencion Al cliente">Atencion Al cliente</option>
+                  <option value="Gerente de Ventas">Gerente de Ventas </option>
+
 
                 </select>
 
@@ -361,6 +380,26 @@ MODAL EDITAR USUARIO
                   <option value="Especial">Especial</option>
 
                   <option value="Vendedor">Vendedor</option>
+
+                  
+                  <option value="Gerencia General">Gerencia General </option>
+                  <option value="Sub-gerente">Sub-gerente</option>
+                  <option value="Contador">Contador</option>
+                  <option value="Asistente Contable">Asistente Contable</option>
+                  <option value="Facturacion y Cobros">Facturacion y Cobros</option>
+                  <option value="Departamento IT">Departamento IT</option>
+                  <option value="Gerencia RHH">Gerencia RHH</option>
+                  <option value="Asistente RHH">Asistente RHH</option>
+                  <option value="Auxiliar RRHH">Auxiliar RRHH</option>
+                  <option value="Pasante RRHH">Pasante RRHH</option>
+                  <option value="Gerencia Operaciones">Gerencia Operaciones</option>
+                  <option value="Logistico">Logistico</option>
+                  <option value="Jefe Operaciones">Jefe Operaciones</option>
+                  <option value="Asistente Operaciones">Asistente Operaciones</option>
+                  <option value="Recepcionista">Recepcionista</option>
+                  <option value="Poligrafia">Poligrafia</option>
+                  <option value="Atencion Al cliente">Atencion Al cliente</option>
+                  <option value="Gerente de Ventas">Gerente de Ventas </option>
 
                 </select>
 

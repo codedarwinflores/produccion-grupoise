@@ -1,5 +1,6 @@
 
 
+
 $(function () {
 	
 });
@@ -21,6 +22,53 @@ const formatosql = yyyy + '-' + mm + '-' +dd ;
 /* COLOCACION DE ICONOS */
 $(document).ready(function(){
 
+	/* ISSSSS */
+	var $campoDeEntrada = $('.numero_isss_valida');
+	$campoDeEntrada.on('input', function() {
+        var valorInput = $(this).val();
+		if (valorInput=="") {
+			$(".descontar_isss").val("NO");
+		  } else {
+			$(".descontar_isss").val("SI");
+		  }
+	});
+
+	/* AFP */
+	var $AFP = $('#editarNumeroNup');
+	$AFP.on('input', function() {
+        var valorInput = $(this).val();
+		if (valorInput=="") {
+			$(".descontar_afp").val("NO");
+		  } else {
+			$(".descontar_afp").val("SI");
+		  }
+	});
+
+
+	/* validar antecedente */
+
+	$('.validar_antecedente').on('change', function() {
+		var valor= $(this).val();
+		$(".oculto_ante_pnc").attr("style","visibility:hidden;");
+
+		if(valor=="SI"){
+			$(".oculto_ante_pnc").removeAttr("style");
+
+		}
+	})
+
+
+	/* ******************* */
+	/* ********* */
+	
+	 var $tipo_planilla = $('.tipo_planilla');
+	 $tipo_planilla.val('5');
+	 $miSelect.on('change', function() {
+	   var valorSeleccionado = $miSelect.val();
+	   console.log('Valor Seleccionado:', valorSeleccionado);
+	 });
+
+	/* ********* */
 	$(".ocultarisss").attr("style","visibility:hidden; height:0");
 
 	$('.pensionado_empleado').on('change', function() {
@@ -112,6 +160,13 @@ $(document).ready(function(){
 				location.reload();
 				})
 
+
+
+/* ******************** */
+
+
+				
+
 });
 
 
@@ -125,37 +180,9 @@ $(document).ready(function(){
 
 
 
-$(".mostrarerror").attr("style","display:none;");
-/* CALCULO LA FECHA CUMPLEAÑOS */
-function calculateAge(birthday) {
-    var birthday_arr = birthday.split("-");
-    var birthday_date = new Date(birthday_arr[2], birthday_arr[1] - 1, birthday_arr[0]);
-    var ageDifMs = Date.now() - birthday_date.getTime();
-    var ageDate = new Date(ageDifMs);
-    return Math.abs(ageDate.getUTCFullYear() - 1970);
-}
-/* ****************** */
 
 
 
-
-
-
-$('#bancoempleado').on('change', function() {
-
-	var valor1= this.value;
-	if(valor1=="BANCO AGRICOLA")
-	{
-		$("#editar_numero_cuenta").mask('0000-00000-0', {reverse: true});
-	}
-	if($.trim(valor1)=="BANCO CUSCATLAN")
-	{
-		/* alert($.trim(valor1)); */
-		$("#editar_numero_cuenta").mask('000-000-00-000000-0', {reverse: true});
-
-	}
-
-  });
 
 
 
@@ -163,8 +190,6 @@ $('#bancoempleado').on('change', function() {
 $('#editarAFPselect').on('change', function() {
 
 	var valor1= this.value;
-
-
 
 	if(valor1==""){}
 	else{
@@ -190,10 +215,62 @@ $("#editarNumeroNup").attr("maxlength","8");
 }
 if(valor2=="ISSS"){
 	$("#editarNumeroNup").val("");
-$("#editarNumeroNup").attr("maxlength","12");
-	
+	$("#editarNumeroNup").attr("maxlength","12");
 }
 
+	if(valor2=="PENCIONADO AFP CRECER"){
+		/* editar_descontar_isss
+		editar_descontar_afp */
+		$("#editar_descontar_isss").val("No");
+		$("#editar_descontar_isss").text("No");
+		$("#editar_descontar_afp").val("Si");
+		$("#editar_descontar_afp").text("Si");
+
+		$("#nuevo_descontar_isss").val("No");
+		$("#nuevo_descontar_isss").text("No");
+		$("#editar_descontar_afp").val("Si");
+		$("#editar_descontar_afp").text("Si");
+
+	}
+
+	if(valor2=="PENSIONADO AFP CONFIA"){
+		/* editar_descontar_isss
+		editar_descontar_afp */
+		$("#editar_descontar_isss").val("Si");
+		$("#editar_descontar_isss").text("Si");
+		$("#editar_descontar_afp").val("No");
+		$("#editar_descontar_afp").text("No");
+
+		$("#nuevo_descontar_isss").val("Si");
+		$("#nuevo_descontar_isss").text("Si");
+		$("#editar_descontar_afp").val("No");
+		$("#editar_descontar_afp").text("No");
+
+	}
+
+	if(valor2=="PENSIONADO IPSFA"){
+		$("#editar_descontar_isss").val("No");
+		$("#editar_descontar_isss").text("No");
+		$("#editar_descontar_afp").val("No");
+		$("#editar_descontar_afp").text("No");
+
+		$("#nuevo_descontar_isss").val("No");
+		$("#nuevo_descontar_isss").text("No");
+		$("#editar_descontar_afp").val("No");
+		$("#editar_descontar_afp").text("No");
+	}
+
+	if(valor2=="ASIGNACIÓN IPSFA"){
+		$("#editar_descontar_isss").val("Si");
+		$("#editar_descontar_isss").text("Si");
+		$("#editar_descontar_afp").val("No");
+		$("#editar_descontar_afp").text("No");
+
+		$("#nuevo_descontar_isss").val("Si");
+		$("#nuevo_descontar_isss").text("Si");
+		$("#editar_descontar_afp").val("No");
+		$("#editar_descontar_afp").text("No");
+	}
 
   });
 
@@ -227,101 +304,7 @@ $('#PeriodoPago').on('change', function() {
 
 });
 
-$('#editarCARGO0').on('change', function() {
-	var valor =  $('select[name="editarCARGO"] option:selected').text()
-	
-	if(valor=="Agente de seguridad"){
 
-		$(".jefeoperacion_empleado").attr("style","display:block");
-
-
-			var salario_minimo=$(".salario_minimo").val();
-            var salario_diario=$(".salario_diario").val();
-            var salario_hora=$(".salario_hora").val();
-            var hora_diurna=$(".hora_diurna").val();
-            var hora_nocturna=$(".hora_nocturna").val();
-            var hora_diurna_domingo=$(".hora_diurna_domingo").val();
-            var hora_nocturna_domingo=$(".hora_nocturna_domingo").val();
-
-
-			$("#editar_sueldo").val(salario_minimo);
-			$("#editar_sueldo_diario").val(salario_diario);
-			$("#editar_salario_por_hora").val(salario_hora);
-			$("#editar_hora_extra_diurna").val(hora_diurna);
-			$("#editar_hora_extra_nocturna").val(hora_nocturna);
-			$("#editar_hora_extra_domingo").val(hora_diurna_domingo);
-			$("#editar_hora_extra_nocturna_domingo").val(hora_nocturna_domingo);
-
-
-
-	}
-	else{
-
-			$("#editar_sueldo").val("");
-			$("#editar_sueldo_diario").val("");
-			$("#editar_salario_por_hora").val("");
-
-		
-		$(".jefeoperacion_empleado").attr("style","display:none");
-	
-		/* alert("hola"); */
-		var hora_diurna=$(".hora_diurna").val();
-		var hora_nocturna=$(".hora_nocturna").val();
-		var hora_diurna_domingo=$(".hora_diurna_domingo").val();
-		var hora_nocturna_domingo=$(".hora_nocturna_domingo").val();
-		$("#editar_hora_extra_diurna").val(hora_diurna);
-		$("#editar_hora_extra_nocturna").val(hora_nocturna);
-		$("#editar_hora_extra_domingo").val(hora_diurna_domingo);
-		$("#editar_hora_extra_nocturna_domingo").val(hora_nocturna_domingo);
-			/* $("#editar_sueldo").val("");
-			$("#editar_sueldo_diario").val("");
-			$("#editar_salario_por_hora").val("");
-			$("#editar_hora_extra_diurna").val("");
-			$("#editar_hora_extra_nocturna").val("");
-			$("#editar_hora_extra_domingo").val("");
-			$("#editar_hora_extra_nocturna_domingo").val(""); */
-	}
-  });
-
-  /* ************* */
-
-	  $(".capturarfechanac").blur(function(){
-		$( "#ic__datepicker-3" ).click(function() {
-			var valor = $(".capturarfechanac").val();
-			if(calculateAge(valor)>=18)
-			{
-				$(".mostrarerror").attr("style","display:none;");
-
-				/* *********** */
-
-					$(".editarfecha_ingreso").val(formattedToday);
-					$(".oficial_editarfecha_ingreso").val(formatosql);
-
-					var telefonoactual=$(".configtelefono").val();
-					$("#editarnumero_telefono_trabajo_actual").val(telefonoactual);
-
-					var codigoempleado =$("#editarcodigo_empleado").val();
-				
-
-					/* ****CAPTURO LA FECHA NACIMIENTO */
-
-					var value = $("#editarfecha_nacimiento").val();
-					var anio = new Date(value).getFullYear();
-					var mes = new Date(value).getMonth()+ 1;
-					if (mes < 10) mes = '0' + mes;
-
-					anio = anio.toString().substr(-2);
-
-					$("#editarcarnet_empleado").val(codigoempleado+mes+anio);
-
-				/* ***************** */
-			}
-			else{
-				$(".mostrarerror").attr("style","display:block; color:red;");
-				$(".capturarfechanac").val("");
-			}
-		  });
-		});
 
 	/* **************** */
 
@@ -424,17 +407,6 @@ $('#editarCARGO0').on('change', function() {
 
 
 
-	$('.editarconstancia_psicologica').on('change', function() {
-		var valor = this.value ;
-		if(valor=="SI"){
-
-			$(".editarnombre_psicologo").attr("style","display:block;");
-		}
-		if(valor=="NO"){
-			$(".editarnombre_psicologo").attr("style","display:none;");
-
-		}
-	  });
 
 	/*   *************** */
 
@@ -497,19 +469,7 @@ $('#editarCARGO0').on('change', function() {
 
 	  /* ****************** */
 
-	  $('.editarexamen_poligrafico').on('change', function() {
-		var valor = this.value ;
-		if(valor=="SI"){
 
-			$(".editarFecha_poligrafico").attr("style","display:block;");
-			$(".editarFecha_poligrafico").attr("required","required");
-		}
-		if(valor=="NO"){
-			$(".editarFecha_poligrafico").attr("style","display:none;");
-			$(".editarFecha_poligrafico").removeAttr("required","");
-
-		}
-	  });
 
 	  
 	  /* ****************** */
@@ -1214,7 +1174,14 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 				
 			}
 			else{
-				$("#mascarafechanac").val(respuesta["fecha_nacimiento"]);
+				// Parsear la fecha dividiendo los componentes
+				var partesFecha = respuesta["fecha_nacimiento"].split("-");
+				var anio = partesFecha[0];
+				var mes = partesFecha[1];
+				var dia = partesFecha[2];
+				// Formatear la fecha en el nuevo formato DD/MM/AAAA
+				var fechaFormateada = dia + "-" + mes + "-" + anio;
+				$("#mascarafechanac").val(fechaFormateada);
 				$("#editarfecha_nacimiento").val(respuesta["fecha_nacimiento"]);
 			}
 			
@@ -1305,7 +1272,15 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 				
 			}
 			else{
-				$("#mascarafechainism").val(respuesta["fecha_servicio_inicio"]);
+				
+                // Parsear la fecha dividiendo los componentes
+				var partesFecha = respuesta["fecha_servicio_inicio"].split("-");
+				var anio = partesFecha[0];
+				var mes = partesFecha[1];
+				var dia = partesFecha[2];
+				// Formatear la fecha en el nuevo formato DD/MM/AAAA
+				var fechaFormateada = dia + "-" + mes + "-" + anio;
+				$("#mascarafechainism").val(fechaFormateada);
 				$("#editarfecha_inism").val(respuesta["fecha_servicio_inicio"]);
 			}
 			
@@ -1320,7 +1295,15 @@ $(".tablas").on("click", ".btnEditarEmpleado", function(){
 				
 			}
 			else{
-				$("#mascarafechafinsm").val(respuesta["fecha_servicio_fin"]);
+				
+                // Parsear la fecha dividiendo los componentes
+				var partesFecha = respuesta["fecha_servicio_fin"].split("-");
+				var anio = partesFecha[0];
+				var mes = partesFecha[1];
+				var dia = partesFecha[2];
+				// Formatear la fecha en el nuevo formato DD/MM/AAAA
+				var fechaFormateada = dia + "-" + mes + "-" + anio;
+				$("#mascarafechafinsm").val(fechaFormateada);
 				$("#editarfecha_finsm").val(respuesta["fecha_servicio_fin"]);
 			}
 			
@@ -2075,6 +2058,7 @@ CONTRATACION
 =============================================*/
 $(".tablas").on("click", ".btnEditarEmpleado", function(){
 	var idEmpleado = $(this).attr("idEmpleado");
+
 	var form = $('<form action="contratacion" method="post">' +
 	'<input type="text" name="idEmpleado" value="' + idEmpleado + '" />' +	 
 	  '</form>');
@@ -2112,10 +2096,33 @@ function poblarFormulario(idEmpleado){
 			if(respuesta["examen_poligrafico"]=="SI"){
 				$(".editarFecha_poligrafico").attr("style","display:block;");
 			}
-			if(respuesta["id_jefe_operaciones"] ==""){
+			if(respuesta["id_jefe_operaciones"] == ""){
+				/* $(".jefeoperacion_empleado").attr("style","display:none;"); */
+				
 			}
 			else{
 				$(".jefeoperacion_empleado").attr("style","display:block;");
+			}
+
+			/* constancia_psicologica */
+			if(respuesta["constancia_psicologica"]=="SI"){
+
+				$(".editarnombre_psicologo").attr("style","display:block;");
+			}
+			if(respuesta["constancia_psicologica"]=="NO"){
+				$(".editarnombre_psicologo").attr("style","display:none;");
+		
+			}
+			/* poligrafico */
+			if(respuesta["examen_poligrafico"]=="SI"){
+
+				$(".editarFecha_poligrafico").attr("style","display:block;");
+				$(".editarFecha_poligrafico").attr("required","required");
+			}
+			if(respuesta["examen_poligrafico"]=="NO"){
+				$(".editarFecha_poligrafico").attr("style","display:none;");
+				$(".editarFecha_poligrafico").removeAttr("required","");
+		
 			}
 
 			/* update */
@@ -2130,6 +2137,7 @@ function poblarFormulario(idEmpleado){
 			$("#editarcodigo_empleado").val(respuesta["codigo_empleado"]);
 			$("#editarluaf").val(respuesta["luaf"]);
 			$("#pensionado_empleado").val(respuesta["pensionado_empleado"]);
+			$("#editarfecha_venc_licenciaconducir").val(respuesta["fecha_venc_licenciaconducir"]);
 
 
 
@@ -2188,6 +2196,14 @@ function poblarFormulario(idEmpleado){
 			$("#editar_hora_extra_nocturna").val(respuesta["hora_extra_nocturna"]);
 			$("#editar_hora_extra_domingo").val(respuesta["hora_extra_domingo"]);
 			$("#editar_hora_extra_nocturna_domingo").val(respuesta["hora_extra_nocturna_domingo"]);
+
+			
+			$("#nuevo_motivo_antecedente").val(respuesta["motivo_antecedente"]);
+			$("#nuevo_num_reso_antecedente").val(respuesta["num_reso_antecedente"]);
+
+			if(respuesta["antecedente_policial"]=="SI"){
+				$(".oculto_ante_pnc").removeAttr("style");
+			}
 
 
 			if(respuesta["idconfiguracion"]==null)
@@ -2402,7 +2418,16 @@ function poblarFormulario(idEmpleado){
 				
 			}
 			else{
-				$("#mascarafechanac").val(respuesta["fecha_nacimiento"]);
+				// Parsear la fecha dividiendo los componentes
+				var partesFecha = respuesta["fecha_nacimiento"].split("-");
+				var anio = partesFecha[0];
+				var mes = partesFecha[1];
+				var dia = partesFecha[2];
+				// Formatear la fecha en el nuevo formato DD/MM/AAAA
+				var fechaFormateada = dia + "-" + mes + "-" + anio;
+
+
+				$("#mascarafechanac").val(fechaFormateada);
 				$("#editarfecha_nacimiento").val(respuesta["fecha_nacimiento"]);
 			}
 			
@@ -2493,7 +2518,15 @@ function poblarFormulario(idEmpleado){
 				
 			}
 			else{
-				$("#mascarafechainism").val(respuesta["fecha_servicio_inicio"]);
+				
+                // Parsear la fecha dividiendo los componentes
+				var partesFecha = respuesta["fecha_servicio_inicio"].split("-");
+				var anio = partesFecha[0];
+				var mes = partesFecha[1];
+				var dia = partesFecha[2];
+				// Formatear la fecha en el nuevo formato DD/MM/AAAA
+				var fechaFormateada = dia + "-" + mes + "-" + anio;
+				$("#mascarafechainism").val(fechaFormateada);
 				$("#editarfecha_inism").val(respuesta["fecha_servicio_inicio"]);
 			}
 			
@@ -2508,7 +2541,15 @@ function poblarFormulario(idEmpleado){
 				
 			}
 			else{
-				$("#mascarafechafinsm").val(respuesta["fecha_servicio_fin"]);
+				
+                // Parsear la fecha dividiendo los componentes
+				var partesFecha = respuesta["fecha_servicio_fin"].split("-");
+				var anio = partesFecha[0];
+				var mes = partesFecha[1];
+				var dia = partesFecha[2];
+				// Formatear la fecha en el nuevo formato DD/MM/AAAA
+				var fechaFormateada = dia + "-" + mes + "-" + anio;
+				$("#mascarafechafinsm").val(fechaFormateada);
 				$("#editarfecha_finsm").val(respuesta["fecha_servicio_fin"]);
 			}
 			
@@ -2706,7 +2747,17 @@ function poblarFormulario(idEmpleado){
 			}
 			else{
 				//alert("2");
-				$("#mascarafechaingreso").val(respuesta["fecha_ingreso"]);
+				// Dividir la fecha y la hora
+                var partes = respuesta["fecha_ingreso"].split(" ");
+                var fecha = partes[0]; // "yyyy-mm-dd"
+                // Parsear la fecha dividiendo los componentes
+				var partesFecha = fecha.split("-");
+				var anio = partesFecha[0];
+				var mes = partesFecha[1];
+				var dia = partesFecha[2];
+				// Formatear la fecha en el nuevo formato DD/MM/AAAA
+				var fechaFormateada = dia + "-" + mes + "-" + anio;
+				$("#mascarafechaingreso").val(fechaFormateada);
 				$("#editarfecha_ingreso").val(respuesta["fecha_ingreso"]);
 			}
 
@@ -2737,9 +2788,18 @@ function poblarFormulario(idEmpleado){
 
 			}
 			else{
-				
-			
-					$("#mascarafechacontratacion").val(respuesta["fecha_contratacion"]);
+
+					// Dividir la fecha y la hora
+					var partes = respuesta["fecha_contratacion"].split(" ");
+					var fecha = partes[0]; // "yyyy-mm-dd"
+					// Parsear la fecha dividiendo los componentes
+					var partesFecha = fecha.split("-");
+					var anio = partesFecha[0];
+					var mes = partesFecha[1];
+					var dia = partesFecha[2];
+					// Formatear la fecha en el nuevo formato DD/MM/AAAA
+					var fechaFormateada = dia + "-" + mes + "-" + anio;
+					$("#mascarafechacontratacion").val(fechaFormateada);
 					$("#editarfecha_contratacion").val(respuesta["fecha_contratacion"]);
 				
 
@@ -2901,7 +2961,7 @@ function poblarFormulario(idEmpleado){
 			else{
 						$("#editarjefe_empleado").html("N/D");
 						$("#editarjefe_empleado").val("0");
-						document.getElementById("divJOP").style.display= "none";						
+						/* document.getElementById("divJOP").style.display= "none"; */						
 			}
 			
 
@@ -2922,7 +2982,20 @@ function poblarFormulario(idEmpleado){
 			if(isNaN(d)){				
 			}
 			else{
-				$("#mascarafecha_venLTA").val(respuesta["fecha_vencimiento_lpa"]);
+
+				// Dividir la fecha y la hora
+				var partes = respuesta["fecha_vencimiento_lpa"].split(" ");
+				var fecha = partes[0]; // "yyyy-mm-dd"
+				// Parsear la fecha dividiendo los componentes
+				var partesFecha = fecha.split("-");
+				var anio = partesFecha[0];
+				var mes = partesFecha[1];
+				var dia = partesFecha[2];
+				// Formatear la fecha en el nuevo formato DD/MM/AAAA
+				var fechaFormateada = dia + "-" + mes + "-" + anio;
+
+
+				$("#mascarafecha_venLTA").val(fechaFormateada);
 				$("#editarfecha_venLTA").val(respuesta["fecha_vencimiento_lpa"]);
 			}
 

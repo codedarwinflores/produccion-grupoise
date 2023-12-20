@@ -86,6 +86,14 @@ if(validar=="1"){
 			$("#editarcxc").val(respuesta["cxc"]);
 			
 			$("#editargratificacion_vacacion").val(respuesta["gratificacion_vacacion"]);
+			$("#editarcentro_trabajo").val(respuesta["centro_trabajo"]);
+
+			$("#editarcuota_patronal_isss").val(respuesta["cuota_patronal_isss"]);
+			$("#editarinsaforp").val(respuesta["insaforp"]);
+			$("#editartope_excento_aguinaldo").val(respuesta["tope_excento_aguinaldo"]);
+			$("#editarkilo_man_vehi").val(respuesta["kilo_man_vehi"]);
+			$("#editarkilo_man_moto").val(respuesta["kilo_man_moto"]);
+
 
 
 

@@ -38,6 +38,22 @@ parse_str($components['query'], $results);
   foreach ($data04 as $value) {
     echo "<input type='hidden' value=".$value["tope_isss"]." id='tope_isss'>";
   }
+
+
+  function bitacora($id)
+  {
+        $query01 = "SELECT * FROM bitacora where num_planilla='$id'";
+        $sql = Conexion::conectar()->prepare($query01);
+        $sql->execute();
+        return $sql->fetchAll();
+  }
+  $data_bita=bitacora($id);
+  foreach ($data_bita as $value) {
+    # code...
+    echo "<input type='hidden' class='bitacora' value='".$value["estado_planilla"]."'/>";
+  }
+
+
   /* ********************* */
 
     function validarempleado01($e)
@@ -61,6 +77,12 @@ parse_str($components['query'], $results);
     <input type="hidden" class="empleado_rango_desde1" value="<?php echo $value["empleado_rango_desde"]?>">
     <input type="hidden" class="empleado_rango_hasta1" value="<?php echo $value["empleado_rango_hasta"]?>">
     <input type="hidden" class="fecha_gratificacion_admin_hidden" value="<?php echo $value["fecha_gratificacion_admin"]?>">
+    <input type="hidden" class="fecha_situacion_desde_hiden" value="<?php echo $value["fecha_situacion_desde"]?>">
+    <input type="hidden" class="fecha_situacion_hasta_hiden" value="<?php echo $value["fecha_situacion_hasta"]?>">
+
+    <input type="hidden" class="numero_plan_anticipo_hiden" value="<?php echo $value["numero_plan_anticipo"]?>">
+    <input type="hidden" class="numero_plan_vacacion_hiden" value="<?php echo $value["numero_plan_vacacion"]?>">
+
 
     <?php
 		}
@@ -109,7 +131,7 @@ parse_str($components['query'], $results);
                 <div class="form-group">
                   <label for="exampleInputEmail1">Periodo:</label>
                   <select class=" form-control " name="periodo_planilladevengo_admin" id="periodo_planilladevengo_admin" placeholder="Periodo">
-                    <option value="">Seleccione Periodo</option>
+                    
                     <option value="1">1</option>
                     <option value="2">2</option>
                   </select>
@@ -119,17 +141,81 @@ parse_str($components['query'], $results);
 
             <div class="col-md-3">
               <div class="form-group">
-                <label for="exampleInputEmail1">Fecha Desde:</label>
+                <label for="exampleInputEmail1">Fecha Planilla Desde:</label>
                 <input type="text" class="calendario form-control " name="fecha_desde_planilladevengo_admin" id="fecha_desde_planilladevengo_admin"    readonly placeholder="Fecha Desde">
               </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                  <label for="exampleInputEmail1">Fecha Hasta:</label>
+                  <label for="exampleInputEmail1">Fecha Planilla Hasta:</label>
                   <input type="text" class="calendario form-control " name="fecha_hasta_planilladevengo_admin" id="fecha_hasta_planilladevengo_admin"    readonly placeholder="Fecha Hasta">
                 </div>
             </div>
             <div class="col-md-12"></div>
+            <div class="col-md-3">
+              <!--  -->
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Seleccione Planilla Anticipo:</label>
+                    <select name="numero_plan_anticipo" id="numero_plan_anticipo" class="form-control  mi-selector">
+                        <?php
+                        function anticipo()
+                          {
+                            $query01 = "SELECT * FROM `planilladevengo_anticipo` GROUP BY numero_planilladevengo_anticipo ORDER BY id DESC";
+                            $sql = Conexion::conectar()->prepare($query01);
+                            $sql->execute();
+                            return $sql->fetchAll();
+                          };
+                          $data01 = anticipo();
+                          foreach ($data01 as $value) {
+                          ?>
+                          <option value="<?php echo $value["numero_planilladevengo_anticipo"];?>"><?php echo $value["numero_planilladevengo_anticipo"].'-'.$value["descripcion_planilladevengo_anticipo"]?></option>
+                        <?php
+                          }
+                        ?>
+                    </select>
+                  </div>
+              <!--  -->
+            </div>
+            <div class="col-md-3">
+                <!--  -->
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Seleccione Planilla Vacación:</label>
+                    <select name="numero_plan_vacacion" id="numero_plan_vacacion" class="form-control  mi-selector">
+                        <?php
+                        function vacacion()
+                          {
+                            $query01 = "SELECT * FROM `planilladevengo_vacacion` GROUP BY numero_planilladevengo_vacacion	 ORDER BY id DESC";
+                            $sql = Conexion::conectar()->prepare($query01);
+                            $sql->execute();
+                            return $sql->fetchAll();
+                          };
+                          $data01 = vacacion();
+                          foreach ($data01 as $value) {
+                          ?>
+                          <option value="<?php echo $value["numero_planilladevengo_vacacion"];?>"><?php echo $value["numero_planilladevengo_vacacion"].'-'.$value["descripcion_planilladevengo_vacacion"]?></option>
+                        <?php
+                          }
+                        ?>
+                    </select>
+                  </div>
+              <!--  -->
+            
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Fecha Situaciones Desde:</label>
+                <input type="text" class="calendario form-control " name="fecha_situacion_desde" id="fecha_situacion_desde"    readonly placeholder="Fecha Desde">
+              </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Fecha Situaciones Hasta:</label>
+                  <input type="text" class="calendario form-control " name="fecha_situacion_hasta" id="fecha_situacion_hasta"    readonly placeholder="Fecha Hasta">
+                </div>
+            </div>
+
+            <div class="col-md-12"></div>
+
             <div class="col-md-3">
                 <div class="form-group">
                   <label for="exampleInputEmail1">Número:</label>
@@ -205,54 +291,70 @@ parse_str($components['query'], $results);
             </div>
 
             <div class="col-md-12">
-              <button class="btn btn-primary filtrar_empleados"> Filtrar</button>
+              <button class="btn btn-primary filtrar_empleados"> Ejecutar</button>
 
             </div>
 
             
         </div>
-
+        <!-- datos globales -->
+        <div class="col-md-3" align="center">
+          <br><br><br>
+          <h4 style="margin: 0px;">Valor Liquido Global</h4>
+          <h3 style="margin: 0px;" class="total_liquido_global">00.00</h3>
+          <br>
+          <h4 style="margin: 0px;">Empleados Total</h4>
+          <h3 style="margin: 0px;" class="total_empleado_global">00.00</h3>
+        </div>
+        <!-- -------------- -->
         <div class="col-md-12"><hr></div>
       </div>
   <!-- *************************** -->
-        <div class="col-md-5">
-          <!-- ***************** -->
-            <div class="box-body" id="tabla_empleados" style=" height: 500px; overflow: scroll; ">
-                
-      
+
+        <div class="col-md-4 relativo" id="relativo">
+
+        <div class="scrolling-div" id="scrolling-div">
+              <!-- ***************** -->
+                <div class="box-body" id="tabla_empleados" style=" height: 500px; overflow: scroll; ">
+                    
+          
+                </div>
+
+                <div class="row box-body">
+                  <div class="col-md-4 box-body">
+                    <button class="btn btn-primary mostrar_devengo_admin" tipo="Suma" data-toggle="modal" data-target="#myModal" disabled="disabled">Agregar Devengo</button>
+                  </div>
+
+                  <div class="col-md-4 box-body">
+                    <button class="btn btn-success mostrar_devengo_admin" tipo="Resta" data-toggle="modal" data-target="#descuento" disabled="disabled">Agregar Descuento</button>
+                  </div>
+
+                  <div class="col-md-4 box-body">
+                    <button class="btn btn-info nuevo_empleado" data-toggle="modal" data-target="#empleados">Agregar Empleado</button>
+                  </div>
+
+                  <div class="col-md-12 ">
+                    <?php if($id=='0'){
+
+                    } else{?>
+                    <a href="noprocesadosplanillas?id=<?php echo $id?>&estado=0" class="btn btn-danger" style="width:100%">Empleados no procesados</a>
+                    <?php
+                      }
+                      ?>
+                  </div>
+
+                </div>
+
             </div>
-
-            <div class="row box-body">
-              <div class="col-md-4 box-body">
-                <button class="btn btn-primary mostrar_devengo_admin" tipo="Suma" data-toggle="modal" data-target="#myModal" disabled="disabled">Agregar Devengo</button>
-              </div>
-
-              <div class="col-md-4 box-body">
-                <button class="btn btn-success mostrar_devengo_admin" tipo="Resta" data-toggle="modal" data-target="#descuento" disabled="disabled">Agregar Descuento</button>
-              </div>
-
-              <div class="col-md-4 box-body">
-                <button class="btn btn-info nuevo_empleado" data-toggle="modal" data-target="#empleados">Agregar Empleado</button>
-              </div>
-
-              <div class="col-md-12 ">
-                <?php if($id=='0'){
-
-                } else{?>
-                <a href="noprocesadosplanillas?id=<?php echo $id?>&estado=0" class="btn btn-danger" style="width:100%">Empleados no procesados</a>
-                <?php
-                  }
-                  ?>
-              </div>
-
-            </div>
-
-
           <!-- ***************** -->
         </div>
+        <!-- <div class="col-md-1"></div> -->
+        <div class="col-md-8" id="formulario_original">
 
-        <div class="col-md-1"></div>
-        <div class="col-md-6" style=" height: 600px; overflow: scroll; ">
+          <div class="bloqueo_mascara"> 
+              <div class="btn btn-warning desbloquear_mascara" style="display:none;">Modificar</div> 
+          </div>
+
           <!-- ***************** -->
             <div class="box-body">
               
@@ -302,7 +404,7 @@ parse_str($components['query'], $results);
               <div class="col-md-4 ">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Septimo:</label>
-                    <input type="number" class=" form-control " name="septimo_admin" id="septimo_admin" placeholder="Septimo">
+                    <input type="number" class=" form-control " name="septimo_admin" id="septimo_admin" placeholder="Septimo" value="0">
                   </div>
               </div>
 
@@ -496,6 +598,9 @@ parse_str($components['query'], $results);
           <!-- ***************** -->
         </div>
 
+        <div class="" id="formulario_copia"></div>
+
+
       </div>
     </div>
 
@@ -557,10 +662,14 @@ parse_str($components['query'], $results);
       </div>
       <div class="modal-body">
           <!-- ***************** -->
+
+
+        <input type="hidden" name="codigo_devengo_descuento_planilla" class="codigo_devengo_descuento_planilla" id="codigo_devengo_descuento_planilla">
+          
+        <div class="modal_devengos">
           <input type="hidden" name="" id="" class="id_devengo">
           <input type="hidden" name="" id="" class="codigo_planilla_devengo">
 
-          <input type="hidden" name="codigo_devengo_descuento_planilla" class="codigo_devengo_descuento_planilla" id="codigo_devengo_descuento_planilla">
           <input type="hidden" name="descripcion_devengo_descuento_planilla" class="descripcion_devengo_descuento_planilla" id="descripcion_devengo_descuento_planilla">
 
             <div class="form-group col-md-12">
@@ -633,7 +742,7 @@ parse_str($components['query'], $results);
                       <label for="">Valor</label>
                       <div class="input-group" bis_skin_checked="1">
                         <span class="input-group-addon"><i></i></span>
-                        <input type="text" class="form-control input-lg valor_devengo_planilla" name="valor_devengo_planilla" id="valor_devengo_planilla">
+                        <input type="text" class="form-control input-lg valor_devengo_planilla" name="valor_devengo_planilla" id="valor_devengo_planilla" oninput="validateNumber(this);">
                       </div>
             </div>
 
@@ -689,6 +798,8 @@ parse_str($components['query'], $results);
                       </div>
             </div>
           <!-- ******************** -->
+
+        </div>
           <input type="hidden" name="porcentaje_isss_devengo_descuento_planilla" class="porcentaje_isss_devengo_descuento_planilla" id="porcentaje_isss_devengo_descuento_planilla">
           <input type="hidden" name="porcentaje_afp_devengo_descuento_planilla" class="porcentaje_afp_devengo_descuento_planilla" id="porcentaje_afp_devengo_descuento_planilla">
           <input type="hidden" name="porcentaje_renta_devengo_descuento_planilla" class="porcentaje_renta_devengo_descuento_planilla" id="porcentaje_renta_devengo_descuento_planilla">
@@ -717,7 +828,8 @@ parse_str($components['query'], $results);
                 <th>Accion</th>
               </tr> 
             </thead>
-            <tbody class="empleados_devengos_descuentos" id="empleados_devengos_descuentos"> 
+            <!-- <tbody class="empleados_devengos_descuentos" id="empleados_devengos_descuentos">  -->
+            <tbody class="" id="">
 
             </tbody>
           </table>
@@ -764,13 +876,16 @@ parse_str($components['query'], $results);
       </div>
       <div class="modal-body">
           <!-- ***************** -->
+        <input type="hidden" name="codigo_devengo_descuento_planilla" class="codigo_devengo_descuento_planilla" id="codigo_devengo_descuento_planilla">
+
+
+        <div class="modal_devengos">
           <input type="hidden" name="" id="" class="id_devengo">
           <input type="hidden" name="" id="" class="codigo_planilla_devengo">
 
-          <input type="hidden" name="codigo_devengo_descuento_planilla" class="codigo_devengo_descuento_planilla" id="codigo_devengo_descuento_planilla">
           <input type="hidden" name="descripcion_devengo_descuento_planilla" class="descripcion_devengo_descuento_planilla" id="descripcion_devengo_descuento_planilla">
 
-          <div class="form-group col-md-12">
+            <div class="form-group col-md-12">
               <label for="">Recibos Pendientes:</label>             
               <div class="input-group">              
                 <span class="input-group-addon"><i class="fa fa-users"></i></span> 
@@ -853,7 +968,7 @@ parse_str($components['query'], $results);
                       <label for="">Valor</label>
                       <div class="input-group" bis_skin_checked="1">
                         <span class="input-group-addon"><i></i></span>
-                        <input type="text" class="form-control input-lg valor_devengo_planilla1" name="valor_devengo_planilla" id="valor_devengo_planilla">
+                        <input type="text" class="form-control input-lg valor_devengo_planilla1" name="valor_devengo_planilla" id="valor_devengo_planilla" oninput="validateNumber(this);">
                       </div>
             </div>
 
@@ -874,6 +989,7 @@ parse_str($components['query'], $results);
                       </div>
             </div>
           <!-- ******************** -->
+         </div>
           
           <input type="hidden" name="porcentaje_isss_devengo_descuento_planilla" class="porcentaje_isss_devengo_descuento_planilla" id="porcentaje_isss_devengo_descuento_planilla">
           <input type="hidden" name="porcentaje_afp_devengo_descuento_planilla" class="porcentaje_afp_devengo_descuento_planilla" id="porcentaje_afp_devengo_descuento_planilla">
@@ -903,7 +1019,8 @@ parse_str($components['query'], $results);
                 <th>Accion</th>
               </tr> 
             </thead>
-            <tbody class=" descuentos_empleados_original" id=""> 
+            <!-- <tbody class=" descuentos_empleados_original" id="">  -->
+            <tbody class="" id=""> 
 
             </tbody>
           </table>
@@ -967,7 +1084,7 @@ parse_str($components['query'], $results);
                   <?php
                      	function consultar3()
                        {
-                         $query01 = "SELECT `id`, `fecha_solicitud`, `primer_nombre`, `segundo_nombre`, `tercer_nombre`, `primer_apellido`, `segundo_apellido`, `apellido_casada`, `estado_civil`, `sexo`, `direccion`, `id_departamento`, `id_municipio`, `telefono`, `numero_isss`, `nombre_segun_isss`, `documento_identidad`, `numero_documento_identidad`, `imagen_documento_identidad`, `lugar_expedicion_documento`, `fecha_expedicion_documento`, `fecha_vencimiento_documento`, `licencia_conducir`, `tipo_licencia_conducir`, `nit`, `imagen_nit`, `codigo_afp`, `nup`, `profesion_oficio`, `nacionalidad`, `lugar_nacimiento`, `fecha_nacimiento`, `religion`, `grado_estudio`, `plantel`, `peso`, `estatura`, `piel`, `ojos`, `cabello`, `cara`, `tipo_sangre`, `senales_especiales`, `licencia_tenencia_armas`, `numero_licencia_tenencia_armas`, `imagen_licencia_tenencia_armas`, `servicio_militar`, `fecha_servicio_inicio`, `fecha_servicio_fin`, `lugar_servicio`, `grado_militar`, `motivo_baja`, `ex_pnc`, `curso_ansp`, `imagen_diploma_ansp`, `fotografia`, `trabajo_anterior`, `sueldo_que_devengo`, `trabajo_actual`, `sueldo_que_devenga`, `suspendido_trabajo_anterior`, `empresa_suspendio`, `motivo_suspension`, `fecha_suspension`, `experiencia_laboral`, `razon_trabajar_en_ise`, `numero_personas_dependientes`, `observaciones`, `telefono_trabajo_anterior`, `telefono_trabajo_actual`, `referencia_anterior`, `evaluacion_anterior`, `referencia_actual`, `evaluacion_actual`, `info_verificada`, `imagen_solicitud`, `imagen_antecedentes_penales`, `fecha_vencimiento_antecedentes_penales`, `imagen_solvencia_pnc`, `fecha_vencimiento_solvencia_pnc`, `confiable`, `imagen_huellas`, `estado`, `nivel_cargo`, `pantalon_empleado`, `camisa_empleado`, `zapatos_empleado`, `recomendado_empleado`, `contacto_empleado`, `documentacion_empleado`, `ansp_empleado`, `uniformeregalado_empleado`, `fecha_ingreso`, `fecha_contratacion`, `id_departamento_empresa`, `periodo_pago`, `horas_normales_trabajo`, `sueldo`, `sueldo_diario`, `salario_por_hora`, `hora_extra_diurna`, `hora_extra_nocturna`, `hora_extra_domingo`, `hora_extra_nocturna_domingo`, `id_tipo_portacion`, `descontar_isss`, `descontar_afp`, `id_tipo_planilla`, `id_banco`, `numero_cuenta`, `id_jefe_operaciones`, `imagen_contrato`, `anticipo`, `reportado_a_pnc`, `tipo_empleado`, `fecha_vencimiento_lpa`, `constancia_psicologica`, `nombre_psicologo`, `fecha_curso_ansp`, `numero_aprobacion_ansp`, `examen_poligrafico`, `Fecha_poligrafico`, `antecedente_policial`, `codigo_empleado`, `numero_telefono_trabajo_actual`, `carnet_empleado`, `idconfiguracion`, `luaf`, `imagenlpa`, `carnetafp`, `fotoisss`, `fotoansp`, `pensionado_empleado` FROM `tbl_empleados`";
+                         $query01 = "SELECT `id`, `fecha_solicitud`, `primer_nombre`, `segundo_nombre`, `tercer_nombre`, `primer_apellido`, `segundo_apellido`, `apellido_casada`, `estado_civil`, `sexo`, `direccion`, `id_departamento`, `id_municipio`, `telefono`, `numero_isss`, `nombre_segun_isss`, `documento_identidad`, `numero_documento_identidad`, `imagen_documento_identidad`, `lugar_expedicion_documento`, `fecha_expedicion_documento`, `fecha_vencimiento_documento`, `licencia_conducir`, `tipo_licencia_conducir`, `nit`, `imagen_nit`, `codigo_afp`, `nup`, `profesion_oficio`, `nacionalidad`, `lugar_nacimiento`, `fecha_nacimiento`, `religion`, `grado_estudio`, `plantel`, `peso`, `estatura`, `piel`, `ojos`, `cabello`, `cara`, `tipo_sangre`, `senales_especiales`, `licencia_tenencia_armas`, `numero_licencia_tenencia_armas`, `imagen_licencia_tenencia_armas`, `servicio_militar`, `fecha_servicio_inicio`, `fecha_servicio_fin`, `lugar_servicio`, `grado_militar`, `motivo_baja`, `ex_pnc`, `curso_ansp`, `imagen_diploma_ansp`, `fotografia`, `trabajo_anterior`, `sueldo_que_devengo`, `trabajo_actual`, `sueldo_que_devenga`, `suspendido_trabajo_anterior`, `empresa_suspendio`, `motivo_suspension`, `fecha_suspension`, `experiencia_laboral`, `razon_trabajar_en_ise`, `numero_personas_dependientes`, `observaciones`, `telefono_trabajo_anterior`, `telefono_trabajo_actual`, `referencia_anterior`, `evaluacion_anterior`, `referencia_actual`, `evaluacion_actual`, `info_verificada`, `imagen_solicitud`, `imagen_antecedentes_penales`, `fecha_vencimiento_antecedentes_penales`, `imagen_solvencia_pnc`, `fecha_vencimiento_solvencia_pnc`, `confiable`, `imagen_huellas`, `estado`, `nivel_cargo`, `pantalon_empleado`, `camisa_empleado`, `zapatos_empleado`, `recomendado_empleado`, `contacto_empleado`, `documentacion_empleado`, `ansp_empleado`, `uniformeregalado_empleado`, `fecha_ingreso`, `fecha_contratacion`, `id_departamento_empresa`, `periodo_pago`, `horas_normales_trabajo`, `sueldo`, `sueldo_diario`, `salario_por_hora`, `hora_extra_diurna`, `hora_extra_nocturna`, `hora_extra_domingo`, `hora_extra_nocturna_domingo`, `id_tipo_portacion`, `descontar_isss`, `descontar_afp`, `id_tipo_planilla`, `id_banco`, `numero_cuenta`, `id_jefe_operaciones`, `imagen_contrato`, `anticipo`, `reportado_a_pnc`, `tipo_empleado`, `fecha_vencimiento_lpa`, `constancia_psicologica`, `nombre_psicologo`, `fecha_curso_ansp`, `numero_aprobacion_ansp`, `examen_poligrafico`, `Fecha_poligrafico`, `antecedente_policial`, `codigo_empleado`, `numero_telefono_trabajo_actual`, `carnet_empleado`, `idconfiguracion`, `luaf`, `imagenlpa`, `carnetafp`, `fotoisss`, `fotoansp`, `pensionado_empleado` FROM `tbl_empleados` where estado=2";
                          $sql = Conexion::conectar()->prepare($query01);
                          $sql->execute();
                          return $sql->fetchAll();
@@ -1029,7 +1146,7 @@ parse_str($components['query'], $results);
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-body" align="center">
-        <img src="vistas/modulos/carga.gif" alt="" width="90"><br>
+        <img src="vistas/modulos/carga.gif" alt="" width="90" class="cargando_gif"><br>
        <!--  <h5 class="datos_informacion">Guardando y Cargando los Datos</h5><br>
         <span class="totalempleados">Guardando y Cargando los Datos</span><br>
         <span class="cantidad_empleados_pro">Guardando y Cargando los Datos</span><br>

@@ -9,6 +9,22 @@ $(document).ready(function(){
 	$('.horas').mask('0.0000', {reverse: true});
 	$('.nrcs').mask('00000-0', {reverse: true});
 	$('.tiempo').mask('00:00', {reverse: true});
+	$('.onlydecimal').mask('000.00', {reverse: true});
+	$('.onlydinero').mask('0000.00', {reverse: true});
+	$('.tiempo').mask('00:00', {reverse: true});
+	
+
+	var $campoDeEntrada = $('.luaf');
+	// Agrega un controlador de eventos al evento 'input'
+	$campoDeEntrada.on('input', function() {
+        var valorInput = $(this).val();
+        valorNumerico = valorInput.substring(0, 8);
+		if (valorNumerico.length === 8) {
+			$(this).attr("maxlength", "8");
+		  } else {
+			$(this).removeAttr("maxlength");
+		  }
+	});
 
 	
 

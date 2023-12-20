@@ -40,6 +40,8 @@ function getContent() {
           Agregar <?php echo $Nombre_del_Modulo;?>
 
         </button>
+        <a href="generarreportervehiculo" class="btn btn-success">Generar reporte listado de vehiculo</a>
+
 
       </div>
 
@@ -78,6 +80,9 @@ function getContent() {
             <th>Prima del seguro</th>
             <th>Deducible</th>
             <th>Estado</th>
+            <th>Personal Asignado</th>
+            <th>Fecha Venc. Tarjeta Circulación</th>
+            <th>Gasolina Asignada</th>
             <th>Acciones</th>
  
           </tr> 
@@ -91,10 +96,35 @@ function getContent() {
          $item = null;
          $valor = null;
  
+         function empleado_asignado($codigo) {
+          $query = "SELECT*FROM `tbl_empleados` WHERE codigo_empleado='$codigo'";
+          $sql = Conexion::conectar()->prepare($query);
+          $sql->execute();			
+          return $sql->fetchAll();
+        };
+
          $bancos = Controladorvehiculo::ctrMostrar($item, $valor);
  
         foreach ($bancos as $key => $value){
-          
+          $fecha=$value["fecha_adquision"];
+          $nueva_fecha="";
+          if($fecha=="0000-00-00 00:00:00"){
+           $nueva_fecha="00-00-0000";
+          }
+          else{
+            $timestamp = strtotime($value["fecha_adquision"]);
+            $nueva_fecha = date("d-m-Y", $timestamp);
+          }
+
+            
+            $codigo=$value["personal_asig_vehiculo"];
+            $data0 = empleado_asignado($codigo);
+            $nombre_cargo="";
+            foreach($data0 as $val_em) {
+                $nombre_cargo=trim(trim($val_em["primer_nombre"])." ".trim($val_em["segundo_nombre"]).' '.trim($val_em["tercer_nombre"]).' '.trim($val_em["primer_apellido"]).' '.trim($val_em["segundo_apellido"]).' '.trim($val_em["apellido_casada"]));
+                $nombre_cargo = preg_replace('/\s+/', ' ', $nombre_cargo);
+
+            }
            echo ' <tr>
                    <td>'.($key+1).'</td>
                    <td>'.$value["nombrefamiliaoriginal"].'</td>
@@ -112,14 +142,21 @@ function getContent() {
                    <td>'.$value["color"].'</td>
                    <td>'.$value["descripcion_vehiculo"].'</td>
                    <td>'.$value["costo_vehiculo"].'</td>
-                   <td>'.$value["fecha_adquision"].'</td>
+
+                   <td>'.$nueva_fecha.'</td>
+                   
                    <td>'.$value["observaciones"].'</td>
                    <td>'.$value["serie"].'</td>
                    <td>'.$value["valor_asegurado"].'</td>
                    <td>'.$value["prima_seguro"].'</td>
                    
                    <td>'.$value["deducible"].'</td>
-                   <td>'.$value["estado_vehiculo"].'</td>';
+                   <td>'.$value["estado_vehiculo"].'</td>
+
+                   
+                   <td>'.$nombre_cargo.'</td>
+                   <td>'.$value["fecha_venctarjeta_circula"].'</td>
+                   <td>'.$value["gasolina_asig_vehiculo"].'</td>';
  
                   
  
@@ -350,46 +387,99 @@ MODAL AGREGAR
 
              <div class="s_familia_vehiculo">
               <label for="">Seleccione Familia</label>
-
-             <div class="input-group ">
-                <span class="input-group-addon"><i class="fa fa-users"></i></span>
-                <select name="nuevoid_familia" id="" class="form-control input-lg" required>
-                  <option value="">Seleccione Familia</option>
-                  <?php
-                            function familia() {
-                              $query = "SELECT `id`, `codigo`, `nombre`, `correrlativo` FROM `tbl_familia` WHERE nombre LIKE 'vehi%';";
-                              $sql = Conexion::conectar()->prepare($query);
-                              $sql->execute();			
-                              return $sql->fetchAll();
-                            };
-                          $data0 = familia();
-                          foreach($data0 as $value) {
-                            ?>
-                             <option value="<?php echo $value['id'] ?>" codigo="<?php echo $value['codigo'] ?>"><?php echo $value["nombre"] ?></option>  
-                            <?php
-                                }
+              <div class="input-group ">
+                  <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                  <select name="nuevoid_familia" id="" class="form-control input-lg" required>
+                    <option value="">Seleccione Familia</option>
+                    <?php
+                              function familia() {
+                                $query = "SELECT `id`, `codigo`, `nombre`, `correrlativo` FROM `tbl_familia` WHERE nombre LIKE 'vehi%';";
+                                $sql = Conexion::conectar()->prepare($query);
+                                $sql->execute();			
+                                return $sql->fetchAll();
+                              };
+                            $data0 = familia();
+                            foreach($data0 as $value) {
                               ?>
-                </select>
-            </div>
+                              <option value="<?php echo $value['id'] ?>" codigo="<?php echo $value['codigo'] ?>"><?php echo $value["nombre"] ?></option>  
+                              <?php
+                                  }
+                                ?>
+                  </select>
+              </div>
             </div>
 
             <div class="s_tipo_vehiculo">
               <label for="">Seleccione Tipo Vehículo</label>
-            <div class="input-group ">
-                <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
-                <select name="nuevoid_tipo_vehiculo" id="nuevoid_tipo_vehiculo" class="form-control input-lg" required>
-                  <option value="">Seleccione Tipo Vehículo</option>
-                <?php
-                    $datos_mostrar = Controladortipovehiculo::ctrMostrar($item, $valor);
-                    foreach ($datos_mostrar as $key => $value){
-                ?>
-                    <option value="<?php echo $value['id'] ?>" codigo="<?php echo $value['codigo'] ?>"><?php echo $value["nombre_tipo"] ?></option>  
-                <?php
-                    }
-                  ?>
-                </select>
+                <div class="input-group ">
+                    <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
+                    <select name="nuevoid_tipo_vehiculo" id="nuevoid_tipo_vehiculo" class="form-control input-lg" required>
+                      <option value="">Seleccione Tipo Vehículo</option>
+                    <?php
+                        $datos_mostrar = Controladortipovehiculo::ctrMostrar($item, $valor);
+                        foreach ($datos_mostrar as $key => $value){
+                    ?>
+                        <option value="<?php echo $value['id'] ?>" codigo="<?php echo $value['codigo'] ?>"><?php echo $value["nombre_tipo"] ?></option>  
+                    <?php
+                        }
+                      ?>
+                    </select>
+                </div>
             </div>
+
+
+            <!-- ************************* -->
+  
+
+            <div class="s_personal_asig_vehiculo ">
+              <label for="">Seleccione Personal Asignado</label>
+              <div class="input-group ">
+                  <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                  <select class="form-control input-lg input_personal_asig_vehiculo mi-selector" name="nuevopersonal_asig_vehiculo" id="nuevopersonal_asig_vehiculo">
+                    <option value="">Seleccione Personal</option>
+                    <?php
+                            function empleado() {
+                                $query = "SELECT*FROM `tbl_empleados` WHERE estado=2";
+                                $sql = Conexion::conectar()->prepare($query);
+                                $sql->execute();			
+                                return $sql->fetchAll();
+                              };
+                            $data0 = empleado();
+                            foreach($data0 as $value) {
+                                $nombre_cargo=trim(trim($value["primer_nombre"])." ".trim($value["segundo_nombre"]).' '.trim($value["tercer_nombre"]).' '.trim($value["primer_apellido"]).' '.trim($value["segundo_apellido"]).' '.trim($value["apellido_casada"]));
+                                $nombre_cargo = preg_replace('/\s+/', ' ', $nombre_cargo);
+                              ?>
+                              <option value="<?php echo $value['codigo_empleado'] ?>" fecha_ven_lic="<?php echo $value['fecha_venc_licenciaconducir']  ?>" licensia="<?php echo $value['licencia_conducir']  ?>"><?php echo $nombre_cargo ?></option>  
+                              <?php
+                                  }
+                                ?>
+                  </select>
+                  <span class="nuevolicensia">Licencia: </span>
+                  <br>
+                  <span class="nuevofecha">Fecha Vencimiento:</span>
+              </div>
             </div>
+            <!-- ************************ -->
+
+            <!-- ************************ -->
+            <div class="s_fecha_venctarjeta_circula">
+              <label for="">Fecha Vencimiento Tarjeta de Circulacion</label>
+                <div class="input-group ">
+                    <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
+                    <input type="text" class="form-control input-lg input_fecha_venctarjeta_circula calendario" name="nuevofecha_venctarjeta_circula" placeholder="Fecha Vencimiento Tarjeta de Circulacion" value="" autocomplete="off" required="" tabla_validar="tbl_vehiculos" item_validar="codigo_vehiculo">
+                </div>
+            </div>
+            <!-- ******************** -->
+
+              <!-- ************************ -->
+              <div class="s_gasolina_asig_vehiculo">
+              <label for="">Gasolina Asignada</label>
+                <div class="input-group ">
+                    <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
+                    <input type="text" class="form-control input-lg input_gasolina_asig_vehiculo " name="nuevogasolina_asig_vehiculo" placeholder="Gasolina Asignada" value="" autocomplete="off" required="" tabla_validar="tbl_vehiculos" item_validar="codigo_vehiculo">
+                </div>
+            </div>
+            <!-- ******************** -->
 
           </div>
 
@@ -575,6 +665,57 @@ MODAL EDITAR
                 </select>
             </div>
             </div>
+
+
+            
+            <!-- ************************* -->
+  
+
+            <div class="editars_personal_asig_vehiculo ">
+              <label for="">Seleccione Personal Asignado</label>
+              <div class="input-group ">
+                  <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                  <select class="form-control input-lg input_personal_asig_vehiculo mi-selector" name="editarpersonal_asig_vehiculo" id="editarpersonal_asig_vehiculo">
+                    <option value="">Seleccione Personal</option>
+                    <?php
+                          
+                            $data0 = empleado();
+                            foreach($data0 as $value) {
+                              
+                                $nombre_cargo=trim(trim($value["primer_nombre"])." ".trim($value["segundo_nombre"]).' '.trim($value["tercer_nombre"]).' '.trim($value["primer_apellido"]).' '.trim($value["segundo_apellido"]).' '.trim($value["apellido_casada"]));
+                                $nombre_cargo = preg_replace('/\s+/', ' ', $nombre_cargo);
+                              ?>
+                              <option value="<?php echo $value['codigo_empleado'] ?>" fecha_ven_lic="<?php echo $value['fecha_venc_licenciaconducir']  ?>" licensia="<?php echo $value['licencia_conducir']  ?>"><?php echo $nombre_cargo ?></option>  
+                              <?php
+                                  }
+                                ?>
+                  </select>
+                  <span class="editarlicensia">Licensia: </span>
+                  <br>
+                  <span class="editarfecha">Fecha Vencimiento:</span>
+              </div>
+            </div>
+            <!-- ************************ -->
+
+            <!-- ************************ -->
+            <div class="editars_fecha_venctarjeta_circula">
+              <label for="">Fecha Vencimiento Tarjeta de Circulacion</label>
+                <div class="input-group ">
+                    <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
+                    <input type="text" class="form-control input-lg input_fecha_venctarjeta_circula calendario" name="editarfecha_venctarjeta_circula" id="editarfecha_venctarjeta_circula" placeholder="Fecha Vencimiento Tarjeta de Circulacion" value="" autocomplete="off" required="" tabla_validar="tbl_vehiculos" item_validar="codigo_vehiculo">
+                </div>
+            </div>
+            <!-- ******************** -->
+
+              <!-- ************************ -->
+              <div class="editars_gasolina_asig_vehiculo">
+              <label for="">Gasolina Asignada</label>
+                <div class="input-group ">
+                    <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
+                    <input type="text" class="form-control input-lg input_gasolina_asig_vehiculo " name="editargasolina_asig_vehiculo"  id="editargasolina_asig_vehiculo" placeholder="Gasolina Asignada" value="" autocomplete="off" required="" tabla_validar="tbl_vehiculos" item_validar="codigo_vehiculo">
+                </div>
+            </div>
+            <!-- ******************** -->
 
 
 

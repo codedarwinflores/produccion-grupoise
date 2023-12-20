@@ -1,4 +1,3 @@
-
 <?php ob_start(); ?>
 
 
@@ -23,7 +22,7 @@ $mes = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto"
 require_once "../../modelos/conexion.php";        
 function empleado() {
     global $idempleado;
-    $query = "SELECT * FROM `tbl_empleados` where id = $idempleado";
+    $query = "SELECT * FROM `tbl_empleados` where id = $idempleado limit 1";
     $sql = Conexion::conectar()->prepare($query);
     $sql->execute();			
     return $sql->fetchAll();
@@ -40,6 +39,7 @@ de la Sociedad INVESTIGACIONES Y SEGURIDAD, SOCIEDAD ANÓNIMA DE CAPITAL VARIABL
  del salario que corresponde a la quincena próxima a la que se me fue entregado el anticipo mencionado en
 virtud de mi solicitud a la Sociedad.
 </span>
+
 <br>
 <br>
 <br>
@@ -71,7 +71,7 @@ virtud de mi solicitud a la Sociedad.
     <tr>
         <td width="240"></td>
         <td>
-            <span>Aprobación</span>
+            <span>Aprobacion</span>
         </td>
     </tr>
 </table>
@@ -92,11 +92,16 @@ virtud de mi solicitud a la Sociedad.
 <?php
 require_once 'dompdf/autoload.inc.php';
 use Dompdf\Dompdf;
+/* require_once ('dompdf05/dompdf_config.inc.php');
+ */
 $dompdf = new DOMPDF();
-$dompdf->loadHtml(ob_get_clean());
+$html=ob_get_clean();
+$dompdf->load_html(utf8_decode($html));
 $dompdf->render();
 $pdf = $dompdf->output();
 $filename = "ejemplo.pdf";
 file_put_contents($filename, $pdf);
-$dompdf->stream($filename);
+/* $dompdf->stream($filename); */
+$dompdf->stream($filename, array("Attachment" => false));
+
 ?>

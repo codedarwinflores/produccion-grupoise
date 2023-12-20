@@ -2,6 +2,47 @@
 $(document).ready(function(){
 
 
+	    
+	/* validar si fecha esta cerrada */
+	$( "#nuevofecha_movimiento" ).on( "click", function() {
+		$( "#ic__datepicker-3" ).on( "click", function() {
+			/* ******************************************* */
+				var valor=$("#nuevofecha_movimiento").val();
+				var dataString = 'fecha='+valor+
+								'&modulo=transaccionagente'+
+								'&accion01=verificar';
+				$.ajax({
+					data: dataString,
+					url: "ajax/cierres.ajax.php",
+					type: 'post',
+					success: function (response) {
+
+						if(response>0){
+									
+								swal({
+
+									type: "error",
+									title: "Error, esta fecha esta cerrada",
+									showConfirmButton: true,
+									confirmButtonText: "Cerrar"
+
+								});
+								$("#nuevofecha_movimiento").val("");
+						
+						}
+
+					}
+				});
+			/* ******************************************* */
+		});
+	});
+/* ******************************* */
+
+
+
+
+
+
 
 	/* CORRELATIVO PLANILLA */
 			/* *********** */
@@ -33,6 +74,8 @@ $(document).ready(function(){
 
  $( ".input_codigo_equipo" ).change(function(){ 
 
+	$(".guardardata").removeAttr("disabled");
+	$(".guardarproducto").removeAttr("style");
 	
 	var codigo = $(this).val();
 	var tipoequipo = $('option:selected', this).attr('tipoequipo');
@@ -44,6 +87,7 @@ $(document).ready(function(){
 	$(".serie").val(serie);
 	var diferencia_arma=$(".input_diferencia_armas_movimiento").val();
 	var diferencia_radio=$(".input_diferencia_radios_movimiento").val();
+	var diferencia_celular=$(".input_diferencia_celular_movimiento").val();
 
 	if(tipoequipo=="arma"){
 		if(diferencia_arma==0){
@@ -54,10 +98,12 @@ $(document).ready(function(){
 			})
 			$(".guardardata").attr("disabled","disabled");
 			$(".guardarproducto").attr("style","display:none");
+			vaciar();
+
 		}
 		else{
-			$(".guardardata").removeAttr("disabled");
-			$(".guardarproducto").removeAttr("style");
+			/* $(".guardardata").removeAttr("disabled");
+			$(".guardarproducto").removeAttr("style"); */
 		}
 	}
 	
@@ -70,12 +116,32 @@ $(document).ready(function(){
 			})
 			$(".guardardata").attr("disabled","disabled");
 			$(".guardarproducto").attr("style","display:none");
+			vaciar();
+
 		}
 		else{
-			$(".guardardata").removeAttr("disabled");
-			$(".guardarproducto").removeAttr("style");
+			/* $(".guardardata").removeAttr("disabled");
+			$(".guardarproducto").removeAttr("style"); */
 		}
 	}
+
+	if(tipoequipo=="celular"){
+		if(diferencia_celular==0){
+			swal({
+				title: 'Alerta',
+				text: "Ubicación esta al limite de celular. Por favor cambiar ubicacion",
+				type: 'warning'
+			})
+			$(".guardardata").attr("disabled","disabled");
+			$(".guardarproducto").attr("style","display:none");
+			vaciar();
+		}
+		else{
+			/* $(".guardardata").removeAttr("disabled");
+			$(".guardarproducto").removeAttr("style"); */
+		}
+	}
+
 
 	if(tipoequipo!="radio" && tipoequipo!="arma"){
 		$(".guardardata").removeAttr("disabled");
@@ -102,11 +168,13 @@ $( ".input_id_ubicacion_movimiento" ).change(function(){
 	var id=$(this).val();
 	var cantidad_armas = $('option:selected', this).attr('cantidad_armas');
 	var cantidad_radios = $('option:selected', this).attr('cantidad_radios');
+	var cantidad_celular = $('option:selected', this).attr('cantidad_celular');
 	
 
 	
 	$("#armasautorizadas").val(cantidad_armas);
 	$("#radiosautorizadas").val(cantidad_radios);
+	$("#celularautorizadas").val(cantidad_celular);
 
 	
 		/* *********** */
@@ -122,14 +190,19 @@ $( ".input_id_ubicacion_movimiento" ).change(function(){
 
 				var arma = response.split(',')[0]; // armas
 				var radio = response.split(',')[1]; // radio
+				var celular = response.split(',')[2]; // radio
 
 				$(".input_armas_asig_movimiento").val(arma);
 				$(".input_radios_asign_movimiento").val(radio);
+				$(".input_celular_asign_movimiento").val(celular);
 
 				var diferencia_arma=parseFloat(cantidad_armas)-parseFloat(arma);
 				var diferencia_radio=parseFloat(cantidad_radios)-parseFloat(radio);
+				var diferencia_celular=parseFloat(cantidad_celular)-parseFloat(celular);
+
 				$(".input_diferencia_armas_movimiento").val(diferencia_arma);
 				$(".input_diferencia_radios_movimiento").val(diferencia_radio);
+				$(".input_diferencia_celular_movimiento").val(diferencia_celular);
 
 				
 			}
@@ -156,10 +229,13 @@ $('.guardarproducto').on('click',function(){
 
 	var diferencia_arma=$(".input_diferencia_armas_movimiento").val();
 	var diferencia_radio=$(".input_diferencia_radios_movimiento").val();
+	var diferencia_celular=$(".input_diferencia_celular_movimiento").val();
+
 
 
 	var arma=$(".input_armas_asig_movimiento").val();
 	var radio=$(".input_radios_asign_movimiento").val();
+	var celular=$(".input_celular_asign_movimiento").val();
 	
 	if(tipo=="arma"){
 		restar_diferencia=parseFloat(diferencia_arma)-1;
@@ -173,21 +249,27 @@ $('.guardarproducto').on('click',function(){
 		$(".input_radios_asign_movimiento").val(parseFloat(radio)+1);
 
 	}
+	if(tipo=="celular"){
+		restar_diferencia_celular=parseFloat(diferencia_celular)-1;
+		$(".input_diferencia_celular_movimiento").val(restar_diferencia_celular);
+		$(".input_celular_asign_movimiento").val(parseFloat(celular)+1);
+
+	}
 
 	var comparar=0;
-if (recuperar.indexOf(input_codigo_equipo) !== -1) {
-	comparar=1;
-  } else {
-	comparar=0;
-  }
-  var table="";
-  if(comparar==1){
-	swal({
-		title: 'Alerta',
-		text: "El arma ya esta agregada",
-		type: 'warning'
-	})
-  }
+	if (recuperar.indexOf(input_codigo_equipo) !== -1) {
+		comparar=1;
+	} else {
+		comparar=0;
+	}
+	var table="";
+	if(comparar==1){
+		swal({
+			title: 'Alerta',
+			text: "El registro ya esta agregada",
+			type: 'warning'
+		})
+	}
   else{
     recuperar=recuperar+" , "+input_codigo_equipo;
 
@@ -211,12 +293,15 @@ if (recuperar.indexOf(input_codigo_equipo) !== -1) {
 
 	$(".productos").on("click", ".quitarlista"+input_codigo_equipo+"", function(){
 
+		recuperar="";
 		var tipo= $(this).closest('tr').find('td').eq(5).html();
 		var diferencia_arma=$(".input_diferencia_armas_movimiento").val();
 		var diferencia_radio=$(".input_diferencia_radios_movimiento").val();
+		var diferencia_celular=$(".input_diferencia_celular_movimiento").val();
 			
 		var arma01=$(".input_armas_asig_movimiento").val();
 		var radio01=$(".input_radios_asign_movimiento").val();
+		var celular01=$(".input_celular_asign_movimiento").val();
 
 		if(tipo=="arma"){
 			restar_diferencia=parseFloat(diferencia_arma)+1;
@@ -235,6 +320,16 @@ if (recuperar.indexOf(input_codigo_equipo) !== -1) {
 				calculoradio=0;
 			}
 			$(".input_radios_asign_movimiento").val(calculoradio);
+		}
+
+		if(tipo=="celular"){
+			restar_diferencia_celular=parseFloat(diferencia_celular)+1;
+			$(".input_diferencia_celular_movimiento").val(restar_diferencia_celular);
+			var calculocelular=parseFloat(celular01)-1;
+			if(calculocelular < 0){
+				calculocelular=0;
+			}
+			$(".input_celular_asign_movimiento").val(calculocelular);
 		}
 
 		$(this).closest('tr').remove();
@@ -278,6 +373,11 @@ function agregar(){
 		var codigo_equipo= $(this).find('td').eq(0).html();
 		var tipoequipo	 = $(this).find('td').eq(5).html();
 
+		var celular_asig_movimiento=$("#nuevocelular_asign_movimiento").val();
+		var diferencia_celular_movimiento=$("#nuevodiferencia_celular_movimiento").val();
+		
+
+
 		var dataString = 'id=' +$.trim(id) +
 						 '&correlativo_movimiento=' +$.trim(correlativo_movimiento) +
 						 '&fecha_ingreso_movimiento=' +$.trim(fecha_ingreso_movimiento) +
@@ -290,6 +390,8 @@ function agregar(){
 						 '&diferencia_radios_movimiento=' +$.trim(diferencia_radios_movimiento) +
 						 '&codigo_equipo=' +$.trim(codigo_equipo)+
 						 '&tipoequipo=' +$.trim(tipoequipo)+
+						 '&celular_asig_movimiento=' +$.trim(celular_asig_movimiento)+
+						 '&diferencia_celular_movimiento=' +$.trim(diferencia_celular_movimiento)+
 						 '&accion01=insertar';
 
 		$.ajax({

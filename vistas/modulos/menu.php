@@ -31,7 +31,7 @@
 
 				</a>
 
-				<ul class="treeview-menu">
+				<ul class="treeview-menu scrollmenu">
 					
 					<li>
 						<a href="usuarios">
@@ -530,7 +530,7 @@
 								<span>Kardex</span>
 							</a>
 						</li>
-						<li>
+						<li style="display:none">
 							<a href="transancionkardex">
 								<i class="fa fa-fax"></i>
 								<span>Transaccion Kardex</span>
@@ -557,6 +557,21 @@
 				<a href="movimientoequipo">
 					<i class="fa fa-wpexplorer"></i>
 					<span>Movimiento Equipo</span>
+				</a>
+			</li>
+
+			
+			<li>			
+				<a href="cierres">
+					<i class="fa  fa-calendar-times-o"></i>
+					<span>Cierres</span>
+				</a>
+			</li>
+
+			<li>			
+				<a href="series">
+					<i class="fa  fa-barcode"></i>
+					<span>Series</span>
 				</a>
 			</li>
 			

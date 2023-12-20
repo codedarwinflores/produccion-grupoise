@@ -142,10 +142,10 @@ switch ($accion) {
 		$data05 = detallerecibo2($numero_recibo_detalle,$equipo_kardex);
 		$idrecibo="";
 		foreach ($data05 as $value) {
-			$idrecibo.='recibo'.$value["id"];
+			$idrecibo='recibo'.$value["id"];
 		}
 
-
+		$idrecibo='recibo-'.$numero_recibo_detalle;
 		/* ******************* */
 
 		$query02 = "INSERT INTO `historial_kardex`( `correlativo_kardexh`, 
@@ -178,26 +178,55 @@ switch ($accion) {
 		{
 					$query01 = "SELECT kardex.id as idkardex, detalle_recibo.id as iddetalle, detalle_recibo.* ,kardex.*,tbl_otros_equipos.*
 								FROM detalle_recibo,kardex,tbl_otros_equipos
-								where detalle_recibo.kardex_detalle=kardex.equipo_kardex and kardex.equipo_kardex=tbl_otros_equipos.codigo_equipo and numero_recibo_detalle='$numero_recibo_detalle1'";
+								where detalle_recibo.kardex_detalle=kardex.equipo_kardex 
+									  and kardex.equipo_kardex=tbl_otros_equipos.codigo_equipo and numero_recibo_detalle='$numero_recibo_detalle1'";
 					$sql = Conexion::conectar()->prepare($query01);
 					$sql->execute();
 					return $sql->fetchAll();
 		}
+
+		function historial_kardex($numero_recibo)
+		{
+					$query01 = "SELECT * FROM historial_kardex WHERE correlativo_kardexh='$numero_recibo'";
+					echo $query01;
+					$sql = Conexion::conectar()->prepare($query01);
+					$sql->execute();
+					return $sql->fetchAll();
+		}
+		
+		$data_his_kardex=historial_kardex($idrecibo);
+		$siexisterecibo=0;
+		foreach ($data_his_kardex as $value) {
+			# code...
+			$siexisterecibo++;
+		}
+			
+
 		$data04 = detalle_recibo($numero_recibo_detalle);
 		foreach ($data04 as $value) {
-			echo "<tr>".
-					"<td>".$value["equipo_kardex"]."</td>".
-					"<td>".$value["descripcion"]."</td>".
-					"<td>".$value["cantidad_detalle"]."</td>".
-					"<td>".$value["precio_detalle"]."</td>".
-					"<td>".$value["total_detalle"]."</td>".
-					"<td>"."<div class='btn btn-danger eliminardetalle'  idkardex='".$value["idkardex"]."' id='".$value["iddetalle"]."'><i class='fa fa-times'></i></div>"."</td>".
-				"</tr>";
+	
+			
+			if($siexisterecibo>0){
+				echo "<tr>".
+						"<td>".$value["equipo_kardex"]."</td>".
+						"<td>".$value["descripcion"]."</td>".
+						"<td>".$value["cantidad_detalle"]."</td>".
+						"<td>".$value["precio_detalle"]."</td>".
+						"<td>".$value["total_detalle"]."</td>".
+						"<td>"."<div class='btn btn-danger eliminardetalle'  idkardex='".$value["idkardex"]."' id='".$value["iddetalle"]."'><i class='fa fa-times'></i></div>"."</td>".
+					"</tr>";
+			}
+			else{
+				$query = "DELETE FROM `detalle_recibo` WHERE numero_recibo_detalle='$numero_recibo_detalle'";
+				$stmt = Conexion::conectar()->prepare($query);
+				$stmt->execute();
+			}
 		}
 
 	break;
 	case "eliminardetalle":
 		$id=$_POST["id"];
+		$numero_recibo=$_POST["numero_recibo"];
 		$fecha_kardexh  =$_POST["fecha_kardexh"];
 		$transancion_kardexh  =$_POST["transancion_kardexh"];
 		$empleado_kardexh  =$_POST["empleado_kardexh"];
@@ -265,7 +294,7 @@ switch ($accion) {
 
 		/* *************************** */
 
-		$correlativoid="recibo".$id;
+		$correlativoid="recibo-".$numero_recibo;
 		$query = "DELETE FROM `historial_kardex` WHERE correlativo_kardexh='$correlativoid'";
 		echo $query;
 		$stmt = Conexion::conectar()->prepare($query);
@@ -317,6 +346,61 @@ switch ($accion) {
 			"</tr>";
 		}
 		echo $html;
+	break;
+	case "anularrecibo":
+
+		$numero_recibo="recibo-".$_POST["numero_recibo"];
+		$numero_recibo_detalle=$_POST["numero_recibo"];
+
+
+		/* ********************* */
+
+		function kardex($equipo_kardex1)
+		{
+					$query01 = "SELECT * FROM kardex WHERE equipo_kardex='$equipo_kardex1' ";
+					$sql = Conexion::conectar()->prepare($query01);
+					$sql->execute();
+					return $sql->fetchAll();
+		}
+		function historial_kardex($numero_recibo)
+		{
+					$query01 = "SELECT * FROM historial_kardex WHERE correlativo_kardexh='$numero_recibo' ";
+					$sql = Conexion::conectar()->prepare($query01);
+					$sql->execute();
+					return $sql->fetchAll();
+		}
+
+		$data_his_kardex=historial_kardex($numero_recibo);
+		foreach ($data_his_kardex as $value) {
+			$equipo_kardexh=$value["equipo_kardexh"];
+
+			$data04 = kardex($equipo_kardexh);
+			foreach ($data04 as $val_kardex) {
+				$cantidad_kardexh=floatval($value["cantidad_kardexh"]);
+				$cantida_actual_kardex=floatval($val_kardex["cantidad_kardex"]);
+				$equipo_kardex=$val_kardex["equipo_kardex"];
+
+				$total_inventario=$cantida_actual_kardex+$cantidad_kardexh;
+				$query01 = "UPDATE kardex SET cantidad_kardex='$total_inventario'
+					WHERE equipo_kardex='$equipo_kardexh'";
+					echo $query01;
+				$sql = Conexion::conectar()->prepare($query01);
+				$sql->execute();
+
+			}
+
+		}
+
+		/* *************************** */
+		$query = "DELETE FROM `historial_kardex` WHERE correlativo_kardexh='$numero_recibo'";
+		$stmt = Conexion::conectar()->prepare($query);
+		$stmt->execute();
+
+		$query = "DELETE FROM `detalle_recibo` WHERE numero_recibo_detalle='$numero_recibo_detalle'";
+		$stmt = Conexion::conectar()->prepare($query);
+		$stmt->execute();
+
+	
 	break;
 	case "cargardetalle":
 			$numero_recibo_detalle=$_POST["numero_planilla_liquidado"];

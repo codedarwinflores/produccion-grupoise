@@ -40,6 +40,7 @@ function getContent() {
           Agregar <?php echo $Nombre_del_Modulo;?>
 
         </button>
+        <a href="generarreporteinventario" class="btn btn-success">Reporte</a>
 
       </div>
 
@@ -454,6 +455,22 @@ MODAL AGREGAR
             </div>
 <!-- ******************** -->
 
+<!-- <input type="text"  placeholder="Ingresar Color" value="" autocomplete="off" required="" tabla_validar="tbl_armas" item_validar="codigo">
+ -->
+          <div class="s_color_arma">
+            <label for="">Seleccione Color</label>
+            <div class="input-group ">
+                <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
+                <select class="form-control input-lg input_color armasinput_color" name="nuevocolor" required>
+                  <option value="">Seleccione Color</option>
+                    <option value="NEGRO">NEGRO</option>  
+                    <option value="ACERO INOXIDABLE">ACERO INOXIDABLE</option>  
+                    <option value="SIN PAVON">SIN PAVON</option>  
+                </select>
+            </div>
+          </div>
+
+
          <!--  <div class="s_matricula_tipo">
             <label for="">Seleccione Tipo Matricula</label>
             <div class="input-group ">
@@ -502,6 +519,21 @@ MODAL AGREGAR
                     
           
 
+            <div class="form-group insergruponuevfoto_matricula">
+              <label for="">SUBIR FOTO MATRICULA</label>
+              <div class="panel">SUBIR FOTO MATRICULA</div>
+              <input type="file" class="form-control input-lg input_foto_matricula armasinput_foto_matricula" name="" id="insert_foto">
+              <p class="help-block">Peso máximo de la foto 2MB</p>
+              <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizar" width="100px">
+
+              
+            <input type="hidden" class="form-control input-lg ubi_foto " name="nuevofoto_matricula" placeholder="" value="" autocomplete="off" required="" tabla_validar="tbl_armas" item_validar="codigo">
+
+
+            </div>
+
+            
+
 
           </div>
 
@@ -515,7 +547,7 @@ MODAL AGREGAR
 
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
 
-          <button type="submit" class="btn btn-primary">Guardar <?php echo $Nombre_del_Modulo?></button>
+          <button type="submit" class="btn btn-primary guardarimagen">Guardar <?php echo $Nombre_del_Modulo?></button>
 
         </div>
 
@@ -609,6 +641,7 @@ MODAL EDITAR
              
 
 
+
       
 
            
@@ -638,6 +671,23 @@ MODAL EDITAR
                 <input type="text" class="form-control input-lg input_observacion_armas armasinput_observacion_armas" name="editarobservacion_armas" id="editarobservacion_armas" placeholder="Ingresar Observaciones" value="" autocomplete="off" required="" >
               </div>
             </div>
+
+            <!-- <input type="text" class="form-control input-lg input_color" name="editarcolor" id="editarcolor" placeholder="Ingresar Color" value="" autocomplete="off" required=""> -->
+            <div class="s_color_arma_editar">
+            <label for="">Seleccione Color</label>
+            <div class="input-group ">
+                <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
+                <select class="form-control input-lg input_color" name="editarcolor" id="editarcolor" required>
+                  <option value="">Seleccione Color</option>
+                    <option value="NEGRO">NEGRO</option>  
+                    <option value="ACERO INOXIDABLE">ACERO INOXIDABLE</option>  
+                    <option value="SIN PAVON">SIN PAVON</option>  
+                </select>
+            </div>
+          </div>
+
+
+
           <!-- ******************** -->
 
              <!-- **** -->
@@ -771,6 +821,21 @@ MODAL EDITAR
             
             <!-- **** -->
 
+
+            <!-- editar -->
+
+            <div class="form-group egruponuevfoto_matricula">
+              <label for="">SUBIR FOTO MATRICULA</label>
+              <div class="panel">SUBIR FOTO MATRICULA</div>
+              <input type="file" class="form-control input-lg editarsubir armasinput_foto_matricula" name="" id="update_foto">
+              <p class="help-block">Peso máximo de la foto 2MB</p>
+              <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizar editarprevisualizar" width="100px">
+
+              <input type="hidden" class="form-control input-lg input_foto_matricula" name="editarfoto_matricula" id="editarfoto_matricula" placeholder="" value="" autocomplete="off" required="">
+
+            </div>
+
+
           </div>
 
         </div>
@@ -783,7 +848,7 @@ MODAL EDITAR
 
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
 
-          <button type="submit" class="btn btn-primary">Modificar <?php echo $Nombre_del_Modulo?></button>
+          <button type="submit" class="btn btn-primary updateimagen">Modificar <?php echo $Nombre_del_Modulo?></button>
 
         </div>
 

@@ -9,12 +9,18 @@ function Conexion2()
 	$dbusr = 'root';
 	$dbpasw = '';
 
+	/* cpanel */
 	/* $dbhost='localhost'; 
 	$dbname='armonico_grupoise'; 
 	$dbusr='armonico_grupoise'; 
 	$dbpasw='riverPlate11!!';  */
 
 
+	/* hostinger */
+	/* $dbhost='localhost'; 
+	$dbname='u551001918_grupoise'; 
+	$dbusr='u551001918_grupoise'; 
+	$dbpasw='riverPlate11!!';  */
 
 	$db = new mysqli($dbhost, $dbusr, $dbpasw, $dbname);
 	$db->set_charset("utf8");

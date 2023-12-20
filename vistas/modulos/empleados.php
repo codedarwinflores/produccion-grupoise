@@ -31,6 +31,7 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
         <a href="fichadactilar" class="btn btn-danger">Imprimir dactilar</a>
         <a href="fichapersonal" class="btn btn-info">Imprimir Ficha Personal</a>
         <a href="generarcontratados" class="btn btn-warning">Imprimir Contratados</a>
+        <a href="reportesgeneral" class="btn btn-primary">Reportes</a>
 
 
       </div>
@@ -86,7 +87,7 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
 
             if($value["estado"]==3){
 
-              echo "inactivo";
+              /* echo "inactivo"; */
             }
             else{
 
@@ -163,10 +164,10 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
                         <button class="btn btn-info btnImprimirFicha"  style="width: 100%; background-color: #3c8dbc;"   empleado="'.$value["numero_documento_identidad"].'">Imprimir Ficha</button>
                       </li>
                       <li>
-                        <a href="regalo?id='.$value["id"].'" class="btn btn-info" style="background-color: #3c8dbc; color:#fff;">Regalo Uniforme</a>
+                        <a href="reciboempleado?id='.$value["id"].'&modulo=regalo" class="btn btn-info" style="background-color: #3c8dbc; color:#fff;">Regalo Uniforme</a>
                       </li>
                       <li>
-                        <a href="uniformedescuento?id='.$value["id"].'" style="background-color: #3c8dbc; color:#fff;" class="btn btn-info">Descuento Uniforme</a>
+                        <a href="reciboempleado?id='.$value["id"].'&modulo=descuento" style="background-color: #3c8dbc; color:#fff;" class="btn btn-info">Descuento Uniforme</a>
                       </li>
                       <li>
                          <a href="formretiro?id='.$value["id"].'" class="btn btn-info" style="background-color: #3c8dbc; color:#fff;">Formulario Retiro</a>
@@ -183,6 +184,8 @@ if($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor"){
                       <li>
                         
                       <a href="vistas/modulos/contrato.php?id='.$value["id"].'" class="btn btn-info" idempleado='.$value["id"].' target="_blank" style="background-color: #3c8dbc; color:#fff;">Contrato</a>
+
+                      <a href="segurovida?id='.$value["id"].'" class="btn btn-info" idempleado='.$value["id"].' style="background-color: #3c8dbc; color:#fff;">Seguro de Vida</a>
                       
                       </li>
                     </ul>

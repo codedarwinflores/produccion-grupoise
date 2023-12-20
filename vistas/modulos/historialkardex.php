@@ -75,11 +75,37 @@ $id= $results['id'];
          <tbody>
  
          <?php
+           function equipo_code($codigo)
+           {
+                 $query01 = "SELECT * FROM tbl_otros_equipos where codigo_equipo='$codigo'";
+                 $sql = Conexion::conectar()->prepare($query01);
+                 $sql->execute();
+                 return $sql->fetchAll();
+           }
+           function bicicleta_code($codigo)
+           {
+                 $query01 = "SELECT * FROM tbl_bicicleta where codigo_bicicleta='$codigo'";
+                 $sql = Conexion::conectar()->prepare($query01);
+                 $sql->execute();
+                 return $sql->fetchAll();
+           }
+           function vehiculo_code($codigo)
+           {
+                 $query01 = "SELECT * FROM tbl_vehiculos where codigo_vehiculo='$codigo'";
+                 $sql = Conexion::conectar()->prepare($query01);
+                 $sql->execute();
+                 return $sql->fetchAll();
+           }
+
             function kardex($equipo)
             {
-                  $query01 = "SELECT historial_kardex.id as idkardex,historial_kardex.*,tbl_otros_equipos.*,tbl_transacciones_equipo.*,tbl_clientes_ubicaciones.*
+                  /* $query01 = "SELECT historial_kardex.id as idkardex,historial_kardex.*,tbl_otros_equipos.*,tbl_transacciones_equipo.*,tbl_clientes_ubicaciones.*
                   FROM historial_kardex,tbl_otros_equipos,tbl_transacciones_equipo,tbl_clientes_ubicaciones
-                  where historial_kardex.transancion_kardexh=tbl_transacciones_equipo.id and historial_kardex.equipo_kardexh=tbl_otros_equipos.codigo_equipo and historial_kardex.ubicacion_kardexh= tbl_clientes_ubicaciones.id and historial_kardex.equipo_kardexh='$equipo'";
+                  where historial_kardex.transancion_kardexh=tbl_transacciones_equipo.id and historial_kardex.equipo_kardexh=tbl_otros_equipos.codigo_equipo and historial_kardex.ubicacion_kardexh= tbl_clientes_ubicaciones.id and historial_kardex.equipo_kardexh='$equipo'"; */
+                  $query01 = "SELECT historial_kardex.id as idkardex,historial_kardex.*,tbl_transacciones_equipo.*,tbl_clientes_ubicaciones.*
+                  FROM historial_kardex,tbl_transacciones_equipo,tbl_clientes_ubicaciones
+                  where historial_kardex.transancion_kardexh=tbl_transacciones_equipo.id
+                  and historial_kardex.ubicacion_kardexh= tbl_clientes_ubicaciones.id and historial_kardex.equipo_kardexh='$equipo'";
                   $sql = Conexion::conectar()->prepare($query01);
                   $sql->execute();
                   return $sql->fetchAll();
@@ -87,9 +113,28 @@ $id= $results['id'];
             $data03 = kardex($id);
             foreach ($data03 as $value) {
           
+              $name_equipo="";
+              $codigo=$value["equipo_kardexh"];
+              $data_equipo=equipo_code($codigo);
+              foreach ($data_equipo as $subvalue) {
+               $name_equipo=$subvalue["descripcion"];
+              }
+              $data_bici=bicicleta_code($codigo);
+              foreach ($data_bici as $subvalue) {
+               $name_equipo=$subvalue["codigo_bicicleta"]." ".$subvalue["descripcion_bicicleta"]." ".$subvalue["modelo_bicicleta"];
+              }
+
+              $data_vehi=vehiculo_code($codigo);
+              foreach ($data_vehi as $subvalue) {
+               $name_equipo=$subvalue["codigo_vehiculo"]." ".$subvalue["descripcion_vehiculo"]." ".$subvalue["modelo"];
+              }
+
+
+
            echo ' <tr>
                    <td>'.$value["fecha_kardexh"].'</td>
-                   <td>'.$value["descripcion"].'</td>
+                   <td>'.$name_equipo.'</td>
+                  
                    <td>'.$value["nombre"].'</td>
                    <td>'.$value["tipo_transaccion_equipo"].'</td>
                    <td>'.$value["empleado_kardexh"].'</td>

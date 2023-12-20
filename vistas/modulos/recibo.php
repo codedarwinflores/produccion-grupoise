@@ -106,7 +106,7 @@ function getContent() {
                          
                        <button class="btn btn-warning btnEditarrecibo" idrecibo="'.$value["idrecibo"].'" data-toggle="modal" data-target="#modalEditarrecibo"><i class="fa fa-pencil"></i></button>
  
-                       <button class="btn btn-danger btnEliminarrecibo" idrecibo="'.$value["idrecibo"].'"  liquidado="'.$value["liquidado_recibo"].'"><i class="fa fa-times"></i></button>
+                       <button class="btn btn-danger btnEliminarrecibo" numero_recibo="'.$value["numero_recibo"].'" idrecibo="'.$value["idrecibo"].'"  liquidado="'.$value["liquidado_recibo"].'"><i class="fa fa-times"></i></button>
  
                      </div>  
  
@@ -248,7 +248,7 @@ MODAL AGREGAR
                         {
                               $query01 = "SELECT  kardex.*,tbl_otros_equipos.*
                               FROM kardex,tbl_otros_equipos
-                              where kardex.equipo_kardex=tbl_otros_equipos.codigo_equipo";
+                              where kardex.equipo_kardex=tbl_otros_equipos.codigo_equipo and equipo_kardex like '%UNI%'";
                               $sql = Conexion::conectar()->prepare($query01);
                               $sql->execute();
                               return $sql->fetchAll();
@@ -310,6 +310,9 @@ MODAL AGREGAR
               <div class="input-group" bis_skin_checked="1">
                 <span class="input-group-addon"><i class="icono_valor_recibo"></i></span> 
                 <input type="text" class="form-control input-lg input_valor_recibo" name="nuevovalor_recibo" id="nuevovalor_recibo" placeholder="" value="" autocomplete="off" required="">
+
+                <input type="text" class="validar_datos" required="" style="visibility: hidden;">
+
               </div>
             </div>
 
@@ -360,6 +363,8 @@ MODAL AGREGAR
             
             <input type="hidden" class="form-control input-lg input_user_recibo" name="nuevouser_recibo" id="nuevouser_recibo" placeholder="" value=" <?php echo $_SESSION["id"];?>" autocomplete="off" required="">
              
+            <input type="hidden" name="empleados_modulo" class="empleados_modulo" value="">
+
 
           </div>
 
@@ -373,7 +378,7 @@ MODAL AGREGAR
 
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
 
-          <button type="submit" class="btn btn-primary">Guardar <?php echo $Nombre_del_Modulo?></button>
+          <button type="submit" class="btn btn-primary guardar_datos">Guardar <?php echo $Nombre_del_Modulo?></button>
 
         </div>
 
@@ -554,6 +559,9 @@ MODAL EDITAR
                 <div class="input-group" bis_skin_checked="1">
                   <span class="input-group-addon"><i class="icono_valor_recibo"></i></span> 
                   <input type="text" class="form-control input-lg input_valor_recibo" name="editarvalor_recibo" id="editarvalor_recibo" placeholder="" value="" autocomplete="off" required="">
+
+                  <input type="text" class="validar_datos" required="" style="visibility: hidden;">
+                  
                 </div>
               </div>
 
@@ -616,7 +624,7 @@ MODAL EDITAR
 
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
 
-          <button type="submit" class="btn btn-primary">Modificar <?php echo $Nombre_del_Modulo?></button>
+          <button type="submit" class="btn btn-primary guardarmodificacion_recibo">Modificar <?php echo $Nombre_del_Modulo?></button>
 
         </div>
 

@@ -107,6 +107,8 @@ class Controladorarmas{
 
 
 
+			  
+
 				global $tabla_armas;
 				global $namecolumnas_armas;
 				global $namecampos_armas;

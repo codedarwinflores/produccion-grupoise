@@ -1,6 +1,124 @@
 /* COLOCACION DE ICONOS */
 $(document).ready(function(){
 
+
+	    
+	/* validar si fecha esta cerrada */
+	$( ".agregarbtnmovimiento" ).on( "click", function() {
+			/* ******************************************* */
+				var valor=$("#nuevofecha_transacciones_agente").val();
+				var dataString = 'fecha='+valor+
+								'&modulo=transaccionagente'+
+								'&accion01=verificar';
+				$.ajax({
+					data: dataString,
+					url: "ajax/cierres.ajax.php",
+					type: 'post',
+					success: function (response) {
+
+						if(response>0){
+									
+								swal({
+
+									type: "error",
+									title: "Error, esta fecha esta cerrada",
+									showConfirmButton: true,
+									confirmButtonText: "Cerrar"
+
+								});
+								$("#nuevofecha_transacciones_agente").val("");
+						
+						}
+
+					}
+				});
+			/* ******************************************* */
+		
+	});
+	
+/* ******************************* */
+
+
+
+
+	/* validar si fecha esta cerrada */
+	$( "#editarfecha_transacciones_agente" ).on( "click", function() {
+		$( "#ic__datepicker-6" ).on( "click", function() {
+			/* ******************************************* */
+				var valor=$("#editarfecha_transacciones_agente").val();
+				var dataString = 'fecha='+valor+
+								'&modulo=transaccionagente'+
+								'&accion01=verificar';
+				$.ajax({
+					data: dataString,
+					url: "ajax/cierres.ajax.php",
+					type: 'post',
+					success: function (response) {
+
+						if(response>0){
+									
+								swal({
+
+									type: "error",
+									title: "Error, esta fecha esta cerrada",
+									showConfirmButton: true,
+									confirmButtonText: "Cerrar"
+
+								});
+								$("#editarfecha_transacciones_agente").val("");
+						
+						}
+
+					}
+				});
+			/* ******************************************* */
+		});
+	});
+	
+/* ******************************* */
+
+
+
+
+	/* validar si fecha esta cerrada */
+	$( "#nuevofecha_transacciones_agente" ).on( "click", function() {
+		$( "#ic__datepicker-2" ).on( "click", function() {
+			/* ******************************************* */
+				var valor=$("#nuevofecha_transacciones_agente").val();
+				var dataString = 'fecha='+valor+
+								'&modulo=transaccionagente'+
+								'&accion01=verificar';
+				$.ajax({
+					data: dataString,
+					url: "ajax/cierres.ajax.php",
+					type: 'post',
+					success: function (response) {
+
+						if(response>0){
+									
+								swal({
+
+									type: "error",
+									title: "Error, esta fecha esta cerrada",
+									showConfirmButton: true,
+									confirmButtonText: "Cerrar"
+
+								});
+								$("#nuevofecha_transacciones_agente").val("");
+						
+						}
+
+					}
+				});
+			/* ******************************************* */
+		});
+	});
+	
+/* ******************************* */
+
+
+
+
 	$(".ocultar").attr("style","visibility:hidden; height:0");
 
 	$('.incapacidad_select').on('change', function() {
@@ -50,7 +168,7 @@ $(document).ready(function(){
 
 
 		$(".input_fecha_desde_transacciones_agente").blur(function(){
-			$( "#ic__datepicker-3" ).click(function() {
+			$( "#ic__datepicker-4" ).click(function() {
 				var fechainicial = $(".input_fecha_desde_transacciones_agente").val();
 				var fechahasta = $(".input_fecha_hasta_transacciones_agente").val();
 				$(".input_numero_dias_transacciones_agente").val(restaFechas(fechainicial,fechahasta));
@@ -58,7 +176,7 @@ $(document).ready(function(){
 		});
 
 		$(".input_fecha_hasta_transacciones_agente").blur(function(){
-			$( "#ic__datepicker-4" ).click(function() {
+			$( "#ic__datepicker-5" ).click(function() {
 				var fechainicial = $(".input_fecha_desde_transacciones_agente").val();
 				var fechahasta = $(".input_fecha_hasta_transacciones_agente").val();
 				$(".input_numero_dias_transacciones_agente").val(restaFechas(fechainicial,fechahasta));
@@ -88,8 +206,22 @@ $(document).ready(function(){
  
  $(".tablas").on("click", ".nombreempleado", function(){
 
-	$(".agregarbtnmovimiento").removeAttr("disabled");
+	var estado_empleado=$(this).attr("estado_empleado");
+
+
+	if(estado_empleado!=2){
+		$(".agregarbtnmovimiento").attr("disabled","disabled");
+		$(".guardarvacante").attr("disabled","disabled");
+		$(".btnEliminartransacciones_agente").attr("disabled","disabled");
+		
+	}
+	else{
+		$(".agregarbtnmovimiento").removeAttr("disabled");
+		$(".guardarvacante").removeAttr("disabled");
+		$(".btnEliminartransacciones_agente").removeAttr("disabled");
+	}
 	var valor=$(this).attr("nombre");
+	var codigo=$(this).attr("codigoempleado");
 
 	var codigoempleado=$(this).attr("codigoempleado");
 	var idempleado=$(this).attr("idempleado");
@@ -98,7 +230,7 @@ $(document).ready(function(){
 	$("#txtidempleado").val(idempleado);
 
 	$(".input_idagente_transacciones_agente").val(codigoempleado);
-	$(".nombre_empleado").text("Empleado: "+valor);
+	$(".nombre_empleado").text("Empleado: "+codigo+"-"+valor);
 
 
 
@@ -114,9 +246,18 @@ $(document).ready(function(){
 				$('.tablacargadatos').DataTable().clear().destroy();
 				$("#cargardata").empty();
 				$("#cargardata").append(response);
+				
+				if(estado_empleado!=2){
+					$(".btnEliminartransacciones_agente").attr("disabled","disabled");
+				}
+				else{
+					$(".btnEliminartransacciones_agente").removeAttr("disabled");
+				}
+
 				$('.tablacargadatos').DataTable(
 					{
-						order: [[ 1, "desc" ]]
+						"ordering": false
+						/* order: [[ 1, "desc" ]] */
 					}
 				); 
 				

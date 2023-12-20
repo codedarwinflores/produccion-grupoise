@@ -5,6 +5,20 @@ $(document).ready(function(){
 	$(".cgrupo_fax").attr("style","visibility:hidden; height:0;");
 	$(".clientes_input_fax").removeAttr("required");
 
+
+	
+	$(".clabel_valor_hora_extra_cliente").text("Ingresar Valor Hora");
+	$(".clientes_input_valor_hora_extra_cliente").attr("placeholder","Ingresar Valor Hora");
+	$(".clientes_input_valor_hora_extra_cliente").attr("oninput","validateNumber(this);");
+
+	$(".cgrupo_des_valor_hora_extra_cliente").empty();
+	$(".cgrupo_des_valor_hora_extra_cliente").append($(".descontar"));
+
+	
+	$(".ecgrupo_des_valor_hora_extra_cliente").empty();
+	$(".ecgrupo_des_valor_hora_extra_cliente").append($(".editardescontar"));
+
+
 	/* ************************ */
 
 			$(".input_denominacion_cliente").removeAttr("required");
@@ -553,7 +567,12 @@ $(document).ready(function(){
 	$(".input_tipo_servicio").attr("placeholder", texto+" Tipo Servicio");
 	$(".input_posee_contrato").attr("placeholder", texto+" ¿Posee Contrato?");
 	$(".input_vigencia_contrato").attr("placeholder", texto+" Vigencia Contrato");
+	$(".input_vigencia_contrato").attr("readonly", "readonly");
+	$(".input_vigencia_contrato").addClass("calendario");
+	
 	$(".input_porcentaje_comision").attr("placeholder", texto+" Porcentaje Comisión");
+	
+
 	$(".input_porcentaje_comision").attr("step","0.01");
 
 	$(".input_dui").addClass("duis");
@@ -1160,6 +1179,10 @@ $(".tablas").on("click", ".btnEditarclientes", function(){
 			$("#editardui_cliente").val(respuesta["dui_cliente"]);
 			$("#editarcargo_cliente").val(respuesta["cargo_cliente"]);
 			$("#editardenominacion_cliente").val(respuesta["denominacion_cliente"]);
+
+			$("#editarvalor_hora_extra_cliente").val(respuesta["valor_hora_extra_cliente"]);
+			$("#editardes_valor_hora_extra_cliente").val(respuesta["des_valor_hora_extra_cliente"]);
+
 
 
 			if(respuesta["posee_contrato"]=="No"){

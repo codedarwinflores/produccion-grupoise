@@ -2,6 +2,27 @@
 $(document).ready(function(){
 
 
+	
+	$(".nuevoubicacionlabel_valor_hora_extra").text("Ingresar Valor Hora");
+	$(".ubicacioninput_valor_hora_extra").attr("placeholder","Ingresar Valor Hora");
+	$(".ubicacioninput_valor_hora_extra").attr("oninput","validateNumber(this);");
+	$(".ubicacioninput_valor_hora_extra").removeAttr("required","required");
+	$(".eubicacioncgrupo_valor_hora_extra ").attr("style","visibility:hidden");
+	$(".ubicacioncgrupo_valor_hora_extra ").attr("style","visibility:hidden");
+	 
+
+	/* ****************reaccion */
+	$(".nuevoubicacionlabel_reaccion_ubicacion").text("Ingresar Reacción");/* label */
+	$(".nuevoubicacionlabel_reaccion_ubicacion").attr("style","margin-top:40px");/* label */
+	$(".ubicacioninput_reaccion_ubicacion").attr("placeholder","Ingresar Reaccion");/* input */
+	$(".icono_reaccion_ubicacion").addClass("fa fa-user");/* icono */
+
+
+	/* *****************telefono */
+	$(".nuevoubicacionlabel_tele_reac_ubicacion").text("Ingresar Teléfono");/* label */
+	$(".ubicacioninput_tele_reac_ubicacion").attr("placeholder","Ingresar Teléfono");/* input */
+	$(".icono_tele_reac_ubicacion").addClass("fa fa-phone");/* icono */
+
 
 	var anterior_aumentar=$("#anterior_aumentar").val();
 	var actual_hombre=$("#actual_hombre").val();
@@ -1146,7 +1167,10 @@ $(".tablas").on("click", ".btnEditarubicacionc", function(){
 		success: function(respuesta){
 
 
-			
+
+			$("#editarreaccion_ubicacion").val(respuesta["reaccion_ubicacion"]);
+			$("#editartele_reac_ubicacion").val(respuesta["tele_reac_ubicacion"]);
+
 			$(".select2-selection__rendered").text(respuesta["idcliente"]+" - "+respuesta["nombrecliente"])
 	/* ********** */
 	$("#editarcodigo_ubicacion2").val(respuesta["codigo_ubicacion"]);
@@ -1164,6 +1188,7 @@ $(".tablas").on("click", ".btnEditarubicacionc", function(){
 	$("#editarcomodin_unidad_ubicacionc").val(respuesta["comodin_unidad_ubicacionc"]);
 	$("#editarcomodin_base_ubicacionc").val(respuesta["comodin_base_ubicacionc"]);
 	$("#editarreporte_equipo_ubicacionc").val(respuesta["reporte_equipo_ubicacionc"]);
+	$("#editarvalor_hora_extra").val(respuesta["valor_hora_extra"]);
 
 
 
