@@ -80,7 +80,7 @@ if (isset($results['cod'])) {
 
                 <div class="col-xs-3">
                     <input type="hidden" name="idUserLogs" id="idUserLogs">
-                    <label for="fecha_inicio_logs">Fecha Inicio: </label>
+                    <label for="fecha_inicio_logs">Fecha y Hora ingresó inicio: </label>
                     <div class="input-group">
 
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
@@ -91,7 +91,7 @@ if (isset($results['cod'])) {
 
                 </div>
                 <div class="col-xs-3">
-                    <label for="fecha_fin_logs">Fecha Fin: </label>
+                    <label for="fecha_fin_logs">Fecha y hora ingresó Fin: </label>
                     <div class="input-group">
 
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
@@ -101,15 +101,36 @@ if (isset($results['cod'])) {
                     </div>
                     <br>
                 </div>
+                <button class="btn btn-info pull-right btn-clear-search">
 
+                    <span>
+                        <i class="fa fa-eraser"></i> Limpiar Búsqueda
+                    </span>
+
+
+                </button>
 
             </div>
 
             <div class="box-body">
 
-                <div id="resultadosUsers">
+                <table class="table table-bordered table-striped dt-responsive HistorialUser" width="100%">
 
-                </div>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Usuario</th>
+                            <th>Fecha y Hora ingresó</th>
+                            <th>Fecha y hora cerró</th>
+                            <th>Duración</th>
+                            <th>Dispositivo</th>
+                            <th>IP</th>
+                            <th>Estado</th>
+                            <th width="4"></th>
+                        </tr>
+                    </thead>
+                </table>
+
 
             </div>
 

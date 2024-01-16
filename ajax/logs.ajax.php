@@ -55,6 +55,9 @@ class Logins_logs
                 $Nuevacondicion = " and logs.id_usuario=" . $_SESSION["id"];
             } else {
                 $Nuevacondicion = " logs.id_usuario=" . $_SESSION["id"];
+                if (!empty($between)) {
+                    $Nuevacondicion = " and logs.id_usuario=" . $_SESSION["id"];
+                }
             }
         }
 
@@ -63,7 +66,7 @@ class Logins_logs
         $campos = "logs.*, user.nombre";
         $tabla = "tbl_logs logs INNER JOIN usuarios user ON logs.id_usuario=user.id";
 
-        $respuesta = ModeloLogsUser::mostrarDatosLogs($campos, $tabla, $condicionFinal, "");
+        $respuesta = ModeloLogsUser::mostrarDatosLogs($campos, $tabla, $condicionFinal, " ORDER BY logs.fecha_hora desc");
         return $respuesta;
     }
 
@@ -103,101 +106,78 @@ class Logins_logs
         $respuesta = ModeloLogsUser::mostrarDatosLogs($campos, $tabla, $condicion, "");
         return $respuesta;
     }
+
+    public function mostrarTablaLogs()
+    {
+
+        $datos = self::ajaxConsultarLoginsLogs();
+
+
+        $data = array();
+
+        for ($i = 0; $i < count($datos); $i++) {
+
+            $objeto = new  DateTime($datos[$i]["fecha_hora"]);
+            $objetofin = new  DateTime($datos[$i]["fecha_fin"]);
+
+            $diferencia_formateada = "00:00";
+            if ($datos[$i]["fecha_fin"] != null && $datos[$i]["fecha_hora"] != null) {
+
+                // Calcula la diferencia
+                $intervalo = $objeto->diff($objetofin);
+                $diferencia_segundos = $intervalo->s + ($intervalo->i * 60) + ($intervalo->h * 3600);
+
+                // Formatea la diferencia en horas, minutos y segundos
+                $diferencia_formateada = sprintf("%02d:%02d:%02d", floor($diferencia_segundos / 3600), floor(($diferencia_segundos % 3600) / 60), $diferencia_segundos % 60);
+            }
+
+
+            if (strtoupper($datos[$i]["estado"]) === "ACTIVO") {
+
+                $btnActivar =  '<button class="btn btn-success bg-success btn-xs btnActivar" >Activado</button>';
+            } else {
+
+                $btnActivar = '<button class="btn btn-default bg-gray btn-xs btnActivar">Inactivo</button>';
+            }
+
+            $botones = '<button class="btn bg-purple btn-xs btnViewLogs" onclick="ViewLogs(\'' . $datos[$i]['id'] . '\', \'' . $datos[$i]['nombre'] . '\')" data-toggle="modal" data-target="#MyModalDetailLogs"> <span> <i class="fa fa-history"></i></span></button>';
+
+
+
+
+            $row = array(
+                $i + 1,
+                $datos[$i]["nombre"],
+                $objeto->format("l, d/m/Y h:i:s A"),
+                $datos[$i]["fecha_fin"] != null ? $objetofin->format("l, d/m/Y h:i:s A") : "00:00:00",
+                $diferencia_formateada . " H:m:s",
+                $datos[$i]["dispositivo"],
+                $datos[$i]["ip"],
+                $btnActivar,
+                $botones
+            );
+
+            $data[] = $row;
+        }
+
+        $response = array("data" => $data);
+        echo json_encode($response);
+    }
 }
 
+
 /*=============================================
-EDITAR CATEGORÍA
+EDITAR MOSTRAR DATA
 =============================================*/
-if (isset($_POST["idUsuario"]) && $_POST["actionsUser"]) {
+if (isset($_GET["idUsuario"]) && $_GET["actionsUser"]) {
 
-    $logins_logs = new Logins_logs();
-    $logins_logs->id_usuario = $_POST["idUsuario"];
-    $logins_logs->fecha_inicio = $_POST["fecha_inicio_logs"];
-    $logins_logs->fecha_fin = $_POST["fecha_fin_logs"];
-    $datos =  $logins_logs->ajaxConsultarLoginsLogs();
-?>
-
-    <script>
-        $(document).ready(function() {
-            var tabla = $('.historialuser').DataTable();
-
-            tabla.order([
-                [0, 'desc']
-            ]).draw();
-        });
-    </script>
-
-    <table class="table table-bordered table-striped dt-responsive historialuser" width="100%">
-
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Usuario</th>
-                <th>Fecha y Hora Inicio</th>
-
-                <th>Fecha y Hora Fin </th>
-                <th>Duración</th>
-                <th>Dispositivo</th>
-                <th>IP</th>
-                <th>Estado</th>
-                <th width="4"></th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <?php
-
-            $cont = 0;
-            foreach ($datos as $key => $value) {
-
-                $objeto = new  DateTime($value["fecha_hora"]);
-                $objetofin = new  DateTime($value["fecha_fin"]);
-
-                $diferencia_formateada = "00:00";
-                if ($value["fecha_fin"] != null && $value["fecha_hora"] != null) {
-
-                    // Calcula la diferencia
-                    $intervalo = $objeto->diff($objetofin);
-                    $diferencia_segundos = $intervalo->s + ($intervalo->i * 60) + ($intervalo->h * 3600);
-
-                    // Formatea la diferencia en horas, minutos y segundos
-                    $diferencia_formateada = sprintf("%02d:%02d:%02d", floor($diferencia_segundos / 3600), floor(($diferencia_segundos % 3600) / 60), $diferencia_segundos % 60);
-                }
-
-            ?>
-                <tr>
-                    <td><?php echo $cont + 1 ?></td>
-                    <td><?php echo $value["nombre"] ?></td>
-
-                    <td><?php echo $objeto->format("l, d/m/Y h:i:s A") ?></td>
-                    <td><?php echo $value["fecha_fin"] != null ? $objetofin->format("l, d/m/Y h:i:s A") : "00:00:00" ?></td>
-                    <td><?php echo $diferencia_formateada . " H:m:s" ?></td>
-                    <td><?php echo $value["dispositivo"] ?></td>
-                    <td><?php echo $value["ip"] ?></td>
-                    <td><?php if (strtoupper($value["estado"]) === "ACTIVO") {
-
-                            echo '<button class="btn btn-success bg-success btn-xs btnActivar" >Activado</button>';
-                        } else {
-
-                            echo '<button class="btn btn-default bg-gray btn-xs btnActivar">Inactivo</button>';
-                        }
-                        ?></td>
-                    <td> <button class="btn bg-purple btn-xs btnViewLogs" onclick="ViewLogs('<?php echo $value['id'] ?>','<?php echo $value['nombre'] ?>')" data-toggle="modal" data-target="#MyModalDetailLogs">
-                            <span>
-                                <i class="fa fa-history"></i>
-                            </span>
-                        </button></td>
-
-                </tr>
-            <?php
-                $cont++;
-            }
-            ?>
-        </tbody>
-
-    </table>
-
-<?php
+    if (isset($_SESSION["perfil"])) {
+        $logins_logs = new Logins_logs();
+        $logins_logs->id_usuario = is_numeric($_GET["idUsuario"]) ? $_GET["idUsuario"] : null;
+        $logins_logs->fecha_inicio =  (DateTime::createFromFormat('Y-m-d', $_GET["fecha_inicio_logs"]) ? $_GET["fecha_inicio_logs"] : null);;
+        $logins_logs->fecha_fin  =   (DateTime::createFromFormat('Y-m-d', $_GET["fecha_fin_logs"]) ? $_GET["fecha_fin_logs"] : null);
+        $logins_logs->mostrarTablaLogs();
+    }
 } elseif (isset($_POST["idUsuarioLogs"]) && $_POST["actionsUserLogs"]) {
 
     $logins_logs_acti = new Logins_logs();
@@ -244,7 +224,7 @@ if (isset($_POST["idUsuario"]) && $_POST["actionsUser"]) {
                     <td><?php echo $objeto->format("l, d/m/Y h:i:s A"); ?></td>
                     <td><?php echo $value["descripcion_modulo"] ?></td>
                     <td><?php echo $value["descripcion_actividad"] ?></td>
-                    <td><a href="<?php echo $value["urll"] ?>" target="_blank" rel="noopener noreferrer"><?php echo $value["urll"] ?></a></td>
+                    <td><span class="text-blue"><?php echo $value["urll"] ?></span></td>
 
 
                 </tr>
