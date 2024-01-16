@@ -58,7 +58,7 @@ class AjaxConsultarHorario
         $condicionFinal = $condicionFinal;
 
         $campos = "pol.estado_exam,pol.id_registro,pol.fecha_programada,pol.hora_programada,pol.hora_ingreso,pol.hora_inicio,pol.hora_finalizo, concat(evas.codigo,' - ',evas.nombres,' ',evas.primer_apellido,' ',evas.segundo_apellido) as nombre_evaluado, concat(morse.codigo_cliente,' - ',morse.nombre) as nombre_cliente, CONCAT(emp.codigo_empleado,' - ',emp.primer_nombre,' ',emp.segundo_nombre,' ',emp.tercer_nombre,' ',emp.primer_apellido,' ',emp.segundo_apellido,' ',emp.apellido_casada) as nombre_pol, concat(tipoexam.codigo,' - ',tipoexam.descripcion,' $',tipoexam.valor) as examenes";
-        $tabla = "`tbl_poligrafo` pol LEFT JOIN evaluados evas ON pol.id_evaluado = evas.id LEFT JOIN tbl_clientes_morse morse ON POL.id_cliente=morse.id LEFT JOIN tbl_empleados emp on pol.id_poligrafista = emp.id LEFT JOIN tipos_examenes tipoexam on pol.id_tipo_examen=tipoexam.id";
+        $tabla = "`tbl_poligrafo` pol LEFT JOIN evaluados evas ON pol.id_evaluado = evas.id LEFT JOIN tbl_clientes_morse morse ON pol.id_cliente=morse.id LEFT JOIN tbl_empleados emp on pol.id_poligrafista = emp.id LEFT JOIN tipos_examenes tipoexam on pol.id_tipo_examen=tipoexam.id";
 
         $respuesta = ModeloHorario::MostrarDatos($campos, $tabla, $condicionFinal, " ORDER BY fecha_programada DESC, hora_programada DESC, estado_exam DESC;");
         return $respuesta;
@@ -68,44 +68,48 @@ class AjaxConsultarHorario
 
     public function mostrarTablaHorario()
     {
+
         $datos = self::AjaxConsultarCalendar();
+
+
         $data = array();
 
+        $botones = "";
+        $estado = "";
+        $clase = "";
         $fechaActual = date('Y-m-d');
-
-        foreach ($datos as $i => $registro) {
-            $clase = strtoupper($registro["estado_exam"]) === "EN PROCESO" ? "warning" : (strtoupper($registro["estado_exam"]) === "FINALIZADO" ? "success" : "default");
+        for ($i = 0; $i < count($datos); $i++) {
+            $clase = "default";
+            if (strtoupper($datos[$i]["estado_exam"]) === "EN PROCESO") {
+                $clase = "warning";
+            } else if (strtoupper($datos[$i]["estado_exam"]) === "FINALIZADO") {
+                $clase = "success";
+            }
 
             $botones = "";
-            $botones .= '<div class="btn-group pull-right">
-                        <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-expanded="true">
-                            <i class="fa fa-th-list" aria-hidden="true"></i>&nbsp;<span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">';
-
-            if ($_SESSION["perfil"] === "Administrador" || $registro["fecha_programada"] >= $fechaActual) {
-                $botones .= "<li><a href='#' class='btn-procesar-reserva' id_registro='{$registro["id_registro"]}' data-toggle='modal' data-target='#procesarReservaProgramada'><i class='fa fa-building-o'></i> Procesar</a></li>
-                          <li><a href='#' onclick='alert(\"En desarrollo... \")'><i class='fa fa-trash-o'></i> Eliminar</a></li>";
+            $botones .= '<div class="btn-group pull-right" ><button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-expanded="true"><i class="fa fa-th-list" aria-hidden="true"></i>&nbsp;<span class="caret"></span></button><ul class="dropdown-menu" aria-labelledby="dropdownMenu1">';
+            if ($_SESSION["perfil"] === "Administrador" || $datos[$i]["fecha_programada"] >= $fechaActual) {
+                $botones .= "<li><a href='#' class='btn-procesar-reserva' id_registro='" . $datos[$i]["id_registro"] . "' data-toggle='modal' data-target='#procesarReservaProgramada'><i class='fa fa-building-o'></i> Procesar</a></li><li><a href='#' onclick='alert(\"En desarrollo... \")'><i class='fa fa-trash-o'></i> Eliminar</a></li>";
             }
 
             $botones .= "<li><a href='#'  onclick='alert(\"En desarrollo.. \")'><i class='fa fa-eye'></i>Ver</a></li></ul></div>";
-
-            $estado = "<button class='btn btn-$clase btn-xs  btn-short-text' title='{$registro["estado_exam"]}'>{$registro["estado_exam"]}</button>";
+            $estado = "<button class='btn btn-$clase btn-xs  btn-short-text' title='" . $datos[$i]["estado_exam"] . "'>" . $datos[$i]["estado_exam"] . "</button>";
 
             $row = array(
                 $i + 1,
-                $registro["id_registro"],
-                !empty($registro["nombre_cliente"]) ? $registro["nombre_cliente"] : "---",
-                !empty($registro["nombre_evaluado"]) ? $registro["nombre_evaluado"] : "---",
-                !empty($registro["nombre_pol"]) ? $registro["nombre_pol"] : "---",
-                !empty($registro["examenes"]) ? $registro["examenes"] : "---",
-                $registro["fecha_programada"],
-                $registro["hora_programada"],
-                $registro["hora_ingreso"],
-                $registro["hora_inicio"],
-                $registro["hora_finalizo"],
+                $datos[$i]["id_registro"],
+                !empty($datos[$i]["nombre_cliente"]) ? $datos[$i]["nombre_cliente"] : "---",
+                !empty($datos[$i]["nombre_evaluado"]) ? $datos[$i]["nombre_evaluado"] : "---",
+                !empty($datos[$i]["nombre_pol"]) ? $datos[$i]["nombre_pol"] : "---",
+                !empty($datos[$i]["examenes"]) ? $datos[$i]["examenes"] : "---",
+                $datos[$i]["fecha_programada"],
+                $datos[$i]["hora_programada"],
+                $datos[$i]["hora_ingreso"],
+                $datos[$i]["hora_inicio"],
+                $datos[$i]["hora_finalizo"],
                 $estado,
                 $botones,
+
             );
 
             $data[] = $row;
