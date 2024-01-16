@@ -1,8 +1,4 @@
 <?php
-header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1.
-header("Pragma: no-cache"); // HTTP 1.0.
-header("Expires: 0"); // Proxies.
-
 
 require_once "controladores/plantilla.controlador.php";
 require_once "controladores/usuarios.controlador.php";
@@ -345,24 +341,31 @@ require_once "modelos/segurovida.modelo.php";
 require_once "controladores/permisos.controlador.php";
 require_once "modelos/permisos.modelo.php";
 
+//PERMISOS
+require_once "controladores/tipoExamen.controlador.php";
+require_once "modelos/tipoExamen.modelo.php";
 
-//minutos
-require_once "controladores/minutos.controlador.php";
-require_once "modelos/minutos.modelo.php";
+//PERMISOS
+require_once "controladores/tipoPregunta.controlador.php";
+require_once "modelos/tipoPregunta.modelo.php";
 
+//PERMISOS
+require_once "controladores/preguntas.controlador.php";
+require_once "modelos/preguntas.modelo.php";
 
-//minutos
-require_once "controladores/bitacora.controlador.php";
-require_once "modelos/bitacora.modelo.php";
+//PERMISOS
+require_once "controladores/evaluados.controlador.php";
+require_once "modelos/evaluados.modelo.php";
 
+//PERMISOS
+require_once "controladores/examenes.controlador.php";
+require_once "modelos/examenes.modelo.php";
 
-//series
-require_once "controladores/series.controlador.php";
-require_once "modelos/series.modelo.php";
 
 //Modelo de Logs
 require_once "./extensiones/navegador/vendor/autoload.php";
 require_once "modelos/logs.modelo.php";
+
 
 $plantilla = new ControladorPlantilla();
 $plantilla->ctrPlantilla();

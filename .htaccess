@@ -4,6 +4,11 @@ RewriteEngine On
 
 RewriteRule ^([-a-zA-Z0-9]+)$ index.php?ruta=$1
 
+
+SetEnv PHP_VALUE "log_errors = On"
+SetEnv PHP_ADMIN_VALUE "display_errors = On"
+php_flag display_errors On
+
 # php -- BEGIN cPanel-generated handler, do not edit
 # Set the “ea-php72” package as the default “PHP” programming language.
 <IfModule mime_module>
