@@ -357,9 +357,6 @@ require_once "modelos/preguntas.modelo.php";
 require_once "controladores/evaluados.controlador.php";
 require_once "modelos/evaluados.modelo.php";
 
-//PERMISOS
-require_once "controladores/examenes.controlador.php";
-require_once "modelos/examenes.modelo.php";
 
 
 //Modelo de Logs
