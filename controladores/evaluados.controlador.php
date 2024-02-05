@@ -130,7 +130,7 @@ class ControladorEvaluado
 				if (in_array($imageFileType, $allowedTypes)) {
 					if (move_uploaded_file($_FILES["nuevaFotografia"]["tmp_name"], $targetFile)) {
 						$url = $targetFile; // Actualizar $url con la nueva dirección después de la carga exitosa
-						if (!empty($_POST["foto_edit"])) {
+						if (!empty($_POST["foto_edit"]) && file_exists($_POST["foto_edit"])) {
 
 							unlink($_POST["foto_edit"]);
 						}

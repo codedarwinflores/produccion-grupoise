@@ -1,9 +1,9 @@
 $(document).ready(function () {
   // Captura el evento cuando se muestra el popup
-
   cerrarModal();
   cargarHoras();
-
+  getFormatoExamenPlantillaSelect();
+  cerrarModalReservaExamen();
   $(document).ready(function () {
     // Attach click event to the button
     $("#AddPoliBtn").on("click", function () {
@@ -306,8 +306,8 @@ function mostrarAlerta(id, tipo, mensaje) {
 
   // Ocultar la alerta después de unos segundos (opcional)
   setTimeout(function () {
-    $(id).fadeOut(3500);
-  }, 3500);
+    $(id).fadeOut(5500);
+  }, 5500);
 }
 
 /* CARGAR DATOS */
@@ -544,6 +544,14 @@ function cargarDataReservaPoligrafista() {
             $(this).attr("data-type", "time");
             $(this).attr("data-pk", data[1]);
           }
+
+          if (colIndex == 7) {
+            // Add the fecha value as a data attribute
+            $(this).attr("data-name", "hora_ingreso_curso");
+            $(this).attr("class", "hora_ingreso_curso");
+            $(this).attr("data-type", "time");
+            $(this).attr("data-pk", data[1]);
+          }
         });
       },
 
@@ -617,8 +625,17 @@ $(".Poligrafista_register").editable({
       .find(".fecha_programada")
       .text()
       .trim();
+    var HoraElementoIngreso = $(this)
+      .closest("tr")
+      .find(".hora_ingreso_curso")
+      .text()
+      .trim();
+
     if (compararFechas(fechaElemento)) {
       return "No se puede editar elementos en fechas pasadas.";
+    }
+    if (HoraElementoIngreso !== "00:00:00") {
+      return "¡El examen ya se encuentra en proceso!";
     }
 
     // Validación adicional si es necesario
@@ -681,8 +698,17 @@ function inicializarXEditable(
             .find(".fecha_programada")
             .text()
             .trim();
+
+          var HoraElementoIngreso = $(this)
+            .closest("tr")
+            .find(".hora_ingreso_curso")
+            .text()
+            .trim();
           if (compararFechas(fechaElemento)) {
             return "No se puede editar elementos en fechas pasadas.";
+          }
+          if (HoraElementoIngreso !== "00:00:00") {
+            return "¡El examen ya se encuentra en proceso!";
           }
 
           if ($.trim(value) === "") {
@@ -830,28 +856,64 @@ $(".Poligrafista_register").on("click", ".btn-procesar-reserva", function () {
         respuesta["id_poligrafista_id"] > 0 &&
         respuesta["id_tipoexam_id"] > 0
       ) {
+        $("#id_edit_id_registro").val(respuesta["id_registro"]);
         /*   console.log(JSON.stringify(respuesta)); */
-        $("#cliente_programar").val(respuesta["nombre"]);
-        $("#evaluado_programar").val(respuesta["nombre_evaluado"]);
-        $("#poligrafo_programar").val(respuesta["nombre_pol"]);
-        $("#tipoexamen_programar").val(respuesta["examenes"]);
+        $("#cliente_programar")
+          .val(
+            respuesta["codigo_cliente"] +
+              " - " +
+              respuesta["nombre"].replace(/\s+/g, " ")
+          )
+          .attr(
+            "title",
+            respuesta["codigo_cliente"] +
+              " - " +
+              respuesta["nombre"].replace(/\s+/g, " ")
+          );
+        $("#evaluado_programar")
+          .val(respuesta["nombre_evaluado"].replace(/\s+/g, " "))
+          .attr("title", respuesta["nombre_evaluado"].replace(/\s+/g, " "));
+        $("#poligrafo_programar")
+          .val(respuesta["nombre_pol"].replace(/\s+/g, " "))
+          .attr("title", respuesta["nombre_pol"].replace(/\s+/g, " "));
+
+        $("#tipoexamen_programar")
+          .val(respuesta["examenes"].replace(/\s+/g, " "))
+          .attr("title", respuesta["examenes"].replace(/\s+/g, " "));
+
         $("#precio_programar").val(respuesta["valor"]);
         $("#codigo_programar").val(
-          ("000" + respuesta["id_registro"] + "/2024").toString()
+          respuesta["codigo_programar_exam"].toString()
         );
+        $("#sol_nombre_programar")
+          .val(respuesta["solicitado_nombre"])
+          .attr("title", respuesta["solicitado_nombre"]);
 
-        $("#sol_nombre_programar").val(respuesta["solicitado_nombre"]);
-        $("#sol_apellido_programar").val(respuesta["solicitado_apellido"]);
+        $("#sol_apellido_programar")
+          .val(respuesta["solicitado_apellido"])
+          .attr("title", respuesta["solicitado_apellido"]);
+
         $("#fecha_sol_programar").val(respuesta["fecha_solicitud"]);
         $("#sol_hora_programar").val(respuesta["hora"]);
-        $("#sol_cargo_programar").val(respuesta["solicitado_cargo"]);
+        $("#sol_cargo_programar")
+          .val(respuesta["nombre_cargo"])
+          .attr("title", respuesta["nombre_cargo"]);
+
         $("#sol_correo_programar").val(respuesta["solicitado_correo"]);
         $("#sol_telefono_programar").val(respuesta["solicitado_telefono"]);
         $("#sol_entrega_programar").val(
           respuesta["solicitado_direccion_entrega"]
         );
 
-        /*  cargarPreguntas(); */
+        /* HORA */
+        $("#hora_ingreso_programar").val(respuesta["hora_ingreso"]);
+        $("#hora_inicio_programar").val(respuesta["hora_inicio"]);
+        verificarHoraInicio(respuesta["hora_ingreso"]);
+        $("#format_examenes_programar")
+          .val(respuesta["id_formato_examen"])
+          .trigger("change");
+        actualizarPrecioExamen(respuesta["id"], respuesta["id_tipoexam_id"]);
+        consultarRowPreguntasExamen();
       } else {
         alert(
           "SELECIONA LO SIGUIENTE: \n 1. Cliente\n 2. Evaluado\n 3. Poligrafista\n y Tipo Examen\n para poder continuar...👆"
@@ -867,14 +929,412 @@ $(".Poligrafista_register").on("click", ".btn-procesar-reserva", function () {
   });
 });
 
-$("#comenzarExamen").on("click", function () {
-  alert("Comenzó");
+function editarPreguntaSave(campo, valor, id, elemento) {
+  /*  alert("ID: " + id + ", Campo: " + campo + ", Valor: " + valor); */
+  let parametros = {
+    editarCampoPreguntas: "editarCampoPreguntas",
+    campo: campo,
+    valor: valor,
+    id_preg: id,
+  };
+  $.ajax({
+    data: parametros,
+    url: "./ajax/programarexamen.ajax.php", // Verifica la ruta correcta
+    type: "POST",
+    dataType: "json",
+    success: function (response) {
+      /*  console.log(JSON.stringify(response)); */
 
-  $("#hora_ingreso_programar").val(obtenerHoraElSalvador());
-  $("#hora_inicio_programar").val(obtenerHoraElSalvador());
+      if (response.status === "ok") {
+        elemento.css("border", "solid 2px lightgreen");
+      } else {
+        elemento.css("border", "solid 2px lightcoral");
+      }
+    },
+    error: function (error) {
+      console.error("Error en la solicitud AJAX:", error);
+      elemento.css("border", "2px solid red");
+    },
+  });
+}
 
-  cargarPreguntas();
+$(document).on("change", ".campospreguntas", function () {
+  var id = $(this).data("id");
+  var campo = $(this).data("campo");
+  var valor = $(this).val();
+
+  let elemento = $(this);
+
+  /* HACER LA PETICIÓN AJAX PARA EDITAR CADA CAMPO */
+  editarPreguntaSave(campo, valor, id, elemento);
+  // Convertir el valor a mayúsculas
+  var valorMayusculas = valor.toUpperCase();
+  if (campo === "resultado") {
+    // Obtener el campo de observación en el mismo tr
+    var campoObservacion = $(this)
+      .closest("tr")
+      .find('textarea.campospreguntas[data-campo="observacion"]');
+
+    // Aplicar clases de estilo a todos los inputs y selects en el mismo tr
+    $(this)
+      .closest("tr")
+      .find("textarea.campospreguntas, select.campospreguntas")
+      .each(function () {
+        if (valorMayusculas === "CONFIABLE") {
+          $(this).closest("tr").css("background-color", "lightgreen");
+          $(this).css("color", "green"); // Cambiar a tu color de texto para "CONFIABLE"
+        } else if (valorMayusculas === "NO CONFIABLE") {
+          $(this).closest("tr").css("background-color", "lightcoral");
+          $(this).css("color", "red"); // Cambiar a tu color de texto para "NO CONFIABLE"
+        } else {
+          $(this).closest("tr").css("background-color", "#f4f4f4");
+          $(this).css("color", "#555"); // Cambiar a tu color de texto para "NO CONFIABLE"
+          $(this).closest("tr td").css("border", "1px solid #f4f4f4");
+        }
+      });
+
+    // Habilitar/deshabilitar el campo de observación según la opción seleccionada
+    campoObservacion.prop("readonly", valorMayusculas !== "NO CONFIABLE");
+
+    // Si no es "No Confiable", deshabilitar el campo de observación nuevamente
+    if (valorMayusculas !== "NO CONFIABLE") {
+      /* HACER LA PETICIÓN AJAX PARA EDITAR CADA CAMPO */
+      editarPreguntaSave("observacion", "", id, elemento);
+      campoObservacion.val(""); // También puedes limpiar el valor si es necesario
+      campoObservacion.prop("readonly", true);
+    }
+  }
 });
+
+// Cuando cambia el valor del primer input
+$("#porcentaje_cliente").on("input", function () {
+  // Obtener el valor del primer input como número flotante
+  var valorInput1 = parseFloat($(this).val()) || 0;
+
+  // Limitar el valor del primer input a un rango de 0 a 100
+  valorInput1 = Math.min(Math.max(valorInput1, 0), 100);
+
+  // Calcular el valor del segundo input
+  var valorInput2 = 100 - valorInput1;
+
+  // Asignar los valores a los inputs
+  $("#porcentaje_cliente").val(valorInput1.toFixed(2));
+  $("#porcentaje_evaluado").val(valorInput2.toFixed(2));
+});
+
+// Cuando cambia el valor del segundo input
+$("#porcentaje_evaluado").on("input", function () {
+  // Obtener el valor del segundo input como número flotante
+  var valorInput2 = parseFloat($(this).val()) || 0;
+
+  // Limitar el valor del segundo input a un rango de 0 a 100
+  valorInput2 = Math.min(Math.max(valorInput2, 0), 100);
+
+  // Calcular el valor del primer input
+  var valorInput1 = 100 - valorInput2;
+
+  // Asignar los valores a los inputs
+  $("#porcentaje_cliente").val(valorInput1.toFixed(2));
+  $("#porcentaje_evaluado").val(valorInput2.toFixed(2));
+});
+
+function cerrarModalReservaExamen() {
+  $("#procesarReservaProgramada").on("hidden.bs.modal", function () {
+    $("#id_edit_id_registro").val(0);
+    $("#format_examenes_programar").val(0).trigger("change");
+    $("#format_examenes_programar")
+      .prop("readonly", false)
+      .select2("readonly", false);
+    $("#mensajeAlertExamenProgramadoModal").fadeOut(0);
+    $("#RegistrarProcedimientoReserva")[0].reset();
+    $("#comenzarExamenHoraInicio").prop("disabled", true);
+    $("#btn-generar-preguntas").prop("disabled", true);
+    $("#procesarReservaProgramada").modal("hide");
+    return false;
+  });
+}
+
+$("#btn-generar-preguntas").on("click", function () {
+  let formato = $("#format_examenes_programar").val();
+  if (formato > 0) {
+    // Mostrar SweetAlert con una pregunta
+    swal({
+      title:
+        "¿Estás seguro de generar las preguntas con el formato seleccionado?",
+      text: "Esta acción no se puede deshacer",
+      type: "info",
+      showCancelButton: true,
+      confirmButtonText: "Sí, estoy seguro",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      // Resultado de la pregunta
+      if (result.value) {
+        let hora_actual = obtenerHoraElSalvador();
+        $("#hora_inicio_programar").val(hora_actual);
+        generarPreguntasExamen();
+        cargarDataReservaPoligrafista();
+      } else {
+        swal("Cancelado", "La acción ha sido cancelada", "info");
+      }
+    });
+  } else {
+    swal("Formato de examenes", "-Selecciona un formato", "error");
+  }
+});
+
+$(document).on("click", ".btn-eliminar-pregunta-id", function () {
+  let id = $(this).data("id");
+  if (id > 0) {
+    // Mostrar SweetAlert con una pregunta
+    swal({
+      title: "¿Estás seguro de eliminar el registro?",
+      text: "Esta acción no se puede deshacer",
+      type: "info",
+      showCancelButton: true,
+      confirmButtonText: "Sí, estoy seguro",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      // Resultado de la pregunta
+      if (result.value) {
+        let parametros = {
+          eliminarPreguntaExamenFormato: "eliminarPreguntaExamenFormato",
+          id: id,
+        };
+        $.ajax({
+          data: parametros,
+          url: "./ajax/programarexamen.ajax.php", // Verifica la ruta correcta
+          type: "POST",
+          dataType: "json",
+          success: function (response) {
+            /*  console.log(JSON.stringify(response)); */
+
+            if (response.status === "ok") {
+              cargarPreguntas();
+              consultarRowPreguntasExamen();
+            } else {
+              swal("Error", "Error al eliminar la pregunta", "error");
+            }
+          },
+          error: function (error) {
+            console.error("Error en la solicitud AJAX:", error);
+          },
+        });
+      }
+    });
+  } else {
+    swal("Error ID", "-Selecciona ID Pregunta", "error");
+  }
+});
+
+function consultarRowPreguntasExamen() {
+  // Asegúrate de definir tblhoras si es necesario
+  let parametros = {
+    obtenerRowPreguntas: "obtenerPreguntasRow",
+    id_tbl_poligrafo: $("#id_edit_id_registro").val(),
+  };
+  $.ajax({
+    data: parametros,
+    url: "./ajax/programarexamen.ajax.php", // Verifica la ruta correcta
+    type: "POST",
+    dataType: "json",
+    success: function (response) {
+      /*  console.log(JSON.stringify(response)); */
+      if (response.status === "ok") {
+        cargarPreguntas();
+      }
+      if (
+        response.status === "ok" ||
+        $("#hora_ingreso_programar").val() === "00:00:00"
+      ) {
+        $("#btn-generar-preguntas").prop("disabled", true);
+        $("#format_examenes_programar")
+          .prop("readonly", true)
+          .select2("readonly", true);
+      } else {
+        $("#btn-generar-preguntas").prop("disabled", false);
+        $("#format_examenes_programar")
+          .prop("readonly", false)
+          .select2("readonly", false);
+      }
+    },
+    error: function (error) {
+      console.error("Error en la solicitud AJAX:", error);
+    },
+  });
+}
+
+function generarPreguntasExamen() {
+  // Asegúrate de definir tblhoras si es necesario
+  let parametros = {
+    generarPreguntasFormatoExamen: "generarPreguntasFormatoExamen",
+    id_tbl_poligrafo: $("#id_edit_id_registro").val(),
+    id_formato_examen: $("#format_examenes_programar").val(),
+    hora_inicio_programar: $("#hora_inicio_programar").val(),
+  };
+  $.ajax({
+    data: parametros,
+    url: "./ajax/programarexamen.ajax.php", // Verifica la ruta correcta
+    type: "POST",
+    dataType: "json",
+    success: function (response) {
+      if (response.status === "ok") {
+        cargarPreguntas();
+        consultarRowPreguntasExamen();
+        swal("Éxito", "Preguntas generadas correctamente", "success");
+      } else {
+        swal("Error", "Error en generar las preguntas", "error");
+      }
+    },
+    error: function (error) {
+      console.error("Error en la solicitud AJAX:", error);
+    },
+  });
+}
+
+$("#comenzarExamenHoraInicio").on("click", function () {
+  /*  $("#hora_ingreso_programar").val(obtenerHoraElSalvador()); */
+  var camposVacios = validarTodosLosCampos();
+  if (camposVacios.length === 0) {
+    let hora_actual = obtenerHoraElSalvador();
+    $("#hora_ingreso_programar").val(hora_actual);
+    let id_registro = $("#id_edit_id_registro").val();
+    $.ajax({
+      url: "./ajax/programarexamen.ajax.php",
+      type: "POST",
+      dataType: "json",
+      data: {
+        UpdatedHourAndState: "ok",
+        hora: hora_actual,
+        id_registro: id_registro,
+      },
+      success: function (data) {
+        if (data.status === "ok") {
+          // La hora es mayor que 00:00:00
+          $("#btn-generar-preguntas").prop("disabled", false);
+          $("#comenzarExamenHoraInicio").prop("disabled", true);
+          consultarRowPreguntasExamen();
+          cargarDataReservaPoligrafista();
+        }
+      },
+      error: function (error) {
+        console.log("Error al obtener formato:", error);
+      },
+    });
+  } else {
+    mostrarAlerta(
+      "#mensajeAlertExamenProgramadoModal",
+      "danger",
+      "¡Completa los campos del <strong>solicitante</strong> para el módulo de <a href='clientemorse' target='_blank'><strong>CLIENTES</strong></a>!<br>" +
+        mostrarAlertaCamposVacios(camposVacios)
+    );
+    scrollToTop();
+  }
+});
+
+function validarTodosLosCampos() {
+  var campos = [
+    { id: "sol_nombre_programar", nombre: "Nombre Solicitante" },
+    { id: "sol_apellido_programar", nombre: "Apellido Solicitante" },
+    { id: "fecha_sol_programar", nombre: "Fecha Solicitante" },
+    { id: "sol_hora_programar", nombre: "Hora Solicitante" },
+    { id: "sol_cargo_programar", nombre: "Cargo Solicitante" },
+    { id: "sol_correo_programar", nombre: "Correo Solicitante" },
+    { id: "sol_telefono_programar", nombre: "Teléfono Solicitante" },
+    { id: "sol_entrega_programar", nombre: "Dirección de Entrega Solicitante" },
+    { id: "cargo_programar", nombre: "Cargo" },
+  ];
+
+  var camposFaltantes = [];
+
+  for (var i = 0; i < campos.length; i++) {
+    var valorCampo = $("#" + campos[i].id).val();
+
+    if (valorCampo.trim() === "" || valorCampo.length === 0) {
+      camposFaltantes.push(campos[i].nombre);
+    }
+  }
+
+  return camposFaltantes;
+}
+
+function mostrarAlertaCamposVacios(camposFaltantes) {
+  var mensaje = "Por favor, completa los siguientes campos:\n";
+  mensaje += "<ul>";
+
+  for (var i = 0; i < camposFaltantes.length; i++) {
+    mensaje += "<li>" + camposFaltantes[i] + "</li>";
+  }
+
+  mensaje += "</ul>";
+
+  return mensaje;
+}
+
+function verificarHoraInicio(hora) {
+  // Validar el formato de la hora usando una expresión regular
+  var regex = /^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/;
+  if (!regex.test(hora)) {
+    console.error("Formato de hora inválido. Utilice el formato HH:mm:ss.");
+    return;
+  }
+
+  // Convertir la hora a segundos para facilitar la comparación
+  var [hours, minutes, seconds] = hora.split(":");
+  var totalSeconds =
+    parseInt(hours, 10) * 3600 +
+    parseInt(minutes, 10) * 60 +
+    parseInt(seconds, 10);
+
+  // Comparar con la hora de referencia (00:00:00)
+  if (totalSeconds > 0) {
+    // La hora es mayor que 00:00:00
+    $("#btn-generar-preguntas").prop("disabled", false);
+    $("#comenzarExamenHoraInicio").prop("disabled", true);
+  } else {
+    // La hora es igual o anterior a 00:00:00
+    $("#btn-generar-preguntas").prop("disabled", true);
+    $("#comenzarExamenHoraInicio").prop("disabled", false);
+  }
+}
+
+function getFormatoExamenPlantillaSelect() {
+  $.ajax({
+    url: "./ajax/programarexamen.ajax.php",
+    type: "POST",
+    dataType: "json",
+    data: { getFormatoExamenPlantillaFormato: "ok" },
+    success: function (data) {
+      // Llenar el select de países
+      var departSelect = $("#format_examenes_programar");
+
+      // Limpiar el select antes de agregar nuevas opciones
+      departSelect.empty();
+
+      // Agregar la opción por defecto
+      departSelect.append('<option value="0" selected>Seleccione</option>');
+
+      // Iterar sobre los países y agregar opciones al select
+      $.each(data, function (index, formato) {
+        departSelect.append(
+          '<option value="' +
+            formato.id +
+            '">' +
+            formato.codigo +
+            " - " +
+            formato.concepto +
+            "</option>"
+        );
+      });
+    },
+    error: function (error) {
+      console.log("Error al obtener formato:", error);
+    },
+  });
+}
+
+function scrollToTop() {
+  $(".modal-body").animate({ scrollTop: 0 }, 500);
+}
 
 /* CARGAR DATOS */
 function cargarPreguntas() {
@@ -882,12 +1342,13 @@ function cargarPreguntas() {
   $("#loadingSpinnerPreguntas").show();
   // Asegúrate de definir tblhoras si es necesario
   let parametros = {
-    getPreguntas: "preguntas",
+    getPreguntasExamen: "preguntas",
+    id_tbl_poligrafo: $("#id_edit_id_registro").val(),
   };
   $.ajax({
     data: parametros,
     url: "./ajax/programarexamen.ajax.php", // Verifica la ruta correcta
-    type: "post",
+    type: "POST",
 
     success: function (response) {
       // Actualiza el contenido del elemento sin el efecto fadeIn
@@ -899,6 +1360,33 @@ function cargarPreguntas() {
 
     complete: function () {
       $("#loadingSpinnerPreguntas").hide();
+    },
+  });
+}
+
+function actualizarPrecioExamen(id_cliente, id_tipoexamen) {
+  // Asegúrate de definir tblhoras si es necesario
+  let parametros = {
+    getPrecioExamen: "precioExamen",
+    id_clientemorse_precio: id_cliente,
+    id_tipoexamen_precio: id_tipoexamen,
+  };
+  $.ajax({
+    data: parametros,
+    url: "./ajax/programarexamen.ajax.php", // Verifica la ruta correcta
+    type: "post",
+
+    success: function (response) {
+      // Actualiza el contenido del elemento sin el efecto fadeIn
+      /* console.log(response); */
+      $("#precioUpdate").html("");
+      if (!isNaN(response) && parseFloat(response) > 0) {
+        $("#precio_programar").val(response);
+        $("#precioUpdate").html("Precio sugerido: $ " + response);
+      }
+    },
+    error: function (error) {
+      console.error("Error en la solicitud AJAX:", error);
     },
   });
 }

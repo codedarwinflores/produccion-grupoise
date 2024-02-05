@@ -228,6 +228,76 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $pk = $_POST["pk"];
 
         if (ModeloHorario::UpdateTblPoligrafo($campo, $valor, $pk)) {
+
+            echo json_encode(["status" => "ok"]);
+        } else {
+            echo json_encode(["status" => "error"]);
+        }
+    }
+
+
+    /* ACTUALIZAR HORA*/
+    if (isset($_POST["UpdatedHourAndState"]) && $_POST["UpdatedHourAndState"] === "ok" && is_numeric($_POST["id_registro"]) && $_POST["id_registro"] > 0) {
+        $hora = $_POST["hora"];
+        $id_registro = $_POST["id_registro"];
+
+
+        if (ModeloHorario::UpdateTblHoraEstado($hora, $id_registro)) {
+            echo json_encode(["status" => "ok"]);
+        } else {
+            echo json_encode(["status" => "error"]);
+        }
+    }
+
+    /* ACTUALIZAR CAMPO PREGUNTA*/
+    if (isset($_POST["editarCampoPreguntas"]) && $_POST["editarCampoPreguntas"] === "editarCampoPreguntas" && is_numeric($_POST["id_preg"]) && $_POST["id_preg"] > 0) {
+        $id = $_POST["id_preg"];
+        $campo = $_POST["campo"];
+        $valor = $_POST["valor"];
+
+
+        if (ModeloHorario::UpdatePreguntaExamenPoligrafo($id, $campo, $valor)) {
+            echo json_encode(["status" => "ok"]);
+        } else {
+            echo json_encode(["status" => "error"]);
+        }
+    }
+
+    /* CONSULTAR PREGUNTAS DE LA CITA*/
+    if (isset($_POST["obtenerRowPreguntas"]) && $_POST["obtenerRowPreguntas"] === "obtenerPreguntasRow" && is_numeric($_POST["id_tbl_poligrafo"]) && $_POST["id_tbl_poligrafo"] > 0) {
+        $id_tbl_poligrafo = $_POST["id_tbl_poligrafo"];
+
+        if (ModeloHorario::ConsultarPreguntasExamen($id_tbl_poligrafo)) {
+            echo json_encode(["status" => "ok"]);
+        } else {
+            echo json_encode(["status" => "error"]);
+        }
+    }
+
+
+    /* ELIMINAR PREGUNTAS DE LA CITA*/
+    if (isset($_POST["eliminarPreguntaExamenFormato"]) && $_POST["eliminarPreguntaExamenFormato"] === "eliminarPreguntaExamenFormato" && is_numeric($_POST["id"]) && $_POST["id"] > 0) {
+        $id = $_POST["id"];
+
+        if (ModeloHorario::EliminarPreguntaExamen($id)) {
+            echo json_encode(["status" => "ok"]);
+        } else {
+            echo json_encode(["status" => "error"]);
+        }
+    }
+
+
+
+    /* GENERAR PREGUNTAS*/
+    if (isset($_POST["generarPreguntasFormatoExamen"]) && $_POST["generarPreguntasFormatoExamen"] === "generarPreguntasFormatoExamen" && is_numeric($_POST["id_tbl_poligrafo"]) && $_POST["id_tbl_poligrafo"] > 0 && is_numeric($_POST["id_formato_examen"]) && $_POST["id_formato_examen"] > 0) {
+
+        $datos = array(
+            "id_tbl_poligrafo" => $_POST["id_tbl_poligrafo"],
+            "id_formato_examen" => $_POST["id_formato_examen"],
+            "hora_inicio_programar" => $_POST["hora_inicio_programar"],
+        );
+
+        if (ModeloHorario::GenerarPreguntasExamen($datos)) {
             echo json_encode(["status" => "ok"]);
         } else {
             echo json_encode(["status" => "error"]);
@@ -242,6 +312,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         } else {
             echo "error";
         }
+    }
+
+    if (isset($_POST["getPrecioExamen"]) && $_POST["getPrecioExamen"] === "precioExamen" && isset($_POST["id_clientemorse_precio"]) && is_numeric($_POST["id_clientemorse_precio"]) && isset($_POST["id_tipoexamen_precio"]) && is_numeric($_POST["id_tipoexamen_precio"])) {
+
+        $id_cliente = $_POST["id_clientemorse_precio"];
+        $id_tipoExamen = $_POST["id_tipoexamen_precio"];
+
+        echo ModeloHorario::obtenerPrecioTipoExamenCliente($id_cliente, $id_tipoExamen);
+    }
+
+
+    if (isset($_POST["getFormatoExamenPlantillaFormato"]) && $_POST["getFormatoExamenPlantillaFormato"] === "ok") {
+
+        echo ModeloHorario::ObtenerDataSelect("tbl_formato_examenes", "");
     }
 
 
@@ -381,50 +465,97 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             </body>
         </table>
     <?php
-    } else if (isset($_POST["getPreguntas"]) && $_POST["getPreguntas"] === "preguntas") {
+    } else if (
+        isset($_POST["getPreguntasExamen"]) && $_POST["getPreguntasExamen"] === "preguntas" &&
+        isset($_POST["id_tbl_poligrafo"]) && is_numeric($_POST["id_tbl_poligrafo"])
+    ) {
     ?>
+        <style>
+            .contenedor-tabla {
+                width: 100%;
+                max-height: 450px;
+                overflow: auto;
+                display: inline-block;
+                border: black 3px groove;
+            }
 
-        <table class="table table-bordered table-condensed table-striped table-hover tablaedit">
-            <thead class="bg-blue-gradient">
-                <tr>
-                    <th width="4%">N°</th>
-                    <th width="4%">COD</th>
-                    <th>Pregunta</th>
-                    <th width="6%">Resp.</th>
-                    <th width="10%">Resultado</th>
-                    <th width="20%">Observación</th>
-                </tr>
-            </thead>
+            .tablaedit thead {
+                position: sticky;
+                top: 0;
+            }
 
-            <body>
-                <?php
-                $resultado = ModeloHorario::ObtenerPreguntas();
-                foreach ($resultado as $key => $row) {
-                ?>
+            .estilo {
+                margin: 0 !important;
+                padding: 5px;
+                border-radius: 10px 10px 0 0;
+            }
+        </style>
+
+        <h5 class="text-center bg-black-gradient estilo">
+            CUESTIONARIO DE PREGUNTAS
+        </h5>
+        <div class="contenedor-tabla">
+            <table class="table table-bordered table-condensed table-striped table-hover tablaedit">
+                <thead class="bg-blue-gradient">
                     <tr>
-                        <td><?php echo ($key + 1) ?></td>
-                        <td><?php echo "0000" . $row["id"] ?></td>
-                        <td><textarea class="form-control input-lg"><?php echo $row["pregunta"] ?></textarea></td>
-                        <td><select class="form-control input-lg">
-                                <option value="SI">SI</option>
-                                <option value="NO">NO</option>
-                            </select>
-                        </td>
-
-                        <td><select class="form-control input-lg">
-                                <option value="Confiable">Confiable</option>
-                                <option value="No Confiable">No confiable</option>
-                            </select>
-                        </td>
-
-                        <td>
-                            <textarea class="form-control input-lg" placeholder="Observación"></textarea>
-                        </td>
+                        <th width="4%">N°</th>
+                        <th width="4%">NUM</th>
+                        <th>Pregunta</th>
+                        <th width="6%">Resp.</th>
+                        <th width="10%">Resultado</th>
+                        <th width="14%">Observación</th>
+                        <th width="3%">✍</th>
                     </tr>
+                </thead>
 
-                <?php } ?>
-            </body>
-        </table>
+                <body>
+                    <?php
+                    $resultado = ModeloHorario::ObtenerPreguntas($_POST["id_tbl_poligrafo"]);
+                    foreach ($resultado as $key => $row) {
+                        $style = "";
+                        $style2 = "";
+                        $readonly = "readonly";
+                        if ($row["resultado"] != "" || !empty($row["resultado"])) {
+                            $color1 = strtoupper($row["resultado"]) === "CONFIABLE" ? "lightgreen" : "lightcoral";
+                            $color2 = strtoupper($row["resultado"]) === "CONFIABLE" ? "green" : "red";
+                            $readonly = strtoupper($row["resultado"]) === "NO CONFIABLE" ? "" : "readonly";
+                            $style = 'style = "background-color:' . $color1 . ' !important; border: white 1px solid;"';
+                            $style2 = 'style = "color: ' . $color2 . ' !important;"';
+                        }
+
+                    ?>
+                        <tr <?= $style ?>>
+                            <td><?= ($key + 1) ?></td>
+                            <td><strong><?= $row["numero"] ?>
+                                </strong></td>
+                            <td><textarea class="form-control input-lg campospreguntas" data-campo="pregunta_poligrafo" data-id="<?= $row["id"] ?>" <?= $style2 ?> required><?php echo $row["pregunta_poligrafo"] ?></textarea></td>
+
+                            <td><select class="form-control campospreguntas" data-id="<?= $row["id"] ?>" data-campo="respuesta" required <?= $style2 ?>>
+                                    <option value="" <?= (empty($row["respuesta"]) ||  $row["respuesta"] != "SI" ||  $row["respuesta"] != "NO" ? "selected" : "") ?>>Seleccione</option>
+                                    <option value="SI" <?= strtoupper($row["respuesta"]) === "SI" ? "selected" : "" ?>>SI</option>
+                                    <option value="NO" <?= strtoupper($row["respuesta"]) === "NO" ? "selected" : "" ?>>NO</option>
+                                </select>
+                            </td>
+
+                            <td>
+                                <select class="form-control campospreguntas" data-id="<?= $row["id"] ?>" required data-campo="resultado" <?= $style2 ?>>
+                                    <option value="" <?= (empty($row["resultado"]) || strtoupper($row["resultado"]) != "CONFIABLE" || strtoupper($row["resultado"]) != "NO CONFIABLE") ? "selected" : "" ?>>Seleccione</option>
+                                    <option value="Confiable" <?= strtoupper($row["resultado"]) === "CONFIABLE" ? "selected" : "" ?>>Confiable</option>
+                                    <option value="No Confiable" <?= strtoupper($row["resultado"]) === "NO CONFIABLE" ? "selected" : "" ?>>No confiable</option>
+                                </select>
+                            </td>
+                            <td>
+                                <textarea class="form-control campospreguntas input-lg" required data-id="<?= $row["id"] ?>" <?= $readonly ?> placeholder="Observación" data-campo="observacion" <?= $style2 ?>><?php echo $row["observacion"] ?></textarea>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-xs btn-eliminar-pregunta-id" data-id="<?= $row["id"] ?>"><i class="fa fa-trash-o"></i></button>
+                            </td>
+                        </tr>
+
+                    <?php } ?>
+                </body>
+            </table>
+        </div>
 <?php
     }
 }

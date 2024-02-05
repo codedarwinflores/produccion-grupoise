@@ -143,8 +143,8 @@ session_start();
 <link rel="stylesheet" href="vistas/calendario/css/ion.calendar.css">
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 
 <link href="vistas/bower_components/bootstrap3-editable/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet">
 <script src="vistas/bower_components/bootstrap3-editable/bootstrap3-editable/js/bootstrap-editable.js"></script>
@@ -893,9 +893,11 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "crear-examen" ||
         $_GET["ruta"] == "programarexamen" ||
         $_GET["ruta"] == "logs" ||
-
-
-
+        $_GET["ruta"] == "clientemorse" ||
+        $_GET["ruta"] == "cargoclientearea" ||
+        $_GET["ruta"] == "preguntasgenerales" ||
+        $_GET["ruta"] == "formatoexamenes" ||
+        $_GET["ruta"] == "vendedormorse" ||
 
         $_GET["ruta"] == "salir"
       ) {
@@ -1024,6 +1026,11 @@ CUERPO DOCUMENTO
   <script src="vistas/js/examenes.js"></script>
   <script src="vistas/js/programarexamen.js"></script>
   <script src="vistas/js/logs.js"></script>
+  <script src="vistas/js/clientemorse.js"></script>
+  <script src="vistas/js/vendedormorse.js"></script>
+  <script src="vistas/js/cargocliente.js"></script>
+  <script src="vistas/js/preguntageneral.js"></script>
+  <script src="vistas/js/formatoexamen.js"></script>
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 
@@ -1112,8 +1119,6 @@ CUERPO DOCUMENTO
     /* oninput="validateNumber(this);" */
     /* ************************************ */
   </script>
-
-
 
 
 </body>

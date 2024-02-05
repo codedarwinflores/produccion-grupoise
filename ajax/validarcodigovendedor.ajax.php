@@ -4,9 +4,6 @@ require_once "../modelos/conexion.php";
 
 $codigo = $_POST["codigo"];
 
-
-
-
 function ObtenerCorrelativo() {
 	global $codigo;
 	$query = "select count(*) as codigo from tbl_vendedor where codigo='".$codigo."'";

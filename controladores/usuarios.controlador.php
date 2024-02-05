@@ -57,12 +57,14 @@ class ControladorUsuarios
 						$ultimoLogin = ModeloUsuarios::mdlActualizarUsuario($tabla, $item1, $valor1, $item2, $valor2);
 
 						if ($ultimoLogin == "ok") {
-							/* LOGS USUARIOS */
+
+
 							if (ModeloLogsUser::IngresarLogs(array("id_usuario" => $respuesta["id"]))) {
 								$ultimoIDLogs = ModeloLogsUser::LogsObtenerUltimoRegistro();
 								$_SESSION["id_logs"] = $ultimoIDLogs;
 								ModeloLogsUser::IngresarActionsLogs(array("id_logs" => $ultimoIDLogs, "modulo" => "Usuario", "actividad" => "Inicio de Sesión Exitoso"));
 							}
+
 
 							echo '<script>
 

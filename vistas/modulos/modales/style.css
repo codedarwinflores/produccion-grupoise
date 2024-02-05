@@ -1,0 +1,39 @@
+  .select2-container {
+      vertical-align: middle;
+      width: 100% !important;
+  }
+
+  /* Cambiar el ancho del Select2 */
+  .select2 {
+      width: auto;
+      max-width: 100%;
+      /* Cambia el valor segÃºn lo necesites */
+  }
+
+  /* Cambiar el alto del Select2 */
+  .select2-container .select2-selection {
+      height: 40px;
+      font-size: 17px;
+      width: auto !important;
+      /* Cambia el valor segÃºn lo necesites */
+  }
+
+  /* Cambiar el tamaÃ±o de fuente en la lista desplegable de Select2 */
+  .select2-container .select2-dropdown .select2-results__option {
+      font-size: 17px;
+      /* Cambia el valor segÃºn lo necesites */
+  }
+
+  /* Cambiar el tamaÃ±o de fuente del Select2 */
+  .select2-container .select2-selection .select2-selection__rendered {
+      font-size: 17px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+  }
+
+
+
+  .tamanio {
+      width: 100% !important;
+  }
