@@ -25,78 +25,106 @@
                   <input type="hidden" id="id_edit_id_registro" name="id_edit_id_registro" value="0">
                   <div class="modal-header bg-blue-gradient" style=" color: #fff;">
                       <button type="button" class="close" data-dismiss="modal">&times;</button>
-                      <h4 class="modal-title">PROCESAR CITA RESERVADA</h4>
+                      <h4 class="modal-title">PROCESAR CITA RESERVADA <span id="titleFecha"></span></h4>
 
                   </div>
                   <div class="modal-body" style="max-height: calc(100vh - 120px); overflow-y: auto;">
                       <div class="alert" role="alert" id="mensajeAlertExamenProgramadoModal" style="display: none;"></div>
-                      <fieldset class="well">
-                          <legend>
-                              <h5>Información Principal: </h5>
-                          </legend>
-                          <div class="row">
-                              <div class="col-xs-12 col-sm-3">
-                                  <label for="cliente_programar">CLIENTE:</label>
-                                  <div class="input-group">
-                                      <span class="input-group-addon"><i class="fa fa-address-card"></i></span>
-                                      <input type="text" class="form-control input-lg" autofocus name="cliente_programar" id="cliente_programar" placeholder="Nombre del Cliente" readonly required>
-                                  </div>
-                              </div>
-                              <div class="col-xs-12 col-sm-3">
-                                  <label for="evaluado_programar">EVALUADO:</label>
-                                  <div class="input-group">
-                                      <span class="input-group-addon"><i class="fa fa-address-card"></i></span>
-                                      <input type="text" class="form-control input-lg" readonly required name="evaluado_programar" placeholder="Evaluado" id="evaluado_programar">
-                                  </div>
-                              </div>
-                              <div class="col-xs-12 col-sm-3">
-                                  <label for="poligrafo_programar">POLÍGRAFO:</label>
-                                  <div class="input-group">
-                                      <span class="input-group-addon"><i class="fa fa-address-card"></i></span>
-                                      <input type="text" class="form-control input-lg" readonly required name="poligrafo_programar" placeholder="Polígrafo" id="poligrafo_programar">
-                                  </div>
-                              </div>
-                              <div class="col-xs-12 col-sm-3">
-                                  <label for="tipoexamen_programar">TIPO EXAMEN:</label>
-                                  <div class="input-group">
-                                      <span class="input-group-addon"><i class="fa fa-list-alt"></i></span>
-                                      <input type="text" class="form-control input-lg" readonly required name="tipoexamen_programar" placeholder="Tipo Examen" id="tipoexamen_programar">
-                                  </div>
+
+
+                      <div class="row">
+                          <div class="col-xs-12 col-sm-6">
+
+                              <div class="table-responsive">
+                                  <table class="table table-bordered table-condensed table-striped table-hover">
+                                      <thead class="bg-maroon-gradient">
+                                          <tr>
+                                              <th colspan="2">Información Principal</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                          <tr>
+                                              <th style="width: 20%; text-align: right;">CLIENTE: </th>
+                                              <td>
+                                                  <p id="cliente_programar"></p>
+                                              </td>
+                                          </tr>
+                                          <tr>
+                                              <th style="text-align: right;">EVALUADO: </th>
+                                              <td>
+                                                  <p id="evaluado_programar"></p>
+                                              </td>
+                                          </tr>
+
+                                          <tr>
+                                              <th style="text-align: right;">POLÍGRAFO: </th>
+                                              <td>
+                                                  <p id="poligrafo_programar"></p>
+                                              </td>
+                                          </tr>
+                                          <tr>
+                                              <th style="text-align: right;">TIPO EXAMEN: </th>
+                                              <td>
+                                                  <p id="tipoexamen_programar"></p>
+                                              </td>
+                                          </tr>
+                                          <tr>
+                                              <th style="text-align: right;">ESTADO: </th>
+                                              <td>
+                                                  <p id="estado_examen_actual"></p>
+                                              </td>
+                                          </tr>
+                                          <!-- Agrega más filas según sea necesario -->
+                                      </tbody>
+                                  </table>
                               </div>
                           </div>
+                          <div class="col-xs-12 col-sm-6">
 
-                      </fieldset>
+                              <div class="table-responsive">
+                                  <table class="table table-bordered table-condensed table-striped table-hover">
+                                      <thead class="bg-maroon-gradient">
+                                          <tr>
+                                              <th colspan="2">Información Secundaria</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                          <tr>
+                                              <th style="width: 30%; text-align: right;">CODIGO DE REFERENCIA: </th>
+                                              <td>
+                                                  <p id="codigo_programar"></p>
+                                              </td>
+                                          </tr>
+                                          <tr>
+                                              <th style="text-align: right;">CARGO: </th>
+                                              <td>
+                                                  <p id="cargo_programar"></p>
+                                              </td>
+                                          </tr>
 
-                      <fieldset class="well">
-                          <legend>
-                              <h5>Datos secundarios: </h5>
-                          </legend>
-                          <div class="row">
-                              <div class="col-xs-12 col-sm-6">
-                                  <label for="cargo_programar">CARGO:</label>
-                                  <div class="input-group">
-                                      <span class="input-group-addon"><i class="fa fa-address-card"></i></span>
-                                      <input type="text" class="form-control input-lg" autofocus name="cargo_programar" id="cargo_programar" placeholder="Cargo" required>
-                                  </div>
-                              </div>
-                              <div class="col-xs-12 col-sm-3">
-                                  <label for="precio_programar">PRECIO: $</label>
-                                  <div class="input-group">
-                                      <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
-                                      <input type="text" class="form-control input-lg FormatoMoney" required name="precio_programar" placeholder="0.00" id="precio_programar">
-                                  </div>
-                                  <span id="precioUpdate" class="text-success"></span>
-                              </div>
-                              <div class="col-xs-12 col-sm-3">
-                                  <label for="codigo_programar">CÓDIGO DE REFERENCIA:</label>
-                                  <div class="input-group">
-                                      <span class="input-group-addon"><i class="fa fa-qrcode"></i></span>
-                                      <input type="text" class="form-control input-lg" readonly required name="codigo_programar" placeholder="Ejemplo: 10212/2023" id="codigo_programar">
-                                  </div>
+                                          <tr>
+                                              <th style="text-align: right;">PRECIO: $</th>
+                                              <td>
+                                                  <div class="input-group">
+                                                      <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
+                                                      <input type="text" class="form-control FormatoMoney input-lg" required name="precio_programar" placeholder="0.00" id="precio_programar">
+                                                  </div>
+                                                  <span id="precioUpdate" class="text-success"></span>
+                                              </td>
+                                          </tr>
+                                          <tr>
+                                              <th style="text-align: right;">FECHA Y HORA PROGRAMADA: </th>
+                                              <td>
+                                                  <p id="fecha_y_hora_programada"></p>
+                                              </td>
+                                          </tr>
+                                          <!-- Agrega más filas según sea necesario -->
+                                      </tbody>
+                                  </table>
                               </div>
                           </div>
+                      </div>
 
-                      </fieldset>
 
 
                       <fieldset class="well">
@@ -104,6 +132,13 @@
                               <h5>SOLICITANTE: </h5>
                           </legend>
                           <div class="row">
+                              <div class="col-xs-12 col-sm-3">
+                                  <label for="sol_nivel_academico">NIVEL ACADÉMICO:</label>
+                                  <div class="input-group">
+                                      <span class="input-group-addon"><i class="fa fa-address-card"></i></span>
+                                      <input type="text" readonly class="form-control input-lg" required name="sol_nivel_academico" placeholder="Nivel Académico" id="sol_nivel_academico">
+                                  </div>
+                              </div>
                               <div class="col-xs-12 col-sm-3">
                                   <label for="sol_nombre_programar">NOMBRE SOLICITANTE:</label>
                                   <div class="input-group">
@@ -135,14 +170,14 @@
 
                               <!-- SEGUNDO ROW -->
                               <div class="col-xs-12 col-sm-3">
-                                  <label for="sol_cargo_programar">CARGO:</label>
-                                  <div class="input-group">
-                                      <span class="input-group-addon"><i class="fa fa-user-md"></i></span>
-                                      <input type="text" readonly class="form-control input-lg" required name="sol_cargo_programar" placeholder="Cargo Solicitante" id="sol_cargo_programar">
-                                  </div>
+                                  <label for="sol_cargo_programar">CARGO: <i class="fa fa-user-md"></i></label>
+                                  <select name="sol_cargo_programar" id="sol_cargo_programar" class="form-control input-lg mi-selector" required>
+                                      <option value="">Seleccione Cargo</option>
+                                  </select>
+
                               </div>
 
-                              <div class="col-xs-12 col-sm-6">
+                              <div class="col-xs-12 col-sm-3">
                                   <label for="sol_correo_programar">CORREO:</label>
                                   <div class="input-group">
                                       <span class="input-group-addon"><i class="fa fa-envelope"></i></span>

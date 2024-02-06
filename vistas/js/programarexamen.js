@@ -5,6 +5,7 @@ $(document).ready(function () {
   getFormatoExamenPlantillaSelect();
   cerrarModalReservaExamen();
   getTipoPreguntasCuestionario();
+  llenarCargoClienteSolicitado();
   $(document).ready(function () {
     /* REGISTRAR PREGUNTA DENTRO DEL CUESTIONARIO*/
     $("#addCuestionarioPregunta").submit(function (e) {
@@ -946,9 +947,10 @@ $(".Poligrafista_register").on("click", ".btn-procesar-reserva", function () {
         $("#id_edit_id_registro").val(respuesta["id_registro"]);
         /*   console.log(JSON.stringify(respuesta)); */
         $("#cliente_programar")
-          .val(
-            respuesta["codigo_cliente"] +
-              " - " +
+          .html(
+            "<strong>" +
+              respuesta["codigo_cliente"] +
+              "</strong> - " +
               respuesta["nombre"].replace(/\s+/g, " ")
           )
           .attr(
@@ -958,19 +960,24 @@ $(".Poligrafista_register").on("click", ".btn-procesar-reserva", function () {
               respuesta["nombre"].replace(/\s+/g, " ")
           );
         $("#evaluado_programar")
-          .val(respuesta["nombre_evaluado"].replace(/\s+/g, " "))
+          .html(respuesta["nombre_evaluado"].replace(/\s+/g, " "))
           .attr("title", respuesta["nombre_evaluado"].replace(/\s+/g, " "));
         $("#poligrafo_programar")
-          .val(respuesta["nombre_pol"].replace(/\s+/g, " "))
+          .html(respuesta["nombre_pol"].replace(/\s+/g, " "))
           .attr("title", respuesta["nombre_pol"].replace(/\s+/g, " "));
 
         $("#tipoexamen_programar")
-          .val(respuesta["examenes"].replace(/\s+/g, " "))
+          .html(respuesta["examenes"].replace(/\s+/g, " "))
           .attr("title", respuesta["examenes"].replace(/\s+/g, " "));
 
+        $("#cargo_programar")
+          .html(respuesta["solicitado_cargo"])
+          .attr("title", respuesta["solicitado_cargo"]);
         $("#precio_programar").val(respuesta["valor"]);
-        $("#codigo_programar").val(
-          respuesta["codigo_programar_exam"].toString()
+        $("#codigo_programar").html(
+          "<strong>" +
+            respuesta["codigo_programar_exam"].toString() +
+            "</strong>"
         );
         $("#sol_nombre_programar")
           .val(respuesta["solicitado_nombre"])
@@ -988,15 +995,29 @@ $(".Poligrafista_register").on("click", ".btn-procesar-reserva", function () {
 
         $("#sol_correo_programar").val(respuesta["solicitado_correo"]);
         $("#sol_telefono_programar").val(respuesta["solicitado_telefono"]);
+        $("#sol_nivel_academico").val(respuesta["solicitado_nivel_academico"]);
         $("#sol_entrega_programar").val(
           respuesta["solicitado_direccion_entrega"]
         );
 
+        /* fecha y hora programada */
         /* HORA */
+        $("#fecha_y_hora_programada").html(
+          respuesta["fecha_programada"] + " - " + respuesta["hora_programada"]
+        );
         $("#hora_ingreso_programar").val(respuesta["hora_ingreso"]);
         $("#hora_inicio_programar").val(respuesta["hora_inicio"]);
         $("#fecha_programada").val(respuesta["fecha_programada"]);
+        $("#titleFecha").html(
+          " - FECHA: " +
+            respuesta["fecha_programada"] +
+            ", HORA PROGRAMADA: " +
+            respuesta["hora_programada"] +
+            ", ESTADO: " +
+            respuesta["estado_exam"]
+        );
         $("#estado_exam").val(respuesta["estado_exam"]);
+        $("#estado_examen_actual").html(respuesta["estado_exam"]);
         verificarHoraInicio(respuesta["hora_ingreso"]);
         $("#format_examenes_programar")
           .val(respuesta["id_formato_examen"])
@@ -1131,6 +1152,7 @@ function cerrarModalReservaExamen() {
   $("#procesarReservaProgramada").on("hidden.bs.modal", function () {
     $("#id_edit_id_registro").val(0);
     $("#format_examenes_programar").val(0).trigger("change");
+    $("#sol_cargo_programar").val("").trigger("change");
     $("#format_examenes_programar")
       .prop("readonly", false)
       .select2("readonly", false);
@@ -1353,6 +1375,7 @@ $("#comenzarExamenHoraInicio").on("click", function () {
 
 function validarTodosLosCampos() {
   var campos = [
+    { id: "sol_nivel_academico", nombre: "Nivel Académico Solicitante" },
     { id: "sol_nombre_programar", nombre: "Nombre Solicitante" },
     { id: "sol_apellido_programar", nombre: "Apellido Solicitante" },
     { id: "fecha_sol_programar", nombre: "Fecha Solicitante" },
@@ -1361,7 +1384,6 @@ function validarTodosLosCampos() {
     { id: "sol_correo_programar", nombre: "Correo Solicitante" },
     { id: "sol_telefono_programar", nombre: "Teléfono Solicitante" },
     { id: "sol_entrega_programar", nombre: "Dirección de Entrega Solicitante" },
-    { id: "cargo_programar", nombre: "Cargo" },
   ];
 
   var camposFaltantes = [];
@@ -1484,6 +1506,32 @@ function getTipoPreguntasCuestionario() {
     },
     error: function (error) {
       console.log("Error al obtener el tipo de preguntas:", error);
+    },
+  });
+}
+
+function llenarCargoClienteSolicitado() {
+  // Realizar solicitud AJAX para obtener municipios
+  $.ajax({
+    url: "./ajax/programarexamen.ajax.php",
+    type: "POST",
+    dataType: "json",
+    data: { getCargoCliente: "ok" },
+    success: function (data) {
+      console.log(JSON.stringify(data));
+      // Llenar el select de municipios
+      var cargosol = $("#sol_cargo_programar");
+      cargosol.empty(); // Limpiar opciones anteriores
+      // Agregar la opción por defecto
+      cargosol.append('<option value="" selected>Selecciona un cargo</option>');
+      $.each(data, function (index, cargo) {
+        cargosol.append(
+          '<option value="' + cargo.id + '">' + cargo.nombre_cargo + "</option>"
+        );
+      });
+    },
+    error: function (error) {
+      console.log("Error al obtener evaluados:", error);
     },
   });
 }
