@@ -364,6 +364,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         echo ModeloHorario::ObtenerDataSelect("tipos_preguntas", "");
     }
+    /* LLENAR CARGO CLIENTE EN FORM PROGRAMAR Y PROCESAR RESERVA */
+    if (isset($_POST["getCargoCliente"]) && $_POST["getCargoCliente"] === "ok") {
+
+        echo ModeloHorario::ObtenerDataSelect("tbl_cargo_cliente", "");
+    }
 
 
     /* REGISTRAR LOS POLIGRAFOS DE ACUERDO A LA PROGRAMACIÓN */
