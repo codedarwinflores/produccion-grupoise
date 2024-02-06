@@ -140,7 +140,6 @@ $(document).ready(function () {
   handleSelectChange();
   getPaisesSelect();
   getDepartamentosSelect();
-  llenarCargoClienteSolicitado();
   llenarSelectTipoExamen();
   cargarExamenesCliente();
   eliminarSesionExamenes();
@@ -209,6 +208,7 @@ $(document).ready(function () {
             cargarDataClienteMorse();
             eliminarSesionExamenes();
             cargarExamenesCliente();
+            scrollToTop();
           } else if (response === "update") {
             mostrarAlerta(
               "#mensajeAlertclientemorse",
@@ -216,6 +216,7 @@ $(document).ready(function () {
               "¡Cliente editado correctamente!"
             );
             cargarDataClienteMorse();
+            scrollToTop();
           } else {
             mostrarAlerta(
               "#mensajeAlertclientemorse",
@@ -433,7 +434,7 @@ $(".ClienteMorse_register").on("click", ".btnEditarClienteMorse", function () {
       $("#solicitado_nombre").val(respuesta.solicitado_nombre);
       $("#solicitado_apellido").val(respuesta.solicitado_apellido);
 
-      $("#solicitado_cargo").val(respuesta.solicitado_cargo).trigger("change");
+      $("#solicitado_cargo").val(respuesta.solicitado_cargo);
       $("#solicitado_correo").val(respuesta.solicitado_correo);
       $("#solicitado_direccion_entrega").val(
         respuesta.solicitado_direccion_entrega
@@ -579,33 +580,6 @@ function llenarVendedorMorse() {
     },
     error: function (error) {
       console.log("Error al obtener vendedores:", error);
-    },
-  });
-}
-
-function llenarCargoClienteSolicitado() {
-  // Realizar solicitud AJAX para obtener municipios
-  $.ajax({
-    url: "./ajax/clientemorse.ajax.php",
-    type: "POST",
-    dataType: "json",
-    data: { getCargoCliente: "ok" },
-    success: function (data) {
-      // Llenar el select de municipios
-      var municipioSelect = $("#solicitado_cargo");
-      municipioSelect.empty(); // Limpiar opciones anteriores
-      // Agregar la opción por defecto
-      municipioSelect.append(
-        '<option value="0" selected>Selecciona un cargo</option>'
-      );
-      $.each(data, function (index, cargo) {
-        municipioSelect.append(
-          '<option value="' + cargo.id + '">' + cargo.nombre_cargo + "</option>"
-        );
-      });
-    },
-    error: function (error) {
-      console.log("Error al obtener evaluados:", error);
     },
   });
 }
