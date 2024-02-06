@@ -120,6 +120,99 @@ class ModeloHorario
     }
 
 
+    static public function ExisteRegistro($tabla, $condicion)
+    {
+        try {
+            // Consulta para verificar la existencia de un registro
+            $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) as count FROM $tabla WHERE $condicion");
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // Obtener el valor de la columna 'count' que representa el número de registros
+            $count = $row['count'];
+
+            // Devolver true si hay al menos un registro, false en caso contrario
+            return $count;
+        } catch (PDOException $e) {
+            // Manejar errores de base de datos
+            echo "Error de base de datos: " . $e->getMessage();
+            return false;
+        }
+    }
+
+
+    static public  function GenerarCodigoCorrelativo($id_tipo, $idEditar)
+    {
+        // Obtener el último valor generado
+        $stmt = Conexion::conectar()->prepare("SELECT MAX(id) as maximo FROM preguntas");
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $consult = Conexion::conectar()->prepare("SELECT codigo FROM tipos_preguntas WHERE id=?");
+        $consult->execute([$id_tipo]);
+        $response = $consult->fetch(PDO::FETCH_ASSOC);
+
+        if ($row && $response) {
+            $id_pregunta =  $row['maximo'];
+            $codigoTipo = $response["codigo"];
+            if ($idEditar > 0) {
+                $id_pregunta = $idEditar;
+            }
+
+            // Generar el próximo correlativo
+            $newValue = $id_pregunta;
+            $correlativo = str_pad($newValue, 6, '0', STR_PAD_LEFT); // Asegura que tenga 6 dígitos rellenando con ceros
+
+            $newCodigo = $codigoTipo . $correlativo;
+            $stmta = Conexion::conectar()->prepare("UPDATE preguntas SET codigo=:codigo WHERE id=:id");
+            $stmta->bindParam(":codigo", $newCodigo, PDO::PARAM_STR);
+            $stmta->bindParam(":id", $id_pregunta, PDO::PARAM_INT);
+
+            if ($stmta->execute()) {
+                return true;
+            }
+            return false;
+        }
+
+        return false;
+    }
+
+    static public function mdlIngresarPregunta($datos)
+    {
+        /* SACAR MAXIMO NUMERO DE ORDEN */
+        // Consulta para verificar la existencia de un registro
+        $consultaNumer = Conexion::conectar()->prepare("SELECT max(numero) as maximo FROM tbl_preguntas_poligrafo  WHERE id_tbl_poligrafo=" . $datos["id_tbl_poligrafo"]);
+        $consultaNumer->execute();
+        $row = $consultaNumer->fetch(PDO::FETCH_ASSOC);
+
+        // Obtener el valor de la columna 'count' que representa el número de registros
+        $numMaximo = $row['maximo'];
+
+        $nuevoNumero  = $numMaximo + 1;
+        $correlativo = str_pad($nuevoNumero, 4, '0', STR_PAD_LEFT);
+        $stmt = Conexion::conectar()->prepare("INSERT INTO tbl_preguntas_poligrafo(pregunta_poligrafo, id_tbl_poligrafo,numero) VALUES (:pregunta_poligrafo, :id_tbl_poligrafo,:numero)");
+
+        $stmt->bindParam(":pregunta_poligrafo", $datos["pregunta_poligrafo"], PDO::PARAM_STR);
+        $stmt->bindParam(":id_tbl_poligrafo", $datos["id_tbl_poligrafo"], PDO::PARAM_INT);
+        $stmt->bindParam(":numero", $correlativo, PDO::PARAM_STR);
+
+
+        $regPreg = Conexion::conectar()->prepare("INSERT INTO preguntas(id_tipo, pregunta) VALUES (:id_tipo, :pregunta)");
+
+        $regPreg->bindParam(":id_tipo", $datos["id_tipo"], PDO::PARAM_INT);
+        $regPreg->bindParam(":pregunta", $datos["pregunta_poligrafo"], PDO::PARAM_STR);
+        if ($stmt->execute() && $regPreg->execute()) {
+            $resulta = self::GenerarCodigoCorrelativo($datos["id_tipo"], "");
+            return "ok";
+        } else {
+
+            return "error";
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
 
 
     static public function InsertDataNewHorario($fecha)

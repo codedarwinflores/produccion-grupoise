@@ -166,6 +166,35 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
+    /*=============================================
+        CREAR FORMATO EXAMEN
+    =============================================*/
+    if (isset($_POST["save_process_addPreguntaCuestionario"]) && $_POST["save_process_addPreguntaCuestionario"] === "ok" && isset($_POST["id_tbl_poligrafo"]) && is_numeric($_POST["id_tbl_poligrafo"])) {
+
+        $condicion1 = ModeloHorario::ExisteRegistro("tbl_preguntas_poligrafo", "UPPER(pregunta_poligrafo)=UPPER('" . $_POST["nueva_pregunta_cuestionario"] . "')") > 0;
+
+        if ($condicion1) {
+            echo "existe";
+        } else {
+            $datos = array(
+                "id_tbl_poligrafo" => $_POST["id_tbl_poligrafo"],
+                "id_tipo" => $_POST["id_tipo_preguntas_cuestionario"],
+                "pregunta_poligrafo" => $_POST["nueva_pregunta_cuestionario"],
+            );
+            $resultado = ModeloHorario::mdlIngresarPregunta($datos);
+            if ($resultado === "ok") {
+                logs_msg("Crear Pregunta en cuestionario y Pregunta", "Crear Pregunta: ID_REGISTRO_POLIGRAFO: " . $_POST["id_tbl_poligrafo"]);
+                echo "save";
+            } else {
+                echo "error";
+            }
+        }
+    }
+
+
+    /* GENERAR HORARIO */
+
+
     function generarHorario($horaInicial, $horaFinal, $intervaloMinutos)
     {
         try {
@@ -314,6 +343,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
 
+    /* PRECIO DE EXAMEN DE ACUERDO AL CLIENTE */
     if (isset($_POST["getPrecioExamen"]) && $_POST["getPrecioExamen"] === "precioExamen" && isset($_POST["id_clientemorse_precio"]) && is_numeric($_POST["id_clientemorse_precio"]) && isset($_POST["id_tipoexamen_precio"]) && is_numeric($_POST["id_tipoexamen_precio"])) {
 
         $id_cliente = $_POST["id_clientemorse_precio"];
@@ -323,24 +353,29 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
 
+    /* LLENAR EL SELECT DEL FORMATO */
     if (isset($_POST["getFormatoExamenPlantillaFormato"]) && $_POST["getFormatoExamenPlantillaFormato"] === "ok") {
 
         echo ModeloHorario::ObtenerDataSelect("tbl_formato_examenes", "");
     }
 
+    /* LLENAR EL SELECT DE TIPO DE EPREGUNTAS */
+    if (isset($_POST["getTipoPreguntasCuestionario"]) && $_POST["getTipoPreguntasCuestionario"] === "ok") {
 
+        echo ModeloHorario::ObtenerDataSelect("tipos_preguntas", "");
+    }
+
+
+    /* REGISTRAR LOS POLIGRAFOS DE ACUERDO A LA PROGRAMACIÓN */
     if (isset($_POST["_form_process"]) && isset($_POST["cantPoligrafos"]) && isset($_POST["start_datetime"]) && $_POST["_form_process"] === "procesar") {
-
 
         $fechaActual = date('Y-m-d');
         $fechaProgramar = $_POST["start_datetime"];
         $cantPol = $_POST["cantPoligrafos"];
 
-
         if ($fechaProgramar < $fechaActual) {
             echo "fechaMenor";
         } else {
-
 
             if (isset($_POST["horariopredeterminado"])) {
                 for ($i = 0; $i < $cantPol; $i++) {
@@ -356,7 +391,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
 
-
+    /* ELIMINAR INTERRVALO DE HORA */
 
     if (isset($_POST["id_hora"]) && is_numeric($_POST["id_hora"]) && isset($_POST["delete"]) && $_POST["delete"] === "ok") {
         try {

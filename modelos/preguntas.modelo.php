@@ -47,10 +47,7 @@ class ModeloPregunta{
 
 		$stmt->bindParam(":id_tipo", $datos["id_tipo"], PDO::PARAM_STR);
 		$stmt->bindParam(":pregunta", $datos["pregunta"], PDO::PARAM_STR);
-		
-		
-
-
+	
 		if($stmt->execute()){
 
 			return "ok";	

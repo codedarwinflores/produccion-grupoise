@@ -4,7 +4,94 @@ $(document).ready(function () {
   cargarHoras();
   getFormatoExamenPlantillaSelect();
   cerrarModalReservaExamen();
+  getTipoPreguntasCuestionario();
   $(document).ready(function () {
+    /* REGISTRAR PREGUNTA DENTRO DEL CUESTIONARIO*/
+    $("#addCuestionarioPregunta").submit(function (e) {
+      e.preventDefault();
+
+      // Validar campos obligatorios antes de enviar
+      var camposNoCompletados = validarCamposObligatorios(
+        "#addCuestionarioPregunta"
+      );
+
+      if (camposNoCompletados.length === 0) {
+        // Obtener los datos del formulario
+        var formData = new FormData(this);
+
+        // Agregar el campo extra al formData
+        formData.append("id_tbl_poligrafo", $("#id_edit_id_registro").val());
+        $(":submit").attr("disabled", true);
+        // Enviar la solicitud Ajax
+        $.ajax({
+          type: "POST",
+          url: "./ajax/programarexamen.ajax.php", // Reemplaza con la URL de tu script de procesamiento
+          data: formData,
+          contentType: false,
+          cache: false,
+          processData: false,
+          beforeSend: function () {
+            // Puedes mostrar un mensaje de espera diferente antes de la solicitud Ajax
+            mostrarAlerta(
+              "#mensajeFormaddCuestionarioPregunta",
+              "warning",
+              "¡Espere un momento, por favor!"
+            );
+          },
+          success: function (response) {
+            /* console.log(JSON.stringify(response)); */
+            // Mostrar mensaje de éxito
+            if (response === "save") {
+              mostrarAlerta(
+                "#mensajeFormaddCuestionarioPregunta",
+                "success",
+                "¡Pregunta registrada correctamente en el cuestionario!"
+              );
+              $("#addCuestionarioPregunta")[0].reset();
+              $("#id_tipo_preguntas_cuestionario").val(0).trigger("change");
+              cargarPreguntas();
+            } else if (response === "existe") {
+              mostrarAlerta(
+                "#mensajeFormaddCuestionarioPregunta",
+                "danger",
+                "¡Pregunta ya existe!"
+              );
+            } else {
+              mostrarAlerta(
+                "#mensajeFormaddCuestionarioPregunta",
+                "danger",
+                "Error al enviar el formulario. Inténtelo nuevamente." +
+                  JSON.stringify(response)
+              );
+            }
+          },
+          error: function (error) {
+            console.error("Error en la solicitud Ajax:", error);
+            // Mostrar mensaje de error
+            mostrarAlerta(
+              "#mensajeFormaddCuestionarioPregunta",
+              "danger",
+              "Error al enviar el formulario. Inténtelo nuevamente." +
+                JSON.stringify(response)
+            );
+
+            console.log(JSON.stringify(error));
+          },
+        });
+      } else {
+        // Mostrar mensaje de advertencia con detalles sobre los campos no completados
+        var mensaje =
+          "Por favor, complete los siguientes campos obligatorios:<ul>";
+        camposNoCompletados.forEach(function (campo) {
+          mensaje += "<li>" + campo + "</li>";
+        });
+        mensaje += "</ul>";
+        mostrarAlerta("#mensajeFormaddCuestionarioPregunta", "danger", mensaje);
+      }
+
+      $(":submit").attr("disabled", false);
+    });
+
     // Attach click event to the button
     $("#AddPoliBtn").on("click", function () {
       // Get post content from the textarea
@@ -15,7 +102,7 @@ $(document).ready(function () {
         data: { accion: "NewInsert" }, // Send post content to the server
         success: function (response) {
           // Handle the response from the server
-          console.log(response);
+          /*   console.log(response); */
           if (response === "ok") {
             cargarDataReservaPoligrafista();
             mostrarAlerta(
@@ -908,6 +995,8 @@ $(".Poligrafista_register").on("click", ".btn-procesar-reserva", function () {
         /* HORA */
         $("#hora_ingreso_programar").val(respuesta["hora_ingreso"]);
         $("#hora_inicio_programar").val(respuesta["hora_inicio"]);
+        $("#fecha_programada").val(respuesta["fecha_programada"]);
+        $("#estado_exam").val(respuesta["estado_exam"]);
         verificarHoraInicio(respuesta["hora_ingreso"]);
         $("#format_examenes_programar")
           .val(respuesta["id_formato_examen"])
@@ -1049,6 +1138,7 @@ function cerrarModalReservaExamen() {
     $("#RegistrarProcedimientoReserva")[0].reset();
     $("#comenzarExamenHoraInicio").prop("disabled", true);
     $("#btn-generar-preguntas").prop("disabled", true);
+    $(".btn-guardar-cambios-examen").prop("disabled", false);
     $("#procesarReservaProgramada").modal("hide");
     return false;
   });
@@ -1141,7 +1231,27 @@ function consultarRowPreguntasExamen() {
       /*  console.log(JSON.stringify(response)); */
       if (response.status === "ok") {
         cargarPreguntas();
+        let estadoExam = $("#estado_exam").val().toUpperCase();
+        let fechaProgramada = $("#fecha_programada").val();
+        let fechaActualElSalvador = obtenerFechaElSalvador();
+        // Formatear la fecha programada al formato 'DD/MM/YYYY'
+        let fechaFormateadaProgramada = cambiarFormatoFecha(fechaProgramada);
+
+        if (
+          estadoExam === "FINALIZADO" ||
+          fechaFormateadaProgramada < fechaActualElSalvador
+        ) {
+          $(".btn-guardar-cambios-examen").prop("disabled", true);
+          $("#btn-generar-preguntas").prop("disabled", true);
+          $("#comenzarExamenHoraInicio").prop("disabled", true);
+          setTimeout(() => {
+            $(".btn-eliminar-pregunta-id").prop("disabled", true);
+            $(".campospreguntas").prop("disabled", true);
+            $(".btn-registrar-pregunta-poligrafo").prop("disabled", true);
+          }, 50);
+        }
       }
+
       if (
         response.status === "ok" ||
         $("#hora_ingreso_programar").val() === "00:00:00"
@@ -1151,10 +1261,20 @@ function consultarRowPreguntasExamen() {
           .prop("readonly", true)
           .select2("readonly", true);
       } else {
+        $(".btn-registrar-pregunta-poligrafo").prop("disabled", false);
         $("#btn-generar-preguntas").prop("disabled", false);
         $("#format_examenes_programar")
           .prop("readonly", false)
           .select2("readonly", false);
+      }
+
+      if (
+        $("#hora_ingreso_programar").val() !== "00:00:00" &&
+        $("#hora_inicio_programar").val() !== "00:00:00"
+      ) {
+        $(".btn-registrar-pregunta-poligrafo").prop("disabled", false);
+      } else {
+        $(".btn-registrar-pregunta-poligrafo").prop("disabled", true);
       }
     },
     error: function (error) {
@@ -1332,6 +1452,42 @@ function getFormatoExamenPlantillaSelect() {
   });
 }
 
+function getTipoPreguntasCuestionario() {
+  $.ajax({
+    url: "./ajax/programarexamen.ajax.php",
+    type: "POST",
+    dataType: "json",
+    data: { getTipoPreguntasCuestionario: "ok" },
+    success: function (data) {
+      /*       console.log(JSON.stringify(data)); */
+      // Llenar el select de países
+      var departSelect = $("#id_tipo_preguntas_cuestionario");
+
+      // Limpiar el select antes de agregar nuevas opciones
+      departSelect.empty();
+
+      // Agregar la opción por defecto
+      departSelect.append('<option value="0" selected>Seleccione</option>');
+
+      // Iterar sobre los países y agregar opciones al select
+      $.each(data, function (index, tipopregunta) {
+        departSelect.append(
+          '<option value="' +
+            tipopregunta.id +
+            '">' +
+            tipopregunta.codigo +
+            " - " +
+            tipopregunta.descripcion +
+            "</option>"
+        );
+      });
+    },
+    error: function (error) {
+      console.log("Error al obtener el tipo de preguntas:", error);
+    },
+  });
+}
+
 function scrollToTop() {
   $(".modal-body").animate({ scrollTop: 0 }, 500);
 }
@@ -1410,4 +1566,30 @@ function obtenerHoraElSalvador() {
   var horaElSalvador = fechaActual.toLocaleTimeString("es-SV", options);
 
   return horaElSalvador;
+}
+function cambiarFormatoFecha(fecha) {
+  // Crear un objeto de fecha a partir de la cadena de fecha y ajustar la zona horaria
+  let fechaObjeto = new Date(`${fecha}T00:00:00-06:00`);
+
+  // Obtener el día, mes y año
+  let dia = agregarCero(fechaObjeto.getDate());
+  let mes = agregarCero(fechaObjeto.getMonth() + 1); // Los meses comienzan desde 0, así que sumamos 1
+  let anio = fechaObjeto.getFullYear();
+
+  // Función para agregar un cero si el número es menor a 10
+  function agregarCero(numero) {
+    return numero < 10 ? `0${numero}` : numero;
+  }
+
+  // Formatear la fecha en 'DD/MM/YYYY'
+  let fechaFormateada = `${anio}-${mes}-${dia}`;
+
+  return fechaFormateada;
+}
+
+// Obtener la fecha actual en El Salvador
+function obtenerFechaElSalvador() {
+  let fechaActual = new Date();
+  fechaActual.setUTCHours(fechaActual.getUTCHours() - 6); // Ajustar la zona horaria
+  return cambiarFormatoFecha(fechaActual.toISOString().split("T")[0]);
 }
