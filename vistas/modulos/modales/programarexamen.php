@@ -20,7 +20,8 @@
       <div class=" modal-dialog modal-full">
           <div class=" modal-content">
               <form action="#" method="POST" id="RegistrarProcedimientoReserva" autocomplete="off">
-                  <input type="hidden" id="generarHorario" name="generarHorario" value="crear">
+                  <input type="hidden" id="fecha_programada" name="fecha_programada">
+                  <input type="hidden" id="estado_exam" name="fecha_programada">
                   <input type="hidden" id="id_edit_id_registro" name="id_edit_id_registro" value="0">
                   <div class="modal-header bg-blue-gradient" style=" color: #fff;">
                       <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -293,8 +294,8 @@
                   </div>
                   <div class="modal-footer">
                       <div class="text-end">
-                          <button type="submit" class="btn btn-success bg-green-gradient btn-sm"><i class="fa fa-save"></i> Finalizar</button>
-                          <button type="button" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Registrar Preguntas</button>
+                          <button type="submit" class="btn btn-success bg-green-gradient btn-sm btn-guardar-cambios-examen"><i class="fa fa-save"></i> Finalizar</button>
+                          <button type="button" class="btn btn-primary btn-sm btn-registrar-pregunta-poligrafo" data-toggle="modal" data-target="#cuestionarioPreguntaAdd" disabled><i class="fa fa-plus"></i> Registrar Preguntas</button>
                           <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
                       </div>
                   </div>
@@ -463,6 +464,59 @@
                       <div class="text-end">
 
                           <button type="submit" class="btn btn-success bg-green-gradient btn-sm" id="btn-idsaveedit"><i class="fa fa-pencil-square-o"></i> Registrar</button>
+                          <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                      </div>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+
+
+
+  <!-- CREAR Y EDITAR FORMATO DE EXAMEN PREGUNTAS -->
+  <div class="modal fade" data-backdrop="static" id="cuestionarioPreguntaAdd">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <form action="#" method="POST" id="addCuestionarioPregunta">
+                  <input type="hidden" name="save_process_addPreguntaCuestionario" id="save_process_addPreguntaCuestionario" value="ok">
+                  <div class="modal-header bg-blue-gradient" style=" color: #fff;">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title"><span id="editartitleformato_examen_pregunta">Agregar</span> Pregunta al Cuestionario</h4>
+                  </div>
+                  <div class="modal-body" style="width: auto;">
+
+                      <!-- Alerta de Bootstrap para mostrar mensajes -->
+                      <div class="alert" role="alert" id="mensajeFormaddCuestionarioPregunta" style="display: none;"></div>
+                      <fieldset>
+                          <legend>
+                              <h5>Información requerida: </h5>
+                          </legend>
+
+                          <div class="row">
+                              <div class="col-xs-12 col-sm-12">
+                                  <label for="id_tipo_preguntas_cuestionario">TIPO DE PREGUNTAS: <i class="fa fa-question-circle"></i></label>
+                                  <select name="id_tipo_preguntas_cuestionario" id="id_tipo_preguntas_cuestionario" class="form-control mi-selector input-lg tamanio" required style="width: 100%">
+                                      <option value="">Seleccione</option>
+                                  </select>
+                              </div>
+
+                              <div class="col-xs-12 col-sm-12">
+                                  <label for="nueva_pregunta_cuestionario">NUEVA PREGUNTA:</label>
+                                  <div class="input-group">
+                                      <span class="input-group-addon"><i class="fa fa-question"></i></span>
+                                      <textarea name="nueva_pregunta_cuestionario" id="nueva_pregunta_cuestionario" placeholder="Agregar Nueva Pregunta" class="form-control input-lg" required></textarea>
+                                  </div>
+                              </div>
+
+                          </div>
+                      </fieldset>
+
+                  </div>
+
+                  <div class="modal-footer">
+                      <div class="text-end">
+                          <button type="submit" class="btn btn-success bg-green-gradient btn-sm" id="btn-addCuestionarioPregunta"><i class="fa fa-pencil-square-o"></i> Agregar</button>
                           <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
                       </div>
                   </div>
