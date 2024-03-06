@@ -175,7 +175,7 @@ $ultimoDiaMes = $fecha_actual->format('Y-m-t');
               </div>
             </div>
             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 text-center">
-              <div id="mensaje"></div>
+              <div id="mensajeview"></div>
             </div>
             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 text-center">
               <div class="pull-right">
