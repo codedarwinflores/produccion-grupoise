@@ -12,8 +12,8 @@ function cargar() {
   /*   alert(datos.departamento1); */
 
   $("#loader").fadeIn("slow");
-  $("#mensaje").html("");
   $("#mensaje").fadeIn("slow");
+
   var inicio = performance.now(); // Tiempo de inicio de la petición
   $.ajax({
     type: "POST",
