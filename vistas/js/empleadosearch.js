@@ -85,7 +85,7 @@ function imprimir(param) {
     "Exportando Resultados: ",
     "¡Espere un momento, por favor! Por la cantidad de registros, es probable que tarde unos segundos"
   );
-
+  ocultarMensaje("#mensaje");
   url += "&departamento1=" + datos.departamento1;
   url += "&departamento2=" + datos.departamento2;
   url += "&empleados=" + datos.empleados;
