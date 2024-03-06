@@ -1,4 +1,5 @@
 /* cargar(); */
+
 function cargar() {
   let datos = datosReporte();
   let auxiliar = 0;
@@ -11,20 +12,31 @@ function cargar() {
   /*   alert(datos.departamento1); */
 
   $("#loader").fadeIn("slow");
+  $("#mensaje").fadeIn("slow");
   $.ajax({
     type: "POST",
     data: datos,
     url: "./ajax/empleados.ajax.php?consult=true",
     beforeSend: function (objeto) {
       $("#loader").html(
-        `<div style='background-color:#F4D03F; padding:20px; border-radius: 50px;'>
-        <h4><strong>¡Espere un momento!</strong></h4><h6><strong> Filtrando los registros...  </strong></h6><img src='./vistas/modulos/empleados/js/gif.gif' width='50%'></div>`
+        `<div class="alert alert-warning alert-dismissible" role="alert">
+          <img src='./vistas/modulos/empleados/js/gif.gif' width='2%'><strong>&nbsp;¡Espere un momento, por favor!</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>`
       );
     },
     success: function (data) {
       $("#verTabla").html(data).fadeIn("slow");
       $("#loader").html("");
-      mensaje("success", "check", "Bien Hecho", "Mostrando Datos");
+
+      mensaje(
+        "success",
+        "check",
+        "Bien Hecho",
+        "Mostrando registros encontrados"
+      );
       ocultarMensaje("#mensaje");
     },
   });
@@ -73,7 +85,6 @@ function imprimir(param) {
   url += "&fechahasta=" + datos.fechahasta;
   url += "&reportado_a_pnc=" + datos.reportado_a_pnc;
   url += "&tipoagente=" + datos.tipoagente;
-  url += "&rrhh=" + datos.rrhh;
   window.open(
     "./vistas/modulos/reportesexcel/reporteempleado.php?typeReport=" +
       param +
@@ -95,9 +106,6 @@ $("#departamento2")
   });
 
 function datosReporte() {
-  let checkbox = $("#rrhh");
-  let rrhumanos = checkbox.is(":checked") ? checkbox.val() : "";
-  /*   alert(rrhumanos); */
   let datos = {
     departamento1: $("#departamento1").val(),
     departamento2: $("#departamento2").val(),
@@ -106,7 +114,6 @@ function datosReporte() {
     fechahasta: $("#fechahasta").val(),
     reportado_a_pnc: $("#reportado_a_pnc").val(),
     tipoagente: $("#tipoagente").val(),
-    rrhh: rrhumanos,
   };
   return datos;
 }
