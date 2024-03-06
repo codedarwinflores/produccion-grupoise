@@ -36,6 +36,9 @@ $ultimoDiaMes = $fecha_actual->format('Y-m-t');
       </div>
 
       <div class="box-body bg-info">
+        <div id="loader" style="display: none;">
+
+        </div>
         <h3><strong>Búsqueda</strong></h3>
         <div class="row ">
 
@@ -193,9 +196,7 @@ $ultimoDiaMes = $fecha_actual->format('Y-m-t');
           </div>
 
         </div><!--//container-fluid-->
-        <div id="loader" style="padding:20px; font-weight: bold; width:35%;height: auto;
-  top: 40%;
-  left: 30%; font-size: 8px !important; position: fixed; text-align: center;z-index: 9999;  display:none;"></div>
+
         <div id="verTabla">
         </div>
 
