@@ -427,7 +427,7 @@ if (isset($_GET['consult'])) {
 								?>
 								<td><?php echo $value["descripcion"] ?></td>
 								<td><?php echo edad($value["fecha_nacimiento"]) ?></td>
-								<td><?php echo $value["fecha_nacimiento"] ?></td>
+								<td><?php echo formatearFecha($value["fecha_nacimiento"]) ?></td>
 								<td><?php echo $value["numero_isss"] ?></td>
 								<td><?php echo $value["nit"] ?></td>
 								<td><?php echo $value["codigo_bank"] . "-" . $value["nombre_bank"] ?></td>
