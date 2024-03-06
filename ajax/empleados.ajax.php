@@ -296,7 +296,8 @@ if (isset($_GET['consult'])) {
 				});
 			});
 		</script> -->
-		<div class="table-responsive">
+
+		<div class="contenedor-tabla">
 			<table class="table table-bordered table-striped dt-responsive exampless<?php echo $cont ?> display responsive nowrap tablaedit" width="100%">
 
 				<thead class="bg-info">
@@ -463,7 +464,7 @@ if (isset($_GET['consult'])) {
 			</table>
 		</div>
 
-		</div>
+
 	<?php
 	}
 	?>
@@ -474,6 +475,7 @@ if (isset($_GET['consult'])) {
 			max-height: 450px;
 			overflow: auto;
 			display: inline-block;
+
 			/* border: black 3px groove; */
 		}
 
@@ -493,7 +495,7 @@ if (isset($_GET['consult'])) {
 		/* FILTRAR SOLO POR EL EMPLEADO */
 		$cont = 0;
 		$departamento = departamentos($_POST['empleados'], "uno");
-		echo "<div class='contenedor-tabla'><div class='well'><h4><strong>Departamento: <span class='text-primary'>" . strval($departamento['codigo']) . " - " . $departamento['nombre'] . "</span></strong></h4></div>";
+		echo "<div class='well'><h4><strong>Departamento: <span class='text-primary'>" . strval($departamento['codigo']) . " - " . $departamento['nombre'] . "</span></strong></h4></div>";
 		$campos = "tbemp.*,cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank,bank.nombre as nombre_bank,d_emp.id as d_empid,d_emp.nombre as nombre_empresa,ret.fecha_retiro,ret.motivo_inactivo,ret.observaciones_retiro";
 
 
@@ -523,7 +525,7 @@ if (isset($_GET['consult'])) {
 
 
 		foreach ($departamentos as $depa) {
-			echo "<div class='contenedor-tabla'><div class='well'><h4><strong>Departamento: <span class='text-primary'>" . $depa['codigo'] . " - " . $depa['nombre'] . "</span></strong></h4></div>";
+			echo "<div class='well encabezadowell'><h4><strong>Departamento: <span class='text-primary'>" . $depa['codigo'] . " - " . $depa['nombre'] . "</span></strong></h4></div>";
 			/* select tbemp.*, cargo.id,cargo.descripcion FROM `tbl_empleados` tbemp inner join cargos_desempenados cargo on tbemp.nivel_cargo=cargo.id; */
 			$campos = "tbemp.*,cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank, d_emp.id as d_empid,d_emp.nombre as nombre_empresa,ret.fecha_retiro,ret.motivo_inactivo,ret.observaciones_retiro";
 
@@ -547,7 +549,7 @@ if (isset($_GET['consult'])) {
 			$cont = 0;
 
 			foreach ($departamentos as $depa) {
-				echo "<div class='contenedor-tabla'><div class='well'><h4><strong>Departamento: <span class='text-primary'>" . $depa['codigo'] . " - " . $depa['nombre'] . "</span></strong></h4></div>";
+				echo "<div class='well encabezadowell'><h4><strong>Departamento: <span class='text-primary'>" . $depa['codigo'] . " - " . $depa['nombre'] . "</span></strong></h4></div>";
 				/* FILTRAR TODOS */
 				$campos = "tbemp.*,cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank,bank.nombre as nombre_bank,d_emp.id as d_empid,d_emp.nombre as nombre_empresa,ret.fecha_retiro,ret.motivo_inactivo,ret.observaciones_retiro ";
 
@@ -578,7 +580,7 @@ if (isset($_GET['consult'])) {
 			$departamentos = departamentos($depa1, $depa2);
 			$cont = 0;
 			foreach ($departamentos as $depa) {
-				echo "<div class='contenedor-tabla'><div class='well'><h4><strong>Departamento: <span class='text-primary'>" . $depa['codigo'] . " - " . $depa['nombre'] . "</span></strong></h4></div>";
+				echo "<div class='contenedor-tabla'><div class='well encabezadowell'><h4><strong>Departamento: <span class='text-primary'>" . $depa['codigo'] . " - " . $depa['nombre'] . "</span></strong></h4></div>";
 				/* select tbemp.*, cargo.id,cargo.descripcion FROM `tbl_empleados` tbemp inner join cargos_desempenados cargo on tbemp.nivel_cargo=cargo.id; */
 				$campos = "tbemp.*,cargo.id as cargoid,cargo.descripcion,bank.codigo as codigo_bank, bank.nombre as nombre_bank,d_emp.id as d_empid,d_emp.nombre as nombre_empresa, ret.fecha_retiro, ret.motivo_inactivo, ret.observaciones_retiro";
 				$tabla = "`tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa=d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo=cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco=bank.id LEFT JOIN retiro ret ON tbemp.id=ret.idempleado_retiro";

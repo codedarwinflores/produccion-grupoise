@@ -13,6 +13,8 @@ function cargar() {
 
   $("#loader").fadeIn("slow");
   $("#mensaje").fadeIn("slow");
+
+  var inicio = performance.now(); // Tiempo de inicio de la petición
   $.ajax({
     type: "POST",
     data: datos,
@@ -28,6 +30,9 @@ function cargar() {
       );
     },
     success: function (data) {
+      var fin = performance.now(); // Tiempo de finalización de la petición
+      var tiempoTranscurrido = fin - inicio;
+
       $("#verTabla").html(data).fadeIn("slow");
       $("#loader").html("");
 
@@ -35,11 +40,18 @@ function cargar() {
         "success",
         "check",
         "Bien Hecho",
-        "Mostrando registros encontrados"
+        "Mostrando registros encontrados. " +
+          convertirTiempo(tiempoTranscurrido)
       );
       ocultarMensaje("#mensaje");
     },
   });
+}
+
+function convertirTiempo(milisegundos) {
+  var minutos = Math.floor(milisegundos / 60000);
+  var segundos = ((milisegundos % 60000) / 1000).toFixed(0);
+  return minutos + " minutos " + segundos + " segundos en completarse";
 }
 
 function limpiar() {
