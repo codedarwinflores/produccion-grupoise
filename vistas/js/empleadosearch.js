@@ -79,7 +79,7 @@ function imprimir(param) {
     "warning",
     "warning",
     "Exportando Resultados: ",
-    "¡Espere un momento, por favor! Por la cantidad de registros, es probable que tarde unos segundos"
+    "<img src='./vistas/modulos/empleados/js/gif.gif' width='2%'>&nbsp;¡Espere un momento, por favor! Por la cantidad de registros, es probable que tarde unos segundos"
   );
 
   url += "&departamento1=" + datos.departamento1;
@@ -99,17 +99,13 @@ function imprimir(param) {
   ocultarmensajeview("#mensajeview");
 }
 
-$("#departamento1")
-  .select2()
-  .change(function (e) {
-    $("#empleados").val("*").trigger("change");
-  });
+$("#departamento1").change(function (e) {
+  $("#empleados").val("*").trigger("change");
+});
 
-$("#departamento2")
-  .select2()
-  .change(function (e) {
-    $("#empleados").val("*").trigger("change");
-  });
+$("#departamento2").change(function (e) {
+  $("#empleados").val("*").trigger("change");
+});
 
 function datosReporte() {
   let datos = {
@@ -123,9 +119,13 @@ function datosReporte() {
   };
   return datos;
 }
-
-function limpiar() {
+$(".btn-cleanform").click(function () {
+  $("#form_empleados")[0].reset();
   $("#empleados").val("*").trigger("change");
   $("#departamento1").val("*").trigger("change");
   $("#departamento2").val("*").trigger("change");
-}
+});
+
+$(".btn-searchform").click(function () {
+  cargar();
+});
