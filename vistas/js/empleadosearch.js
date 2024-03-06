@@ -104,13 +104,13 @@ function imprimir(param) {
 $("#departamento1")
   .select2()
   .change(function (e) {
-    $("#empleados").select2("val", "*");
+    $("#empleados").val("*").trigger("change");
   });
 
 $("#departamento2")
   .select2()
   .change(function (e) {
-    $("#empleados").select2("val", "*");
+    $("#empleados").val("*").trigger("change");
   });
 
 function datosReporte() {
@@ -126,5 +126,7 @@ function datosReporte() {
   return datos;
 }
 function limpiar() {
-  $(".mi-selector").select2("val", "*");
+  $("#empleados").val("*").trigger("change");
+  $("#departamento1").val("*").trigger("change");
+  $("#departamento2").val("*").trigger("change");
 }
