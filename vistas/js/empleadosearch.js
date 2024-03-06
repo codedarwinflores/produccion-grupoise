@@ -54,10 +54,6 @@ function convertirTiempo(milisegundos) {
   return minutos + " minutos " + segundos + " segundos en completarse";
 }
 
-function limpiar() {
-  $(".mi-selector").select2("val", "*");
-}
-
 function mensaje(tipoalert, icono, titulo, mensaje) {
   $("#mensaje")
     .html(`<div class="alert alert-${tipoalert} alert-dismissible" role="alert">
@@ -128,4 +124,7 @@ function datosReporte() {
     tipoagente: $("#tipoagente").val(),
   };
   return datos;
+}
+function limpiar() {
+  $(".mi-selector").select2("val", "*");
 }
