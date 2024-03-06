@@ -99,7 +99,6 @@ function imprimir(param) {
       url,
     "_self"
   );
-  ocultarMensaje("#mensaje");
 }
 
 $("#departamento1")
