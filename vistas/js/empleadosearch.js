@@ -1,5 +1,3 @@
-/* cargar(); */
-
 function cargar() {
   let datos = datosReporte();
   let auxiliar = 0;
@@ -9,11 +7,9 @@ function cargar() {
     datos.departamento2 = auxiliar;
   }
 
-  /*   alert(datos.departamento1); */
-
   $("#loader").fadeIn("slow");
-  $("#mensaje").fadeIn("slow");
-
+  $("#mensajeview").html("");
+  $("#mensajeview").fadeIn("slow");
   var inicio = performance.now(); // Tiempo de inicio de la petición
   $.ajax({
     type: "POST",
@@ -36,14 +32,14 @@ function cargar() {
       $("#verTabla").html(data).fadeIn("slow");
       $("#loader").html("");
 
-      mensaje(
+      mensajeview(
         "success",
         "check",
         "Bien Hecho",
         "Mostrando registros encontrados. " +
           convertirTiempo(tiempoTranscurrido)
       );
-      ocultarMensaje("#mensaje");
+      ocultarmensajeview("#mensajeview");
     },
   });
 }
@@ -54,23 +50,23 @@ function convertirTiempo(milisegundos) {
   return minutos + " minutos " + segundos + " segundos en completarse";
 }
 
-function mensaje(tipoalert, icono, titulo, mensaje) {
-  $("#mensaje")
+function mensajeview(tipoalert, icono, titulo, mensajeview) {
+  $("#mensajeview")
     .html(`<div class="alert alert-${tipoalert} alert-dismissible" role="alert">
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 					<i class="fa fa-${icono}"></i>
-					<strong>¡${titulo}!</strong> ${mensaje}
+					<strong>¡${titulo}!</strong> ${mensajeview}
 				</div>`);
 }
 
-function ocultarMensaje(id) {
+function ocultarmensajeview(id) {
   setTimeout(function () {
-    $(id).fadeOut(3500);
-  }, 3500);
+    $(id).fadeOut(4500);
+  }, 4500);
 }
 
 function imprimir(param) {
-  $("#mensaje").fadeIn("slow");
+  $("#mensajeview").fadeIn("slow");
   let datos = datosReporte();
   if (datos.departamento1 > datos.departamento2) {
     auxiliar = datos.departamento1;
@@ -79,13 +75,13 @@ function imprimir(param) {
   }
 
   let url = "";
-  mensaje(
+  mensajeview(
     "warning",
     "warning",
     "Exportando Resultados: ",
     "¡Espere un momento, por favor! Por la cantidad de registros, es probable que tarde unos segundos"
   );
-  ocultarMensaje("#mensaje");
+
   url += "&departamento1=" + datos.departamento1;
   url += "&departamento2=" + datos.departamento2;
   url += "&empleados=" + datos.empleados;
@@ -99,6 +95,8 @@ function imprimir(param) {
       url,
     "_self"
   );
+
+  ocultarmensajeview("#mensajeview");
 }
 
 $("#departamento1")
@@ -125,6 +123,7 @@ function datosReporte() {
   };
   return datos;
 }
+
 function limpiar() {
   $("#empleados").val("*").trigger("change");
   $("#departamento1").val("*").trigger("change");
