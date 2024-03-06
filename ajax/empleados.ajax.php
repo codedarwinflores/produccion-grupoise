@@ -282,7 +282,12 @@ if (isset($_GET['consult'])) {
 			return $sqlquery->fetchAll();
 		}
 	}
-
+	/* FORMATEAR FECHA */
+	function formatearFecha($fecha)
+	{
+		$timestamp = strtotime($fecha);
+		return date('d/m/Y', $timestamp);
+	}
 
 	/* IMPRIMI TABLA DE ACUERDO A LA CONSULTA ENVIADA */
 
@@ -391,11 +396,11 @@ if (isset($_GET['consult'])) {
 							<td><?php echo "$ " . $value["sueldo_que_devenga"] ?></td>
 							<td><?php echo transpDevengo($value["id"]); ?></td>
 							<td><?php echo bonoEmpleado($ubicacionEmpleado['fecha_transacciones_agente']); ?></td>
-							<td><?php echo $value["fecha_ingreso"] ?></td>
-							<td><?php echo $value["fecha_contratacion"] ?></td>
-							<td><?php echo !empty($value['fecha_retiro']) ? $value['fecha_retiro'] : "- - -" ?></td>
+							<td><?php echo formatearFecha($value["fecha_ingreso"]) ?></td>
+							<td><?php echo formatearFecha($value["fecha_contratacion"]) ?></td>
+							<td><?php echo !empty($value['fecha_retiro']) ? formatearFecha($value['fecha_retiro']) : "- - -" ?></td>
 							<td><?php echo $ubicacionEmpleado['nueva_ubicacion_transacciones_agente']; ?></td>
-							<td><?php echo $ubicacionEmpleado['fecha_transacciones_agente']; ?></td>
+							<td><?php echo formatearFecha(formatearFecha($value["fecha_ingreso"])); ?></td>
 							<td><?php echo $value["numero_documento_identidad"] ?></td>
 							<?php
 
