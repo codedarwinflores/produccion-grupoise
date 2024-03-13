@@ -55,35 +55,32 @@ if ($_SESSION["perfil"] == "Vendedor") {
         </h1>
 
         <ol class="breadcrumb">
-
             <li><a href="inicio"><i class="fa fa-dashboard"></i> Inicio</a></li>
-
             <li class="active">Crear Examen</li>
-
         </ol>
 
     </section>
 
-
+    <input type="hidden" name="idperfill" id="idperfill" value="<?= $_SESSION['perfil'] ?>">
     <section class="content">
 
         <div class="box">
             <div class="container-fluid" id="page-container">
                 <div class="floating-button">
                     <!-- Botón flotante -->
-                    <button type="button" class="btn btn-success btn-sm" title="Nuevo registro" id="AddPoliBtn"><i class="fa fa-plus"></i></button>
+                    <button type="button" class="btn btn-success btn-sm" title="Nuevo registro" id="AddPoliBtn"><i class="fa fa-edit"></i></button>
 
                     <!-- Single button -->
-                    <div class="btn-group pull-right">
+                    <!--  <div class="btn-group pull-right">
                         <button type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-expanded="true"><i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;</button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                            <li><a href="#" data-toggle="modal" data-target="#modalAgregarEvaluado">Evaluados</a></li>
-                            <li><a href="#" data-toggle="modal" data-target="#modalAgregarClienteMorse">Clientes</a></li>
+                            <li><a href="#" data-toggle="modal" data-target="#modalAgregarEvaluados">Evaluados</a></li>
+                            <li><a href="#" data-toggle="modal" data-target="#modalAgregarClienteMorses">Clientes</a></li>
                             <li><a href="#">Tipo Examen</a></li>
-                            <!--    <li role="separator" class="divider"></li>
-                            <li><a href="#">Separated link</a></li> -->
-                        </ul>
-                    </div>
+                             <li role="separator" class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                    </ul>
+                </div> -->
                 </div>
                 <div class="box-header">
 

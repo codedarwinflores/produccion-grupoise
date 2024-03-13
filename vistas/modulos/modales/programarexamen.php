@@ -21,15 +21,16 @@
           <div class=" modal-content">
               <form action="#" method="POST" id="RegistrarProcedimientoReserva" autocomplete="off">
                   <input type="hidden" id="fecha_programada" name="fecha_programada">
-                  <input type="hidden" id="estado_exam" name="fecha_programada">
+                  <input type="hidden" id="estado_exam" name="estado_exam">
                   <input type="hidden" id="id_edit_id_registro" name="id_edit_id_registro" value="0">
+                  <input type="hidden" id="id_encriptado_value" name=" id_encriptado_value" value="0">
                   <div class="modal-header bg-blue-gradient" style=" color: #fff;">
-                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <button type="button" class="close CerrarModal" data-dismiss="modal">&times;</button>
                       <h4 class="modal-title">PROCESAR CITA RESERVADA <span id="titleFecha"></span></h4>
 
                   </div>
                   <div class="modal-body" style="max-height: calc(100vh - 120px); overflow-y: auto;">
-                      <div class="alert" role="alert" id="mensajeAlertExamenProgramadoModal" style="display: none;"></div>
+                      <div class="alert" role="alert" id="mensajeAlertExamenProgramadoModal" style="display: none;position: fixed;z-index: 999;right: 1%;top:6%"></div>
 
 
                       <div class="row">
@@ -52,7 +53,14 @@
                                           <tr>
                                               <th style="text-align: right;">EVALUADO: </th>
                                               <td>
-                                                  <p id="evaluado_programar"></p>
+                                                  <table width="100%">
+                                                      <tr>
+                                                          <td style="width: 60%;">
+                                                              <p id="evaluado_programar">Nombre</p>
+                                                          </td>
+                                                          <td><img src="https://cdn.icon-icons.com/icons2/69/PNG/128/user_customer_person_13976.png" id="myFoto" width="20%" class="img-thumbnail" alt="Fotografía" title="Fotografía"></td>
+                                                      </tr>
+                                                  </table>
                                               </td>
                                           </tr>
 
@@ -103,11 +111,11 @@
                                           </tr>
 
                                           <tr>
-                                              <th style="text-align: right;">PRECIO: $</th>
+                                              <th style="text-align: right;">PRECIO A PAGAR: $</th>
                                               <td>
                                                   <div class="input-group">
                                                       <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
-                                                      <input type="text" class="form-control FormatoMoney input-lg" required name="precio_programar" placeholder="0.00" id="precio_programar">
+                                                      <input type="text" class="form-control FormatoMoney input-lg camposaveinput" data-campo="precio_examen" required name="precio_programar" placeholder="0.00" id="precio_programar">
                                                   </div>
                                                   <span id="precioUpdate" class="text-success"></span>
                                               </td>
@@ -124,8 +132,6 @@
                               </div>
                           </div>
                       </div>
-
-
 
                       <fieldset class="well">
                           <legend>
@@ -157,14 +163,14 @@
                                   <label for="fecha_sol_programar">FECHA SOLICITUD:</label>
                                   <div class="input-group">
                                       <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                      <input type=" date" readonly class="form-control input-lg" name="fecha_sol_programar" id="fecha_sol_programar" placeholder="Fecha solicitud" title="" required>
+                                      <input type="date" class="form-control input-lg camposaveinput" data-campo="fecha_solicitud_re" name=" fecha_sol_programar" id="fecha_sol_programar" placeholder="Fecha solicitud" title="" required>
                                   </div>
                               </div>
                               <div class="col-xs-12 col-sm-3">
                                   <label for="sol_hora_programar">HORA SOLICITUD: </label>
                                   <div class="input-group">
                                       <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-                                      <input type="time" readonly class="form-control input-lg" required name="sol_hora_programar" placeholder="0.00" id="sol_hora_programar">
+                                      <input type="time" class="form-control input-lg camposaveinput" data-campo="hora_solicitud_re" required name="sol_hora_programar" placeholder="0.00" id="sol_hora_programar">
                                   </div>
                               </div>
 
@@ -172,12 +178,12 @@
                               <div class="col-xs-12 col-sm-3">
                                   <label for="sol_cargo_programar">CARGO: <i class="fa fa-user-md"></i></label>
                                   <select name="sol_cargo_programar" id="sol_cargo_programar" class="form-control input-lg mi-selector" required>
-                                      <option value="">Seleccione Cargo</option>
+                                      <option value="0">Seleccione Cargo</option>
                                   </select>
 
                               </div>
 
-                              <div class="col-xs-12 col-sm-3">
+                              <div class=" col-xs-12 col-sm-3">
                                   <label for="sol_correo_programar">CORREO:</label>
                                   <div class="input-group">
                                       <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
@@ -203,7 +209,6 @@
                               </div>
 
                           </div>
-
                       </fieldset>
 
                       <fieldset class="well">
@@ -212,7 +217,7 @@
                           </legend>
                           <div class="row">
                               <div class="col-xs-12 col-sm-2">
-                                  <button type="button" class="btn btn-primary" id="comenzarExamenHoraInicio"><i class="fa fa-clock-o"></i> Iniciar</button>
+                                  <button type="button" class="btn btn-primary" id="comenzarExamenHoraInicio"><i class="fa fa-clock-o"></i> Reg. Ingreso</button>
                               </div>
                               <div class="col-xs-12 col-sm-3">
                                   <label for="hora_ingreso_programar">HORA INGRESÓ: </label>
@@ -227,7 +232,7 @@
                                   <label for="forma_pago">FORMA DE PAGO:</label>
                                   <div class="input-group">
                                       <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                      <select class="form-control input-lg" name="forma_pago" id="forma_pago">
+                                      <select class="form-control input-lg camposaveinput" data-campo="forma_pago" name="forma_pago" id="forma_pago">
                                           <option value="">Seleccione...</option>
                                           <option value="Credito">1. Crédito</option>
                                           <option value="Contado">2. Contado</option>
@@ -239,7 +244,7 @@
                                   <label for="porcentaje_cliente">% CLIENTE: </label>
                                   <div class="input-group">
                                       <span class="input-group-addon"><i class="fa fa-percent"></i></span>
-                                      <input type="text" class="form-control input-lg FormatoMoney" placeholder="% cliente" name="porcentaje_cliente" id="porcentaje_cliente" min="0" max="100" required>
+                                      <input type="text" class="form-control input-lg FormatoMoney camposaveinput" data-campo="porcentaje_cliente" placeholder="% cliente" name="porcentaje_cliente" id="porcentaje_cliente" min="0" max="100" required>
                                   </div>
                               </div>
 
@@ -247,7 +252,7 @@
                                   <label for="porcentaje_evaluado">% EVALUADO: </label>
                                   <div class="input-group">
                                       <span class="input-group-addon"><i class="fa fa-percent"></i></span>
-                                      <input type="text" class="form-control input-lg FormatoMoney" placeholder="% evaluado" name="porcentaje_evaluado" id="porcentaje_evaluado" min="0" max="100" required>
+                                      <input type="text" class="form-control input-lg FormatoMoney camposaveinput" data-campo="porcentaje_evaluado" placeholder="% evaluado" name="porcentaje_evaluado" id="porcentaje_evaluado" min="0" max="100" required>
                                   </div>
 
                               </div>
@@ -277,7 +282,7 @@
                                   <label for="resultado_examen">RESULTADO:</label>
                                   <div class="input-group">
                                       <span class="input-group-addon"><i class="fa fa-address-card"></i></span>
-                                      <select class="form-control input-lg" name="resultado_examen" id="resultado_examen">
+                                      <select class="form-control input-lg camposaveinput" disabled data-campo="resultado_final_examen" name="resultado_examen" id="resultado_examen">
                                           <option value="">Seleccione...</option>
                                           <option value="Confiable">Confiable</option>
                                           <option value="No Confiable">No Confiable</option>
@@ -285,10 +290,7 @@
                                   </div>
                               </div>
                           </div>
-
                       </fieldset>
-
-
                       <div id="listadoPreguntas"></div>
                       <!-- Loading spinner -->
                       <div id="loadingSpinnerPreguntas" class="text-center" style="display: none;">
@@ -301,25 +303,25 @@
                               <h5>Observaciones: </h5>
                           </legend>
                           <div class="row">
-                              <div class="col-xs-12 col-sm-6">
+                              <div class="col-xs-12 col-sm-12">
                                   <label for="reserva_observaciones">OBSERVACIONES:</label>
                                   <div class="input-group">
                                       <span class="input-group-addon"><i class="fa fa-comment"></i></span>
-                                      <textarea name="reserva_observaciones" class="form-control input-lg" id="reserva_observaciones" placeholder="Observaciones"></textarea>
+                                      <textarea name="reserva_observaciones" class="form-control input-lg camposaveinput" disabled data-campo="observaciones_examen" id="reserva_observaciones" placeholder="Observaciones" rows="10"></textarea>
                                   </div>
                               </div>
                               <div class="col-xs-12 col-sm-6">
                                   <label for="reserva_objetivo_examen">OBJETIVO DE EXAMEN:</label>
                                   <div class="input-group">
                                       <span class="input-group-addon"><i class="fa fa-commenting-o"></i></span>
-                                      <textarea name=" reserva_objetivo_examen" class="form-control input-lg" id="reserva_objetivo_examen" placeholder="Objetivo Examen"></textarea>
+                                      <textarea name=" reserva_objetivo_examen" class="form-control input-lg camposaveinput" disabled data-campo="objetivo_examen" id="reserva_objetivo_examen" placeholder="Objetivo Examen" rows="10"></textarea>
                                   </div>
                               </div>
-                              <div class="col-xs-12 col-sm-12">
+                              <div class="col-xs-12 col-sm-6">
                                   <label for="reserva_concepto_conclusion">CONCEPTO CONCLUSIÓN:</label>
                                   <div class="input-group">
                                       <span class="input-group-addon"><i class="fa fa-commenting-o"></i></span>
-                                      <textarea name=" reserva_concepto_conclusion" class="form-control input-lg" id="reserva_concepto_conclusion" placeholder="Concepto Conclusión"></textarea>
+                                      <textarea name=" reserva_concepto_conclusion" class="form-control input-lg camposaveinput" disabled data-campo="conclusion_examen" id="reserva_concepto_conclusion" placeholder="Concepto Conclusión" rows="10"></textarea>
                                   </div>
                               </div>
                           </div>
@@ -329,9 +331,10 @@
                   </div>
                   <div class="modal-footer">
                       <div class="text-end">
-                          <button type="submit" class="btn btn-success bg-green-gradient btn-sm btn-guardar-cambios-examen"><i class="fa fa-save"></i> Finalizar</button>
+                          <button type="button" class="btn btn-info bg-info-gradient btn-sm btnImprimir"><i class="fa fa-print"></i> Imprimir</button>
+                          <button type="button" class="btn btn-success bg-green-gradient btn-sm btn-guardar-cambios-examen"><i class="fa fa-save"></i> Finalizar</button>
                           <button type="button" class="btn btn-primary btn-sm btn-registrar-pregunta-poligrafo" data-toggle="modal" data-target="#cuestionarioPreguntaAdd" disabled><i class="fa fa-plus"></i> Registrar Preguntas</button>
-                          <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-default btn-sm CerrarModal" data-dismiss="modal">Salir</button>
                       </div>
                   </div>
               </form>
@@ -402,7 +405,7 @@
                       <div class="text-end">
                           <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-refresh"></i> Auto-Generar Horarios</button>
                           <button type="button" class="btn btn-success bg-green-gradient btn-sm" data-toggle="modal" data-target="#saveedit"><i class="fa fa-plus"></i> Nuevo Intérvalo</button>
-                          <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Salir</button>
                       </div>
                   </div>
               </form>
@@ -449,7 +452,7 @@
                       <div class="text-end">
 
                           <button type="submit" class="btn btn-success bg-green-gradient btn-sm" id="btn-idsaveedit"><i class="fa fa-pencil-square-o"></i> Registrar</button>
-                          <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Salir</button>
                       </div>
                   </div>
               </form>
@@ -499,7 +502,7 @@
                       <div class="text-end">
 
                           <button type="submit" class="btn btn-success bg-green-gradient btn-sm" id="btn-idsaveedit"><i class="fa fa-pencil-square-o"></i> Registrar</button>
-                          <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Salir</button>
                       </div>
                   </div>
               </form>
@@ -552,7 +555,7 @@
                   <div class="modal-footer">
                       <div class="text-end">
                           <button type="submit" class="btn btn-success bg-green-gradient btn-sm" id="btn-addCuestionarioPregunta"><i class="fa fa-pencil-square-o"></i> Agregar</button>
-                          <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Salir</button>
                       </div>
                   </div>
               </form>

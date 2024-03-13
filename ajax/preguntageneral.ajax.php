@@ -175,6 +175,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     =============================================*/
     if (isset($_POST["save_process_tipopregunta"]) && $_POST["save_process_tipopregunta"] === "ok" && isset($_POST["type_action_form_tipopregunta"]) && isset($_POST["id_edit_tipopregunta"])) {
 
+
+
         if ($_POST["id_edit_tipopregunta"] === "0"  && $_POST["type_action_form_tipopregunta"] === "save") {
             $crear = new ControladorPreguntaGeneral();
 

@@ -35,7 +35,7 @@
                       <div class="text-end">
 
                           <button type="submit" class="btn btn-success bg-green-gradient btn-sm" id="btn-idsaveeditcargocliente"><i class="fa fa-pencil-square-o"></i> Registrar</button>
-                          <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Salir</button>
                       </div>
                   </div>
               </form>
@@ -80,7 +80,7 @@
                       <div class="text-end">
 
                           <button type="submit" class="btn btn-success bg-green-gradient btn-sm" id="btn-idsaveeditareaexamen"><i class="fa fa-pencil-square-o"></i> Registrar</button>
-                          <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Salir</button>
                       </div>
                   </div>
               </form>

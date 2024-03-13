@@ -31,6 +31,7 @@ $(document).ready(function () {
           );
         },
         success: function (response) {
+          console.log(JSON.stringify(response));
           // Mostrar mensaje de éxito
           if (response === "save") {
             mostrarAlerta(
@@ -401,8 +402,9 @@ $(".tbl_tipo_pregunta").on("click", ".btnEditarTipoPregunta", function () {
   $("#btn-idsaveedittipopregunta").html(
     '<i class="fa fa-pencil-square-o"></i> Editar'
   );
+
   $("#editartitletipoPregunta").html("Editar");
-  $("#type_action_form_pregunta").val("update");
+  $("#type_action_form_tipopregunta").val("update");
 
   $.ajax({
     url: "./ajax/preguntageneral.ajax.php",

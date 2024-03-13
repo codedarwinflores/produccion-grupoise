@@ -34,7 +34,7 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
                         <div class="box-body">
                             <div class="alert" role="alert" id="mensajeAlertCargoDelete" style="display: none;"></div>
                             <table class="table table-bordered table-striped dt-responsive tbl_cargo_cliente" width="100%">
-                                <caption>CARGO DE CLIENTES "MORSE"</caption>
+                                <caption>CARGOS "MORSE"</caption>
                                 <thead>
                                     <tr>
                                         <th width="4%">#</th>

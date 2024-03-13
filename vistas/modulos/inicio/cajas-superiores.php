@@ -49,7 +49,7 @@
 <div class="col-lg-3 col-xs-6">
   <div class="small-box " style="background-color: #2b2468;color: #ffb002;">
     <div class="inner">
-      <p>Cargo Cliente y Area Examen</p>
+      <p>Maestro Cargos y Area Examen</p>
     </div>
     <div class="icon">
       <i class="fa fa-briefcase"></i>
