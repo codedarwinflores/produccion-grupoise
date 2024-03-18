@@ -26,7 +26,7 @@ class ClienteMorseModelo
     static public function ObtenerDataSelect($tabla, $id)
     {
         $condicion = "";
-        if ($id != "" || !empty($id)) {
+        if ($id != "") {
             $condicion = " WHERE " . $id;
         }
         $query = "SELECT * FROM $tabla $condicion";
