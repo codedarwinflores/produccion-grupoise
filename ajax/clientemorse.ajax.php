@@ -223,19 +223,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $ClienteMorse = new ControladorClienteMorse();
         echo $ClienteMorse::getDataSelect("tbl_vendedormorse", "");
     } else if (isset($_POST["getMunicipios"]) && $_POST["getMunicipios"] === "ok" && isset($_POST["departamentoId"]) && is_numeric($_POST["departamentoId"]) && $_POST["departamentoId"] > 0) {
-
-
-        $query = "SELECT * FROM cat_municipios WHERE idDpto=" . $_POST["departamentoId"];
-        $sql = Conexion::conectar()->prepare($query);
-
-        if ($sql->execute()) {
-            // Obtener los resultados como un array asociativo
-            $resultados = $sql->fetchAll();
-
-            // Convertir a formato JSON
-            $jsonResultados = json_encode($resultados);
-
-            echo $jsonResultados;
+        $ClienteMorse = new ControladorClienteMorse();
+        if (!$ClienteMorse::getDataSelect("cat_municipios", "idDpto=" . $_POST["departamentoId"])) {
+            echo $ClienteMorse::getDataSelect("cat_municipios", "idDpto=" . $_POST["departamentoId"]);
         }
     } else if (isset($_POST["getTipoExamen"]) && $_POST["getTipoExamen"] === "ok") {
         $ClienteMorse = new ControladorClienteMorse();
