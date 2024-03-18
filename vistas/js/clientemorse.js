@@ -163,8 +163,9 @@ $(document).ready(function () {
 
   // Manejar cambio en el select de departamento
   $("#general_id_departamento").change(function () {
-    let id_departamento = $(this).val();
-    llenarSelectMunicipio(id_departamento);
+    setInterval(() => {
+      llenarSelectMunicipio();
+    }, 50);
   });
 
   /* REGISTRAR CLIENTE MORSE */
@@ -405,7 +406,7 @@ $(".ClienteMorse_register").on("click", ".btnEditarClienteMorse", function () {
       $("#general_id_departamento").val(respuesta.general_id_departamento);
       setTimeout(function () {
         // Activar el evento change para #id_departamento
-        llenarSelectMunicipio(respuesta.general_id_departamento);
+        llenarSelectMunicipio();
       }, 10);
       setTimeout(function () {
         // Activar el evento change para #id_departamento
@@ -479,52 +480,37 @@ function cerrarModalClienteMorse() {
   });
 }
 
-function llenarSelectMunicipio(departamentoId) {
-  // Realizar solicitud AJAX para obtener municipios
+function llenarSelectMunicipio() {
+  var departamentoId = $("#general_id_departamento").val();
 
-  $("#general_id_municipio").empty();
-  if (departamentoId !== "") {
-    $.ajax({
-      url: "./ajax/clientemorse.ajax.php",
-      type: "POST",
-      dataType: "json",
-      data: { departamentoId: departamentoId, getMunicipios: "ok" },
-      success: function (data) {
-        console.log(data);
-        // Llenar el select de municipios
-        var municipioSelect = $("#general_id_municipio");
-        municipioSelect.empty(); // Limpiar opciones anteriores
-        // Agregar la opción por defecto
+  // Realizar solicitud AJAX para obtener municipios
+  $.ajax({
+    url: "./ajax/clientemorse.ajax.php",
+    type: "POST",
+    dataType: "json",
+    data: { departamentoId: departamentoId, getMunicipio: "ok" },
+    success: function (data) {
+      // Llenar el select de municipios
+      var municipioSelect = $("#general_id_municipio");
+      municipioSelect.empty(); // Limpiar opciones anteriores
+      // Agregar la opción por defecto
+      municipioSelect.append(
+        '<option value="0" selected>Selecciona un municipio</option>'
+      );
+      $.each(data, function (index, municipio) {
         municipioSelect.append(
-          '<option value="0" selected>Selecciona un municipio</option>'
+          '<option value="' +
+            municipio.id +
+            '">' +
+            municipio.Nombre_m +
+            "</option>"
         );
-        $.each(data, function (index, municipio) {
-          municipioSelect.append(
-            '<option value="' +
-              municipio.id +
-              '">' +
-              municipio.Nombre_m +
-              "</option>"
-          );
-        });
-      },
-      error: function (xhr, status, error) {
-        var errorMessage = xhr.status + ": " + xhr.statusText;
-        console.log(
-          "Error al obtener municipios. Estado: " +
-            status +
-            ". Error: " +
-            error +
-            ". Detalles: " +
-            errorMessage
-        );
-      },
-    });
-  } else {
-    $("#general_id_municipio").append(
-      '<option value="">Seleciona un municipio</option>'
-    );
-  }
+      });
+    },
+    error: function (error) {
+      console.log("Error al obtener municipios:", error);
+    },
+  });
 }
 
 function llenarUltimoEvaluado() {
