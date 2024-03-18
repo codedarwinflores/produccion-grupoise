@@ -486,7 +486,7 @@ function llenarSelectMunicipio() {
     url: "./ajax/clientemorse.ajax.php",
     type: "POST",
     dataType: "json",
-    data: { departamentoId: departamentoId, getMunicipio: "ok" },
+    data: { departamentoId: 1, getMunicipio: "ok" },
     success: function (data) {
       console.log(JSON.stringify(data));
       // Llenar el select de municipios
