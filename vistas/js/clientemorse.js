@@ -407,11 +407,11 @@ $(".ClienteMorse_register").on("click", ".btnEditarClienteMorse", function () {
       setTimeout(function () {
         // Activar el evento change para #id_departamento
         llenarSelectMunicipio();
-      }, 10);
+      }, 50);
       setTimeout(function () {
         // Activar el evento change para #id_departamento
         $("#general_id_municipio").val(respuesta.general_id_municipio);
-      }, 100);
+      }, 200);
 
       $("#otro_fecha_apertura").val(respuesta.otro_fecha_apertura);
       $("#otro_limite_credito").val(respuesta.otro_limite_credito);
