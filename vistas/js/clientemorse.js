@@ -399,12 +399,12 @@ $(".ClienteMorse_register").on("click", ".btnEditarClienteMorse", function () {
       $("#general_id_departamento").val(respuesta.general_id_departamento);
       setTimeout(function () {
         // Activar el evento change para #id_departamento
-        llenarSelectMunicipio();
+        llenarSelectMunicipio(respuesta.general_id_departamento);
       }, 10);
       setTimeout(function () {
         // Activar el evento change para #id_departamento
         $("#general_id_municipio").val(respuesta.general_id_municipio);
-      }, 100);
+      }, 400);
 
       $("#otro_fecha_apertura").val(respuesta.otro_fecha_apertura);
       $("#otro_limite_credito").val(respuesta.otro_limite_credito);
@@ -475,14 +475,10 @@ function cerrarModalClienteMorse() {
 
 // Manejar cambio en el select de departamento
 $("#general_id_departamento").change(function () {
-  setInterval(() => {
-    llenarSelectMunicipio();
-  }, 50);
+  llenarSelectMunicipio($(this).val());
 });
 
-function llenarSelectMunicipio() {
-  var departamentoId = $("#general_id_departamento").val();
-
+function llenarSelectMunicipio(departamentoId) {
   // Realizar solicitud AJAX para obtener municipios
   $.ajax({
     url: "./ajax/clientemorse.ajax.php",
