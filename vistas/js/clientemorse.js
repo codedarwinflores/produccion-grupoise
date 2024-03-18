@@ -490,6 +490,7 @@ function llenarSelectMunicipio() {
       dataType: "json",
       data: { departamentoId: departamentoId, getMunicipio: "ok" },
       success: function (data) {
+        console.log(data);
         // Llenar el select de municipios
         var municipioSelect = $("#general_id_municipio");
         municipioSelect.empty(); // Limpiar opciones anteriores
