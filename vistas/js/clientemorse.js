@@ -163,7 +163,9 @@ $(document).ready(function () {
 
   // Manejar cambio en el select de departamento
   $("#general_id_departamento").change(function () {
-    llenarSelectMunicipio();
+    setInterval(() => {
+      llenarSelectMunicipio();
+    }, 200);
   });
 
   /* REGISTRAR CLIENTE MORSE */
@@ -486,9 +488,8 @@ function llenarSelectMunicipio() {
     url: "./ajax/clientemorse.ajax.php",
     type: "POST",
     dataType: "json",
-    data: { departamentoId: 1, getMunicipio: "ok" },
+    data: { departamentoId: departamentoId, getMunicipio: "ok" },
     success: function (data) {
-      console.log(JSON.stringify(data));
       // Llenar el select de municipios
       var municipioSelect = $("#general_id_municipio");
       municipioSelect.empty(); // Limpiar opciones anteriores
@@ -496,13 +497,13 @@ function llenarSelectMunicipio() {
       municipioSelect.append(
         '<option value="0" selected>Selecciona un municipio</option>'
       );
-      // Agregar opciones de municipios
       $.each(data, function (index, municipio) {
         municipioSelect.append(
-          $("<option>", {
-            value: municipio.id,
-            text: municipio.Nombre_m,
-          })
+          '<option value="' +
+            municipio.id +
+            '">' +
+            municipio.Nombre_m +
+            "</option>"
         );
       });
     },
