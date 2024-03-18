@@ -107,6 +107,7 @@ function getDepartamentosSelect() {
     dataType: "json",
     data: { getDepartamento: "ok" },
     success: function (data) {
+      console.log(JSON.stringify(data));
       // Llenar el select de países
       var departSelect = $("#general_id_departamento");
 
@@ -490,6 +491,7 @@ function llenarSelectMunicipio() {
     dataType: "json",
     data: { departamentoId: departamentoId, getMunicipio: "ok" },
     success: function (data) {
+      console.log(JSON.stringify(data));
       // Llenar el select de municipios
       var municipioSelect = $("#general_id_municipio");
       municipioSelect.empty(); // Limpiar opciones anteriores
