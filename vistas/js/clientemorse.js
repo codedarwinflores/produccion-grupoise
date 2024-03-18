@@ -200,6 +200,7 @@ $(document).ready(function () {
             );
             $("#form_clientemorse_save")[0].reset();
             $("#form_tipoexamen_precio")[0].reset();
+            $("#general_id_departamento").val("0").trigger("change");
             cargarDataClienteMorse();
             eliminarSesionExamenes();
             cargarExamenesCliente();
@@ -464,6 +465,7 @@ function cerrarModalClienteMorse() {
     $("#editarTitleMorse").html("Registrar");
     $("#solicitado_cargo").val("0").trigger("change");
     $("#id_vendedor_morse").val("0").trigger("change");
+    $("#general_id_departamento").val("0").trigger("change");
     $("#form_clientemorse_save")[0].reset();
     $("#form_tipoexamen_precio")[0].reset();
     eliminarSesionExamenes();
