@@ -447,11 +447,11 @@ $(".ClienteMorse_register").on("click", ".btnEditarClienteMorse", function () {
       llenarUltimoEvaluado();
       setTimeout(() => {
         llenarSelectMunicipio();
-      }, 100);
+      }, 10);
 
       setTimeout(() => {
         $("#general_id_municipio").val(respuesta.general_id_municipio);
-      }, 100);
+      }, 200);
     },
     error: function (xhr, status, error) {
       console.error(xhr, status, error);
