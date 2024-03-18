@@ -344,11 +344,6 @@ $(document).ready(function () {
   });
 });
 
-// Manejar cambio en el select de departamento
-$("#general_id_departamento").change(function () {
-  llenarSelectMunicipio($(this).val());
-});
-
 // Función para manejar el cambio en el select
 function handleSelectChange() {
   var selectedValue = $("#general_contribuyente").val();
@@ -404,12 +399,12 @@ $(".ClienteMorse_register").on("click", ".btnEditarClienteMorse", function () {
       $("#general_id_departamento").val(respuesta.general_id_departamento);
       setTimeout(function () {
         // Activar el evento change para #id_departamento
-        llenarSelectMunicipio(respuesta.general_id_departamento);
+        llenarSelectMunicipio();
       }, 10);
       setTimeout(function () {
         // Activar el evento change para #id_departamento
         $("#general_id_municipio").val(respuesta.general_id_municipio);
-      }, 200);
+      }, 100);
 
       $("#otro_fecha_apertura").val(respuesta.otro_fecha_apertura);
       $("#otro_limite_credito").val(respuesta.otro_limite_credito);
@@ -478,7 +473,16 @@ function cerrarModalClienteMorse() {
   });
 }
 
-function llenarSelectMunicipio(departamentoId) {
+// Manejar cambio en el select de departamento
+$("#general_id_departamento").change(function () {
+  setInterval(() => {
+    llenarSelectMunicipio();
+  }, 50);
+});
+
+function llenarSelectMunicipio() {
+  var departamentoId = $("#general_id_departamento").val();
+
   // Realizar solicitud AJAX para obtener municipios
   $.ajax({
     url: "./ajax/clientemorse.ajax.php",
@@ -491,9 +495,9 @@ function llenarSelectMunicipio(departamentoId) {
       municipioSelect.empty(); // Limpiar opciones anteriores
       // Agregar la opción por defecto
       municipioSelect.append(
-        '<option value="">Seleciona una de (' +
+        '<option value="">Selecione uno de (' +
           data.length +
-          ") Municipio(s) encontrada(s)</option>"
+          ") Municipio(s) encontrado(s)</option>"
       );
       $.each(data, function (index, municipio) {
         municipioSelect.append(
