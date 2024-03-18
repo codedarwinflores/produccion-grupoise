@@ -481,37 +481,43 @@ function cerrarModalClienteMorse() {
 function llenarSelectMunicipio() {
   var departamentoId = $("#general_id_departamento").val();
 
-  setTimeout(() => {
-    // Realizar solicitud AJAX para obtener municipios
-    $.ajax({
-      url: "./ajax/clientemorse.ajax.php",
-      type: "POST",
-      dataType: "json",
-      data: { departamentoId: departamentoId, getMunicipio: "ok" },
-      success: function (data) {
-        console.log(JSON.stringify(data));
-        // Llenar el select de municipios
-        var municipioSelect = $("#general_id_municipio");
-        municipioSelect.empty(); // Limpiar opciones anteriores
-        // Agregar la opción por defecto
+  // Realizar solicitud AJAX para obtener municipios
+  $.ajax({
+    url: "./ajax/clientemorse.ajax.php",
+    type: "POST",
+    dataType: "json",
+    data: { departamentoId: departamentoId, getMunicipio: "ok" },
+    success: function (data) {
+      console.log(JSON.stringify(data));
+      // Llenar el select de municipios
+      var municipioSelect = $("#general_id_municipio");
+      municipioSelect.empty(); // Limpiar opciones anteriores
+      // Agregar la opción por defecto
+      municipioSelect.append(
+        '<option value="0" selected>Selecciona un municipio</option>'
+      );
+      // Agregar opciones de municipios
+      $.each(data, function (index, municipio) {
         municipioSelect.append(
-          '<option value="0" selected>Selecciona un municipio</option>'
+          $("<option>", {
+            value: municipio.id,
+            text: municipio.Nombre_m,
+          })
         );
-        $.each(data, function (index, municipio) {
-          municipioSelect.append(
-            '<option value="' +
-              municipio.id +
-              '">' +
-              municipio.Nombre_m +
-              "</option>"
-          );
-        });
-      },
-      error: function (error) {
-        console.log("Error al obtener municipios:", error);
-      },
-    });
-  }, 200);
+      });
+    },
+    error: function (xhr, status, error) {
+      var errorMessage = xhr.status + ": " + xhr.statusText;
+      console.log(
+        "Error al obtener municipios. Estado: " +
+          status +
+          ". Error: " +
+          error +
+          ". Detalles: " +
+          errorMessage
+      );
+    },
+  });
 }
 
 function llenarUltimoEvaluado() {
