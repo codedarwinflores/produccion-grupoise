@@ -107,7 +107,6 @@ function getDepartamentosSelect() {
     dataType: "json",
     data: { getDepartamento: "ok" },
     success: function (data) {
-      console.log(JSON.stringify(data));
       // Llenar el select de países
       var departSelect = $("#general_id_departamento");
 
@@ -164,9 +163,7 @@ $(document).ready(function () {
 
   // Manejar cambio en el select de departamento
   $("#general_id_departamento").change(function () {
-    setInterval(() => {
-      llenarSelectMunicipio();
-    }, 50);
+    llenarSelectMunicipio();
   });
 
   /* REGISTRAR CLIENTE MORSE */
@@ -483,7 +480,6 @@ function cerrarModalClienteMorse() {
 
 function llenarSelectMunicipio() {
   var departamentoId = $("#general_id_departamento").val();
-  alert(departamentoId);
 
   // Realizar solicitud AJAX para obtener municipios
   $.ajax({
@@ -492,7 +488,6 @@ function llenarSelectMunicipio() {
     dataType: "json",
     data: { departamentoId: departamentoId, getMunicipio: "ok" },
     success: function (data) {
-      console.log(JSON.stringify(data));
       // Llenar el select de municipios
       var municipioSelect = $("#general_id_municipio");
       municipioSelect.empty(); // Limpiar opciones anteriores
