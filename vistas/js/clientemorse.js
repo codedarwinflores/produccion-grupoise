@@ -163,9 +163,8 @@ $(document).ready(function () {
 
   // Manejar cambio en el select de departamento
   $("#general_id_departamento").change(function () {
-    setInterval(() => {
-      llenarSelectMunicipio();
-    }, 50);
+    let id_departamento = $(this).val();
+    llenarSelectMunicipio(id_departamento);
   });
 
   /* REGISTRAR CLIENTE MORSE */
@@ -406,7 +405,7 @@ $(".ClienteMorse_register").on("click", ".btnEditarClienteMorse", function () {
       $("#general_id_departamento").val(respuesta.general_id_departamento);
       setTimeout(function () {
         // Activar el evento change para #id_departamento
-        llenarSelectMunicipio();
+        llenarSelectMunicipio(respuesta.general_id_departamento);
       }, 10);
       setTimeout(function () {
         // Activar el evento change para #id_departamento
@@ -480,10 +479,43 @@ function cerrarModalClienteMorse() {
   });
 }
 
-function llenarSelectMunicipio() {
-  var departamentoId = $("#general_id_departamento").val();
-
-  console.log(departamentoId);
+function llenarSelectMunicipio(departamentoId) {
+  // Realizar solicitud AJAX para obtener municipios
+  $.ajax({
+    url: "./ajax/clientemorse.ajax.php",
+    type: "POST",
+    dataType: "json",
+    data: { departamentoId: departamentoId, getMunicipio: "ok" },
+    success: function (data) {
+      // Llenar el select de municipios
+      var municipioSelect = $("#general_id_municipio");
+      municipioSelect.empty(); // Limpiar opciones anteriores
+      // Agregar la opción por defecto
+      municipioSelect.append(
+        '<option value="0" selected>Selecciona un municipio</option>'
+      );
+      $.each(data, function (index, municipio) {
+        municipioSelect.append(
+          '<option value="' +
+            municipio.id +
+            '">' +
+            municipio.Nombre_m +
+            "</option>"
+        );
+      });
+    },
+    error: function (xhr, status, error) {
+      var errorMessage = xhr.status + ": " + xhr.statusText;
+      console.log(
+        "Error al obtener municipios. Estado: " +
+          status +
+          ". Error: " +
+          error +
+          ". Detalles: " +
+          errorMessage
+      );
+    },
+  });
 }
 
 function llenarUltimoEvaluado() {
