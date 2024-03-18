@@ -224,9 +224,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         echo $ClienteMorse::getDataSelect("tbl_vendedormorse", "");
     } else if (isset($_POST["getMunicipios"]) && $_POST["getMunicipios"] === "ok" && isset($_POST["departamentoId"]) && is_numeric($_POST["departamentoId"]) && $_POST["departamentoId"] > 0) {
         $ClienteMorse = new ControladorClienteMorse();
-        if ($ClienteMorse::getDataSelect("cat_municipios", "idDpto=" . $_POST["departamentoId"])) {
-            echo $ClienteMorse::getDataSelect("cat_municipios", "idDpto=" . $_POST["departamentoId"]);
-        }
+        echo $ClienteMorse::getDataSelect("cat_municipios", "idDpto=" . $_POST["departamentoId"]);
     } else if (isset($_POST["getTipoExamen"]) && $_POST["getTipoExamen"] === "ok") {
         $ClienteMorse = new ControladorClienteMorse();
         echo $ClienteMorse::getDataSelect("tipos_examenes", "1");
