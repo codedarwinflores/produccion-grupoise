@@ -233,7 +233,7 @@ MODAL AGREGAR
                                             <label for="otro_fecha_apertura">FECHA APERTURA:</label>
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                <input type="date" class="form-control input-lg" name="otro_fecha_apertura" placeholder="Fecha" id="otro_fecha_apertura">
+                                                <input type="date" class="form-control input-lg" value="<?= date('Y-m-d') ?>" name="otro_fecha_apertura" placeholder="Fecha" id="otro_fecha_apertura">
                                             </div>
                                         </div>
 
