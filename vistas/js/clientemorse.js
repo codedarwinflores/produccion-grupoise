@@ -161,11 +161,6 @@ $(document).ready(function () {
     handleSelectChange();
   });
 
-  // Manejar cambio en el select de departamento
-  $("#general_id_departamento").change(function () {
-    llenarSelectMunicipio($(this).val());
-  });
-
   /* REGISTRAR CLIENTE MORSE */
   $("#form_clientemorse_save").submit(function (e) {
     e.preventDefault();
@@ -347,6 +342,11 @@ $(document).ready(function () {
 
     $(":submit").attr("disabled", false);
   });
+});
+
+// Manejar cambio en el select de departamento
+$("#general_id_departamento").change(function () {
+  llenarSelectMunicipio($(this).val());
 });
 
 // Función para manejar el cambio en el select
