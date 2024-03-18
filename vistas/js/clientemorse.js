@@ -483,6 +483,7 @@ function cerrarModalClienteMorse() {
 
 function llenarSelectMunicipio() {
   var departamentoId = $("#general_id_departamento").val();
+  alert(departamentoId);
 
   // Realizar solicitud AJAX para obtener municipios
   $.ajax({
