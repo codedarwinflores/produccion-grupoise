@@ -125,7 +125,7 @@ if (isset($_SESSION["perfil"]) && isset($_GET['id']) && !empty($_GET['id']) &&  
             // Obtener la fecha y hora actuales
             $fecha = date("d/m/Y h:i:s A");
             $foto = "https://cdn.icon-icons.com/icons2/69/PNG/128/user_customer_person_13976.png";
-            $urlfoto = str_replace('..', '', $urlCompleta . $fotografia);
+            $urlfoto = preg_replace("/\.\./", "", $url, 1);
             if (validarImagenRemota($urlfoto)) {
                 $foto = $urlfoto;
             } else if (validarImagenRemota($urlCompleta . "/" . $fotografia)) {
