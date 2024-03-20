@@ -325,7 +325,7 @@ if (isset($_SESSION["perfil"]) && isset($_GET['id']) && !empty($_GET['id']) &&  
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="9" class="titulo">EVALUADO</td>
+                            <td colspan="9" class="titulo"><?= $foto ?></td>
                         </tr>
                         <tr>
                             <td class="alineacion"><strong>CÓD.:</strong></td>
