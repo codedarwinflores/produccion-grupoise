@@ -29,7 +29,7 @@ if (isset($_SESSION["perfil"]) && isset($_GET['id']) && !empty($_GET['id']) &&  
                     // Extraemos el tipo de contenido de la cabecera
                     $contentType = trim(substr($header, strpos($header, ':') + 1));
                     // Verificamos si el tipo de contenido es una imagen
-                    return (bool) preg_match('/^image\/(jpeg|png|gif|bmp)$/i', $contentType);
+                    return (bool) preg_match('/^image\/(jpg|jpeg|png|gif|bmp)$/i', $contentType);
                 }
             }
             // Si no se encontró el tipo de contenido en los encabezados, no podemos determinar si es una imagen
