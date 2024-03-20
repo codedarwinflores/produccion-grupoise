@@ -18,26 +18,16 @@ if (isset($_SESSION["perfil"]) && isset($_GET['id']) && !empty($_GET['id']) &&  
 
     function validarImagenRemota($urlImagen)
     {
-        // Obtenemos los encabezados de la URL
-        $headers = @get_headers($urlImagen);
-
-        // Verificamos si se obtuvieron los encabezados correctamente y si el código de respuesta es 200 (OK)
-        if ($headers !== false && strpos($headers[0], '200') !== false) {
-            // Intentamos obtener el tipo de contenido si está presente en los encabezados
-            foreach ($headers as $header) {
-                if (strpos($header, 'Content-Type:') === 0) {
-                    // Extraemos el tipo de contenido de la cabecera
-                    $contentType = trim(substr($header, strpos($header, ':') + 1));
-                    // Verificamos si el tipo de contenido es una imagen
-                    return (bool) preg_match('/^image\/(jpg|jpeg|png|gif|bmp)$/i', $contentType);
-                }
-            }
-            // Si no se encontró el tipo de contenido en los encabezados, no podemos determinar si es una imagen
+        // Verificar si la URL es válida
+        if (filter_var($urlImagen, FILTER_VALIDATE_URL) === false) {
             return false;
         }
 
-        // Si no se obtuvieron los encabezados o el código de respuesta no es 200, devolvemos false
-        return false;
+        // Obtener los encabezados de la URL
+        $headers = @get_headers($urlImagen);
+
+        // Verificar si se obtuvieron los encabezados correctamente y si el código de respuesta es 200 (OK)
+        return $headers !== false && strpos($headers[0], '200') !== false;
     }
 
 
@@ -325,10 +315,7 @@ if (isset($_SESSION["perfil"]) && isset($_GET['id']) && !empty($_GET['id']) &&  
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="9" class="titulo"><?php
-
-                                                            $headers = @get_headers("https://grupoise.darwinflocode.com/vistas/img/evaluados/65faeecd574a0-1132.jpg");
-                                                            print_r($headers); ?></td>
+                            <td colspan="9" class="titulo"><?= $urlfoto ?></td>
                         </tr>
                         <tr>
                             <td class="alineacion"><strong>CÓD.:</strong></td>
