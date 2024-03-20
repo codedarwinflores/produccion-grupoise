@@ -116,8 +116,8 @@ if (isset($_SESSION["perfil"]) && isset($_GET['id']) && !empty($_GET['id']) &&  
             $fecha = date("d/m/Y h:i:s A");
             $foto = "https://cdn.icon-icons.com/icons2/69/PNG/128/user_customer_person_13976.png";
             $urlfoto = preg_replace("/\.\./", "", ($urlCompleta  . $fotografia), 1);
-            if (validarImagenRemota("https://grupoise.darwinflocode.com/vistas/img/evaluados/65faeecd574a0-1132.jpg")) {
-                $foto = "https://grupoise.darwinflocode.com/vistas/img/evaluados/65faeecd574a0-1132.jpg";
+            if (validarImagenRemota($urlfoto)) {
+                $foto = $urlfoto;
             } else if (validarImagenRemota($urlCompleta . "/" . $fotografia)) {
                 $foto = $urlCompleta . "/" . $fotografia;
             } else if (validarImagenRemota($fotografia)) {
@@ -315,7 +315,7 @@ if (isset($_SESSION["perfil"]) && isset($_GET['id']) && !empty($_GET['id']) &&  
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="9" class="titulo"><?= $urlfoto ?></td>
+                            <td colspan="9" class="titulo">EVALUADO</td>
                         </tr>
                         <tr>
                             <td class="alineacion"><strong>CÓD.:</strong></td>
