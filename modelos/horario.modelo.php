@@ -263,7 +263,9 @@ class ModeloHorario
         foreach ($resultados as $key => $row) {
             // Ya existe un registro con la misma fecha inicial y final, entonces actualizamos ese registro
             $stmt = Conexion::conectar()->prepare("INSERT tbl_poligrafo(fecha_programada,hora_programada) VALUES(?,?);");
-            $stmt->execute([$fecha, $row["hora_inicial"]]);
+            if ($stmt->execute([$fecha, $row["hora_inicial"]])) {
+                self::obtenerYEditarIDProgramacion();
+            }
         }
 
         return true;
