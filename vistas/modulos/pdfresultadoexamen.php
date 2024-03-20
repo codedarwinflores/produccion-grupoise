@@ -322,7 +322,7 @@ if (isset($_SESSION["perfil"]) && isset($_GET['id']) && !empty($_GET['id']) &&  
                             <td><?= $codigo_eva ?></td>
                             <td class="alineacion"><strong>NOMBRES:</strong></td>
                             <td colspan="4"><?= $nombres_evas ?></td>
-                            <td colspan="2" rowspan="3" width="20" style="text-align: center !important;"><img src="<?= $foto ?>" width="35%"></td>
+                            <td colspan="2" rowspan="3" width="20" style="text-align: center !important;"><img src="<?= $foto ?>" width="50%"></td>
                         </tr>
                         <tr>
                             <td class="alineacion"><strong>DUI:</strong></td>

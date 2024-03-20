@@ -623,6 +623,9 @@ function cargarDataReservaPoligrafista() {
       order: [
         [6, "desc"],
         [7, "asc"],
+        [8, "desc"],
+        [9, "desc"],
+        [10, "desc"],
       ],
       ajax: {
         url: "ajax/programarexamen.ajax.php",
@@ -721,6 +724,21 @@ function cargarDataReservaPoligrafista() {
             $(this).attr("class", "hora_ingreso_curso");
             $(this).attr("data-type", "time");
             $(this).attr("data-pk", data[1]);
+          }
+          // Obtener el texto del botón dentro de la fila actual
+          var buttonText = $("button.btn-short-text", row).text().trim();
+
+          // Add background color based on the text of the button
+          if (buttonText.toUpperCase() === "FINALIZADO") {
+            $(row).css({
+              "background-color": "#d4edda",
+              "font-weight": "501",
+            });
+          } else if (buttonText.toUpperCase() === "EN PROCESO") {
+            $(row).css({
+              "background-color": "#fde8d7 ",
+              "font-weight": "501",
+            });
           }
         });
       },

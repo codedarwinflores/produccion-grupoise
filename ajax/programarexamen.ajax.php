@@ -57,7 +57,7 @@ class AjaxConsultarHorario
 
         $condicionFinal = $condicionFinal;
 
-        $campos = "pol.estado_exam,pol.id_registro,pol.fecha_programada,pol.hora_programada,pol.hora_ingreso,pol.hora_inicio,pol.hora_finalizo, concat(evas.codigo,' - ',evas.nombres,' ',evas.primer_apellido,' ',evas.segundo_apellido) as nombre_evaluado, concat(morse.codigo_cliente,' - ',morse.nombre) as nombre_cliente, CONCAT(emp.codigo_empleado,' - ',emp.primer_nombre,' ',emp.segundo_nombre,' ',emp.tercer_nombre,' ',emp.primer_apellido,' ',emp.segundo_apellido,' ',emp.apellido_casada) as nombre_pol, concat(tipoexam.codigo,' - ',tipoexam.descripcion,' $',tipoexam.valor) as examenes, tipoexam.codigo as tipo_examen_codigo,tipoexam.descripcion as descripcion_examen";
+        $campos = "pol.estado_exam,pol.id_registro,pol.fecha_programada,pol.hora_programada,pol.hora_ingreso,pol.hora_inicio,pol.hora_finalizo, evas.codigo as codigo_evaluado,evas.documento as dui_evaluado,concat(evas.nombres,' ',evas.primer_apellido,' ',evas.segundo_apellido) as nombre_evaluado, morse.codigo_cliente,morse.nombre as nombre_cliente,emp.numero_documento_identidad,emp.codigo_empleado,CONCAT(emp.primer_nombre,' ',emp.segundo_nombre,' ',emp.tercer_nombre,' ',emp.primer_apellido,' ',emp.segundo_apellido,' ',emp.apellido_casada) as nombre_pol, concat(tipoexam.codigo,' - ',tipoexam.descripcion,' $',tipoexam.valor) as examenes, tipoexam.codigo as tipo_examen_codigo,tipoexam.descripcion as descripcion_examen";
         $tabla = "`tbl_poligrafo` pol LEFT JOIN evaluados evas ON pol.id_evaluado = evas.id LEFT JOIN tbl_clientes_morse morse ON pol.id_cliente=morse.id LEFT JOIN tbl_empleados emp on pol.id_poligrafista = emp.id LEFT JOIN tipos_examenes tipoexam on pol.id_tipo_examen=tipoexam.id";
 
         $respuesta = ModeloHorario::MostrarDatos($campos, $tabla, $condicionFinal, " ORDER BY fecha_programada DESC, hora_programada DESC, estado_exam DESC;");
@@ -120,10 +120,10 @@ class AjaxConsultarHorario
             $row = array(
                 $i + 1,
                 $datos[$i]["id_registro"],
-                !empty($datos[$i]["nombre_cliente"]) ? $datos[$i]["nombre_cliente"] : "---",
-                !empty($datos[$i]["nombre_evaluado"]) ? $datos[$i]["nombre_evaluado"] : "---",
-                !empty($datos[$i]["nombre_pol"]) ? $datos[$i]["nombre_pol"] : "---",
-                !empty($datos[$i]["tipo_examen_codigo"]) ? $datos[$i]["tipo_examen_codigo"] . " - " . $datos[$i]["descripcion_examen"] : "---",
+                !empty($datos[$i]["nombre_cliente"]) ? "<strong class='text-blue'>" . $datos[$i]["codigo_cliente"] . "</strong> - " . $datos[$i]["nombre_cliente"] : "-",
+                !empty($datos[$i]["nombre_evaluado"]) && !empty($datos[$i]["codigo_evaluado"]) ? (!empty($datos[$i]["dui_evaluado"]) ? "<strong class='text-green'>(" . $datos[$i]["dui_evaluado"] . ")</strong> - " : "") . "<strong class='text-blue'>" . $datos[$i]["codigo_evaluado"] . "</strong> - " . $datos[$i]["nombre_evaluado"] : "-",
+                !empty($datos[$i]["nombre_pol"]) ? (!empty($datos[$i]["numero_documento_identidad"]) ? "<strong class='text-green'>(" . trim($datos[$i]["numero_documento_identidad"]) . ") - </strong>" : "") . "<strong class='text-blue'>" . $datos[$i]["codigo_empleado"] . "</strong> - " . $datos[$i]["nombre_pol"] : "-",
+                !empty($datos[$i]["tipo_examen_codigo"]) ? "<strong class='text-green'>" . $datos[$i]["tipo_examen_codigo"] . "</strong>" . " - " . $datos[$i]["descripcion_examen"] : "-",
                 $fechaFormateada,
                 $datos[$i]["hora_programada"],
                 $datos[$i]["hora_ingreso"],
@@ -149,13 +149,13 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     /* CONSULTAR POLIGRAFISTA */
     if (isset($_GET["action"]) && $_GET["action"] === "obtenerData") {
 
-        $campos = "emp.id as id_select,emp.codigo_empleado, CONCAT(emp.codigo_empleado,' - ',emp.primer_nombre,' ',emp.segundo_nombre,' ',emp.tercer_nombre,' ',emp.primer_apellido,' ',emp.segundo_apellido,' ',emp.apellido_casada) as title,cargos.*";
+        $campos = "emp.id as id_select,emp.codigo_empleado, CONCAT(IF(emp.numero_documento_identidad <> '', CONCAT('(',TRIM(emp.numero_documento_identidad),') - '), ''),emp.codigo_empleado,' - ',emp.primer_nombre,' ',emp.segundo_nombre,' ',emp.tercer_nombre,' ',emp.primer_apellido,' ',emp.segundo_apellido,' ',emp.apellido_casada) as title,cargos.*";
         $tabla = "`tbl_empleados` emp INNER JOIN cargos_desempenados cargos on emp.nivel_cargo = cargos.id";
         $condicion = "cargos.descripcion='POLIGRAFIA' order by codigo_empleado desc";
         echo  ModeloHorario::obtenerDatosdeTabla($campos, $tabla, $condicion);
     } else if (isset($_GET["action"]) && $_GET["action"] === "obtenerDataEvaluados") {
 
-        $campos = "id as id_select, concat(codigo,'- ',nombres,' ',primer_apellido,' ',segundo_apellido,' - ',documento) as title";
+        $campos = "id as id_select, concat(IF(documento <> '', CONCAT('(',documento,') - '), ''),codigo,' - ',nombres,' ',primer_apellido,' ',segundo_apellido) as title";
         $tabla = "evaluados";
         $condicion = "1 order by id desc";
         echo  ModeloHorario::obtenerDatosdeTabla($campos, $tabla, $condicion);

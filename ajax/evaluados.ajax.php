@@ -11,7 +11,36 @@ date_default_timezone_set('America/El_Salvador');
 
 class AjaxEvaluados
 {
+	private $cache = [];
 
+	public function validarImagenRemota($urlImagen)
+	{
+		if (isset($this->cache[$urlImagen])) {
+			return $this->cache[$urlImagen];
+		}
+
+		// Verificar si la URL es válida
+		if (filter_var($urlImagen, FILTER_VALIDATE_URL) === false) {
+			$this->cache[$urlImagen] = false;
+			return false;
+		}
+
+		// Utilizar cURL para obtener los encabezados de la URL
+		$ch = curl_init($urlImagen);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_NOBODY, true);
+		curl_exec($ch);
+		$statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		curl_close($ch);
+
+		// Verificar si el código de respuesta es 200 (OK)
+		$valid = $statusCode === 200;
+
+		// Almacenar el resultado en caché
+		$this->cache[$urlImagen] = $valid;
+
+		return $valid;
+	}
 
 	public function AjaxConsultarEvaluados()
 	{
@@ -27,6 +56,9 @@ class AjaxEvaluados
 	public function mostrarTablaEvaluados()
 	{
 
+		$esquema = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http";
+		$dominio = $_SERVER['HTTP_HOST'];
+		$urlCompleta = "$esquema://$dominio";
 
 		$datos = self::AjaxConsultarEvaluados();
 
@@ -40,7 +72,7 @@ class AjaxEvaluados
 			$otrosDatos .= !empty($datos[$i]["documento"]) ? "<strong><i class='fa fa-id-card-o'></i> </strong>" . $datos[$i]["documento"] . " " : "";
 			$otrosDatos .= !empty($datos[$i]["estado_civil"]) ? "<strong><i class='fa fa-diamond'></i> Estado Civil: </strong>" . $datos[$i]["estado_civil"] . " " : "";
 			$otrosDatos .= !empty($datos[$i]["telefono"]) ? "<strong><i class='fa fa-phone'></i></strong> " . $datos[$i]["telefono"] . " " : "";
-			$otrosDatos .= !empty($datos[$i]["fecha_nac"]) ? "<strong><i class='fa fa-calendar'></i> F. Nac.: </strong>" . $datos[$i]["fecha_nac"] . " " : "";
+			$otrosDatos .= !empty($datos[$i]["fecha_nac"]) && $datos[$i]["fecha_nac"] !== "0000-00-00" ? "<strong><i class='fa fa-calendar'></i> F. Nac.: </strong>" . $datos[$i]["fecha_nac"] . " " : "";
 
 
 			/*=============================================
@@ -50,6 +82,19 @@ class AjaxEvaluados
 			$foto_del = "";
 
 			if (file_exists($datos[$i]["foto"])) {
+				$imagenExiste = $datos[$i]["foto"];
+				$foto_del = $datos[$i]["foto"];
+			}
+
+			$imagenExiste = "https://cdn.icon-icons.com/icons2/69/PNG/128/user_customer_person_13976.png";
+			$urlfoto = preg_replace("/\.\./", "", ($urlCompleta  . $datos[$i]["foto"]), 1);
+			if (self::validarImagenRemota($urlfoto)) {
+				$imagenExiste = $urlfoto;
+				$foto_del = $datos[$i]["foto"];
+			} else if (self::validarImagenRemota($urlCompleta . "/" . $datos[$i]["foto"])) {
+				$imagenExiste = $urlCompleta . "/" . $datos[$i]["foto"];
+				$foto_del = $datos[$i]["foto"];
+			} else if (self::validarImagenRemota($datos[$i]["foto"])) {
 				$imagenExiste = $datos[$i]["foto"];
 				$foto_del = $datos[$i]["foto"];
 			}
