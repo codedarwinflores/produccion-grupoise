@@ -125,7 +125,10 @@ if (isset($_SESSION["perfil"]) && isset($_GET['id']) && !empty($_GET['id']) &&  
             // Obtener la fecha y hora actuales
             $fecha = date("d/m/Y h:i:s A");
             $foto = "https://cdn.icon-icons.com/icons2/69/PNG/128/user_customer_person_13976.png";
-            if (validarImagenRemota(($urlCompleta . "/" . $fotografia))) {
+            $urlfoto = str_replace('..', '', $urlCompleta . $fotografia);
+            if (validarImagenRemota($urlfoto)) {
+                $foto = $urlfoto;
+            } else if (validarImagenRemota($urlCompleta . "/" . $fotografia)) {
                 $foto = $urlCompleta . "/" . $fotografia;
             } else if (validarImagenRemota($fotografia)) {
                 $foto = $fotografia;
@@ -353,7 +356,7 @@ if (isset($_SESSION["perfil"]) && isset($_GET['id']) && !empty($_GET['id']) &&  
                             <td><?= $codigo_examen_unico ?></td>
                             <td class="alineacion"><strong>DESCRIPCIÓN:</strong></td>
                             <td><?= $descripcion_exam ?></td>
-                            <td><strong>FECHA Y HORA:</strong></td>
+                            <td><strong>F. Y HORA PROGRAMADA:</strong></td>
                             <td colspan="2"><?= $fecha_programada . " " . $hora_programada ?></td>
                             <td><strong>ESTADO:</strong></td>
                             <td><?= $estado_exam ?></td>
@@ -365,7 +368,7 @@ if (isset($_SESSION["perfil"]) && isset($_GET['id']) && !empty($_GET['id']) &&  
                         <tr>
                             <td colspan="2" class="alineacion"><strong>NOMBRE COMPLETO:</strong></td>
                             <td colspan="3"><?= $nombre_completo_solicitado ?></td>
-                            <td colspan="2" class="alineacion"><strong>FECHA Y HORA:</strong></td>
+                            <td colspan="2" class="alineacion"><strong>F. Y HORA SOLICITADO:</strong></td>
                             <td colspan="2"><?= $fecha_solicitud_re . " " . $hora_solicitud_re ?></td>
                         </tr>
                         <tr>
@@ -463,15 +466,17 @@ if (isset($_SESSION["perfil"]) && isset($_GET['id']) && !empty($_GET['id']) &&  
 
                         <tr>
                             <td class="alineacion"><strong>OBSERVACIONES:</strong></td>
-                            <td><?= $observaciones_examen ?></td>
+                            <td><?= htmlspecialchars($observaciones_examen) ?>
+
+                            </td>
                         </tr>
                         <tr>
                             <td class="alineacion"><strong>OBJETIVO DEL EXAMEN:</strong></td>
-                            <td><?= $objetivo_examen ?></td>
+                            <td><?= htmlspecialchars($objetivo_examen) ?></td>
                         </tr>
                         <tr>
                             <td class="alineacion"><strong>CONCLUSIÓN DEL EXAMEN:</strong></td>
-                            <td><?= $conclusion_examen ?></td>
+                            <td><?= htmlspecialchars($conclusion_examen) ?></td>
                         </tr>
                     </table>
                 </main>

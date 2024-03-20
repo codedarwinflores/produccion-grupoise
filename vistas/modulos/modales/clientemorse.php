@@ -1,4 +1,7 @@
 <link rel="stylesheet" href="./vistas/modulos/modales/style.css">
+<?php
+date_default_timezone_set('America/El_Salvador');
+?>
 <style>
     .nav-tabs>li>a {
         background: #3c8dbc;

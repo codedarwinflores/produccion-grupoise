@@ -186,7 +186,7 @@
                                     <label for="nuevoidClienteevaluado">Foto:</label>
                                     <div class="input-group">
                                         <div class="main-img-preview">
-                                            <img class="thumbnail img-preview" src="./vistas/img/plantilla/logo_original.png" class="img-responsive img-thumbnail" title="Preview Foto">
+                                            <img class="thumbnail img-preview" src="https://cdn.icon-icons.com/icons2/69/PNG/128/user_customer_person_13976.png" class="img-responsive img-thumbnail" title="Preview Foto">
                                         </div>
                                         <div class="input-group">
                                             <input id="fakeUploadLogo" class="form-control fake-shadow" placeholder="Choose File" disabled="disabled">
@@ -194,7 +194,7 @@
                                                 <div class="fileUpload btn btn-danger fake-shadow">
                                                     <span><i class="glyphicon glyphicon-upload"></i> Subir foto</span>
                                                     <input id="logo-id" name="nuevaFotografia" type="file" class="attachment_upload" accept=".jpg, .jpeg, .png, .gif">
-                                                    <input id="foto_edit" name="foto_edit" type="hidden" value="./vistas/img/plantilla/logo_original.png">
+                                                    <input id="foto_edit" name="foto_edit" type="hidden" value="https://cdn.icon-icons.com/icons2/69/PNG/128/user_customer_person_13976.png">
                                                 </div>
                                             </div>
                                         </div>

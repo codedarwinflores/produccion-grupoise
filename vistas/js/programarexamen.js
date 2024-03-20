@@ -1,4 +1,66 @@
 $(document).ready(function () {
+  // Bloquear la inspección de elementos y ver código fuente en un modal específico
+  function bloquearInspeccionYVerCodigoFuente() {
+    // Bloquear la inspección de elementos en el modal
+    $(document).on("keydown", bloquearInspeccionKey);
+    $(document).on("contextmenu", bloquearInspeccionContext);
+
+    // Bloquear la visualización del código fuente en el modal
+    $(document).on("keydown", bloquearVerCodigoFuente);
+  }
+
+  // Función para desbloquear la inspección de elementos y ver código fuente en un modal específico
+  function desbloquearInspeccionYVerCodigoFuente() {
+    // Desbloquear la inspección de elementos en el modal
+    $(document).off("keydown", bloquearInspeccionKey);
+    $(document).off("contextmenu", bloquearInspeccionContext);
+
+    // Desbloquear la visualización del código fuente en el modal
+    $(document).off("keydown", bloquearVerCodigoFuente);
+  }
+
+  // Función de bloqueo de inspección para teclado
+  function bloquearInspeccionKey(event) {
+    if (
+      event.keyCode === 123 ||
+      (event.ctrlKey && event.shiftKey && event.keyCode === 73)
+    ) {
+      event.preventDefault();
+    }
+  }
+
+  // Función de bloqueo de inspección para el menú contextual
+  function bloquearInspeccionContext(event) {
+    event.preventDefault();
+  }
+
+  // Función de bloqueo de visualización del código fuente
+  function bloquearVerCodigoFuente(event) {
+    if (event.keyCode === 85 && event.ctrlKey) {
+      event.preventDefault();
+    }
+  }
+
+  // Función de bloqueo de inspección para el menú contextual
+  function bloquearInspeccionContext(event) {
+    event.preventDefault();
+  }
+
+  // Función de bloqueo de inspección para el menú contextual
+  function bloquearInspeccionContext(event) {
+    event.preventDefault();
+  }
+
+  // Llamar a la función para bloquear la inspección cuando se abre el modal
+  $("#procesarReservaProgramada").on("show.bs.modal", function () {
+    bloquearInspeccionYVerCodigoFuente();
+  });
+
+  // Llamar a la función para desbloquear la inspección cuando se cierra el modal
+  $("#procesarReservaProgramada").on("hidden.bs.modal", function () {
+    desbloquearInspeccionYVerCodigoFuente();
+  });
+
   // Captura el evento cuando se muestra el popup
   cerrarModal();
   cargarHoras();
@@ -522,6 +584,10 @@ function getRandomPastelColor() {
   return pastel;
 }
 
+$.fn.dataTable.ext.type.order["date-eu"] = function (data) {
+  var dateParts = data.split("/");
+  return new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
+};
 // Store date and time values in an object to track unique combinations
 
 // Variable para almacenar la instancia de DataTable
@@ -541,6 +607,22 @@ function cargarDataReservaPoligrafista() {
           targets: [1], // Replace with the actual index of the 'cod_cliente' column
           visible: false,
         },
+        {
+          targets: 6,
+          render: function (data, type, row) {
+            if (type === "sort") {
+              var parts = data.split("/");
+              return new Date(parts[2], parts[1] - 1, parts[0]).getTime(); // Convertir la fecha a un valor numérico para ordenar correctamente
+            } else {
+              var parts = data.split("/");
+              return parts[0] + "/" + parts[1] + "/" + parts[2]; // Mostrar la fecha en formato DD/MM/YYYY
+            }
+          },
+        },
+      ],
+      order: [
+        [6, "desc"],
+        [7, "asc"],
       ],
       ajax: {
         url: "ajax/programarexamen.ajax.php",
@@ -985,12 +1067,29 @@ $(".Poligrafista_register").on("click", ".btn-procesar-reserva", function () {
               respuesta["nombre_evaluado"].replace(/\s+/g, " ")
           );
         $("#poligrafo_programar")
-          .html(respuesta["nombre_pol"].replace(/\s+/g, " "))
+          .html(
+            "<strong>" +
+              respuesta["codigo_poligrafista"] +
+              "</strong>" +
+              " - " +
+              respuesta["nombre_poligrafista"].replace(/\s+/g, " ")
+          )
           .attr("title", respuesta["nombre_pol"].replace(/\s+/g, " "));
 
         $("#tipoexamen_programar")
-          .html(respuesta["examenes"].replace(/\s+/g, " "))
-          .attr("title", respuesta["examenes"].replace(/\s+/g, " "));
+          .html(
+            "<strong>" +
+              respuesta["codigo_examen_unico"] +
+              "</strong>" +
+              " - " +
+              respuesta["descripcion_exam"].replace(/\s+/g, " ")
+          )
+          .attr(
+            "title",
+            respuesta["codigo_examen_unico"] +
+              " - " +
+              respuesta["descripcion_exam"].replace(/\s+/g, " ")
+          );
 
         $("#cargo_programar")
           .html(respuesta["solicitado_cargo"])
@@ -1135,8 +1234,8 @@ $(".Poligrafista_register").on("click", ".btn-procesar-reserva", function () {
       } else {
         /*  swal("Examen poligráfico", "Examen procesado correctamente", "success"); */
         swal(
-          "Procesar examen poligráfico",
-          "SELECIONA LO SIGUIENTE: <br> 1. Cliente<br> 2. Evaluado<br>3. Poligrafista<br> 4. Tipo Examen<br> para poder continuar...👆",
+          "Procesar reserva de examen",
+          "<p style='text-align:left !important'> Selecciona lo siguiente:<ol style='text-align:left !important'><li>Cliente</li><li>Evaluado</li><li>Poligrafista</li><li>Tipo de examen</li></ol>  para poder continuar...👆</p>",
           "info"
         );
 
@@ -1869,7 +1968,7 @@ function actualizarPrecioExamen(id_cliente, id_tipoexamen, precio1, precio2) {
       let precio = 0;
       $("#precioUpdate").html("");
 
-      if (
+      /* if (
         parseFloat(precio1) > 0 ||
         (!isNaN(response) && parseFloat(response) > 0)
       ) {
@@ -1880,15 +1979,19 @@ function actualizarPrecioExamen(id_cliente, id_tipoexamen, precio1, precio2) {
         }
       } else {
         precio = precio2;
-      }
+      } */
 
+      precio = precio2;
+      if (response > 0 && !isNaN(response)) {
+        precio = response;
+      }
       $("#precio_programar").val(precio);
 
-      $("#precioUpdate").html(
+      /*  $("#precioUpdate").html(
         "PRECIO ESPECIAL DE EXAMEN ASIGNADO PARA CLIENTE:<strong> $ " +
           parseFloat(response).toFixed(2) +
           "</strong>"
-      );
+      ); */
     },
     error: function (error) {
       console.error("Error en la solicitud AJAX:", error);

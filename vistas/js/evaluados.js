@@ -71,9 +71,10 @@ $(document).ready(function () {
             );
             $("#form_evaluado_save")[0].reset();
             cargarDataEvaluados();
+            scrollToTop();
             $(".img-preview").attr(
               "src",
-              "./vistas/img/plantilla/logo_original.png"
+              "https://cdn.icon-icons.com/icons2/69/PNG/128/user_customer_person_13976.png"
             );
             /*   setTimeout(function () {
               $("#modalAgregarEvaluado").modal("hide");
@@ -84,6 +85,7 @@ $(document).ready(function () {
               "success",
               "¡Evaluado editado correctamente!"
             );
+            scrollToTop();
             cargarDataEvaluados();
           } else {
             mostrarAlerta(
@@ -175,6 +177,26 @@ $(".tbl_evaluados").on("click", ".btnEditarEvaluado", function () {
       $(".img-preview").attr("src", respuesta["foto"]);
       $("#nuevodireccionevaluado").val(respuesta["direccion"]);
       $("#foto_edit").val(respuesta["foto"]);
+
+      let imageUrl = respuesta["foto"];
+      checkImageExists(
+        imageUrl,
+        function (url) {
+          /*   console.log("La imagen existe"); */
+          $(".img-preview")
+            .attr("src", url)
+            .attr("title", "Fotografía del evaluado");
+        },
+        function () {
+          $(".img-preview")
+            .attr(
+              "src",
+              "https://cdn.icon-icons.com/icons2/69/PNG/128/user_customer_person_13976.png"
+            )
+            .attr("title", "No subió fotografía para el evaluado");
+          /*  console.log("La imagen no existe"); */
+        }
+      );
       $("#nuevoidClienteevaluado")
         .val(respuesta["id_cliente_morse"])
         .trigger("change");

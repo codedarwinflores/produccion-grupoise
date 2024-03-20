@@ -24,6 +24,8 @@
                   <input type="hidden" id="estado_exam" name="estado_exam">
                   <input type="hidden" id="id_edit_id_registro" name="id_edit_id_registro" value="0">
                   <input type="hidden" id="id_encriptado_value" name=" id_encriptado_value" value="0">
+                  <input type="hidden" class="form-control FormatoMoney input-lg" placeholder="0.00" id="precio_programar">
+
                   <div class="modal-header bg-blue-gradient" style=" color: #fff;">
                       <button type="button" class="close CerrarModal" data-dismiss="modal">&times;</button>
                       <h4 class="modal-title">PROCESAR CITA RESERVADA <span id="titleFecha"></span></h4>
@@ -76,12 +78,7 @@
                                                   <p id="tipoexamen_programar"></p>
                                               </td>
                                           </tr>
-                                          <tr>
-                                              <th style="text-align: right;">ESTADO: </th>
-                                              <td>
-                                                  <p id="estado_examen_actual"></p>
-                                              </td>
-                                          </tr>
+
                                           <!-- Agrega más filas según sea necesario -->
                                       </tbody>
                                   </table>
@@ -111,19 +108,25 @@
                                           </tr>
 
                                           <tr>
-                                              <th style="text-align: right;">PRECIO A PAGAR: $</th>
-                                              <td>
+                                              <!-- <th style="text-align: right;">PRECIO A PAGAR: $</th> -->
+                                              <!--    <td>
                                                   <div class="input-group">
                                                       <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
                                                       <input type="text" class="form-control FormatoMoney input-lg camposaveinput" data-campo="precio_examen" required name="precio_programar" placeholder="0.00" id="precio_programar">
                                                   </div>
-                                                  <span id="precioUpdate" class="text-success"></span>
-                                              </td>
+                                                  <span id="precioUpdate" class="text-white"></span>
+                                              </td> -->
                                           </tr>
                                           <tr>
                                               <th style="text-align: right;">FECHA Y HORA PROGRAMADA: </th>
                                               <td>
                                                   <p id="fecha_y_hora_programada"></p>
+                                              </td>
+                                          </tr>
+                                          <tr>
+                                              <th style="text-align: right;">ESTADO: </th>
+                                              <td>
+                                                  <p id="estado_examen_actual"></p>
                                               </td>
                                           </tr>
                                           <!-- Agrega más filas según sea necesario -->

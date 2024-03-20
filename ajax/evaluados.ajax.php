@@ -46,7 +46,7 @@ class AjaxEvaluados
 			/*=============================================
  	 		TRAEMOS LA IMAGEN
   			=============================================*/
-			$imagenExiste = "./vistas/img/plantilla/logo_original.png"; // Imagen de respaldo por defecto
+			$imagenExiste = "https://cdn.icon-icons.com/icons2/69/PNG/128/user_customer_person_13976.png"; // Imagen de respaldo por defecto
 			$foto_del = "";
 
 			if (file_exists($datos[$i]["foto"])) {
