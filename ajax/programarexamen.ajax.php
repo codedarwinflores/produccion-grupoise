@@ -89,10 +89,13 @@ class AjaxConsultarHorario
             $fechaDB =  $datos[$i]["fecha_programada"];
             $fechaFormateada = date("d/m/Y", strtotime($fechaDB));
             $clase = "default";
+
             if (strtoupper($datos[$i]["estado_exam"]) === "EN PROCESO") {
                 $clase = "warning";
             } else if (strtoupper($datos[$i]["estado_exam"]) === "FINALIZADO") {
-                $clase = "success";
+                $clase = "success bg-green-gradient";
+            } else if (date("Y-m-d", strtotime($fechaDB)) < $fechaActual) {
+                $clase = "danger bg-red-gradient";
             }
 
             $botones = "";
@@ -103,7 +106,7 @@ class AjaxConsultarHorario
 
 
             if (strtoupper($datos[$i]["estado_exam"]) === "FINALIZADO") {
-                $botones .= "<li><a href='./vistas/modulos/pdfresultadoexamen.php?id=$id_encriptado' target='_blank'><i class='fa fa-print'></i> Imprimir</a></li>   <li role='separator' class='divider'></li>";
+                $botones .= "<li><a href='#' class='levantarModalImprimir' data-toggle='modal' data-target='#ModalImprimirView' id_encriptado='" . $id_encriptado . "' id_registro='" . $datos[$i]["id_registro"] . "' ><i class='fa fa-print'></i> Imprimir</a></li> <li role='separator' class='divider'></li>";
             }
             if ($_SESSION["perfil"] === "Administrador" || $_SESSION["perfil"] === "Poligrafia" || $datos[$i]["fecha_programada"] >= $fechaActual) {
                 $botones .= "<li><a href='#' class='btn-procesar-reserva' id_encriptado='" . $id_encriptado . "' id_registro='" . $datos[$i]["id_registro"] . "' data-toggle='modal' data-target='#procesarReservaProgramada'><i class='fa fa-building-o'></i> Procesar</a></li><li><a href='#' class='btnEliminarProgramacionExamen' estado_examen_del='" . $datos[$i]["estado_exam"] . "' id_registro='" . $datos[$i]["id_registro"] . "'><i class='fa fa-trash-o'></i> Eliminar</a></li>";
@@ -287,22 +290,42 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
 
-    /* ACTUALIZAR HORA*/
+    /* ACTUALIZAR HORA INGRESO*/
     if (isset($_POST["UpdatedHourAndState"]) && $_POST["UpdatedHourAndState"] === "ok" && is_numeric($_POST["id_registro"]) && $_POST["id_registro"] > 0) {
         $datos = array(
             "hora" => $_POST["hora"],
             "hora_solicitante" => $_POST["hora_solicitante"],
             "fecha_solicitante" => $_POST["fecha_solicitante"],
             "cargo" => $_POST["cargo"],
-            "forma_pago" => $_POST["forma_pago"],
-            "porcentaje_cliente" => $_POST["porcentaje_cliente"],
-            "porcentaje_evaluado" => $_POST["porcentaje_evaluado"],
+            "forma_pago" => "",
+            "porcentaje_cliente" => 0.0,
+            "porcentaje_evaluado" => 0.0,
             "precio_programar" => $_POST["precio_programar"],
         );
         $id_registro = $_POST["id_registro"];
 
 
         if (ModeloHorario::UpdateTblHoraEstado($datos, $id_registro)) {
+            echo json_encode(["status" => "ok"]);
+        } else {
+            echo json_encode(["status" => "error"]);
+        }
+    }
+
+
+    /* ACTUALIZAR HORA INICIO*/
+    if (
+        isset($_POST["UpdatedHourStart"]) && $_POST["UpdatedHourStart"] === "ok" && is_numeric($_POST["id_registro"]) && $_POST["id_registro"] > 0
+    ) {
+        $datos = array(
+            "hora_inicio" => $_POST["hora_inicio"],
+            "forma_pago" => $_POST["forma_pago"],
+            "porcentaje_cliente" => $_POST["porcentaje_cliente"],
+            "porcentaje_evaluado" => $_POST["porcentaje_evaluado"],
+        );
+        $id_registro = $_POST["id_registro"];
+
+        if (ModeloHorario::UpdateTblHoraInicio($datos, $id_registro)) {
             echo json_encode(["status" => "ok"]);
         } else {
             echo json_encode(["status" => "error"]);

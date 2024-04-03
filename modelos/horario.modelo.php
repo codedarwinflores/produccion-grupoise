@@ -102,7 +102,7 @@ class ModeloHorario
     /* GENERAR PREGUNTA */
     static public  function GenerarPreguntasExamen($datos)
     {
-        $campos = "preg_formato.*, preg.pregunta, preg.codigo, tipo_preg.descripcion";
+        $campos = "preg_formato.*, preg.pregunta, preg.codigo, tipo_preg.descripcion, tipo_preg.codigo as codigo_pregunta";
         $tabla = "tbl_formato_examen_pregunta preg_formato INNER JOIN preguntas preg ON preg_formato.id_pregunta = preg.id INNER JOIN tipos_preguntas tipo_preg ON preg.id_tipo = tipo_preg.id";
         $condicion = "preg_formato.id_formato_examen = " . $datos["id_formato_examen"];
 
@@ -128,8 +128,8 @@ class ModeloHorario
                 $newValue = $row["orden"];
                 $correlativo = str_pad($newValue, 4, '0', STR_PAD_LEFT); // Asegura que tenga 5 dígitos rellenando con ceros
                 // Ya existe un registro con la misma fecha inicial y final, entonces actualizamos ese registro
-                $stmt = Conexion::conectar()->prepare("INSERT tbl_preguntas_poligrafo(numero,pregunta_poligrafo,id_tbl_poligrafo) VALUES(?,?,?);");
-                $stmt->execute([$correlativo, $row["pregunta"], $datos["id_tbl_poligrafo"]]);
+                $stmt = Conexion::conectar()->prepare("INSERT tbl_preguntas_poligrafo(numero,cod_pregunta,pregunta_poligrafo,id_tbl_poligrafo) VALUES(?,?,?,?);");
+                $stmt->execute([$correlativo, $row["codigo_pregunta"], $row["pregunta"], $datos["id_tbl_poligrafo"]]);
             }
 
             return true;
@@ -217,6 +217,16 @@ class ModeloHorario
 
     static public function mdlIngresarPregunta($datos)
     {
+
+
+        /* SACAR MAXIMO NUMERO DE ORDEN */
+        // Consulta para verificar la existencia de un registro
+        $consultaNum = Conexion::conectar()->prepare("SELECT codigo FROM tipos_preguntas  WHERE id=" . $datos["id_tipo"]);
+        $consultaNum->execute();
+        $tipoPregunta = $consultaNum->fetch(PDO::FETCH_ASSOC);
+        $codigo_tipo = $tipoPregunta["codigo"];
+
+
         /* SACAR MAXIMO NUMERO DE ORDEN */
         // Consulta para verificar la existencia de un registro
         $consultaNumer = Conexion::conectar()->prepare("SELECT max(numero) as maximo FROM tbl_preguntas_poligrafo  WHERE id_tbl_poligrafo=" . $datos["id_tbl_poligrafo"]);
@@ -228,11 +238,12 @@ class ModeloHorario
 
         $nuevoNumero  = $numMaximo + 1;
         $correlativo = str_pad($nuevoNumero, 4, '0', STR_PAD_LEFT);
-        $stmt = Conexion::conectar()->prepare("INSERT INTO tbl_preguntas_poligrafo(pregunta_poligrafo, id_tbl_poligrafo,numero) VALUES (:pregunta_poligrafo, :id_tbl_poligrafo,:numero)");
+        $stmt = Conexion::conectar()->prepare("INSERT INTO tbl_preguntas_poligrafo(pregunta_poligrafo, id_tbl_poligrafo,numero,cod_pregunta) VALUES (:pregunta_poligrafo, :id_tbl_poligrafo,:numero,:cod_pregunta)");
 
         $stmt->bindParam(":pregunta_poligrafo", $datos["pregunta_poligrafo"], PDO::PARAM_STR);
         $stmt->bindParam(":id_tbl_poligrafo", $datos["id_tbl_poligrafo"], PDO::PARAM_INT);
         $stmt->bindParam(":numero", $correlativo, PDO::PARAM_STR);
+        $stmt->bindParam(":cod_pregunta", $codigo_tipo, PDO::PARAM_STR);
 
 
         $regPreg = Conexion::conectar()->prepare("INSERT INTO preguntas(id_tipo, pregunta) VALUES (:id_tipo, :pregunta)");
@@ -472,12 +483,23 @@ class ModeloHorario
         return false;
     }
 
-    /* UPDATE POR CADA CAMPO */
+    /* UPDATE HORA INGRESO */
     static public function UpdateTblHoraEstado($datos, $id)
     {
         // Ya existe un registro con la misma fecha inicial y final, entonces actualizamos ese registro
         $stmt = Conexion::conectar()->prepare("UPDATE tbl_poligrafo SET precio_examen=?,porcentaje_evaluado=?,porcentaje_cliente=?,forma_pago=?,hora_solicitud_re=?,fecha_solicitud_re=?,cargo_solicitud_re=?,hora_ingreso = ?,estado_exam=? WHERE id_registro = ?");
         if ($stmt->execute([$datos["precio_programar"], $datos["porcentaje_evaluado"], $datos["porcentaje_cliente"], $datos["forma_pago"], $datos["hora_solicitante"], $datos["fecha_solicitante"], $datos["cargo"], $datos["hora"], "EN PROCESO", $id])) {
+            return true;
+        }
+        return false;
+    }
+
+    /* UPDATE HORA INICIO */
+    static public function UpdateTblHoraInicio($datos, $id)
+    {
+        // Ya existe un registro con la misma fecha inicial y final, entonces actualizamos ese registro
+        $stmt = Conexion::conectar()->prepare("UPDATE tbl_poligrafo SET porcentaje_evaluado=?,porcentaje_cliente=?,forma_pago=?,hora_inicio=? WHERE id_registro = ?");
+        if ($stmt->execute([$datos["porcentaje_evaluado"], $datos["porcentaje_cliente"], $datos["forma_pago"], $datos["hora_inicio"], $id])) {
             return true;
         }
         return false;

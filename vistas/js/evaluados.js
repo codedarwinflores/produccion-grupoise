@@ -71,6 +71,7 @@ $(document).ready(function () {
             );
             $("#form_evaluado_save")[0].reset();
             cargarDataEvaluados();
+            cargarDataReservaPoligrafista();
             scrollToTop();
             $(".img-preview").attr(
               "src",

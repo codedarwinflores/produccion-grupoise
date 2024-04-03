@@ -204,6 +204,7 @@ $(document).ready(function () {
             cargarDataClienteMorse();
             eliminarSesionExamenes();
             cargarExamenesCliente();
+            cargarDataReservaPoligrafista();
             scrollToTop();
           } else if (response === "update") {
             mostrarAlerta(

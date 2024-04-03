@@ -271,6 +271,30 @@ if (isset($_SESSION["perfil"]) && isset($_GET['id']) && !empty($_GET['id']) &&  
                         background-color: #f5f3c4;
                         border-top: 1px solid black !important;
                     }
+
+                    .fila {
+                        display: flex;
+                        flex-wrap: wrap;
+                        margin-bottom: 10px;
+                    }
+
+                    .etiqueta {
+                        flex: 0 0 30%;
+                        font-weight: bold;
+                        background-color: rgba(170, 191, 255, 0.5);
+                        padding: 5px;
+                    }
+
+                    .valor {
+                        flex: 0 0 70%;
+                        word-wrap: break-word;
+                    }
+
+                    .contenedor {
+                        border: 1px solid #000;
+                        padding: 5px;
+                        margin-bottom: 10px;
+                    }
                 </style>
                 <link rel="shortcut icon" href="<?= $urlCompleta ?>/vistas/img/plantilla/icono-negro.png" type="image/x-png">
                 <title>EXAMEN POLIGRÁFICO - REF: <?= $codigo_programar_exam ?></title>
@@ -430,14 +454,22 @@ if (isset($_SESSION["perfil"]) && isset($_GET['id']) && !empty($_GET['id']) &&  
                             $result_preguntas = ModeloHorario::ObtenerPreguntas($id_descriptado);
 
                             if (count($result_preguntas) > 0) {
+                                $v_param = isset($_GET["v"]) ? $_GET["v"] : "";
+
+                                // Convertir el parámetro 'v' en un array
+                                $valores = explode(",", $v_param);
+
                                 foreach ($result_preguntas as $key => $row) {
-                                    echo "<tr>";
-                                    echo "<td>" . ($key + 1) . "</td>";
-                                    echo "<td>" . mb_strtoupper($row["pregunta_poligrafo"], 'UTF-8') . "</td>";
-                                    echo "<td>" . mb_strtoupper($row["respuesta"], 'UTF-8') . "</td>";
-                                    echo "<td>" . mb_strtoupper($row["resultado"], 'UTF-8') . "</td>";
-                                    echo "<td>" . mb_strtoupper($row["observacion"], 'UTF-8') . "</td>";
-                                    echo "</tr>";
+                                    // Verificar si la variable 'v' no está definida o está vacía
+                                    if (!isset($_GET["v"]) || empty($_GET["v"]) || !in_array($row["cod_pregunta"], $valores)) {
+                                        echo "<tr>";
+                                        echo "<td>" . ($key + 1) . "</td>";
+                                        echo "<td>" . (!empty($row["cod_pregunta"]) ? "(" . $row["cod_pregunta"] . ") - " : '') . mb_strtoupper($row["pregunta_poligrafo"], 'UTF-8') . "</td>";
+                                        echo "<td>" . mb_strtoupper($row["respuesta"], 'UTF-8') . "</td>";
+                                        echo "<td>" . mb_strtoupper($row["resultado"], 'UTF-8') . "</td>";
+                                        echo "<td>" . mb_strtoupper($row["observacion"], 'UTF-8') . "</td>";
+                                        echo "</tr>";
+                                    }
                                 }
                             } else {
                                 echo "<tr><td colspan='5'>No se encontraron preguntas registradas. </td></tr>";
@@ -452,23 +484,26 @@ if (isset($_SESSION["perfil"]) && isset($_GET['id']) && !empty($_GET['id']) &&  
                             </tr>
                         </tfoot>
                     </table>
-                    <table class="formulario">
-
-                        <tr>
-                            <td class="alineacion"><strong>OBSERVACIONES:</strong></td>
-                            <td><?= htmlspecialchars($observaciones_examen) ?>
-
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="alineacion"><strong>OBJETIVO DEL EXAMEN:</strong></td>
-                            <td><?= htmlspecialchars($objetivo_examen) ?></td>
-                        </tr>
-                        <tr>
-                            <td class="alineacion"><strong>CONCLUSIÓN DEL EXAMEN:</strong></td>
-                            <td><?= htmlspecialchars($conclusion_examen) ?></td>
-                        </tr>
-                    </table>
+                    <div class="formulario">
+                        <div class="contenedor">
+                            <div class="fila">
+                                <div class="etiqueta">OBSERVACIONES:</div>
+                                <div class="valor"><?= nl2br($observaciones_examen) ?></div>
+                            </div>
+                        </div>
+                        <div class="contenedor">
+                            <div class="fila">
+                                <div class="etiqueta">OBJETIVO DEL EXAMEN:</div>
+                                <div class="valor"><?= nl2br($objetivo_examen) ?></div>
+                            </div>
+                        </div>
+                        <div class="contenedor">
+                            <div class="fila">
+                                <div class="etiqueta">CONCLUSIÓN DEL EXAMEN:</div>
+                                <div class="valor"><?= nl2br($conclusion_examen) ?></div>
+                            </div>
+                        </div>
+                    </div>
                 </main>
             </body>
 

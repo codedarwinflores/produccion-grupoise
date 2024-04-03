@@ -48,6 +48,10 @@ if ($_SESSION["perfil"] == "Vendedor") {
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
+        table.dataTable {
+            border-collapse: collapse !important
+        }
     </style>
     <section class="content-header">
         <h1>
@@ -61,26 +65,25 @@ if ($_SESSION["perfil"] == "Vendedor") {
 
     </section>
 
-    <input type="hidden" name="idperfill" id="idperfill" value="<?= $_SESSION['perfil'] ?>">
     <section class="content">
 
         <div class="box">
             <div class="container-fluid" id="page-container">
                 <div class="floating-button">
                     <!-- Botón flotante -->
-                    <button type="button" class="btn btn-success btn-sm" title="Nuevo registro" id="AddPoliBtn"><i class="fa fa-edit"></i></button>
+                    <button type="button" class="btn btn-success btn-sm bg-green-gradient" title="Nuevo registro" id="AddPoliBtn"><i class="fa fa-edit"></i></button>
 
                     <!-- Single button -->
-                    <!--  <div class="btn-group pull-right">
-                        <button type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-expanded="true"><i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;</button>
+                    <div class="btn-group pull-right">
+                        <button type="button" class="btn btn-primary bg-black-gradient dropdown-toggle btn-sm" data-toggle="dropdown" aria-expanded="true"><i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;</button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                            <li><a href="#" data-toggle="modal" data-target="#modalAgregarEvaluados">Evaluados</a></li>
-                            <li><a href="#" data-toggle="modal" data-target="#modalAgregarClienteMorses">Clientes</a></li>
-                            <li><a href="#">Tipo Examen</a></li>
-                             <li role="separator" class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                    </ul>
-                </div> -->
+                            <li><a href="#" data-toggle="modal" data-target="#modalAgregarEvaluado"><i class="fa fa-users"></i> Evaluados</a></li>
+                            <li><a href="#" data-toggle="modal" data-target="#modalAgregarClienteMorse"><i class="fa fa-user-plus"></i> Clientes</a></li>
+                            <!--  <li><a href="#">Tipo Examen</a></li> -->
+                            <!--   <li role="separator" class="divider"></li>
+                            <li><a href="#">Separated link</a></li> -->
+                        </ul>
+                    </div>
                 </div>
                 <div class="box-header">
 
