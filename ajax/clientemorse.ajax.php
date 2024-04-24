@@ -20,8 +20,8 @@ class AjaxConsultarClienteMorse
 
         $condicionFinal = "";
 
-        $campos = "morse.*,pais.nombre as nombrepais,depart.Nombre as nombredepart,municipio.Nombre_m as nombremunicipio, CONCAT(eval.codigo,' - ',eval.nombres,' ',eval.primer_apellido,' ',eval.segundo_apellido) as nombre_evaluado, CONCAT(vende.codigo,' - ',vende.nombre_vendedor) as nombre_vendedor_morse";
-        $tabla = "`tbl_clientes_morse` morse LEFT JOIN paises pais on morse.general_id_pais = pais.id LEFT JOIN cat_departamento depart on morse.general_id_departamento=depart.id LEFT JOIN cat_municipios municipio on morse.general_id_municipio=municipio.id LEFT JOIN evaluados eval ON morse.id_ultimo_evaluado=eval.id LEFT JOIN tbl_vendedormorse vende ON morse.id_vendedor_morse=vende.id";
+        $campos = "morse.*,pais.nombre as nombrepais,depart.Nombre as nombredepart,municipio.Nombre_m as nombremunicipio, CONCAT(eval.codigo,' - ',eval.nombres,' ',eval.primer_apellido,' ',eval.segundo_apellido) as nombre_evaluado, CONCAT(vende.codigo,' - ',vende.nombre_vendedor) as nombre_vendedor_morse,cargo.nombre_cargo";
+        $tabla = "`tbl_clientes_morse` morse LEFT JOIN paises pais on morse.general_id_pais = pais.id LEFT JOIN cat_departamento depart on morse.general_id_departamento=depart.id LEFT JOIN cat_municipios municipio on morse.general_id_municipio=municipio.id LEFT JOIN evaluados eval ON morse.id_ultimo_evaluado=eval.id LEFT JOIN tbl_vendedormorse vende ON morse.id_vendedor_morse=vende.id LEFT JOIN tbl_cargo_evaluado cargo on morse.solicitado_cargo = cargo.id";
 
         $respuesta = ClienteMorseModelo::MostrarDatos($campos, $tabla, $condicionFinal, " ORDER BY otro_fecha_apertura DESC, id DESC, estado DESC;");
         return $respuesta;
@@ -95,7 +95,7 @@ class AjaxConsultarClienteMorse
                 $datos[$i]["solicitado_nivel_academico"],
                 $datos[$i]["solicitado_nombre"],
                 $datos[$i]["solicitado_apellido"],
-                $datos[$i]["solicitado_cargo"],
+                $datos[$i]["nombre_cargo"],
                 $datos[$i]["solicitado_correo"],
                 $datos[$i]["solicitado_direccion_entrega"],
                 $datos[$i]["solicitado_telefono"],
@@ -222,6 +222,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } else if (isset($_POST["getVendedorMorse"]) && $_POST["getVendedorMorse"] === "ok") {
         $ClienteMorse = new ControladorClienteMorse();
         echo $ClienteMorse::getDataSelect("tbl_vendedormorse", "");
+    } else if (isset($_POST["getCargoMorse"]) && $_POST["getCargoMorse"] === "ok") {
+        $ClienteMorse = new ControladorClienteMorse();
+        echo $ClienteMorse::getDataSelect("tbl_cargo_cliente order by id desc", "");
     } else if (isset($_POST["getMunicipio"]) && $_POST["getMunicipio"] === "ok" && isset($_POST["departamentoId"]) && is_numeric($_POST["departamentoId"])) {
         $ClienteMorse = new ControladorClienteMorse();
         echo $ClienteMorse::getDataSelect("cat_municipios", "idDpto=" . $_POST["departamentoId"]);

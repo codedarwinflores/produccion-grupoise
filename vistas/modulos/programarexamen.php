@@ -42,12 +42,11 @@ if ($_SESSION["perfil"] == "Vendedor") {
         }
 
         /* Estilo personalizado para limitar el texto y agregar puntos suspensivos */
-        .btn-short-text {
+        /*   .btn-short-text {
             max-width: 7ch;
-            /* Limitar a 3 caracteres */
             overflow: hidden;
             text-overflow: ellipsis;
-        }
+        } */
 
         table.dataTable {
             border-collapse: collapse !important
@@ -129,17 +128,17 @@ if ($_SESSION["perfil"] == "Vendedor") {
                                     <i class="fa fa-filter">👈</i>&nbsp;&nbsp;
                                 </strong></div>
                             <div class="btn-group">
-                                <button class="btn btn-success btn-sm" type="button" title="Programación de Polígrafos" data-toggle="modal" data-target="#registrarPoligrafo">
+                                <button class="btn btn-success btn-xs" type="button" title="Programación de Polígrafos" data-toggle="modal" data-target="#registrarPoligrafo">
                                     <i class="fa fa-clock-o"></i> Programar
                                 </button>
                             </div>
                             <div class="btn-group">
-                                <button class="btn btn-info btn-clear-search_pol btn-sm" title="Limpiar Filtros" type="button">
-                                    <i class="fa fa-eraser"></i> Búsqueda
+                                <button class="btn btn-info btn-clear-search_pol btn-xs" title="Limpiar Filtros" type="button">
+                                    <i class="fa fa-eraser"></i> Búsq.
                                 </button>
                             </div>
                             <div class="btn-group">
-                                <button class="btn btn-soundcloud btn-sm" type="button" title="Horario predeterminado" data-toggle="modal" data-target="#detallehorariosprogramados">
+                                <button class="btn btn-soundcloud btn-xs" type="button" title="Horario predeterminado" data-toggle="modal" data-target="#detallehorariosprogramados">
                                     <i class="fa fa-clock-o"></i> Horarios
                                 </button>
                             </div>

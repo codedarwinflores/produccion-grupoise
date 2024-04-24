@@ -42,6 +42,27 @@ class ModeloCargoCliente
     }
 
 
+
+    static public function mdlIngresarCargoEvaluado($tabla, $datos)
+    {
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(nombre_cargo) VALUES (:nombre_cargo)");
+
+        $stmt->bindParam(":nombre_cargo", $datos["nombre_cargo"], PDO::PARAM_STR);
+
+        if ($stmt->execute()) {
+
+            return "ok";
+        } else {
+
+            return "error";
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
     static public  function GenerarCodigoCorrelativo()
     {
         // Obtener el último valor generado
@@ -91,6 +112,31 @@ class ModeloCargoCliente
 
         $stmt->bindParam(":nombre_cargo", $datos["nombre_cargo"], PDO::PARAM_STR);
         $stmt->bindParam(":id", $datos["id"], PDO::PARAM_STR);
+
+        if ($stmt->execute()) {
+
+            return "ok";
+        } else {
+
+            return "error";
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
+    static public function mdlEditarCargoEvaluado($tabla, $datos)
+    {
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET nombre_cargo=:nombre_cargo WHERE id=:id");
+
+        $stmt->bindParam(":nombre_cargo", $datos["nombre_cargo"], PDO::PARAM_STR);
+        $stmt->bindParam(
+            ":id",
+            $datos["id"],
+            PDO::PARAM_STR
+        );
 
         if ($stmt->execute()) {
 

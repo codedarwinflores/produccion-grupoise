@@ -194,6 +194,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
 
+
+    /* OBTENER ORDEN */
+    if (isset($_POST['obtenerOrden']) && $_POST['obtenerOrden'] === "orden" && isset($_POST['id_formato']) && is_numeric($_POST['id_formato'])) {
+
+        $id = ($_POST["id_formato"]);
+        $crear = new ControladorFormatoExamen();
+        $result = $crear->obtenerMaxOrden($id);
+        echo $result;
+    }
+
     /*=============================================
         CREAR FORMATO EXAMEN
     =============================================*/

@@ -70,6 +70,8 @@ $(document).ready(function () {
               "¡Evaluado registrado correctamente!"
             );
             $("#form_evaluado_save")[0].reset();
+            $("#nuevoidClienteevaluado").val(0).trigger("change");
+            $("#nuevoidCargoevaluado").val(0).trigger("change");
             cargarDataEvaluados();
             cargarDataReservaPoligrafista();
             scrollToTop();
@@ -134,7 +136,9 @@ function cerrarModalEvaluados() {
     $("#editarTitle").html("Registrar");
     $("#form_evaluado_save")[0].reset();
     $("#modalAgregarEvaluado").modal("hide");
+    $("#nuevoidClienteevaluado").val(0).trigger("change");
 
+    $("#nuevoidCargoevaluado").val(0).trigger("change");
     return false;
   });
 }
@@ -200,6 +204,10 @@ $(".tbl_evaluados").on("click", ".btnEditarEvaluado", function () {
       );
       $("#nuevoidClienteevaluado")
         .val(respuesta["id_cliente_morse"])
+        .trigger("change");
+
+      $("#nuevoidCargoevaluado")
+        .val(respuesta["cargo_evaluado_aplicar"])
         .trigger("change");
     },
   });

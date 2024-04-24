@@ -13,20 +13,19 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
 
 ?>
 
-
 <div class="content-wrapper">
     <section class="content">
 
         <div class="box">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="box-body">
 
                         <div class="box-header with-border">
 
                             <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarCargoCliente">
 
-                                <i class="fa fa-plus"></i> Agregar Cargo
+                                <i class="fa fa-plus"></i> Agregar Cargo Cliente
 
                             </button><br>
 
@@ -40,14 +39,14 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
                                         <th width="4%">#</th>
                                         <th>ID</th>
                                         <th>Nombre Cargo</th>
-                                        <th width="12%"></th>
+                                        <th style="width: 14% !important;">✍</th>
                                     </tr>
                                 </thead>
                             </table>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="box-body">
 
                         <div class="box-header with-border">
@@ -69,7 +68,36 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
                                         <th>ID</th>
                                         <th>COD</th>
                                         <th>Motivo</th>
-                                        <th width="12%"></th>
+                                        <th style="width: 14% !important;">✍</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="box-body">
+
+                        <div class="box-header with-border">
+
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarCargoEvaluado">
+
+                                <i class="fa fa-plus"></i> Agregar Cargo Evaluado
+
+                            </button><br>
+
+                        </div>
+                        <div class="box-body">
+                            <div class="alert" role="alert" id="mensajeAlertCargoEvaluadoDelete" style="display: none;"></div>
+                            <table class="table table-bordered table-striped dt-responsive tbl_cargo_evaluado" width="100%">
+                                <caption>CARGOS "EVALUADOS"</caption>
+                                <thead>
+                                    <tr>
+                                        <th width="4%">#</th>
+                                        <th>ID</th>
+                                        <th>Nombre Cargo</th>
+                                        <th style="width: 14% !important;">✍</th>
                                     </tr>
                                 </thead>
                             </table>

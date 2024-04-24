@@ -81,7 +81,7 @@ class ModeloEvaluado
 		$codigo = self::codigoCorrelativo();
 		$codigoCliente = self::obetenerCodigoCliente($datos["id_cliente_morse"]);
 
-		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(codigo,nombres, primer_apellido, segundo_apellido,estado_civil,direccion,telefono,documento,padre,madre,conyuge,lugar_nac,fecha_nac,profesion,id_cliente_morse,codigo_cliente,foto) VALUES (:codigo,:nombres, :primer_apellido, :segundo_apellido,:estado_civil,:direccion,:telefono,:documento,:padre,:madre,:conyuge,:lugar_nac,:fecha_nac,:profesion,:id_cliente_morse,:codigo_cliente,:foto)");
+		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(codigo,nombres, primer_apellido, segundo_apellido,estado_civil,direccion,telefono,documento,padre,madre,conyuge,lugar_nac,fecha_nac,profesion,id_cliente_morse,cargo_evaluado_aplicar,codigo_cliente,foto) VALUES (:codigo,:nombres, :primer_apellido, :segundo_apellido,:estado_civil,:direccion,:telefono,:documento,:padre,:madre,:conyuge,:lugar_nac,:fecha_nac,:profesion,:id_cliente_morse,:cargo_evaluado_aplicar,:codigo_cliente,:foto)");
 
 		$stmt->bindParam(":codigo", $codigo, PDO::PARAM_STR);
 		$stmt->bindParam(":nombres", $datos["nombres"], PDO::PARAM_STR);
@@ -98,6 +98,7 @@ class ModeloEvaluado
 		$stmt->bindParam(":fecha_nac", $datos["fecha_nac"], PDO::PARAM_STR);
 		$stmt->bindParam(":profesion", $datos["profesion"], PDO::PARAM_STR);
 		$stmt->bindParam(":id_cliente_morse", $datos["id_cliente_morse"], PDO::PARAM_INT);
+		$stmt->bindParam(":cargo_evaluado_aplicar", $datos["cargo_evaluado_aplicar"], PDO::PARAM_INT);
 		$stmt->bindParam(":codigo_cliente", $codigoCliente, PDO::PARAM_STR);
 		$stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
 
@@ -122,7 +123,7 @@ class ModeloEvaluado
 	{
 		$codigoCliente = self::obetenerCodigoCliente($datos["id_cliente_morse"]);
 
-		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET nombres=:nombres, primer_apellido=:primer_apellido,segundo_apellido=:segundo_apellido,estado_civil=:estado_civil,direccion=:direccion,telefono=:telefono,documento=:documento,padre=:padre,madre=:madre,conyuge=:conyuge,lugar_nac=:lugar_nac,fecha_nac=:fecha_nac,profesion=:profesion,id_cliente_morse=:id_cliente_morse,codigo_cliente=:codigo_cliente,foto=:foto WHERE id = :id");
+		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET nombres=:nombres, primer_apellido=:primer_apellido,segundo_apellido=:segundo_apellido,estado_civil=:estado_civil,direccion=:direccion,telefono=:telefono,documento=:documento,padre=:padre,madre=:madre,conyuge=:conyuge,lugar_nac=:lugar_nac,fecha_nac=:fecha_nac,profesion=:profesion,id_cliente_morse=:id_cliente_morse,cargo_evaluado_aplicar=:cargo_evaluado_aplicar,codigo_cliente=:codigo_cliente,foto=:foto WHERE id = :id");
 
 		$stmt->bindParam(":nombres", $datos["nombres"], PDO::PARAM_STR);
 		$stmt->bindParam(":primer_apellido", $datos["primer_apellido"], PDO::PARAM_STR);
@@ -138,6 +139,7 @@ class ModeloEvaluado
 		$stmt->bindParam(":fecha_nac", $datos["fecha_nac"], PDO::PARAM_STR);
 		$stmt->bindParam(":profesion", $datos["profesion"], PDO::PARAM_STR);
 		$stmt->bindParam(":id_cliente_morse", $datos["id_cliente_morse"], PDO::PARAM_INT);
+		$stmt->bindParam(":cargo_evaluado_aplicar", $datos["cargo_evaluado_aplicar"], PDO::PARAM_INT);
 		$stmt->bindParam(":codigo_cliente", $codigoCliente, PDO::PARAM_STR);
 		$stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
 		$stmt->bindParam(":id", $datos["id"], PDO::PARAM_STR);

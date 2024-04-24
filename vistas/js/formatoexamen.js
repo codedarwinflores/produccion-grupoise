@@ -148,6 +148,7 @@ $(document).ready(function () {
             $("#formato_pregunta_test").val("").trigger("change");
             $("#id_pregunta_formato_examen").val(0).trigger("change");
             cargarDataFormatoExamenPregunta();
+            consultarOrdenPregunta($("#id_formato_examen_pregunta_id").val());
           } else if (response === "update") {
             mostrarAlerta(
               "#mensajeFormformato_examen_pregunta",
@@ -211,8 +212,24 @@ $(document).ready(function () {
       "CONCEPTO FORMATO EXAMEN: " + concepto
     );
     cargarDataFormatoExamenPregunta();
+
+    consultarOrdenPregunta(id);
   });
 });
+
+function consultarOrdenPregunta(id) {
+  $.ajax({
+    data: {
+      obtenerOrden: "orden",
+      id_formato: id,
+    },
+    url: "./ajax/formatoexamen.ajax.php",
+    type: "POST",
+    success: function (response) {
+      $("#formato_pregunta_orden").val(response);
+    },
+  });
+}
 
 // Variable para almacenar la instancia de DataTable
 let miTablaFormatoExamen;
@@ -346,8 +363,6 @@ function cargarDataFormatoExamenPregunta() {
               ": Activar para ordenar la columna de manera descendente",
           },
         },
-
-        // Resto de la configuración de DataTable...
       }
     );
   }
@@ -560,7 +575,7 @@ function cerrarModalFormatoExamenPregunta() {
     $("#formato_pregunta_test").val("").trigger("change");
     $("#id_pregunta_formato_examen").val(0).trigger("change");
     $("#form_formato_examen_pregunta")[0].reset();
-
+    consultarOrdenPregunta($("#id_formato_examen_pregunta_id").val());
     $("#modalFormatoExamenPregunta").modal("hide");
     return false;
   });

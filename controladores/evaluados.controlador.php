@@ -27,7 +27,7 @@ class ControladorEvaluado
 				}
 			}
 
-			$url = "./vistas/img/plantilla/logo_original.png";
+			$url = "https://cdn.icon-icons.com/icons2/69/PNG/128/user_customer_person_13976.png";
 
 			if (isset($_FILES["nuevaFotografia"]) && $_FILES["nuevaFotografia"]["error"] == UPLOAD_ERR_OK) {
 				// Generar un nombre único basado en la marca de tiempo y un número aleatorio
@@ -66,6 +66,7 @@ class ControladorEvaluado
 				"profesion" => $_POST["nuevoProfesionevaluado"],
 				"lugar_nac" => $_POST["nuevoLugarNacevaluado"],
 				"id_cliente_morse" => $_POST["nuevoidClienteevaluado"],
+				"cargo_evaluado_aplicar" => $_POST["nuevoidCargoevaluado"],
 				"direccion" => $_POST["nuevodireccionevaluado"],
 				"foto" => $url,
 			);
@@ -160,6 +161,7 @@ class ControladorEvaluado
 				"profesion" => $_POST["nuevoProfesionevaluado"],
 				"lugar_nac" => $_POST["nuevoLugarNacevaluado"],
 				"id_cliente_morse" => $_POST["nuevoidClienteevaluado"],
+				"cargo_evaluado_aplicar" => $_POST["nuevoidCargoevaluado"],
 				"direccion" => $_POST["nuevodireccionevaluado"],
 				"foto" => $url,
 				"id" => $_POST["id_edit_evaluado"],

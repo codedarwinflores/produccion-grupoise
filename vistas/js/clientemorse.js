@@ -144,6 +144,7 @@ $(document).ready(function () {
   cargarExamenesCliente();
   eliminarSesionExamenes();
   llenarVendedorMorse();
+  llenarCargoCliente();
   $("#general_id_municipio").append(
     '<option value="0" selected>Selecciona un municipio</option>'
   );
@@ -431,7 +432,8 @@ $(".ClienteMorse_register").on("click", ".btnEditarClienteMorse", function () {
       $("#solicitado_nombre").val(respuesta.solicitado_nombre);
       $("#solicitado_apellido").val(respuesta.solicitado_apellido);
 
-      $("#solicitado_cargo").val(respuesta.solicitado_cargo);
+      $("#solicitado_cargo").val(respuesta.solicitado_cargo).trigger("change");
+      /*   $("#solicitado_cargo").val(respuesta.solicitado_cargo); */
       $("#solicitado_correo").val(respuesta.solicitado_correo);
       $("#solicitado_direccion_entrega").val(
         respuesta.solicitado_direccion_entrega
@@ -583,6 +585,33 @@ function llenarVendedorMorse() {
     },
     error: function (error) {
       console.log("Error al obtener vendedores:", error);
+    },
+  });
+}
+
+function llenarCargoCliente() {
+  // Realizar solicitud AJAX para obtener municipios
+  $.ajax({
+    url: "./ajax/clientemorse.ajax.php",
+    type: "POST",
+    dataType: "json",
+    data: { getCargoMorse: "ok" },
+    success: function (data) {
+      // Llenar el select de municipios
+      var id_cargo = $("#solicitado_cargo");
+      id_cargo.empty(); // Limpiar opciones anteriores
+      // Agregar la opción por defecto
+      id_cargo.append(
+        '<option value="0" selected>Selecciona un cargo</option>'
+      );
+      $.each(data, function (index, cargo) {
+        id_cargo.append(
+          '<option value="' + cargo.id + '">' + cargo.nombre_cargo + "</option>"
+        );
+      });
+    },
+    error: function (error) {
+      console.log("Error al obtener cargos:", error);
     },
   });
 }

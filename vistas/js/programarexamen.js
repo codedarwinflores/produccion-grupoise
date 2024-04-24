@@ -51,7 +51,7 @@ $(document).ready(function () {
     event.preventDefault();
   }
 
-  /* // Llamar a la función para bloquear la inspección cuando se abre el modal
+  // Llamar a la función para bloquear la inspección cuando se abre el modal
   $("#procesarReservaProgramada").on("show.bs.modal", function () {
     bloquearInspeccionYVerCodigoFuente();
   });
@@ -59,7 +59,7 @@ $(document).ready(function () {
   // Llamar a la función para desbloquear la inspección cuando se cierra el modal
   $("#procesarReservaProgramada").on("hidden.bs.modal", function () {
     desbloquearInspeccionYVerCodigoFuente();
-  }); */
+  });
 
   // Captura el evento cuando se muestra el popup
   cerrarModal();
@@ -69,6 +69,7 @@ $(document).ready(function () {
   getTipoPreguntasCuestionario();
   getTipoPreguntasSelectMultiple();
   llenarCargoClienteSolicitado();
+  llenarCargoEvaluado();
   $(document).ready(function () {
     /* REGISTRAR PREGUNTA DENTRO DEL CUESTIONARIO*/
     $("#addCuestionarioPregunta").submit(function (e) {
@@ -817,6 +818,93 @@ function cargarDataReservaPoligrafista() {
   cargarDataCada10Segundos();
 }
 
+$(".Poligrafista_register").on("click", "td.id_evaluado", function () {
+  var $currentCell = $(this);
+
+  let idCliente = $currentCell.closest("tr").find("td.id_cliente").data("pk");
+  cargarSelectEvaluadosXeditable($currentCell, idCliente);
+});
+
+function cargarSelectEvaluadosXeditable($currentCell, idCliente) {
+  obtenerDatosJSONByCliente("obtenerDataEvaluados", idCliente)
+    .done(function (datos) {
+      console.log(datos);
+
+      // Crear y mostrar el select editable en la celda actual
+      $currentCell
+        .editable({
+          container: "body",
+          url: "./ajax/programarexamen.ajax.php",
+          title: "Selecciona un evaluado",
+          type: "POST",
+          source: datos,
+          select2: {
+            placeholder: "Selecciona un elemento de la lista",
+            width: 400,
+          },
+          validate: function (value) {
+            var fechaElemento = $(this)
+              .closest("tr")
+              .find(".fecha_programada")
+              .text()
+              .trim();
+
+            var HoraElementoIngreso = $(this)
+              .closest("tr")
+              .find(".hora_ingreso_curso")
+              .text()
+              .trim();
+
+            if (compararFechas(fechaElemento)) {
+              return "No se puede editar elementos en fechas pasadas.";
+            }
+
+            if (HoraElementoIngreso !== "00:00:00") {
+              return "¡El examen ya se encuentra en proceso o finalizado!";
+            }
+
+            if ($.trim(value) === "") {
+              return "* Selecciona un evaluado";
+            }
+          },
+
+          success: function (response, newValue) {
+            // Manejo de la respuesta exitosa
+            console.log("Respuesta exitosa web:", response, newValue);
+
+            // Puedes hacer más cosas con la respuesta si es necesario
+            // Por ejemplo, actualizar la interfaz de usuario, mostrar mensajes, etc.
+          },
+          ajaxOptions: {
+            dataType: "json", // Asegúrate de especificar el tipo de datos esperado
+            success: function (response) {
+              // Manejo de la respuesta del servidor
+              console.log("Respuesta del servidor web:", response);
+
+              // Puedes hacer más cosas con la respuesta si es necesario
+              // Por ejemplo, actualizar la interfaz de usuario, mostrar mensajes, etc.
+            },
+            error: function (xhr, textStatus, errorThrown) {
+              console.error(
+                "Error en la solicitud Ajax:",
+                textStatus,
+                errorThrown
+              );
+            },
+          },
+          params: function (params) {
+            // Agrega el parámetro adicional para indicar la acción
+            params.procesar_data = "_update";
+            return params;
+          },
+        })
+        .editable("show"); // Activar la edición del select editable en la celda actual
+    })
+    .fail(function (jqXHR, textStatus, errorThrown) {
+      console.error("Error en la solicitud AJAX:", textStatus, errorThrown);
+    });
+}
+
 function cargarDataCada10Segundos() {
   // Destruir la edición existente
   // Destruir la edición existente
@@ -825,7 +913,7 @@ function cargarDataCada10Segundos() {
   cargarXeditableHora();
 
   // Obtener los datos de los selectores
-  obtenerDatosJSON("obtenerDataEvaluados")
+  /*   obtenerDatosJSON("obtenerDataEvaluados")
     .done(function (datos) {
       inicializarXEditable(
         ".Poligrafista_register",
@@ -837,7 +925,7 @@ function cargarDataCada10Segundos() {
     })
     .fail(function (xhr, status, error) {
       console.error("Error en la solicitud Ajax:", status, error);
-    });
+    }); */
 
   obtenerDatosJSON("obtenerData")
     .done(function (datos) {
@@ -890,6 +978,18 @@ function obtenerDatosJSON(action) {
     dataType: "json",
     data: {
       action: action,
+    },
+  });
+}
+
+function obtenerDatosJSONByCliente(action, id) {
+  return $.ajax({
+    type: "GET", // Cambiado a GET
+    url: "./ajax/programarexamen.ajax.php",
+    dataType: "json",
+    data: {
+      action: action,
+      id_registro_examen: parseInt(id),
     },
   });
 }
@@ -1029,6 +1129,15 @@ function inicializarXEditable(
     },
 
     success: function (response, newValue) {
+      if (columnSelector === "td.id_cliente") {
+        cargarDataReservaPoligrafista();
+        setTimeout(() => {
+          const idCliente = $(this).closest("tr").data("id");
+          // Seleccionar la fila con el ID del cliente
+          $(`tr[data-id="${idCliente}"]`).addClass("selectedd");
+        }, 500);
+      }
+
       // Manejo de la respuesta exitosa
       console.log("Respuesta exitosa web:", response, newValue);
 
@@ -1116,6 +1225,7 @@ $(".Poligrafista_register").on("click", ".btn-procesar-reserva", function () {
     processData: false,
     dataType: "json",
     success: function (respuesta) {
+      /*  console.log(JSON.stringify(respuesta)); */
       if (
         respuesta["id"] &&
         respuesta["id_evaluado_id"] &&
@@ -1209,7 +1319,45 @@ $(".Poligrafista_register").on("click", ".btn-procesar-reserva", function () {
             ? respuesta["hora_solicitud_re"]
             : obtenerHoraElSalvador()
         );
-        $("#sol_cargo_programar").val(respuesta["cargo_solicitud_re"]);
+
+        /* CARGO CLIENTE */
+        $("#sol_cargo_programar")
+          .val(respuesta["solicitado_cargo"])
+          .trigger("change");
+
+        if (
+          respuesta["cargo_solicitud_re"] !== null &&
+          respuesta["cargo_solicitud_re"] > 0
+        ) {
+          $("#sol_cargo_programar")
+            .val(respuesta["cargo_solicitud_re"])
+            .trigger("change");
+        }
+
+        /* CARGO EVALUADO */
+
+        if (
+          respuesta["cargo_id_eval"] !== null &&
+          respuesta["cargo_id_eval"] > 0
+        ) {
+          $("#cargo_evaluado_aplicar")
+            .val(respuesta["cargo_id_eval"])
+            .trigger("change");
+        } else {
+          if (
+            respuesta["cargo_evaluado_id"] !== null &&
+            respuesta["cargo_evaluado_id"] > 0
+          ) {
+            $("#cargo_evaluado_aplicar")
+              .val(respuesta["cargo_evaluado_id"])
+              .trigger("change");
+          } else {
+            $("#cargo_evaluado_aplicar").val(0).trigger("change");
+          }
+        }
+
+        /*     alert(respuesta["cargo_id_eval"]); */
+
         $("#sol_correo_programar").val(respuesta["solicitado_correo"]);
         $("#sol_telefono_programar").val(respuesta["solicitado_telefono"]);
         $("#sol_nivel_academico").val(respuesta["solicitado_nivel_academico"]);
@@ -1303,9 +1451,6 @@ $(".Poligrafista_register").on("click", ".btn-procesar-reserva", function () {
             _precio
           );
           _precio.focus();
-          $("#sol_cargo_programar")
-            .val(respuesta["cargo_solicitud_re"])
-            .trigger("change");
         }, 600);
 
         inhabilitarInputs(respuesta["estado_exam"]);
@@ -1471,6 +1616,7 @@ $(document).on("change", ".campospreguntas", function () {
 
     // Habilitar/deshabilitar el campo de observación según la opción seleccionada
     campoObservacion.prop("readonly", valorMayusculas !== "NO CONFIABLE");
+    campoObservacion.prop("disabled", valorMayusculas !== "NO CONFIABLE");
     $(campoObservacion).css("background-color", "");
 
     // Si no es "No Confiable", deshabilitar el campo de observación nuevamente
@@ -1479,6 +1625,7 @@ $(document).on("change", ".campospreguntas", function () {
       editarPreguntaSave("observacion", "", id, elemento);
       campoObservacion.val(""); // También puedes limpiar el valor si es necesario
       campoObservacion.prop("readonly", true);
+      campoObservacion.prop("disabled", true);
     }
   }
 });
@@ -1520,6 +1667,7 @@ function cerrarModalReservaExamen() {
     $("#id_edit_id_registro").val(0);
     $("#format_examenes_programar").val(0).trigger("change");
     $("#sol_cargo_programar").val(0).trigger("change");
+    $("#cargo_evaluado_aplicar").val(0).trigger("change");
     $("#format_examenes_programar")
       .prop("disabled", false)
       .select2("disabled", false);
@@ -1756,6 +1904,7 @@ function inhabilitarInputs(estado) {
   $("#fecha_sol_programar").prop("disabled", false);
   $("#sol_hora_programar").prop("disabled", false);
   $("#sol_cargo_programar").prop("disabled", false);
+  $("#cargo_evaluado_aplicar").prop("disabled", false);
   $("#forma_pago").prop("disabled", true);
   $("#porcentaje_cliente").prop("disabled", true);
   $("#porcentaje_evaluado").prop("disabled", true);
@@ -1778,7 +1927,7 @@ function inhabilitarInputs(estado) {
     $("#fecha_sol_programar").prop("disabled", true);
     $("#sol_hora_programar").prop("disabled", true);
     $("#sol_cargo_programar").prop("disabled", true);
-
+    $("#cargo_evaluado_aplicar").prop("disabled", true);
     $("#hora_inicio_programar").prop("disabled", true);
     $("#btn-generar-preguntas").prop("disabled", true).hide();
     $("#format_examenes_programar")
@@ -1793,7 +1942,68 @@ function inhabilitarInputs(estado) {
       $(".btnImprimir").prop("disabled", false);
     }, 1000);
   }
+
+  if (
+    perfil.toUpperCase() === "ADMINISTRADOR" &&
+    estado.toUpperCase() === "FINALIZADO"
+  ) {
+    $("#btneditarExamen").show();
+    startTimer();
+  } else {
+    $("#btneditarExamen").hide();
+  }
 }
+
+function startTimer() {
+  // Deshabilitar el botón al hacer clic
+  $("#btneditarExamen").prop("disabled", true);
+
+  // Cambiar el icono a un reloj
+  $("#btneditarExamen i").removeClass("fa-edit").addClass("fa-clock");
+
+  // Iniciar la cuenta regresiva de 5 segundos
+  let count = 7;
+  const countdown = setInterval(() => {
+    count--;
+    if (count > 0) {
+      // Mostrar el tiempo restante en el botón
+      $("#btneditarExamen").html(
+        "<i class='fa fa-clock-o'></i> Espere " + count + " segundos..."
+      );
+    } else {
+      // Habilitar y mostrar el botón después de 5 segundos
+      $("#btneditarExamen")
+        .prop("disabled", false)
+        .html('<i class="fa fa-edit"></i> Editar Examen');
+      clearInterval(countdown);
+    }
+  }, 1000);
+}
+
+$("#btneditarExamen").on("click", function () {
+  $("#fecha_sol_programar").prop("disabled", false);
+  $("#sol_hora_programar").prop("disabled", false);
+  $("#sol_cargo_programar").prop("disabled", false);
+  $("#cargo_evaluado_aplicar").prop("disabled", false);
+  $("#forma_pago").prop("disabled", false);
+  $("#porcentaje_cliente").prop("disabled", false);
+  $("#porcentaje_evaluado").prop("disabled", false);
+  $("#comenzarExamenHoraInicio").prop("disabled", false);
+  $("#comenzarExamenHoraInicioEmpezar").prop("disabled", false);
+  $("#resultado_examen").prop("disabled", false);
+  $(".campospreguntas")
+    .not("[data-campo='observacion']")
+    .prop("disabled", false);
+
+  $("#reserva_objetivo_examen").prop("disabled", false);
+  $("#reserva_observaciones").prop("disabled", false);
+  $("#reserva_concepto_conclusion").prop("disabled", false);
+  $("#reserva_concepto_conclusion").prop("disabled", false);
+  $(".btn-registrar-pregunta-poligrafo").prop("disabled", false);
+  $(".btn-guardar-cambios-examen").prop("disabled", false);
+  $("#hora_inicio_programar").prop("disabled", false);
+  $("#hora_ingreso_programar").prop("disabled", false);
+});
 
 $("#comenzarExamenHoraInicio").on("click", function () {
   /*  $("#hora_ingreso_programar").val(obtenerHoraElSalvador()); */
@@ -1805,6 +2015,7 @@ $("#comenzarExamenHoraInicio").on("click", function () {
     let hora_solicitante = $("#sol_hora_programar").val();
     let fecha_solicitante = $("#fecha_sol_programar").val();
     let cargo = $("#sol_cargo_programar").val();
+    let cargoAplicar = $("#cargo_evaluado_aplicar").val();
     let forma_pago = $("#forma_pago").val();
     let porcentaje_cliente = $("#porcentaje_cliente").val();
     let porcentaje_evaluado = $("#porcentaje_evaluado").val();
@@ -1820,9 +2031,10 @@ $("#comenzarExamenHoraInicio").on("click", function () {
         hora_solicitante: hora_solicitante,
         fecha_solicitante: fecha_solicitante,
         cargo: cargo,
-        /*    forma_pago: forma_pago,
+        cargoAplicar: cargoAplicar,
+        forma_pago: forma_pago,
         porcentaje_cliente: porcentaje_cliente,
-        porcentaje_evaluado: porcentaje_evaluado, */
+        porcentaje_evaluado: porcentaje_evaluado,
         precio_programar: precio_programar,
         id_registro: id_registro,
       },
@@ -1837,6 +2049,11 @@ $("#comenzarExamenHoraInicio").on("click", function () {
             .html("EN PROCESO")
             .addClass("badge label-warning");
           inhabilitarInputs("EN PROCESO");
+          mostrarAlerta(
+            "#mensajeAlertExamenProgramadoModal",
+            "success",
+            "✅ Registrado Hora de Ingreso"
+          );
         }
       },
       error: function (error) {
@@ -1913,6 +2130,7 @@ function validarTodosLosCampos(condicion) {
       { id: "fecha_sol_programar", nombre: "Fecha Solicitante" },
       { id: "sol_hora_programar", nombre: "Hora Solicitante" },
       { id: "sol_cargo_programar", nombre: "Cargo Solicitante" },
+      { id: "cargo_evaluado_aplicar", nombre: "Cargo a aplicar Evaluado" },
       { id: "sol_correo_programar", nombre: "Correo Solicitante" },
       { id: "sol_telefono_programar", nombre: "Teléfono Solicitante" },
       { id: "precio_programar", nombre: "Precio de Examen" },
@@ -1929,6 +2147,7 @@ function validarTodosLosCampos(condicion) {
       { id: "fecha_sol_programar", nombre: "Fecha Solicitante" },
       { id: "sol_hora_programar", nombre: "Hora Solicitante" },
       { id: "sol_cargo_programar", nombre: "Cargo Solicitante" },
+      { id: "cargo_evaluado_aplicar", nombre: "Cargo a aplicar Evaluado" },
       { id: "sol_correo_programar", nombre: "Correo Solicitante" },
       { id: "sol_telefono_programar", nombre: "Teléfono Solicitante" },
       { id: "precio_programar", nombre: "Precio de Examen" },
@@ -2143,6 +2362,34 @@ function llenarCargoClienteSolicitado() {
       // Agregar la opción por defecto
       cargosol.append(
         '<option value="0" selected>Selecciona un cargo</option>'
+      );
+      $.each(data, function (index, cargo) {
+        cargosol.append(
+          '<option value="' + cargo.id + '">' + cargo.nombre_cargo + "</option>"
+        );
+      });
+    },
+    error: function (error) {
+      console.log("Error al obtener evaluados:", error);
+    },
+  });
+}
+
+function llenarCargoEvaluado() {
+  // Realizar solicitud AJAX para obtener municipios
+  $.ajax({
+    url: "./ajax/programarexamen.ajax.php",
+    type: "POST",
+    dataType: "json",
+    data: { getCargoEvaluado: "ok" },
+    success: function (data) {
+      /*      console.log(JSON.stringify(data)); */
+      // Llenar el select de municipios
+      var cargosol = $("#cargo_evaluado_aplicar");
+      cargosol.empty(); // Limpiar opciones anteriores
+      // Agregar la opción por defecto
+      cargosol.append(
+        '<option value="0" selected>Selecciona un cargo para el evaluado</option>'
       );
       $.each(data, function (index, cargo) {
         cargosol.append(

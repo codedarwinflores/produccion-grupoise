@@ -37,20 +37,24 @@
 
 
                       <div class="row">
-                          <div class="col-xs-12 col-sm-6">
+                          <div class="col-xs-12 col-sm-12">
 
                               <div class="table-responsive">
                                   <table class="table table-bordered table-condensed table-striped table-hover">
                                       <thead class="bg-maroon-gradient">
                                           <tr>
-                                              <th colspan="2">Información Principal</th>
+                                              <th colspan="4">Información Principal</th>
                                           </tr>
                                       </thead>
                                       <tbody>
                                           <tr>
-                                              <th style="width: 20%; text-align: right;">CLIENTE: </th>
+                                              <th style="width: 10%; text-align: right;">CLIENTE: </th>
                                               <td>
                                                   <p id="cliente_programar"></p>
+                                              </td>
+                                              <th style="width: 15%; text-align: right;">CODIGO DE REFERENCIA: </th>
+                                              <td style="width: 35%;">
+                                                  <p id="codigo_programar"></p>
                                               </td>
                                           </tr>
                                           <tr>
@@ -58,12 +62,23 @@
                                               <td>
                                                   <table width="100%">
                                                       <tr>
-                                                          <td style="width: 60%;">
+                                                          <td style="width: 50%;">
                                                               <p id="evaluado_programar">Nombre</p>
                                                           </td>
-                                                          <td><img src="https://cdn.icon-icons.com/icons2/69/PNG/128/user_customer_person_13976.png" id="myFoto" width="20%" class="img-thumbnail" alt="Fotografía" title="Fotografía"></td>
+                                                          <td><img src="https://cdn.icon-icons.com/icons2/69/PNG/128/user_customer_person_13976.png" id="myFoto" width="30%" class="img-thumbnail" alt="Fotografía" title="Fotografía"></td>
                                                       </tr>
                                                   </table>
+                                              </td>
+
+                                              <th style="text-align: right;">CARGO A APLICAR EVALUADO: </th>
+                                              <td>
+                                                  <div class="col-xs-12 col-sm-12">
+
+                                                      <select name="cargo_evaluado_aplicar" id="cargo_evaluado_aplicar" class="form-control input-lg mi-selector" required>
+                                                          <option value="0">Seleccione Cargo</option>
+                                                      </select>
+
+                                                  </div>
                                               </td>
                                           </tr>
 
@@ -72,11 +87,20 @@
                                               <td>
                                                   <p id="poligrafo_programar"></p>
                                               </td>
+                                              <th style="text-align: right;">FECHA Y HORA PROGRAMADA: </th>
+                                              <td>
+                                                  <p id="fecha_y_hora_programada"></p>
+                                              </td>
                                           </tr>
                                           <tr>
                                               <th style="text-align: right;">TIPO EXAMEN: </th>
                                               <td>
                                                   <p id="tipoexamen_programar"></p>
+                                              </td>
+
+                                              <th style="text-align: right;">ESTADO: </th>
+                                              <td>
+                                                  <p id="estado_examen_actual"></p>
                                               </td>
                                           </tr>
 
@@ -85,7 +109,7 @@
                                   </table>
                               </div>
                           </div>
-                          <div class="col-xs-12 col-sm-6">
+                          <!-- <div class="col-xs-12 col-sm-6">
 
                               <div class="table-responsive">
                                   <table class="table table-bordered table-condensed table-striped table-hover">
@@ -95,46 +119,24 @@
                                           </tr>
                                       </thead>
                                       <tbody>
-                                          <tr>
-                                              <th style="width: 30%; text-align: right;">CODIGO DE REFERENCIA: </th>
-                                              <td>
-                                                  <p id="codigo_programar"></p>
-                                              </td>
-                                          </tr>
-                                          <tr>
-                                              <th style="text-align: right;">CARGO: </th>
-                                              <td>
-                                                  <p id="cargo_programar"></p>
-                                              </td>
-                                          </tr>
+
 
                                           <tr>
-                                              <!-- <th style="text-align: right;">PRECIO A PAGAR: $</th> -->
-                                              <!--    <td>
+                                              <th style="text-align: right;">PRECIO A PAGAR: $</th>
+                                              <td>
                                                   <div class="input-group">
                                                       <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
                                                       <input type="text" class="form-control FormatoMoney input-lg camposaveinput" data-campo="precio_examen" required name="precio_programar" placeholder="0.00" id="precio_programar">
                                                   </div>
                                                   <span id="precioUpdate" class="text-white"></span>
-                                              </td> -->
-                                          </tr>
-                                          <tr>
-                                              <th style="text-align: right;">FECHA Y HORA PROGRAMADA: </th>
-                                              <td>
-                                                  <p id="fecha_y_hora_programada"></p>
                                               </td>
                                           </tr>
-                                          <tr>
-                                              <th style="text-align: right;">ESTADO: </th>
-                                              <td>
-                                                  <p id="estado_examen_actual"></p>
-                                              </td>
-                                          </tr>
-                                          <!-- Agrega más filas según sea necesario -->
+
+
                                       </tbody>
                                   </table>
                               </div>
-                          </div>
+                          </div> -->
                       </div>
 
                       <fieldset class="well">
@@ -340,6 +342,8 @@
                   </div>
                   <div class="modal-footer">
                       <div class="text-end">
+
+                          <button type="button" class="btn btn-dark bg-navy btn-sm" id="btneditarExamen"><i class="fa fa-pencil"></i> Editar</button>
                           <button type="button" class="btn btn-info bg-info-gradient btn-sm btnImprimir" data-toggle="modal" data-target="#ModalImprimirView"><i class="fa fa-print"></i> Imprimir</button>
                           <button type="button" class="btn btn-success bg-green-gradient btn-sm btn-guardar-cambios-examen"><i class="fa fa-save"></i> Finalizar</button>
                           <button type="button" class="btn btn-primary btn-sm btn-registrar-pregunta-poligrafo" data-toggle="modal" data-target="#cuestionarioPreguntaAdd" disabled><i class="fa fa-plus"></i> Registrar Preguntas</button>

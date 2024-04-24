@@ -102,7 +102,7 @@ class AjaxConsultarHorario
 
 
 
-            $botones .= '<div class="btn-group pull-right" ><button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-expanded="true"><i class="fa fa-th-list" aria-hidden="true"></i>&nbsp;<span class="caret"></span></button><ul class="dropdown-menu" aria-labelledby="dropdownMenu1">';
+            $botones .= '<div class="btn-group pull-right" ><button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-expanded="true"><i class="fa fa-th-list" aria-hidden="true"></i>&nbsp;<span class="caret"></span></button><ul class="dropdown-menu" aria-labelledby="dropdownMenu1">';
 
 
             if (strtoupper($datos[$i]["estado_exam"]) === "FINALIZADO") {
@@ -114,11 +114,7 @@ class AjaxConsultarHorario
 
             $botones .= "</ul></div>";
 
-
-
-
-
-            $estado = "<button class='btn btn-$clase btn-xs  btn-short-text' title='" . $datos[$i]["estado_exam"] . "'>" . $datos[$i]["estado_exam"] . "</button>";
+            $estado = "<label class='badge label-$clase  btn-short-text' title='" . $datos[$i]["estado_exam"] . "'>" . $datos[$i]["estado_exam"] . "</label>";
 
             $row = array(
                 $i + 1,
@@ -156,12 +152,14 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
         $tabla = "`tbl_empleados` emp INNER JOIN cargos_desempenados cargos on emp.nivel_cargo = cargos.id";
         $condicion = "cargos.descripcion='POLIGRAFIA' order by codigo_empleado desc";
         echo  ModeloHorario::obtenerDatosdeTabla($campos, $tabla, $condicion);
-    } else if (isset($_GET["action"]) && $_GET["action"] === "obtenerDataEvaluados") {
+    } else if (isset($_GET["action"]) && $_GET["action"] === "obtenerDataEvaluados" && isset($_GET["id_registro_examen"]) && is_numeric($_GET["id_registro_examen"])) {
 
-        $campos = "id as id_select, concat(IF(documento <> '', CONCAT('(',documento,') - '), ''),codigo,' - ',nombres,' ',primer_apellido,' ',segundo_apellido) as title";
+        $id_cliente = ModeloHorario::obtenerClienteExamen($_GET["id_registro_examen"]);
+        $campos = "id as id_select, concat(IF(documento <> '', CONCAT('(',documento,') - '), ''),codigo,' - ',nombres,' ',primer_apellido,' ',segundo_apellido) as title, id_cliente_morse";
         $tabla = "evaluados";
-        $condicion = "1 order by id desc";
-        echo  ModeloHorario::obtenerDatosdeTabla($campos, $tabla, $condicion);
+        $condicion = "id_cliente_morse=" . $id_cliente . " and id_cliente_morse>0 order by id desc";
+
+        echo  ModeloHorario::obtenerDatosDeTabla($campos, $tabla, $condicion);
     } else if (isset($_GET["action"]) && $_GET["action"] === "obtenerDataTipoExamen") {
 
         $campos = "id as id_select, concat(codigo,' - ',descripcion) as title";
@@ -297,9 +295,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             "hora_solicitante" => $_POST["hora_solicitante"],
             "fecha_solicitante" => $_POST["fecha_solicitante"],
             "cargo" => $_POST["cargo"],
-            "forma_pago" => "",
-            "porcentaje_cliente" => 0.0,
-            "porcentaje_evaluado" => 0.0,
+            "cargo_evaluado_id" => $_POST["cargoAplicar"],
+            "forma_pago" => $_POST["forma_pago"],
+            "porcentaje_cliente" => $_POST["porcentaje_cliente"],
+            "porcentaje_evaluado" => $_POST["porcentaje_evaluado"],
             "precio_programar" => $_POST["precio_programar"],
         );
         $id_registro = $_POST["id_registro"];
@@ -475,7 +474,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     /* LLENAR CARGO CLIENTE EN FORM PROGRAMAR Y PROCESAR RESERVA */
     if (isset($_POST["getCargoCliente"]) && $_POST["getCargoCliente"] === "ok") {
 
-        echo ModeloHorario::ObtenerDataSelect("tbl_cargo_cliente", "");
+        echo ModeloHorario::ObtenerDataSelect("tbl_cargo_cliente order by id desc", "");
+    }
+
+
+    /* LLENAR CARGO EVALUADO EN FORM PROGRAMAR Y PROCESAR RESERVA */
+    if (
+        isset($_POST["getCargoEvaluado"]) && $_POST["getCargoEvaluado"] === "ok"
+    ) {
+
+        echo ModeloHorario::ObtenerDataSelect("tbl_cargo_evaluado order by id desc", "");
     }
 
 

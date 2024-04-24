@@ -64,6 +64,7 @@ if (isset($_SESSION["perfil"]) && isset($_GET['id']) && !empty($_GET['id']) &&  
             $nombre = mb_strtoupper($datos['nombre'], 'UTF-8');
 
             /* EVALAUDO */
+            $cargo_evaluado_aplicar = $datos['nombre_cargo_final_eval'];
             $codigo_eva = $datos['codigo_eva'];
             $nombres_evas = mb_strtoupper($datos['nombres_evas'], 'UTF-8');
             $a_paterno = mb_strtoupper($datos['a_paterno'], 'UTF-8');
@@ -83,7 +84,7 @@ if (isset($_SESSION["perfil"]) && isset($_GET['id']) && !empty($_GET['id']) &&  
             $solicitado_correo = mb_strtoupper($datos['solicitado_correo'], 'UTF-8');
             $solicitado_telefono = ($datos['solicitado_telefono']);
             $solicitado_direccion_entrega = mb_strtoupper($datos['solicitado_direccion_entrega'], 'UTF-8');
-            $solicitado_cargo = mb_strtoupper($datos['solicitado_cargo'], 'UTF-8');
+            $solicitado_cargo = mb_strtoupper($datos['nombre_cargo'], 'UTF-8');
             $fecha_solicitud_re = ($datos['fecha_solicitud_re'] != '0000-00-00') ? date('d/m/Y', strtotime($datos['fecha_solicitud_re'])) : '-';
             $hora_solicitud_re = ($datos['hora_solicitud_re'] != '00:00:00') ? date('H:i:s', strtotime($datos['hora_solicitud_re'])) : '-';
 
@@ -340,6 +341,10 @@ if (isset($_SESSION["perfil"]) && isset($_GET['id']) && !empty($_GET['id']) &&  
                         </tr>
                         <tr>
                             <td colspan="9" class="titulo">EVALUADO</td>
+                        </tr>
+                        <tr>
+                            <td class="alineacion" colspan="3"><strong>CARGO A APLICAR:</strong> </td>
+                            <td colspan="5"><?= mb_strtoupper($cargo_evaluado_aplicar, 'UTF-8') ?></td>
                         </tr>
                         <tr>
                             <td class="alineacion"><strong>CÓD.:</strong></td>

@@ -23,6 +23,28 @@ class ControladorCargoCliente
     }
 
 
+    static public function ctrCrearCargoEvaluado()
+    {
+
+        if (isset($_POST["nombre_cargo"])) {
+
+            $tabla = "tbl_cargo_evaluado";
+
+            $datos = array(
+                "nombre_cargo" => $_POST["nombre_cargo"],
+            );
+
+            $respuesta = ModeloCargoCliente::mdlIngresarCargoEvaluado($tabla, $datos);
+
+            if ($respuesta == "ok") {
+
+                return true;
+            }
+            return false;
+        }
+    }
+
+
     static public function ctrCrearAreaExamen()
     {
 
@@ -58,6 +80,29 @@ class ControladorCargoCliente
             );
 
             $respuesta = ModeloCargoCliente::mdlEditarCargoCliente($tabla, $datos);
+
+            if ($respuesta == "ok") {
+
+                return true;
+            }
+            return false;
+        }
+    }
+
+
+    static public function ctrEditarCargoEvaluado()
+    {
+
+        if (isset($_POST["nombre_cargo"]) && isset($_POST["id_edit_cargoevaluado"])) {
+
+            $tabla = "tbl_cargo_evaluado";
+
+            $datos = array(
+                "nombre_cargo" => $_POST["nombre_cargo"],
+                "id" => $_POST["id_edit_cargoevaluado"],
+            );
+
+            $respuesta = ModeloCargoCliente::mdlEditarCargoEvaluado($tabla, $datos);
 
             if ($respuesta == "ok") {
 
@@ -112,6 +157,17 @@ class ControladorCargoCliente
         return $respuesta;
     }
 
+
+    static public function ctrMostrarCargoEvaluado($item, $valor)
+    {
+
+        $tabla = "tbl_cargo_evaluado";
+
+        $respuesta = ModeloCargoCliente::mdlMostrar($tabla, $item, $valor);
+
+        return $respuesta;
+    }
+
     static public function ctrMostrarAreaExamen($item, $valor)
     {
 
@@ -145,6 +201,23 @@ class ControladorCargoCliente
     }
 
 
+
+    static public function ctrBorrarCargoEvaluado()
+    {
+
+        if (isset($_POST["id_cargoevaluado_delete"])) {
+
+            $tabla = "tbl_cargo_evaluado";
+            $datos = $_POST["id_cargoevaluado_delete"];
+            $respuesta = ModeloCargoCliente::mdlBorrar($tabla, $datos);
+
+            if ($respuesta == "ok") {
+
+                return true;
+            }
+            return false;
+        }
+    }
 
     static public function ctrBorrarAreaExamen()
     {

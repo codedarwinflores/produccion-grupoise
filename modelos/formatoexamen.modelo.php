@@ -74,6 +74,16 @@ class ModeloFormatoExamen
         return false;
     }
 
+    static public function obtenerOdenPreguntas($id)
+    {
+        // Obtener el último valor generado
+        $stmt = Conexion::conectar()->prepare("SELECT MAX(orden) as maximo FROM tbl_formato_examen_pregunta WHERE id_formato_examen=?");
+        $stmt->execute([$id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return ($row ? ($row['maximo'] + 1) : 1);
+    }
+
 
     static public  function GenerarCodigoCorrelativo($id_tipo, $idEditar)
     {

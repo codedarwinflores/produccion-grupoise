@@ -37,6 +37,11 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
               <th>ID</th>
               <th width="5%">COD</th>
               <th>Nombre Completo</th>
+              <th>Cargo</th>
+              <th>DUI</th>
+              <th>Estado Civil</th>
+              <th>Teléfono</th>
+              <th>Fecha Nacimiento</th>
               <th>Profesión</th>
               <th>Padre</th>
               <th>Madre</th>

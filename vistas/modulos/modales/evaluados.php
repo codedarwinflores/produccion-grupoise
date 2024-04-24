@@ -176,6 +176,25 @@
                                             ?>
                                         </select>
                                     </div>
+
+                                    <label for="nuevoidCargoevaluado">Cargo a Desempeñar:</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-user-o"></i></span>
+                                        <select name="nuevoidCargoevaluado" id="nuevoidCargoevaluado" class="form-control mi-selector input-lg">
+                                            <option value="0">Seleccione...</option>
+                                            <?php
+                                            $item = "";
+                                            $valor = " order by id desc";
+                                            $campos = "*";
+                                            $tabla = "`tbl_cargo_evaluado`";
+                                            $categorias = ModeloLogsUser::mostrarDatosLogs($campos, $tabla, $item, $valor);
+
+                                            foreach ($categorias as $key => $valuee) {
+                                                echo '<option value="' . $valuee["id"] . '">' . $valuee["nombre_cargo"] . '</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
                                     <label for="nuevodireccionevaluado">Dirección Evaluado:</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-globe"></i></span>

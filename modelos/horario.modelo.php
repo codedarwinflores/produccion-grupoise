@@ -148,8 +148,8 @@ class ModeloHorario
         }
         $hora = date('00:00');
         // Ya existe un registro con la misma fecha inicial y final, entonces actualizamos ese registro
-        $stmt = Conexion::conectar()->prepare("INSERT tbl_poligrafo(fecha_programada,hora_programada) VALUES(?,?);");
-        if ($stmt->execute([$fechaActual, $hora])) {
+        $stmt = Conexion::conectar()->prepare("INSERT tbl_poligrafo(fecha_programada,hora_programada,fecha_solicitud_re,hora_solicitud_re) VALUES(?,?,?,?);");
+        if ($stmt->execute([$fechaActual, $hora, $fechaActual, date('H:i')])) {
             self::obtenerYEditarIDProgramacion();
 
             return true;
@@ -339,10 +339,23 @@ class ModeloHorario
         return 0;
     }
 
+
+    static public  function obtenerClienteExamen($id)
+    {
+        // Obtener el último valor generado
+        $stmt = Conexion::conectar()->prepare("SELECT id_cliente FROM `tbl_poligrafo` WHERE id_registro=?");
+        $stmt->execute([$id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($row) {
+            return $row["id_cliente"];
+        }
+        return 0;
+    }
+
     /* OBTENER INFORMACIÓN POD ID PARA EDITAR */
     static public function ObtenerReservaPoligrafoID($id)
     {
-        $query = "SELECT pol.hora_solicitud_re,pol.fecha_solicitud_re,pol.cargo_solicitud_re,pol.conclusion_examen,pol.objetivo_examen,pol.resultado_final_examen,pol.porcentaje_evaluado,pol.porcentaje_cliente,pol.forma_pago,pol.precio_examen,pol.observaciones_examen,pol.id_formato_examen,pol.estado_exam,pol.id_registro,pol.fecha_programada,pol.hora_programada,pol.hora_ingreso,pol.hora_inicio,pol.hora_finalizo,pol.codigo_programar_exam,evas.estado_civil as estado_evas,evas.fecha_nac as fecha_nac_evas,evas.telefono as telefono_evas,evas.documento as dui_evas,evas.nombres as nombres_evas,evas.primer_apellido as a_paterno,evas.segundo_apellido as a_materno,evas.codigo as codigo_eva, concat(evas.nombres,' ',evas.primer_apellido,' ',evas.segundo_apellido) as nombre_evaluado,evas.id as id_evaluado_id,evas.foto as fotografia, morse.*,cargo.nombre_cargo, CONCAT(emp.codigo_empleado,' - ',emp.primer_nombre,' ',emp.segundo_nombre,' ',emp.tercer_nombre,' ',emp.primer_apellido,' ',emp.segundo_apellido,' ',emp.apellido_casada) as nombre_pol,CONCAT(emp.primer_nombre,' ',emp.segundo_nombre,' ',emp.tercer_nombre,' ',emp.primer_apellido,' ',emp.segundo_apellido,' ',emp.apellido_casada) as nombre_poligrafista,emp.id as id_poligrafista_id,emp.codigo_empleado as codigo_poligrafista,tipoexam.descripcion as descripcion_exam,tipoexam.codigo as codigo_examen_unico, concat(tipoexam.codigo,' - ',tipoexam.descripcion,' $',tipoexam.valor) as examenes,tipoexam.id as id_tipoexam_id,tipoexam.valor,formato_examen.concepto,formato_examen.codigo as codigo_formato_examen FROM `tbl_poligrafo` pol LEFT JOIN evaluados evas ON pol.id_evaluado = evas.id LEFT JOIN tbl_clientes_morse morse ON pol.id_cliente=morse.id LEFT JOIN tbl_empleados emp on pol.id_poligrafista = emp.id LEFT JOIN tipos_examenes tipoexam on pol.id_tipo_examen=tipoexam.id LEFT JOIN tbl_cargo_cliente cargo ON morse.solicitado_cargo=cargo.id LEFT JOIN tbl_formato_examenes formato_examen ON pol.id_formato_examen=formato_examen.id WHERE id_registro=?";
+        $query = "SELECT pol.hora_solicitud_re,pol.fecha_solicitud_re,pol.cargo_solicitud_re,pol.cargo_evaluado_id,pol.conclusion_examen,pol.objetivo_examen,pol.resultado_final_examen,pol.porcentaje_evaluado,pol.porcentaje_cliente,pol.forma_pago,pol.precio_examen,pol.observaciones_examen,pol.id_formato_examen,pol.estado_exam,pol.id_registro,pol.fecha_programada,pol.hora_programada,pol.hora_ingreso,pol.hora_inicio,pol.hora_finalizo,pol.codigo_programar_exam,cargo_eva_pol.nombre_cargo as nombre_cargo_final_eval,evas.estado_civil as estado_evas,evas.fecha_nac as fecha_nac_evas,evas.telefono as telefono_evas,evas.documento as dui_evas,evas.nombres as nombres_evas,evas.primer_apellido as a_paterno,evas.segundo_apellido as a_materno,evas.codigo as codigo_eva, concat(evas.nombres,' ',evas.primer_apellido,' ',evas.segundo_apellido) as nombre_evaluado,evas.id as id_evaluado_id,evas.foto as fotografia, morse.*,cargo.nombre_cargo,cargo_eval.id as cargo_id_eval, CONCAT(emp.codigo_empleado,' - ',emp.primer_nombre,' ',emp.segundo_nombre,' ',emp.tercer_nombre,' ',emp.primer_apellido,' ',emp.segundo_apellido,' ',emp.apellido_casada) as nombre_pol,CONCAT(emp.primer_nombre,' ',emp.segundo_nombre,' ',emp.tercer_nombre,' ',emp.primer_apellido,' ',emp.segundo_apellido,' ',emp.apellido_casada) as nombre_poligrafista,emp.id as id_poligrafista_id,emp.codigo_empleado as codigo_poligrafista,tipoexam.descripcion as descripcion_exam,tipoexam.codigo as codigo_examen_unico, concat(tipoexam.codigo,' - ',tipoexam.descripcion,' $',tipoexam.valor) as examenes,tipoexam.id as id_tipoexam_id,tipoexam.valor,formato_examen.concepto,formato_examen.codigo as codigo_formato_examen FROM `tbl_poligrafo` pol LEFT JOIN evaluados evas ON pol.id_evaluado = evas.id LEFT JOIN tbl_clientes_morse morse ON pol.id_cliente=morse.id LEFT JOIN tbl_empleados emp on pol.id_poligrafista = emp.id LEFT JOIN tipos_examenes tipoexam on pol.id_tipo_examen=tipoexam.id LEFT JOIN tbl_cargo_cliente cargo ON morse.solicitado_cargo=cargo.id LEFT JOIN tbl_cargo_evaluado cargo_eval ON evas.cargo_evaluado_aplicar=cargo_eval.id LEFT JOIN tbl_cargo_evaluado cargo_eva_pol ON pol.cargo_evaluado_id = cargo_eva_pol.id LEFT JOIN tbl_formato_examenes formato_examen ON pol.id_formato_examen=formato_examen.id WHERE id_registro=?";
         $sql = Conexion::conectar()->prepare($query);
 
         if ($sql->execute([$id])) {
@@ -472,11 +485,16 @@ class ModeloHorario
         }
     }
 
+
     /* UPDATE POR CADA CAMPO */
     static public function UpdateTblPoligrafo($campo, $valor, $id)
     {
+        $campoEvaluado = "";
+        if ($campo === "id_cliente") {
+            $campoEvaluado = ",id_evaluado=0";
+        }
         // Ya existe un registro con la misma fecha inicial y final, entonces actualizamos ese registro
-        $stmt = Conexion::conectar()->prepare("UPDATE tbl_poligrafo SET $campo = ? WHERE id_registro = ?");
+        $stmt = Conexion::conectar()->prepare("UPDATE tbl_poligrafo SET $campo = ? " . $campoEvaluado . " WHERE id_registro = ?");
         if ($stmt->execute([$valor, $id])) {
             return true;
         }
@@ -487,8 +505,24 @@ class ModeloHorario
     static public function UpdateTblHoraEstado($datos, $id)
     {
         // Ya existe un registro con la misma fecha inicial y final, entonces actualizamos ese registro
-        $stmt = Conexion::conectar()->prepare("UPDATE tbl_poligrafo SET precio_examen=?,porcentaje_evaluado=?,porcentaje_cliente=?,forma_pago=?,hora_solicitud_re=?,fecha_solicitud_re=?,cargo_solicitud_re=?,hora_ingreso = ?,estado_exam=? WHERE id_registro = ?");
-        if ($stmt->execute([$datos["precio_programar"], $datos["porcentaje_evaluado"], $datos["porcentaje_cliente"], $datos["forma_pago"], $datos["hora_solicitante"], $datos["fecha_solicitante"], $datos["cargo"], $datos["hora"], "EN PROCESO", $id])) {
+        $stmt = Conexion::conectar()->prepare("UPDATE tbl_poligrafo SET precio_examen=?,porcentaje_evaluado=?,porcentaje_cliente=?,forma_pago=?,hora_solicitud_re=?,fecha_solicitud_re=?,cargo_solicitud_re=?,cargo_evaluado_id=?,hora_ingreso = ?,estado_exam=? WHERE id_registro = ?");
+        if ($stmt->execute([$datos["precio_programar"], $datos["porcentaje_evaluado"], $datos["porcentaje_cliente"], $datos["forma_pago"], $datos["hora_solicitante"], $datos["fecha_solicitante"], $datos["cargo"], $datos["cargo_evaluado_id"], $datos["hora"], "EN PROCESO", $id])) {
+
+            $stmtt = Conexion::conectar()->prepare("SELECT pol.id_cliente,pol.id_evaluado,morse.codigo_cliente FROM `tbl_poligrafo` pol LEFT JOIN tbl_clientes_morse morse ON pol.id_cliente=morse.id where id_registro=?");
+            $stmtt->execute([$id]);
+            $row = $stmtt->fetch(PDO::FETCH_ASSOC);
+            $id_cliente = $row["id_cliente"];
+            $id_evaluado = $row["id_evaluado"];
+            $codigo_cliente = $row["codigo_cliente"];
+
+            $client_edit = Conexion::conectar()->prepare("UPDATE tbl_clientes_morse SET solicitado_cargo=? where id=?");
+            $client_edit->execute([$datos["cargo"], $id_cliente]);
+
+
+            $evaluado_edit = Conexion::conectar()->prepare("UPDATE evaluados SET codigo_cliente=?,id_cliente_morse=?,cargo_evaluado_aplicar=? where id=?");
+            $evaluado_edit->execute([$codigo_cliente, $id_cliente, $datos["cargo_evaluado_id"], $id_evaluado]);
+
+
             return true;
         }
         return false;

@@ -21,6 +21,16 @@ class AjaxCargocClientes
         return $respuesta;
     }
 
+    public function AjaxConsultarCargosEvaluados()
+    {
+        $campos = "*";
+        $tabla = "tbl_cargo_evaluado";
+        $condicion = "1 ";
+
+        $respuesta = ModeloCargoCliente::MostrarDatos($campos, $tabla, $condicion, "order by id desc");
+        return $respuesta;
+    }
+
 
     public function AjaxConsultarAreaExamen()
     {
@@ -46,6 +56,34 @@ class AjaxCargocClientes
             $botones = '<div class="btn-group">
 					   <button class="btn btn-warning btn-xs btnEditarCargoCliente" idCargoCliente="' . $datos[$i]["id"] . '" data-toggle="modal" data-target="#modalAgregarCargoCliente"><i class="fa fa-pencil"></i></button>
                       <button class="btn btn-danger btn-xs btnEliminarCargoCliente" idCargoCliente="' . $datos[$i]["id"] . '"  ><i class="fa fa-times"></i></button>
+                    </div>';
+
+            $row = array(
+                $i + 1,
+                $datos[$i]["id"],
+                $datos[$i]["nombre_cargo"],
+                $botones,
+            );
+
+            $data[] = $row;
+        }
+
+        $response = array("data" => $data);
+        echo json_encode($response, JSON_UNESCAPED_UNICODE);
+    }
+    public function mostrarTablaCargosEvaluados()
+    {
+
+        $datos = self::AjaxConsultarCargosEvaluados();
+
+        $data = array();
+
+
+        for ($i = 0; $i < count($datos); $i++) {
+
+            $botones = '<div class="btn-group">
+					   <button class="btn btn-warning btn-xs btnEditarCargoEvaluado" idCargoEvaluado="' . $datos[$i]["id"] . '" data-toggle="modal" data-target="#modalAgregarCargoEvaluado"><i class="fa fa-pencil"></i></button>
+                      <button class="btn btn-danger btn-xs btnEliminarCargoEvaluado" idCargoEvaluado="' . $datos[$i]["id"] . '"  ><i class="fa fa-times"></i></button>
                     </div>';
 
             $row = array(
@@ -112,6 +150,24 @@ class AjaxCargocClientes
     }
 
 
+    /*=============================================
+	EDITAR REGISTRO
+	=============================================*/
+
+    public $idCargoEvaluado;
+
+    public function ajaxEditarCargoEvaluado()
+    {
+
+        $item = "id";
+        $valor = $this->idCargoEvaluado;
+
+        $respuesta = ControladorCargoCliente::ctrMostrarCargoEvaluado($item, $valor);
+
+        echo json_encode($respuesta);
+    }
+
+
     public $idAreaExamen;
 
     public function ajaxEditarAreaExamen()
@@ -135,6 +191,16 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
             $consultCargos = new AjaxCargocClientes();
 
             $consultCargos->mostrarTablaCargosClientes();
+        }
+    }
+
+
+    if (isset($_GET["actionsCargoEvaluados"]) && $_GET["actionsCargoEvaluados"] === "Consult") {
+
+        if (isset($_SESSION["perfil"])) {
+            $consultCargos = new AjaxCargocClientes();
+
+            $consultCargos->mostrarTablaCargosEvaluados();
         }
     }
 
@@ -176,6 +242,39 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $editar = new ControladorCargoCliente();
             if ($editar->ctrEditarCargoCliente()) {
                 logs_msg("Tabla Cargo Clientee", "Editar cargo para cliente Morse: ID= " . $_POST["id_edit_cargocliente"]);
+                echo "update";
+            } else {
+                echo "error";
+            }
+        }
+    }
+
+
+    /*=============================================
+            CREAR CARGO EVALUADO
+    =============================================*/
+    if (isset($_POST["save_process_cargoevaluado"]) && $_POST["save_process_cargoevaluado"] === "ok" && isset($_POST["type_action_form"]) && isset($_POST["id_edit_cargoevaluado"])) {
+
+        if ($_POST["id_edit_cargoevaluado"] === "0"  && $_POST["type_action_form"] === "save") {
+            $crear = new ControladorCargoCliente();
+
+
+            if ($crear->ExisteRegistro("UPPER(nombre_cargo)=UPPER('" . $_POST["nombre_cargo"] . "')")) {
+                echo "existe";
+            } else {
+                if ($crear->ctrCrearCargoEvaluado()) {
+
+                    logs_msg("Tabla Cargo Evaluado", "Crear Cargo para Evaluado Morse");
+                    echo "save";
+                } else {
+                    echo "error";
+                }
+            }
+        } else if ($_POST["id_edit_cargoevaluado"] > "0"  && $_POST["type_action_form"] === "update") {
+
+            $editar = new ControladorCargoCliente();
+            if ($editar->ctrEditarCargoEvaluado()) {
+                logs_msg("Tabla Cargo Evaluado", "Editar cargo para cliente Morse: ID= " . $_POST["id_edit_cargoevaluado"]);
                 echo "update";
             } else {
                 echo "error";
@@ -231,6 +330,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     /*=============================================
         EDITAR 
         =============================================*/
+    if (isset($_POST["id_cargo_evaluado"]) && is_numeric($_POST["id_cargo_evaluado"])) {
+        $editar = new AjaxCargocClientes();
+        $editar->idCargoEvaluado = $_POST["id_cargo_evaluado"];
+        $editar->ajaxEditarCargoEvaluado();
+    }
+
+    /*=============================================
+        EDITAR 
+        =============================================*/
     if (isset($_POST["id_area_examen"]) && is_numeric($_POST["id_area_examen"])) {
         $editar = new AjaxCargocClientes();
         $editar->idAreaExamen = $_POST["id_area_examen"];
@@ -243,6 +351,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $borrar = new ControladorCargoCliente();
         if ($borrar->ctrBorrarCargoCliente()) {
             logs_msg("Tabla tbl_cargo_clientes", "Eliminar cargo: ID= " . $_POST["id_cargocliente_delete"]);
+            echo "delete";
+        } else {
+            echo "error";
+        }
+    }
+
+    /* ELIMINAR */
+    if (isset($_POST["id_cargoevaluado_delete"]) && $_POST["id_cargoevaluado_delete"] > 0) {
+        $borrar = new ControladorCargoCliente();
+        if ($borrar->ctrBorrarCargoEvaluado()) {
+            logs_msg("Tabla tbl_cargo_evaluado", "Eliminar cargo: ID= " . $_POST["id_cargoevaluado_delete"]);
             echo "delete";
         } else {
             echo "error";

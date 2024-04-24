@@ -44,8 +44,8 @@ class AjaxEvaluados
 
 	public function AjaxConsultarEvaluados()
 	{
-		$campos = "eva.*,concat(morse.codigo_cliente,' - ',morse.nombre) as cliente_morse";
-		$tabla = "`evaluados` eva LEFT JOIN tbl_clientes_morse morse on eva.id_cliente_morse=morse.id";
+		$campos = "eva.*,concat(morse.codigo_cliente,' - ',morse.nombre) as cliente_morse, cargo.nombre_cargo";
+		$tabla = "`evaluados` eva LEFT JOIN tbl_clientes_morse morse on eva.id_cliente_morse=morse.id LEFT JOIN tbl_cargo_evaluado cargo on eva.cargo_evaluado_aplicar = cargo.id";
 		$condicion = "1 ";
 
 		$respuesta = ModeloHorario::MostrarDatos($campos, $tabla, $condicion, "order by eva.id desc");
@@ -108,13 +108,12 @@ class AjaxEvaluados
 						<h4 class="title">
 						' .  $datos[$i]["nombres"] . " " . $datos[$i]["primer_apellido"] . " " . $datos[$i]["segundo_apellido"] . '
 						</h4>
-						<p class="summary">' . $otrosDatos . '</p>
-					
+									
 						</div>';
 
 			$botones = '<div class="btn-group">
-					   <button class="btn btn-warning btnEditarEvaluado" idEvaluado="' . $datos[$i]["id"] . '" data-toggle="modal" data-target="#modalAgregarEvaluado"><i class="fa fa-pencil"></i></button>
-                      <button class="btn btn-danger btnEliminarEvaluado" foto_del="' . $foto_del . '" idEvaluado="' . $datos[$i]["id"] . '"  ><i class="fa fa-times"></i></button>
+					   <button class="btn btn-warning btnEditarEvaluado btn-sm" idEvaluado="' . $datos[$i]["id"] . '" data-toggle="modal" data-target="#modalAgregarEvaluado"><i class="fa fa-pencil"></i></button>
+                      <button class="btn btn-danger btnEliminarEvaluado btn-sm" foto_del="' . $foto_del . '" idEvaluado="' . $datos[$i]["id"] . '"  ><i class="fa fa-times"></i></button>
                     </div>';
 
 
@@ -123,6 +122,11 @@ class AjaxEvaluados
 				$datos[$i]["id"],
 				$datos[$i]["codigo"],
 				$img,
+				$datos[$i]["nombre_cargo"],
+				(!empty($datos[$i]["documento"]) ? "<strong><i class='fa fa-id-card-o'></i> </strong>" . $datos[$i]["documento"] . " " : ""),
+				(!empty($datos[$i]["estado_civil"]) ? "<strong><i class='fa fa-diamond'></i></strong> " . $datos[$i]["estado_civil"] . " " : ""),
+				(!empty($datos[$i]["telefono"]) ? "<strong><i class='fa fa-phone'></i></strong> " . $datos[$i]["telefono"] . " " : ""),
+				(!empty($datos[$i]["fecha_nac"]) && $datos[$i]["fecha_nac"] !== "0000-00-00" ? "<strong><i class='fa fa-calendar'></i> </strong>" . $datos[$i]["fecha_nac"] . " " : ""),
 				$datos[$i]["profesion"],
 				$datos[$i]["padre"],
 				$datos[$i]["madre"],

@@ -415,8 +415,10 @@ MODAL AGREGAR
                                         <div class="col-xs-12 col-sm-6">
                                             <div class="row">
                                                 <div class="col-xs-12 col-sm-6">
-                                                    <label for="solicitado_cargo">CARGO: <i class="fa fa-user"></i></label>
-                                                    <input type="text" class="form-control input-lg" name="solicitado_cargo" placeholder="Cargo" id="solicitado_cargo">
+                                                    <label for="solicitado_cargo">CARGO: <i class="fa fa-user-md"></i></label>
+                                                    <select class="form-control input-lg mi-selector" name="solicitado_cargo" id="solicitado_cargo">
+                                                        <option value="0">Seleccione</option>
+                                                    </select>
 
                                                 </div>
 

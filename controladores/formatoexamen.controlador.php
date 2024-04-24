@@ -117,6 +117,12 @@ class ControladorFormatoExamen
         }
     }
 
+    static public function obtenerMaxOrden($id)
+    {
+        return ModeloFormatoExamen::obtenerOdenPreguntas($id);
+    }
+
+
     static public function ExisteRegistroFormatoExamen($condicion)
     {
         return ModeloFormatoExamen::ExisteRegistro("tbl_formato_examenes", $condicion);
