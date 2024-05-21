@@ -42,8 +42,8 @@ $ultimoDiaMes = $fecha_actual->format('Y-m-t');
         <h3><strong>Búsqueda</strong></h3>
         <div class="row ">
 
-          <form action="javascript:void()" id="form_empleados" method="POST" autocomplete="off">
-
+          <form action="./vistas/modulos/reporteempleados.php" target="_blank" id="form_empleados" method="POST" autocomplete="off">
+            <input type="hidden" name="consultar" value="hi">
             <div class="col-md-12">
 
               <div class="col-md-6">
@@ -100,7 +100,7 @@ $ultimoDiaMes = $fecha_actual->format('Y-m-t');
                     };
                     $data_empleado = empleados();
                     foreach ($data_empleado as $value) {
-                      echo "<option value=" . $value["id"] . ">" . $value["numero_documento_identidad"] . " - " . $value["primer_nombre"] . ' ' . $value["segundo_nombre"] . ' '  . $value["tercer_nombre"] . ' ' . $value["primer_apellido"] . ' ' . $value["segundo_apellido"] . "</option>";
+                      echo "<option value=" . $value["id"] . ">" . "(" .  $value["codigo_empleado"] . ") - " . $value["numero_documento_identidad"] . " - " . $value["primer_nombre"] . ' ' . $value["segundo_nombre"] . ' '  . $value["tercer_nombre"] . ' ' . $value["primer_apellido"] . ' ' . $value["segundo_apellido"] . "</option>";
                     }
                     ?>
                   </select>
@@ -148,7 +148,7 @@ $ultimoDiaMes = $fecha_actual->format('Y-m-t');
 
               <div class="col-md-12">
                 <div class="pull-left">
-                  <button type="button" style="margin-right: 15px;" class="btn btn-info btn-searchform"><span class="fa fa-search-plus"></span> Filtrar</button>
+                  <button type="submit" style="margin-right: 15px;" class="btn btn-info btn-searchform"><span class="fa fa-search-plus"></span> Filtrar</button>
                   <label for="rrhh" class="checkbox-inline">
                     <input type="checkbox" id="rrhh" name="rrhh" value="rrhh">
                     <strong>R.R.H.H</strong>
@@ -177,28 +177,12 @@ $ultimoDiaMes = $fecha_actual->format('Y-m-t');
             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 text-center">
               <div id="mensajeview"></div>
             </div>
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 text-center">
-              <div class="pull-right">
-                <div class="dropdown" style="display: inline-block;">
-                  <button class="btn btn-success dropdown-toggle left" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    <i class="fa fa-file-excel-o"></i>
-                    <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu " aria-labelledby="dropdownMenu1">
-                    <li><a href="javascript:();" onclick="imprimir('xlsx')"><i class="bg-success fa fa-file-excel-o"></i> .xlsx</a></li>
-                    <li><a href="javascript:();" onclick="imprimir('xls')"><i class="bg-success fa fa-file-excel-o"></i> .xls</a></li>
-                    <li><a href="javascript:();" onclick="imprimir('csv')"><i class="bg-success fa fa-file-excel-o"></i> .csv</a></li>
 
-                  </ul>
-                </div>
-              </div>
-            </div>
           </div>
 
         </div><!--//container-fluid-->
 
-        <div id="verTabla">
-        </div>
+
 
 
 
@@ -211,7 +195,7 @@ $ultimoDiaMes = $fecha_actual->format('Y-m-t');
 
 </div>
 </section>
-</div>
+
 
 <script>
   var date = new Date();
