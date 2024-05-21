@@ -1,6 +1,8 @@
 <?php
 session_start();
-ini_set('max_execution_time', 12000); // Establece el límite de tiempo en 600 segundos (10 minutos)
+ini_set('max_execution_time', 3000); // 3000 segundos = 50 minutos
+ini_set('max_input_time', 3000);
+ini_set('memory_limit', '512M');
 
 /* EMPLEADOS AJAX VIEW */
 if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
