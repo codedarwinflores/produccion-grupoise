@@ -1,5 +1,6 @@
 <?php
 session_start();
+set_time_limit(0); // Esto desactiva el límite de tiempo de ejecución
 ini_set('max_execution_time', 3000); // 3000 segundos = 50 minutos
 ini_set('max_input_time', 3000);
 ini_set('memory_limit', '512M');

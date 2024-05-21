@@ -4,10 +4,26 @@ RewriteEngine On
 
 RewriteRule ^([-a-zA-Z0-9]+)$ index.php?ruta=$1
 
-
 SetEnv PHP_VALUE "log_errors = On"
 SetEnv PHP_ADMIN_VALUE "display_errors = On"
 php_flag display_errors On
+
+# Aumentar el tiempo de espera y otros límites de PHP
+<IfModule mod_php7.c>
+    php_value max_execution_time 3000
+    php_value max_input_time 3000
+    php_value memory_limit 1536M
+</IfModule>
+
+# Configurar opciones adicionales de Apache
+<IfModule mod_reqtimeout.c>
+    RequestReadTimeout header=3000-0,MinRate=500 body=3000-0,MinRate=500
+</IfModule>
+
+# Configurar Keep-Alive Timeout
+<IfModule mod_headers.c>
+    Header set Keep-Alive "timeout=3000"
+</IfModule>
 
 # php -- BEGIN cPanel-generated handler, do not edit
 # Set the “ea-php72” package as the default “PHP” programming language.
