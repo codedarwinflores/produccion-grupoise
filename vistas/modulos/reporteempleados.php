@@ -1,5 +1,20 @@
 <?php
+
 session_start();
+
+require './libexcel/vendor/autoload.php';
+//load phpspreadsheet class using namespaces
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+
+//call iofactory instead of xlsx writer
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Writer\Xls;
+use PhpOffice\PhpSpreadsheet\Writer\Csv;
+use PhpOffice\PhpSpreadsheet\Worksheet\ColumnIterator;
+
+
 set_time_limit(0); // Esto desactiva el límite de tiempo de ejecución
 ini_set('max_execution_time', 3000); // 3000 segundos = 50 minutos
 ini_set('max_input_time', 3000);
