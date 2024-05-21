@@ -243,10 +243,10 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
                     break;
             }
 
-            $ubicacion = ubicacion_empleado($value['codigo_empleado']);
-            $fechaContratacion = formatearFecha($value["fecha_contratacion"]);
-            $fechaRetiro = (!empty($value['fecha_retiro']) ? formatearFecha($value['fecha_retiro']) : "-");
-            $diasContratados = diasContratado($value['fecha_contratacion'], $value['fecha_retiro']);
+
+
+
+
             $edadEmpleado = edad($value["fecha_nacimiento"]);
 
             $empleados_array[] = array(
@@ -254,14 +254,14 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
                 "nombre_completo" => mb_strtoupper(($value["primer_nombre"] . ' ' . $value["segundo_nombre"] . ' ' . $value["tercer_nombre"] . ' ' . $value["primer_apellido"] . ' ' . $value["segundo_apellido"] . ' ' . $value["apellido_casada"]), "UTF-8"),
                 "sueldo" => ($value["sueldo"] != null && !empty($value["sueldo"]) ? number_format(($value["sueldo"] * 2), 2) : number_format(0, 2)),
                 "transp" => (!empty($value["tipodescuento"]) && $value["tipodescuento"] != null ? $value["tipodescuento"] : ""),
-                "u_esp" => bonoEmpleado($ubicacion["ubicaciont"]),
-                "fecha_ingreso" => $fechaContratacion,
-                "fecha_contratacion" => $fechaContratacion,
-                "fecha_retiro" => $fechaRetiro,
-                "nueva_ubicacion_transacciones_agente" => $ubicacion["ubicaciont"],
-                "fecha_transacciones_agente" => $ubicacion["fechat"],
+                "u_esp" => 0,
+                "fecha_ingreso" => "-",
+                "fecha_contratacion" => "-",
+                "fecha_retiro" => "-",
+                "nueva_ubicacion_transacciones_agente" => "-",
+                "fecha_transacciones_agente" => "-",
                 "numero_documento_identidad" => $value["numero_documento_identidad"],
-                "dias_contratados" => $diasContratados,
+                "dias_contratados" => "-",
                 "nup" => $value["nup"],
                 "codigo_afp" => $value["codigo_afp"],
                 "motivo_inactivo_transacc" => (!empty($value['motivo_inactivo_transacc']) ? $value['motivo_inactivo_transacc'] : "-"),
