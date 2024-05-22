@@ -80,6 +80,7 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
     }
 
 
+    /* UBICACIÓN EMPLEADO */
     function ubicacion_empleado($codigo)
     {
         if (!empty($codigo) && $codigo != null) {
@@ -98,6 +99,23 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
             }
         }
         return array('fechat' => "-", 'ubicaciont' => "-");
+    }
+
+    function sacar_ubicacion()
+    {
+        $query = "SELECT t.id,STR_TO_DATE(t.fecha_transacciones_agente, '%d-%m-%Y') AS fecha_transacciones_agente,
+       STR_TO_DATE(t.fecha_movimiento_transacciones_agente, '%d-%m-%Y') AS fecha_movimiento_transacciones_agente,
+       t.nueva_ubicacion_transacciones_agente,t.ubicacion_anterior_transacciones_agente,t.idagente_transacciones_agente FROM transacciones_agente t JOIN (SELECT idagente_transacciones_agente, MAX(STR_TO_DATE(fecha_movimiento_transacciones_agente, '%d-%m-%Y')) AS max_fecha FROM transacciones_agente GROUP BY idagente_transacciones_agente) max_dates ON t.idagente_transacciones_agente=max_dates.idagente_transacciones_agente AND STR_TO_DATE(t.fecha_movimiento_transacciones_agente, '%d-%m-%Y') = max_dates.max_fecha ORDER BY fecha_movimiento_transacciones_agente DESC;";
+
+        $sql = Conexion::conectar()->prepare($query);
+
+        $sql->execute();
+        $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+        // Convertir el resultado a JSON
+        $json_result = json_encode($result);
+
+        return $json_result;
     }
 
 
@@ -188,11 +206,23 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
     }
 
 
+    // Función para filtrar el JSON por idagente_transacciones_agente
+    function filtrar_json_por_idagente($json, $idagente)
+    {
+        $data = json_decode($json, true); // Decodificar JSON a array asociativo
+        $filtered_data = array_filter($data, function ($item) use ($idagente) {
+            return $item['idagente_transacciones_agente'] == $idagente;
+        });
+        return json_encode(array_values($filtered_data)); // Re-codificar a JSON
+    }
+
+
     /* IMPRIMI TABLA DE ACUERDO A LA CONSULTA ENVIADA */
 
     function crearTablaEmpleados($cont, $campos, $tabla, $condicion, $array, $estado, $rrhh)
     {
         $empleados_array = array();
+        $dataUbicacion  = sacar_ubicacion();
         $empleadoBuscar = new ModeloEmpleados();
         $empleados = $empleadoBuscar->mostrarEmpleadoDb($campos, $tabla, $condicion, $array);
         $contEmp = 0;
@@ -225,7 +255,26 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
                     break;
             }
 
+            $filteredJson = filtrar_json_por_idagente($dataUbicacion, $value["codigo_empleado"]);
+            // Acceder a los campos del JSON filtrado
+            $id_transaccion = "";
+            $fecha_transacciones = '';
+            $fecha_movimiento = '-';
+            $nueva_ubicacion = '-';
+            $ubicacion_anterior = '';
+            $id_agente = '';
+            $filteredArray = json_decode($filteredJson, true);
+            foreach ($filteredArray as $item) {
+                $id_transaccion = $item["id"];
+                $fecha_transacciones  = $item['fecha_transacciones_agente'];
+                $fecha_movimiento  = $item['fecha_movimiento_transacciones_agente'];
+                $nueva_ubicacion = $item['nueva_ubicacion_transacciones_agente'];
+                $ubicacion_anterior =  $item['ubicacion_anterior_transacciones_agente'];
+                $id_agente = $item['idagente_transacciones_agente'];
+            }
 
+
+            $fechaIngreso = formatearFecha($value["fecha_ingreso"]);
             $fechaContratacion = formatearFecha($value["fecha_contratacion"]);
             $fechaRetiro = (!empty($value['fecha_retiro']) ? formatearFecha($value['fecha_retiro']) : "-");
             $diasContratados = diasContratado($value['fecha_contratacion'], $value['fecha_retiro']);
@@ -237,11 +286,11 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
                 "sueldo" => ($value["sueldo"] != null && !empty($value["sueldo"]) ? number_format(($value["sueldo"] * 2), 2) : number_format(0, 2)),
                 "transp" => (!empty($value["tipodescuento"]) && $value["tipodescuento"] != null ? $value["tipodescuento"] : ""),
                 "u_esp" => "-",
-                "fecha_ingreso" => $fechaContratacion,
+                "fecha_ingreso" => $fechaIngreso,
                 "fecha_contratacion" => $fechaContratacion,
                 "fecha_retiro" => $fechaRetiro,
-                "nueva_ubicacion_transacciones_agente" => "-",
-                "fecha_transacciones_agente" => "-",
+                "nueva_ubicacion_transacciones_agente" => $nueva_ubicacion,
+                "fecha_transacciones_agente" => (!empty($fecha_movimiento) && $fecha_movimiento !== "00/00/0000" && $fecha_movimiento !== "-" ? formatearFecha($fecha_movimiento) : "-"),
                 "numero_documento_identidad" => $value["numero_documento_identidad"],
                 "dias_contratados" => $diasContratados,
                 "nup" => $value["nup"],
