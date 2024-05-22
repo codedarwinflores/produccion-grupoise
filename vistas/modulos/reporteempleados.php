@@ -467,7 +467,7 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
                             break;
                     }
 
-                    $filteredJson = filtrar_json_por_idagente($dataUbicacion, $value["codigo_empleado"]);
+                    /*  $filteredJson = filtrar_json_por_idagente($dataUbicacion, $value["codigo_empleado"]); */
                     // Acceder a los campos del JSON filtrado
                     $id_transaccion = "";
                     $fecha_transacciones = '';
@@ -475,7 +475,7 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
                     $nueva_ubicacion = '-';
                     $ubicacion_anterior = '';
                     $id_agente = '';
-                    $filteredArray = json_decode($filteredJson, true);
+                    /*  $filteredArray = json_decode($filteredJson, true);
                     foreach ($filteredArray as $item) {
                         $id_transaccion = $item["id"];
                         $fecha_transacciones  = $item['fecha_transacciones_agente'];
@@ -483,7 +483,7 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
                         $nueva_ubicacion = $item['nueva_ubicacion_transacciones_agente'];
                         $ubicacion_anterior =  $item['ubicacion_anterior_transacciones_agente'];
                         $id_agente = $item['idagente_transacciones_agente'];
-                    }
+                    } */
 
 
                     $fechaIngreso = formatearFecha($value["fecha_ingreso"]);
