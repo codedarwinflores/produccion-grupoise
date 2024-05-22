@@ -212,4 +212,4 @@ $ultimoDiaMes = $fecha_actual->format('Y-m-t');
 </script>
 
 
-<script src="./vistas/js/empleadosearch.js" async></script>
+<script src="./vistas/js/empleadosearch.js?v=1" async></script>

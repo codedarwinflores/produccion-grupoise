@@ -64,7 +64,7 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
             if (!empty($fechadesde) && !empty($fechahasta)) {
                 $fechasFiltrar = " and DATE(tbemp.fecha_contratacion)" . $fechasFiltrar . " or DATE(ret.fecha_retiro)" . $fechasFiltrar;
             }
-            $estado_emp = "tbemp.estado IN (2,3)";
+            $estado_emp = "tbemp.estado IN (1,2,3,4)";
             $estado_ingresos = "Ingresos/Egresos";
         }
 
@@ -110,15 +110,43 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
         $sql = Conexion::conectar()->prepare($query);
 
         $sql->execute();
-        $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+        $result = $sql->fetchAll();
 
-        // Convertir el resultado a JSON
-        $json_result = json_encode($result);
-
-        return $json_result;
+        return $result;
     }
 
+    // Función para filtrar el JSON por idagente_transacciones_agente
+    function filtrar_array_por_idagente($array, $idagente)
+    {
+        $filtrados = array_filter($array, function ($empleado) use ($idagente) {
+            return $empleado['idagente_transacciones_agente'] === $idagente;
+        });
+        return $filtrados;
+    }
+    /* BONO EMPLEADO */
+    function bonoEmpleado()
+    {
+        $query = "SELECT codigo_ubicacion,codigo_cliente,bono_unidad FROM `tbl_clientes_ubicaciones`";
+        $sql = Conexion::conectar()->prepare($query);
+        $sql->execute();
+        $data = $sql->fetchAll();
+        return $data;
+    }
+
+    // Función para filtrar el JSON por codigo_cliente
+    function filtrar_array_por_codigo_ubicacion($array, $codigo_ubicacion)
+    {
+        $filtrados = array_filter($array, function ($cliente) use ($codigo_ubicacion) {
+            return $cliente['codigo_ubicacion'] == $codigo_ubicacion;
+        });
+        return $filtrados;
+    }
+
+
+    /* CONSULTAR UBICACIONES y BONOS*/
+
     $dataUbicacion = sacar_ubicacion();
+    $dataBonoEmpleado = bonoEmpleado();
 
 
     function edad($fecha)
@@ -147,32 +175,6 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
 
         return 0;
     }
-
-
-    /* BONO EMPLEADO */
-    function bonoEmpleado($codUbicacion)
-    {
-        if (empty($codUbicacion)) {
-            return "$ 0.00";
-        }
-
-        $separada = explode("-", $codUbicacion);
-        $codigo_u = $separada[0];
-
-        $query = "SELECT bono_unidad FROM tbl_clientes_ubicaciones 
-              INNER JOIN clientes ON clientes.id = tbl_clientes_ubicaciones.id_cliente 
-              WHERE codigo_ubicacion=?";
-        $sql = Conexion::conectar()->prepare($query);
-        $sql->execute([$codigo_u]);
-        $data = $sql->fetch(PDO::FETCH_ASSOC);
-
-        if ($data && isset($data['bono_unidad']) && !empty($data['bono_unidad'])) {
-            return  $data['bono_unidad'];
-        }
-
-        return "-";
-    }
-
 
 
     /* FUNCIÓN PARA IMPRIMIR LOS DEPARTAMENTOS DE LA EMPRESA */
@@ -208,22 +210,34 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
     }
 
 
-    // Función para filtrar el JSON por idagente_transacciones_agente
-    function filtrar_json_por_idagente($json, $idagente)
-    {
-        $data = json_decode($json, true); // Decodificar JSON a array asociativo
-        $filtered_data = array_filter($data, function ($item) use ($idagente) {
-            return $item['idagente_transacciones_agente'] == $idagente;
-        });
-        return json_encode(array_values($filtered_data)); // Re-codificar a JSON
-    }
+
+?>
+
+    <?php
+
+    /* FILTRAR POR DEPARTAMENTOS */
+
+    $departamento1 = "";
+    $departamento2 = "";
+    $campos = "tbemp.id,tbemp.primer_nombre,tbemp.primer_apellido,tbemp.segundo_nombre,tbemp.segundo_apellido,tbemp.tercer_nombre,tbemp.apellido_casada,tbemp.id_departamento,tbemp.numero_isss,tbemp.numero_documento_identidad,tbemp.nit,tbemp.codigo_afp,tbemp.nup,tbemp.fecha_nacimiento,tbemp.estado,tbemp.sueldo,tbemp.fecha_contratacion,tbemp.fecha_ingreso,tbemp.numero_cuenta,tbemp.codigo_empleado,cargo.id AS cargoid,cargo.descripcion,bank.codigo AS codigo_bank,bank.nombre AS nombre_bank, d_emp.id as d_empid, d_emp.nombre as nombre_empresa, ret.fecha_retiro,ret.motivo_inactivo,ret.observaciones_retiro,personal_transacc.nombre AS motivo_inactivo_transacc,dev_desc.tipodescuento, IF(EXISTS(SELECT 1 FROM `uniformedescuento` WHERE codigo_empleado_descuento = tbemp.id) OR EXISTS(SELECT 1 FROM `regalo` WHERE idempleado = tbemp.id), 'SI', 'NO') AS tiene_uniforme";
+
+    $tabla = "`tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa=d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco = bank.id LEFT JOIN (SELECT idempleado_retiro, MIN(id) AS min_id_retiro FROM retiro GROUP BY idempleado_retiro) min_retiro ON tbemp.id = min_retiro.idempleado_retiro LEFT JOIN retiro ret ON min_retiro.idempleado_retiro = ret.idempleado_retiro AND min_retiro.min_id_retiro = ret.id LEFT JOIN tbl_transacciones_personal personal_transacc ON ret.motivo_inactivo = personal_transacc.id LEFT JOIN tbl_empleados_devengos_descuentos dev_desc ON tbemp.id = dev_desc.id_empleado AND dev_desc.tipodescuento = '2'";
 
 
 
-    /* IMPRIMI TABLA DE ACUERDO A LA CONSULTA ENVIADA */
 
-    function crearTablaEmpleados($cont, $campos, $tabla, $condicion, $array, $estado, $rrhh)
-    {
+    if (isset($_POST["empleados"]) && is_numeric($_POST["empleados"]) && !empty($_POST["empleados"])) {
+
+
+        /* FILTRAR SOLO POR EL EMPLEADO */
+        $cont = 0;
+        $depa = departamentos($_POST['empleados'], "uno");
+
+        /* AQUI VAN LAS CONSULTAS */
+
+        $condicion = " tbemp.id=" . $_POST['empleados'] . "";
+        $array = [];
+        $cont++;
         $empleados_array = array();
         $empleadoBuscar = new ModeloEmpleados();
         $empleados = $empleadoBuscar->mostrarEmpleadoDb($campos, $tabla, $condicion, $array);
@@ -257,23 +271,31 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
                     break;
             }
 
-            /* $filteredJson = filtrar_json_por_idagente($dataUbicacion, $value["codigo_empleado"]); */
+            $filteredJson = filtrar_array_por_idagente($dataUbicacion, $value["codigo_empleado"]);
             // Acceder a los campos del JSON filtrado
-            $id_transaccion = "";
+
             $fecha_transacciones = '';
             $fecha_movimiento = '-';
             $nueva_ubicacion = '-';
-            $ubicacion_anterior = '';
-            $id_agente = '';
-            /* $filteredArray = json_decode($filteredJson, true);
-            foreach ($filteredArray as $item) {
-                $id_transaccion = $item["id"];
+
+            foreach ($filteredJson as $item) {
+
                 $fecha_transacciones  = $item['fecha_transacciones_agente'];
                 $fecha_movimiento  = $item['fecha_movimiento_transacciones_agente'];
                 $nueva_ubicacion = $item['nueva_ubicacion_transacciones_agente'];
-                $ubicacion_anterior =  $item['ubicacion_anterior_transacciones_agente'];
-                $id_agente = $item['idagente_transacciones_agente'];
-            } */
+            }
+
+
+            /* SACAR CODIGO */
+            $separada = explode("-", $nueva_ubicacion);
+            $codigo_u = $separada[0];
+
+            $filtrarArrayBono = filtrar_array_por_codigo_ubicacion($dataBonoEmpleado, $codigo_u);
+
+            $bonoUnidad = '';
+            foreach ($filtrarArrayBono as $item) {
+                $bonoUnidad  = $item['bono_unidad'];
+            }
 
 
             $fechaIngreso = formatearFecha($value["fecha_ingreso"]);
@@ -312,55 +334,16 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
             );
         }
 
-        $response = array(
+        $responses = array(
             "cantEmpleados" => $contEmp,
             "empleados" => $empleados_array,
         );
 
-        return $response;
-    }
-
-?>
-
-    <?php
-
-    /* FILTRAR POR DEPARTAMENTOS */
-
-    $departamento1 = "";
-    $departamento2 = "";
-    $campos = "tbemp.id,tbemp.primer_nombre,tbemp.primer_apellido,tbemp.segundo_nombre,tbemp.segundo_apellido,tbemp.tercer_nombre,tbemp.apellido_casada,tbemp.id_departamento,tbemp.numero_isss,tbemp.numero_documento_identidad,tbemp.nit,tbemp.codigo_afp,tbemp.nup,tbemp.fecha_nacimiento,tbemp.estado,tbemp.sueldo,tbemp.fecha_contratacion,tbemp.fecha_ingreso,tbemp.numero_cuenta,tbemp.codigo_empleado,cargo.id AS cargoid,cargo.descripcion,bank.codigo AS codigo_bank,bank.nombre AS nombre_bank, d_emp.id as d_empid, d_emp.nombre as nombre_empresa, ret.fecha_retiro,ret.motivo_inactivo,ret.observaciones_retiro,personal_transacc.nombre AS motivo_inactivo_transacc,dev_desc.tipodescuento, IF(EXISTS(SELECT 1 FROM `uniformedescuento` WHERE codigo_empleado_descuento = tbemp.id) OR EXISTS(SELECT 1 FROM `regalo` WHERE idempleado = tbemp.id), 'SI', 'NO') AS tiene_uniforme";
-
-    $tabla = "`tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa=d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco = bank.id LEFT JOIN (SELECT idempleado_retiro, MIN(id) AS min_id_retiro FROM retiro GROUP BY idempleado_retiro) min_retiro ON tbemp.id = min_retiro.idempleado_retiro LEFT JOIN retiro ret ON min_retiro.idempleado_retiro = ret.idempleado_retiro AND min_retiro.min_id_retiro = ret.id LEFT JOIN tbl_transacciones_personal personal_transacc ON ret.motivo_inactivo = personal_transacc.id LEFT JOIN tbl_empleados_devengos_descuentos dev_desc ON tbemp.id = dev_desc.id_empleado AND dev_desc.tipodescuento = '2'";
-
-
-
-
-    if (isset($_POST["empleados"]) && is_numeric($_POST["empleados"]) && !empty($_POST["empleados"])) {
-
-
-        /* FILTRAR SOLO POR EL EMPLEADO */
-        $cont = 0;
-        $departamento = departamentos($_POST['empleados'], "uno");
-
-        /* AQUI VAN LAS CONSULTAS */
-        $condicion = " tbemp.id=" . $_POST['empleados'] . "";
-        $array = [];
-        $cont++;
-        $datosEmpleados = crearTablaEmpleados(
-            $cont,
-            $campos,
-            $tabla,
-            $condicion,
-            $array,
-            $_estado,
-            $rrhh
-        );
-
         $departamentosJSON[] = array(
-            'codigo' => $departamento['codigo'],
-            'nombre' => $departamento['nombre'],
-            'empleados' => $datosEmpleados["empleados"],
-            'cantEmpleados' => $datosEmpleados["cantEmpleados"],
+            'codigo' => $depa['codigo'],
+            'nombre' => $depa['nombre'],
+            'empleados' => $responses["empleados"],
+            'cantEmpleados' => $responses["cantEmpleados"],
         );
 
 
@@ -369,7 +352,7 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
             'datos' => $departamentosJSON,
         );
 
-        $datos =  json_encode($response, JSON_UNESCAPED_UNICODE);
+        $datos =  $response;
     } else	if (
         isset($_POST["departamento1"]) && isset($_POST["departamento2"]) && !empty($_POST["departamento1"]) && !empty($_POST["departamento2"] && $_POST["departamento1"] != "*" && $_POST["departamento2"] != "*")
     ) {
@@ -383,6 +366,7 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
             $depa2 = $auxiliar;
         }
 
+
         $departamentos = departamentos($depa1, $depa2);
 
         $cont = 0;
@@ -391,22 +375,113 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
         foreach ($departamentos as $depa) {
             $condicion = "tbemp.id_departamento_empresa=" . $depa['id'] . " and " . $estado_emp . "and " . $repotePnc . $fechasFiltrar . ";";
             $array = [];
+            $cont++;
+            $empleados_array = array();
+            $empleadoBuscar = new ModeloEmpleados();
+            $empleados = $empleadoBuscar->mostrarEmpleadoDb($campos, $tabla, $condicion, $array);
+            $contEmp = 0;
+            $badge = "dark";
 
-            $datosEmpleados = crearTablaEmpleados(
-                $cont,
-                $campos,
-                $tabla,
-                $condicion,
-                $array,
-                $_estado,
-                $rrhh
+            foreach ($empleados as $key => $value) {
+                $contEmp++;
+
+                $nombreEstado = "";
+                switch ($value["estado"]) {
+                    case 1:
+                        $nombreEstado = "Solicitud";
+                        $badge = "dark";
+                        break;
+                    case 2:
+                        $nombreEstado = "Contratado";
+                        $badge = "success";
+                        break;
+                    case 3:
+                        $nombreEstado = "Inactivo";
+                        $badge = "danger";
+                        break;
+                    case 4:
+                        $nombreEstado = "Incapacitado";
+                        $badge = "warning";
+                        break;
+                    default:
+                        $nombreEstado = "Error";
+                        $badge = "default";
+                        break;
+                }
+
+                $filteredJson = filtrar_array_por_idagente($dataUbicacion, $value["codigo_empleado"]);
+                // Acceder a los campos del JSON filtrado
+
+                $fecha_transacciones = '';
+                $fecha_movimiento = '-';
+                $nueva_ubicacion = '-';
+
+                foreach ($filteredJson as $item) {
+
+                    $fecha_transacciones  = $item['fecha_transacciones_agente'];
+                    $fecha_movimiento  = $item['fecha_movimiento_transacciones_agente'];
+                    $nueva_ubicacion = $item['nueva_ubicacion_transacciones_agente'];
+                }
+
+
+                /* SACAR CODIGO */
+                $separada = explode("-", $nueva_ubicacion);
+                $codigo_u = $separada[0];
+
+                $filtrarArrayBono = filtrar_array_por_codigo_ubicacion($dataBonoEmpleado, $codigo_u);
+
+                $bonoUnidad = '';
+                foreach ($filtrarArrayBono as $item) {
+                    $bonoUnidad  = $item['bono_unidad'];
+                }
+
+
+                $fechaIngreso = formatearFecha($value["fecha_ingreso"]);
+                $fechaContratacion = formatearFecha($value["fecha_contratacion"]);
+                $fechaRetiro = (!empty($value['fecha_retiro']) ? formatearFecha($value['fecha_retiro']) : "-");
+                $diasContratados = diasContratado($value['fecha_contratacion'], $value['fecha_retiro']);
+                $edadEmpleado = edad($value["fecha_nacimiento"]);
+
+                $empleados_array[] = array(
+                    "codigo_empleado" => $value["codigo_empleado"],
+                    "nombre_completo" => mb_strtoupper(($value["primer_nombre"] . ' ' . $value["segundo_nombre"] . ' ' . $value["tercer_nombre"] . ' ' . $value["primer_apellido"] . ' ' . $value["segundo_apellido"] . ' ' . $value["apellido_casada"]), "UTF-8"),
+                    "sueldo" => ($value["sueldo"] != null && !empty($value["sueldo"]) ? number_format(($value["sueldo"] * 2), 2) : number_format(0, 2)),
+                    "transp" => (!empty($value["tipodescuento"]) && $value["tipodescuento"] != null ? $value["tipodescuento"] : ""),
+                    "u_esp" => $bonoUnidad,
+                    "fecha_ingreso" => $fechaIngreso,
+                    "fecha_contratacion" => $fechaContratacion,
+                    "fecha_retiro" => $fechaRetiro,
+                    "nueva_ubicacion_transacciones_agente" => $nueva_ubicacion,
+                    "fecha_transacciones_agente" => (!empty($fecha_movimiento) && $fecha_movimiento !== "00/00/0000" && $fecha_movimiento !== "-" ? formatearFecha($fecha_movimiento) : "-"),
+                    "numero_documento_identidad" => $value["numero_documento_identidad"],
+                    "dias_contratados" => $diasContratados,
+                    "nup" => $value["nup"],
+                    "codigo_afp" => $value["codigo_afp"],
+                    "motivo_inactivo_transacc" => (!empty($value['motivo_inactivo_transacc']) ? $value['motivo_inactivo_transacc'] : "-"),
+                    "descripcion" => $value["descripcion"],
+                    "edad" => $edadEmpleado,
+                    "fecha_nacimiento" => formatearFecha($value["fecha_nacimiento"]),
+                    "numero_isss" => $value["numero_isss"],
+                    "nit" => $value["nit"],
+                    "codigo_bank" => $value["codigo_bank"] . " - " . $value["nombre_bank"],
+                    "numero_cuenta" => $value["numero_cuenta"],
+                    "observaciones_retiro" => $value["observaciones_retiro"],
+                    "uniforme" => ($value["tiene_uniforme"]),
+                    "estado_actual" => '<label class="badge btn-' . $badge . '">' . $nombreEstado . '</label>',
+                    "estado_actual_text" =>  $value["estado"]
+                );
+            }
+
+            $responses = array(
+                "cantEmpleados" => $contEmp,
+                "empleados" => $empleados_array,
             );
 
             $departamentosJSON[] = array(
                 'codigo' => $depa['codigo'],
                 'nombre' => $depa['nombre'],
-                'empleados' => $datosEmpleados["empleados"],
-                'cantEmpleados' => $datosEmpleados["cantEmpleados"],
+                'empleados' => $responses["empleados"],
+                'cantEmpleados' => $responses["cantEmpleados"],
             );
         }
 
@@ -416,7 +491,7 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
         );
 
         // Retornar el JSON
-        $datos =  json_encode($response, JSON_UNESCAPED_UNICODE);
+        $datos =  $response;
     } else if ($_POST["departamento1"] === "*" || $_POST["departamento2"] === "*") {
 
         $depa1 = $_POST["departamento1"];
@@ -430,8 +505,7 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
             foreach ($departamentos as $depa) {
 
                 /* FILTRAR TODOS */
-
-                $condicion = "tbemp.id_departamento_empresa=" . $depa['id'] . ";";
+                $condicion = "tbemp.id_departamento_empresa=" . $depa['id'] . " and " . $estado_emp . "and " . $repotePnc . $fechasFiltrar . ";";
                 $array = [];
                 $cont++;
                 $empleados_array = array();
@@ -467,24 +541,30 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
                             break;
                     }
 
-                    /*  $filteredJson = filtrar_json_por_idagente($dataUbicacion, $value["codigo_empleado"]); */
+                    $filteredJson = filtrar_array_por_idagente($dataUbicacion, $value["codigo_empleado"]);
                     // Acceder a los campos del JSON filtrado
-                    $id_transaccion = "";
+
                     $fecha_transacciones = '';
                     $fecha_movimiento = '-';
                     $nueva_ubicacion = '-';
-                    $ubicacion_anterior = '';
-                    $id_agente = '';
-                    /*  $filteredArray = json_decode($filteredJson, true);
-                    foreach ($filteredArray as $item) {
-                        $id_transaccion = $item["id"];
+
+                    foreach ($filteredJson as $item) {
+
                         $fecha_transacciones  = $item['fecha_transacciones_agente'];
                         $fecha_movimiento  = $item['fecha_movimiento_transacciones_agente'];
                         $nueva_ubicacion = $item['nueva_ubicacion_transacciones_agente'];
-                        $ubicacion_anterior =  $item['ubicacion_anterior_transacciones_agente'];
-                        $id_agente = $item['idagente_transacciones_agente'];
-                    } */
+                    }
 
+                    /* SACAR CODIGO */
+                    $separada = explode("-", $nueva_ubicacion);
+                    $codigo_u = $separada[0];
+
+                    $filtrarArrayBono = filtrar_array_por_codigo_ubicacion($dataBonoEmpleado, $codigo_u);
+
+                    $bonoUnidad = '';
+                    foreach ($filtrarArrayBono as $item) {
+                        $bonoUnidad  = $item['bono_unidad'];
+                    }
 
                     $fechaIngreso = formatearFecha($value["fecha_ingreso"]);
                     $fechaContratacion = formatearFecha($value["fecha_contratacion"]);
@@ -497,7 +577,7 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
                         "nombre_completo" => mb_strtoupper(($value["primer_nombre"] . ' ' . $value["segundo_nombre"] . ' ' . $value["tercer_nombre"] . ' ' . $value["primer_apellido"] . ' ' . $value["segundo_apellido"] . ' ' . $value["apellido_casada"]), "UTF-8"),
                         "sueldo" => ($value["sueldo"] != null && !empty($value["sueldo"]) ? number_format(($value["sueldo"] * 2), 2) : number_format(0, 2)),
                         "transp" => (!empty($value["tipodescuento"]) && $value["tipodescuento"] != null ? $value["tipodescuento"] : ""),
-                        "u_esp" => "-",
+                        "u_esp" => $bonoUnidad,
                         "fecha_ingreso" => $fechaIngreso,
                         "fecha_contratacion" => $fechaContratacion,
                         "fecha_retiro" => $fechaRetiro,
@@ -522,7 +602,7 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
                     );
                 }
 
-                $response = array(
+                $responses = array(
                     "cantEmpleados" => $contEmp,
                     "empleados" => $empleados_array,
                 );
@@ -530,8 +610,8 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
                 $departamentosJSON[] = array(
                     'codigo' => $depa['codigo'],
                     'nombre' => $depa['nombre'],
-                    'empleados' => $response["empleados"],
-                    'cantEmpleados' => $response["cantEmpleados"],
+                    'empleados' => $responses["empleados"],
+                    'cantEmpleados' => $responses["cantEmpleados"],
                 );
             }
 
@@ -539,7 +619,7 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
             $response = array(
                 'datos' => $departamentosJSON,
             );
-            $datos =  json_encode($response, JSON_UNESCAPED_UNICODE);
+            $datos =  $response;
         } else {
 
             /* CONDICIÓN SOLO POR UN DEPARTAMENTO */
@@ -553,27 +633,115 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
             $cont = 0;
             foreach ($departamentos as $depa) {
 
+                /* FILTRAR TODOS */
                 $condicion = "tbemp.id_departamento_empresa=" . $depa['id'] . " and " . $estado_emp . "and " . $repotePnc . $fechasFiltrar . ";";
                 $array = [];
-
-
-
                 $cont++;
-                $datosEmpleados = crearTablaEmpleados(
-                    $cont,
-                    $campos,
-                    $tabla,
-                    $condicion,
-                    $array,
-                    $_estado,
-                    $rrhh
+                $empleados_array = array();
+                $empleadoBuscar = new ModeloEmpleados();
+                $empleados = $empleadoBuscar->mostrarEmpleadoDb($campos, $tabla, $condicion, $array);
+                $contEmp = 0;
+                $badge = "dark";
+
+                foreach ($empleados as $key => $value) {
+                    $contEmp++;
+
+                    $nombreEstado = "";
+                    switch ($value["estado"]) {
+                        case 1:
+                            $nombreEstado = "Solicitud";
+                            $badge = "dark";
+                            break;
+                        case 2:
+                            $nombreEstado = "Contratado";
+                            $badge = "success";
+                            break;
+                        case 3:
+                            $nombreEstado = "Inactivo";
+                            $badge = "danger";
+                            break;
+                        case 4:
+                            $nombreEstado = "Incapacitado";
+                            $badge = "warning";
+                            break;
+                        default:
+                            $nombreEstado = "Error";
+                            $badge = "default";
+                            break;
+                    }
+
+                    $filteredJson = filtrar_array_por_idagente($dataUbicacion, $value["codigo_empleado"]);
+                    // Acceder a los campos del JSON filtrado
+
+                    $fecha_transacciones = '';
+                    $fecha_movimiento = '-';
+                    $nueva_ubicacion = '-';
+
+                    foreach ($filteredJson as $item) {
+
+                        $fecha_transacciones  = $item['fecha_transacciones_agente'];
+                        $fecha_movimiento  = $item['fecha_movimiento_transacciones_agente'];
+                        $nueva_ubicacion = $item['nueva_ubicacion_transacciones_agente'];
+                    }
+
+
+                    /* SACAR CODIGO */
+                    $separada = explode("-", $nueva_ubicacion);
+                    $codigo_u = $separada[0];
+
+                    $filtrarArrayBono = filtrar_array_por_codigo_ubicacion($dataBonoEmpleado, $codigo_u);
+
+                    $bonoUnidad = '';
+                    foreach ($filtrarArrayBono as $item) {
+                        $bonoUnidad  = $item['bono_unidad'];
+                    }
+
+                    $fechaIngreso = formatearFecha($value["fecha_ingreso"]);
+                    $fechaContratacion = formatearFecha($value["fecha_contratacion"]);
+                    $fechaRetiro = (!empty($value['fecha_retiro']) ? formatearFecha($value['fecha_retiro']) : "-");
+                    $diasContratados = diasContratado($value['fecha_contratacion'], $value['fecha_retiro']);
+                    $edadEmpleado = edad($value["fecha_nacimiento"]);
+
+                    $empleados_array[] = array(
+                        "codigo_empleado" => $value["codigo_empleado"],
+                        "nombre_completo" => mb_strtoupper(($value["primer_nombre"] . ' ' . $value["segundo_nombre"] . ' ' . $value["tercer_nombre"] . ' ' . $value["primer_apellido"] . ' ' . $value["segundo_apellido"] . ' ' . $value["apellido_casada"]), "UTF-8"),
+                        "sueldo" => ($value["sueldo"] != null && !empty($value["sueldo"]) ? number_format(($value["sueldo"] * 2), 2) : number_format(0, 2)),
+                        "transp" => (!empty($value["tipodescuento"]) && $value["tipodescuento"] != null ? $value["tipodescuento"] : ""),
+                        "u_esp" => $bonoUnidad,
+                        "fecha_ingreso" => $fechaIngreso,
+                        "fecha_contratacion" => $fechaContratacion,
+                        "fecha_retiro" => $fechaRetiro,
+                        "nueva_ubicacion_transacciones_agente" => $nueva_ubicacion,
+                        "fecha_transacciones_agente" => (!empty($fecha_movimiento) && $fecha_movimiento !== "00/00/0000" && $fecha_movimiento !== "-" ? formatearFecha($fecha_movimiento) : "-"),
+                        "numero_documento_identidad" => $value["numero_documento_identidad"],
+                        "dias_contratados" => $diasContratados,
+                        "nup" => $value["nup"],
+                        "codigo_afp" => $value["codigo_afp"],
+                        "motivo_inactivo_transacc" => (!empty($value['motivo_inactivo_transacc']) ? $value['motivo_inactivo_transacc'] : "-"),
+                        "descripcion" => $value["descripcion"],
+                        "edad" => $edadEmpleado,
+                        "fecha_nacimiento" => formatearFecha($value["fecha_nacimiento"]),
+                        "numero_isss" => $value["numero_isss"],
+                        "nit" => $value["nit"],
+                        "codigo_bank" => $value["codigo_bank"] . " - " . $value["nombre_bank"],
+                        "numero_cuenta" => $value["numero_cuenta"],
+                        "observaciones_retiro" => $value["observaciones_retiro"],
+                        "uniforme" => ($value["tiene_uniforme"]),
+                        "estado_actual" => '<label class="badge btn-' . $badge . '">' . $nombreEstado . '</label>',
+                        "estado_actual_text" =>  $value["estado"]
+                    );
+                }
+
+                $responses = array(
+                    "cantEmpleados" => $contEmp,
+                    "empleados" => $empleados_array,
                 );
 
                 $departamentosJSON[] = array(
                     'codigo' => $depa['codigo'],
                     'nombre' => $depa['nombre'],
-                    'empleados' => $datosEmpleados["empleados"],
-                    'cantEmpleados' => $datosEmpleados["cantEmpleados"],
+                    'empleados' => $responses["empleados"],
+                    'cantEmpleados' => $responses["cantEmpleados"],
                 );
             }
 
@@ -582,7 +750,7 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
                 'datos' => $departamentosJSON,
             );
 
-            $datos =  json_encode($response, JSON_UNESCAPED_UNICODE);
+            $datos =  $response;
         }
     }
 
@@ -741,7 +909,7 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
             </table>
             <?php
             // Convertir el JSON en un array asociativo
-            $data = json_decode($datos, true);
+            $data = $datos;
 
 
             require_once('./reportesexcel/reporteempleado.php');

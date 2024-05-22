@@ -29,7 +29,11 @@ function cargar() {
       var fin = performance.now(); // Tiempo de finalización de la petición
       var tiempoTranscurrido = fin - inicio;
 
-      $("#verTabla").html(data).fadeIn("slow");
+      /*   console.log(JSON.stringify(data)); */
+
+      $("#verTabla")
+        .html("<code><pre>" + data + "</pre></code>")
+        .fadeIn("slow");
       $("#loader").html("");
 
       mensajeview(
@@ -66,7 +70,7 @@ function ocultarmensajeview(id) {
 }
 
 function imprimir(param) {
-  $("#mensajeview").fadeIn("slow");
+  $("#mensaje").fadeIn("slow");
   let datos = datosReporte();
   if (datos.departamento1 > datos.departamento2) {
     auxiliar = datos.departamento1;
@@ -75,13 +79,13 @@ function imprimir(param) {
   }
 
   let url = "";
-  mensajeview(
+  mensaje(
     "warning",
     "warning",
     "Exportando Resultados: ",
-    "<img src='./vistas/modulos/empleados/js/gif.gif' width='2%'>&nbsp;¡Espere un momento, por favor! Por la cantidad de registros, es probable que tarde unos segundos"
+    "¡Espere un momento, por favor! Por la cantidad de registros, es probable que tarde unos segundos"
   );
-
+  ocultarMensaje("#mensaje");
   url += "&departamento1=" + datos.departamento1;
   url += "&departamento2=" + datos.departamento2;
   url += "&empleados=" + datos.empleados;
@@ -89,14 +93,13 @@ function imprimir(param) {
   url += "&fechahasta=" + datos.fechahasta;
   url += "&reportado_a_pnc=" + datos.reportado_a_pnc;
   url += "&tipoagente=" + datos.tipoagente;
+  url += "&rrhh=" + datos.rrhh;
   window.open(
     "./vistas/modulos/reportesexcel/reporteempleado.php?typeReport=" +
       param +
       url,
     "_self"
   );
-
-  ocultarmensajeview("#mensajeview");
 }
 
 $("#departamento1").change(function (e) {
@@ -108,6 +111,9 @@ $("#departamento2").change(function (e) {
 });
 
 function datosReporte() {
+  let checkbox = $("#rrhh");
+  let rrhumanos = checkbox.is(":checked") ? checkbox.val() : "";
+  /*   alert(rrhumanos); */
   let datos = {
     departamento1: $("#departamento1").val(),
     departamento2: $("#departamento2").val(),
@@ -116,6 +122,7 @@ function datosReporte() {
     fechahasta: $("#fechahasta").val(),
     reportado_a_pnc: $("#reportado_a_pnc").val(),
     tipoagente: $("#tipoagente").val(),
+    rrhh: rrhumanos,
   };
   return datos;
 }
@@ -126,6 +133,6 @@ $(".btn-cleanform").click(function () {
   $("#departamento2").val("*").trigger("change");
 });
 
-$(".btn-searchform").click(function () {
+/* $(".btn-searchform").click(function () {
   cargar();
-});
+}); */
