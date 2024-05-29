@@ -31,6 +31,50 @@ if (isset($_SESSION["perfil"]) && isset($_GET['id']) && !empty($_GET['id']) &&  
     }
 
 
+    function calcularEdad($fechaNacimiento)
+    {
+        // Crear un objeto DateTime con la fecha de nacimiento
+        $fechaNacimiento = new DateTime($fechaNacimiento);
+
+        // Obtener la fecha actual
+        $fechaActual = new DateTime();
+
+        // Calcular la diferencia entre la fecha actual y la fecha de nacimiento
+        $diferencia = $fechaActual->diff($fechaNacimiento);
+
+        // Obtener la edad en años
+        return $diferencia->y;
+    }
+
+
+    // Configurar la zona horaria
+    date_default_timezone_set('America/El_Salvador');
+
+    // Crear un objeto DateTime con la fecha actual
+    $fecha = new DateTime();
+
+    // Obtener el día, mes y año
+    $dia = $fecha->format('d');
+    $mes = $fecha->format('n'); // Número del mes sin ceros iniciales
+    $anio = $fecha->format('Y');
+
+    // Arreglo de nombres de meses en español
+    $nombres_meses = [
+        1 => 'ENERO',
+        2 => 'FEBRERO',
+        3 => 'MARZO',
+        4 => 'ABRIL',
+        5 => 'MAYO',
+        6 => 'JUNIO',
+        7 => 'JULIO',
+        8 => 'AGOSTO',
+        9 => 'SEPTIEMBRE',
+        10 => 'OCTUBRE',
+        11 => 'NOVIEMBRE',
+        12 => 'DICIEMBRE'
+    ];
+
+
     $resultado = ModeloHorario::ObtenerReservaPoligrafoID($id_descriptado);
 
     // Verificamos si la función retornó algo
@@ -73,6 +117,10 @@ if (isset($_SESSION["perfil"]) && isset($_GET['id']) && !empty($_GET['id']) &&  
             $dui_evas = ($datos['dui_evas']);
             $estado_evas = mb_strtoupper($datos['estado_evas'], 'UTF-8');
             $fecha_nac_evas = ($datos['fecha_nac_evas']);
+            $direccion_evaluado = $datos['evas_direccion'];
+            $lugar_nacimiento = $datos['evas_lugar_nacimiento'];
+            $profesion = $datos['profesion'];
+            $conyuge = $datos['conyuge'];
 
             /* EXAMENES */
             $codigo_examen_unico = ($datos['codigo_examen_unico']);
@@ -81,11 +129,19 @@ if (isset($_SESSION["perfil"]) && isset($_GET['id']) && !empty($_GET['id']) &&  
 
             /* SOLICITADO */
             $nombre_completo_solicitado =  preg_replace('/\b(\S+)\s+/', '$1 ', ($datos["solicitado_nivel_academico"] . " " . $datos["solicitado_nombre"] . " " . $datos["solicitado_apellido"]));
+            $solicitado_apellido = $datos["solicitado_apellido"];
             $solicitado_correo = mb_strtoupper($datos['solicitado_correo'], 'UTF-8');
             $solicitado_telefono = ($datos['solicitado_telefono']);
             $solicitado_direccion_entrega = mb_strtoupper($datos['solicitado_direccion_entrega'], 'UTF-8');
             $solicitado_cargo = mb_strtoupper($datos['nombre_cargo'], 'UTF-8');
             $fecha_solicitud_re = ($datos['fecha_solicitud_re'] != '0000-00-00') ? date('d/m/Y', strtotime($datos['fecha_solicitud_re'])) : '-';
+            // Convertir la fecha a un objeto DateTime
+            $fecha = DateTime::createFromFormat('d/m/Y', $fecha_solicitud_re);
+
+            // Obtener el día, mes y año
+            $dias = $fecha->format('d');
+            $meses = (int) $fecha->format('n'); // 'n' devuelve el número del mes sin ceros iniciales
+            $anios = $fecha->format('Y');
             $hora_solicitud_re = ($datos['hora_solicitud_re'] != '00:00:00') ? date('H:i:s', strtotime($datos['hora_solicitud_re'])) : '-';
 
 
@@ -93,9 +149,9 @@ if (isset($_SESSION["perfil"]) && isset($_GET['id']) && !empty($_GET['id']) &&  
             $nombre_poligrafista =  preg_replace('/\b(\S+)\s+/', '$1 ', ($datos["nombre_poligrafista"]));
             $codigo_poligrafista = mb_strtoupper($datos['codigo_poligrafista'], 'UTF-8');
             /* TEXTO */
-            $observaciones_examen = mb_strtoupper($datos['observaciones_examen'], 'UTF-8');
+            $observaciones_examen = ($datos['observaciones_examen']);
             $objetivo_examen = mb_strtoupper($datos['objetivo_examen'], 'UTF-8');
-            $conclusion_examen = mb_strtoupper($datos['conclusion_examen'], 'UTF-8');
+            $conclusion_examen = ($datos['conclusion_examen']);
             $concepto = mb_strtoupper($datos['concepto'], 'UTF-8');
             $codigo_formato_examen = ($datos['codigo_formato_examen']);
 
@@ -141,7 +197,7 @@ if (isset($_SESSION["perfil"]) && isset($_GET['id']) && !empty($_GET['id']) &&  
 
                     /** Define now the real margins of every page in the PDF **/
                     body {
-                        font-size: 12px;
+                        font-size: 13.5px;
                         margin-top: 0.5cm;
                         margin-left: 1cm;
                         margin-right: 1cm;
@@ -178,7 +234,7 @@ if (isset($_SESSION["perfil"]) && isset($_GET['id']) && !empty($_GET['id']) &&  
                     }
 
                     .claseTable td {
-                        border: 1px solid black;
+                        /*          border: 1px solid black; */
                         padding-top: 8px;
                         padding-bottom: 8px;
                         text-align: center;
@@ -296,6 +352,86 @@ if (isset($_SESSION["perfil"]) && isset($_GET['id']) && !empty($_GET['id']) &&  
                         padding: 5px;
                         margin-bottom: 10px;
                     }
+
+                    /* Centrar el texto del legend */
+                    fieldset {
+                        padding: 3px;
+                    }
+
+                    legend {
+                        text-align: center;
+                        display: table;
+                        /* Convertir el legend en una tabla */
+                        margin: 0 auto;
+                        /* Centrar la tabla */
+                    }
+
+                    ul li,
+                    ol li {
+                        margin-bottom: 12px !important;
+                    }
+
+                    /* Estilo del contenedor de la firma */
+                    .signature {
+                        text-align: left;
+                        /* Centra el texto */
+                        margin-top: 30px;
+                        /* Espacio superior */
+
+                        /* Fuente para el texto */
+                    }
+
+                    /* Texto de "Atentamente," */
+                    .signature-text {
+                        margin-bottom: 20px;
+                        /* Espacio inferior */
+
+                    }
+
+                    /* Línea para la firma */
+                    .signature-line {
+                        border-bottom: 1px solid #000;
+                        /* Línea inferior */
+                        width: 300px;
+                        /* Ancho de la línea */
+                        /* Centrar la línea */
+                        margin-top: 60px;
+                        /* Espacio superior de la línea */
+                        position: relative;
+                        /* Posición relativa para superponer la imagen */
+                    }
+
+                    /* Contenedor para la imagen de la firma */
+                    .signature-image-container {
+                        margin-top: -60px;
+                        /* Ajusta la posición vertical */
+                        position: relative;
+                        /* Posición relativa */
+                    }
+
+                    /* Imagen de la firma */
+                    .signature-image {
+                        width: 200px;
+                        /* Ancho de la imagen */
+                        height: auto;
+                        /* Mantiene la proporción de la imagen */
+                        position: absolute;
+                        /* Posición absoluta */
+                        top: 20px;
+                        /* Ajusta la posición vertical */
+                        left: 20%;
+                        /* Centra horizontalmente */
+                        transform: translateX(-50%);
+                        /* Centra la imagen */
+                    }
+
+                    /* Nombre y cargo debajo de la línea de firma */
+                    .signature-name,
+                    .signature-title {
+                        margin-top: 10px;
+                        /* Espacio superior para el texto */
+
+                    }
                 </style>
                 <link rel="shortcut icon" href="<?= $urlCompleta ?>/vistas/img/plantilla/icono-negro.png" type="image/x-png">
                 <title>EXAMEN POLIGRÁFICO - REF: <?= $codigo_programar_exam ?></title>
@@ -308,10 +444,10 @@ if (isset($_SESSION["perfil"]) && isset($_GET['id']) && !empty($_GET['id']) &&  
                     <table class="claseTable">
                         <tr>
                             <td><img src="<?= $urlCompleta ?>/vistas/img/plantilla/logo_original.png" width="50%"></td>
-                            <td style="font-size: 15px;">EXAMEN POLIGRÁFICO - RESULTADO</td>
+                            <td style="font-size: 15px;">EXAMEN POLIGRÁFICO</td>
                             <td>
                                 <div class="fechaprint">
-                                    <div><?= $fecha ?></div>
+                                    <!--         <div><?= $fecha ?></div> -->
                                     <div class="codigo">REF: <?= $codigo_programar_exam ?></div>
                                 </div>
                             </td>
@@ -325,190 +461,200 @@ if (isset($_SESSION["perfil"]) && isset($_GET['id']) && !empty($_GET['id']) &&  
 
                 <!-- Wrap the content of your PDF inside a main tag -->
                 <main>
-                    <table class="formulario">
-                        <tr>
-                            <td colspan="9" class="titulo">EMPRESA</td>
-                        </tr>
-                        <tr>
-                            <td class="alineacion"><strong>CÓD.:</strong></td>
-                            <td>
-                                <?= $codigo_cliente ?>
-                            </td>
-                            <td class="alineacion"><strong>CLIENTE:</strong></td>
-                            <td colspan="6">
-                                <?= $nombre ?>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="9" class="titulo">EVALUADO</td>
-                        </tr>
-                        <tr>
-                            <td class="alineacion" colspan="3"><strong>CARGO A APLICAR:</strong> </td>
-                            <td colspan="5"><?= mb_strtoupper($cargo_evaluado_aplicar, 'UTF-8') ?></td>
-                        </tr>
-                        <tr>
-                            <td class="alineacion"><strong>CÓD.:</strong></td>
-                            <td><?= $codigo_eva ?></td>
-                            <td class="alineacion"><strong>NOMBRES:</strong></td>
-                            <td colspan="4"><?= $nombres_evas ?></td>
-                            <td colspan="2" rowspan="3" width="20" style="text-align: center !important;"><img src="<?= $foto ?>" width="50%"></td>
-                        </tr>
-                        <tr>
-                            <td class="alineacion"><strong>DUI:</strong></td>
-                            <td><?= $dui_evas ?></td>
-                            <td class="alineacion"><strong>APELLIDOS:</strong></td>
-                            <td colspan="4"><?= $a_paterno . " " . $a_materno ?></td>
-                        </tr>
-                        <tr>
-                            <td class="alineacion"><strong>NAC.:</strong></td>
-                            <td><?= ($fecha_nac_evas != '0000-00-00') ? date('d/m/Y', strtotime($fecha_nac_evas)) : '-'; ?></td>
-                            <td class="alineacion"><strong>ESTADO CIVIL:</strong></td>
-                            <td colspan="2"><?= $estado_evas ?></td>
-                            <td><strong>TEL.</strong></td>
-                            <td><?= $telefono_evas ?></td>
-                        </tr>
-                        <tr>
-                            <td colspan="9" class="titulo">EXAMEN SOLICITADO</td>
-                        </tr>
-                        <tr>
-                            <td class="alineacion"><strong>CÓD.:</strong></td>
-                            <td><?= $codigo_examen_unico ?></td>
-                            <td class="alineacion"><strong>DESCRIPCIÓN:</strong></td>
-                            <td><?= $descripcion_exam ?></td>
-                            <td><strong>F. Y HORA PROGRAMADA:</strong></td>
-                            <td colspan="2"><?= $fecha_programada . " " . $hora_programada ?></td>
-                            <td><strong>ESTADO:</strong></td>
-                            <td><?= $estado_exam ?></td>
-                        </tr>
+                    <p>
+                        SAN SALVADOR, <?= $dia . " DE " . $nombres_meses[$mes] . " DE " . $anio  ?>
+                    </p>
+                    <p>
+                        SEÑOR(A)<br>
+                        <?= $nombre_completo_solicitado ?><br>
+                        <?= $nombre ?><br>
+                        PRESENTE
+                    </p>
 
-                        <tr>
-                            <td colspan="9" class="titulo">SOLICITADO POR</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" class="alineacion"><strong>NOMBRE COMPLETO:</strong></td>
-                            <td colspan="3"><?= $nombre_completo_solicitado ?></td>
-                            <td colspan="2" class="alineacion"><strong>F. Y HORA SOLICITADO:</strong></td>
-                            <td colspan="2"><?= $fecha_solicitud_re . " " . $hora_solicitud_re ?></td>
-                        </tr>
-                        <tr>
-                            <td class="alineacion"><strong>TEL.</strong></td>
-                            <td><?= $solicitado_telefono ?></td>
-                            <td class="alineacion"><strong>CARGO:</strong></td>
-                            <td colspan="2"><?= $solicitado_cargo ?></td>
-                            <td class="alineacion"><strong>CORREO:</strong></td>
-                            <td colspan="3"><?= $solicitado_correo ?></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" class="alineacion"><strong>DIR. DE ENTREGA:</strong></td>
-                            <td colspan="7"><?= $solicitado_direccion_entrega ?></td>
-                        </tr>
-                        <tr>
-                            <td colspan="9" class="titulo">POLIGRAFISTA</td>
-                        </tr>
-                        <tr>
-                            <td class="alineacion"><strong>CÓD.:</strong></td>
-                            <td>
-                                <?= $codigo_poligrafista ?>
-                            </td>
-                            <td class="alineacion"><strong>NOMBRE:</strong></td>
-                            <td colspan="6">
-                                <?= $nombre_poligrafista ?>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="9" class="titulo">DETALLE DE EXAMEN</td>
-                        </tr>
-                        <tr>
-                            <td class="alineacion" colspan="2"><strong>HORA INGRESÓ:</strong></td>
-                            <td><?= $hora_ingreso ?></td>
-                            <td class="alineacion" colspan="2"><strong>HORA INICIÓ:</strong></td>
-                            <td><?= $hora_inicio ?></td>
-                            <td class="alineacion" colspan="2"><strong>HORA FINALIZÓ:</strong></td>
-                            <td><?= $hora_finalizo ?></td>
-                        </tr>
-                        <tr>
-                            <td class="alineacion" colspan="2"><strong>FORMATO EXAMEN:</strong></td>
-                            <td colspan="3"><?= $codigo_formato_examen . " - " . $concepto ?></td>
-                            <td class="alineacion" colspan="2"><strong>FORMA DE PAGO:</strong></td>
-                            <td colspan="2"><?= $forma_pago ?></td>
-                        </tr>
-                        <tr>
-                            <td class="alineacion" colspan="2"><strong><?= $porcentaje_cliente ?>% CLIENTE:</strong></td>
-                            <td><?= $money_cliente ?></td>
-                            <td class="alineacion" colspan="2"><strong><?= $porcentaje_evaluado ?>% EVALUADO:</strong></td>
-                            <td><?= $money_evaluado ?></td>
-                            <td class="alineacion" colspan="2"><strong>PRECIO EXAMEN: $</strong></td>
-                            <td><?= $precio_examen ?></td>
-                        </tr>
-                    </table>
+                    <p>
+                        Estimado (a) Señor (a) <?= $solicitado_apellido ?>
+                    </p>
 
-                    <table class="tabla-preguntas" width="100%">
-                        <thead>
+                    <p>Por este medio me estoy dirigiendo a usted, para informarle sobre el resultado obtenido en examen <?= $descripcion_exam ?> realizado con el polígrafo:
+                    </p>
+
+                    <fieldset>
+                        <legend><strong>DATOS GENERALES</strong></legend>
+                        <table>
                             <tr>
-                                <th>N°</th>
-                                <th width="60%">PREGUNTA</th>
-                                <th>RESP.</th>
-                                <th>RESULT.</th>
-                                <th width="15%">OBSERVACIONES</th>
+                                <td width="25%" rowspan="13"><img src="<?= $foto ?>" width="100%"></td>
+                                <td width="25%" class=""><strong>EMPRESA</strong></td>
+                                <td width="50%"><strong><?= $nombre ?></strong></td>
                             </tr>
-                        </thead>
-                        <tbody>
 
-                            <?php
+                            <tr>
+                                <td><strong>FECHA EXAMEN</strong></td>
+                                <td><?= $dias . " DE " . $nombres_meses[$meses] . " DE " . $anios ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>NOMBRE DEL EVALUADO</strong></td>
+                                <td><?= $nombres_evas . " " . $a_paterno . " " . $a_materno ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>PUESTO</strong></td>
+                                <td><?= mb_strtoupper($cargo_evaluado_aplicar, 'UTF-8') ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>DIRECCIÓN</strong></td>
+                                <td><?= $direccion_evaluado ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>TELEFONO</strong></td>
+                                <td><?= $telefono_evas ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>LUGAR DE NACIMIENTO</strong></td>
+                                <td><?= $lugar_nacimiento ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>FECHA DE NACIMIENTO</strong></td>
+                                <td><?= ($fecha_nac_evas != '0000-00-00') ? date('d/m/Y', strtotime($fecha_nac_evas)) : '-'; ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>EDAD</strong></td>
+                                <td><?= calcularEdad($fecha_nac_evas) ?> AÑOS</td>
+                            </tr>
+                            <tr>
+                                <td><strong>DUI</strong></td>
+                                <td><?= $dui_evas ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>PROFESIÓN</strong></td>
+                                <td><?= $profesion ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>ESTADO CIVIL</strong></td>
+                                <td><?= $estado_evas ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>CONYUGE</strong></td>
+                                <td><?= $conyuge ?></td>
+                            </tr>
+                        </table>
+                    </fieldset>
 
-                            $result_preguntas = ModeloHorario::ObtenerPreguntas($id_descriptado);
+                    <p>
+                        El examen se realizó con el fin de verificar el grado de honestidad y confiabilidad para trabajar como <?= mb_strtoupper($cargo_evaluado_aplicar, 'UTF-8') ?> en <?= mb_strtoupper($nombre, 'UTF-8') ?>.
+                    </p>
+                    <p>Antes de la entrevista preliminar al examen, esta persona firmó una hoja de autorización donde manisfestó hacerlo en forma voluntaria.</p>
 
-                            if (count($result_preguntas) > 0) {
-                                $v_param = isset($_GET["v"]) ? $_GET["v"] : "";
+                    <p>
+                        Durante el desarrollo del examen realizado el (la) evaluado (a) fue cuestionado (a) sobre las areas siguientes:
+                    </p>
 
-                                // Convertir el parámetro 'v' en un array
-                                $valores = explode(",", $v_param);
+                    <ol>
+                        <li>USO DE BEBIDAS ALCOHÓLICAS.</li>
+                        <li>USO Y TRÁFICO DE DROGAS ILEGALES.</li>
+                        <li>ANTECEDENTES DELINCUENCIALES.</li>
+                        <li>PARTICIPACIÓN EN ACTIVIDADES DELINCUENCIALES. (Asaltos, secuestros, extorsiones, fraudes, violaciones,asesinatos, falsificación de documentos, robo de vehículos,tráfico de drogas, y todo delito que sea castigado por la ley.).
+                        </li>
+                        <li>
+                            ASOCIACIÓN CON MARAS O BANDAS DELICUENCIALES.
+                        </li>
+                        <li>HISTORIA LABORAL.</li>
+                        <li>DEUDAS.</li>
+                    </ol>
 
-                                foreach ($result_preguntas as $key => $row) {
-                                    // Verificar si la variable 'v' no está definida o está vacía
-                                    if (!isset($_GET["v"]) || empty($_GET["v"]) || !in_array($row["cod_pregunta"], $valores)) {
-                                        echo "<tr>";
-                                        echo "<td>" . ($key + 1) . "</td>";
-                                        echo "<td>" . (!empty($row["cod_pregunta"]) ? "(" . $row["cod_pregunta"] . ") - " : '') . mb_strtoupper($row["pregunta_poligrafo"], 'UTF-8') . "</td>";
-                                        echo "<td>" . mb_strtoupper($row["respuesta"], 'UTF-8') . "</td>";
-                                        echo "<td>" . mb_strtoupper($row["resultado"], 'UTF-8') . "</td>";
-                                        echo "<td>" . mb_strtoupper($row["observacion"], 'UTF-8') . "</td>";
-                                        echo "</tr>";
+                    <div style="page-break-before: always;"></div>
+                    <fieldset>
+                        <legend><strong>INFORMACIÓN EN CUANTO AL CASO INVESTIGADO</strong></legend>
+                        <p>
+                            <?= nl2br(htmlentities($observaciones_examen)) ?>
+                        </p>
+                    </fieldset>
+
+                    <p>
+                        Para comprobar toda la información anterior, mediante el sistema de Polígrafo se le formuló las preguntas siguientes:
+                    </p>
+                    <h4>
+                        SE DETECTARON MUESTRAS DE MENTIRA:
+                    </h4>
+                    <ul type="circle">
+                        <?php
+
+                        $cont = 0;
+                        $result_preguntas = ModeloHorario::ObtenerPreguntas($id_descriptado);
+
+                        if (count($result_preguntas) > 0) {
+                            $v_param = isset($_GET["v"]) ? $_GET["v"] : "";
+
+                            // Convertir el parámetro 'v' en un array
+                            $valores = explode(",", $v_param);
+
+                            foreach ($result_preguntas as $key => $row) {
+                                // Verificar si la variable 'v' no está definida o está vacía
+                                if (!isset($_GET["v"]) || empty($_GET["v"]) || !in_array($row["cod_pregunta"], $valores)) {
+                                    if (strtoupper($row["resultado"]) !== "CONFIABLE") {
+                                        # code...
+                                        $cont++;
+                                        echo "<li>" . mb_strtoupper($row["pregunta_poligrafo"], 'UTF-8') . " Su respuesta fué: " . mb_strtoupper($row["respuesta"], 'UTF-8') . "</li>";
                                     }
                                 }
-                            } else {
-                                echo "<tr><td colspan='5'>No se encontraron preguntas registradas. </td></tr>";
                             }
 
-                            ?>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td class="alineacion" colspan="3"><strong>RESULTADO FINAL DE EXAMEN:</strong></td>
-                                <td colspan="2"><?= $resultado_final_examen ?></td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                    <div class="formulario">
-                        <div class="contenedor">
-                            <div class="fila">
-                                <div class="etiqueta">OBSERVACIONES:</div>
-                                <div class="valor"><?= nl2br($observaciones_examen) ?></div>
-                            </div>
+                            echo ($cont <= 0 ? "<li>No se encontraron preguntas registradas de este tipo. </li>" : "");
+                        } else {
+                            echo "<p>No se encontraron preguntas registradas de este tipo. </p>";
+                        }
+
+                        ?>
+                    </ul>
+                    <h4>
+                        SE DETECTARON MUESTRAS DE VERDAD:
+                    </h4>
+                    <ul type="circle">
+                        <?php
+                        $cont = 0;
+                        if (count($result_preguntas) > 0) {
+                            $v_param = isset($_GET["v"]) ? $_GET["v"] : "";
+
+                            // Convertir el parámetro 'v' en un array
+                            $valores = explode(",", $v_param);
+
+                            foreach ($result_preguntas as $key => $row) {
+                                // Verificar si la variable 'v' no está definida o está vacía
+                                if (!isset($_GET["v"]) || empty($_GET["v"]) || !in_array($row["cod_pregunta"], $valores)) {
+                                    if (strtoupper($row["resultado"]) !== "NO CONFIABLE") {
+                                        # code...
+                                        $cont++;
+                                        echo "<li>" . mb_strtoupper($row["pregunta_poligrafo"], 'UTF-8') . " Su respuesta fué: " . mb_strtoupper($row["respuesta"], 'UTF-8') . "</li>";
+                                    }
+                                }
+                            }
+
+                            echo ($cont <= 0 ? "<li>No se encontraron preguntas registradas de este tipo. </li>" : "");
+                        } else {
+                            echo "<p>No se encontraron preguntas registradas. </p>";
+                        }
+                        ?>
+                    </ul>
+
+
+                    <fieldset>
+                        <legend><strong>CONCLUSIONES</strong></legend>
+                        <p>
+                            <?= nl2br(htmlentities($conclusion_examen)) ?>
+                        </p>
+                    </fieldset>
+                    <p>Sin más por el momento, me suscribo de usted agradeciendo su confianza depositada en INVESTIGACIONES Y SEGURIDAD S.A. DE C.V. , essperando servirle nuevamente.
+                    </p>
+
+                    <div class="signature">
+                        <div class="signature-text">Atentamente,</div>
+                        <div class="signature-image-container">
+                            <img src="<?= $urlCompleta ?>/vistas/img/plantilla/firma.png" alt="Firma" class="signature-image">
                         </div>
-                        <div class="contenedor">
-                            <div class="fila">
-                                <div class="etiqueta">OBJETIVO DEL EXAMEN:</div>
-                                <div class="valor"><?= nl2br($objetivo_examen) ?></div>
-                            </div>
-                        </div>
-                        <div class="contenedor">
-                            <div class="fila">
-                                <div class="etiqueta">CONCLUSIÓN DEL EXAMEN:</div>
-                                <div class="valor"><?= nl2br($conclusion_examen) ?></div>
-                            </div>
-                        </div>
+                        <div class="signature-line"></div>
+                        <div class="signature-name">JUAN FRANCISCO CONTRERAS AREVALO</div>
+                        <div class="signature-title">TÉCNICO POLIGRAFISTA</div>
                     </div>
+
+
                 </main>
             </body>
 
@@ -545,7 +691,7 @@ if (isset($_SESSION["perfil"]) && isset($_GET['id']) && !empty($_GET['id']) &&  
             header('Content-Type: application/pdf');
             header('Content-Disposition: inline; filename="documento.pdf"');
             header('Content-Length: ' . strlen($pdf_content));
-            header('Content-Disposition: inline; filename="titulo_que_quieras.pdf"');
+            header('Content-Disposition: inline; filename="' . "EXAMEN POLIGRÁFICO - REF:" .  $codigo_programar_exam . '.pdf"');
             echo $pdf_content;
         }
     }

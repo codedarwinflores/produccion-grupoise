@@ -34,7 +34,7 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
 
 <div class="content-wrapper">
     <section class="content">
-
+        <?php include_once "inicio/menumorse.php"; ?>
         <div class="box">
             <div class="row">
                 <div class="col-md-6 no-padding-right">

@@ -18,6 +18,7 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
 
   <section class="content">
 
+    <?php include_once "inicio/menumorse.php"; ?>
     <div class="box">
 
       <div class="box-header with-border">

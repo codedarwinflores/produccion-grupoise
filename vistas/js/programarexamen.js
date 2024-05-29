@@ -1393,7 +1393,13 @@ $(".Poligrafista_register").on("click", ".btn-procesar-reserva", function () {
         }
         $("#estado_exam").val(respuesta["estado_exam"]);
         $("#forma_pago").val(respuesta["forma_pago"]);
-        $("#porcentaje_cliente").val(respuesta["porcentaje_cliente"]);
+
+        if (respuesta["porcentaje_evaluado"] > 0) {
+          $("#porcentaje_cliente").val(respuesta["porcentaje_cliente"]);
+        } else {
+          $("#porcentaje_cliente").val("100.00");
+        }
+
         $("#porcentaje_evaluado").val(respuesta["porcentaje_evaluado"]);
         $("#resultado_examen").val(respuesta["resultado_final_examen"]);
 
@@ -1883,6 +1889,8 @@ function generarPreguntasExamen() {
 function inhabilitarInputs(estado) {
   let perfil = $("#perfil_usuario_id").val();
 
+  $("#btneditarExamen").hide();
+
   if (
     perfil.toUpperCase() === "ADMINISTRADOR" ||
     perfil.toUpperCase() === "POLIGRAFIA"
@@ -1944,7 +1952,8 @@ function inhabilitarInputs(estado) {
   }
 
   if (
-    perfil.toUpperCase() === "ADMINISTRADOR" &&
+    (perfil.toUpperCase() === "ADMINISTRADOR" ||
+      perfil.toUpperCase() === "POLIGRAFIA") &&
     estado.toUpperCase() === "FINALIZADO"
   ) {
     $("#btneditarExamen").show();
@@ -2001,15 +2010,40 @@ $("#btneditarExamen").on("click", function () {
   $("#reserva_concepto_conclusion").prop("disabled", false);
   $(".btn-registrar-pregunta-poligrafo").prop("disabled", false);
   $(".btn-guardar-cambios-examen").prop("disabled", false);
-  $("#hora_inicio_programar").prop("disabled", false);
-  $("#hora_ingreso_programar").prop("disabled", false);
+
+  let perfil = $("#perfil_usuario_id").val();
+  if (perfil.toUpperCase() === "ADMINISTRADOR") {
+    $("#hora_ingreso_programar").prop("disabled", false);
+    $("#hora_ingreso_programar").prop("readonly", false);
+    $("#hora_inicio_programar").prop("disabled", false);
+    $("#hora_inicio_programar").prop("readonly", false);
+  } else {
+    $("#hora_ingreso_programar").prop("disabled", true);
+    $("#hora_ingreso_programar").prop("readonly", true);
+    $("#hora_inicio_programar").prop("disabled", true);
+    $("#hora_inicio_programar").prop("readonly", true);
+  }
 });
 
 $("#comenzarExamenHoraInicio").on("click", function () {
+  let perfil = $("#perfil_usuario_id").val();
+  let estado = $("#estado_exam").val();
+  let hora_actual = 0;
   /*  $("#hora_ingreso_programar").val(obtenerHoraElSalvador()); */
   var camposVacios = validarTodosLosCampos(1);
   if (camposVacios.length === 0) {
-    let hora_actual = obtenerHoraElSalvador();
+    hora_actual = obtenerHoraElSalvador();
+    if (
+      perfil.toUpperCase() === "ADMINISTRADOR" &&
+      estado.toUpperCase() === "FINALIZADO"
+    ) {
+      hora_actual = $("#hora_ingreso_programar").val();
+    } else if (
+      perfil.toUpperCase() !== "ADMINISTRADOR" &&
+      estado.toUpperCase() === "FINALIZADO"
+    ) {
+      hora_actual = $("#hora_ingreso_programar").val();
+    }
     $("#hora_ingreso_programar").val(hora_actual);
     let id_registro = $("#id_edit_id_registro").val();
     let hora_solicitante = $("#sol_hora_programar").val();
@@ -2020,6 +2054,7 @@ $("#comenzarExamenHoraInicio").on("click", function () {
     let porcentaje_cliente = $("#porcentaje_cliente").val();
     let porcentaje_evaluado = $("#porcentaje_evaluado").val();
     let precio_programar = $("#precio_programar").val();
+    let estado_exam = $("#estado_exam").val();
 
     $.ajax({
       url: "./ajax/programarexamen.ajax.php",
@@ -2037,6 +2072,7 @@ $("#comenzarExamenHoraInicio").on("click", function () {
         porcentaje_evaluado: porcentaje_evaluado,
         precio_programar: precio_programar,
         id_registro: id_registro,
+        estado_exam: estado_exam,
       },
       success: function (data) {
         if (data.status === "ok") {
@@ -2073,9 +2109,23 @@ $("#comenzarExamenHoraInicio").on("click", function () {
 
 $("#comenzarExamenHoraInicioEmpezar").on("click", function () {
   /*  $("#hora_ingreso_programar").val(obtenerHoraElSalvador()); */
+  let perfil = $("#perfil_usuario_id").val();
+  let estado = $("#estado_exam").val();
+  let hora_actual = 0;
   var camposVacios = validarTodosLosCampos(2);
   if (camposVacios.length === 0) {
-    let hora_actual = obtenerHoraElSalvador();
+    hora_actual = obtenerHoraElSalvador();
+    if (
+      perfil.toUpperCase() === "ADMINISTRADOR" &&
+      estado.toUpperCase() === "FINALIZADO"
+    ) {
+      hora_actual = $("#hora_inicio_programar").val();
+    } else if (
+      perfil.toUpperCase() !== "ADMINISTRADOR" &&
+      estado.toUpperCase() === "FINALIZADO"
+    ) {
+      hora_actual = $("#hora_inicio_programar").val();
+    }
     $("#hora_inicio_programar").val(hora_actual);
     let id_registro = $("#id_edit_id_registro").val();
     let forma_pago = $("#forma_pago").val();
@@ -2133,7 +2183,6 @@ function validarTodosLosCampos(condicion) {
       { id: "cargo_evaluado_aplicar", nombre: "Cargo a aplicar Evaluado" },
       { id: "sol_correo_programar", nombre: "Correo Solicitante" },
       { id: "sol_telefono_programar", nombre: "Teléfono Solicitante" },
-      { id: "precio_programar", nombre: "Precio de Examen" },
       {
         id: "sol_entrega_programar",
         nombre: "Dirección de Entrega Solicitante",
@@ -2150,7 +2199,7 @@ function validarTodosLosCampos(condicion) {
       { id: "cargo_evaluado_aplicar", nombre: "Cargo a aplicar Evaluado" },
       { id: "sol_correo_programar", nombre: "Correo Solicitante" },
       { id: "sol_telefono_programar", nombre: "Teléfono Solicitante" },
-      { id: "precio_programar", nombre: "Precio de Examen" },
+
       {
         id: "sol_entrega_programar",
         nombre: "Dirección de Entrega Solicitante",

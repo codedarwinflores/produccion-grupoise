@@ -26,11 +26,8 @@ function getContent()
 
 ?>
 <div class="content-wrapper">
-
-
-
     <section class="content">
-
+        <?php include_once "inicio/menumorse.php"; ?>
         <div class="box">
 
             <div class="box-header with-border">

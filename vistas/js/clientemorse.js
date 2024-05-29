@@ -206,6 +206,7 @@ $(document).ready(function () {
             eliminarSesionExamenes();
             cargarExamenesCliente();
             cargarDataReservaPoligrafista();
+
             scrollToTop();
           } else if (response === "update") {
             mostrarAlerta(

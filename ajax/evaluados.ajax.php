@@ -11,36 +11,40 @@ date_default_timezone_set('America/El_Salvador');
 
 class AjaxEvaluados
 {
+
 	private $cache = [];
 
 	public function validarImagenRemota($urlImagen)
 	{
+		// Verificar si la URL está en la caché
 		if (isset($this->cache[$urlImagen])) {
 			return $this->cache[$urlImagen];
 		}
 
 		// Verificar si la URL es válida
-		if (filter_var($urlImagen, FILTER_VALIDATE_URL) === false) {
-			$this->cache[$urlImagen] = false;
-			return false;
+		if (!filter_var($urlImagen, FILTER_VALIDATE_URL)) {
+			return $this->cache[$urlImagen] = false;
 		}
 
 		// Utilizar cURL para obtener los encabezados de la URL
 		$ch = curl_init($urlImagen);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_NOBODY, true);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 10); // Añadir un tiempo de espera
 		curl_exec($ch);
 		$statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		curl_close($ch);
 
 		// Verificar si el código de respuesta es 200 (OK)
-		$valid = $statusCode === 200;
+		$valid = ($statusCode === 200);
 
-		// Almacenar el resultado en caché
+		// Almacenar el resultado en la caché
 		$this->cache[$urlImagen] = $valid;
 
 		return $valid;
 	}
+
+
 
 	public function AjaxConsultarEvaluados()
 	{
@@ -81,20 +85,7 @@ class AjaxEvaluados
 			$imagenExiste = "https://cdn.icon-icons.com/icons2/69/PNG/128/user_customer_person_13976.png"; // Imagen de respaldo por defecto
 			$foto_del = "";
 
-			if (file_exists($datos[$i]["foto"])) {
-				$imagenExiste = $datos[$i]["foto"];
-				$foto_del = $datos[$i]["foto"];
-			}
-
-			$imagenExiste = "https://cdn.icon-icons.com/icons2/69/PNG/128/user_customer_person_13976.png";
-			$urlfoto = preg_replace("/\.\./", "", ($urlCompleta  . $datos[$i]["foto"]), 1);
-			if (self::validarImagenRemota($urlfoto)) {
-				$imagenExiste = $urlfoto;
-				$foto_del = $datos[$i]["foto"];
-			} else if (self::validarImagenRemota($urlCompleta . "/" . $datos[$i]["foto"])) {
-				$imagenExiste = $urlCompleta . "/" . $datos[$i]["foto"];
-				$foto_del = $datos[$i]["foto"];
-			} else if (self::validarImagenRemota($datos[$i]["foto"])) {
+			if (file_exists("./" . $datos[$i]["foto"])) {
 				$imagenExiste = $datos[$i]["foto"];
 				$foto_del = $datos[$i]["foto"];
 			}
@@ -105,10 +96,7 @@ class AjaxEvaluados
 						<a href="#" class="pull-left">
 						<img src="' . $imagenExiste . '" class="img-thumbnail" width="50px" alt="Fotografía: ' . $nombreImagen . '" title="Fotografía: ' . $nombreImagen . '">
 						</a>
-						<h4 class="title">
-						' .  $datos[$i]["nombres"] . " " . $datos[$i]["primer_apellido"] . " " . $datos[$i]["segundo_apellido"] . '
-						</h4>
-									
+
 						</div>';
 
 			$botones = '<div class="btn-group">
@@ -122,11 +110,12 @@ class AjaxEvaluados
 				$datos[$i]["id"],
 				$datos[$i]["codigo"],
 				$img,
+				$datos[$i]["nombres"] . " " . $datos[$i]["primer_apellido"] . " " . $datos[$i]["segundo_apellido"],
 				$datos[$i]["nombre_cargo"],
-				(!empty($datos[$i]["documento"]) ? "<strong><i class='fa fa-id-card-o'></i> </strong>" . $datos[$i]["documento"] . " " : ""),
-				(!empty($datos[$i]["estado_civil"]) ? "<strong><i class='fa fa-diamond'></i></strong> " . $datos[$i]["estado_civil"] . " " : ""),
-				(!empty($datos[$i]["telefono"]) ? "<strong><i class='fa fa-phone'></i></strong> " . $datos[$i]["telefono"] . " " : ""),
-				(!empty($datos[$i]["fecha_nac"]) && $datos[$i]["fecha_nac"] !== "0000-00-00" ? "<strong><i class='fa fa-calendar'></i> </strong>" . $datos[$i]["fecha_nac"] . " " : ""),
+				(!empty($datos[$i]["documento"]) ?  $datos[$i]["documento"] . " " : ""),
+				(!empty($datos[$i]["estado_civil"]) ? $datos[$i]["estado_civil"] . " " : ""),
+				(!empty($datos[$i]["telefono"]) ? $datos[$i]["telefono"] . " " : ""),
+				(!empty($datos[$i]["fecha_nac"]) && $datos[$i]["fecha_nac"] !== "0000-00-00" ?  date("d/m/Y", strtotime($datos[$i]["fecha_nac"])) . " " : ""),
 				$datos[$i]["profesion"],
 				$datos[$i]["padre"],
 				$datos[$i]["madre"],

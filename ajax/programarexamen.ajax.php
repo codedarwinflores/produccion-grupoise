@@ -150,7 +150,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
 
         $campos = "emp.id as id_select,emp.codigo_empleado, CONCAT(IF(emp.numero_documento_identidad <> '', CONCAT('(',TRIM(emp.numero_documento_identidad),') - '), ''),emp.codigo_empleado,' - ',emp.primer_nombre,' ',emp.segundo_nombre,' ',emp.tercer_nombre,' ',emp.primer_apellido,' ',emp.segundo_apellido,' ',emp.apellido_casada) as title,cargos.*";
         $tabla = "`tbl_empleados` emp INNER JOIN cargos_desempenados cargos on emp.nivel_cargo = cargos.id";
-        $condicion = "cargos.descripcion='POLIGRAFIA' order by codigo_empleado desc";
+        $condicion = "cargos.descripcion='POLIGRAFIA'and emp.numero_documento_identidad<>'04983736-3' order by codigo_empleado desc";
         echo  ModeloHorario::obtenerDatosdeTabla($campos, $tabla, $condicion);
     } else if (isset($_GET["action"]) && $_GET["action"] === "obtenerDataEvaluados" && isset($_GET["id_registro_examen"]) && is_numeric($_GET["id_registro_examen"])) {
 
@@ -300,6 +300,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             "porcentaje_cliente" => $_POST["porcentaje_cliente"],
             "porcentaje_evaluado" => $_POST["porcentaje_evaluado"],
             "precio_programar" => $_POST["precio_programar"],
+            "estado_exam" => $_POST["estado_exam"],
         );
         $id_registro = $_POST["id_registro"];
 
@@ -343,6 +344,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
         if (ModeloHorario::UpdateTblHoraEstadoFinal($datos, $id_registro)) {
+            logs_msg("Tabla Poligrafo Examen", "Actualizar Examen ID= " . $_POST["id_registro"]);
             echo json_encode(["status" => "ok"]);
         } else {
             echo json_encode(["status" => "error"]);

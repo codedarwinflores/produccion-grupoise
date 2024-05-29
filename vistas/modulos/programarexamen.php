@@ -52,20 +52,9 @@ if ($_SESSION["perfil"] == "Vendedor") {
             border-collapse: collapse !important
         }
     </style>
-    <section class="content-header">
-        <h1>
-            Programación de Examenes
-        </h1>
-
-        <ol class="breadcrumb">
-            <li><a href="inicio"><i class="fa fa-dashboard"></i> Inicio</a></li>
-            <li class="active">Crear Examen</li>
-        </ol>
-
-    </section>
 
     <section class="content">
-
+        <?php include_once "inicio/menumorse.php"; ?>
         <div class="box">
             <div class="container-fluid" id="page-container">
                 <div class="floating-button">
@@ -93,12 +82,12 @@ if ($_SESSION["perfil"] == "Vendedor") {
                             <?php
                             $item = "cargos.descripcion='POLIGRAFIA'";
                             $valor = " order by codigo_empleado desc";
-                            $campos = "emp.id as id_empleado,emp.codigo_empleado, CONCAT(emp.primer_nombre,' ',emp.segundo_nombre,' ',emp.tercer_nombre,' ',emp.primer_apellido,' ',emp.segundo_apellido,' ',emp.apellido_casada) as nombre_completo,cargos.*";
+                            $campos = "emp.id as id_empleado,emp.numero_documento_identidad,emp.codigo_empleado, CONCAT(emp.primer_nombre,' ',emp.segundo_nombre,' ',emp.tercer_nombre,' ',emp.primer_apellido,' ',emp.segundo_apellido,' ',emp.apellido_casada) as nombre_completo,cargos.*";
                             $tabla = "`tbl_empleados` emp INNER JOIN cargos_desempenados cargos on emp.nivel_cargo = cargos.id";
                             $categorias = ModeloLogsUser::mostrarDatosLogs($campos, $tabla, $item, $valor);
 
                             foreach ($categorias as $key => $value) {
-                                echo '<option   value="' . $value["id_empleado"] . '">' . $value["codigo_empleado"] . " - " . $value["nombre_completo"] . '</option>';
+                                echo '<option   value="' . $value["id_empleado"] . '">' . (isset($value["numero_documento_identidad"]) ? "(" . trim($value["numero_documento_identidad"]) . ") - " : "") . $value["codigo_empleado"] . " - " . $value["nombre_completo"] . '</option>';
                             }
                             ?>
                         </select>

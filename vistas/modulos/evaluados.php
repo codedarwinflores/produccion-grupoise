@@ -16,7 +16,7 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
 
 <div class="content-wrapper">
   <section class="content">
-
+    <?php include_once "inicio/menumorse.php"; ?>
     <div class="box">
 
       <div class="box-header with-border">
@@ -36,12 +36,13 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
               <th width="4%">#</th>
               <th>ID</th>
               <th width="5%">COD</th>
+              <th>FOTO</th>
               <th>Nombre Completo</th>
               <th>Cargo</th>
               <th>DUI</th>
               <th>Estado Civil</th>
               <th>Teléfono</th>
-              <th>Fecha Nacimiento</th>
+              <th>Fecha Nac.</th>
               <th>Profesión</th>
               <th>Padre</th>
               <th>Madre</th>

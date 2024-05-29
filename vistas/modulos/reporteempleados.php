@@ -52,17 +52,17 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
             $estado_emp = "tbemp.estado IN (2)";
             $estado_ingresos = "Ingresos";
             if (!empty($fechadesde) && !empty($fechahasta)) {
-                $fechasFiltrar = " and DATE(tbemp.fecha_contratacion)" . $fechasFiltrar;
+                $fechasFiltrar = " and (DATE(tbemp.fecha_contratacion)" . $fechasFiltrar . ")";
             }
         } else if ($_POST['tipoagente'] == 3) {
             $estado_emp = "tbemp.estado IN (3)";
             $estado_ingresos = "Egresos";
             if (!empty($fechadesde) && !empty($fechahasta)) {
-                $fechasFiltrar = " and DATE(ret.fecha_retiro)" . $fechasFiltrar;
+                $fechasFiltrar = " and (STR_TO_DATE(`fecha_retiro`, '%d-%m-%Y')" . $fechasFiltrar . " or STR_TO_DATE(`fecha_retiro`, '%Y-%m-%d')" . $fechasFiltrar . ")";
             }
         } else {
             if (!empty($fechadesde) && !empty($fechahasta)) {
-                $fechasFiltrar = " and DATE(tbemp.fecha_contratacion)" . $fechasFiltrar . " or DATE(ret.fecha_retiro)" . $fechasFiltrar;
+                $fechasFiltrar = " and  (DATE(tbemp.fecha_contratacion)" . $fechasFiltrar . " or STR_TO_DATE(`fecha_retiro`, '%d-%m-%Y')" . $fechasFiltrar . " or STR_TO_DATE(`fecha_retiro`, '%Y-%m-%d')" . $fechasFiltrar . ")";
             }
             $estado_emp = "tbemp.estado IN (1,2,3,4)";
             $estado_ingresos = "Ingresos/Egresos";
@@ -78,8 +78,8 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
             $repotePnc = "tbemp.reportado_a_pnc IN('SI','NO','')";
         }
     }
-
-
+    /* echo $fechasFiltrar . "<br>";
+    echo $estado_emp . "<br>"; */
     /* UBICACIÓN EMPLEADO */
     function ubicacion_empleado($codigo)
     {
@@ -219,9 +219,9 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
 
     $departamento1 = "";
     $departamento2 = "";
-    $campos = "tbemp.id,tbemp.primer_nombre,tbemp.primer_apellido,tbemp.segundo_nombre,tbemp.segundo_apellido,tbemp.tercer_nombre,tbemp.apellido_casada,tbemp.id_departamento,tbemp.numero_isss,tbemp.numero_documento_identidad,tbemp.nit,tbemp.codigo_afp,tbemp.nup,tbemp.fecha_nacimiento,tbemp.estado,tbemp.sueldo,tbemp.fecha_contratacion,tbemp.fecha_ingreso,tbemp.numero_cuenta,tbemp.codigo_empleado,cargo.id AS cargoid,cargo.descripcion,bank.codigo AS codigo_bank,bank.nombre AS nombre_bank, d_emp.id as d_empid, d_emp.nombre as nombre_empresa, ret.fecha_retiro,ret.motivo_inactivo,ret.observaciones_retiro,personal_transacc.nombre AS motivo_inactivo_transacc,dev_desc.tipodescuento, IF(EXISTS(SELECT 1 FROM `uniformedescuento` WHERE codigo_empleado_descuento = tbemp.id) OR EXISTS(SELECT 1 FROM `regalo` WHERE idempleado = tbemp.id), 'SI', 'NO') AS tiene_uniforme";
+    $campos = "tbemp.id,tbemp.primer_nombre,tbemp.primer_apellido,tbemp.segundo_nombre,tbemp.segundo_apellido,tbemp.tercer_nombre,tbemp.apellido_casada,tbemp.id_departamento,tbemp.numero_isss,tbemp.numero_documento_identidad,tbemp.nit,tbemp.codigo_afp,tbemp.nup,tbemp.fecha_nacimiento,tbemp.estado,tbemp.sueldo,tbemp.fecha_contratacion,tbemp.fecha_ingreso,tbemp.numero_cuenta,tbemp.codigo_empleado,cargo.id AS cargoid,cargo.descripcion,bank.codigo AS codigo_bank,bank.nombre AS nombre_bank, d_emp.id as d_empid, d_emp.nombre as nombre_empresa, ret.fecha_retiro,ret.motivo_inactivo,ret.observaciones_retiro,personal_transacc.nombre AS motivo_inactivo_transacc,dev_desc.tipodescuento, IF(EXISTS(SELECT 1 FROM `uniformedescuento` WHERE codigo_empleado_descuento = tbemp.id) OR EXISTS(SELECT 1 FROM `regalo` WHERE idempleado = tbemp.id), 'SI', 'NO') AS tiene_uniforme,afp.nombre as nombre_afp";
 
-    $tabla = "`tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa=d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco = bank.id LEFT JOIN (SELECT idempleado_retiro, MIN(id) AS min_id_retiro FROM retiro GROUP BY idempleado_retiro) min_retiro ON tbemp.id = min_retiro.idempleado_retiro LEFT JOIN retiro ret ON min_retiro.idempleado_retiro = ret.idempleado_retiro AND min_retiro.min_id_retiro = ret.id LEFT JOIN tbl_transacciones_personal personal_transacc ON ret.motivo_inactivo = personal_transacc.id LEFT JOIN tbl_empleados_devengos_descuentos dev_desc ON tbemp.id = dev_desc.id_empleado AND dev_desc.tipodescuento = '2'";
+    $tabla = "`tbl_empleados` tbemp LEFT JOIN `departamentos_empresa` d_emp ON tbemp.id_departamento_empresa=d_emp.id LEFT JOIN `cargos_desempenados` cargo ON tbemp.nivel_cargo = cargo.id LEFT JOIN `bancos` bank ON tbemp.id_banco = bank.id LEFT JOIN (SELECT idempleado_retiro, MAX(id) AS min_id_retiro FROM retiro GROUP BY idempleado_retiro) min_retiro ON tbemp.id = min_retiro.idempleado_retiro LEFT JOIN retiro ret ON min_retiro.idempleado_retiro = ret.idempleado_retiro AND min_retiro.min_id_retiro = ret.id LEFT JOIN tbl_transacciones_personal personal_transacc ON ret.motivo_inactivo = personal_transacc.id LEFT JOIN tbl_empleados_devengos_descuentos dev_desc ON tbemp.id = dev_desc.id_empleado AND dev_desc.tipodescuento = '2' LEFT JOIN afp ON tbemp.codigo_afp = afp.codigo";
 
 
 
@@ -318,7 +318,7 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
                 "numero_documento_identidad" => $value["numero_documento_identidad"],
                 "dias_contratados" => $diasContratados,
                 "nup" => $value["nup"],
-                "codigo_afp" => $value["codigo_afp"],
+                "codigo_afp" => $value["nombre_afp"],
                 "motivo_inactivo_transacc" => (!empty($value['motivo_inactivo_transacc']) ? $value['motivo_inactivo_transacc'] : "-"),
                 "descripcion" => $value["descripcion"],
                 "edad" => $edadEmpleado,
@@ -456,7 +456,7 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
                     "numero_documento_identidad" => $value["numero_documento_identidad"],
                     "dias_contratados" => $diasContratados,
                     "nup" => $value["nup"],
-                    "codigo_afp" => $value["codigo_afp"],
+                    "codigo_afp" => $value["nombre_afp"],
                     "motivo_inactivo_transacc" => (!empty($value['motivo_inactivo_transacc']) ? $value['motivo_inactivo_transacc'] : "-"),
                     "descripcion" => $value["descripcion"],
                     "edad" => $edadEmpleado,
@@ -586,7 +586,7 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
                         "numero_documento_identidad" => $value["numero_documento_identidad"],
                         "dias_contratados" => $diasContratados,
                         "nup" => $value["nup"],
-                        "codigo_afp" => $value["codigo_afp"],
+                        "codigo_afp" => $value["nombre_afp"],
                         "motivo_inactivo_transacc" => (!empty($value['motivo_inactivo_transacc']) ? $value['motivo_inactivo_transacc'] : "-"),
                         "descripcion" => $value["descripcion"],
                         "edad" => $edadEmpleado,
@@ -716,7 +716,7 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
                         "numero_documento_identidad" => $value["numero_documento_identidad"],
                         "dias_contratados" => $diasContratados,
                         "nup" => $value["nup"],
-                        "codigo_afp" => $value["codigo_afp"],
+                        "codigo_afp" => $value["nombre_afp"],
                         "motivo_inactivo_transacc" => (!empty($value['motivo_inactivo_transacc']) ? $value['motivo_inactivo_transacc'] : "-"),
                         "descripcion" => $value["descripcion"],
                         "edad" => $edadEmpleado,
@@ -1026,10 +1026,34 @@ if (isset($_POST['consultar']) && isset($_SESSION["perfil"])) {
 
         <script>
             $(document).ready(function() {
-
                 $(".tablass").DataTable({
                     "order": [
-                        [1, "asc"]
+                        [7, "desc"], // Luego ordenar por la segunda columna de fecha (índice 7) en orden descendente
+                        [6, "desc"], // Ordenar por la primera columna de fecha (índice 6) en orden descendente
+                        [1, "asc"], // Ordenar por la primera columna de fecha (índice 6) en orden descendente
+                    ],
+                    "columnDefs": [{
+                            targets: 6, // Índice de la primera columna de fecha
+                            render: function(data, type, row) {
+                                if (type === "sort") {
+                                    var parts = data.split("/");
+                                    return new Date(parts[2], parts[1] - 1, parts[0]).getTime(); // Convertir la fecha a un valor numérico para ordenar correctamente
+                                } else {
+                                    return data; // Mostrar la fecha en formato DD/MM/YYYY
+                                }
+                            }
+                        },
+                        {
+                            targets: 7, // Índice de la segunda columna de fecha
+                            render: function(data, type, row) {
+                                if (type === "sort") {
+                                    var parts = data.split("/");
+                                    return new Date(parts[2], parts[1] - 1, parts[0]).getTime(); // Convertir la fecha a un valor numérico para ordenar correctamente
+                                } else {
+                                    return data; // Mostrar la fecha en formato DD/MM/YYYY
+                                }
+                            }
+                        }
                     ]
                 });
             });
