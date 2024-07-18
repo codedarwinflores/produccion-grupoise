@@ -189,7 +189,7 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
               echo ' <tr>
                   <td>' . ($key + 1) . '</td>
                   <td>' . $value["nombre"] . '</td>
-                  <td>' . $value["user_correo"] . "&nbsp;&nbsp;" . ($value["2fa"] === 1 ? '<sup><i class="fa fa-shield" style="color:green !important" aria-hidden="true"></i></sup>' : "") . '</td>
+                  <td>' . $value["user_correo"] . "&nbsp;&nbsp;" . ($value["2fa"] == "1" ? '<sup><i class="fa fa-shield" style="color:green !important" aria-hidden="true"></i></sup>' : "") . '</td>
                   <td>' . $value["usuario"] . '</td>';
 
               if ($value["foto"] != "") {

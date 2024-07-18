@@ -75,7 +75,7 @@ $(".tablas").on("click", ".btnEditarUsuario", function () {
       }
 
       const checkbox = $("#editarauntenticacionactivada");
-      if (respuesta["2fa"] === 1) {
+      if (respuesta["2fa"] == "1") {
         checkbox.prop("checked", true);
       } else {
         checkbox.prop("checked", false);
