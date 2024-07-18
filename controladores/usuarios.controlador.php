@@ -13,8 +13,8 @@ class ControladorUsuarios
 		if (isset($_POST["ingUsuario"])) {
 
 			if (
-				preg_match('/^[a-zA-Z0-9]+$/', $_POST["ingUsuario"]) &&
-				preg_match('/^[a-zA-Z0-9]+$/', $_POST["ingPassword"])
+				preg_match('/^[a-zA-Z0-9_]+$/', $_POST["ingUsuario"]) &&
+				preg_match('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!*?&\/+\-])[A-Za-z\d@$!*?&\/+\-]{9,16}$/', $_POST["ingPassword"])
 			) {
 
 				$encriptar = crypt($_POST["ingPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
@@ -75,12 +75,23 @@ class ControladorUsuarios
 					} else {
 
 						echo '<br>
-							<div class="alert alert-danger">El usuario aún no está activado</div>';
+							<div class="alert alert-danger" role="alert">
+            <i class="fa fa-exclamation-triangle fa-lg" style="margin-right: 10px;"></i>
+           Su usuario no está <strong>activo</strong>.
+        </div>';
 					}
 				} else {
 
-					echo '<br><div class="alert alert-danger">Error al ingresar, vuelve a intentarlo</div>';
+					echo '<br><div class="alert alert-danger" role="alert">
+            <i class="fa fa-exclamation-triangle fa-lg" style="margin-right: 10px;"></i>
+           Error al procesar sus credenciales.
+        </div>';
 				}
+			} else {
+				echo '<br><div class="alert alert-danger" role="alert">
+            <i class="fa fa-exclamation-triangle fa-lg" style="margin-right: 10px;"></i>
+            No se pudieron procesar sus credenciales.
+        </div>';
 			}
 		}
 	}
@@ -96,8 +107,8 @@ class ControladorUsuarios
 
 			if (
 				preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevoNombre"]) &&
-				preg_match('/^[a-zA-Z0-9]+$/', $_POST["nuevoUsuario"]) &&
-				preg_match('/^[a-zA-Z0-9]+$/', $_POST["nuevoPassword"])
+				preg_match('/^[a-zA-Z0-9_]+$/', $_POST["nuevoUsuario"]) &&
+				preg_match('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!*?&\/+\-])[A-Za-z\d@$!*?&\/+\-]{9,16}$/', $_POST["nuevoPassword"]) && ($_POST["nuevoPassword"] === $_POST["password_confirm"])
 			) {
 
 				/*=============================================
@@ -106,7 +117,7 @@ class ControladorUsuarios
 
 				$ruta = "";
 
-				if (isset($_FILES["nuevaFoto"]["tmp_name"])) {
+				if (isset($_FILES["nuevaFoto"]["tmp_name"]) && !empty($_FILES["nuevaFoto"]["tmp_name"])) {
 
 					list($ancho, $alto) = getimagesize($_FILES["nuevaFoto"]["tmp_name"]);
 
@@ -165,15 +176,17 @@ class ControladorUsuarios
 				}
 
 				$tabla = "usuarios";
-
+				$_2fa = isset($_POST["auntenticacionactivada"]) ? 1 : 0;
 				$encriptar = crypt($_POST["nuevoPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
 
 				$datos = array(
 					"nombre" => $_POST["nuevoNombre"],
+					"user_correo" => $_POST["nuevoCorreo"],
 					"usuario" => $_POST["nuevoUsuario"],
 					"password" => $encriptar,
 					"perfil" => $_POST["nuevoPerfil"],
-					"foto" => $ruta
+					"foto" => $ruta,
+					"_2fa" => $_2fa,
 				);
 
 				$respuesta = ModeloUsuarios::mdlIngresarUsuario($tabla, $datos);
@@ -209,7 +222,7 @@ class ControladorUsuarios
 					swal({
 
 						type: "error",
-						title: "¡El usuario no puede ir vacío o llevar caracteres especiales!",
+						title: "¡Existen validaciones que revisar al llenar el formulario!",
 						showConfirmButton: true,
 						confirmButtonText: "Cerrar"
 
@@ -252,7 +265,10 @@ class ControladorUsuarios
 
 		if (isset($_POST["editarUsuario"])) {
 
-			if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarNombre"])) {
+			if (
+				preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarNombre"]) &&
+				preg_match('/^[a-zA-Z0-9_]+$/', $_POST["editarUsuario"])
+			) {
 
 				/*=============================================
 				VALIDAR IMAGEN
@@ -329,10 +345,10 @@ class ControladorUsuarios
 				}
 
 				$tabla = "usuarios";
+				$_2fa = isset($_POST["editarauntenticacionactivada"]) ? 1 : 0;
+				if ($_POST["editarPassword"] != "" && $_POST["editarpassword_confirm"] != "") {
 
-				if ($_POST["editarPassword"] != "") {
-
-					if (preg_match('/^[a-zA-Z0-9]+$/', $_POST["editarPassword"])) {
+					if (preg_match('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!*?&\/+\-])[A-Za-z\d@$!*?&\/+\-]{9,16}$/', $_POST["editarPassword"]) && ($_POST["editarPassword"] === $_POST["editarpassword_confirm"])) {
 
 						$encriptar = crypt($_POST["editarPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
 					} else {
@@ -341,7 +357,7 @@ class ControladorUsuarios
 
 								swal({
 									  type: "error",
-									  title: "¡La contraseña no puede ir vacía o llevar caracteres especiales!",
+									  title: "¡Validación de la contraseña, revise por favor!",
 									  showConfirmButton: true,
 									  confirmButtonText: "Cerrar"
 									  }).then(function(result) {
@@ -364,9 +380,12 @@ class ControladorUsuarios
 				$datos = array(
 					"nombre" => $_POST["editarNombre"],
 					"usuario" => $_POST["editarUsuario"],
+					"user_correo" => $_POST["editarCorreo"],
 					"password" => $encriptar,
 					"perfil" => $_POST["editarPerfil"],
-					"foto" => $ruta
+					"_2fa" => $_2fa,
+					"foto" => $ruta,
+					"id" => $_POST["id_usuario_edit"]
 				);
 
 				$respuesta = ModeloUsuarios::mdlEditarUsuario($tabla, $datos);
@@ -396,7 +415,7 @@ class ControladorUsuarios
 
 					swal({
 						  type: "error",
-						  title: "¡El nombre no puede ir vacío o llevar caracteres especiales!",
+						  title: "¡Necesita verificar algunas validaciones del formulario!",
 						  showConfirmButton: true,
 						  confirmButtonText: "Cerrar"
 						  }).then(function(result) {
