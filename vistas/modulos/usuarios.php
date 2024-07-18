@@ -66,7 +66,7 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
 
                               <span class="input-group-addon"><i class="fa fa-server"></i></span>
 
-                              <input type="text" class="form-control input-lg" name="smtp_server" placeholder="Ingresar SMTP SERVER" required>
+                              <input type="text" class="form-control input-lg" name="smtp_server" placeholder="Ingresar SMTP SERVER" required value="smtp.hostinger.com">
 
                             </div>
                           </div>
@@ -79,7 +79,7 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
 
                               <span class="input-group-addon"><i class="fa fa-address-book"></i></span>
 
-                              <input type="email" class="form-control input-lg" name="tituloRemitente" placeholder="Ingresar Titulo del Remitente" id="tituloRemitente" required>
+                              <input type="email" class="form-control input-lg" name="tituloRemitente" placeholder="Ingresar Titulo del Remitente" id="tituloRemitente" required value="GRUPO ISE DE CENTROAMERICA">
 
                             </div>
 
@@ -96,7 +96,7 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
 
                               <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
 
-                              <input type="text" class="form-control input-lg" name="correoRemitente" placeholder="Ingresar correo remitente" id="correoRemitente" required>
+                              <input type="text" class="form-control input-lg" name="correoRemitente" placeholder="Ingresar correo remitente" value="soporteweb@armonico.tech" id="correoRemitente" required>
 
                             </div>
 
@@ -114,7 +114,7 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
 
                               <span class="input-group-addon"><i class="fa fa-lock"></i></span>
 
-                              <input type="password" class="form-control input-lg" name="remitentePassword" placeholder="Ingresar contraseña" required>
+                              <input type="password" class="form-control input-lg" name="remitentePassword" placeholder="Ingresar contraseña" value="12345" required>
 
                             </div>
 
