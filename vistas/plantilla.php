@@ -111,7 +111,7 @@ session_start();
   <script src="vistas/js/autotable.js"></script>
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script> -->
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script> -->
-
+  <script src="./vistas/bower_components/bootstrapvalidator-0.5.1/dist/js/bootstrapValidator.min.js"></script>
 
 </head>
 
@@ -898,6 +898,7 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "preguntasgenerales" ||
         $_GET["ruta"] == "formatoexamenes" ||
         $_GET["ruta"] == "vendedormorse" ||
+        $_GET["ruta"] == "reporteempleados" ||
 
         $_GET["ruta"] == "salir"
       ) {
