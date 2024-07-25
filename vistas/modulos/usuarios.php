@@ -35,6 +35,7 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
 
               <div class=" modal-content">
                 <form role="form" id="form_config_server" method="post" autocomplete="off" enctype="multipart/form-data">
+                  <input type="hidden" id="idsmtp" name="idsmtp">
                   <!--=====================================
         CABEZA DEL MODAL
         ======================================-->
@@ -57,7 +58,7 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
 
                       <div class="row">
 
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                           <!-- ENTRADA PARA EL NOMBRE -->
 
                           <div class="form-group">
@@ -66,7 +67,21 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
 
                               <span class="input-group-addon"><i class="fa fa-server"></i></span>
 
-                              <input type="text" class="form-control input-lg" name="smtp_server" placeholder="Ingresar SMTP SERVER" required value="smtp.hostinger.com">
+                              <input type="text" class="form-control input-lg" name="smtp_server" id="smtp_server" placeholder="Ingresar SMTP SERVER" required>
+
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <!-- ENTRADA PARA EL NOMBRE -->
+
+                          <div class="form-group">
+                            <label for="">Puerto SMTP:</label>
+                            <div class="input-group">
+
+                              <span class="input-group-addon"><i class="fa fa-server"></i></span>
+
+                              <input type="text" class="form-control input-lg" name="puerto_smtp_server" id="puerto_smtp_server" placeholder="Puerto SMTP SERVER" required>
 
                             </div>
                           </div>
@@ -79,10 +94,8 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
 
                               <span class="input-group-addon"><i class="fa fa-address-book"></i></span>
 
-                              <input type="email" class="form-control input-lg" name="tituloRemitente" placeholder="Ingresar Titulo del Remitente" id="tituloRemitente" required value="GRUPO ISE DE CENTROAMERICA">
-
+                              <input type="text" class="form-control input-lg" value="" name="tituloRemitente" placeholder="Ingresar Titulo del Remitente" id="tituloRemitente" required>
                             </div>
-
                           </div>
                         </div>
                       </div>
@@ -96,13 +109,12 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
 
                               <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
 
-                              <input type="text" class="form-control input-lg" name="correoRemitente" placeholder="Ingresar correo remitente" value="soporteweb@armonico.tech" id="correoRemitente" required>
+                              <input type="text" class="form-control input-lg" value="" name="correoRemitente" placeholder="Ingresar correo remitente" id="correoRemitente" required>
 
                             </div>
 
                           </div>
                         </div>
-
 
                         <div class="col-md-6">
 
@@ -114,7 +126,7 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
 
                               <span class="input-group-addon"><i class="fa fa-lock"></i></span>
 
-                              <input type="password" class="form-control input-lg" name="remitentePassword" placeholder="Ingresar contraseña" value="12345" required>
+                              <input type="password" class="form-control input-lg" name="remitentePassword" placeholder="Ingresar contraseña" value="">
 
                             </div>
 
@@ -134,7 +146,7 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
 
                     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
 
-                    <button type="submit" class="btn btn-primary" disabled><i class="fa fa-save"></i> Guardar Configuración</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Guardar Configuración</button>
 
                   </div>
 
@@ -804,7 +816,7 @@ MODAL EDITAR USUARIO
 
               <p class="help-block">Peso máximo de la foto 2MB</p>
 
-              <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditar" width="100px">
+              <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditar" width="150px">
 
               <input type="hidden" name="fotoActual" id="fotoActual">
 

@@ -5,6 +5,61 @@ require_once "conexion.php";
 class ModeloUsuarios
 {
 
+
+
+
+	static public function mdlConsultarDatosUsuarioCodigo($tabla, $criterios)
+	{
+		// Prepara la consulta
+		$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id = :id AND usuario = :usuario AND user_correo = :user_correo");
+
+		// Vincula los parámetros
+		$stmt->bindParam(":id", $criterios["id"], PDO::PARAM_INT);
+		$stmt->bindParam(":usuario", $criterios["usuario"], PDO::PARAM_STR);
+		$stmt->bindParam(":user_correo", $criterios["user_correo"], PDO::PARAM_STR);
+
+		// Ejecuta la consulta
+		$stmt->execute();
+
+		// Obtiene el resultado
+		$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		// Cierra la conexión
+		$stmt->closeCursor();
+		$stmt = null;
+
+		// Retorna el resultado o false si no se encontró nada
+		return $resultado ? $resultado : false;
+	}
+
+	static public function mdlConsultarDatosUsuario($tabla, $criterios)
+	{
+		// Prepara la consulta
+		$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id = :id AND usuario = :usuario AND user_correo = :user_correo");
+
+		// Vincula los parámetros
+		$stmt->bindParam(":id", $criterios["id"], PDO::PARAM_INT);
+		$stmt->bindParam(":usuario", $criterios["usuario"], PDO::PARAM_STR);
+		$stmt->bindParam(":user_correo", $criterios["user_correo"], PDO::PARAM_STR);
+
+		// Ejecuta la consulta
+		$stmt->execute();
+
+		// Verifica si se encontró una fila que coincida con los criterios
+		if ($stmt->fetch()) {
+			return true;
+		} else {
+			return false;
+		}
+
+		// Cierra la conexión
+		$stmt->close();
+		$stmt = null;
+	}
+
+
+
+
 	/*=============================================
 	MOSTRAR USUARIOS
 	=============================================*/
@@ -73,7 +128,7 @@ class ModeloUsuarios
 	static public function mdlEditarUsuario($tabla, $datos)
 	{
 
-		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET nombre = :nombre,user_correo=:user_correo, password = :password, perfil = :perfil, foto = :foto ,2fa=:2fa,usuario=:usuario WHERE id = :id");
+		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET nombre = :nombre,user_correo=:user_correo, password = :password, perfil = :perfil,foto=:foto, 2fa=:2fa,usuario=:usuario,intento=0 WHERE id = :id");
 
 		$stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
 		$stmt->bindParam(":user_correo", $datos["user_correo"], PDO::PARAM_STR);
@@ -115,6 +170,92 @@ class ModeloUsuarios
 		} else {
 
 			return "error";
+		}
+
+		$stmt->close();
+
+		$stmt = null;
+	}
+
+
+	static public function mdlActualizarTokenUsuario($tabla, $criterios)
+	{
+
+		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET token_code = :token_code WHERE id = :id");
+
+		$stmt->bindParam(":token_code", $criterios["token_code"], PDO::PARAM_STR);
+		$stmt->bindParam(":id", $criterios["id"], PDO::PARAM_STR);
+
+		if ($stmt->execute()) {
+			return true;
+		} else {
+
+			return false;
+		}
+
+		$stmt->close();
+
+		$stmt = null;
+	}
+
+	static public function mdlActualizarTokenUsuario2FA($tabla, $criterios)
+	{
+
+		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET token_code_2fa = :token_code_2fa WHERE id = :id");
+
+		$stmt->bindParam(":token_code_2fa", $criterios["token_code_2fa"], PDO::PARAM_STR);
+		$stmt->bindParam(":id", $criterios["id"], PDO::PARAM_STR);
+
+		if ($stmt->execute()) {
+			return true;
+		} else {
+
+			return false;
+		}
+
+		$stmt->close();
+
+		$stmt = null;
+	}
+
+	static public function mdlActualizarTokenIntentos($tabla, $criterios)
+	{
+
+		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET intento = 0, token_code = '' WHERE id = :id");
+
+		$stmt->bindParam(":id", $criterios["id"], PDO::PARAM_STR);
+
+		if ($stmt->execute()) {
+			return true;
+		} else {
+
+			return false;
+		}
+
+		$stmt->close();
+
+		$stmt = null;
+	}
+
+
+	static public function mdlIncrementarIntentos($tabla, $criterios)
+	{
+
+		if ($criterios["condicion"] == "incrementar") {
+			$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET intento = intento+1 WHERE id = :id and usuario=:usuario");
+		} else {
+			$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET intento = 0 WHERE id = :id and usuario=:usuario");
+		}
+
+
+		$stmt->bindParam(":id", $criterios["id"], PDO::PARAM_INT);
+		$stmt->bindParam(":usuario", $criterios["usuario"], PDO::PARAM_STR);
+
+		if ($stmt->execute()) {
+			return true;
+		} else {
+
+			return false;
 		}
 
 		$stmt->close();

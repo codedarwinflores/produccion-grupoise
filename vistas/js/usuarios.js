@@ -193,8 +193,308 @@ $(".tablas").on("click", ".btnEliminarUsuario", function () {
     }
   });
 });
+function refreshing_Captcha() {
+  var img = document.images["image_captcha"];
+  img.src =
+    img.src.substring(0, img.src.lastIndexOf("?")) +
+    "?rand=" +
+    Math.random() * 1000;
+}
 
 $(document).ready(function () {
+  /* PARA CODIGO DE DESBLOQUEO */
+  $("#emailForm").submit(function (e) {
+    e.preventDefault(); // Evita el comportamiento predeterminado del formulario
+
+    $("#btn_solicitar").prop("disabled", true);
+
+    var form = this; // Obtén una referencia al formulario
+    var usuario = $("#confirm_usuario").val();
+    var correo = $("#confirmar_correo").val();
+
+    if (usuario != "" && correo != "") {
+      $("#mensaje_enviar").html(
+        '<div class="alert alert-warning alert-custom"><i class="fa fa-warning"></i> ¡Espere un momento por favor!</div>'
+      );
+      var formData = new FormData(form);
+      // Añadir el parámetro adicional al objeto FormData
+      formData.append("comprobar_user_email", "evaluar_datos");
+      $.ajax({
+        url: "ajax/usuarios.ajax.php",
+        type: "POST",
+        data: formData,
+        processData: false, // Impide que jQuery procese los datos
+        contentType: false, // Impide que jQuery establezca el tipo de contenido
+        success: function (response) {
+          console.log(response);
+          if (response == "success") {
+            $("#mensaje_enviar").html(
+              '<div class="alert alert-success alert-custom"><i class="fa fa-check-circle"></i> Solicitud enviada exitosamente. Revisa tu correo electrónico</div>'
+            );
+
+            $("#user_user_code").val(usuario);
+            $("#user_correo_code").val(correo);
+
+            $("#enviar_corrreo_codigo").fadeOut(500, function () {
+              $("#enviar_comprobar_codigo").fadeIn(500);
+            });
+          } else {
+            $("#mensaje_enviar").html(
+              '<div class="alert alert-danger alert-custom"><i class="fa fa-exclamation-circle"></i> Los datos no coiciden con los solicitados.</div>'
+            );
+          }
+          $("#btn_solicitar").prop("disabled", false); // Rehabilitar el botón de envío
+        },
+        error: function () {
+          $("#mensaje_enviar").html(
+            '<div class="alert alert-danger alert-custom"><i class="fa fa-exclamation-circle"></i> Error al enviar la solicitud. Inténtalo de nuevo.</div>'
+          );
+          $("#btn_solicitar").prop("disabled", false); // Rehabilitar el botón de envío en caso de error
+        },
+      });
+
+      $("#confirm_usuario").focus();
+    } else {
+      $("#mensaje_enviar").html(
+        '<div class="alert alert-danger alert-custom"><i class="fa fa-exclamation-circle"></i> Usuario o correo vacío.</div>'
+      );
+      $("#btn_solicitar").prop("disabled", false); // Rehabilitar el botón de envío si hay campos vacíos
+    }
+
+    // Oculta el mensaje después de 5 segundos
+    window.setTimeout(function () {
+      $(".alert-custom")
+        .fadeTo(500, 0) // Desvanece el mensaje a opacidad 0 en 500 milisegundos
+        .slideUp(500, function () {
+          // Desliza el mensaje hacia arriba en 500 milisegundos
+          $(this).hide(); // Elimina el elemento del DOM
+        });
+    }, 5000); // 5000 milisegundos = 5 segundos
+  });
+
+  /* FIN SUBMIT
+  INICIAR SUBMIT CÓDIGO COMPROBAR
+  */
+
+  $("#emailFormComprobarCodigo").submit(function (e) {
+    e.preventDefault(); // Evita el comportamiento predeterminado del formulario
+
+    $("#mensaje_enviar").fadeIn();
+    var form = this; // Obtén una referencia al formulario
+    var codigo = $("#confirmar_codigo").val();
+    var usuario = $("#user_user_code").val();
+    var correo = $("#user_correo_code").val();
+    var id = $("#id_user_desbloquear_code").val();
+
+    if (codigo != "" && usuario != "" && correo != "" && id != "") {
+      $("#mensaje_enviar").html(
+        '<div class="alert alert-warning alert-custom"><i class="fa fa-warning"></i> ¡Espere un momento por favor!</div>'
+      );
+      var formData = new FormData(form);
+      // Añadir el parámetro adicional al objeto FormData
+      formData.append("comprobar_user_codigo", "evaluar_datos_codigo");
+      $.ajax({
+        url: "ajax/usuarios.ajax.php",
+        type: "POST",
+        data: formData,
+        processData: false, // Impide que jQuery procese los datos
+        contentType: false, // Impide que jQuery establezca el tipo de contenido
+        success: function (response) {
+          console.log(response);
+          if (response == "success") {
+            swal({
+              title: "Se restauraron los intentos de tu usuario",
+              type: "success",
+              confirmButtonText: "Aceptar",
+            }).then(function (result) {
+              if (result.value) {
+                window.location = "ingreso";
+              }
+            });
+          } else {
+            $("#mensaje_enviar").html(
+              '<div class="alert alert-danger alert-custom"><i class="fa fa-exclamation-circle"></i> Código incorrecto o ha expirado.</div>'
+            );
+          }
+        },
+        error: function () {
+          $("#mensaje_enviar").html(
+            '<div class="alert alert-danger alert-custom"><i class="fa fa-exclamation-circle"></i> Error al enviar la solicitud. Inténtalo de nuevo.</div>'
+          );
+        },
+      });
+
+      $("#confirmar_codigo").focus();
+    } else {
+      $("#mensaje_enviar").html(
+        '<div class="alert alert-danger alert-custom"><i class="fa fa-exclamation-circle"></i> Usuario, correo y código vacío.</div>'
+      );
+    }
+    // Oculta el mensaje después de 5 segundos
+    window.setTimeout(function () {
+      $(".alert-custom")
+        .fadeTo(500, 0) // Desvanece el mensaje a opacidad 0 en 500 milisegundos
+        .slideUp(500, function () {
+          // Desliza el mensaje hacia arriba en 500 milisegundos
+          $(this).hide(); // Elimina el elemento del DOM
+        });
+    }, 5000); // 5000 milisegundos = 5 segundos
+  });
+
+  $("#btn_reenviar_comprobacion_de_datos").click(function () {
+    $("#enviar_comprobar_codigo").fadeOut(500, function () {
+      $("#enviar_corrreo_codigo").fadeIn(500);
+    });
+  });
+
+  $("#btn_reenviar_comprobacion_de_datos2FA").click(function () {
+    $("#enviar_comprobar_codigo2FA").fadeOut(500, function () {
+      $("#enviar_corrreo_codigo2FA").fadeIn(500);
+    });
+  });
+
+  /* CCODIGO PARA COMPROBAR 2FA */
+  /* PARA CODIGO DE DESBLOQUEO */
+  $("#emailForm2FA").submit(function (e) {
+    e.preventDefault(); // Evita el comportamiento predeterminado del formulario
+
+    $("#btn_solicitar2FA").prop("disabled", true);
+
+    var form = this; // Obtén una referencia al formulario
+    var usuario = $("#confirm_usuario2FA").val();
+    var correo = $("#confirmar_correo2FA").val();
+
+    if (usuario != "" && correo != "") {
+      $("#mensaje_enviar2FA").html(
+        '<div class="alert alert-warning alert-custom"><i class="fa fa-warning"></i> ¡Espere un momento por favor!</div>'
+      );
+      var formData = new FormData(form);
+      // Añadir el parámetro adicional al objeto FormData
+      formData.append("comprobar_user_email2FA", "evaluar_datos2FA");
+      $.ajax({
+        url: "ajax/usuarios.ajax.php",
+        type: "POST",
+        data: formData,
+        processData: false, // Impide que jQuery procese los datos
+        contentType: false, // Impide que jQuery establezca el tipo de contenido
+        success: function (response) {
+          console.log(response);
+          if (response == "success") {
+            $("#mensaje_enviar2FA").html(
+              '<div class="alert alert-success alert-custom"><i class="fa fa-check-circle"></i> Solicitud enviada exitosamente. Revisa tu correo electrónico</div>'
+            );
+
+            $("#user_user_code2FA").val(usuario);
+            $("#user_correo_code2FA").val(correo);
+
+            $("#enviar_corrreo_codigo2FA").fadeOut(500, function () {
+              $("#enviar_comprobar_codigo2FA").fadeIn(500);
+            });
+          } else {
+            $("#mensaje_enviar2FA").html(
+              '<div class="alert alert-danger alert-custom"><i class="fa fa-exclamation-circle"></i> Los datos no coiciden con los solicitados.</div>'
+            );
+          }
+          $("#btn_solicitar2FA").prop("disabled", false); // Rehabilitar el botón de envío
+        },
+        error: function () {
+          $("#mensaje_enviar2FA").html(
+            '<div class="alert alert-danger alert-custom"><i class="fa fa-exclamation-circle"></i> Error al enviar la solicitud. Inténtalo de nuevo.</div>'
+          );
+          $("#btn_solicitar2FA").prop("disabled", false); // Rehabilitar el botón de envío en caso de error
+        },
+      });
+
+      $("#confirm_usuario2FA").focus();
+    } else {
+      $("#mensaje_enviar2FA").html(
+        '<div class="alert alert-danger alert-custom"><i class="fa fa-exclamation-circle"></i> Usuario o correo vacío.</div>'
+      );
+      $("#btn_solicitar2FA").prop("disabled", false); // Rehabilitar el botón de envío si hay campos vacíos
+    }
+
+    // Oculta el mensaje después de 5 segundos
+    window.setTimeout(function () {
+      $(".alert-custom")
+        .fadeTo(500, 0) // Desvanece el mensaje a opacidad 0 en 500 milisegundos
+        .slideUp(500, function () {
+          // Desliza el mensaje hacia arriba en 500 milisegundos
+          $(this).hide(); // Elimina el elemento del DOM
+        });
+    }, 5000); // 5000 milisegundos = 5 segundos
+  });
+
+  /* FIN SUBMIT */
+
+  /* FIN SUBMIT
+  INICIAR SUBMIT CÓDIGO COMPROBAR
+  */
+
+  $("#emailFormComprobarCodigo2FA").submit(function (e) {
+    e.preventDefault(); // Evita el comportamiento predeterminado del formulario
+
+    $("#mensaje_enviar2FA").fadeIn();
+    var form = this; // Obtén una referencia al formulario
+    var codigo = $("#confirmar_codigo2FA").val();
+    var usuario = $("#user_user_code2FA").val();
+    var correo = $("#user_correo_code2FA").val();
+    var id = $("#id_user_desbloquear_code2FA").val();
+
+    if (codigo != "" && usuario != "" && correo != "" && id != "") {
+      $("#mensaje_enviar2FA").html(
+        '<div class="alert alert-warning alert-custom"><i class="fa fa-warning"></i> ¡Espere un momento por favor!</div>'
+      );
+      var formData = new FormData(form);
+      // Añadir el parámetro adicional al objeto FormData
+      formData.append("comprobar_user_codigo2FA", "evaluar_datos_codigo2FA");
+      $.ajax({
+        url: "ajax/usuarios.ajax.php",
+        type: "POST",
+        data: formData,
+        processData: false, // Impide que jQuery procese los datos
+        contentType: false, // Impide que jQuery establezca el tipo de contenido
+        success: function (response) {
+          console.log(response);
+          if (response == "success") {
+            swal({
+              title: "¡Bienvenido estimado/a: " + usuario,
+              type: "success",
+              confirmButtonText: "Aceptar",
+            }).then(function (result) {
+              if (result.value) {
+                window.location = "inicio";
+              }
+            });
+          } else {
+            $("#mensaje_enviar2FA").html(
+              '<div class="alert alert-danger alert-custom"><i class="fa fa-exclamation-circle"></i> Código incorrecto o ha expirado.</div>'
+            );
+          }
+        },
+        error: function () {
+          $("#mensaje_enviar2FA").html(
+            '<div class="alert alert-danger alert-custom"><i class="fa fa-exclamation-circle"></i> Error al enviar la solicitud. Inténtalo de nuevo.</div>'
+          );
+        },
+      });
+
+      $("#confirmar_codigo2FA").focus();
+    } else {
+      $("#mensaje_enviar2FA").html(
+        '<div class="alert alert-danger alert-custom"><i class="fa fa-exclamation-circle"></i> Usuario, correo y código vacío.</div>'
+      );
+    }
+    // Oculta el mensaje después de 5 segundos
+    window.setTimeout(function () {
+      $(".alert-custom")
+        .fadeTo(500, 0) // Desvanece el mensaje a opacidad 0 en 500 milisegundos
+        .slideUp(500, function () {
+          // Desliza el mensaje hacia arriba en 500 milisegundos
+          $(this).hide(); // Elimina el elemento del DOM
+        });
+    }, 5000); // 5000 milisegundos = 5 segundos
+  });
+
   // Generate a simple captcha
   function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);

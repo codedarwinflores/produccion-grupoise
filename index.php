@@ -365,5 +365,9 @@ require_once "modelos/vendedormorse.modelo.php";
 require_once "./extensiones/navegador/vendor/autoload.php";
 require_once "modelos/logs.modelo.php";
 
+require_once './extensiones/mail/vendor/autoload.php';
+require_once "controladores/cryptoutils.controlador.php";
+
+
 $plantilla = new ControladorPlantilla();
 $plantilla->ctrPlantilla();

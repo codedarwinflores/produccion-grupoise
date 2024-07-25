@@ -112,7 +112,6 @@ session_start();
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script> -->
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script> -->
   <script src="./vistas/bower_components/bootstrapvalidator-0.5.1/dist/js/bootstrapValidator.min.js"></script>
-
 </head>
 
 <style>
@@ -608,7 +607,7 @@ CUERPO DOCUMENTO
 
   <?php
 
-  if (isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] == "ok") {
+  if (isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] == "ok" && isset($_SESSION["2fa"]) && $_SESSION["2fa"] == "2fa") {
 
     echo '<div class="wrapper">';
 
@@ -940,7 +939,7 @@ CUERPO DOCUMENTO
 
 
   <script src="vistas/js/plantilla.js"></script>
-  <script src="vistas/js/usuarios.js"></script>
+  <script src="vistas/js/usuarios.js?v=0.1"></script>
   <script src="vistas/js/empresas.js"></script>
   <script src="vistas/js/proveedores.js"></script>
   <script src="vistas/js/bancos.js"></script>
@@ -1032,6 +1031,7 @@ CUERPO DOCUMENTO
   <script src="vistas/js/cargocliente.js"></script>
   <script src="vistas/js/preguntageneral.js"></script>
   <script src="vistas/js/formatoexamen.js"></script>
+  <script src="vistas/js/config_smtp.js"></script>
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 
