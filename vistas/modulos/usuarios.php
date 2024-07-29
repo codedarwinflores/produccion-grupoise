@@ -816,7 +816,7 @@ MODAL EDITAR USUARIO
 
               <p class="help-block">Peso máximo de la foto 2MB</p>
 
-              <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditar" width="150px">
+              <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizar" width="150px">
 
               <input type="hidden" name="fotoActual" id="fotoActual">
 
